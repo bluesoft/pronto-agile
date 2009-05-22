@@ -1,4 +1,4 @@
-package br.com.bluesoft.pronto;
+package br.com.bluesoft.pronto.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
