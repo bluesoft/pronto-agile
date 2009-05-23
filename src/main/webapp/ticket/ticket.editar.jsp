@@ -8,7 +8,7 @@
 		</script>
 	</head>
 	<body>
-		<form action="salvar.action">
+		<form action="salvar.action" method="post">
 			<c:choose>
 				<c:when test="${ticket.ticketKey gt 0}">
 					<form:hidden path="ticket.ticketKey"/>
@@ -24,11 +24,11 @@
 					<p>Título</p>
 				</div>
 				<div>
-					<form:input path="ticket.titulo"/><br/>
+					<form:input path="ticket.cliente"/><br/>
 					<p>Cliente</p>
 				</div>
 				<div>
-					<form:input path="ticket.titulo"/><br/>
+					<form:input path="ticket.solicitador"/><br/>
 					<p>Solicitador</p>
 				</div>
 				<div>

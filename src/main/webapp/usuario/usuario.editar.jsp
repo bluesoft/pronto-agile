@@ -4,7 +4,7 @@
 		<%@ include file="/commons/scripts/scripts.jsp" %>
 	</head>
 	<body>
-		<form action="salvar.action">
+		<form action="salvar.action" method="post">
 			<ul class="info">
 				<h1>Cadastro de Usuários</h1>
 			</ul>

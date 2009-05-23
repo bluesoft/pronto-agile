@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import br.com.bluesoft.core.model.TipoDeTicket;
+
 @Entity
 public class Ticket {
 
@@ -21,6 +23,10 @@ public class Ticket {
 	private int ticketKey;
 
 	private String titulo;
+
+	@ManyToOne
+	@JoinColumn(name = "TIPO_DE_TICKET")
+	private TipoDeTicket tipoDeTicket;
 
 	private String descricao;
 
@@ -143,6 +149,14 @@ public class Ticket {
 
 	public void setFilhos(final List<Ticket> filhos) {
 		this.filhos = filhos;
+	}
+
+	public TipoDeTicket getTipoDeTicket() {
+		return tipoDeTicket;
+	}
+
+	public void setTipoDeTicket(TipoDeTicket tipoDeTicket) {
+		this.tipoDeTicket = tipoDeTicket;
 	}
 
 }
