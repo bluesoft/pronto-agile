@@ -1,6 +1,8 @@
+<%@ include file="/commons/taglibs.jsp"%>
+<c:url var="raiz" value="/"/>
 <ul id="jsddm">
 	<li><a href="#">Kanban</a></li>
-	<li><a href="#">Product Backlog</a></li>
+	<li><a href="${raiz}ticket/ticket.listar.action">Product Backlog</a></li>
 	<li><a href="#">Backlog de Idéias</a></li>
 	<li><a href="#">Sprints</a>
 	<ul>

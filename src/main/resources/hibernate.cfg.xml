@@ -15,8 +15,7 @@
 		
 		
 		<!-- mapped classes -->
-		<mapping class="br.com.bluesoft.pronto.model.Estoria" />
-		
+		<mapping class="br.com.bluesoft.pronto.model.Ticket" />
 
 	</session-factory>
 </hibernate-configuration>

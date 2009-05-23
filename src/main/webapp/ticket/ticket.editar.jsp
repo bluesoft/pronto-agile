@@ -5,9 +5,12 @@
 	</head>
 	<body>
 		<form action="ticket.salvar.action">
-			# <form:input path="ticketKey"/><br/>
-			Título: <form:input path="titulo"/><br/>
-			Descrição: <form:textarea path="descricao"/><br/>
+			<c:if test="${ticket.ticketKey gt 0}">
+				#${ticket.ticketKey}<br/>
+				<form:hidden path="ticket.ticketKey"/>
+			</c:if>
+			Título: <form:input path="ticket.titulo"/><br/>
+			Descrição: <form:textarea path="ticket.descricao"/><br/>
 			<button type="submit">Salvar</button><br/>
 		</form>		
 	</body>

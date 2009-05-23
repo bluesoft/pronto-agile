@@ -3,6 +3,7 @@ package br.com.bluesoft.pronto.controller;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,7 @@ import br.com.bluesoft.pronto.model.Ticket;
 @Controller
 public class TicketController {
 
-	private static final String VIEW_SALVAR = "ticket.listar.jsp";
+	private static final String VIEW_LISTAR = "ticket.listar.jsp";
 	private static final String VIEW_EDITAR = "ticket.editar.jsp";
 
 	@Autowired
@@ -25,12 +26,16 @@ public class TicketController {
 	public String listar(final Model model) {
 		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).list();
 		model.addAttribute("tickets", tickets);
-		return VIEW_SALVAR;
+		return VIEW_LISTAR;
 	}
 
 	@RequestMapping("/ticket/ticket.salvar.action")
-	public String salvar(final Model model) {
-		return VIEW_SALVAR;
+	public String salvar(final Model model, final Ticket ticket) {
+		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
+		sessionFactory.getCurrentSession().flush();
+		tx.commit();
+		return "forward:ticket.listar.action";
 	}
 
 	@RequestMapping("/ticket/ticket.editar.action")
