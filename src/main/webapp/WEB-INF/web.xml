@@ -20,5 +20,37 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>*.action</url-pattern>
 	</servlet-mapping>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/applicationContext-*.xml
+			classpath*:/applicationContext-*.xml 
+		</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
+		<param-value>pt_BR</param-value>
+	</context-param>
+	
+	<filter>
+		<filter-name>HibernateFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>HibernateFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/commons/error.jsp</location>
+	</error-page>
 
 </web-app>

@@ -10,6 +10,19 @@ http://www.springframework.org/schema/context/spring-context-2.5.xsd"
 
 	<context:component-scan base-package="br.com.bleusoft.pronto.controller" />
 
-
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
+		<property name="basePackage" value="br.com.bluesoft.pronto.controlller" />
+	</bean>
+	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
+		<property name="defaultLocale" value="pt_BR" />
+	</bean>
+	
+	<!-- Controllers driven by annotations -->
+	<bean name="internalPathMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.InternalPathMethodNameResolver" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="methodNameResolver" ref="internalPathMethodNameResolver" />
+	</bean>
 
 </beans>
