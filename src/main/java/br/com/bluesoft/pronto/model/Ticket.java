@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -22,12 +24,16 @@ public class Ticket {
 
 	private String descricao;
 
+	@ManyToOne
+	@JoinColumn(name = "REPORTER_KEY")
 	private Usuario reporter;
 
 	private String cliente;
 
 	private String solicitador;
 
+	@ManyToMany
+	@JoinTable(name = "TICKET_DESENVOLVEDOR", joinColumns = { @JoinColumn(name = "TICKET_KEY") }, inverseJoinColumns = { @JoinColumn(name = "USUARIO_KEY") })
 	private Set<Usuario> desenvolvedores;
 
 	private int valorDeNegocio;

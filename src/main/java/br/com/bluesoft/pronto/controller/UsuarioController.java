@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.bluesoft.pronto.model.Usuario;
 
 @Controller
-@RequestMapping("/usuario/*")
 public class UsuarioController {
 
 	private static final String VIEW_LISTAR = "usuario.listar.jsp";
@@ -21,14 +20,14 @@ public class UsuarioController {
 	private SessionFactory sessionFactory;
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping
+	@RequestMapping("/usuario/listar.action")
 	public String listar(final Model model) {
 		final List<Usuario> usuarios = sessionFactory.getCurrentSession().createCriteria(Usuario.class).list();
 		model.addAttribute("usuarios", usuarios);
 		return VIEW_LISTAR;
 	}
 
-	@RequestMapping
+	@RequestMapping("/usuario/editar.action")
 	public String editar(final Model model, final Integer usuarioKey) {
 
 		if (usuarioKey != null) {
@@ -41,7 +40,7 @@ public class UsuarioController {
 		return VIEW_EDITAR;
 	}
 
-	@RequestMapping
+	@RequestMapping("/usuario/salvar.action")
 	public String salvar(final Model model, final Usuario usuario) {
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		sessionFactory.getCurrentSession().saveOrUpdate(usuario);

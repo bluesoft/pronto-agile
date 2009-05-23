@@ -7,14 +7,16 @@
 	<body>
 		<table>
 			<tr>
-				<th>#</th>
-				<th>Título</th>
+				<th>username</th>
+				<th>Nome</th>
+				<th>e-mail</th>
 			</tr>
-			<c:forEach items="${tickets}" var="t">
+			<c:forEach items="${usuarios}" var="u">
 				<tr>
-					<td>${t.ticketKey}</td>
-					<td>${t.titulo}</td>
-					<td><a href="editar.action?ticketKey=${t.ticketKey}">Editar</a></td>
+					<td>${u.username}</td>
+					<td>${u.nome}</td>
+					<td>${u.email}</td>
+					<td><a href="editar.action?usuarioKey=${u.usuarioKey}">Editar</a></td>
 				</tr>
 			</c:forEach>
 		</table>	

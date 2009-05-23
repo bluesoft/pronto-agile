@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.bluesoft.pronto.model.Ticket;
+import br.com.bluesoft.pronto.model.Usuario;
 
 @Controller
 public class TicketController {
@@ -21,7 +22,7 @@ public class TicketController {
 	private SessionFactory sessionFactory;
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping("/ticket/ticket.listar.action")
+	@RequestMapping("/ticket/listar.action")
 	public String listar(final Model model) {
 		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).list();
 		model.addAttribute("tickets", tickets);
@@ -34,10 +35,10 @@ public class TicketController {
 		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
 		sessionFactory.getCurrentSession().flush();
 		tx.commit();
-		return "forward:ticket.listar.action";
+		return "forward:listar.action";
 	}
 
-	@RequestMapping("/ticket/ticket.editar.action")
+	@RequestMapping("/ticket/editar.action")
 	public String editar(final Model model, final Integer ticketKey) {
 		if (ticketKey != null) {
 			final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
@@ -45,6 +46,7 @@ public class TicketController {
 		} else {
 			model.addAttribute("ticket", new Ticket());
 		}
+		model.addAttribute("usuarios", sessionFactory.getCurrentSession().createCriteria(Usuario.class).list());
 		return VIEW_EDITAR;
 	}
 }
