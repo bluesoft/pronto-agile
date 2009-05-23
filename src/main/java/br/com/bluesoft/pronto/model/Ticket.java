@@ -4,26 +4,28 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Estoria {
+public class Ticket {
 
 	@Id
-	private int estoriaKey;
+	private int ticketKey;
+
 	private String titulo;
+
 	private String descricao;
 
-	public int getEstoriaKey() {
-		return estoriaKey;
+	public int getTicketKey() {
+		return ticketKey;
 	}
 
-	public void setEstoriaKey(int estoriaKey) {
-		this.estoriaKey = estoriaKey;
+	public void setTicketKey(final int ticketKey) {
+		this.ticketKey = ticketKey;
 	}
 
 	public String getTitulo() {
 		return titulo;
 	}
 
-	public void setTitulo(String titulo) {
+	public void setTitulo(final String titulo) {
 		this.titulo = titulo;
 	}
 
@@ -31,7 +33,7 @@ public class Estoria {
 		return descricao;
 	}
 
-	public void setDescricao(String descricao) {
+	public void setDescricao(final String descricao) {
 		this.descricao = descricao;
 	}
 
