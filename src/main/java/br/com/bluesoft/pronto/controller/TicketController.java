@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +40,7 @@ public class TicketController {
 	@RequestMapping("/ticket/ticket.editar.action")
 	public String editar(final Model model, final Integer ticketKey) {
 		if (ticketKey != null) {
-			final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("ticketKey", ticketKey)).uniqueResult();
+			final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 			model.addAttribute("ticket", ticket);
 		} else {
 			model.addAttribute("ticket", new Ticket());
