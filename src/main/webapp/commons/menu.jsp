@@ -1,22 +1,19 @@
 <ul id="jsddm">
-	<li><a href="#">JavaScript</a>
+	<li><a href="#">Product Backlog</a></li>
+	<li><a href="#">Backlog de Idéias</a></li>
+	<li><a href="#">Sprints</a>
 	<ul>
-		<li><a href="#">Drop Down Menu</a></li>
-		<li><a href="#">jQuery Plugin</a></li>
-		<li><a href="#">Ajax Navigation</a></li>
+		<li><a href="#">Portugal</a></li>
+		<li><a href="#">Inglaterra</a></li>
 	</ul>
 	</li>
-	<li><a href="#">Effect</a>
+	<li><a href="#">Bla</a>
 	<ul>
-		<li><a href="#">Slide Effect</a></li>
-		<li><a href="#">Fade Effect</a></li>
-		<li><a href="#">Opacity Mode</a></li>
-		<li><a href="#">Drop Shadow</a></li>
-		<li><a href="#">Semitransparent</a></li>
+		<li><a href="#">aaa</a></li>
+		<li><a href="#">bbb</a></li>
+		<li><a href="#">ccc</a></li>
 	</ul>
 	</li>
-	<li><a href="#">Navigation</a></li>
-	<li><a href="#">HTML/CSS</a></li>
-	<li><a href="#">Help</a></li>
+	<li><a href="#">Ajuda</a></li>
 </ul>
 <div class="clear"></div>
