@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pronto-agile</groupId>
@@ -10,38 +9,48 @@
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>${hibernate.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>ejb</artifactId>
+					<groupId>javax.persistence</groupId>
+				</exclusion>
+			</exclusions>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>${hibernate.commons.annotations.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
-			<version>3.4.0.GA</version>
+			<version>${hibernate.annotations.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>ejb</artifactId>
+					<groupId>javax.persistence</groupId>
+				</exclusion>
+			</exclusions>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
+			<artifactId>spring-core</artifactId>
 			<version>2.5.6</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>avalon-framework</artifactId>
-					<groupId>avalon-framework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>log4j</artifactId>
-					<groupId>log4j</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>logkit</artifactId>
-					<groupId>logkit</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>servlet-api</artifactId>
-					<groupId>javax.servlet</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>junit</artifactId>
-					<groupId>junit</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>2.5.6</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
@@ -74,5 +83,12 @@
 		</dependency>
 
 	</dependencies>
+
+	<properties>
+		<hibernate.annotations.version>3.2.1.ga</hibernate.annotations.version>
+		<hibernate.commons.annotations.version>3.0.0.ga</hibernate.commons.annotations.version>
+		<hibernate-validator.version>3.0.0.ga</hibernate-validator.version>
+		<hibernate.version>3.2.5.ga</hibernate.version>
+	</properties>
 
 </project>
