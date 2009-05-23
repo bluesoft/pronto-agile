@@ -1,0 +1,71 @@
+/* This is the style for the informational messages presented to the user */
+
+div.error, div.message, li.error {
+    background: #f8f8f8;
+    border: 1px solid f2f2f2;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    margin: 10px auto;
+    padding: 3px;
+    text-align: left;
+    vertical-align: bottom;
+}
+
+/* use a different color for the errors */
+div.error, li.error {
+    border: 2px solid red;
+}
+
+/* IE fix, followed by the rest of the world fix */
+li.error {
+    padding: 3px !important;
+}
+
+ul>li.error {
+    padding: 0px !important;
+}
+
+div.message p, div.message p {
+    margin-bottom: 0;
+}
+
+img.validationWarning, div.error img.icon, div.message img.icon, li.error img.icon {
+    border: 0 !important;
+    width: 14px;
+    height: 13px;
+    vertical-align: middle;
+    margin-left: 3px;
+    background: transparent !important;
+    /* important added because some themes define div#main img */
+}
+
+div.message a {
+    background: transparent;
+    color: #0000FF;
+}
+
+div.message a:visited {
+    background: transparent;
+    color: #0000FF;
+}
+
+div.message a:hover {
+    background: transparent;
+    color: #008000;
+}
+
+div.message a:active {
+    text-decoration: underline overline;
+}
+
+div.message img.icon {
+    vertical-align: middle;
+}
+
+span.fieldError, .errorMessage {
+    color: red;
+    font-size: .95em;
+    font-weight: bold;
+    display: block;
+}

@@ -1,0 +1,7 @@
+div#search-box {
+	border: 1px #f9f9f9 dashed;
+	padding: 10px 8px 8px 8px;
+	font-size: 12px;
+	color: #000000;
+	background-color: #f3f3f3;
+}
