@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pronto-agile</groupId>
@@ -16,9 +17,20 @@
 					<artifactId>ejb</artifactId>
 					<groupId>javax.persistence</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>jta</artifactId>
+					<groupId>javax.transaction</groupId>
+				</exclusion>
 			</exclusions>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>geronimo-spec</groupId>
+			<artifactId>geronimo-spec-jta</artifactId>
+			<version>1.0.1B-rc4</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.hibernate</groupId>

@@ -5,6 +5,7 @@
         <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/commons/themes/simplicity/theme.css'/>" />
         <link rel="stylesheet" type="text/css" media="print" href="<c:url value='/commons/themes/simplicity/print.css'/>" />
         <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/commons/themes/menu.css'/>" />
+        <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/commons/scripts/markitup/skins/markitup/style.css'/>" />
         <%@ include file="/commons/scripts/scripts.jsp"%>
         <decorator:head/>
     </head>

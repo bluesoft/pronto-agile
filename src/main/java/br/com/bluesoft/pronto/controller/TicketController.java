@@ -29,7 +29,7 @@ public class TicketController {
 		return VIEW_LISTAR;
 	}
 
-	@RequestMapping("/ticket/ticket.salvar.action")
+	@RequestMapping("/ticket/salvar.action")
 	public String salvar(final Model model, final Ticket ticket) {
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
