@@ -7,8 +7,10 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.Usuario;
 
@@ -21,6 +23,18 @@ public class TicketController {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@ModelAttribute
+	@SuppressWarnings("unchecked")
+	public List<Usuario> getUsuarios() {
+		return sessionFactory.getCurrentSession().createCriteria(Usuario.class).list();
+	}
+	
+	@ModelAttribute
+	@SuppressWarnings("unchecked")
+	public List<Usuario> getTiposDeTicket() {
+		return sessionFactory.getCurrentSession().createCriteria(TipoDeTicket.class).list();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listar.action")
 	public String listar(final Model model) {

@@ -19,7 +19,9 @@
 		</table>	
 		
 		<div align="center">
-			<a href="editar.action">Novo</a>
+			|&nbsp;&nbsp;
+			<a href="editar.action?tipoDeTicketKey=1">Nova Estória</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+			<a href="editar.action?tipoDeTicketKey=2">Novo Defeito</a>&nbsp;&nbsp;|
 		</div>
 	</body>
 </html>

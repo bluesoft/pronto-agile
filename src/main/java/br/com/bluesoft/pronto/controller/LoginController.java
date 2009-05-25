@@ -1,5 +1,7 @@
 package br.com.bluesoft.pronto.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,8 @@ import br.com.bluesoft.pronto.model.Usuario;
 
 @Controller
 public class LoginController {
+
+	private static final String ACTION_KANBAN = "/kanban/kanban.action";
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -51,14 +55,27 @@ public class LoginController {
 
 		}
 
-		return "login.login.jsp";
+		return "/login/login.login.jsp";
 
 	}
 
 	@RequestMapping("/login.action")
-	public String login(Model model, String username, String password) {
+	public String login(Model model, HttpSession httpSession, String username,
+			String password) {
 
-		return "login.login.jsp";
+		Usuario usuario = (Usuario) sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"from Usuario u where u.username = :username and u.password = :password")
+				.setString("username", username)
+				.setString("password", password).uniqueResult();
+		if (usuario == null) {
+			model.addAttribute("mensagem", "Usuário e/ou senha inválidos!");
+		} else {
+			httpSession.setAttribute("usuario", usuario);
+		}
+
+		return ACTION_KANBAN;
 
 	}
 
