@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Usuario;
@@ -61,25 +60,17 @@ public class LoginController {
 	}
 
 	@RequestMapping("/login.action")
-	public String login(Model model, HttpSession httpSession, String username,
-			String password) {
+	public String login(final Model model, final HttpSession httpSession, final String username, final String password) {
 
-		Usuario usuario = (Usuario) sessionFactory
-				.getCurrentSession()
-				.createQuery(
-						"from Usuario u where u.username = :username and u.password = :password")
-				.setString("username", username)
-				.setString("password", password).uniqueResult();
+		final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().createQuery("from Usuario u where u.username = :username and u.password = :password").setString("username", username).setString("password", password).uniqueResult();
 		if (usuario == null) {
 			model.addAttribute("mensagem", "Usuário e/ou senha inválidos!");
 			return "/start.action";
 		} else {
 			httpSession.setAttribute("usuario", usuario);
 			return ACTION_KANBAN;
-			
-		}
 
-		
+		}
 
 	}
 

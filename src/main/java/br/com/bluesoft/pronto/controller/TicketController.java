@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Ticket;
@@ -29,13 +28,13 @@ public class TicketController {
 	public List<Usuario> getUsuarios() {
 		return sessionFactory.getCurrentSession().createCriteria(Usuario.class).list();
 	}
-	
+
 	@ModelAttribute("tiposDeTicket")
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getTiposDeTicket() {
 		return sessionFactory.getCurrentSession().createCriteria(TipoDeTicket.class).list();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listar.action")
 	public String listar(final Model model) {
@@ -59,7 +58,7 @@ public class TicketController {
 			final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 			model.addAttribute("ticket", ticket);
 		} else {
-			Ticket novoTicket = new Ticket();
+			final Ticket novoTicket = new Ticket();
 			novoTicket.setReporter(LoginFilter.getUsuarioAtual());
 			model.addAttribute("ticket", novoTicket);
 			model.addAttribute("tipoDeTicketKey", tipoDeTicketKey);

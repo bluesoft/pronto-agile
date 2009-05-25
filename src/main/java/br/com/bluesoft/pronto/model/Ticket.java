@@ -20,10 +20,10 @@ public class Ticket {
 
 	public Ticket() {
 		super();
-		this.tipoDeTicket = new TipoDeTicket(TipoDeTicket.ESTORIA);
-		this.reporter = new Usuario();
+		tipoDeTicket = new TipoDeTicket(TipoDeTicket.ESTORIA);
+		reporter = new Usuario();
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ticketKey;
@@ -60,6 +60,10 @@ public class Ticket {
 
 	@OneToMany(mappedBy = "ticket")
 	private List<Ticket> filhos;
+
+	@ManyToOne
+	@JoinColumn(name = "sprint")
+	private Sprint sprint;
 
 	public int getTicketKey() {
 		return ticketKey;
@@ -161,8 +165,16 @@ public class Ticket {
 		return tipoDeTicket;
 	}
 
-	public void setTipoDeTicket(TipoDeTicket tipoDeTicket) {
+	public void setTipoDeTicket(final TipoDeTicket tipoDeTicket) {
 		this.tipoDeTicket = tipoDeTicket;
+	}
+
+	public Sprint getSprint() {
+		return sprint;
+	}
+
+	public void setSprint(final Sprint sprint) {
+		this.sprint = sprint;
 	}
 
 }
