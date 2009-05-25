@@ -7,7 +7,7 @@
 	<display-name>pronto-agile</display-name>
 
 	<welcome-file-list>
-		<welcome-file>start.action</welcome-file>
+		<welcome-file>/start.action</welcome-file>
 	</welcome-file-list>
 
 	<servlet>
