@@ -20,6 +20,10 @@
 			</c:choose>
 			<div class="group">
 				<div>
+					<form:select path="ticket.tipoDeTicket.tipoDeTicketKey" items="${tiposDeTicket}" itemValue="tipoDeTicketKey" itemLabel="descricao"/>
+					<p>Tipo</p>
+				</div>
+				<div>
 					<form:input path="ticket.titulo" size="120"/>
 					<p>Título</p>
 				</div>
@@ -32,7 +36,8 @@
 					<p>Solicitador</p>
 				</div>
 				<div>
-					<b>${ticket.reporter}</b>
+					<b>${ticket.reporter.nome}</b>
+					<form:hidden path="ticket.reporter.usuarioKey"/><br/>
 					<p>Reporter</p> 
 				</div>
 				<div>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Usuario;
@@ -71,11 +72,14 @@ public class LoginController {
 				.setString("password", password).uniqueResult();
 		if (usuario == null) {
 			model.addAttribute("mensagem", "Usuário e/ou senha inválidos!");
+			return "/start.action";
 		} else {
 			httpSession.setAttribute("usuario", usuario);
+			return ACTION_KANBAN;
+			
 		}
 
-		return ACTION_KANBAN;
+		
 
 	}
 

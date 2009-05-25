@@ -7,6 +7,7 @@
 		<c:url var="loginUrl" value="/login.action"/>
 		<form action="${loginUrl}" method="post">
 			<ul class="info"><h1>Login</h1></ul>
+			<h3>${mensagem}</h3>
 			<div class="group">
 				<div>
 					<input type="text" name="username" id="username" value="${username}">

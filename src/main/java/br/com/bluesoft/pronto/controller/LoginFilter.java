@@ -11,14 +11,24 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.bluesoft.pronto.model.Usuario;
+
 public class LoginFilter implements Filter {
 
 	private static final String START_URI = "/start.action";
 	private static final String LOGIN_URI = "/login.action";
 
+	private static final ThreadLocal<Usuario> usuarioAtual = new ThreadLocal<Usuario>();
+
+	public static Usuario getUsuarioAtual() { return usuarioAtual.get();}
+	
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		
+	}
+
 	@Override
 	public void destroy() {
-
 	}
 
 	@Override
@@ -27,22 +37,21 @@ public class LoginFilter implements Filter {
 			throws IOException, ServletException {
 
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		boolean logado = request.getSession().getAttribute("usuario") != null;
+		Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+		boolean logado = usuario != null;
 		boolean isStartAction = request.getRequestURI().contains(START_URI);
 		boolean isLoginAction = request.getRequestURI().contains(LOGIN_URI);
-		boolean isAProtectedResource = request.getRequestURI().contains("jsp") || request.getRequestURI().contains("action");
-		
-		if (!logado && !isLoginAction && !isStartAction && isAProtectedResource ) {
+		boolean isAProtectedResource = request.getRequestURI().contains("jsp")
+				|| request.getRequestURI().contains("action");
+
+		if (!logado && !isLoginAction && !isStartAction && isAProtectedResource) {
 			HttpServletResponse response = (HttpServletResponse) servletResponse;
 			response.sendRedirect(request.getContextPath() + START_URI);
 		} else {
+			usuarioAtual.set(usuario);
 			chain.doFilter(servletRequest, servletResponse);
+			usuarioAtual.remove();
 		}
-
-	}
-
-	@Override
-	public void init(FilterConfig arg0) throws ServletException {
 
 	}
 

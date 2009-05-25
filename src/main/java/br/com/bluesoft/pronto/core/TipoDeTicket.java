@@ -25,6 +25,11 @@ public class TipoDeTicket {
 		this.descricao = descricao;
 	}
 
+	public TipoDeTicket(int tipoDeTicketKey) {
+		super();
+		this.tipoDeTicketKey = tipoDeTicketKey;
+	}
+
 	public int getTipoDeTicketKey() {
 		return tipoDeTicketKey;
 	}

@@ -18,6 +18,12 @@ import br.com.bluesoft.pronto.core.TipoDeTicket;
 @Entity
 public class Ticket {
 
+	public Ticket() {
+		super();
+		this.tipoDeTicket = new TipoDeTicket(TipoDeTicket.ESTORIA);
+		this.reporter = new Usuario();
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ticketKey;
