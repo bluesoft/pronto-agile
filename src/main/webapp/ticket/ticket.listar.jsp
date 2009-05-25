@@ -1,8 +1,7 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 	<head>
-		<title>Pronto Agile</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
+		<title>Tickets</title>
 	</head>
 	<body>
 		<table>

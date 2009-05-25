@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import br.com.bluesoft.core.model.TipoDeTicket;
+import br.com.bluesoft.pronto.core.TipoDeTicket;
 
 @Entity
 public class Ticket {
