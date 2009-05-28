@@ -1,5 +1,6 @@
 package br.com.bluesoft.pronto.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -29,7 +30,7 @@ public class Usuario {
 
 	@ManyToMany
 	@JoinTable(name = "USUARIO_PAPEL", joinColumns = { @JoinColumn(name = "USUARIO_KEY") }, inverseJoinColumns = { @JoinColumn(name = "PAPEL_KEY") })
-	private Set<Papel> papeis;
+	private Set<Papel> papeis = new HashSet<Papel>();
 
 	public int getUsuarioKey() {
 		return usuarioKey;
@@ -77,5 +78,9 @@ public class Usuario {
 
 	public void setPapeis(Set<Papel> papeis) {
 		this.papeis = papeis;
+	}
+
+	public void addPapel(Papel papel) {
+		this.papeis.add(papel);
 	}
 }

@@ -191,6 +191,10 @@
         th {
             font-weight: bold;
             text-align: left;
+            background-color: #efefef;
+            font-weight: bold;
+			empty-cells: show;
+			height: 20px;
         }
 
         td {

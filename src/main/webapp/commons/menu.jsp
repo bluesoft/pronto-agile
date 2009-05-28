@@ -16,7 +16,7 @@
 			<li><a href="#">Inglaterra</a></li>
 		</ul>
 		</li>
-		<li><a href="#">Ajuda</a></li>
+		<li><a href="${raiz}logout">Sair</a></li>
 	</ul>
 	<div class="clear"></div>
 </c:if>

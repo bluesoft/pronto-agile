@@ -6,12 +6,23 @@ import javax.persistence.Id;
 @Entity
 public class Papel {
 
+	public static final int PRODUCT_OWNER = 1;
+	public static final int SCRUM_MASTER = 2;
+	public static final int DESENVOLVEDOR = 3;
+	public static final int TESTADOR = 4;
+	public static final int SUPORTE = 5;
+
 	public Papel() {
 
 	}
 
 	public Papel(int papelKey) {
 		this.papelKey = papelKey;
+	}
+
+	public Papel(int papelKey, String descricao) {
+		this.papelKey = papelKey;
+		this.descricao = descricao;
 	}
 
 	@Id

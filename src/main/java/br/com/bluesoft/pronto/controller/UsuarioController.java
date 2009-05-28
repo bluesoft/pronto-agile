@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.model.Usuario;
 
 @Controller
@@ -37,12 +38,20 @@ public class UsuarioController {
 			model.addAttribute("usuario", new Usuario());
 		}
 
+		model.addAttribute("papeis", sessionFactory.getCurrentSession().createCriteria(Papel.class).list());
+
 		return VIEW_EDITAR;
 	}
 
 	@RequestMapping("/usuario/salvar.action")
-	public String salvar(final Model model, final Usuario usuario) {
+	public String salvar(final Model model, final Usuario usuario, int[] papel) {
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+
+		usuario.getPapeis().clear();
+		for (int i : papel) {
+			usuario.addPapel((Papel) sessionFactory.getCurrentSession().get(Papel.class, i));
+		}
+
 		sessionFactory.getCurrentSession().saveOrUpdate(usuario);
 		sessionFactory.getCurrentSession().flush();
 		tx.commit();

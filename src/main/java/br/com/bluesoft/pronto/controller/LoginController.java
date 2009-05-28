@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Usuario;
 
@@ -50,6 +51,19 @@ public class LoginController {
 				tipoDeTicket = new TipoDeTicket(3, "Tarefa");
 				sessionFactory.getCurrentSession().save(tipoDeTicket);
 				sessionFactory.getCurrentSession().flush();
+
+				Papel papel = new Papel(Papel.PRODUCT_OWNER, "Product Owner");
+				sessionFactory.getCurrentSession().save(papel);
+				papel = new Papel(Papel.TESTADOR, "Testador");
+				sessionFactory.getCurrentSession().save(papel);
+				papel = new Papel(Papel.SCRUM_MASTER, "Scrum Master");
+				sessionFactory.getCurrentSession().save(papel);
+				papel = new Papel(Papel.SUPORTE, "Suporte");
+				sessionFactory.getCurrentSession().save(papel);
+				papel = new Papel(Papel.DESENVOLVEDOR, "Desenvolvedor");
+				sessionFactory.getCurrentSession().save(papel);
+				sessionFactory.getCurrentSession().flush();
+
 				initialized = true;
 			}
 
@@ -74,4 +88,9 @@ public class LoginController {
 
 	}
 
+	@RequestMapping("/logout.action")
+	public String login(final Model model, final HttpSession httpSession) {
+		httpSession.removeAttribute("usuario");
+		return "/login/login.login.jsp";
+	}
 }
