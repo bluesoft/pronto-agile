@@ -2,6 +2,9 @@
 <html>
 	<head>
 		<title>Login</title>
+		<script>
+			$('#username').focus();		
+		</script>
 	</head>
 	<body>
 		<c:url var="loginUrl" value="/login.action"/>

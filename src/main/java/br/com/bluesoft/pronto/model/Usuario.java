@@ -1,6 +1,9 @@
 package br.com.bluesoft.pronto.model;
 
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -82,5 +85,13 @@ public class Usuario {
 
 	public void addPapel(Papel papel) {
 		this.papeis.add(papel);
+	}
+
+	public Map<Integer, Boolean> getMapaPapeis() {
+		Map<Integer, Boolean> mapaPapeis = new HashMap<Integer, Boolean>();
+		for (Papel papel : papeis) {
+			mapaPapeis.put(papel.getPapelKey(), true);
+		}
+		return mapaPapeis;
 	}
 }

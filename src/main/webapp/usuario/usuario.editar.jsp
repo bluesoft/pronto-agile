@@ -36,7 +36,7 @@
 				<div>
 					<select size="5" multiple="multiple" name="papel">
 						<c:forEach items="${papeis}" var="papel">
-							<option value="${papel.papelKey}">${papel.descricao}</option>
+							<option value="${papel.papelKey}" ${usuario.mapaPapeis[papel.papelKey] ? 'selected="selected"' : ''}>${papel.descricao}</option>
 						</c:forEach>
 					</select>
 					<p>Papéis</p>
