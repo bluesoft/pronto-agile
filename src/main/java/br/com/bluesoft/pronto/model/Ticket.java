@@ -50,6 +50,8 @@ public class Ticket {
 
 	private String solicitador;
 
+	private String branch;
+
 	@ManyToMany
 	@JoinTable(name = "TICKET_DESENVOLVEDOR", joinColumns = { @JoinColumn(name = "TICKET_KEY") }, inverseJoinColumns = { @JoinColumn(name = "USUARIO_KEY") })
 	private Set<Usuario> desenvolvedores;
@@ -59,6 +61,8 @@ public class Ticket {
 	private int esforco;
 
 	private boolean par;
+
+	private boolean planejado;
 
 	@ManyToOne
 	@JoinColumn(name = "pai")
@@ -190,4 +194,21 @@ public class Ticket {
 	public void setBacklog(Backlog backlog) {
 		this.backlog = backlog;
 	}
+
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
+	public boolean isPlanejado() {
+		return planejado;
+	}
+
+	public void setPlanejado(boolean planejado) {
+		this.planejado = planejado;
+	}
+
 }

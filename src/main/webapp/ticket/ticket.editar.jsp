@@ -55,6 +55,26 @@
 					<p>Esforço</p>
 				</div>
 				<div>
+					<form:input path="ticket.branch"/><br/>
+					<p>Branch</p>
+				</div>
+				<div>
+					<form:select path="ticket.par">
+						<form:option value="true">Sim</form:option>
+						<form:option value="false">Não</form:option>
+					</form:select>
+					<br/>
+					<p>Em Par?</p>
+				</div>
+				<div>
+					<form:select path="ticket.planejado">
+						<form:option value="true">Sim</form:option>
+						<form:option value="false">Não</form:option>
+					</form:select>
+					<br/>
+					<p>Planejado?</p>
+				</div>
+				<div>
 					<form:textarea path="ticket.descricao" id="descricao"/><br/>
 				</div>
 			</div>
