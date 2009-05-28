@@ -9,6 +9,7 @@
 			<tr>
 				<th>#</th>
 				<th>Título</th>
+				<th>Tipo</th>
 				<th>Cliente</th>
 				<th>Valor de Negócio</th>
 				<th>Esforço</th>
@@ -17,6 +18,7 @@
 				<tr>
 					<td>${t.ticketKey}</td>
 					<td>${t.titulo}</td>
+					<td>${t.tipoDeTicket.descricao}</td>
 					<td>${t.cliente}</td>
 					<td>${t.valorDeNegocio}</td>
 					<td>${t.esforco}</td>
@@ -31,8 +33,8 @@
 					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=1">Nova Idéia</a>&nbsp;&nbsp;
 				</c:when>
 				<c:when test="${backlog.backlogKey eq 2}">
-					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=1">Nova Estória</a>&nbsp;&nbsp;
-					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2">Novo Defeito</a>&nbsp;&nbsp;
+					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2">Nova Estória</a>&nbsp;&nbsp;
+					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3">Novo Defeito</a>&nbsp;&nbsp;
 				</c:when>
 				<c:when test="${backlog.backlogKey eq 5}">
 					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=5">Novo Impedimento</a>&nbsp;&nbsp;

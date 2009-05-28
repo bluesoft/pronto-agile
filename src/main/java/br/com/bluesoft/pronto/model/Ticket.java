@@ -22,6 +22,7 @@ public class Ticket {
 	public Ticket() {
 		super();
 		tipoDeTicket = new TipoDeTicket(TipoDeTicket.ESTORIA);
+		backlog = new Backlog(Backlog.PRODUCT_BACKLOG);
 		reporter = new Usuario();
 	}
 
@@ -36,7 +37,7 @@ public class Ticket {
 	private Backlog backlog;
 
 	@ManyToOne
-	@JoinColumn(name = "TIPO_DE_TICKET")
+	@JoinColumn(name = "TIPO_DE_TICKET_KEY")
 	private TipoDeTicket tipoDeTicket;
 
 	private String descricao;

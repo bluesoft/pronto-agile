@@ -12,7 +12,7 @@
 			<c:choose>
 				<c:when test="${ticket.ticketKey gt 0}">
 					<form:hidden path="ticket.ticketKey"/>
-					<ul class="info"><h1>Ticket #${ticket.ticketKey}</h1></ul>
+					<ul class="info"><h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}</h1></ul>
 				</c:when>
 				<c:otherwise>
 					<ul class="info"><h1>${ticket.tipoDeTicket.descricao}</h1></ul>
@@ -25,8 +25,8 @@
 					<p>Tipo</p>
 				</div>
 				<div>
-					<form:hidden path="ticket.backlog.descricao"/>
-					<b>${ticket.backlog.backlogKey}</b>					
+					<form:hidden path="ticket.backlog.backlogKey"/>
+					<b>${ticket.backlog.descricao}</b>					
 					<p>Backlog</p>
 				</div>
 				<div>
@@ -59,7 +59,15 @@
 				</div>
 			</div>
 			<div align="center">
-				<button type="button" onclick="window.location.href='listar.action'">Cancelar</button>
+				<c:choose>
+					<c:when test="${ticket.sprint ne null}">
+						<button type="button" onclick="window.location.href='listarPorSprint.action?sprintKey=${ticket.sprint.sprintKey}'">Cancelar</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" onclick="window.location.href='listarPorBacklog.action?backlogKey=${ticket.backlog.backlogKey}'">Cancelar</button>
+					</c:otherwise>
+				</c:choose>
+				
 				<button type="submit">Salvar</button>
 			</div>
 			

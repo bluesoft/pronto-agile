@@ -63,8 +63,7 @@ public class TicketController {
 		sessionFactory.getCurrentSession().flush();
 		tx.commit();
 		
-		model.addAttribute("backlogKey", ticket.getBacklog().getBacklogKey());
-		return "forward:listarPorBacklog.action";
+		return "redirect:listarPorBacklog.action?backlogKey=" + ticket.getBacklog().getBacklogKey();
 	}
 
 	@RequestMapping("/ticket/editar.action")
