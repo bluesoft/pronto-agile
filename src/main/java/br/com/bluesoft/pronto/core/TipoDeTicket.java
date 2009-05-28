@@ -6,10 +6,12 @@ import javax.persistence.Id;
 @Entity
 public class TipoDeTicket {
 
-	public static int ESTORIA = 1;
-	public static int DEFEITO = 1;
-	public static int TAREFA = 1;
-
+	public static int IDEIA = 1;
+	public static int ESTORIA = 2;
+	public static int DEFEITO = 3;
+	public static int IMPEDIMENTO = 5;
+	public static int TAREFA = 6;
+	
 	@Id
 	private int tipoDeTicketKey;
 

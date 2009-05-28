@@ -15,13 +15,19 @@
 					<ul class="info"><h1>Ticket #${ticket.ticketKey}</h1></ul>
 				</c:when>
 				<c:otherwise>
-					<ul class="info"><h1>Novo Ticket</h1></ul>
+					<ul class="info"><h1>${ticket.tipoDeTicket.descricao}</h1></ul>
 				</c:otherwise>
 			</c:choose>
 			<div class="group">
 				<div>
-					<form:select path="ticket.tipoDeTicket.tipoDeTicketKey" items="${tiposDeTicket}" itemValue="tipoDeTicketKey" itemLabel="descricao"/>
+					<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey"/>
+					<b>${ticket.tipoDeTicket.descricao}</b>					
 					<p>Tipo</p>
+				</div>
+				<div>
+					<form:hidden path="ticket.backlog.descricao"/>
+					<b>${ticket.backlog.backlogKey}</b>					
+					<p>Backlog</p>
 				</div>
 				<div>
 					<form:input path="ticket.titulo" size="120"/>

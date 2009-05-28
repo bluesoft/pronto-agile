@@ -12,6 +12,7 @@ import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Sprint;
+import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.Usuario;
 
 @Controller
@@ -46,11 +47,15 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(usuario);
 				sessionFactory.getCurrentSession().flush();
 
-				TipoDeTicket tipoDeTicket = new TipoDeTicket(1, "Estória");
+				TipoDeTicket tipoDeTicket = new TipoDeTicket(1, "Idéia");
 				sessionFactory.getCurrentSession().save(tipoDeTicket);
-				tipoDeTicket = new TipoDeTicket(2, "Defeito");
+				tipoDeTicket = new TipoDeTicket(2, "Estória");
 				sessionFactory.getCurrentSession().save(tipoDeTicket);
-				tipoDeTicket = new TipoDeTicket(3, "Tarefa");
+				tipoDeTicket = new TipoDeTicket(3, "Defeito");
+				sessionFactory.getCurrentSession().save(tipoDeTicket);
+				tipoDeTicket = new TipoDeTicket(5, "Impedimento");
+				sessionFactory.getCurrentSession().save(tipoDeTicket);
+				tipoDeTicket = new TipoDeTicket(6, "Tarefa");
 				sessionFactory.getCurrentSession().save(tipoDeTicket);
 				sessionFactory.getCurrentSession().flush();
 
@@ -66,7 +71,6 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(papel);
 				sessionFactory.getCurrentSession().flush();
 
-				
 				Sprint sprint = new Sprint();
 				sprint.setNome("Canadá");
 				sessionFactory.getCurrentSession().save(sprint);
@@ -78,8 +82,21 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.IDEIAS, "Idéias"));
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.IMPEDIMENTOS, "Impedimentos"));
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.LIXEIRA, "Lixeira"));
-				sessionFactory.getCurrentSession().save(new Backlog(Backlog.PRODUCT_BACKLOG, "Product Backlog"));
+				Backlog productBacklog = new Backlog(Backlog.PRODUCT_BACKLOG, "Product Backlog");
+				sessionFactory.getCurrentSession().save(productBacklog);
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.SPRINT_BACKLOG, "Sprint Backlog"));
+				sessionFactory.getCurrentSession().flush();
+
+				Ticket cadastro = new Ticket();
+				cadastro.setTitulo("Cadastro de Produtos");
+				cadastro.setTipoDeTicket(new TipoDeTicket(2));
+				cadastro.setSolicitador("Alberto");
+				cadastro.setCliente("Chama");
+				cadastro.setBacklog(productBacklog);
+				cadastro.setValorDeNegocio(100);
+				cadastro.setEsforco(13);
+				cadastro.setReporter(usuario);
+				sessionFactory.getCurrentSession().save(cadastro);
 				sessionFactory.getCurrentSession().flush();
 				
 				initialized = true;

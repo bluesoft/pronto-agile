@@ -3,7 +3,9 @@
 	<head>
 		<title>Login</title>
 		<script>
-			$('#username').focus();		
+			$(function() {
+				$('#username').focus();
+			});		
 		</script>
 	</head>
 	<body>

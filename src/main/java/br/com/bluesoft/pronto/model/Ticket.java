@@ -61,9 +61,9 @@ public class Ticket {
 
 	@ManyToOne
 	@JoinColumn(name = "pai")
-	private Ticket ticket;
+	private Ticket pai;
 
-	@OneToMany(mappedBy = "ticket")
+	@OneToMany(mappedBy = "pai")
 	private List<Ticket> filhos;
 
 	@ManyToOne
@@ -92,10 +92,6 @@ public class Ticket {
 
 	public void setDescricao(final String descricao) {
 		this.descricao = descricao;
-	}
-
-	public Ticket getTicket() {
-		return ticket;
 	}
 
 	public List<Ticket> getFilhos() {
@@ -158,8 +154,12 @@ public class Ticket {
 		this.par = par;
 	}
 
-	public void setTicket(final Ticket ticket) {
-		this.ticket = ticket;
+	public Ticket getPai() {
+		return pai;
+	}
+
+	public void setPai(Ticket pai) {
+		this.pai = pai;
 	}
 
 	public void setFilhos(final List<Ticket> filhos) {

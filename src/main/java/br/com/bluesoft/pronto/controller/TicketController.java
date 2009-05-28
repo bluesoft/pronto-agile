@@ -62,17 +62,21 @@ public class TicketController {
 		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
 		sessionFactory.getCurrentSession().flush();
 		tx.commit();
-		return "forward:listar.action";
+		
+		model.addAttribute("backlogKey", ticket.getBacklog().getBacklogKey());
+		return "forward:listarPorBacklog.action";
 	}
 
 	@RequestMapping("/ticket/editar.action")
-	public String editar(final Model model, final Integer ticketKey, final Integer tipoDeTicketKey) {
+	public String editar(final Model model, final Integer ticketKey, final Integer tipoDeTicketKey, final Integer backlogKey) {
 		if (ticketKey != null) {
 			final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 			model.addAttribute("ticket", ticket);
 		} else {
 			final Ticket novoTicket = new Ticket();
 			novoTicket.setReporter(LoginFilter.getUsuarioAtual());
+			novoTicket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, tipoDeTicketKey));
+			novoTicket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
 			model.addAttribute("ticket", novoTicket);
 			model.addAttribute("tipoDeTicketKey", tipoDeTicketKey);
 		}
