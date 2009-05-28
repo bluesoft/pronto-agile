@@ -17,6 +17,7 @@ public class UsuarioController {
 
 	private static final String VIEW_LISTAR = "usuario.listar.jsp";
 	private static final String VIEW_EDITAR = "usuario.editar.jsp";
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 

@@ -1,6 +1,5 @@
 package br.com.bluesoft.pronto.model;
 
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
