@@ -76,7 +76,7 @@ public class LoginController {
 				sessionFactory.getCurrentSession().flush();
 				
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.IDEIAS, "Idéias"));
-				sessionFactory.getCurrentSession().save(new Backlog(Backlog.IMPEDIMENTOS, "Impedimento"));
+				sessionFactory.getCurrentSession().save(new Backlog(Backlog.IMPEDIMENTOS, "Impedimentos"));
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.LIXEIRA, "Lixeira"));
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.PRODUCT_BACKLOG, "Product Backlog"));
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.SPRINT_BACKLOG, "Sprint Backlog"));

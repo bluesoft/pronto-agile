@@ -1,10 +1,10 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 	<head>
-		<title>${backlog.descricao}</title>
+		<title>${backlog.descricao}${sprint.nome}</title>
 	</head>
 	<body>
-		<h1>${backlog.descricao}</h1>
+		<h1>${backlog.descricao}${sprint.nome}</h1>
 		<table>
 			<tr>
 				<th>#</th>
