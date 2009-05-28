@@ -1,15 +1,22 @@
 package br.com.bluesoft.pronto.model;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import br.com.bluesoft.pronto.core.Papel;
 
 @Entity
 public class Usuario {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int usuarioKey;
 
 	private String username;
@@ -19,6 +26,10 @@ public class Usuario {
 	private String nome;
 
 	private String email;
+
+	@ManyToMany
+	@JoinTable(name = "USUARIO_PAPEL", joinColumns = { @JoinColumn(name = "USUARIO_KEY") }, inverseJoinColumns = { @JoinColumn(name = "PAPEL_KEY") })
+	private Set<Papel> papeis;
 
 	public int getUsuarioKey() {
 		return usuarioKey;
@@ -60,4 +71,11 @@ public class Usuario {
 		this.email = email;
 	}
 
+	public Set<Papel> getPapeis() {
+		return papeis;
+	}
+
+	public void setPapeis(Set<Papel> papeis) {
+		this.papeis = papeis;
+	}
 }

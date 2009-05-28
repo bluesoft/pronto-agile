@@ -13,10 +13,14 @@
 		<property name="hibernate.use_sql_comments">true</property>
 		<property name="hibernate.show_sql">true</property>
 		
-		
-		<!-- mapped classes -->
-		<mapping class="br.com.bluesoft.pronto.model.Ticket" />
+		<!-- core classes -->
+		<mapping class="br.com.bluesoft.pronto.core.Backlog" />
+		<mapping class="br.com.bluesoft.pronto.core.Papel" />
 		<mapping class="br.com.bluesoft.pronto.core.TipoDeTicket" />
+		
+		<!-- model classes -->
+		<mapping class="br.com.bluesoft.pronto.model.Sprint" />
+		<mapping class="br.com.bluesoft.pronto.model.Ticket" />
 		<mapping class="br.com.bluesoft.pronto.model.Usuario" />
 
 	</session-factory>
