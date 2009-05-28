@@ -84,7 +84,8 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.LIXEIRA, "Lixeira"));
 				Backlog productBacklog = new Backlog(Backlog.PRODUCT_BACKLOG, "Product Backlog");
 				sessionFactory.getCurrentSession().save(productBacklog);
-				sessionFactory.getCurrentSession().save(new Backlog(Backlog.SPRINT_BACKLOG, "Sprint Backlog"));
+				Backlog sprintBacklog = new Backlog(Backlog.SPRINT_BACKLOG, "Sprint Backlog");
+				sessionFactory.getCurrentSession().save(sprintBacklog);
 				sessionFactory.getCurrentSession().flush();
 
 				Ticket cadastro = new Ticket();
@@ -97,6 +98,19 @@ public class LoginController {
 				cadastro.setEsforco(13);
 				cadastro.setReporter(usuario);
 				sessionFactory.getCurrentSession().save(cadastro);
+				sessionFactory.getCurrentSession().flush();
+				
+				Ticket consulta = new Ticket();
+				consulta.setTitulo("Consulta de Cheques");
+				consulta.setTipoDeTicket(new TipoDeTicket(2));
+				consulta.setSolicitador("Luiz");
+				consulta.setCliente("Pedreira");
+				consulta.setBacklog(sprintBacklog);
+				consulta.setSprint(sprint);
+				consulta.setValorDeNegocio(100);
+				consulta.setEsforco(13);
+				consulta.setReporter(usuario);
+				sessionFactory.getCurrentSession().save(consulta);
 				sessionFactory.getCurrentSession().flush();
 				
 				initialized = true;
