@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.Usuario;
@@ -36,10 +38,11 @@ public class TicketController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping("/ticket/listar.action")
-	public String listar(final Model model) {
-		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).list();
+	@RequestMapping("/ticket/listarPorBacklog.action")
+	public String listarPorBacklog(final Model model, int backlogKey) {
+		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("backlog.backlogKey", backlogKey)).list();
 		model.addAttribute("tickets", tickets);
+		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
 		return VIEW_LISTAR;
 	}
 

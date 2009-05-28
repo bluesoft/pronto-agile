@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 
 @Entity
@@ -29,6 +30,10 @@ public class Ticket {
 	private int ticketKey;
 
 	private String titulo;
+
+	@ManyToOne
+	@JoinColumn(name = "BACKLOG_KEY")
+	private Backlog backlog;
 
 	@ManyToOne
 	@JoinColumn(name = "TIPO_DE_TICKET")
@@ -177,4 +182,11 @@ public class Ticket {
 		this.sprint = sprint;
 	}
 
+	public Backlog getBacklog() {
+		return backlog;
+	}
+
+	public void setBacklog(Backlog backlog) {
+		this.backlog = backlog;
+	}
 }

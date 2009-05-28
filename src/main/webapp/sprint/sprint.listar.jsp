@@ -10,6 +10,8 @@
 			<tr>
 				<th>nome</th>
 				<th>período</th>
+				<th></th>
+				<th></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -18,6 +20,7 @@
 					<td>${s.nome}</td>
 					<td>${s.dataInicial} à ${s.dataFinal}</td>
 					<td><a href="editar.action?sprintKey=${s.sprintKey}">Editar</a></td>
+					<td><a href="editar.action?sprintKey=${s.sprintKey}">Ver Estórias</a></td>
 				</tr>
 			</c:forEach>
 			</tbody>

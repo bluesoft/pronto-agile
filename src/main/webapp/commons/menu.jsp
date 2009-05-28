@@ -8,14 +8,15 @@
 		</ul>
 		</li>
 		<li><a href="${raiz}kanban/kanban.action">Kanban</a></li>
-		<li><a href="${raiz}ticket/listar.action">Product Backlog</a></li>
-		<li><a href="#">Backlog de Idéias</a></li>
-		<li><a href="${raiz}sprint/listar.action">Sprints</a>
-		<ul>
-			<li><a href="#">Portugal</a></li>
-			<li><a href="#">Inglaterra</a></li>
-		</ul>
+		<li><a href="$">Backlogs</a>
+			<ul>
+				<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=2">Product Backlog</a></li>
+				<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=1">Idéias</a></li>
+				<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=5">Impedimentos</a></li>
+				<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=4">Lixeira</a></li>
+			</ul>
 		</li>
+		<li><a href="${raiz}sprint/listar.action">Sprints</a></li>
 		<li><a href="${raiz}logout.action">Sair</a></li>
 	</ul>
 	<div class="clear"></div>

@@ -8,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
+import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Usuario;
 
 @Controller
@@ -64,6 +66,22 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(papel);
 				sessionFactory.getCurrentSession().flush();
 
+				
+				Sprint sprint = new Sprint();
+				sprint.setNome("Canadá");
+				sessionFactory.getCurrentSession().save(sprint);
+				sprint = new Sprint();
+				sprint.setNome("Alemanha");
+				sessionFactory.getCurrentSession().save(sprint);
+				sessionFactory.getCurrentSession().flush();
+				
+				sessionFactory.getCurrentSession().save(new Backlog(Backlog.IDEIAS, "Idéias"));
+				sessionFactory.getCurrentSession().save(new Backlog(Backlog.IMPEDIMENTOS, "Impedimento"));
+				sessionFactory.getCurrentSession().save(new Backlog(Backlog.LIXEIRA, "Lixeira"));
+				sessionFactory.getCurrentSession().save(new Backlog(Backlog.PRODUCT_BACKLOG, "Product Backlog"));
+				sessionFactory.getCurrentSession().save(new Backlog(Backlog.SPRINT_BACKLOG, "Sprint Backlog"));
+				sessionFactory.getCurrentSession().flush();
+				
 				initialized = true;
 			}
 

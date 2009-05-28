@@ -1,9 +1,10 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 	<head>
-		<title>Tickets</title>
+		<title>${backlog.descricao}</title>
 	</head>
 	<body>
+		<h1>${backlog.descricao}</h1>
 		<table>
 			<tr>
 				<th>#</th>
