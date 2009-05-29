@@ -18,6 +18,9 @@
 					<ul class="info"><h1>${ticket.tipoDeTicket.descricao}</h1></ul>
 				</c:otherwise>
 			</c:choose>
+			<div id="descricao">
+				${ticket.descricao}
+			</div>
 			<div class="group">
 				<div>
 					<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey"/>

@@ -2,6 +2,25 @@
 <html>
 	<head>
 		<title>${backlog.descricao}${sprint.nome}</title>
+		<script>
+			function lixo(ticketKey){
+				var url = 'jogarNoLixo.action?ticketKey=' + ticketKey; 
+				$.post(url, {
+					success: function() {
+						$('#'+ticketKey).remove();		
+					}
+				});
+			}
+
+			function restaurar(ticketKey){
+				var url = 'restaurar.action?ticketKey=' + ticketKey; 
+				$.post(url, {
+					success: function() {
+						$('#'+ticketKey).remove();		
+					}
+				});
+			}
+		</script>
 	</head>
 	<body>
 		<h1>${backlog.descricao}${sprint.nome}</h1>
@@ -15,7 +34,7 @@
 				<th>Esforço</th>
 			</tr>
 			<c:forEach items="${tickets}" var="t">
-				<tr>
+				<tr id="${t.ticketKey}">
 					<td>${t.ticketKey}</td>
 					<td>${t.titulo}</td>
 					<td>${t.tipoDeTicket.descricao}</td>
@@ -23,6 +42,13 @@
 					<td>${t.valorDeNegocio}</td>
 					<td>${t.esforco}</td>
 					<td><a href="editar.action?ticketKey=${t.ticketKey}">Editar</a></td>
+					
+					<c:if test="${backlog.backlogKey eq 1 or backlog.backlogKey eq 2}">
+						<td><a href="#" onclick="lixo(${t.ticketKey})">Mover para a Lixeira</a></td>
+					</c:if>
+					<c:if test="${backlog.backlogKey eq 4}">
+						<td><a href="#" onclick="restaurar(${t.ticketKey})">Restaurar</a></td>
+					</c:if>
 				</tr>
 			</c:forEach>
 		</table>	
@@ -40,7 +66,9 @@
 					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=5">Novo Impedimento</a>&nbsp;&nbsp;
 				</c:when>
 			</c:choose>
-			|
+			<c:if test="${backlog.backlogKey ne 4}">
+				|
+			</c:if>			
 		</div>
 	</body>
 </html>

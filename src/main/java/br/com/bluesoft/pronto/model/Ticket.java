@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 
 import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
+import br.com.bluesoft.pronto.service.WikiFormatter;
 
 @Entity
 public class Ticket {
@@ -93,6 +94,10 @@ public class Ticket {
 
 	public String getDescricao() {
 		return descricao;
+	}
+	
+	public String getHtml() {
+		return WikiFormatter.toHtml(descricao);
 	}
 
 	public void setDescricao(final String descricao) {

@@ -2,6 +2,8 @@ package br.com.bluesoft.pronto.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -46,7 +48,7 @@ public class TicketController {
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
 		return VIEW_LISTAR;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorSprint.action")
 	public String listarPorSprint(final Model model, int sprintKey) {
@@ -62,7 +64,7 @@ public class TicketController {
 		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
 		sessionFactory.getCurrentSession().flush();
 		tx.commit();
-		
+
 		return "redirect:listarPorBacklog.action?backlogKey=" + ticket.getBacklog().getBacklogKey();
 	}
 
@@ -81,5 +83,41 @@ public class TicketController {
 		}
 		model.addAttribute("usuarios", sessionFactory.getCurrentSession().createCriteria(Usuario.class).list());
 		return VIEW_EDITAR;
+	}
+
+	@RequestMapping("/ticket/jogarNoLixo.action")
+	public String jogarNoLixo(Model model, int ticketKey, HttpServletResponse response) {
+		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.LIXEIRA));
+		sessionFactory.getCurrentSession().update(ticket);
+		sessionFactory.getCurrentSession().flush();
+		return null;
+	}
+
+	@RequestMapping("/ticket/restaurar.action")
+	public String restaurar(Model model, int ticketKey, HttpServletResponse response) {
+		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+
+		Backlog backlog = null;
+		switch (ticket.getTipoDeTicket().getTipoDeTicketKey()) {
+		case TipoDeTicket.ESTORIA:
+		case TipoDeTicket.DEFEITO:
+			backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG);
+			break;
+		case TipoDeTicket.IDEIA:
+			backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS);
+			break;
+		case TipoDeTicket.IMPEDIMENTO:
+			backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS);
+			break;
+		case TipoDeTicket.TAREFA:
+			backlog = ticket.getPai().getBacklog();
+			break;
+		}
+
+		ticket.setBacklog(backlog);
+		sessionFactory.getCurrentSession().update(ticket);
+		sessionFactory.getCurrentSession().flush();
+		return null;
 	}
 }

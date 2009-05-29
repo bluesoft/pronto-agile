@@ -9,7 +9,7 @@
 // Feel free to add more tags
 // -------------------------------------------------------------------
 mySettings = {
-	previewParserPath:	'', // path to your Wiki parser
+	previewParserPath:	'../wiki/parse.action', // path to your Wiki parser
 	onShiftEnter:		{keepDefault:false, replaceWith:'\n\n'},
 	markupSet: [
 		{name:'Heading 1', key:'1', openWith:'== ', closeWith:' ==', placeHolder:'Your title here...' },

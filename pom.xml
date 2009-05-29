@@ -118,7 +118,26 @@
 			<version>${sitemesh.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>info.bliki.wiki</groupId>
+			<artifactId>bliki-core</artifactId>
+			<version>3.0.11</version>
+		</dependency>
+
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>info-bliki-repository</id>
+			<url>http://gwtwiki.googlecode.com/svn/maven-repository/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<properties>
 		<hibernate.annotations.version>3.2.1.ga</hibernate.annotations.version>
