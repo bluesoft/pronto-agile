@@ -46,4 +46,8 @@ public class Backlog {
 		this.descricao = descricao;
 	}
 
+	@Override
+	public String toString() {
+		return descricao;
+	}
 }

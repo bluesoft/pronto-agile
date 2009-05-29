@@ -93,4 +93,9 @@ public class Usuario {
 		}
 		return mapaPapeis;
 	}
+	
+	@Override
+	public String toString() {
+		return username;
+	}
 }

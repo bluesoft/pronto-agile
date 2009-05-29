@@ -12,16 +12,22 @@
 		<property name="hibernate.hbm2ddl.auto">create-drop</property>
 		<property name="hibernate.use_sql_comments">true</property>
 		<property name="hibernate.show_sql">true</property>
-		
+
 		<!-- core classes -->
 		<mapping class="br.com.bluesoft.pronto.core.Backlog" />
 		<mapping class="br.com.bluesoft.pronto.core.Papel" />
 		<mapping class="br.com.bluesoft.pronto.core.TipoDeTicket" />
-		
+
 		<!-- model classes -->
 		<mapping class="br.com.bluesoft.pronto.model.Sprint" />
 		<mapping class="br.com.bluesoft.pronto.model.Ticket" />
 		<mapping class="br.com.bluesoft.pronto.model.Usuario" />
+		<mapping class="br.com.bluesoft.pronto.model.TicketLog" />
+
+		<listener type="pre-delete" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />
+		<listener type="pre-update" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />
+		<listener type="pre-insert" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />
+		<listener type="pre-load" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />
 
 	</session-factory>
 </hibernate-configuration>

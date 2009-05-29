@@ -63,4 +63,8 @@ public class Sprint {
 		this.imagem = imagem;
 	}
 
+	@Override
+	public String toString() {
+		return this.getNome();
+	}
 }

@@ -11,7 +11,7 @@ public class TipoDeTicket {
 	public static final int DEFEITO = 3;
 	public static final int IMPEDIMENTO = 5;
 	public static final int TAREFA = 6;
-	
+
 	@Id
 	private int tipoDeTicketKey;
 
@@ -46,6 +46,11 @@ public class TipoDeTicket {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	@Override
+	public String toString() {
+		return descricao;
 	}
 
 }

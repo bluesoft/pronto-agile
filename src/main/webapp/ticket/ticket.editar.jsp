@@ -96,7 +96,12 @@
 			
 		</form>		
 	
-	
+		<h2>Logs</h2>
+		<ul>
+			<c:forEach items="${ticket.logs}" var="log">
+				<li>${log.descricao}</li>
+			</c:forEach>
+		</ul>
 	</body>
 	
 	

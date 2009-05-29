@@ -76,6 +76,9 @@ public class Ticket {
 	@JoinColumn(name = "sprint")
 	private Sprint sprint;
 
+	@OneToMany(mappedBy = "ticket")
+	private List<TicketLog> logs;
+
 	public int getTicketKey() {
 		return ticketKey;
 	}
@@ -95,7 +98,7 @@ public class Ticket {
 	public String getDescricao() {
 		return descricao;
 	}
-	
+
 	public String getHtml() {
 		return WikiFormatter.toHtml(descricao);
 	}
@@ -216,4 +219,12 @@ public class Ticket {
 		this.planejado = planejado;
 	}
 
+	public List<TicketLog> getLogs() {
+		return logs;
+	}
+
+	@Override
+	public String toString() {
+		return "#" + this.getTicketKey();
+	}
 }
