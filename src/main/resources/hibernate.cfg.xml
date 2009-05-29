@@ -23,6 +23,7 @@
 		<mapping class="br.com.bluesoft.pronto.model.Ticket" />
 		<mapping class="br.com.bluesoft.pronto.model.Usuario" />
 		<mapping class="br.com.bluesoft.pronto.model.TicketLog" />
+		<mapping class="br.com.bluesoft.pronto.model.TicketComentario" />
 
 		<listener type="pre-delete" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />
 		<listener type="pre-update" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />

@@ -1,8 +1,11 @@
 package br.com.bluesoft.pronto.model;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,22 +28,27 @@ public class Ticket {
 		tipoDeTicket = new TipoDeTicket(TipoDeTicket.ESTORIA);
 		backlog = new Backlog(Backlog.PRODUCT_BACKLOG);
 		reporter = new Usuario();
+		this.comentarios = new ArrayList<TicketComentario>();
+		this.logs = new ArrayList<TicketLog>();
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ticketKey;
 
+	@Label("título")
 	private String titulo;
 
 	@ManyToOne
 	@JoinColumn(name = "BACKLOG_KEY")
 	private Backlog backlog;
 
+	@Label("tipo de ticket")
 	@ManyToOne
 	@JoinColumn(name = "TIPO_DE_TICKET_KEY")
 	private TipoDeTicket tipoDeTicket;
 
+	@Label("descrição")
 	private String descricao;
 
 	@ManyToOne
@@ -57,12 +65,16 @@ public class Ticket {
 	@JoinTable(name = "TICKET_DESENVOLVEDOR", joinColumns = { @JoinColumn(name = "TICKET_KEY") }, inverseJoinColumns = { @JoinColumn(name = "USUARIO_KEY") })
 	private Set<Usuario> desenvolvedores;
 
+	@Label("valor de negócio")
 	private int valorDeNegocio;
 
+	@Label("esforço")
 	private int esforco;
 
+	@Label("em par?")
 	private boolean par;
 
+	@Label("planejado?")
 	private boolean planejado;
 
 	@ManyToOne
@@ -78,6 +90,9 @@ public class Ticket {
 
 	@OneToMany(mappedBy = "ticket")
 	private List<TicketLog> logs;
+
+	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
+	private List<TicketComentario> comentarios;
 
 	public int getTicketKey() {
 		return ticketKey;
@@ -223,8 +238,25 @@ public class Ticket {
 		return logs;
 	}
 
+	public List<TicketComentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<TicketComentario> comentarios) {
+		this.comentarios = comentarios;
+	}
+
 	@Override
 	public String toString() {
 		return "#" + this.getTicketKey();
+	}
+
+	public void addComentario(String texto, String usuario) {
+		TicketComentario comentario = new TicketComentario();
+		comentario.setTicket(this);
+		comentario.setData(new Date());
+		comentario.setUsuario(usuario);
+		comentario.setTexto(texto);
+		this.comentarios.add(comentario);
 	}
 }

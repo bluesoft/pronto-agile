@@ -4,6 +4,7 @@
 		<script>
 		$(function() {
 		      $("#descricao").markItUp(mySettings);
+		      $("#comentario").markItUp(mySettings);
 		 });
 		</script>
 	</head>
@@ -18,9 +19,26 @@
 					<ul class="info"><h1>${ticket.tipoDeTicket.descricao}</h1></ul>
 				</c:otherwise>
 			</c:choose>
-			<div id="htmlbox">
-				${ticket.html}
-			</div>
+			
+			<c:if test="${ticket.ticketKey gt 0}">
+				<h3>Descrição</h3>
+				<div class="htmlbox">
+					${ticket.html}
+				</div>
+			</c:if>
+			
+			<c:if test="${!empty ticket.comentarios}">
+				<h3>Comentários</h3>
+				<c:forEach items="${ticket.comentarios}" var="comentario">
+					<div class="htmlbox">
+						${comentario.html}
+						<br/>
+						<div align="right"><i>Por ${comentario.usuario} em <fmt:formatDate value="${comentario.data}"/></i></div> 
+					</div>
+				</c:forEach>
+				<br/>
+			</c:if>
+			
 			<div class="group">
 				<div>
 					<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey"/>
@@ -77,8 +95,13 @@
 					<br/>
 					<p>Planejado?</p>
 				</div>
+				<h3>Descrição</h3>
 				<div>
-					<form:textarea path="ticket.descricao" id="descricao"/><br/>
+					<form:textarea path="ticket.descricao" id="descricao"/>
+				</div>
+				<h3>Comentário</h3>
+				<div>
+					<textarea id="comentario" name="comentario"></textarea>
 				</div>
 			</div>
 			<div align="center">

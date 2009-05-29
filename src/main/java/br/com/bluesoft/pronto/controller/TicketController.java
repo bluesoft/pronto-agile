@@ -59,13 +59,19 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/salvar.action")
-	public String salvar(final Model model, final Ticket ticket) {
+	public String salvar(final Model model, final Ticket ticket, String comentario) {
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-		ticket.setBacklog((Backlog)sessionFactory.getCurrentSession().get(Backlog.class, ticket.getBacklog().getBacklogKey()));
-		ticket.setTipoDeTicket((TipoDeTicket)sessionFactory.getCurrentSession().get(TipoDeTicket.class, ticket.getTipoDeTicket().getTipoDeTicketKey()));
-		ticket.setReporter((Usuario)sessionFactory.getCurrentSession().get(Usuario.class, ticket.getReporter().getUsuarioKey()));
+		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, ticket.getBacklog().getBacklogKey()));
+		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, ticket.getTipoDeTicket().getTipoDeTicketKey()));
+		ticket.setReporter((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, ticket.getReporter().getUsuarioKey()));
+
+		if (comentario != null && comentario.trim().length() > 0) {
+			ticket.addComentario(comentario, "andrefaria");
+		}
+
 		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
 		sessionFactory.getCurrentSession().flush();
+
 		tx.commit();
 		return "redirect:editar.action?ticketKey=" + ticket.getTicketKey();
 	}

@@ -18,6 +18,7 @@ import org.hibernate.event.PreLoadEventListener;
 import org.hibernate.event.PreUpdateEvent;
 import org.hibernate.event.PreUpdateEventListener;
 
+import br.com.bluesoft.pronto.model.Label;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.TicketLog;
 
@@ -107,6 +108,12 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 			// cycle through property names, extract corresponding property
 			// values and insert new entry in audit trail
 			for (String propertyName : event.getPersister().getPropertyNames()) {
+				
+				String campo = propertyName;
+				if (Ticket.class.getDeclaredField(propertyName).isAnnotationPresent(Label.class)) {
+					campo = Ticket.class.getDeclaredField(propertyName).getAnnotation(Label.class).value();
+				}
+				
 				newPropValue = event.getPersister().getPropertyValue(event.getEntity(), propertyName, entityMode);
 				// because we are performing an insert we only need to be
 				// concerned will non-null values
@@ -123,11 +130,13 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 							history.setTicket((Ticket) event.getEntity());
 							history.setData(transTime);
 							history.setUsuario("andrefaria");
-							history.setCampo(propertyName);
+							history.setCampo(campo);
 							history.setValorAntigo(oldValue);
 							history.setValorNovo(newValue);
 							history.setOperacao(TicketLog.ALTERACAO);
-							session.insert(history);
+							if (history.isDiferente()) {
+								session.insert(history);
+							}
 						}
 					}
 				}
@@ -135,7 +144,8 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 
 			session.getTransaction().commit();
 			session.close();
-		} catch (HibernateException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return false;
 	}
