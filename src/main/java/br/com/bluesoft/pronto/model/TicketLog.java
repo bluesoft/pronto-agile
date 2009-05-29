@@ -17,6 +17,8 @@ public class TicketLog {
 	public static final int ALTERACAO = 2;
 	public static final int EXCLUSAO = 3;
 
+	public static final String EM_BRANCO = "Em Branco";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ticketHistoryKey;
@@ -104,8 +106,17 @@ public class TicketLog {
 	public String getDescricao() {
 
 		if (this.getOperacao() == ALTERACAO) {
-			return MessageFormat.format("{4} - {3} - {0} mudou de {1} para {2}", campo, valorAntigo, valorNovo, usuario, data);
+			return MessageFormat.format("{4} - {3} - {0} mudou de \'{1}\' para \'{2}\'", campo, trataValor(valorAntigo), trataValor(valorNovo), usuario, data);
 		} else
 			return null;
+	}
+	
+
+	private String trataValor(String in) {
+		if (in == null || in.length() <= 0 && in.equals("null")) {
+			return EM_BRANCO;
+		} else {
+			return in;
+		}
 	}
 }
