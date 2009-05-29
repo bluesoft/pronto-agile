@@ -64,8 +64,7 @@ public class TicketController {
 		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
 		sessionFactory.getCurrentSession().flush();
 		tx.commit();
-
-		return "redirect:listarPorBacklog.action?backlogKey=" + ticket.getBacklog().getBacklogKey();
+		return "redirect:editar.action?ticketKey=" + ticket.getTicketKey();
 	}
 
 	@RequestMapping("/ticket/editar.action")

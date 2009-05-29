@@ -18,8 +18,8 @@
 					<ul class="info"><h1>${ticket.tipoDeTicket.descricao}</h1></ul>
 				</c:otherwise>
 			</c:choose>
-			<div id="descricao">
-				${ticket.descricao}
+			<div id="htmlbox">
+				${ticket.html}
 			</div>
 			<div class="group">
 				<div>

@@ -1,0 +1,12 @@
+#htmlbox {
+	background-color: #FAFAD2;
+	width: 100%;
+	margin: 5px;
+	border-width: 2px;
+	border-color: black;
+}
+
+#htmlbox ul, #htmlbox li {
+	list-style-type: !important disc;
+	list-style-position: !important inside;
+}
