@@ -7,4 +7,5 @@
 <script type="text/javascript" src="${markItUpUrl}"></script>
 <c:url var="markItUpSettingsUrl" value="/commons/scripts/markitup/set.js"/>
 <script type="text/javascript" src="${markItUpSettingsUrl}"></script>
-
+<c:url var="prontoJsUrl" value="/commons/scripts/pronto.js"/>
+<script type="text/javascript" src="${prontoJsUrl}"></script>

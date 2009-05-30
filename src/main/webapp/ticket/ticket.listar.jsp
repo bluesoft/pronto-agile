@@ -3,8 +3,17 @@
 	<head>
 		<title>${backlog.descricao}${sprint.nome}</title>
 		<script>
-			function lixo(ticketKey){
+			function toTrash(ticketKey){
 				var url = 'jogarNoLixo.action?ticketKey=' + ticketKey; 
+				$.post(url, {
+					success: function() {
+						$('#'+ticketKey).remove();		
+					}
+				});
+			}
+
+			function toProductBacklog(ticketKey){
+				var url = 'moverParaProductBacklog.action?ticketKey=' + ticketKey; 
 				$.post(url, {
 					success: function() {
 						$('#'+ticketKey).remove();		
@@ -41,13 +50,24 @@
 					<td>${t.cliente}</td>
 					<td>${t.valorDeNegocio}</td>
 					<td>${t.esforco}</td>
-					<td><a href="editar.action?ticketKey=${t.ticketKey}">Editar</a></td>
 					
+					<td>
+						<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${t.ticketKey}')"></pronto:icons>
+					</td>
+					<c:if test="${backlog.backlogKey eq 1}">
+						<td>
+							<a href="#" onclick="toProductBacklog(${t.ticketKey})">Mover para o Product Backlog</a>
+						</td>
+					</c:if>
 					<c:if test="${backlog.backlogKey eq 1 or backlog.backlogKey eq 2}">
-						<td><a href="#" onclick="lixo(${t.ticketKey})">Mover para a Lixeira</a></td>
+						<td>
+							<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${t.ticketKey})"></pronto:icons>
+						</td>
 					</c:if>
 					<c:if test="${backlog.backlogKey eq 4}">
-						<td><a href="#" onclick="restaurar(${t.ticketKey})">Restaurar</a></td>
+						<td>
+							<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${t.ticketKey})"></pronto:icons>
+						</td>
 					</c:if>
 				</tr>
 			</c:forEach>

@@ -43,7 +43,14 @@
 		
 		<h2>Logo do Sprint</h2>
 		<c:if test="${sprint.sprintKey gt 0}">
-			<h4>Incluir imagem</h4>						
+			<c:choose>
+				<c:when test="${sprint.imagem eq null}">
+					<h4>Incluir imagem</h4>
+				</c:when>
+				<c:otherwise>
+					<h4>Substituir imagem</h4>
+				</c:otherwise>
+			</c:choose>
 			<form action="upload.action?sprintKey=${sprint.sprintKey}" method="post" enctype="multipart/form-data">
 				<input type="file" name="arquivo">
 				<button type="submit">Upload</button>

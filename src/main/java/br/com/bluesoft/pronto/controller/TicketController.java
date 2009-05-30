@@ -1,13 +1,8 @@
 package br.com.bluesoft.pronto.controller;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -112,6 +107,15 @@ public class TicketController {
 	public String jogarNoLixo(Model model, int ticketKey, HttpServletResponse response) {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.LIXEIRA));
+		sessionFactory.getCurrentSession().update(ticket);
+		sessionFactory.getCurrentSession().flush();
+		return null;
+	}
+
+	@RequestMapping("/ticket/moverParaProductBacklog.action")
+	public String moverParaProductBacklog(Model model, int ticketKey, HttpServletResponse response) {
+		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG));
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
 		return null;

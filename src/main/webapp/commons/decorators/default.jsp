@@ -15,7 +15,7 @@
 	        <div id="header" class="clearfix">
 	            <jsp:include page="/commons/header.jsp"/>
 	        </div>
-	
+			<jsp:include page="/commons/menuRapido.jsp"/>
 	        <div id="content" class="clearfix">
 	            <div id="main">
 	                <h1><decorator:getProperty property="page.heading"/></h1>
@@ -31,6 +31,7 @@
 	                <hr />
 	            </div><!-- end nav -->
 	        </div>
+	        
 	
 	        <div id="footer" class="clearfix">
 	            <jsp:include page="/commons/footer.jsp"/>
