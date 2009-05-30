@@ -27,6 +27,7 @@ import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.Usuario;
+import br.com.bluesoft.pronto.service.Seguranca;
 
 @Controller
 public class TicketController {
@@ -87,12 +88,15 @@ public class TicketController {
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, ticket.getTipoDeTicket().getTipoDeTicketKey()));
 		ticket.setReporter((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, ticket.getReporter().getUsername()));
 
+		if (ticket.getSprint() != null && ticket.getSprint().getSprintKey() <= 0) {
+			ticket.setSprint(null);
+		} else {
+			ticket.setSprint((Sprint) sessionFactory.getCurrentSession().get(Sprint.class, ticket.getSprint().getSprintKey()));
+		}
+
 		if (comentario != null && comentario.trim().length() > 0) {
 			ticket.addComentario(comentario, "andrefaria");
 		}
-		
-		if (ticket.getSprint() != null && ticket.getSprint().getSprintKey() <= 0)
-			ticket.setSprint(null);
 
 		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
 		sessionFactory.getCurrentSession().flush();
@@ -110,7 +114,7 @@ public class TicketController {
 			model.addAttribute("anexos", listarAnexos(ticketKey));
 		} else {
 			final Ticket novoTicket = new Ticket();
-			novoTicket.setReporter(LoginFilter.getUsuarioAtual());
+			novoTicket.setReporter(Seguranca.getUsuario());
 			novoTicket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, tipoDeTicketKey));
 			novoTicket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
 			model.addAttribute("ticket", novoTicket);

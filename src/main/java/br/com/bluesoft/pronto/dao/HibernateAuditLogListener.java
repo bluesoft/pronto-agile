@@ -21,6 +21,7 @@ import org.hibernate.event.PreUpdateEventListener;
 import br.com.bluesoft.pronto.model.Label;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.TicketLog;
+import br.com.bluesoft.pronto.service.Seguranca;
 
 public final class HibernateAuditLogListener implements PreDeleteEventListener, PreInsertEventListener, PreUpdateEventListener, PreLoadEventListener, Initializable {
 
@@ -65,7 +66,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 						TicketLog history = new TicketLog();
 						history.setTicket((Ticket) event.getEntity());
 						history.setData(transTime);
-						history.setUsuario("andrefaria");
+						history.setUsuario(Seguranca.getUsuario().getUsername());
 						history.setCampo(null);
 						history.setValorAntigo(null);
 						history.setValorNovo(String.valueOf(newPropValue));
@@ -129,7 +130,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 							TicketLog history = new TicketLog();
 							history.setTicket((Ticket) event.getEntity());
 							history.setData(transTime);
-							history.setUsuario("andrefaria");
+							history.setUsuario(Seguranca.getUsuario().getUsername());
 							history.setCampo(campo);
 							history.setValorAntigo(oldValue);
 							history.setValorNovo(newValue);

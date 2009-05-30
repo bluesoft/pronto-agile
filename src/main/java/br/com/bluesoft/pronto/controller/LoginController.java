@@ -76,6 +76,7 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(sprint);
 				sprint = new Sprint();
 				sprint.setNome("Alemanha");
+				sprint.setAtual(true);
 				sessionFactory.getCurrentSession().save(sprint);
 				sessionFactory.getCurrentSession().flush();
 				
@@ -97,6 +98,7 @@ public class LoginController {
 				cadastro.setValorDeNegocio(100);
 				cadastro.setEsforco(13);
 				cadastro.setReporter(usuario);
+				cadastro.setSprint(null);
 				sessionFactory.getCurrentSession().save(cadastro);
 				sessionFactory.getCurrentSession().flush();
 				

@@ -12,16 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.bluesoft.pronto.model.Usuario;
+import br.com.bluesoft.pronto.service.Seguranca;
 
 public class LoginFilter implements Filter {
 
 	private static final String START_URI = "/start.action";
 	private static final String LOGIN_URI = "/login.action";
 
-	private static final ThreadLocal<Usuario> usuarioAtual = new ThreadLocal<Usuario>();
-
-	public static Usuario getUsuarioAtual() { return usuarioAtual.get();}
-	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		
@@ -48,9 +45,9 @@ public class LoginFilter implements Filter {
 			HttpServletResponse response = (HttpServletResponse) servletResponse;
 			response.sendRedirect(request.getContextPath() + START_URI);
 		} else {
-			usuarioAtual.set(usuario);
+			Seguranca.setUsuario(usuario);
 			chain.doFilter(servletRequest, servletResponse);
-			usuarioAtual.remove();
+			Seguranca.removeUsuario();
 		}
 
 	}
