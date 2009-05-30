@@ -294,4 +294,14 @@ public class Ticket {
 	public void setDataDePronto(Date dataDePronto) {
 		this.dataDePronto = dataDePronto;
 	}
+
+	public boolean isDefeito() {
+		return this.getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.DEFEITO;
+	}
+
+	public boolean isEstoria() {
+		return this.getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.ESTORIA;
+		return false;
+	}
+
 }

@@ -2,11 +2,13 @@ package br.com.bluesoft.pronto.model;
 
 import java.sql.Blob;
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Sprint {
@@ -26,6 +28,9 @@ public class Sprint {
 	private boolean fechado;
 
 	private boolean atual;
+
+	@OneToMany(mappedBy = "sprint")
+	private List<Ticket> tickets;
 
 	public int getSprintKey() {
 		return sprintKey;
@@ -86,5 +91,29 @@ public class Sprint {
 
 	public void setAtual(boolean atual) {
 		this.atual = atual;
+	}
+
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public int getEsforcoTotal() {
+		int total = 0;
+		for (Ticket ticket : tickets) {
+			if (ticket.isDefeito() || ticket.isEstoria()) {
+				total += ticket.getEsforco();
+			}
+		}
+		return total;
+	}
+	
+	public int getValorDeNegocioTotal() {
+		int total = 0;
+		for (Ticket ticket : tickets) {
+			if (ticket.isDefeito() || ticket.isEstoria()) {
+				total += ticket.getValorDeNegocio();
+			}
+		}
+		return total;
 	}
 }
