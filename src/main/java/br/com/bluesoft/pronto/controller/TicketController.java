@@ -269,6 +269,15 @@ public class TicketController {
 		return VIEW_ESTIMAR;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/ticket/estimarBacklog.action")
+	public String estimarBacklog(final Model model, int backlogKey) {
+		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("backlog.backlogKey", backlogKey)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
+		model.addAttribute("tickets", tickets);
+		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
+		return VIEW_ESTIMAR;
+	}
+	
 	@RequestMapping("/ticket/salvarEstimativa.action")
 	public String salvarEstimativa(final Model model, int ticketKey[], int valorDeNegocio[], int esforco[]) {
 		
