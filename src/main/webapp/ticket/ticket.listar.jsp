@@ -21,6 +21,15 @@
 				});
 			}
 
+			function toIdeias(ticketKey){
+				var url = 'moverParaIdeias.action?ticketKey=' + ticketKey; 
+				$.post(url, {
+					success: function() {
+						$('#'+ticketKey).remove();		
+					}
+				});
+			}
+			
 			function restaurar(ticketKey){
 				var url = 'restaurar.action?ticketKey=' + ticketKey; 
 				$.post(url, {
@@ -56,7 +65,12 @@
 					</td>
 					<c:if test="${backlog.backlogKey eq 1}">
 						<td>
-							<a href="#" onclick="toProductBacklog(${t.ticketKey})">Mover para o Product Backlog</a>
+							<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="toProductBacklog(${t.ticketKey})"></pronto:icons>
+						</td>
+					</c:if>
+					<c:if test="${backlog.backlogKey eq 2}">
+						<td>
+							<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Idéias" onclick="toIdeias(${t.ticketKey})"></pronto:icons>
 						</td>
 					</c:if>
 					<c:if test="${backlog.backlogKey eq 1 or backlog.backlogKey eq 2}">

@@ -116,6 +116,19 @@ public class TicketController {
 	public String moverParaProductBacklog(Model model, int ticketKey, HttpServletResponse response) {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG));
+		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.ESTORIA));
+		
+		sessionFactory.getCurrentSession().update(ticket);
+		sessionFactory.getCurrentSession().flush();
+		return null;
+	}
+	
+	@RequestMapping("/ticket/moverParaIdeias.action")
+	public String moverParaIdeias(Model model, int ticketKey, HttpServletResponse response) {
+		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS));
+		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IDEIA));
+		
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
 		return null;

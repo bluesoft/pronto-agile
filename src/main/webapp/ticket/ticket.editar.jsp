@@ -3,15 +3,15 @@
 	<head>
 		<script>
 		$(function() {
+			  $('#formTicket').validate();
 		      $("#descricao").markItUp(mySettings);
 		      $("#comentario").markItUp(mySettings);
 		      $("#titulo").focus();
-		      
 		 });
 		</script>
 	</head>
 	<body>
-		<form action="salvar.action" method="post">
+		<form action="salvar.action" method="post" id="formTicket">
 			<c:choose>
 				<c:when test="${ticket.ticketKey gt 0}">
 					<form:hidden path="ticket.ticketKey"/>
@@ -53,20 +53,20 @@
 					<p>Backlog</p>
 				</div>
 				<div>
-					<form:input path="ticket.titulo" size="120" id="titulo"/>
+					<form:input path="ticket.titulo" size="100" id="titulo" cssClass="required"/>
 					<p>Título</p>
 				</div>
 				<div>
-					<form:input path="ticket.cliente"/><br/>
+					<form:input path="ticket.cliente"  cssClass="required"/><br/>
 					<p>Cliente</p>
 				</div>
 				<div>
-					<form:input path="ticket.solicitador"/><br/>
+					<form:input path="ticket.solicitador"  cssClass="required"/><br/>
 					<p>Solicitador</p>
 				</div>
 				<div>
 					<b>${ticket.reporter.nome}</b>
-					<form:hidden path="ticket.reporter.usuarioKey"/><br/>
+					<form:hidden path="ticket.reporter.username"/><br/>
 					<p>Reporter</p> 
 				</div>
 				<div>
