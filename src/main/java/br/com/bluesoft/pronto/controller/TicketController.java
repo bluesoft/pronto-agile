@@ -27,6 +27,7 @@ import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.Usuario;
+import br.com.bluesoft.pronto.service.Config;
 import br.com.bluesoft.pronto.service.Seguranca;
 
 @Controller
@@ -34,8 +35,10 @@ public class TicketController {
 
 	private static final String VIEW_LISTAR = "ticket.listar.jsp";
 	private static final String VIEW_EDITAR = "ticket.editar.jsp";
-	private static String dirBasePath = "c:/images/";
 
+	@Autowired
+	private Config config;
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -200,7 +203,7 @@ public class TicketController {
 		ServletFileUpload upload = new ServletFileUpload(factory);
 
 		List<FileItem> items = upload.parseRequest(request);
-		String ticketDir = dirBasePath + ticketKey + "/";
+		String ticketDir = config.getImagesFolder() + ticketKey + "/";
 		File dir = new File(ticketDir);
 		dir.mkdirs();
 
@@ -212,7 +215,7 @@ public class TicketController {
 	}
 
 	private List<String> listarAnexos(int ticketKey) {
-		File file = new File(dirBasePath + ticketKey);
+		File file = new File(config.getImagesFolder() + ticketKey);
 		if (file.exists()) {
 			return (Arrays.asList(file.list()));
 		} else {
@@ -222,7 +225,7 @@ public class TicketController {
 
 	@RequestMapping("/ticket/excluirAnexo.action")
 	public String excluirAnexo(String file, int ticketKey) throws Exception {
-		File arquivo = new File(dirBasePath + ticketKey + "/" + file);
+		File arquivo = new File(config.getImagesFolder() + ticketKey + "/" + file);
 		if (arquivo.exists()) {
 			arquivo.delete();
 		}
@@ -232,7 +235,7 @@ public class TicketController {
 	@RequestMapping("/ticket/download.action")
 	public String download(HttpServletResponse response, String file, int ticketKey) throws Exception {
 
-		File arquivo = new File(dirBasePath + ticketKey + "/" + file);
+		File arquivo = new File(config.getImagesFolder() + ticketKey + "/" + file);
 		FileInputStream fis = new FileInputStream(arquivo);
 		int numberBytes = fis.available();
 		byte bytes[] = new byte[numberBytes];
