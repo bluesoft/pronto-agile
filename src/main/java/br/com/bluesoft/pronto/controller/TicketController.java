@@ -1,9 +1,17 @@
 package br.com.bluesoft.pronto.controller;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -24,6 +32,7 @@ public class TicketController {
 
 	private static final String VIEW_LISTAR = "ticket.listar.jsp";
 	private static final String VIEW_EDITAR = "ticket.editar.jsp";
+	private static String dirBasePath = "c:/images/";
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -81,6 +90,7 @@ public class TicketController {
 		if (ticketKey != null) {
 			final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 			model.addAttribute("ticket", ticket);
+			model.addAttribute("anexos", listarAnexos(ticketKey));
 		} else {
 			final Ticket novoTicket = new Ticket();
 			novoTicket.setReporter(LoginFilter.getUsuarioAtual());
@@ -128,4 +138,33 @@ public class TicketController {
 		sessionFactory.getCurrentSession().flush();
 		return null;
 	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/ticket/upload.action")
+	public String upload(HttpServletRequest request, int ticketKey) throws Exception {
+
+		FileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload upload = new ServletFileUpload(factory);
+
+		List<FileItem> items = upload.parseRequest(request);
+		String ticketDir = dirBasePath + ticketKey + "/";
+		File dir = new File(ticketDir);
+		dir.mkdirs();
+
+		for (FileItem fileItem : items) {
+			fileItem.write(new File(ticketDir + fileItem.getName()));
+		}
+
+		return "redirect:editar.action?ticketKey=" + ticketKey;
+	}
+
+	private List<String> listarAnexos(int ticketKey) {
+		File file = new File(dirBasePath + ticketKey);
+		if (file.exists()) {
+			return (Arrays.asList(file.list()));
+		} else {
+			return null;
+		}
+	}
+
 }

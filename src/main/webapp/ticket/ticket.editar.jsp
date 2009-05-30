@@ -33,7 +33,7 @@
 					<div class="htmlbox">
 						${comentario.html}
 						<br/>
-						<div align="right"><i>Por ${comentario.usuario} em <fmt:formatDate value="${comentario.data}"/></i></div> 
+						<div align="right"><i>Por ${comentario.usuario} em <fmt:formatDate value="${comentario.data}" type="both"/></i></div> 
 					</div>
 				</c:forEach>
 				<br/>
@@ -119,12 +119,21 @@
 			
 		</form>		
 	
-		<h2>Logs</h2>
-		<ul>
-			<c:forEach items="${ticket.logs}" var="log">
-				<li>${log.descricao}</li>
-			</c:forEach>
-		</ul>
+		<c:if test="${ticket.ticketKey gt 0}">
+			<h2>Anexos</h2>
+			<form action="upload.action?ticketKey=${ticket.ticketKey}" method="post" enctype="multipart/form-data">
+				<input type="file" name="arquivo">
+				<input type="hidden" name="ticketKey" value="${ticket.ticketKey}">
+				<button type="submit">Upload</button>
+			</form>
+		
+			<h2>Logs</h2>
+			<ul>
+				<c:forEach items="${ticket.logs}" var="log">
+					<li>${log.descricao}</li>
+				</c:forEach>
+			</ul>
+		</c:if>
 	</body>
 	
 	
