@@ -143,7 +143,7 @@ public class TicketController {
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.LIXEIRA));
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
-		return null;
+		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
 	@RequestMapping("/ticket/moverParaImpedimentos.action")
@@ -153,7 +153,7 @@ public class TicketController {
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IMPEDIMENTO));
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
-		return null;
+		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
 	@RequestMapping("/ticket/moverParaProductBacklog.action")
@@ -161,10 +161,9 @@ public class TicketController {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.ESTORIA));
-
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
-		return null;
+		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
 	@RequestMapping("/ticket/moverParaIdeias.action")
@@ -172,10 +171,9 @@ public class TicketController {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IDEIA));
-
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
-		return null;
+		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
 	@RequestMapping("/ticket/restaurar.action")
@@ -202,7 +200,7 @@ public class TicketController {
 		ticket.setBacklog(backlog);
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
-		return null;
+		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
 	@SuppressWarnings("unchecked")
