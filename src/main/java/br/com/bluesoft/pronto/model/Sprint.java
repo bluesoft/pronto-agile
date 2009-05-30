@@ -1,7 +1,7 @@
 package br.com.bluesoft.pronto.model;
 
 import java.sql.Blob;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import br.com.bluesoft.pronto.util.DateUtil;
 
 @Entity
 public class Sprint {
@@ -106,12 +108,24 @@ public class Sprint {
 		}
 		return total;
 	}
-	
+
 	public int getValorDeNegocioTotal() {
 		int total = 0;
 		for (Ticket ticket : tickets) {
 			if (ticket.isDefeito() || ticket.isEstoria()) {
 				total += ticket.getValorDeNegocio();
+			}
+		}
+		return total;
+	}
+
+	public int getEsforcoRealizado(Date date) {
+		int total = 0;
+		for (Ticket ticket : tickets) {
+			if (ticket.isDefeito() || ticket.isEstoria()) {
+				//if (DateUtil.toString(ticket.getDataDePronto().equals( DateUtil.toString(date)))) {
+					total += ticket.getEsforco();
+				//}
 			}
 		}
 		return total;

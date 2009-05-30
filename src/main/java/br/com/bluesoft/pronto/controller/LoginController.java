@@ -1,5 +1,7 @@
 package br.com.bluesoft.pronto.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.SessionFactory;
@@ -76,11 +78,18 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(papel);
 				sessionFactory.getCurrentSession().flush();
 
+				Date semanaPassada = new Date(2009, 05, 23);
+				Date hoje = new Date();
+
 				Sprint sprint = new Sprint();
 				sprint.setNome("Canadá");
+				sprint.setDataInicial(semanaPassada);
+				sprint.setDataFinal(hoje);
 				sessionFactory.getCurrentSession().save(sprint);
 				sprint = new Sprint();
 				sprint.setNome("Alemanha");
+				sprint.setDataInicial(semanaPassada);
+				sprint.setDataFinal(hoje);
 				sprint.setAtual(true);
 				sessionFactory.getCurrentSession().save(sprint);
 				sessionFactory.getCurrentSession().flush();
@@ -126,7 +135,7 @@ public class LoginController {
 				consulta.setEsforco(13);
 				consulta.setReporter(usuario);
 				sessionFactory.getCurrentSession().save(consulta);
-				
+
 				Ticket relatorio = new Ticket();
 				relatorio.setTitulo("Relatorio de Vendas");
 				relatorio.setTipoDeTicket(new TipoDeTicket(2));
@@ -138,7 +147,7 @@ public class LoginController {
 				relatorio.setEsforco(13);
 				relatorio.setReporter(usuario);
 				sessionFactory.getCurrentSession().save(relatorio);
-				
+
 				Ticket cobranca = new Ticket();
 				cobranca.setTitulo("Cobrança");
 				cobranca.setTipoDeTicket(new TipoDeTicket(2));
@@ -150,7 +159,7 @@ public class LoginController {
 				cobranca.setEsforco(13);
 				cobranca.setReporter(usuario);
 				sessionFactory.getCurrentSession().save(cobranca);
-				
+
 				Ticket bug = new Ticket();
 				bug.setTitulo("Bug da Venda Online");
 				bug.setTipoDeTicket(new TipoDeTicket(TipoDeTicket.DEFEITO));
