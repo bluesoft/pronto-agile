@@ -14,6 +14,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,7 +53,7 @@ public class TicketController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorBacklog.action")
 	public String listarPorBacklog(final Model model, int backlogKey) {
-		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("backlog.backlogKey", backlogKey)).list();
+		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("backlog.backlogKey", backlogKey)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
 		return VIEW_LISTAR;
@@ -73,7 +74,7 @@ public class TicketController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorSprint.action")
 	public String listarPorSprint(final Model model, int sprintKey) {
-		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("sprint.sprintKey", sprintKey)).list();
+		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("sprint.sprintKey", sprintKey)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
 		return VIEW_LISTAR;
@@ -89,6 +90,9 @@ public class TicketController {
 		if (comentario != null && comentario.trim().length() > 0) {
 			ticket.addComentario(comentario, "andrefaria");
 		}
+		
+		if (ticket.getSprint() != null && ticket.getSprint().getSprintKey() <= 0)
+			ticket.setSprint(null);
 
 		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
 		sessionFactory.getCurrentSession().flush();
@@ -101,6 +105,7 @@ public class TicketController {
 	public String editar(final Model model, final Integer ticketKey, final Integer tipoDeTicketKey, final Integer backlogKey) {
 		if (ticketKey != null) {
 			final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+			model.addAttribute("sprints", sessionFactory.getCurrentSession().createCriteria(Sprint.class).list());
 			model.addAttribute("ticket", ticket);
 			model.addAttribute("anexos", listarAnexos(ticketKey));
 		} else {

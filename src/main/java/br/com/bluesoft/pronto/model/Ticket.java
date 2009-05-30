@@ -28,6 +28,7 @@ public class Ticket {
 		tipoDeTicket = new TipoDeTicket(TipoDeTicket.ESTORIA);
 		backlog = new Backlog(Backlog.PRODUCT_BACKLOG);
 		reporter = new Usuario();
+		sprint = new Sprint();
 		this.comentarios = new ArrayList<TicketComentario>();
 		this.logs = new ArrayList<TicketLog>();
 	}
@@ -258,5 +259,9 @@ public class Ticket {
 		comentario.setUsuario(usuario);
 		comentario.setTexto(texto);
 		this.comentarios.add(comentario);
+	}
+
+	public boolean isSprintBacklog() {
+		return this.getBacklog() != null && this.getBacklog().getBacklogKey() == Backlog.SPRINT_BACKLOG;
 	}
 }

@@ -52,6 +52,12 @@
 					<b>${ticket.backlog.descricao}</b>					
 					<p>Backlog</p>
 				</div>
+				<c:if test="${ticket.backlog.backlogKey eq 3}">
+					<form:select path="ticket.sprint.sprintKey">
+						<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
+					</form:select>
+					<p>Sprint</p>
+				</c:if>
 				<div>
 					<form:input path="ticket.titulo" size="100" id="titulo" cssClass="required"/>
 					<p>Título</p>
