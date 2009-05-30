@@ -15,3 +15,5 @@
 <script type="text/javascript" src="${jqueryValidatorBr}"></script>
 <c:url var="jqueryUI" value="/commons/scripts/jquery-ui-1.7.1.custom.min.js"/>
 <script type="text/javascript" src="${jqueryUI}"></script>
+<c:url var="swfObject" value="/commons/scripts/swfobject.js"/>
+<script type="text/javascript" src="${swfObject}"></script>

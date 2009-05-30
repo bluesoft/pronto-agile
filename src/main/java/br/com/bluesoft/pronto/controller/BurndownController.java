@@ -26,12 +26,10 @@ public class BurndownController {
 		
 		JSONObject title = new JSONObject();
 		title.set("text", "Burndown Chart");
-		title.set("style", "{font-size: 20px; color:#0000ff; font-family: Verdana; text-align: center;}");
 		raiz.put("title", title);
 		
 		JSONObject y_legend = new JSONObject();
 		y_legend.set("text", "Y Legend");
-		y_legend.set("style", "{color: #736AFF; font-size: 12px;}");
 		raiz.put("y_legend", y_legend);
 		
 		JSONArray elements = new JSONArray();
@@ -60,7 +58,7 @@ public class BurndownController {
 		response.getOutputStream().print(raiz.toString());
 
 		
-		
+		System.out.println(raiz.toString());
 		return null;
 	}
 	
