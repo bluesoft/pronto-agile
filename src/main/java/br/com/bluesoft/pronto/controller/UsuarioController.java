@@ -30,10 +30,10 @@ public class UsuarioController {
 	}
 
 	@RequestMapping("/usuario/editar.action")
-	public String editar(final Model model, final Integer usuarioKey) {
+	public String editar(final Model model, final Integer username) {
 
-		if (usuarioKey != null) {
-			final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().get(Usuario.class, usuarioKey);
+		if (username != null) {
+			final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username);
 			model.addAttribute("usuario", usuario);
 		} else {
 			model.addAttribute("usuario", new Usuario());
@@ -44,6 +44,23 @@ public class UsuarioController {
 		return VIEW_EDITAR;
 	}
 
+	@RequestMapping("/usuario/excluir.action")
+	public String excluir(final Model model, final String username) {
+
+		final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username);
+		try {
+			sessionFactory.getCurrentSession().delete(usuario);
+			sessionFactory.getCurrentSession().flush();
+			model.addAttribute("mensagem", "Usuário excluido com suceso.");
+		}  catch (Exception e) {
+			model.addAttribute("mensagem", "Este usuário não pode ser excluido porque existem tarefas vinculadas a ele.");
+		} 
+		
+		
+		return "forward:listar.action";
+	}
+
+	
 	@RequestMapping("/usuario/salvar.action")
 	public String salvar(final Model model, final Usuario usuario, int[] papel) {
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();

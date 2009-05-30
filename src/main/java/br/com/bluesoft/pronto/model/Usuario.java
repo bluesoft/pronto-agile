@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -19,9 +17,6 @@ import br.com.bluesoft.pronto.core.Papel;
 public class Usuario {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int usuarioKey;
-
 	private String username;
 
 	private String password;
@@ -33,14 +28,6 @@ public class Usuario {
 	@ManyToMany
 	@JoinTable(name = "USUARIO_PAPEL", joinColumns = { @JoinColumn(name = "USUARIO_KEY") }, inverseJoinColumns = { @JoinColumn(name = "PAPEL_KEY") })
 	private Set<Papel> papeis = new HashSet<Papel>();
-
-	public int getUsuarioKey() {
-		return usuarioKey;
-	}
-
-	public void setUsuarioKey(final int usuarioKey) {
-		this.usuarioKey = usuarioKey;
-	}
 
 	public String getUsername() {
 		return username;
@@ -93,7 +80,7 @@ public class Usuario {
 		}
 		return mapaPapeis;
 	}
-	
+
 	@Override
 	public String toString() {
 		return username;

@@ -17,6 +17,9 @@
 	        </div>
 			<jsp:include page="/commons/menuRapido.jsp"/>
 	        <div id="content" class="clearfix">
+	            
+	            <h6 align="center">${mensagem}</h6>
+	            
 	            <div id="main">
 	                <h1><decorator:getProperty property="page.heading"/></h1>
 	                <decorator:body/>

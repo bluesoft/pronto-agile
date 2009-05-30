@@ -9,3 +9,7 @@
 <script type="text/javascript" src="${markItUpSettingsUrl}"></script>
 <c:url var="prontoJsUrl" value="/commons/scripts/pronto.js"/>
 <script type="text/javascript" src="${prontoJsUrl}"></script>
+<c:url var="jqueryValidator" value="/commons/scripts/jquery.validate.pack.js"/>
+<script type="text/javascript" src="${jqueryValidator}"></script>
+<c:url var="jqueryValidatorBr" value="/commons/scripts/jquery.validate.br.js"/>
+<script type="text/javascript" src="${jqueryValidatorBr}"></script>

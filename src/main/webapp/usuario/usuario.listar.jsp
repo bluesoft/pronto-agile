@@ -19,14 +19,19 @@
 					<td>${u.username}</td>
 					<td>${u.nome}</td>
 					<td>${u.email}</td>
-					<td><a href="editar.action?usuarioKey=${u.usuarioKey}">Editar</a></td>
+					<td>
+						<pronto:icons name="editar_usuario.png" title="Editar Usuário" onclick="goTo('editar.action?username=${u.username}')"/>
+					</td>
+					<td>
+						<pronto:icons name="excluir_usuario.png" title="Excluir Usuário" onclick="goTo('excluir.action?username=${u.username}')"/>
+					</td>
 				</tr>
 			</c:forEach>
 			</tbody>
 		</table>	
 		
 		<div align="center">
-			<a href="editar.action">Novo</a>
+			<a href="editar.action">Incluir Usuário</a>
 		</div>
 	</body>
 </html>
