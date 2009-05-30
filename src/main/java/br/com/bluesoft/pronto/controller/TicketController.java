@@ -72,7 +72,7 @@ public class TicketController {
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, ticket.getBacklog().getBacklogKey()));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, ticket.getTipoDeTicket().getTipoDeTicketKey()));
-		ticket.setReporter((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, ticket.getReporter().getUsuarioKey()));
+		ticket.setReporter((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, ticket.getReporter().getUsername()));
 
 		if (comentario != null && comentario.trim().length() > 0) {
 			ticket.addComentario(comentario, "andrefaria");

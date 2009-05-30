@@ -30,7 +30,7 @@ public class UsuarioController {
 	}
 
 	@RequestMapping("/usuario/editar.action")
-	public String editar(final Model model, final Integer username) {
+	public String editar(final Model model, final String username) {
 
 		if (username != null) {
 			final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username);
@@ -47,6 +47,13 @@ public class UsuarioController {
 	@RequestMapping("/usuario/excluir.action")
 	public String excluir(final Model model, final String username) {
 
+		int quantidade = sessionFactory.getCurrentSession().createCriteria(Usuario.class).list().size();
+		
+		if (quantidade == 1) {
+			model.addAttribute("mensagem", "Você não pode excluir todos os usuários do Pronto!.");
+			return "forward:listar.action";
+		}
+		
 		final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username);
 		try {
 			sessionFactory.getCurrentSession().delete(usuario);
