@@ -93,6 +93,8 @@ public class Ticket {
 	@OneToMany(mappedBy = "pai")
 	private List<Ticket> filhos;
 
+	private Date dataDePronto;
+
 	@ManyToOne
 	@JoinColumn(name = "sprint")
 	private Sprint sprint;
@@ -280,9 +282,16 @@ public class Ticket {
 	public boolean isSprintBacklog() {
 		return this.getBacklog() != null && this.getBacklog().getBacklogKey() == Backlog.SPRINT_BACKLOG;
 	}
-	
 
 	public void addDesenvolvedor(Usuario usuario) {
 		this.desenvolvedores.add(usuario);
+	}
+
+	public Date getDataDePronto() {
+		return dataDePronto;
+	}
+
+	public void setDataDePronto(Date dataDePronto) {
+		this.dataDePronto = dataDePronto;
 	}
 }
