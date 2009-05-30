@@ -67,6 +67,7 @@
 				<th>Cliente</th>
 				<th>Valor de Negócio</th>
 				<th>Esforço</th>
+				<th>Status</th>
 			</tr>
 			<c:forEach items="${tickets}" var="t">
 				<tr id="${t.ticketKey}">
@@ -76,7 +77,7 @@
 					<td>${t.cliente}</td>
 					<td>${t.valorDeNegocio}</td>
 					<td>${t.esforco}</td>
-					
+					<td>${t.kanbanStatus.descricao}</td>
 					<td>
 						<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${t.ticketKey}')"></pronto:icons>
 					</td>
@@ -126,7 +127,7 @@
 					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=5">Novo Impedimento</a>&nbsp;&nbsp;
 				</c:when>
 			</c:choose>
-			<c:if test="${backlog.backlogKey ne 4}">
+			<c:if test="${backlog.backlogKey ne 4 and backlog.backlogKey ne 3 and backlog.backlogKey ne null}">
 				|
 			</c:if>			
 		</div>
