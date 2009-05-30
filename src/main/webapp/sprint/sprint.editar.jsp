@@ -4,10 +4,10 @@
 		<%@ include file="/commons/scripts/scripts.jsp" %>
 	</head>
 	<body>
+
+		<h1>Cadastro de Sprints</h1>
+	
 		<form action="salvar.action" method="post">
-			<ul class="info">
-				<h1>Cadastro de Sprints</h1>
-			</ul>
 			<div class="group">
 					<c:if test="${sprint.sprintKey gt 0}">
 						<form:hidden path="sprint.sprintKey"/>
@@ -16,6 +16,12 @@
 							<p>Código</p>
 						</div>
 					</c:if>
+				<c:if test="${sprint.imagem ne null}">
+					<div>
+						<img src="imagem.action?sprintKey=${sprint.sprintKey}"/>
+						<p>Logo do Sprint</p>
+					</div>
+				</c:if>
 				<div>
 					<form:input path="sprint.nome"/>
 					<p>Nome</p>
@@ -34,5 +40,14 @@
 				</div>
 			</div>
 		</form>		
+		
+		<h2>Logo do Sprint</h2>
+		<c:if test="${sprint.sprintKey gt 0}">
+			<h4>Incluir imagem</h4>						
+			<form action="upload.action?sprintKey=${sprint.sprintKey}" method="post" enctype="multipart/form-data">
+				<input type="file" name="arquivo">
+				<button type="submit">Upload</button>
+			</form>
+		</c:if>
 	</body>
 </html>

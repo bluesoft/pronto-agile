@@ -5,6 +5,8 @@
 		$(function() {
 		      $("#descricao").markItUp(mySettings);
 		      $("#comentario").markItUp(mySettings);
+		      $("#titulo").focus();
+		      
 		 });
 		</script>
 	</head>
@@ -16,7 +18,7 @@
 					<ul class="info"><h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}</h1></ul>
 				</c:when>
 				<c:otherwise>
-					<ul class="info"><h1>${ticket.tipoDeTicket.descricao}</h1></ul>
+					<ul class="info"><h1>Incluir ${ticket.tipoDeTicket.descricao}</h1></ul>
 				</c:otherwise>
 			</c:choose>
 			
@@ -51,7 +53,7 @@
 					<p>Backlog</p>
 				</div>
 				<div>
-					<form:input path="ticket.titulo" size="120"/>
+					<form:input path="ticket.titulo" size="120" id="titulo"/>
 					<p>Título</p>
 				</div>
 				<div>
@@ -123,10 +125,11 @@
 			<h2>Anexos</h2>
 			<ul>
 				<c:forEach items="${anexos}" var="anexo">
-					<li>${anexo} - <a href="download.action?ticketKey=${ticket.ticketKey}&file=${anexo}">download<a> - <a href="excluirAnexo.action?ticketKey=${ticket.ticketKey}&file=${anexo}">excluir<a></a></li>
+					<li>${anexo} - <a href="download.action?ticketKey=${ticket.ticketKey}&file=${anexo}">download</a> - <a href="excluirAnexo.action?ticketKey=${ticket.ticketKey}&file=${anexo}">excluir</a></li>
 				</c:forEach>
 			</ul>
 			
+			<h4>Incluir anexo</h4>						
 			<form action="upload.action?ticketKey=${ticket.ticketKey}" method="post" enctype="multipart/form-data">
 				<input type="file" name="arquivo">
 				<button type="submit">Upload</button>
