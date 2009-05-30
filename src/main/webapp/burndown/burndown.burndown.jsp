@@ -13,8 +13,8 @@
 		</script>
 	</head>
 	<body>
-		
-		<div id="my_chart"></div>
- 	
+		<div align="center">
+			<div id="my_chart"></div>
+		</div>
 	</body>
 </html>
