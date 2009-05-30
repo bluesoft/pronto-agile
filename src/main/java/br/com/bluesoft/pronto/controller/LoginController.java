@@ -150,6 +150,18 @@ public class LoginController {
 				cobranca.setEsforco(13);
 				cobranca.setReporter(usuario);
 				sessionFactory.getCurrentSession().save(cobranca);
+				
+				Ticket bug = new Ticket();
+				bug.setTitulo("Bug da Venda Online");
+				bug.setTipoDeTicket(new TipoDeTicket(TipoDeTicket.DEFEITO));
+				bug.setSolicitador("Luiz");
+				bug.setCliente("Pedreira");
+				bug.setBacklog(sprintBacklog);
+				bug.setSprint(sprint);
+				bug.setValorDeNegocio(100);
+				bug.setEsforco(13);
+				bug.setReporter(usuario);
+				sessionFactory.getCurrentSession().save(bug);
 				sessionFactory.getCurrentSession().flush();
 
 				initialized = true;

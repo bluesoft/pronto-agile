@@ -4,10 +4,25 @@
 	<head>
 		<title>Kanban</title>
 		<style>
+		
 			.draggable {
 				width: 90px;
-				height: 60px; 
+				height: 60px;
+				color: #222;
+				border-color: #999;
+				border-width: 1px;
+				border-style: solid;
+				padding: 1px;  
 			}
+		
+			.bug {
+				background-color: #FFCCCC;
+			}
+			
+			.story {
+				background-color: #FFFF99;
+			}
+			
 			.droppable {
 				height: 500px;
 			}
@@ -41,9 +56,9 @@
 						<p>TO DO</p>
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 1}">
-								<div id="${t.ticketKey}" class="ui-widget-content draggable">
+								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}">
 									<p>#${t.ticketKey} - ${t.titulo}</p>
-								</div>
+								</div> 
 							</c:if>
 						</c:forEach>
 					</div>
@@ -53,7 +68,7 @@
 						<p>DOING</p>
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 2}">
-								<div id="${t.ticketKey}" class="ui-widget-content draggable">
+								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}">
 									<p>#${t.ticketKey} - ${t.titulo}</p>
 								</div>
 							</c:if>
@@ -65,7 +80,7 @@
 						<p>TESTING</p>
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 21}">
-								<div id="${t.ticketKey}" class="ui-widget-content draggable">
+								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}">
 									<p>#${t.ticketKey} - ${t.titulo}</p>
 								</div>
 							</c:if>
@@ -77,7 +92,7 @@
 						<p>DONE</p>
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 100}">
-								<div id="${t.ticketKey}" class="ui-widget-content draggable">
+								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}">
 									<p>#${t.ticketKey} - ${t.titulo}</p>
 								</div>
 							</c:if>
