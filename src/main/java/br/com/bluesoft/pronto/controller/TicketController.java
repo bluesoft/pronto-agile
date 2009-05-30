@@ -1,6 +1,11 @@
 package br.com.bluesoft.pronto.controller;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -165,6 +170,32 @@ public class TicketController {
 		} else {
 			return null;
 		}
+	}
+
+	@RequestMapping("/ticket/excluirAnexo.action")
+	public String excluirAnexo(String file, int ticketKey) throws Exception {
+		File arquivo = new File(dirBasePath + ticketKey + "/" + file);
+		if (arquivo.exists()) {
+			arquivo.delete();
+		}
+		return "redirect:editar.action?ticketKey=" + ticketKey;
+	}
+
+	@RequestMapping("/ticket/download.action")
+	public String download(HttpServletResponse response, String file, int ticketKey) throws Exception {
+
+		File arquivo = new File(dirBasePath + ticketKey + "/" + file);
+		FileInputStream fis = new FileInputStream(arquivo);
+		int numberBytes = fis.available();
+		byte bytes[] = new byte[numberBytes];
+		fis.read(bytes);
+		fis.close();
+
+		response.getOutputStream().write(bytes);
+		response.setHeader("Content-disposition", "attachment;filename=" + file);
+
+		return null;
+
 	}
 
 }

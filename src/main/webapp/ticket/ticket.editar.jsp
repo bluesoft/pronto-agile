@@ -121,9 +121,14 @@
 	
 		<c:if test="${ticket.ticketKey gt 0}">
 			<h2>Anexos</h2>
+			<ul>
+				<c:forEach items="${anexos}" var="anexo">
+					<li>${anexo} - <a href="download.action?ticketKey=${ticket.ticketKey}&file=${anexo}">download<a> - <a href="excluirAnexo.action?ticketKey=${ticket.ticketKey}&file=${anexo}">excluir<a></a></li>
+				</c:forEach>
+			</ul>
+			
 			<form action="upload.action?ticketKey=${ticket.ticketKey}" method="post" enctype="multipart/form-data">
 				<input type="file" name="arquivo">
-				<input type="hidden" name="ticketKey" value="${ticket.ticketKey}">
 				<button type="submit">Upload</button>
 			</form>
 		
