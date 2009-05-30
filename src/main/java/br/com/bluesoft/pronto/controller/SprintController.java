@@ -37,6 +37,23 @@ public class SprintController {
 		model.addAttribute("sprints", sessionFactory.getCurrentSession().createCriteria(Sprint.class).list());
 		return VIEW_LISTAR;
 	}
+	
+	@RequestMapping("/sprint/atual.action")
+	public String atual(int sprintKey) {
+		
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+		
+		sessionFactory.getCurrentSession().createQuery("update Sprint s set s.atual = false").executeUpdate();
+		sessionFactory.getCurrentSession().flush();
+		
+		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
+		sprint.setAtual(true);
+		sessionFactory.getCurrentSession().update(sprint);
+		sessionFactory.getCurrentSession().flush();
+		tx.commit();
+		
+		return "redirect:listar.action";
+	}
 
 	@RequestMapping("/sprint/editar.action")
 	public String editar(final Model model, final Integer sprintKey) {

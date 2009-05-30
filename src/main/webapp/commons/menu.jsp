@@ -10,6 +10,7 @@
 		<li><a href="${raiz}kanban/kanban.action">Kanban</a></li>
 		<li><a href="#">Backlogs</a>
 			<ul>
+				<li><a href="${raiz}ticket/sprintAtual.action">Sprint Atual</a></li>
 				<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=2">Product Backlog</a></li>
 				<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=1">Idéias</a></li>
 				<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=5">Impedimentos</a></li>

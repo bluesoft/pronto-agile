@@ -23,6 +23,10 @@ public class Sprint {
 
 	private Blob imagem;
 
+	private boolean fechado;
+
+	private boolean atual;
+
 	public int getSprintKey() {
 		return sprintKey;
 	}
@@ -66,5 +70,21 @@ public class Sprint {
 	@Override
 	public String toString() {
 		return this.getNome();
+	}
+
+	public boolean isFechado() {
+		return fechado;
+	}
+
+	public void setFechado(boolean fechado) {
+		this.fechado = fechado;
+	}
+
+	public boolean isAtual() {
+		return atual;
+	}
+
+	public void setAtual(boolean atual) {
+		this.atual = atual;
 	}
 }

@@ -29,6 +29,15 @@
 					}
 				});
 			}
+
+			function toImpedimentos(ticketKey){
+				var url = 'moverParaImpedimentos.action?ticketKey=' + ticketKey; 
+				$.post(url, {
+					success: function() {
+						$('#'+ticketKey).remove();		
+					}
+				});
+			}
 			
 			function restaurar(ticketKey){
 				var url = 'restaurar.action?ticketKey=' + ticketKey; 
@@ -41,7 +50,15 @@
 		</script>
 	</head>
 	<body>
-		<h1>${backlog.descricao}${sprint.nome}</h1>
+		<c:choose>
+			<c:when test="${sprint.nome ne null}">
+				<h1>Sprint ${sprint.nome}</h1>	
+			</c:when>
+			<c:otherwise>
+				<h1>${backlog.descricao}</h1>
+			</c:otherwise>
+		</c:choose>
+		
 		<table style="width: 100%">
 			<tr>
 				<th>#</th>
@@ -73,6 +90,15 @@
 							<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Idéias" onclick="toIdeias(${t.ticketKey})"></pronto:icons>
 						</td>
 					</c:if>
+					
+					<%-- 
+					<c:if test="${backlog.backlogKey eq 1 or backlog.backlogKey eq 2}">
+						<td>
+							<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${t.ticketKey})"></pronto:icons>
+						</td>
+					</c:if>
+					--%>
+					
 					<c:if test="${backlog.backlogKey eq 1 or backlog.backlogKey eq 2}">
 						<td>
 							<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${t.ticketKey})"></pronto:icons>

@@ -58,6 +58,18 @@ public class TicketController {
 		return VIEW_LISTAR;
 	}
 
+	@RequestMapping("/ticket/sprintAtual.action")
+	public String sprintAtual(final Model model) {
+		Sprint sprint = (Sprint) sessionFactory.getCurrentSession().createCriteria(Sprint.class).add(Restrictions.eq("atual", true)).uniqueResult();
+
+		if (sprint == null) {
+			model.addAttribute("mensagem","Por favor, informe qual é o Sprint atual.");
+			return "forward:/sprint/listar.action";
+		} else {
+			return "forward:/ticket/listarPorSprint.action?sprintKey=" + sprint.getSprintKey();
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorSprint.action")
 	public String listarPorSprint(final Model model, int sprintKey) {
@@ -112,23 +124,33 @@ public class TicketController {
 		return null;
 	}
 
+	@RequestMapping("/ticket/moverParaImpedimentos.action")
+	public String moverParaImpedimentos(Model model, int ticketKey, HttpServletResponse response) {
+		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS));
+		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IMPEDIMENTO));
+		sessionFactory.getCurrentSession().update(ticket);
+		sessionFactory.getCurrentSession().flush();
+		return null;
+	}
+
 	@RequestMapping("/ticket/moverParaProductBacklog.action")
 	public String moverParaProductBacklog(Model model, int ticketKey, HttpServletResponse response) {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.ESTORIA));
-		
+
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
 		return null;
 	}
-	
+
 	@RequestMapping("/ticket/moverParaIdeias.action")
 	public String moverParaIdeias(Model model, int ticketKey, HttpServletResponse response) {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IDEIA));
-		
+
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
 		return null;
