@@ -126,6 +126,30 @@ public class LoginController {
 				consulta.setEsforco(13);
 				consulta.setReporter(usuario);
 				sessionFactory.getCurrentSession().save(consulta);
+				
+				Ticket relatorio = new Ticket();
+				relatorio.setTitulo("Relatorio de Vendas");
+				relatorio.setTipoDeTicket(new TipoDeTicket(2));
+				relatorio.setSolicitador("Luiz");
+				relatorio.setCliente("Pedreira");
+				relatorio.setBacklog(sprintBacklog);
+				relatorio.setSprint(sprint);
+				relatorio.setValorDeNegocio(100);
+				relatorio.setEsforco(13);
+				relatorio.setReporter(usuario);
+				sessionFactory.getCurrentSession().save(relatorio);
+				
+				Ticket cobranca = new Ticket();
+				cobranca.setTitulo("Cobrança");
+				cobranca.setTipoDeTicket(new TipoDeTicket(2));
+				cobranca.setSolicitador("Luiz");
+				cobranca.setCliente("Pedreira");
+				cobranca.setBacklog(sprintBacklog);
+				cobranca.setSprint(sprint);
+				cobranca.setValorDeNegocio(100);
+				cobranca.setEsforco(13);
+				cobranca.setReporter(usuario);
+				sessionFactory.getCurrentSession().save(cobranca);
 				sessionFactory.getCurrentSession().flush();
 
 				initialized = true;
