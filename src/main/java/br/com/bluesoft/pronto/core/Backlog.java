@@ -50,4 +50,8 @@ public class Backlog {
 	public String toString() {
 		return descricao;
 	}
+
+	public boolean isSprintBacklog() {
+		return this.backlogKey == SPRINT_BACKLOG;
+	}
 }

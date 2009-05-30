@@ -36,6 +36,7 @@ import br.com.bluesoft.pronto.service.Seguranca;
 public class TicketController {
 
 	private static final String VIEW_LISTAR = "ticket.listar.jsp";
+	private static final String VIEW_ESTIMAR = "ticket.estimar.jsp";
 	private static final String VIEW_EDITAR = "ticket.editar.jsp";
 
 	@Autowired
@@ -64,6 +65,8 @@ public class TicketController {
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
 		return VIEW_LISTAR;
 	}
+	
+	
 
 	@RequestMapping("/ticket/sprintAtual.action")
 	public String sprintAtual(final Model model) {
@@ -257,4 +260,36 @@ public class TicketController {
 
 	}
 
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/ticket/estimarSprint.action")
+	public String estimarSprint(final Model model, int sprintKey) {
+		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("sprint.sprintKey", sprintKey)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
+		model.addAttribute("tickets", tickets);
+		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
+		return VIEW_ESTIMAR;
+	}
+	
+	@RequestMapping("/ticket/salvarEstimativa.action")
+	public String salvarEstimativa(final Model model, int ticketKey[], int valorDeNegocio[], int esforco[]) {
+		
+		Ticket ticket = null;
+		for (int i = 0; i < ticketKey.length; i++) {
+			ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey[i]);
+			ticket.setEsforco(esforco[i]);
+			ticket.setValorDeNegocio(valorDeNegocio[i]);
+			sessionFactory.getCurrentSession().update(ticket);
+		}
+		sessionFactory.getCurrentSession().flush();
+
+		if (ticket.getBacklog().isSprintBacklog() ) {
+			return "/ticket/listarPorSprint.action?sprintKey=" + ticket.getSprint().getSprintKey();
+		} else {
+			return "/ticket/listarPorBacklog.action?backlogKey=" + ticket.getBacklog().getBacklogKey();	
+		}
+		
+		
+	}
+	
+	
+	
 }
