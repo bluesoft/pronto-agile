@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.bluesoft.pronto.core.Backlog;
+import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Sprint;
@@ -23,7 +24,7 @@ public class LoginController {
 
 	@Autowired
 	private Seguranca seguranca;
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -91,6 +92,14 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(productBacklog);
 				Backlog sprintBacklog = new Backlog(Backlog.SPRINT_BACKLOG, "Sprint Backlog");
 				sessionFactory.getCurrentSession().save(sprintBacklog);
+				sessionFactory.getCurrentSession().flush();
+
+				sessionFactory.getCurrentSession().save(new KanbanStatus(KanbanStatus.TO_DO, "To Do"));
+				sessionFactory.getCurrentSession().save(new KanbanStatus(KanbanStatus.DOING, "Doing"));
+				sessionFactory.getCurrentSession().save(new KanbanStatus(KanbanStatus.TO_TEST, "To Test"));
+				sessionFactory.getCurrentSession().save(new KanbanStatus(KanbanStatus.TESTING, "Testing"));
+				sessionFactory.getCurrentSession().save(new KanbanStatus(KanbanStatus.DONE, "Done"));
+
 				sessionFactory.getCurrentSession().flush();
 
 				Ticket cadastro = new Ticket();

@@ -83,6 +83,29 @@
 					<form:input path="ticket.esforco"/><br/>
 					<p>Esforço</p>
 				</div>
+					<div>
+					<c:forEach items="${usuarios}" var="u" varStatus="s">
+						<c:set var="checked" value="${false}"/>
+						<c:forEach items="${ticket.desenvolvedores}" var="d">
+							<c:if test="${d.username eq u.username}">
+								<c:set var="checked" value="${true}"/>
+							</c:if>
+						</c:forEach>
+						<i><input type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''}>${u.nome}</i>
+						
+						<c:if test="${s.count % 3 == 0}">
+							<br/>
+						</c:if>
+					</c:forEach>					
+					<p>Desenvolvedores</p>
+				</div>
+				<div>
+					<form:select path="ticket.kanbanStatus.kanbanStatusKey">
+						<form:options items="${kanbanStatus}" itemLabel="descricao" itemValue="kanbanStatusKey"/>
+					</form:select>
+					<br/>
+					<p>Kanban Status</p>
+				</div>
 				<div>
 					<form:input path="ticket.branch"/><br/>
 					<p>Branch</p>

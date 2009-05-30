@@ -3,6 +3,7 @@ package br.com.bluesoft.pronto.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.bluesoft.pronto.core.Backlog;
+import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
@@ -38,7 +40,7 @@ public class TicketController {
 
 	@Autowired
 	private Config config;
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -68,7 +70,7 @@ public class TicketController {
 		Sprint sprint = (Sprint) sessionFactory.getCurrentSession().createCriteria(Sprint.class).add(Restrictions.eq("atual", true)).uniqueResult();
 
 		if (sprint == null) {
-			model.addAttribute("mensagem","Por favor, informe qual é o Sprint atual.");
+			model.addAttribute("mensagem", "Por favor, informe qual é o Sprint atual.");
 			return "forward:/sprint/listar.action";
 		} else {
 			return "forward:/ticket/listarPorSprint.action?sprintKey=" + sprint.getSprintKey();
@@ -85,7 +87,7 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/salvar.action")
-	public String salvar(final Model model, final Ticket ticket, String comentario) {
+	public String salvar(final Model model, final Ticket ticket, String comentario, String[] desenvolvedor) {
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, ticket.getBacklog().getBacklogKey()));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, ticket.getTipoDeTicket().getTipoDeTicketKey()));
@@ -99,6 +101,13 @@ public class TicketController {
 
 		if (comentario != null && comentario.trim().length() > 0) {
 			ticket.addComentario(comentario, "andrefaria");
+		}
+
+		if (desenvolvedor != null && desenvolvedor.length > 0) {
+			ticket.setDesenvolvedores(new HashSet<Usuario>());
+			for (String username : desenvolvedor) {
+				ticket.addDesenvolvedor((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username));
+			}
 		}
 
 		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
@@ -124,6 +133,7 @@ public class TicketController {
 			model.addAttribute("tipoDeTicketKey", tipoDeTicketKey);
 		}
 		model.addAttribute("usuarios", sessionFactory.getCurrentSession().createCriteria(Usuario.class).list());
+		model.addAttribute("kanbanStatus", sessionFactory.getCurrentSession().createCriteria(KanbanStatus.class).list());
 		return VIEW_EDITAR;
 	}
 

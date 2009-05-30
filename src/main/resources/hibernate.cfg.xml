@@ -15,6 +15,7 @@
 
 		<!-- core classes -->
 		<mapping class="br.com.bluesoft.pronto.core.Backlog" />
+		<mapping class="br.com.bluesoft.pronto.core.KanbanStatus" />
 		<mapping class="br.com.bluesoft.pronto.core.Papel" />
 		<mapping class="br.com.bluesoft.pronto.core.TipoDeTicket" />
 

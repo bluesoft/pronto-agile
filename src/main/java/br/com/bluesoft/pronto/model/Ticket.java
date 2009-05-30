@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import br.com.bluesoft.pronto.core.Backlog;
+import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.service.WikiFormatter;
 
@@ -29,8 +30,11 @@ public class Ticket {
 		backlog = new Backlog(Backlog.PRODUCT_BACKLOG);
 		reporter = new Usuario();
 		sprint = new Sprint();
+		kanbanStatus = new KanbanStatus(KanbanStatus.TO_DO);
+
 		this.comentarios = new ArrayList<TicketComentario>();
 		this.logs = new ArrayList<TicketLog>();
+
 	}
 
 	@Id
@@ -43,6 +47,10 @@ public class Ticket {
 	@ManyToOne
 	@JoinColumn(name = "BACKLOG_KEY")
 	private Backlog backlog;
+
+	@ManyToOne
+	@JoinColumn(name = "KANBAN_STATUS_KEY")
+	private KanbanStatus kanbanStatus;
 
 	@Label("tipo de ticket")
 	@ManyToOne
@@ -261,7 +269,20 @@ public class Ticket {
 		this.comentarios.add(comentario);
 	}
 
+	public KanbanStatus getKanbanStatus() {
+		return kanbanStatus;
+	}
+
+	public void setKanbanStatus(KanbanStatus kanbanStatus) {
+		this.kanbanStatus = kanbanStatus;
+	}
+
 	public boolean isSprintBacklog() {
 		return this.getBacklog() != null && this.getBacklog().getBacklogKey() == Backlog.SPRINT_BACKLOG;
+	}
+	
+
+	public void addDesenvolvedor(Usuario usuario) {
+		this.desenvolvedores.add(usuario);
 	}
 }
