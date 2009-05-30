@@ -301,7 +301,6 @@ public class Ticket {
 
 	public boolean isEstoria() {
 		return this.getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.ESTORIA;
-		return false;
 	}
 
 }

@@ -42,6 +42,11 @@
 			<version>1.0.1B-rc4</version>
 		</dependency>
 
+		<dependency>
+			<artifactId>json-lib</artifactId>
+			<groupId>net.sf.json-lib</groupId>
+			<version>0.9</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -149,6 +154,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
+
 
 	<properties>
 		<hibernate.annotations.version>3.2.1.ga</hibernate.annotations.version>
