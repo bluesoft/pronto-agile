@@ -1,6 +1,8 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="estimarPorSprintUrl" value="/ticket/estimarSprint.action"/>
 <c:url var="estimarPorBacklogUrl" value="/ticket/estimarBacklog.action"/>
+<c:url var="adicionarTarefasUrl" value="/ticket/listarTarefasParaAdicionarAoSprint.action"/>
+
 <html>
 	<head>
 		<title>${backlog.descricao}${sprint.nome}</title>
@@ -54,7 +56,11 @@
 	<body>
 		<c:choose>
 			<c:when test="${sprint.nome ne null}">
-				<h1>Sprint ${sprint.nome} <pronto:icons name="estimar.png" title="Estimar Sprint" onclick="goTo('${estimarPorSprintUrl}?sprintKey=${sprint.sprintKey}')"/> </h1>	
+				<h1>
+					Sprint ${sprint.nome} 
+					<pronto:icons name="estimar.png" title="Estimar Sprint" onclick="goTo('${estimarPorSprintUrl}?sprintKey=${sprint.sprintKey}')"/>
+					<pronto:icons name="adicionar.png" title="Adicionar Estórias ou Defeitos do Product Backlog ao Sprint" onclick="goTo('${adicionarTarefasUrl}?sprintKey=${sprint.sprintKey}')"/>
+				</h1>	
 			</c:when>
 			<c:otherwise>
 				<h1>${backlog.descricao} <pronto:icons name="estimar.png" title="Estimar Backlog" onclick="goTo('${estimarPorBacklogUrl}?backlogKey=${backlog.backlogKey}')"/>  </h1>
@@ -83,12 +89,12 @@
 					<td>
 						<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${t.ticketKey}')"></pronto:icons>
 					</td>
-					<c:if test="${backlog.backlogKey eq 1}">
+					<c:if test="${t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 3}">
 						<td>
 							<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="toProductBacklog(${t.ticketKey})"></pronto:icons>
 						</td>
 					</c:if>
-					<c:if test="${backlog.backlogKey eq 2}">
+					<c:if test="${t.backlog.backlogKey eq 2}">
 						<td>
 							<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Idéias" onclick="toIdeias(${t.ticketKey})"></pronto:icons>
 						</td>
@@ -102,12 +108,12 @@
 					</c:if>
 					--%>
 					
-					<c:if test="${backlog.backlogKey eq 1 or backlog.backlogKey eq 2}">
+					<c:if test="${t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2}">
 						<td>
 							<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${t.ticketKey})"></pronto:icons>
 						</td>
 					</c:if>
-					<c:if test="${backlog.backlogKey eq 4}">
+					<c:if test="${t.backlog.backlogKey eq 4}">
 						<td>
 							<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${t.ticketKey})"></pronto:icons>
 						</td>

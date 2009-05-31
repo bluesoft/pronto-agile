@@ -123,11 +123,15 @@ public class Sprint {
 		int total = 0;
 		for (Ticket ticket : tickets) {
 			if (ticket.isDefeito() || ticket.isEstoria()) {
-				//if (DateUtil.toString(ticket.getDataDePronto().equals( DateUtil.toString(date)))) {
+				if (DateUtil.toString(ticket.getDataDePronto()).equals(DateUtil.toString(date))) {
 					total += ticket.getEsforco();
-				//}
+				}
 			}
 		}
 		return total;
+	}
+
+	public void addTicket(Ticket ticket) {
+		this.tickets.add(ticket);
 	}
 }

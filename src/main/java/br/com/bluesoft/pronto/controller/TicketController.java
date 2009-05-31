@@ -65,8 +65,6 @@ public class TicketController {
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
 		return VIEW_LISTAR;
 	}
-	
-	
 
 	@RequestMapping("/ticket/sprintAtual.action")
 	public String sprintAtual(final Model model) {
@@ -268,7 +266,7 @@ public class TicketController {
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
 		return VIEW_ESTIMAR;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/estimarBacklog.action")
 	public String estimarBacklog(final Model model, int backlogKey) {
@@ -277,10 +275,10 @@ public class TicketController {
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
 		return VIEW_ESTIMAR;
 	}
-	
+
 	@RequestMapping("/ticket/salvarEstimativa.action")
 	public String salvarEstimativa(final Model model, int ticketKey[], int valorDeNegocio[], int esforco[]) {
-		
+
 		Ticket ticket = null;
 		for (int i = 0; i < ticketKey.length; i++) {
 			ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey[i]);
@@ -290,15 +288,32 @@ public class TicketController {
 		}
 		sessionFactory.getCurrentSession().flush();
 
-		if (ticket.getBacklog().isSprintBacklog() ) {
+		if (ticket.getBacklog().isSprintBacklog()) {
 			return "/ticket/listarPorSprint.action?sprintKey=" + ticket.getSprint().getSprintKey();
 		} else {
-			return "/ticket/listarPorBacklog.action?backlogKey=" + ticket.getBacklog().getBacklogKey();	
+			return "/ticket/listarPorBacklog.action?backlogKey=" + ticket.getBacklog().getBacklogKey();
 		}
-		
-		
+
 	}
-	
-	
-	
+
+	@RequestMapping("/ticket/listarTarefasParaAdicionarAoSprint.action")
+	public String listarTarefasParaAdicionarAoSprint(final Model model, int sprintKey) {
+		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
+		model.addAttribute("tickets", sessionFactory.getCurrentSession().createCriteria(Ticket.class).createAlias("backlog", "backlog").add(Restrictions.eq("backlog.backlogKey", Backlog.PRODUCT_BACKLOG)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list());
+		return "/ticket/ticket.adicionarAoSprint.jsp";
+	}
+
+	@RequestMapping("/ticket/adicionarAoSprint.action")
+	public String adicionarAoSprint(final Model model, int sprintKey, int[] ticketKey) {
+		
+		Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
+		for (int key : ticketKey) {
+			Ticket ticket = (Ticket)sessionFactory.getCurrentSession().get(Ticket.class, key);
+			ticket.setBacklog((Backlog)sessionFactory.getCurrentSession().get(Backlog.class, Backlog.SPRINT_BACKLOG));
+			ticket.setSprint(sprint);
+			sessionFactory.getCurrentSession().update(ticket);
+		}
+		sessionFactory.getCurrentSession().flush();
+		return "redirect:/ticket/listarPorSprint.action?sprintKey=" + sprintKey;
+	}
 }
