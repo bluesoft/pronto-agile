@@ -78,7 +78,7 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(papel);
 				sessionFactory.getCurrentSession().flush();
 
-				Date semanaPassada = new Date(2009, 05, 23);
+				Date semanaPassada = new Date(2009 + 1900, 05, 23);
 				Date hoje = new Date();
 
 				Sprint sprint = new Sprint();
@@ -129,11 +129,11 @@ public class LoginController {
 				consulta.setTipoDeTicket(new TipoDeTicket(2));
 				consulta.setSolicitador("Luiz");
 				consulta.setCliente("Pedreira");
-				consulta.setBacklog(sprintBacklog);
-				consulta.setSprint(sprint);
+				consulta.setBacklog(productBacklog);
 				consulta.setValorDeNegocio(100);
 				consulta.setEsforco(13);
 				consulta.setReporter(usuario);
+				consulta.setSprint(null);
 				sessionFactory.getCurrentSession().save(consulta);
 
 				Ticket relatorio = new Ticket();
@@ -141,11 +141,11 @@ public class LoginController {
 				relatorio.setTipoDeTicket(new TipoDeTicket(2));
 				relatorio.setSolicitador("Luiz");
 				relatorio.setCliente("Pedreira");
-				relatorio.setBacklog(sprintBacklog);
-				relatorio.setSprint(sprint);
+				relatorio.setBacklog(productBacklog);
 				relatorio.setValorDeNegocio(100);
 				relatorio.setEsforco(13);
 				relatorio.setReporter(usuario);
+				relatorio.setSprint(null);
 				sessionFactory.getCurrentSession().save(relatorio);
 
 				Ticket cobranca = new Ticket();
@@ -153,11 +153,11 @@ public class LoginController {
 				cobranca.setTipoDeTicket(new TipoDeTicket(2));
 				cobranca.setSolicitador("Luiz");
 				cobranca.setCliente("Pedreira");
-				cobranca.setBacklog(sprintBacklog);
-				cobranca.setSprint(sprint);
+				cobranca.setBacklog(productBacklog);
 				cobranca.setValorDeNegocio(100);
 				cobranca.setEsforco(13);
 				cobranca.setReporter(usuario);
+				cobranca.setSprint(null);
 				sessionFactory.getCurrentSession().save(cobranca);
 
 				Ticket bug = new Ticket();
@@ -165,8 +165,8 @@ public class LoginController {
 				bug.setTipoDeTicket(new TipoDeTicket(TipoDeTicket.DEFEITO));
 				bug.setSolicitador("Luiz");
 				bug.setCliente("Pedreira");
-				bug.setBacklog(sprintBacklog);
-				bug.setSprint(sprint);
+				bug.setBacklog(productBacklog);
+				bug.setSprint(null);
 				bug.setValorDeNegocio(100);
 				bug.setEsforco(13);
 				bug.setReporter(usuario);
