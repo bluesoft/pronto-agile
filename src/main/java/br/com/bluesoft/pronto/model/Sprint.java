@@ -1,6 +1,7 @@
 package br.com.bluesoft.pronto.model;
 
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -76,14 +77,14 @@ public class Sprint {
 
 	@Override
 	public String toString() {
-		return this.getNome();
+		return getNome();
 	}
 
 	public boolean isFechado() {
 		return fechado;
 	}
 
-	public void setFechado(boolean fechado) {
+	public void setFechado(final boolean fechado) {
 		this.fechado = fechado;
 	}
 
@@ -91,7 +92,7 @@ public class Sprint {
 		return atual;
 	}
 
-	public void setAtual(boolean atual) {
+	public void setAtual(final boolean atual) {
 		this.atual = atual;
 	}
 
@@ -101,7 +102,7 @@ public class Sprint {
 
 	public int getEsforcoTotal() {
 		int total = 0;
-		for (Ticket ticket : tickets) {
+		for (final Ticket ticket : tickets) {
 			if (ticket.isDefeito() || ticket.isEstoria()) {
 				total += ticket.getEsforco();
 			}
@@ -111,7 +112,7 @@ public class Sprint {
 
 	public int getValorDeNegocioTotal() {
 		int total = 0;
-		for (Ticket ticket : tickets) {
+		for (final Ticket ticket : tickets) {
 			if (ticket.isDefeito() || ticket.isEstoria()) {
 				total += ticket.getValorDeNegocio();
 			}
@@ -119,9 +120,9 @@ public class Sprint {
 		return total;
 	}
 
-	public int getEsforcoRealizado(Date date) {
+	public int getEsforcoRealizado(final Date date) {
 		int total = 0;
-		for (Ticket ticket : tickets) {
+		for (final Ticket ticket : tickets) {
 			if (ticket.isDefeito() || ticket.isEstoria()) {
 				if (DateUtil.toString(ticket.getDataDePronto()).equals(DateUtil.toString(date))) {
 					total += ticket.getEsforco();
@@ -131,7 +132,17 @@ public class Sprint {
 		return total;
 	}
 
-	public void addTicket(Ticket ticket) {
-		this.tickets.add(ticket);
+	public void addTicket(final Ticket ticket) {
+		tickets.add(ticket);
+	}
+
+	public List<Ticket> getTicketsEmAberto() {
+		final List<Ticket> ticketsEmAberto = new ArrayList<Ticket>();
+		for (final Ticket ticket : tickets) {
+			if (!ticket.isDone()) {
+				ticketsEmAberto.add(ticket);
+			}
+		}
+		return ticketsEmAberto;
 	}
 }

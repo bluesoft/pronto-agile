@@ -78,8 +78,8 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(papel);
 				sessionFactory.getCurrentSession().flush();
 
-				Date semanaPassada = new Date(2009 + 1900, 05, 23);
-				Date hoje = new Date();
+				final Date semanaPassada = new Date(2009 + 1900, 05, 23);
+				final Date hoje = new Date();
 
 				Sprint sprint = new Sprint();
 				sprint.setNome("Canadá");
@@ -97,9 +97,9 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.IDEIAS, "Idéias"));
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.IMPEDIMENTOS, "Impedimentos"));
 				sessionFactory.getCurrentSession().save(new Backlog(Backlog.LIXEIRA, "Lixeira"));
-				Backlog productBacklog = new Backlog(Backlog.PRODUCT_BACKLOG, "Product Backlog");
+				final Backlog productBacklog = new Backlog(Backlog.PRODUCT_BACKLOG, "Product Backlog");
 				sessionFactory.getCurrentSession().save(productBacklog);
-				Backlog sprintBacklog = new Backlog(Backlog.SPRINT_BACKLOG, "Sprint Backlog");
+				final Backlog sprintBacklog = new Backlog(Backlog.SPRINT_BACKLOG, "Sprint Backlog");
 				sessionFactory.getCurrentSession().save(sprintBacklog);
 				sessionFactory.getCurrentSession().flush();
 
@@ -111,7 +111,7 @@ public class LoginController {
 
 				sessionFactory.getCurrentSession().flush();
 
-				Ticket cadastro = new Ticket();
+				final Ticket cadastro = new Ticket();
 				cadastro.setTitulo("Cadastro de Produtos");
 				cadastro.setTipoDeTicket(new TipoDeTicket(2));
 				cadastro.setSolicitador("Alberto");
@@ -124,7 +124,7 @@ public class LoginController {
 				sessionFactory.getCurrentSession().save(cadastro);
 				sessionFactory.getCurrentSession().flush();
 
-				Ticket consulta = new Ticket();
+				final Ticket consulta = new Ticket();
 				consulta.setTitulo("Consulta de Cheques");
 				consulta.setTipoDeTicket(new TipoDeTicket(2));
 				consulta.setSolicitador("Luiz");
@@ -136,7 +136,7 @@ public class LoginController {
 				consulta.setSprint(null);
 				sessionFactory.getCurrentSession().save(consulta);
 
-				Ticket relatorio = new Ticket();
+				final Ticket relatorio = new Ticket();
 				relatorio.setTitulo("Relatorio de Vendas");
 				relatorio.setTipoDeTicket(new TipoDeTicket(2));
 				relatorio.setSolicitador("Luiz");
@@ -148,7 +148,7 @@ public class LoginController {
 				relatorio.setSprint(null);
 				sessionFactory.getCurrentSession().save(relatorio);
 
-				Ticket cobranca = new Ticket();
+				final Ticket cobranca = new Ticket();
 				cobranca.setTitulo("Cobrança");
 				cobranca.setTipoDeTicket(new TipoDeTicket(2));
 				cobranca.setSolicitador("Luiz");
@@ -160,7 +160,7 @@ public class LoginController {
 				cobranca.setSprint(null);
 				sessionFactory.getCurrentSession().save(cobranca);
 
-				Ticket bug = new Ticket();
+				final Ticket bug = new Ticket();
 				bug.setTitulo("Bug da Venda Online");
 				bug.setTipoDeTicket(new TipoDeTicket(TipoDeTicket.DEFEITO));
 				bug.setSolicitador("Luiz");
@@ -184,7 +184,6 @@ public class LoginController {
 
 	@RequestMapping("/login.action")
 	public String login(final Model model, final HttpSession httpSession, final String username, final String password) {
-
 		final String md5 = seguranca.md5(password);
 		final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().createQuery("from Usuario u where u.username = :username and u.password = :password").setString("username", username).setString("password", md5).uniqueResult();
 		if (usuario == null) {
@@ -192,7 +191,7 @@ public class LoginController {
 			return "/start.action";
 		} else {
 			httpSession.setAttribute("usuario", usuario);
-			return ACTION_KANBAN;
+			return "redirect:" + ACTION_KANBAN;
 
 		}
 
@@ -203,4 +202,5 @@ public class LoginController {
 		httpSession.removeAttribute("usuario");
 		return "/login/login.login.jsp";
 	}
+
 }

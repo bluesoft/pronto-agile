@@ -32,8 +32,8 @@ public class Ticket {
 		sprint = new Sprint();
 		kanbanStatus = new KanbanStatus(KanbanStatus.TO_DO);
 
-		this.comentarios = new ArrayList<TicketComentario>();
-		this.logs = new ArrayList<TicketLog>();
+		comentarios = new ArrayList<TicketComentario>();
+		logs = new ArrayList<TicketLog>();
 
 	}
 
@@ -100,7 +100,7 @@ public class Ticket {
 	private Sprint sprint;
 
 	@OneToMany(mappedBy = "ticket")
-	private List<TicketLog> logs;
+	private final List<TicketLog> logs;
 
 	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
 	private List<TicketComentario> comentarios;
@@ -197,7 +197,7 @@ public class Ticket {
 		return pai;
 	}
 
-	public void setPai(Ticket pai) {
+	public void setPai(final Ticket pai) {
 		this.pai = pai;
 	}
 
@@ -225,7 +225,7 @@ public class Ticket {
 		return backlog;
 	}
 
-	public void setBacklog(Backlog backlog) {
+	public void setBacklog(final Backlog backlog) {
 		this.backlog = backlog;
 	}
 
@@ -233,7 +233,7 @@ public class Ticket {
 		return branch;
 	}
 
-	public void setBranch(String branch) {
+	public void setBranch(final String branch) {
 		this.branch = branch;
 	}
 
@@ -241,7 +241,7 @@ public class Ticket {
 		return planejado;
 	}
 
-	public void setPlanejado(boolean planejado) {
+	public void setPlanejado(final boolean planejado) {
 		this.planejado = planejado;
 	}
 
@@ -253,54 +253,58 @@ public class Ticket {
 		return comentarios;
 	}
 
-	public void setComentarios(List<TicketComentario> comentarios) {
+	public void setComentarios(final List<TicketComentario> comentarios) {
 		this.comentarios = comentarios;
 	}
 
 	@Override
 	public String toString() {
-		return "#" + this.getTicketKey();
+		return "#" + getTicketKey();
 	}
 
-	public void addComentario(String texto, String usuario) {
-		TicketComentario comentario = new TicketComentario();
+	public void addComentario(final String texto, final String usuario) {
+		final TicketComentario comentario = new TicketComentario();
 		comentario.setTicket(this);
 		comentario.setData(new Date());
 		comentario.setUsuario(usuario);
 		comentario.setTexto(texto);
-		this.comentarios.add(comentario);
+		comentarios.add(comentario);
 	}
 
 	public KanbanStatus getKanbanStatus() {
 		return kanbanStatus;
 	}
 
-	public void setKanbanStatus(KanbanStatus kanbanStatus) {
+	public void setKanbanStatus(final KanbanStatus kanbanStatus) {
 		this.kanbanStatus = kanbanStatus;
 	}
 
 	public boolean isSprintBacklog() {
-		return this.getBacklog() != null && this.getBacklog().getBacklogKey() == Backlog.SPRINT_BACKLOG;
+		return getBacklog() != null && getBacklog().getBacklogKey() == Backlog.SPRINT_BACKLOG;
 	}
 
-	public void addDesenvolvedor(Usuario usuario) {
-		this.desenvolvedores.add(usuario);
+	public void addDesenvolvedor(final Usuario usuario) {
+		desenvolvedores.add(usuario);
 	}
 
 	public Date getDataDePronto() {
 		return dataDePronto;
 	}
 
-	public void setDataDePronto(Date dataDePronto) {
+	public void setDataDePronto(final Date dataDePronto) {
 		this.dataDePronto = dataDePronto;
 	}
 
 	public boolean isDefeito() {
-		return this.getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.DEFEITO;
+		return getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.DEFEITO;
 	}
 
 	public boolean isEstoria() {
-		return this.getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.ESTORIA;
+		return getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.ESTORIA;
+	}
+
+	public boolean isDone() {
+		return kanbanStatus != null && kanbanStatus.getKanbanStatusKey() == KanbanStatus.DONE;
 	}
 
 }

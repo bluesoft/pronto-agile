@@ -21,7 +21,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.ProntoException;
+import br.com.bluesoft.pronto.dao.SprintDao;
+import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Sprint;
+import br.com.bluesoft.pronto.model.Ticket;
 
 @Controller
 public class SprintController {
@@ -31,6 +35,12 @@ public class SprintController {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+
+	@Autowired
+	private SprintDao sprintDao;
+
+	@Autowired
+	private TicketDao ticketDao;
 
 	@RequestMapping("/sprint/listar.action")
 	public String listar(final Model model) {
@@ -114,6 +124,63 @@ public class SprintController {
 			inputStream.read(bytes);
 		}
 		return bytes;
+	}
+
+	@RequestMapping("/sprint/fechar.action")
+	public String fechar(final Model model, final int sprintKey) throws ProntoException {
+
+		try {
+			final Sprint sprintAtual = sprintDao.getSprintAtual();
+			final Sprint sprintParaFechar = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
+
+			final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+
+			if (sprintParaFechar.isAtual()) {
+				throw new ProntoException("Não é possível fechar o Sprint Atual!");
+			}
+
+			final List<Ticket> ticketsEmAberto = sprintParaFechar.getTicketsEmAberto();
+			if (ticketsEmAberto.size() > 0) {
+
+				if (sprintAtual == null) {
+					throw new ProntoException("É preciso definir um Sprint Atual para que as estórias pendentes do Sprint a ser fechado sejam transferidas.");
+				}
+
+				for (final Ticket ticket : ticketsEmAberto) {
+					ticket.setSprint(sprintAtual);
+					ticketDao.salvar(ticket);
+				}
+			}
+
+			sprintParaFechar.setFechado(true);
+			sprintDao.salvar(sprintParaFechar);
+			tx.commit();
+
+			return "redirect:/sprint/listar.action";
+		} catch (final Exception e) {
+			model.addAttribute("erro", e.getMessage());
+			return "forward:/sprint/listar.action";
+		}
+
+	}
+
+	@RequestMapping("/sprint/reabrir.action")
+	public String reabrir(final Model model, final int sprintKey) throws ProntoException {
+
+		try {
+			final Sprint sprintParaReabrir = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
+
+			final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+			sprintParaReabrir.setFechado(false);
+			sprintDao.salvar(sprintParaReabrir);
+			tx.commit();
+
+			return "redirect:/sprint/listar.action";
+		} catch (final Exception e) {
+			model.addAttribute("erro", e.getMessage());
+			return "forward:/sprint/listar.action";
+		}
+
 	}
 
 }
