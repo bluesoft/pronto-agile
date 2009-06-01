@@ -30,14 +30,13 @@
 						</c:choose>
 					</td>
 					<td>${s.nome}</td>
-					<td>${s.dataInicial} à ${s.dataFinal}</td>
+					<td><fmt:formatDate value="${s.dataInicial}"/> à <fmt:formatDate value="${s.dataFinal}"/></td>
 					<td><pronto:icons name="editar_sprint.png" title="Editar Sprint" onclick="goTo('${urlSprint}editar.action?sprintKey=${s.sprintKey}')"/></td>
 					<td><pronto:icons name="ver_estorias.png" title="Ver Estórias" onclick="goTo('${urlSprint}../ticket/listarPorSprint.action?sprintKey=${s.sprintKey}')"/></td>
 				</tr>
 			</c:forEach>
 			</tbody>
 		</table>	
-		
 		<div align="center">
 			<a href="editar.action">Novo</a>
 		</div>
