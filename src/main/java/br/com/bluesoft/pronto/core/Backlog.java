@@ -1,7 +1,12 @@
 package br.com.bluesoft.pronto.core;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import br.com.bluesoft.pronto.model.Ticket;
 
 @Entity
 public class Backlog {
@@ -16,11 +21,11 @@ public class Backlog {
 
 	}
 
-	public Backlog(int backlogKey) {
+	public Backlog(final int backlogKey) {
 		this.backlogKey = backlogKey;
 	}
 
-	public Backlog(int backlogKey, String descricao) {
+	public Backlog(final int backlogKey, final String descricao) {
 		this.backlogKey = backlogKey;
 		this.descricao = descricao;
 	}
@@ -30,11 +35,14 @@ public class Backlog {
 
 	private String descricao;
 
+	@OneToMany(mappedBy = "backlog")
+	private List<Ticket> tickets;
+
 	public int getBacklogKey() {
 		return backlogKey;
 	}
 
-	public void setBacklogKey(int backlogKey) {
+	public void setBacklogKey(final int backlogKey) {
 		this.backlogKey = backlogKey;
 	}
 
@@ -52,6 +60,30 @@ public class Backlog {
 	}
 
 	public boolean isSprintBacklog() {
-		return this.backlogKey == SPRINT_BACKLOG;
+		return backlogKey == SPRINT_BACKLOG;
+	}
+
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public int getEsforcoTotal() {
+		int total = 0;
+		for (final Ticket ticket : tickets) {
+			if (ticket.isDefeito() || ticket.isEstoria()) {
+				total += ticket.getEsforco();
+			}
+		}
+		return total;
+	}
+
+	public int getValorDeNegocioTotal() {
+		int total = 0;
+		for (final Ticket ticket : tickets) {
+			if (ticket.isDefeito() || ticket.isEstoria()) {
+				total += ticket.getValorDeNegocio();
+			}
+		}
+		return total;
 	}
 }
