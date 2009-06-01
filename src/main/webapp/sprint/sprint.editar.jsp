@@ -54,18 +54,10 @@
 				</div>
 				<div>
 					<form:hidden path="sprint.atual"/>
-					<c:choose>
-						<c:when test="${sprint.atual}">
-							<b>${sprint.fechado ? 'Sim' : 'Não'}</b>
-							<form:hidden path="sprint.fechado"/>						
-						</c:when>
-						<c:otherwise>
-							<form:select path="sprint.fechado" cssClass="required">
-								<form:option value="false">Não</form:option>
-								<form:option value="true">Sim</form:option>
-							</form:select>
-						</c:otherwise>
-					</c:choose>
+					<b>${sprint.fechado ? 'Sim' : 'Não'}</b>
+				</div>
+				<div>
+					<form:hidden path="sprint.fechado"/>
 					<p>Fechado?</p>
 				</div>
 				
