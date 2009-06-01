@@ -47,23 +47,18 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 				return false;
 			}
 
-			final Date transTime = new Date(); // new
-			// Date(event.getSource().getTimestamp());
+			final Date transTime = new Date();
 			final EntityMode entityMode = event.getPersister().guessEntityMode(event.getEntity());
 			Object newPropValue = null;
 
-			// need to have a separate session for audit save
-			StatelessSession session = event.getPersister().getFactory().openStatelessSession();
+			final StatelessSession session = event.getPersister().getFactory().openStatelessSession();
 			session.beginTransaction();
 
-			for (String propertyName : event.getPersister().getPropertyNames()) {
+			for (final String propertyName : event.getPersister().getPropertyNames()) {
 				newPropValue = event.getPersister().getPropertyValue(event.getEntity(), propertyName, entityMode);
-				// because we are performing an insert we only need to be
-				// concerned will non-null values
 				if (newPropValue != null) {
-					// collections will fire their own events
 					if (!(newPropValue instanceof Collection)) {
-						TicketLog history = new TicketLog();
+						final TicketLog history = new TicketLog();
 						history.setTicket((Ticket) event.getEntity());
 						history.setData(transTime);
 						history.setUsuario(Seguranca.getUsuario().getUsername());
@@ -78,13 +73,13 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 
 			session.getTransaction().commit();
 			session.close();
-		} catch (HibernateException e) {
+		} catch (final HibernateException e) {
 		}
 		return false;
 	}
 
 	@Override
-	public final boolean onPreUpdate(PreUpdateEvent event) {
+	public final boolean onPreUpdate(final PreUpdateEvent event) {
 		try {
 
 			if (!event.getEntity().getClass().equals(Ticket.class)) {
@@ -92,42 +87,33 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 			}
 
 			final Serializable entityId = event.getPersister().hasIdentifierProperty() ? event.getPersister().getIdentifier(event.getEntity(), event.getPersister().guessEntityMode(event.getEntity())) : null;
-			final Date transTime = new Date(); // new
-			// Date(event.getSource().getTimestamp());
+			final Date transTime = new Date();
 			final EntityMode entityMode = event.getPersister().guessEntityMode(event.getEntity());
 			Object oldPropValue = null;
 			Object newPropValue = null;
 
-			// need to have a separate session for audit save
-			StatelessSession session = event.getPersister().getFactory().openStatelessSession();
+			final StatelessSession session = event.getPersister().getFactory().openStatelessSession();
 			session.beginTransaction();
 
-			// get the existing entity from session so that we can extract
-			// existing property values
-			Object existingEntity = session.get(event.getEntity().getClass(), entityId);
+			final Object existingEntity = session.get(event.getEntity().getClass(), entityId);
 
-			// cycle through property names, extract corresponding property
-			// values and insert new entry in audit trail
-			for (String propertyName : event.getPersister().getPropertyNames()) {
-				
+			for (final String propertyName : event.getPersister().getPropertyNames()) {
+
 				String campo = propertyName;
 				if (Ticket.class.getDeclaredField(propertyName).isAnnotationPresent(Label.class)) {
 					campo = Ticket.class.getDeclaredField(propertyName).getAnnotation(Label.class).value();
 				}
-				
+
 				newPropValue = event.getPersister().getPropertyValue(event.getEntity(), propertyName, entityMode);
-				// because we are performing an insert we only need to be
-				// concerned will non-null values
 				if (newPropValue != null) {
-					// collections will fire their own events
 					if (!(newPropValue instanceof Collection)) {
 						oldPropValue = event.getPersister().getPropertyValue(existingEntity, propertyName, entityMode);
 
-						String oldValue = String.valueOf(oldPropValue);
-						String newValue = String.valueOf(newPropValue);
+						final String oldValue = makeString(oldPropValue);
+						final String newValue = makeString(newPropValue);
 
 						if (!oldValue.equals(newValue)) {
-							TicketLog history = new TicketLog();
+							final TicketLog history = new TicketLog();
 							history.setTicket((Ticket) event.getEntity());
 							history.setData(transTime);
 							history.setUsuario(Seguranca.getUsuario().getUsername());
@@ -145,10 +131,19 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 
 			session.getTransaction().commit();
 			session.close();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	private String makeString(final Object x) {
+		final String str = String.valueOf(x);
+		if (x.equals("null")) {
+			return "em branco";
+		} else {
+			return str;
+		}
 	}
 
 	@Override

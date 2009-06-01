@@ -6,7 +6,6 @@
 	<version>1.0</version>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
@@ -142,6 +141,7 @@
 
 	</dependencies>
 
+
 	<repositories>
 		<repository>
 			<id>info-bliki-repository</id>
@@ -155,7 +155,6 @@
 		</repository>
 	</repositories>
 
-
 	<properties>
 		<hibernate.annotations.version>3.2.1.ga</hibernate.annotations.version>
 		<hibernate.commons.annotations.version>3.0.0.ga</hibernate.commons.annotations.version>
@@ -163,5 +162,5 @@
 		<hibernate.version>3.2.5.ga</hibernate.version>
 		<sitemesh.version>2.2.1</sitemesh.version>
 	</properties>
-
+	
 </project>
