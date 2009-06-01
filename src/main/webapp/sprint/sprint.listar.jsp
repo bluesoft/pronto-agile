@@ -25,7 +25,14 @@
 								<pronto:icons name="sprint_atual.png" title="Sprint Atual" />
 							</c:when>
 							<c:otherwise>
-								<pronto:icons name="definir_sprint_atual.png" title="Definir Sprint como Atual" onclick="goTo('${urlSprint}atual.action?sprintKey=${s.sprintKey}')"/>
+								<c:choose>
+									<c:when test="${s.fechado}">
+										<pronto:icons name="fechado.png" title="Sprint Encerrado" />
+									</c:when>
+									<c:otherwise>
+										<pronto:icons name="definir_sprint_atual.png" title="Definir Sprint como Atual" onclick="goTo('${urlSprint}atual.action?sprintKey=${s.sprintKey}')"/>
+									</c:otherwise>
+								</c:choose>
 							</c:otherwise>
 						</c:choose>
 					</td>

@@ -33,25 +33,25 @@ public class SprintController {
 	private SessionFactory sessionFactory;
 
 	@RequestMapping("/sprint/listar.action")
-	public String listar(Model model) {
+	public String listar(final Model model) {
 		model.addAttribute("sprints", sessionFactory.getCurrentSession().createCriteria(Sprint.class).list());
 		return VIEW_LISTAR;
 	}
-	
+
 	@RequestMapping("/sprint/atual.action")
-	public String atual(int sprintKey) {
-		
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-		
-		sessionFactory.getCurrentSession().createQuery("update Sprint s set s.atual = false").executeUpdate();
+	public String atual(final int sprintKey) {
+
+		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+
+		sessionFactory.getCurrentSession().createQuery("update Sprint s set s.atual = false, s.fechado = false").executeUpdate();
 		sessionFactory.getCurrentSession().flush();
-		
+
 		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
 		sprint.setAtual(true);
 		sessionFactory.getCurrentSession().update(sprint);
 		sessionFactory.getCurrentSession().flush();
 		tx.commit();
-		
+
 		return "redirect:listar.action";
 	}
 
@@ -78,9 +78,9 @@ public class SprintController {
 	}
 
 	@RequestMapping("/sprint/upload.action")
-	public String upload(HttpServletRequest request, int sprintKey) throws Exception {
+	public String upload(final HttpServletRequest request, final int sprintKey) throws Exception {
 		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
-		byte[] bytes = getImageBytes(request);
+		final byte[] bytes = getImageBytes(request);
 		sprint.setImagem(Hibernate.createBlob(bytes));
 		sessionFactory.getCurrentSession().saveOrUpdate(sprint);
 		sessionFactory.getCurrentSession().flush();
@@ -88,12 +88,12 @@ public class SprintController {
 	}
 
 	@RequestMapping("/sprint/imagem.action")
-	public String imagem(HttpServletResponse response, int sprintKey) throws Exception {
+	public String imagem(final HttpServletResponse response, final int sprintKey) throws Exception {
 		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
-		Blob imagem = sprint.getImagem();
+		final Blob imagem = sprint.getImagem();
 		if (imagem != null) {
-			InputStream is = imagem.getBinaryStream();
-			byte[] bytes = new byte[is.available()];
+			final InputStream is = imagem.getBinaryStream();
+			final byte[] bytes = new byte[is.available()];
 			is.read(bytes);
 			response.getOutputStream().write(bytes);
 		}
@@ -102,14 +102,14 @@ public class SprintController {
 	}
 
 	@SuppressWarnings("unchecked")
-	private byte[] getImageBytes(HttpServletRequest request) throws FileUploadException, IOException {
-		FileItemFactory factory = new DiskFileItemFactory();
-		ServletFileUpload upload = new ServletFileUpload(factory);
+	private byte[] getImageBytes(final HttpServletRequest request) throws FileUploadException, IOException {
+		final FileItemFactory factory = new DiskFileItemFactory();
+		final ServletFileUpload upload = new ServletFileUpload(factory);
 		byte bytes[] = null;
-		List<FileItem> items = upload.parseRequest(request);
-		for (FileItem fileItem : items) {
-			InputStream inputStream = fileItem.getInputStream();
-			int numberBytes = inputStream.available();
+		final List<FileItem> items = upload.parseRequest(request);
+		for (final FileItem fileItem : items) {
+			final InputStream inputStream = fileItem.getInputStream();
+			final int numberBytes = inputStream.available();
 			bytes = new byte[numberBytes];
 			inputStream.read(bytes);
 		}
