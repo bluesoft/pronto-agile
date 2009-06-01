@@ -8,6 +8,12 @@
 			$(function(){
 				$('#formSprint').validate();
 			});
+
+			function salvar() {
+				if ($('#formSprint').validate().form()) {
+					$('#formSprint').submit();
+				}
+			}
 		</script>
 		
 	</head>
@@ -35,11 +41,11 @@
 					<p>Nome</p>
 				</div>
 				<div>
-					<form:input path="sprint.dataInicial"  cssClass="required"/>
+					<form:input path="sprint.dataInicial" cssClass="required dateBr"/>
 					<p>Data Inicial</p>
 				</div>
 				<div>
-					<form:input path="sprint.dataFinal"  cssClass="required"/>
+					<form:input path="sprint.dataFinal" cssClass="required dateBr"/>
 					<p>Data Final</p>
 				</div>
 				<div>
@@ -63,7 +69,7 @@
 				
 				<div align="center">
 					<button type="button" onclick="window.location.href='${urlSprint}listar.action'">Cancelar</button>
-					<button type="submit">Salvar</button><br/>
+					<button type="button" onclick="salvar()">Salvar</button><br/>
 				</div>
 			</div>
 		</form>		

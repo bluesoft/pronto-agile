@@ -93,11 +93,11 @@
 					<p>Reporter</p> 
 				</div>
 				<div>
-					<form:input path="ticket.valorDeNegocio"/><br/>
+					<form:input path="ticket.valorDeNegocio" cssClass="required digits"/><br/>
 					<p>Valor de Negócio</p>
 				</div>
 				<div>
-					<form:input path="ticket.esforco"/><br/>
+					<form:input path="ticket.esforco" cssClass="required digits"/><br/>
 					<p>Esforço</p>
 				</div>
 					<div>

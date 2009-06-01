@@ -9,11 +9,12 @@ jQuery.extend(jQuery.validator.messages, {
 	email: "Por favor, forne&ccedil;a um endere&ccedil;o eletr&ocirc;nico v&aacute;lido.",
 	url: "Por favor, forne&ccedil;a uma URL v&aacute;lida.",
 	date: "Por favor, forne&ccedil;a uma data v&aacute;lida.",
+	dateBr: "Por favor, forne&ccedil;a uma data v&aacute;lida.",
 	dateISO: "Por favor, forne&ccedil;a uma data v&aacute;lida (ISO).",
 	dateDE: "Bitte geben Sie ein gÃ¼ltiges Datum ein.",
 	number: "Por favor, forne&ccedil;a um n&uacute;mero v&aacute;lida.",
 	numberDE: "Bitte geben Sie eine Nummer ein.",
-	digits: "Por favor, forne&ccedil;a somente d&iacute;gitos.",
+	digits: "Por favor, forne&ccedil;a somente números inteiros.",
 	creditcard: "Por favor, forne&ccedil;a um cart&atilde;o de cr&eacute;dito v&aacute;lido.",
 	equalTo: "Por favor, forne&ccedil;a o mesmo valor novamente.",
 	accept: "Por favor, forne&ccedil;a um valor com uma extens&atilde;o v&aacute;lida.",
@@ -26,8 +27,15 @@ jQuery.extend(jQuery.validator.messages, {
 	max: jQuery.format("Por favor, forne&ccedil;a um valor menor ou igual a {0}."),
 	minValue: jQuery.format("Por favor, forne&ccedil;a um valor maior ou igual a {0}."),
 	min: jQuery.format("Por favor, forne&ccedil;a um valor maior ou igual a {0}.")
+	
 });
 
-jQuery.validator.addMethod("datePTBR", function(value) { 
-  return this.optional(element) || /^\d\d?\/\d\d?\/\d\d\d?\d?$/.test(value); 
-}, "Por favor, forne&ccedil;a uma data v&aacute;lida.");
+$(function() {
+	
+	jQuery.validator.addMethod("dateBr", function(value, element) { 
+		  return this.optional(element) || /^\d\d?\/\d\d?\/\d\d\d?\d?$/.test(value); 
+	}, "Por favor, forne&ccedil;a uma data v&aacute;lida.");
+
+	jQuery.validator.addClassRules("dateBr", {dateBr: true});
+		
+}); 

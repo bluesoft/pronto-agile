@@ -18,7 +18,13 @@
 			<jsp:include page="/commons/menuRapido.jsp"/>
 	        <div id="content" class="clearfix">
 	            
+	            <c:if test="${mensagem ne null}">
 	            <h6 align="center">${mensagem}</h6>
+	            </c:if>
+	            
+	            <c:if test="${erro ne null}">
+	            	<h6 align="center" style="color: red">erro}</h6>
+	            </c:if>
 	            
 	            <div id="main">
 	                <h1><decorator:getProperty property="page.heading"/></h1>

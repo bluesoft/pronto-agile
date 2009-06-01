@@ -89,33 +89,41 @@ public class TicketController {
 
 	@RequestMapping("/ticket/salvar.action")
 	public String salvar(final Model model, final Ticket ticket, final String comentario, final String[] desenvolvedor) {
-		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, ticket.getBacklog().getBacklogKey()));
-		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, ticket.getTipoDeTicket().getTipoDeTicketKey()));
-		ticket.setReporter((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, ticket.getReporter().getUsername()));
 
-		if (ticket.getSprint() != null && ticket.getSprint().getSprintKey() <= 0) {
-			ticket.setSprint(null);
-		} else {
-			ticket.setSprint((Sprint) sessionFactory.getCurrentSession().get(Sprint.class, ticket.getSprint().getSprintKey()));
-		}
+		try {
+			final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+			ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, ticket.getBacklog().getBacklogKey()));
+			ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, ticket.getTipoDeTicket().getTipoDeTicketKey()));
+			ticket.setReporter((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, ticket.getReporter().getUsername()));
 
-		if (comentario != null && comentario.trim().length() > 0) {
-			ticket.addComentario(comentario, "andrefaria");
-		}
-
-		if (desenvolvedor != null && desenvolvedor.length > 0) {
-			ticket.setDesenvolvedores(new HashSet<Usuario>());
-			for (final String username : desenvolvedor) {
-				ticket.addDesenvolvedor((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username));
+			if (ticket.getSprint() != null && ticket.getSprint().getSprintKey() <= 0) {
+				ticket.setSprint(null);
+			} else {
+				ticket.setSprint((Sprint) sessionFactory.getCurrentSession().get(Sprint.class, ticket.getSprint().getSprintKey()));
 			}
+
+			if (comentario != null && comentario.trim().length() > 0) {
+				ticket.addComentario(comentario, "andrefaria");
+			}
+
+			if (desenvolvedor != null && desenvolvedor.length > 0) {
+				ticket.setDesenvolvedores(new HashSet<Usuario>());
+				for (final String username : desenvolvedor) {
+					ticket.addDesenvolvedor((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username));
+				}
+			}
+
+			sessionFactory.getCurrentSession().saveOrUpdate(ticket);
+			sessionFactory.getCurrentSession().flush();
+
+			tx.commit();
+
+			return "redirect:editar.action?ticketKey=" + ticket.getTicketKey();
+		} catch (final Exception e) {
+			model.addAttribute("erro", e.getMessage());
+			return "forward:editar.action?ticketKey=" + ticket.getTicketKey();
 		}
 
-		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
-		sessionFactory.getCurrentSession().flush();
-
-		tx.commit();
-		return "redirect:editar.action?ticketKey=" + ticket.getTicketKey();
 	}
 
 	@RequestMapping("/ticket/editar.action")
