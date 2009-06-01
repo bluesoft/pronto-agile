@@ -23,6 +23,9 @@ http://www.springframework.org/schema/context/spring-context-2.5.xsd"
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="methodNameResolver" ref="internalPathMethodNameResolver" />
+		<property name="webBindingInitializer">
+			<bean class="br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer" />
+		</property>
 	</bean>
 
 </beans>

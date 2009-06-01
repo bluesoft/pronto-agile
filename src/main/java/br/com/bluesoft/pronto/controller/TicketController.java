@@ -59,7 +59,7 @@ public class TicketController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorBacklog.action")
-	public String listarPorBacklog(final Model model, int backlogKey) {
+	public String listarPorBacklog(final Model model, final int backlogKey) {
 		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("backlog.backlogKey", backlogKey)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
@@ -68,7 +68,7 @@ public class TicketController {
 
 	@RequestMapping("/ticket/sprintAtual.action")
 	public String sprintAtual(final Model model) {
-		Sprint sprint = (Sprint) sessionFactory.getCurrentSession().createCriteria(Sprint.class).add(Restrictions.eq("atual", true)).uniqueResult();
+		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().createCriteria(Sprint.class).add(Restrictions.eq("atual", true)).uniqueResult();
 
 		if (sprint == null) {
 			model.addAttribute("mensagem", "Por favor, informe qual é o Sprint atual.");
@@ -80,15 +80,15 @@ public class TicketController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorSprint.action")
-	public String listarPorSprint(final Model model, int sprintKey) {
-		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("sprint.sprintKey", sprintKey)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
+	public String listarPorSprint(final Model model, final int sprintKey) {
+		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("sprint.sprintKey", sprintKey)).add(Restrictions.eq("backlog.backlogKey", Backlog.SPRINT_BACKLOG)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
 		return VIEW_LISTAR;
 	}
 
 	@RequestMapping("/ticket/salvar.action")
-	public String salvar(final Model model, final Ticket ticket, String comentario, String[] desenvolvedor) {
+	public String salvar(final Model model, final Ticket ticket, final String comentario, final String[] desenvolvedor) {
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, ticket.getBacklog().getBacklogKey()));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, ticket.getTipoDeTicket().getTipoDeTicketKey()));
@@ -106,7 +106,7 @@ public class TicketController {
 
 		if (desenvolvedor != null && desenvolvedor.length > 0) {
 			ticket.setDesenvolvedores(new HashSet<Usuario>());
-			for (String username : desenvolvedor) {
+			for (final String username : desenvolvedor) {
 				ticket.addDesenvolvedor((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username));
 			}
 		}
@@ -139,8 +139,8 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/jogarNoLixo.action")
-	public String jogarNoLixo(Model model, int ticketKey, HttpServletResponse response) {
-		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+	public String jogarNoLixo(final Model model, final int ticketKey, final HttpServletResponse response) {
+		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.LIXEIRA));
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
@@ -148,8 +148,8 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/moverParaImpedimentos.action")
-	public String moverParaImpedimentos(Model model, int ticketKey, HttpServletResponse response) {
-		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+	public String moverParaImpedimentos(final Model model, final int ticketKey, final HttpServletResponse response) {
+		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IMPEDIMENTO));
 		sessionFactory.getCurrentSession().update(ticket);
@@ -158,44 +158,46 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/moverParaProductBacklog.action")
-	public String moverParaProductBacklog(Model model, int ticketKey, HttpServletResponse response) {
-		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+	public String moverParaProductBacklog(final Model model, final int ticketKey, final HttpServletResponse response) {
+		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.ESTORIA));
+		ticket.setSprint(null);
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
 	@RequestMapping("/ticket/moverParaIdeias.action")
-	public String moverParaIdeias(Model model, int ticketKey, HttpServletResponse response) {
-		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+	public String moverParaIdeias(final Model model, final int ticketKey, final HttpServletResponse response) {
+		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IDEIA));
+		ticket.setSprint(null);
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
 	@RequestMapping("/ticket/restaurar.action")
-	public String restaurar(Model model, int ticketKey, HttpServletResponse response) {
-		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+	public String restaurar(final Model model, final int ticketKey, final HttpServletResponse response) {
+		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 
 		Backlog backlog = null;
 		switch (ticket.getTipoDeTicket().getTipoDeTicketKey()) {
-		case TipoDeTicket.ESTORIA:
-		case TipoDeTicket.DEFEITO:
-			backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG);
-			break;
-		case TipoDeTicket.IDEIA:
-			backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS);
-			break;
-		case TipoDeTicket.IMPEDIMENTO:
-			backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS);
-			break;
-		case TipoDeTicket.TAREFA:
-			backlog = ticket.getPai().getBacklog();
-			break;
+			case TipoDeTicket.ESTORIA:
+			case TipoDeTicket.DEFEITO:
+				backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG);
+				break;
+			case TipoDeTicket.IDEIA:
+				backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS);
+				break;
+			case TipoDeTicket.IMPEDIMENTO:
+				backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS);
+				break;
+			case TipoDeTicket.TAREFA:
+				backlog = ticket.getPai().getBacklog();
+				break;
 		}
 
 		ticket.setBacklog(backlog);
@@ -206,35 +208,35 @@ public class TicketController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/upload.action")
-	public String upload(HttpServletRequest request, int ticketKey) throws Exception {
+	public String upload(final HttpServletRequest request, final int ticketKey) throws Exception {
 
-		FileItemFactory factory = new DiskFileItemFactory();
-		ServletFileUpload upload = new ServletFileUpload(factory);
+		final FileItemFactory factory = new DiskFileItemFactory();
+		final ServletFileUpload upload = new ServletFileUpload(factory);
 
-		List<FileItem> items = upload.parseRequest(request);
-		String ticketDir = config.getImagesFolder() + ticketKey + "/";
-		File dir = new File(ticketDir);
+		final List<FileItem> items = upload.parseRequest(request);
+		final String ticketDir = config.getImagesFolder() + ticketKey + "/";
+		final File dir = new File(ticketDir);
 		dir.mkdirs();
 
-		for (FileItem fileItem : items) {
+		for (final FileItem fileItem : items) {
 			fileItem.write(new File(ticketDir + fileItem.getName()));
 		}
 
 		return "redirect:editar.action?ticketKey=" + ticketKey;
 	}
 
-	private List<String> listarAnexos(int ticketKey) {
-		File file = new File(config.getImagesFolder() + ticketKey);
+	private List<String> listarAnexos(final int ticketKey) {
+		final File file = new File(config.getImagesFolder() + ticketKey);
 		if (file.exists()) {
-			return (Arrays.asList(file.list()));
+			return Arrays.asList(file.list());
 		} else {
 			return null;
 		}
 	}
 
 	@RequestMapping("/ticket/excluirAnexo.action")
-	public String excluirAnexo(String file, int ticketKey) throws Exception {
-		File arquivo = new File(config.getImagesFolder() + ticketKey + "/" + file);
+	public String excluirAnexo(final String file, final int ticketKey) throws Exception {
+		final File arquivo = new File(config.getImagesFolder() + ticketKey + "/" + file);
 		if (arquivo.exists()) {
 			arquivo.delete();
 		}
@@ -242,12 +244,12 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/download.action")
-	public String download(HttpServletResponse response, String file, int ticketKey) throws Exception {
+	public String download(final HttpServletResponse response, final String file, final int ticketKey) throws Exception {
 
-		File arquivo = new File(config.getImagesFolder() + ticketKey + "/" + file);
-		FileInputStream fis = new FileInputStream(arquivo);
-		int numberBytes = fis.available();
-		byte bytes[] = new byte[numberBytes];
+		final File arquivo = new File(config.getImagesFolder() + ticketKey + "/" + file);
+		final FileInputStream fis = new FileInputStream(arquivo);
+		final int numberBytes = fis.available();
+		final byte bytes[] = new byte[numberBytes];
 		fis.read(bytes);
 		fis.close();
 
@@ -260,7 +262,7 @@ public class TicketController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/estimarSprint.action")
-	public String estimarSprint(final Model model, int sprintKey) {
+	public String estimarSprint(final Model model, final int sprintKey) {
 		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("sprint.sprintKey", sprintKey)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
@@ -269,7 +271,7 @@ public class TicketController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/estimarBacklog.action")
-	public String estimarBacklog(final Model model, int backlogKey) {
+	public String estimarBacklog(final Model model, final int backlogKey) {
 		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("backlog.backlogKey", backlogKey)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
@@ -277,7 +279,7 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/salvarEstimativa.action")
-	public String salvarEstimativa(final Model model, int ticketKey[], int valorDeNegocio[], int esforco[]) {
+	public String salvarEstimativa(final Model model, final int ticketKey[], final int valorDeNegocio[], final int esforco[]) {
 
 		Ticket ticket = null;
 		for (int i = 0; i < ticketKey.length; i++) {
@@ -297,19 +299,19 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/listarTarefasParaAdicionarAoSprint.action")
-	public String listarTarefasParaAdicionarAoSprint(final Model model, int sprintKey) {
+	public String listarTarefasParaAdicionarAoSprint(final Model model, final int sprintKey) {
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
 		model.addAttribute("tickets", sessionFactory.getCurrentSession().createCriteria(Ticket.class).createAlias("backlog", "backlog").add(Restrictions.eq("backlog.backlogKey", Backlog.PRODUCT_BACKLOG)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list());
 		return "/ticket/ticket.adicionarAoSprint.jsp";
 	}
 
 	@RequestMapping("/ticket/adicionarAoSprint.action")
-	public String adicionarAoSprint(final Model model, int sprintKey, int[] ticketKey) {
-		
-		Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
-		for (int key : ticketKey) {
-			Ticket ticket = (Ticket)sessionFactory.getCurrentSession().get(Ticket.class, key);
-			ticket.setBacklog((Backlog)sessionFactory.getCurrentSession().get(Backlog.class, Backlog.SPRINT_BACKLOG));
+	public String adicionarAoSprint(final Model model, final int sprintKey, final int[] ticketKey) {
+
+		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
+		for (final int key : ticketKey) {
+			final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, key);
+			ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.SPRINT_BACKLOG));
 			ticket.setSprint(sprint);
 			sessionFactory.getCurrentSession().update(ticket);
 		}

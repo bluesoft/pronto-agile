@@ -1,0 +1,35 @@
+package br.com.bluesoft.pronto.web.binding;
+
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.support.WebBindingInitializer;
+import org.springframework.web.context.request.WebRequest;
+
+/**
+ * Aqui são definidas as regras de Binding que são aplicadas por padrão as todos os controllers do SpringMVC.
+ * @author André Faria
+ */
+public class DefaultBindingInitializer implements WebBindingInitializer {
+
+	@Override
+	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
+		registrarBinderParaDatas(binder);
+		registrarBinderParaNumeros(binder);
+	}
+
+	private void registrarBinderParaNumeros(final WebDataBinder binder) {
+		binder.registerCustomEditor(Double.class, new CustomNumberEditor(Double.class, NumberFormat.getInstance(), true));
+	}
+
+	private void registrarBinderParaDatas(final WebDataBinder binder) {
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, true));
+		binder.registerCustomEditor(java.sql.Date.class, new SqlDateEditor(dateFormat, true));
+	}
+
+}
