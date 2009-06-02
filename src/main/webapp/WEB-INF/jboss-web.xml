@@ -1,0 +1,7 @@
+<jboss-web>
+	<resource-ref>
+		<res-ref-name>jdbc/pronto</res-ref-name>
+		<res-ref-type>javax.sql.DataSource</res-ref-type>
+		<jndi-name>java:pronto</jndi-name>
+	</resource-ref>
+</jboss-web>

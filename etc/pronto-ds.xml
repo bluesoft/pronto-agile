@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources>
+	<local-tx-datasource>
+		<jndi-name>pronto</jndi-name>
+		<connection-url>jdbc:postgresql://server/pronto</connection-url>
+		<driver-class>org.postgresql.Driver</driver-class>
+		<user-name>pronto</user-name>
+		<password>pronto</password>
+		<new-connection-sql>select 1</new-connection-sql>
+		<metadata>
+			<type-mapping>PostgreSQL 8.0</type-mapping>
+		</metadata>
+	</local-tx-datasource>
+</datasources>

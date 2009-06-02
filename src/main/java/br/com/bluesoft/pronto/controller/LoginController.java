@@ -42,7 +42,8 @@ public class LoginController {
 				usuario.setEmail("andrefaria@bluesoft.com.br");
 				usuario.setNome("André Faria Gomes");
 				usuario.setUsername("andrefaria");
-				usuario.setPassword(seguranca.md5("8437"));
+
+				usuario.setPassword(seguranca.encrypt("8437"));
 				sessionFactory.getCurrentSession().save(usuario);
 				sessionFactory.getCurrentSession().flush();
 
@@ -50,7 +51,7 @@ public class LoginController {
 				usuario.setEmail("junior@bluesoft.com.br");
 				usuario.setNome("Luiz dos Santos Faias Jr.");
 				usuario.setUsername("junior");
-				usuario.setPassword(seguranca.md5(""));
+				usuario.setPassword(seguranca.encrypt(""));
 				sessionFactory.getCurrentSession().save(usuario);
 				sessionFactory.getCurrentSession().flush();
 
@@ -184,7 +185,7 @@ public class LoginController {
 
 	@RequestMapping("/login.action")
 	public String login(final Model model, final HttpSession httpSession, final String username, final String password) {
-		final String md5 = seguranca.md5(password);
+		final String md5 = seguranca.encrypt(password);
 		final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().createQuery("from Usuario u where u.username = :username and u.password = :password").setString("username", username).setString("password", md5).uniqueResult();
 		if (usuario == null) {
 			model.addAttribute("mensagem", "Usuário e/ou senha inválidos!");

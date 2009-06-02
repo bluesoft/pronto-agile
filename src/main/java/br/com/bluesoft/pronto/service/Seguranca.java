@@ -2,6 +2,7 @@ package br.com.bluesoft.pronto.service;
 
 import java.security.MessageDigest;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 
 import br.com.bluesoft.pronto.model.Usuario;
@@ -16,7 +17,7 @@ public class Seguranca {
 		anonimo.setUsername("anonimo");
 	}
 
-	public static void setUsuario(Usuario usuario) {
+	public static void setUsuario(final Usuario usuario) {
 		usuarios.set(usuario);
 	}
 
@@ -32,13 +33,14 @@ public class Seguranca {
 		usuarios.remove();
 	}
 
-	public String md5(String x) {
+	public String encrypt(final String x) {
 		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
+			final MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(x.getBytes());
-			byte[] hashMd5 = md.digest();
-			return new String(hashMd5);
-		} catch (Exception e) {
+			final byte[] hashMd5 = md.digest();
+			final byte[] base64 = Base64.encodeBase64(hashMd5);
+			return new String(base64);
+		} catch (final Exception e) {
 			return null;
 		}
 	}
