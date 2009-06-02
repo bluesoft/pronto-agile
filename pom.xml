@@ -20,6 +20,13 @@
 					<optimize>true</optimize>
 				</configuration>
 			</plugin>
+			<plugins>
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<configuration>
+					</configuration>
+				</plugin>
+			</plugins>
 		</plugins>
 	</build>
 
@@ -157,13 +164,6 @@
 			<groupId>opensymphony</groupId>
 			<artifactId>sitemesh</artifactId>
 			<version>${sitemesh.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>info.bliki.wiki</groupId>
-			<artifactId>bliki-core</artifactId>
-			<version>3.0.11</version>
-			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>
