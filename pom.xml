@@ -46,6 +46,13 @@
 			<artifactId>hibernate-commons-annotations</artifactId>
 			<version>${hibernate.commons.annotations.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
