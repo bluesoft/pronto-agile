@@ -51,7 +51,7 @@ public class UsuarioController {
 	@RequestMapping("/usuario/excluir.action")
 	public String excluir(final Model model, final String username) {
 
-		int quantidade = sessionFactory.getCurrentSession().createCriteria(Usuario.class).list().size();
+		final int quantidade = sessionFactory.getCurrentSession().createCriteria(Usuario.class).list().size();
 
 		if (quantidade == 1) {
 			model.addAttribute("mensagem", "Você não pode excluir todos os usuários do Pronto!.");
@@ -63,7 +63,7 @@ public class UsuarioController {
 			sessionFactory.getCurrentSession().delete(usuario);
 			sessionFactory.getCurrentSession().flush();
 			model.addAttribute("mensagem", "Usuário excluido com suceso.");
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			model.addAttribute("mensagem", "Este usuário não pode ser excluido porque existem tarefas vinculadas a ele.");
 		}
 
@@ -71,11 +71,11 @@ public class UsuarioController {
 	}
 
 	@RequestMapping("/usuario/salvar.action")
-	public String salvar(final Model model, final Usuario usuario, int[] papel) throws Exception {
+	public String salvar(final Model model, final Usuario usuario, final int[] papel) throws Exception {
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 		usuario.getPapeis().clear();
-		for (int i : papel) {
+		for (final int i : papel) {
 			usuario.addPapel((Papel) sessionFactory.getCurrentSession().get(Papel.class, i));
 		}
 
@@ -86,10 +86,10 @@ public class UsuarioController {
 	}
 
 	@RequestMapping("/usuario/trocarSenha.action")
-	public String trocarSenha(final Model model, final String username, String password) throws Exception {
+	public String trocarSenha(final Model model, final String username, final String password) throws Exception {
 
 		final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username);
-		usuario.setPassword(seguranca.md5(password));
+		usuario.setPassword(seguranca.encrypt(password));
 
 		sessionFactory.getCurrentSession().saveOrUpdate(usuario);
 		sessionFactory.getCurrentSession().flush();
