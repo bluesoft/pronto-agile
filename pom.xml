@@ -20,13 +20,6 @@
 					<optimize>true</optimize>
 				</configuration>
 			</plugin>
-			<plugins>
-				<plugin>
-					<artifactId>maven-war-plugin</artifactId>
-					<configuration>
-					</configuration>
-				</plugin>
-			</plugins>
 		</plugins>
 	</build>
 
