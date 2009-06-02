@@ -4,7 +4,24 @@
 	<groupId>pronto-agile</groupId>
 	<artifactId>pronto-agile</artifactId>
 	<packaging>war</packaging>
-	<version>1.0</version>
+	<name>Pronto!</name>
+	<version>1.0.0</version>
+	<url>http://www.bluesoft.com.br/pronto</url>
+
+	<build>
+		<plugins>
+		<!-- Java Compile Plugin -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>iso-8859-1</encoding>
+					<optimize>true</optimize>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<dependency>
@@ -29,7 +46,7 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
@@ -49,7 +66,7 @@
 			<version>1.0.1B-rc4</version>
 		</dependency>
 		 -->
- 
+
 		<dependency>
 			<artifactId>json-lib</artifactId>
 			<groupId>net.sf.json-lib</groupId>
@@ -151,5 +168,5 @@
 		<hibernate.version>3.2.5.ga</hibernate.version>
 		<sitemesh.version>2.2.1</sitemesh.version>
 	</properties>
-	
+
 </project>
