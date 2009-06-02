@@ -3,6 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pronto-agile</groupId>
 	<artifactId>pronto-agile</artifactId>
+	<packaging>war</packaging>
 	<version>1.0</version>
 
 	<dependencies>
@@ -41,12 +42,14 @@
 			<version>1.4</version>
 		</dependency>
 
+		<!-- 
 		<dependency>
 			<groupId>geronimo-spec</groupId>
 			<artifactId>geronimo-spec-jta</artifactId>
 			<version>1.0.1B-rc4</version>
 		</dependency>
-
+		 -->
+ 
 		<dependency>
 			<artifactId>json-lib</artifactId>
 			<groupId>net.sf.json-lib</groupId>
