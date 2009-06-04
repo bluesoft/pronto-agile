@@ -3,6 +3,7 @@ package br.com.bluesoft.pronto.model;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -144,5 +145,19 @@ public class Sprint {
 			}
 		}
 		return ticketsEmAberto;
+	}
+
+	public List<Date> getDias() {
+
+		final List<Date> dias = new LinkedList<Date>();
+
+		Date atual = getDataInicial();
+		while (atual.before(dataFinal)) {
+			dias.add(atual);
+			atual = DateUtil.add(atual, 1);
+		}
+
+		return dias;
+
 	}
 }

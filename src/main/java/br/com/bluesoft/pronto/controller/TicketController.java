@@ -103,7 +103,7 @@ public class TicketController {
 			}
 
 			if (comentario != null && comentario.trim().length() > 0) {
-				ticket.addComentario(comentario, "andrefaria");
+				ticket.addComentario(comentario, Seguranca.getUsuario().getNome());
 			}
 
 			if (desenvolvedor != null && desenvolvedor.length > 0) {

@@ -19,11 +19,11 @@
 	        <div id="content" class="clearfix">
 	            
 	            <c:if test="${mensagem ne null}">
-	            <h6 align="center">${mensagem}</h6>
+	            	<h6 align="center">${mensagem}</h6>
 	            </c:if>
 	            
 	            <c:if test="${erro ne null}">
-	            	<h6 align="center" style="color: red">erro}</h6>
+	            	<h6 align="center" style="color: red">${erro}</h6>
 	            </c:if>
 	            
 	            <div id="main">

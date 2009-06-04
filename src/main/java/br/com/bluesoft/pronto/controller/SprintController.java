@@ -80,6 +80,13 @@ public class SprintController {
 
 	@RequestMapping("/sprint/salvar.action")
 	public String salvar(final Model model, final Sprint sprint) {
+
+		if (sprint.getDataFinal().before(sprint.getDataInicial())) {
+			model.addAttribute("sprintKey", sprint.getSprintKey());
+			model.addAttribute("erro", "A data inicial deve ser menor que a final");
+			return "forward:editar.action";
+		}
+
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		sessionFactory.getCurrentSession().saveOrUpdate(sprint);
 		sessionFactory.getCurrentSession().flush();

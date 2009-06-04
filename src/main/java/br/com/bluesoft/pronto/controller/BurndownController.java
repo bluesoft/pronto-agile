@@ -1,5 +1,8 @@
 package br.com.bluesoft.pronto.controller;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
@@ -25,24 +28,26 @@ public class BurndownController {
 	}
 
 	@RequestMapping("/burndown/data.action")
-	public String data(HttpServletResponse response) throws Exception {
+	public String data(final HttpServletResponse response) throws Exception {
 
-		Sprint sprint = (Sprint) sessionFactory.getCurrentSession().createCriteria(Sprint.class).add(Restrictions.eq("atual", true)).uniqueResult();
+		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().createCriteria(Sprint.class).add(Restrictions.eq("atual", true)).uniqueResult();
 
-		int esforcoTotal = sprint.getEsforcoTotal();
+		final int esforcoTotal = sprint.getEsforcoTotal();
 
-		JSONObject raiz = new JSONObject();
+		final List<Date> dias = sprint.getDias();
 
-		JSONObject title = new JSONObject();
+		final JSONObject raiz = new JSONObject();
+
+		final JSONObject title = new JSONObject();
 		title.set("text", "Sprint " + sprint.getNome());
 		raiz.put("title", title);
 		// JSONObject y_legend = new JSONObject();
 		// y_legend.set("text", "Y Legend");
 		// raiz.put("y_legend", y_legend);
 
-		JSONArray elements = new JSONArray();
+		final JSONArray elements = new JSONArray();
 
-		JSONObject element1 = new JSONObject();
+		final JSONObject element1 = new JSONObject();
 		element1.set("type", "line");
 		element1.set("text", "Burndown");
 		element1.set("values", new JSONArray(new int[] { 6, 7, 9, 5, 7, 6, 9, 7, 3 }));
