@@ -100,20 +100,18 @@
 						</td>
 					</c:if>
 					
-					<%-- 
-					<c:if test="${backlog.backlogKey eq 1 or backlog.backlogKey eq 2}">
+					<c:if test="${backlog.backlogKey eq 1 or backlog.backlogKey eq 2 or backlog.backlogKey eq 3}">
 						<td>
 							<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${t.ticketKey})"></pronto:icons>
 						</td>
 					</c:if>
-					--%>
 					
 					<c:if test="${t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2}">
 						<td>
 							<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${t.ticketKey})"></pronto:icons>
 						</td>
 					</c:if>
-					<c:if test="${t.backlog.backlogKey eq 4}">
+					<c:if test="${t.backlog.backlogKey eq 4 or t.backlog.backlogKey eq 5}">
 						<td>
 							<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${t.ticketKey})"></pronto:icons>
 						</td>
@@ -137,11 +135,8 @@
 					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2">Nova Estória</a>&nbsp;&nbsp;
 					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3">Novo Defeito</a>&nbsp;&nbsp;
 				</c:when>
-				<c:when test="${backlog.backlogKey eq 5}">
-					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=5">Novo Impedimento</a>&nbsp;&nbsp;
-				</c:when>
 			</c:choose>
-			<c:if test="${backlog.backlogKey ne 4 and backlog.backlogKey ne 3 and backlog.backlogKey ne null}">
+			<c:if test="${backlog.backlogKey ne 5 and backlog.backlogKey ne 4 and backlog.backlogKey ne 3 and backlog.backlogKey ne null}">
 				|
 			</c:if>			
 		</div>

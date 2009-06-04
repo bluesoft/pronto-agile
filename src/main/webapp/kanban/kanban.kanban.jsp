@@ -1,5 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="moverUrl" value="/kanban/mover.action"/>
+<c:url var="editarTicket" value="/ticket/editar.action"/>
 <html>
 	<head>
 		<title>Kanban</title>
@@ -24,7 +25,7 @@
 			}
 			
 			.droppable {
-				height: 500px;
+				height: 700px;
 			}
 		</style>
 		<script>
@@ -43,6 +44,10 @@
 			});
 
 		});
+
+		function openTicket(ticketKey) {
+			goTo('${editarTicket}?ticketKey=' + ticketKey);
+		}
 		</script>	
 
 	</head>
@@ -56,7 +61,7 @@
 						<p>TO DO</p>
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 1}">
-								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}">
+								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}" ondblclick="openTicket(${t.ticketKey});">
 									<p>#${t.ticketKey} - ${t.titulo}</p>
 								</div> 
 							</c:if>
@@ -68,7 +73,7 @@
 						<p>DOING</p>
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 2}">
-								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}">
+								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}" ondblclick="openTicket(${t.ticketKey});">
 									<p>#${t.ticketKey} - ${t.titulo}</p>
 								</div>
 							</c:if>
@@ -80,7 +85,7 @@
 						<p>TESTING</p>
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 21}">
-								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}">
+								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}" ondblclick="openTicket(${t.ticketKey});">
 									<p>#${t.ticketKey} - ${t.titulo}</p>
 								</div>
 							</c:if>
@@ -92,7 +97,7 @@
 						<p>DONE</p>
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 100}">
-								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}">
+								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}" ondblclick="openTicket(${t.ticketKey});">
 									<p>#${t.ticketKey} - ${t.titulo}</p>
 								</div>
 							</c:if>
@@ -101,5 +106,6 @@
 				</td>
 			</tr>
 		</table>
+		<div align="center">* Clique duas vezes sobre o cartão para abri-lo</div>
 	</body>
 </html>

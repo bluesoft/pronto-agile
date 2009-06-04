@@ -159,7 +159,6 @@ public class TicketController {
 	public String moverParaImpedimentos(final Model model, final int ticketKey, final HttpServletResponse response) {
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS));
-		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IMPEDIMENTO));
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
@@ -199,9 +198,6 @@ public class TicketController {
 				break;
 			case TipoDeTicket.IDEIA:
 				backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS);
-				break;
-			case TipoDeTicket.IMPEDIMENTO:
-				backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS);
 				break;
 			case TipoDeTicket.TAREFA:
 				backlog = ticket.getPai().getBacklog();
