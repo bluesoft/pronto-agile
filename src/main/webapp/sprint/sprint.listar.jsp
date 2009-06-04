@@ -1,4 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
+<c:url var="burndownUrl" value="/burndown/burndown.action"/>
 <html>
 	<head>
 		<title>Sprints</title>
@@ -27,6 +28,8 @@
 				<th style="width: 18px"></th>
 				<th>nome</th>
 				<th>período</th>
+				<th>esforço</th>
+				<th style="width: 18px"></th>
 				<th style="width: 18px"></th>
 				<th style="width: 18px"></th>
 				<th style="width: 18px"></th>
@@ -54,6 +57,7 @@
 					</td>
 					<td>${s.nome}</td>
 					<td><fmt:formatDate value="${s.dataInicial}"/> à <fmt:formatDate value="${s.dataFinal}"/></td>
+					<td>${sprint.esforcoTotal}</td>
 					<td><pronto:icons name="editar_sprint.png" title="Editar Sprint" onclick="goTo('${urlSprint}editar.action?sprintKey=${s.sprintKey}')"/></td>
 					<td><pronto:icons name="ver_estorias.png" title="Ver Estórias" onclick="goTo('${urlSprint}../ticket/listarPorSprint.action?sprintKey=${s.sprintKey}')"/></td>
 					<td>
@@ -67,6 +71,9 @@
 								</c:otherwise>
 							</c:choose>
 						</c:if>
+					</td>
+					<td>
+						<pronto:icons name="burndown_chart.png" title="Burndown chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${s.sprintKey}')"/>
 					</td>
 				</tr>
 			</c:forEach>

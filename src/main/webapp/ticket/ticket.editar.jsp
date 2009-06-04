@@ -124,6 +124,10 @@
 					<p>Kanban Status</p>
 				</div>
 				<div>
+					<form:input path="ticket.dataDePronto"/><br/>
+					<p>Data de Pronto</p>
+				</div>
+				<div>
 					<form:input path="ticket.branch"/><br/>
 					<p>Branch</p>
 				</div>

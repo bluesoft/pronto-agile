@@ -3,8 +3,10 @@ package br.com.bluesoft.pronto.model;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -103,9 +105,11 @@ public class Sprint {
 
 	public int getEsforcoTotal() {
 		int total = 0;
-		for (final Ticket ticket : tickets) {
-			if (ticket.isDefeito() || ticket.isEstoria()) {
-				total += ticket.getEsforco();
+		if (tickets != null) {
+			for (final Ticket ticket : tickets) {
+				if (ticket.isDefeito() || ticket.isEstoria()) {
+					total += ticket.getEsforco();
+				}
 			}
 		}
 		return total;
@@ -133,6 +137,37 @@ public class Sprint {
 		return total;
 	}
 
+	public Map<String, Integer> getMapaEsforcoPorDia() {
+		final Map<String, Integer> mapa = new LinkedHashMap<String, Integer>();
+
+		final List<Date> dias = getDias();
+		for (final Date date : dias) {
+			final String data = DateUtil.toStringMesAno(date);
+			if (mapa.get(data) == null) {
+				mapa.put(data, 0);
+			}
+		}
+
+		for (final Ticket ticket : tickets) {
+
+			if (ticket.getDataDePronto() == null) {
+				continue;
+			}
+
+			if (ticket.isDefeito() || ticket.isEstoria()) {
+				final String data;
+				if (ticket.getDataDePronto().after(dataFinal)) {
+					data = DateUtil.toStringMesAno(dataFinal);
+				} else {
+					data = DateUtil.toStringMesAno(ticket.getDataDePronto());
+				}
+
+				mapa.put(data, mapa.get(data) + ticket.getEsforco());
+			}
+		}
+		return mapa;
+	}
+
 	public void addTicket(final Ticket ticket) {
 		tickets.add(ticket);
 	}
@@ -156,7 +191,7 @@ public class Sprint {
 			dias.add(atual);
 			atual = DateUtil.add(atual, 1);
 		}
-
+		dias.add(dataFinal);
 		return dias;
 
 	}

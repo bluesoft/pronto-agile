@@ -1,56 +1,75 @@
 package br.com.bluesoft.pronto.controller;
 
-import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.model.Sprint;
 
 @Controller
 public class BurndownController {
 
 	@Autowired
-	private SessionFactory sessionFactory;
+	private SprintDao sprintDao;
 
 	@RequestMapping("/burndown/burndown.action")
-	public String burndown() {
-		return "/burndown/burndown.burndown.jsp?ofc=data.action";
+	public String burndown(final Model model, final Integer sprintKey) {
+		model.addAttribute("sprintKey", sprintKey);
+		return "/burndown/burndown.burndown.jsp";
 	}
 
 	@RequestMapping("/burndown/data.action")
-	public String data(final HttpServletResponse response) throws Exception {
+	public String data(final HttpServletResponse response, final Integer sprintKey) throws Exception {
 
-		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().createCriteria(Sprint.class).add(Restrictions.eq("atual", true)).uniqueResult();
+		final Sprint sprint;
+		if (sprintKey == null) {
+			sprint = sprintDao.getSprintAtual();
+		} else {
+			sprint = sprintDao.obter(sprintKey);
+		}
 
 		final int esforcoTotal = sprint.getEsforcoTotal();
+		final Map<String, Integer> mapaEsforcoPorDia = sprint.getMapaEsforcoPorDia();
 
-		final List<Date> dias = sprint.getDias();
+		int burnNumber = esforcoTotal;
+		final List<Integer> burnValues = new LinkedList<Integer>();
+		burnValues.add(burnNumber);
+		for (final Integer esforco : mapaEsforcoPorDia.values()) {
+			burnNumber = burnNumber - esforco;
+			burnValues.add(burnNumber);
+		}
 
 		final JSONObject raiz = new JSONObject();
 
 		final JSONObject title = new JSONObject();
 		title.set("text", "Sprint " + sprint.getNome());
 		raiz.put("title", title);
+
 		// JSONObject y_legend = new JSONObject();
 		// y_legend.set("text", "Y Legend");
 		// raiz.put("y_legend", y_legend);
+
+		// final JSONObject x_legend = new JSONObject();
+		// x_legend.set("text", "Dias");
+		// raiz.put("x_legend", x_legend);
 
 		final JSONArray elements = new JSONArray();
 
 		final JSONObject element1 = new JSONObject();
 		element1.set("type", "line");
 		element1.set("text", "Burndown");
-		element1.set("values", new JSONArray(new int[] { 6, 7, 9, 5, 7, 6, 9, 7, 3 }));
+		element1.set("values", new JSONArray(burnValues));
 		elements.put(element1);
 
 		// JSONObject element2 = new JSONObject();
@@ -61,16 +80,32 @@ public class BurndownController {
 
 		raiz.put("elements", elements);
 
-		// JSONObject x_axis = new JSONObject();
-		// x_axis.set("stroke", 1);
-		// x_axis.set("labels", new JSONArray(new
-		// String[]{"January","February","March","April","May","June","July","August","Spetember"}));
-		// raiz.put("x_axis", x_axis);
+		final JSONObject x_axis = new JSONObject();
+		final JSONArray xLabelArray = new JSONArray();
+		xLabelArray.put("início");
+		for (final String data : mapaEsforcoPorDia.keySet()) {
+			xLabelArray.put(data);
+		}
 
-		// JSONObject y_axis = new JSONObject();
-		// y_axis.set("stroke", 4);
-		// y_axis.set("max", 20);
-		// raiz.put("y_axis", y_axis);
+		final JSONObject x_labels = new JSONObject();
+		x_labels.put("labels", xLabelArray);
+		if (xLabelArray.length() > 7) {
+			x_labels.put("rotate", 270);
+		}
+
+		x_axis.set("stroke", 1);
+
+		x_axis.set("labels", x_labels);
+		x_axis.set("tick_height", 10);
+		raiz.put("x_axis", x_axis);
+
+		final JSONObject y_axis = new JSONObject();
+		y_axis.set("stroke", 1);
+		y_axis.set("steps", esforcoTotal / 8);
+		y_axis.set("max", esforcoTotal);
+		y_axis.set("offset", 2);
+		y_axis.set("tick_length", 5);
+		raiz.put("y_axis", y_axis);
 
 		response.getOutputStream().print(raiz.toString());
 		response.getOutputStream().flush();
@@ -78,5 +113,4 @@ public class BurndownController {
 		System.out.println(raiz.toString());
 		return null;
 	}
-
 }

@@ -6,9 +6,9 @@
 		<title>Burndown Chart</title>
 		<script type="text/javascript">
 		swfobject.embedSWF(
-		  "${chart}", "my_chart", "550", "200",
+		  "${chart}", "my_chart", "800", "480",
 		  "9.0.0", "expressInstall.swf",
-		  {"data-file":"${data}"}
+		  {"data-file":"${data}?sprintKey=${sprintKey}"}
 		  );
 		</script>
 	</head>
@@ -18,3 +18,5 @@
 		</div>
 	</body>
 </html>
+
+
