@@ -1,6 +1,7 @@
 package br.com.bluesoft.pronto.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,6 +24,11 @@ public class DaoHibernate<T, K extends Serializable> {
 	@SuppressWarnings("unchecked")
 	public T obter(final K key) {
 		return (T) getSession().get(clazz, key);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<T> listar() {
+		return this.getSession().createCriteria(clazz).list();
 	}
 
 	public void salvar(final T t) {

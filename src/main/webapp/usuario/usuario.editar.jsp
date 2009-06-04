@@ -42,6 +42,12 @@
 					<form:input path="usuario.email" cssClass="email required"/>
 					<p>e-mail</p>
 				</div>
+				<c:if test="${usuario.username eq null}">
+					<div>
+						<input type="password" name="password">
+						<p>password</p>
+					</div>
+				</c:if>
 				<div>
 					<select size="5" multiple="multiple" name="papel" class="required">
 						<c:forEach items="${papeis}" var="papel">

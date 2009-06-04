@@ -20,6 +20,9 @@
 					<td>${u.nome}</td>
 					<td>${u.email}</td>
 					<td>
+						<pronto:icons name="trocar_senha.png" title="Trocar Senha" onclick="goTo('digitarSenha.action?username=${u.username}')"/>
+					</td>
+					<td>
 						<pronto:icons name="editar_usuario.png" title="Editar Usuário" onclick="goTo('editar.action?username=${u.username}')"/>
 					</td>
 					<td>

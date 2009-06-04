@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.bluesoft.pronto.core.Papel;
+import br.com.bluesoft.pronto.dao.PapelDao;
+import br.com.bluesoft.pronto.dao.UsuarioDao;
 import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.Seguranca;
 
@@ -25,10 +27,15 @@ public class UsuarioController {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@SuppressWarnings("unchecked")
+	@Autowired
+	private UsuarioDao usuarioDao;
+
+	@Autowired
+	private PapelDao papelDao;
+
 	@RequestMapping("/usuario/listar.action")
 	public String listar(final Model model) {
-		final List<Usuario> usuarios = sessionFactory.getCurrentSession().createCriteria(Usuario.class).list();
+		final List<Usuario> usuarios = usuarioDao.listar();
 		model.addAttribute("usuarios", usuarios);
 		return VIEW_LISTAR;
 	}
@@ -37,13 +44,13 @@ public class UsuarioController {
 	public String editar(final Model model, final String username) {
 
 		if (username != null) {
-			final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username);
+			final Usuario usuario = usuarioDao.obter(username);
 			model.addAttribute("usuario", usuario);
 		} else {
 			model.addAttribute("usuario", new Usuario());
 		}
 
-		model.addAttribute("papeis", sessionFactory.getCurrentSession().createCriteria(Papel.class).list());
+		model.addAttribute("papeis", papelDao.listar());
 
 		return VIEW_EDITAR;
 	}
@@ -51,14 +58,14 @@ public class UsuarioController {
 	@RequestMapping("/usuario/excluir.action")
 	public String excluir(final Model model, final String username) {
 
-		final int quantidade = sessionFactory.getCurrentSession().createCriteria(Usuario.class).list().size();
+		final int quantidade = usuarioDao.obterQuantidadeDeUsuariosCadastrados();
 
 		if (quantidade == 1) {
 			model.addAttribute("mensagem", "Você não pode excluir todos os usuários do Pronto!.");
 			return "forward:listar.action";
 		}
 
-		final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username);
+		final Usuario usuario = usuarioDao.obter(username);
 		try {
 			sessionFactory.getCurrentSession().delete(usuario);
 			sessionFactory.getCurrentSession().flush();
@@ -71,7 +78,7 @@ public class UsuarioController {
 	}
 
 	@RequestMapping("/usuario/salvar.action")
-	public String salvar(final Model model, final Usuario usuario, final int[] papel) throws Exception {
+	public String salvar(final Model model, final Usuario usuario, final int[] papel, final String password) throws Exception {
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 		usuario.getPapeis().clear();
@@ -79,20 +86,32 @@ public class UsuarioController {
 			usuario.addPapel((Papel) sessionFactory.getCurrentSession().get(Papel.class, i));
 		}
 
-		sessionFactory.getCurrentSession().saveOrUpdate(usuario);
-		sessionFactory.getCurrentSession().flush();
+		if (password != null) {
+			usuario.setPassword(seguranca.encrypt(password));
+		}
+
+		usuarioDao.salvar(usuario);
+
 		tx.commit();
 		return "forward:listar.action";
+	}
+
+	@RequestMapping("/usuario/digitarSenha.action")
+	public String digitarSenha(final Model model, final String username) throws Exception {
+
+		final Usuario usuario = usuarioDao.obter(username);
+		model.addAttribute("usuario", usuario);
+
+		return "/usuario/usuario.digitarSenha.jsp";
+
 	}
 
 	@RequestMapping("/usuario/trocarSenha.action")
 	public String trocarSenha(final Model model, final String username, final String password) throws Exception {
 
-		final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username);
+		final Usuario usuario = usuarioDao.obter(username);
 		usuario.setPassword(seguranca.encrypt(password));
-
-		sessionFactory.getCurrentSession().saveOrUpdate(usuario);
-		sessionFactory.getCurrentSession().flush();
+		usuarioDao.salvar(usuario);
 
 		return "redirect:listar.action";
 
