@@ -182,6 +182,10 @@ public class Sprint {
 		return ticketsEmAberto;
 	}
 
+	public int getQuantidadeDeTickets() {
+		return tickets != null ? tickets.size() : 0;
+	}
+
 	public List<Date> getDias() {
 
 		final List<Date> dias = new LinkedList<Date>();

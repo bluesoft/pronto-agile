@@ -69,9 +69,11 @@ public class Backlog {
 
 	public int getEsforcoTotal() {
 		int total = 0;
-		for (final Ticket ticket : tickets) {
-			if (ticket.isDefeito() || ticket.isEstoria()) {
-				total += ticket.getEsforco();
+		if (tickets != null) {
+			for (final Ticket ticket : tickets) {
+				if (ticket.isDefeito() || ticket.isEstoria() || ticket.isIdeia()) {
+					total += ticket.getEsforco();
+				}
 			}
 		}
 		return total;
@@ -79,9 +81,11 @@ public class Backlog {
 
 	public int getValorDeNegocioTotal() {
 		int total = 0;
-		for (final Ticket ticket : tickets) {
-			if (ticket.isDefeito() || ticket.isEstoria()) {
-				total += ticket.getValorDeNegocio();
+		if (tickets != null) {
+			for (final Ticket ticket : tickets) {
+				if (ticket.isDefeito() || ticket.isEstoria() || ticket.isIdeia()) {
+					total += ticket.getValorDeNegocio();
+				}
 			}
 		}
 		return total;

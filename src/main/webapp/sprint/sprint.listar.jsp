@@ -28,6 +28,7 @@
 				<th style="width: 18px"></th>
 				<th>nome</th>
 				<th>período</th>
+				<th>quantidade de estórias</th>
 				<th>esforço</th>
 				<th style="width: 18px"></th>
 				<th style="width: 18px"></th>
@@ -57,7 +58,8 @@
 					</td>
 					<td>${s.nome}</td>
 					<td><fmt:formatDate value="${s.dataInicial}"/> à <fmt:formatDate value="${s.dataFinal}"/></td>
-					<td>${sprint.esforcoTotal}</td>
+					<td>${s.quantidadeDeTickets}</td>
+					<td>${s.esforcoTotal}</td>
 					<td><pronto:icons name="editar_sprint.png" title="Editar Sprint" onclick="goTo('${urlSprint}editar.action?sprintKey=${s.sprintKey}')"/></td>
 					<td><pronto:icons name="ver_estorias.png" title="Ver Estórias" onclick="goTo('${urlSprint}../ticket/listarPorSprint.action?sprintKey=${s.sprintKey}')"/></td>
 					<td>

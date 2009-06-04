@@ -307,4 +307,8 @@ public class Ticket {
 		return kanbanStatus != null && kanbanStatus.getKanbanStatusKey() == KanbanStatus.DONE;
 	}
 
+	public boolean isIdeia() {
+		return getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.IDEIA;
+	}
+
 }
