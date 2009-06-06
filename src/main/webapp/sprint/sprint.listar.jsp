@@ -61,7 +61,7 @@
 					<td>${s.quantidadeDeTickets}</td>
 					<td>${s.esforcoTotal}</td>
 					<td><pronto:icons name="editar_sprint.png" title="Editar Sprint" onclick="goTo('${urlSprint}editar.action?sprintKey=${s.sprintKey}')"/></td>
-					<td><pronto:icons name="ver_estorias.png" title="Ver Estórias" onclick="goTo('${urlSprint}../ticket/listarPorSprint.action?sprintKey=${s.sprintKey}')"/></td>
+					<td><pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="goTo('${urlSprint}../ticket/listarPorSprint.action?sprintKey=${s.sprintKey}')"/></td>
 					<td>
 						<c:if test="${!s.atual}">
 							<c:choose>

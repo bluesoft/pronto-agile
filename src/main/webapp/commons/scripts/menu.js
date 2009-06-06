@@ -1,4 +1,4 @@
-var timeout = 500;
+	var timeout = 500;
 	var closetimer = 0;
 	var ddmenuitem = 0;
 
@@ -36,3 +36,4 @@ var timeout = 500;
 	});
 
 	document.onclick = jsddm_close;
+	

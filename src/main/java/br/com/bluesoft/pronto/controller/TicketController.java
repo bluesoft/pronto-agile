@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
+import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
@@ -51,6 +52,9 @@ public class TicketController {
 	@Autowired
 	private TicketDao ticketDao;
 
+	@Autowired
+	private SprintDao sprintDao;
+
 	@ModelAttribute("usuarios")
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getUsuarios() {
@@ -63,10 +67,9 @@ public class TicketController {
 		return sessionFactory.getCurrentSession().createCriteria(TipoDeTicket.class).list();
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorBacklog.action")
 	public String listarPorBacklog(final Model model, final int backlogKey) {
-		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("backlog.backlogKey", backlogKey)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
+		final List<Ticket> tickets = ticketDao.listarPorBacklog(backlogKey);
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
 		return VIEW_LISTAR;
@@ -74,7 +77,7 @@ public class TicketController {
 
 	@RequestMapping("/ticket/sprintAtual.action")
 	public String sprintAtual(final Model model) {
-		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().createCriteria(Sprint.class).add(Restrictions.eq("atual", true)).uniqueResult();
+		final Sprint sprint = sprintDao.getSprintAtual();
 
 		if (sprint == null) {
 			model.addAttribute("mensagem", "Por favor, informe qual é o Sprint atual.");
@@ -84,12 +87,11 @@ public class TicketController {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorSprint.action")
 	public String listarPorSprint(final Model model, final int sprintKey) {
-		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("sprint.sprintKey", sprintKey)).add(Restrictions.eq("backlog.backlogKey", Backlog.SPRINT_BACKLOG)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
+		final List<Ticket> tickets = ticketDao.listarPorSprint(sprintKey);
 		model.addAttribute("tickets", tickets);
-		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
+		model.addAttribute("sprint", sprintDao.obter(sprintKey));
 		return VIEW_LISTAR;
 	}
 
@@ -150,6 +152,11 @@ public class TicketController {
 	public String editar(final Model model, final Integer ticketKey, final Integer tipoDeTicketKey, final Integer backlogKey) {
 		if (ticketKey != null) {
 			final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+
+			if (ticket == null) {
+				model.addAttribute("mensagem", "O Ticket #" + ticketKey + " não existe.");
+				return "/branca.jsp";
+			}
 			model.addAttribute("sprints", sessionFactory.getCurrentSession().createCriteria(Sprint.class).list());
 			model.addAttribute("ticket", ticket);
 			model.addAttribute("anexos", listarAnexos(ticketKey));
