@@ -106,7 +106,7 @@ public class SprintController {
 
 		final byte[] bytes = getImageBytes(request);
 
-		final String folderPath = config.getImagesFolder() + "sprints/";
+		final String folderPath = config.getImagesFolder() + "/sprints/";
 		final File folder = new File(folderPath);
 		folder.mkdirs();
 
@@ -125,17 +125,26 @@ public class SprintController {
 	@RequestMapping("/sprint/imagem.action")
 	public String imagem(final HttpServletResponse response, final int sprintKey) throws Exception {
 
-		final String folderPath = config.getImagesFolder() + "sprints/";
+		final String folderPath = config.getImagesFolder() + "/sprints/";
 
 		final File arquivo = new File(folderPath + sprintKey);
+
+		final byte[] bytes;
 		if (arquivo.exists()) {
 			final FileInputStream fis = new FileInputStream(arquivo);
 			final int numberBytes = fis.available();
-			final byte bytes[] = new byte[numberBytes];
+			bytes = new byte[numberBytes];
 			fis.read(bytes);
 			fis.close();
-			response.getOutputStream().write(bytes);
+		} else {
+			final InputStream resource = this.getClass().getResourceAsStream("/noImage.jpg");
+			final int numberBytes = resource.available();
+			bytes = new byte[numberBytes];
+			resource.read(bytes);
+			resource.close();
 		}
+
+		response.getOutputStream().write(bytes);
 		return null;
 
 	}
