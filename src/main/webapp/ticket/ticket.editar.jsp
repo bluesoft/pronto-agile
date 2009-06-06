@@ -39,6 +39,9 @@
 				<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
 					<pronto:icons name="restaurar.png" title="Restaurar" onclick="goTo('restaurar.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
+				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
+					<pronto:icons name="nova_tarefa.png" title="IncluirTarefa" onclick="goTo('incluirTarefa.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+				</c:if>
 				<!-- Fim das Operacoes -->
 				<br/><br/>
 				
