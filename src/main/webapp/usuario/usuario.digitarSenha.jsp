@@ -5,6 +5,7 @@
 		<script>
 
 			$(function() {
+				$('#password').focus();
 				$('#formUsuario').validate();
 			});
 		
@@ -29,7 +30,7 @@
 					<p>Nome</p>
 				</div>
 				<div>
-					<input type="password" name="password" class="required">
+					<input type="password" name="password" id="password" class="required">
 					<p>password</p>
 				</div>
 				<div align="center">

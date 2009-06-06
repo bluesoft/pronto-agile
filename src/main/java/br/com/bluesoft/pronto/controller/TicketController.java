@@ -24,8 +24,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.SegurancaException;
 import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
+import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
@@ -294,32 +296,37 @@ public class TicketController {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/estimarSprint.action")
 	public String estimarSprint(final Model model, final int sprintKey) {
-		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("sprint.sprintKey", sprintKey)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
+		final List<Ticket> tickets = ticketDao.listarPorSprint(sprintKey);
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
 		return VIEW_ESTIMAR;
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/estimarBacklog.action")
-	public String estimarBacklog(final Model model, final int backlogKey) {
-		final List<Ticket> tickets = sessionFactory.getCurrentSession().createCriteria(Ticket.class).add(Restrictions.eq("backlog.backlogKey", backlogKey)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list();
+	public String estimarBacklog(final Model model, final int backlogKey) throws SegurancaException {
+		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.PRODUCT_OWNER);
+		final List<Ticket> tickets = ticketDao.listarPorBacklog(backlogKey);
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
 		return VIEW_ESTIMAR;
 	}
 
 	@RequestMapping("/ticket/salvarEstimativa.action")
-	public String salvarEstimativa(final Model model, final int ticketKey[], final int valorDeNegocio[], final int esforco[]) {
+	public String salvarEstimativa(final Model model, final int ticketKey[], final int valorDeNegocio[], final int esforco[]) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.PRODUCT_OWNER);
 
 		Ticket ticket = null;
 		for (int i = 0; i < ticketKey.length; i++) {
 			ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey[i]);
-			ticket.setEsforco(esforco[i]);
-			ticket.setValorDeNegocio(valorDeNegocio[i]);
+			if (Seguranca.getUsuario().temOPapel(Papel.DESENVOLVEDOR)) {
+				ticket.setEsforco(esforco[i]);
+			}
+			if (Seguranca.getUsuario().temOPapel(Papel.PRODUCT_OWNER)) {
+				ticket.setValorDeNegocio(valorDeNegocio[i]);
+			}
 			sessionFactory.getCurrentSession().update(ticket);
 		}
 		sessionFactory.getCurrentSession().flush();

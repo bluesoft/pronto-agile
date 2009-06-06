@@ -46,8 +46,15 @@ public class Seguranca {
 		}
 	}
 
-	public static void validarPermissao(final int papelKey) throws SegurancaException {
-		if (!getUsuario().temOPapel(papelKey)) {
+	public static void validarPermissao(final int... papeis) throws SegurancaException {
+
+		boolean permitido = false;
+
+		for (final int papelKey : papeis) {
+			permitido = permitido || getUsuario().temOPapel(papelKey);
+		}
+
+		if (!permitido) {
 			throw new SegurancaException("Você não possui permissão para realizar essa operação.");
 		}
 

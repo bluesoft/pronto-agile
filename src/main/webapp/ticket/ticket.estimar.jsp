@@ -35,8 +35,30 @@
 						<td>${t.titulo}</td>
 						<td>${t.tipoDeTicket.descricao}</td>
 						<td>${t.cliente}</td>
-						<td><input type="text" size="5" name="valorDeNegocio" value="${t.valorDeNegocio}"/></td>
-						<td><input type="text" size="5" name="esforco" value="${t.esforco}"/></td>
+						
+						<td>
+							<c:choose>
+								<c:when test="${usuarioLogado.productOwner}">
+									<input type="text" size="5" name="valorDeNegocio" value="${t.valorDeNegocio}"/>
+								</c:when>
+								<c:otherwise>
+									${t.valorDeNegocio}
+								</c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${usuario.desenvolvedor}">
+									<input type="text" size="5" name="esforco" value="${t.esforco}"/>
+								</c:when>
+								<c:otherwise>
+									${t.esforco}
+								</c:otherwise>
+							</c:choose>
+							
+							
+							
+						</td>
 						<td>${t.kanbanStatus.descricao}</td>
 						<td>
 							<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${t.ticketKey}')"></pronto:icons>
