@@ -36,7 +36,7 @@
 				<c:if test="${ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2 or ticket.backlog.backlogKey eq 3}">
 					<pronto:icons name="impedimento.png" title="Mover para a Impedimentos" onclick="goTo('moverParaImpedimentos.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
-				<c:if test="${ticket.backlog.backlogKey eq 4}">
+				<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
 					<pronto:icons name="restaurar.png" title="Restaurar" onclick="goTo('restaurar.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 				<!-- Fim das Operacoes -->
@@ -190,10 +190,18 @@
 				<button type="submit">Upload</button>
 			</form>
 		
-			<h2>Logs</h2>
+			<h2>Log</h2>
 			<ul>
 				<c:forEach items="${ticket.logs}" var="log">
-					<li>${log.descricao}</li>
+					<c:choose>
+						<c:when test="${log.campo eq 'descrição'}">
+							<li><fmt:formatDate value="${log.data}" pattern="dd/MM/yy HH:mm"/> - ${log.usuario} - Descrição Alterada <a href="logDescricao.action?ticketHistoryKey=${log.ticketHistoryKey}">(ver)</a></li>
+						</c:when>
+						<c:otherwise>
+							<li>${log.descricao}</li>
+						</c:otherwise>
+					</c:choose>
+					
 				</c:forEach>
 			</ul>
 		</c:if>

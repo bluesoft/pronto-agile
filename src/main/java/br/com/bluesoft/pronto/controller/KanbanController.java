@@ -22,20 +22,20 @@ public class KanbanController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/kanban/kanban.action")
-	public String index(Model model) {
+	public String index(final Model model) {
 
-		String hql = "from Ticket t inner join fetch t.sprint s where s.atual = true";
+		final String hql = "from Ticket t inner join fetch t.sprint s where s.atual = true";
 
-		List<Ticket> tickets = sessionFactory.getCurrentSession().createQuery(hql).list();
+		final List<Ticket> tickets = sessionFactory.getCurrentSession().createQuery(hql).list();
 		model.addAttribute("tickets", tickets);
 		return VIEW_KANBAN;
 	}
 
 	@RequestMapping("/kanban/mover.action")
-	public String mover(Model model, int ticketKey, int kanbanStatusKey) {
+	public String mover(final Model model, final int ticketKey, final int kanbanStatusKey) {
 
-		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
-		ticket.setKanbanStatus(new KanbanStatus(kanbanStatusKey));
+		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, kanbanStatusKey));
 
 		if (kanbanStatusKey == KanbanStatus.DONE) {
 			ticket.setDataDePronto(new Date());
@@ -43,7 +43,7 @@ public class KanbanController {
 			ticket.setDataDePronto(null);
 		}
 
-		sessionFactory.getCurrentSession().update(ticket);
+		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
 		sessionFactory.getCurrentSession().flush();
 
 		return null;

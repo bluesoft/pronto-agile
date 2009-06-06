@@ -46,10 +46,12 @@ public class Ticket {
 	@Label("título")
 	private String titulo;
 
+	@Label("backlog")
 	@ManyToOne
 	@JoinColumn(name = "BACKLOG_KEY")
 	private Backlog backlog;
 
+	@Label("status do kanban")
 	@ManyToOne
 	@JoinColumn(name = "KANBAN_STATUS_KEY")
 	private KanbanStatus kanbanStatus;
@@ -95,6 +97,7 @@ public class Ticket {
 	@OneToMany(mappedBy = "pai")
 	private List<Ticket> filhos;
 
+	@Label("data de pronto")
 	private Date dataDePronto;
 
 	@ManyToOne

@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import br.com.bluesoft.pronto.service.WikiFormatter;
+
 @Entity
 @SequenceGenerator(name = "SEQ_TICKET_LOG", sequenceName = "SEQ_TICKET_LOG")
 public class TicketLog {
@@ -73,7 +75,7 @@ public class TicketLog {
 	}
 
 	public String getValorAntigo() {
-		return valorAntigo;
+		return valorAntigo == null || valorAntigo.equals("null") ? "Em Branco" : valorAntigo;
 	}
 
 	public void setValorAntigo(final String valorAntigo) {
@@ -82,7 +84,7 @@ public class TicketLog {
 	}
 
 	public String getValorNovo() {
-		return valorNovo;
+		return valorNovo == null || valorNovo.equals("null") ? "Em Branco" : valorNovo;
 	}
 
 	public void setValorNovo(final String valorNovo) {
@@ -108,9 +110,9 @@ public class TicketLog {
 	public String getDescricao() {
 
 		if (getOperacao() == ALTERACAO) {
-			return MessageFormat.format("{4} - {3} - {0} mudou de \"{1}\" para \"{2}\"", campo, valorAntigo, valorNovo, usuario, data);
+			return MessageFormat.format("{0} - {1} - {2} mudou de \"{3}\" para \"{4}\"", data, usuario, campo, valorAntigo, valorNovo);
 		} else {
-			return null;
+			return MessageFormat.format("{0} - {1} - {2} foi definido como \"{3}\"", data, usuario, campo, valorNovo);
 		}
 	}
 
@@ -148,6 +150,14 @@ public class TicketLog {
 
 		return true;
 
+	}
+
+	public String getValorAntigoHtml() {
+		return WikiFormatter.toHtml(valorAntigo);
+	}
+
+	public String getValorNovoHtml() {
+		return WikiFormatter.toHtml(valorNovo);
 	}
 
 }

@@ -22,6 +22,7 @@ import br.com.bluesoft.pronto.annotations.Label;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.TicketLog;
 import br.com.bluesoft.pronto.service.Seguranca;
+import br.com.bluesoft.pronto.util.DateUtil;
 
 public final class HibernateAuditLogListener implements PreDeleteEventListener, PreInsertEventListener, PreUpdateEventListener, PreLoadEventListener, Initializable {
 
@@ -138,8 +139,14 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 	}
 
 	private String makeString(final Object x) {
-		final String str = String.valueOf(x);
-		if (x.equals("null")) {
+
+		String str = String.valueOf(x);
+
+		if (x instanceof Date) {
+			str = DateUtil.toString((Date) x);
+		}
+
+		if (x == null || x.equals("null")) {
 			return "em branco";
 		} else {
 			return str;

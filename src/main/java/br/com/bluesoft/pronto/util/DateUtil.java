@@ -10,7 +10,11 @@ public class DateUtil {
 	private static final String PADRAO_MES_ANO = "dd/MM";
 
 	public static String toString(final Date date) {
-		return new SimpleDateFormat(PADRAO_COMPLETO).format(date);
+		if (date != null) {
+			return new SimpleDateFormat(PADRAO_COMPLETO).format(date);
+		} else {
+			return null;
+		}
 	}
 
 	public static String toStringMesAno(final Date date) {

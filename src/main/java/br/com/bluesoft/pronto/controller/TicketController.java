@@ -28,6 +28,7 @@ import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
+import br.com.bluesoft.pronto.model.TicketLog;
 import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.Config;
 import br.com.bluesoft.pronto.service.Seguranca;
@@ -95,6 +96,7 @@ public class TicketController {
 			ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, ticket.getBacklog().getBacklogKey()));
 			ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, ticket.getTipoDeTicket().getTipoDeTicketKey()));
 			ticket.setReporter((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, ticket.getReporter().getUsername()));
+			ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, ticket.getKanbanStatus().getKanbanStatusKey()));
 
 			if (ticket.getSprint() != null && ticket.getSprint().getSprintKey() <= 0) {
 				ticket.setSprint(null);
@@ -150,6 +152,7 @@ public class TicketController {
 	public String jogarNoLixo(final Model model, final int ticketKey, final HttpServletResponse response) {
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.LIXEIRA));
+		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
@@ -170,6 +173,7 @@ public class TicketController {
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.ESTORIA));
 		ticket.setSprint(null);
+		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
@@ -180,6 +184,7 @@ public class TicketController {
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IDEIA));
+		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
 		ticket.setSprint(null);
 		sessionFactory.getCurrentSession().update(ticket);
 		sessionFactory.getCurrentSession().flush();
@@ -322,4 +327,15 @@ public class TicketController {
 		sessionFactory.getCurrentSession().flush();
 		return "redirect:/ticket/listarPorSprint.action?sprintKey=" + sprintKey;
 	}
+
+	@RequestMapping("/ticket/logDescricao.action")
+	public String logDescricao(final Model model, final int ticketHistoryKey) {
+
+		final TicketLog log = (TicketLog) sessionFactory.getCurrentSession().get(TicketLog.class, ticketHistoryKey);
+		model.addAttribute("log", log);
+
+		return "/ticket/ticket.logDescricao.jsp";
+
+	}
+
 }
