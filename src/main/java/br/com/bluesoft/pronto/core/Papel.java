@@ -16,11 +16,11 @@ public class Papel {
 
 	}
 
-	public Papel(int papelKey) {
+	public Papel(final int papelKey) {
 		this.papelKey = papelKey;
 	}
 
-	public Papel(int papelKey, String descricao) {
+	public Papel(final int papelKey, final String descricao) {
 		this.papelKey = papelKey;
 		this.descricao = descricao;
 	}
@@ -34,7 +34,7 @@ public class Papel {
 		return papelKey;
 	}
 
-	public void setPapelKey(int papelKey) {
+	public void setPapelKey(final int papelKey) {
 		this.papelKey = papelKey;
 	}
 
@@ -42,8 +42,39 @@ public class Papel {
 		return descricao;
 	}
 
-	public void setDescricao(String descricao) {
+	public void setDescricao(final String descricao) {
 		this.descricao = descricao;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + papelKey;
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Papel other = (Papel) obj;
+		if (papelKey != other.papelKey) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return descricao;
 	}
 
 }

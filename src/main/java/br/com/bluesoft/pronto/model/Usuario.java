@@ -121,4 +121,24 @@ public class Usuario implements Comparable<Usuario> {
 		return username.compareTo(outro.username);
 	}
 
+	public boolean isProductOwner() {
+		return getPapeis().contains(Papel.PRODUCT_OWNER);
+	}
+
+	public boolean isDesenvolvedor() {
+		return getPapeis().contains(Papel.DESENVOLVEDOR);
+	}
+
+	public boolean isScrumMaster() {
+		return getPapeis().contains(Papel.SCRUM_MASTER);
+	}
+
+	public boolean isSuporte() {
+		return getPapeis().contains(Papel.SUPORTE);
+	}
+
+	public boolean isTestador() {
+		return getPapeis().contains(Papel.TESTADOR);
+	}
+
 }

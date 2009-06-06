@@ -31,12 +31,6 @@
 					</td>
 				</tr>
 			</c:forEach>
-			<tr>
-				<th colspan="4"></th>
-				<th>${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
-				<th>${sprint.esforcoTotal}${backlog.esforcoTotal}</th>
-				<th></th>
-			</tr>
 		</table>	
 	</body>
 </html>
