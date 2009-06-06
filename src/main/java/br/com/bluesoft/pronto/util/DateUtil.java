@@ -8,6 +8,7 @@ public class DateUtil {
 
 	private static final String PADRAO_COMPLETO = "dd/MM/yyyy";
 	private static final String PADRAO_MES_ANO = "dd/MM";
+	private static final String PADRAO_HORA = "HH:mm";
 
 	public static String toString(final Date date) {
 		if (date != null) {
@@ -19,6 +20,10 @@ public class DateUtil {
 
 	public static String toStringMesAno(final Date date) {
 		return new SimpleDateFormat(PADRAO_MES_ANO).format(date);
+	}
+
+	public static String toStringHora(final Date date) {
+		return new SimpleDateFormat(PADRAO_HORA).format(date);
 	}
 
 	public static Date add(final Date date, final int days) {

@@ -168,12 +168,8 @@
 						<button type="button" onclick="window.location.href='listarPorBacklog.action?backlogKey=${ticket.backlog.backlogKey}'">Cancelar</button>
 					</c:otherwise>
 				</c:choose>
-				
 				<button type="submit">Salvar</button>
-				
-				
 			</div>
-			
 		</form>		
 	
 		<c:if test="${ticket.ticketKey gt 0}">
@@ -192,16 +188,21 @@
 		
 			<h2>Log</h2>
 			<ul>
+				<c:set var="dataGrupo" value="${null}"/>
 				<c:forEach items="${ticket.logs}" var="log">
+					<fmt:formatDate value="${log.data}" pattern="dd/MM/yyyy" var="dataAtual"/>
+					<c:if test="${dataGrupo eq null or dataGrupo ne dataAtual}">
+						<h4><fmt:formatDate value="${log.data}" pattern="dd/MM/yyyy"/></h4>
+						<fmt:formatDate value="${log.data}" pattern="dd/MM/yyyy" var="dataGrupo"/>
+					</c:if>
 					<c:choose>
 						<c:when test="${log.campo eq 'descrição'}">
-							<li><fmt:formatDate value="${log.data}" pattern="dd/MM/yy HH:mm"/> - ${log.usuario} - Descrição Alterada <a href="logDescricao.action?ticketHistoryKey=${log.ticketHistoryKey}">(ver)</a></li>
+							<li><fmt:formatDate value="${log.data}" pattern="HH:mm"/> - ${log.usuario} - Descrição Alterada <a href="logDescricao.action?ticketHistoryKey=${log.ticketHistoryKey}">(ver)</a></li>
 						</c:when>
 						<c:otherwise>
-							<li>${log.descricao}</li>
+							<li>${log.descricaoSemData}</li>
 						</c:otherwise>
 					</c:choose>
-					
 				</c:forEach>
 			</ul>
 		</c:if>

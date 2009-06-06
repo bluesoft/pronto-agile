@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,6 +21,7 @@ import br.com.bluesoft.pronto.annotations.Label;
 import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
+import br.com.bluesoft.pronto.service.Seguranca;
 import br.com.bluesoft.pronto.service.WikiFormatter;
 
 @Entity
@@ -74,7 +76,8 @@ public class Ticket {
 
 	private String branch;
 
-	@ManyToMany
+	@Label("desenvolvedores")
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "TICKET_DESENVOLVEDOR", joinColumns = { @JoinColumn(name = "TICKET_KEY") }, inverseJoinColumns = { @JoinColumn(name = "USUARIO_KEY") })
 	private Set<Usuario> desenvolvedores;
 
@@ -104,7 +107,7 @@ public class Ticket {
 	@JoinColumn(name = "sprint")
 	private Sprint sprint;
 
-	@OneToMany(mappedBy = "ticket")
+	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
 	private final List<TicketLog> logs;
 
 	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
@@ -274,6 +277,18 @@ public class Ticket {
 		comentario.setUsuario(usuario);
 		comentario.setTexto(texto);
 		comentarios.add(comentario);
+	}
+
+	public void addLogDeAlteracao(final String campo, final String valorAntigo, final String valorNovo) {
+		final TicketLog log = new TicketLog();
+		log.setTicket(this);
+		log.setData(new Date());
+		log.setUsuario(Seguranca.getUsuario().getUsername());
+		log.setOperacao(TicketLog.ALTERACAO);
+		log.setCampo(campo);
+		log.setValorAntigo(valorAntigo);
+		log.setValorNovo(valorNovo);
+		logs.add(log);
 	}
 
 	public KanbanStatus getKanbanStatus() {

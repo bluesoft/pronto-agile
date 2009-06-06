@@ -14,7 +14,7 @@ import javax.persistence.ManyToMany;
 import br.com.bluesoft.pronto.core.Papel;
 
 @Entity
-public class Usuario {
+public class Usuario implements Comparable<Usuario> {
 
 	@Id
 	private String username;
@@ -65,17 +65,17 @@ public class Usuario {
 		return papeis;
 	}
 
-	public void setPapeis(Set<Papel> papeis) {
+	public void setPapeis(final Set<Papel> papeis) {
 		this.papeis = papeis;
 	}
 
-	public void addPapel(Papel papel) {
-		this.papeis.add(papel);
+	public void addPapel(final Papel papel) {
+		papeis.add(papel);
 	}
 
 	public Map<Integer, Boolean> getMapaPapeis() {
-		Map<Integer, Boolean> mapaPapeis = new HashMap<Integer, Boolean>();
-		for (Papel papel : papeis) {
+		final Map<Integer, Boolean> mapaPapeis = new HashMap<Integer, Boolean>();
+		for (final Papel papel : papeis) {
 			mapaPapeis.put(papel.getPapelKey(), true);
 		}
 		return mapaPapeis;
@@ -85,4 +85,40 @@ public class Usuario {
 	public String toString() {
 		return username;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (username == null ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Usuario other = (Usuario) obj;
+		if (username == null) {
+			if (other.username != null) {
+				return false;
+			}
+		} else if (!username.equals(other.username)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int compareTo(final Usuario outro) {
+		return username.compareTo(outro.username);
+	}
+
 }

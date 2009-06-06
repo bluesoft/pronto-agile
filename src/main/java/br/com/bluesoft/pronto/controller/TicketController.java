@@ -3,8 +3,9 @@ package br.com.bluesoft.pronto.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
+import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.TicketLog;
@@ -45,6 +47,9 @@ public class TicketController {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+
+	@Autowired
+	private TicketDao ticketDao;
 
 	@ModelAttribute("usuarios")
 	@SuppressWarnings("unchecked")
@@ -93,6 +98,7 @@ public class TicketController {
 
 		try {
 			final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+
 			ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, ticket.getBacklog().getBacklogKey()));
 			ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, ticket.getTipoDeTicket().getTipoDeTicketKey()));
 			ticket.setReporter((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, ticket.getReporter().getUsername()));
@@ -108,24 +114,36 @@ public class TicketController {
 				ticket.addComentario(comentario, Seguranca.getUsuario().getNome());
 			}
 
-			if (desenvolvedor != null && desenvolvedor.length > 0) {
-				ticket.setDesenvolvedores(new HashSet<Usuario>());
-				for (final String username : desenvolvedor) {
-					ticket.addDesenvolvedor((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username));
-				}
-			}
+			definirDesenvolvedores(ticket, desenvolvedor);
 
-			sessionFactory.getCurrentSession().saveOrUpdate(ticket);
-			sessionFactory.getCurrentSession().flush();
+			ticketDao.salvar(ticket);
 
 			tx.commit();
 
 			return "redirect:editar.action?ticketKey=" + ticket.getTicketKey();
 		} catch (final Exception e) {
 			model.addAttribute("erro", e.getMessage());
-			return "forward:editar.action?ticketKey=" + ticket.getTicketKey();
+			return "forward:editar.action";
 		}
 
+	}
+
+	private void definirDesenvolvedores(final Ticket ticket, final String[] desenvolvedor) {
+
+		final Set<Usuario> desenvolvedoresAntigos = new TreeSet<Usuario>(ticketDao.listarDesenvolvedoresDoTicket(ticket.getTicketKey()));
+
+		if (desenvolvedor != null && desenvolvedor.length > 0) {
+			ticket.setDesenvolvedores(new TreeSet<Usuario>());
+			for (final String username : desenvolvedor) {
+				ticket.addDesenvolvedor((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username));
+			}
+		}
+
+		final String desenvolvedoresAntigosStr = desenvolvedoresAntigos == null ? "nenhum" : desenvolvedoresAntigos.toString();
+		final String desenvolvedoresNovosStr = ticket.getDesenvolvedores() == null ? "nenhum" : ticket.getDesenvolvedores().toString();
+		if (!desenvolvedoresAntigosStr.equals(desenvolvedoresNovosStr)) {
+			ticket.addLogDeAlteracao("desenvolvedores", desenvolvedoresAntigosStr, desenvolvedoresNovosStr);
+		}
 	}
 
 	@RequestMapping("/ticket/editar.action")

@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import br.com.bluesoft.pronto.service.WikiFormatter;
+import br.com.bluesoft.pronto.util.DateUtil;
 
 @Entity
 @SequenceGenerator(name = "SEQ_TICKET_LOG", sequenceName = "SEQ_TICKET_LOG")
@@ -107,12 +108,21 @@ public class TicketLog {
 		this.usuario = usuario;
 	}
 
-	public String getDescricao() {
+	public String getDescricaoSemData() {
 
 		if (getOperacao() == ALTERACAO) {
-			return MessageFormat.format("{0} - {1} - {2} mudou de \"{3}\" para \"{4}\"", data, usuario, campo, valorAntigo, valorNovo);
+			return MessageFormat.format("{1} - {2} mudou de \"{3}\" para \"{4}\"", DateUtil.toStringHora(data), usuario, campo, valorAntigo, valorNovo);
 		} else {
-			return MessageFormat.format("{0} - {1} - {2} foi definido como \"{3}\"", data, usuario, campo, valorNovo);
+			return MessageFormat.format("{1} - {2} foi definido como \"{3}\"", DateUtil.toStringHora(data), usuario, campo, valorNovo);
+		}
+	}
+
+	public String getDescricaoCompleta() {
+
+		if (getOperacao() == ALTERACAO) {
+			return MessageFormat.format("{1} - {2} mudou de \"{3}\" para \"{4}\"", data, usuario, campo, valorAntigo, valorNovo);
+		} else {
+			return MessageFormat.format("{1} - {2} foi definido como \"{3}\"", data, usuario, campo, valorNovo);
 		}
 	}
 

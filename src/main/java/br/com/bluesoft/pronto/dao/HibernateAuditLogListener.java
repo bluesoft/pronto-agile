@@ -101,13 +101,15 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 			for (final String propertyName : event.getPersister().getPropertyNames()) {
 
 				String campo = propertyName;
-				if (Ticket.class.getDeclaredField(propertyName).isAnnotationPresent(Label.class)) {
+				final boolean temLabel = Ticket.class.getDeclaredField(propertyName).isAnnotationPresent(Label.class);
+				if (temLabel) {
 					campo = Ticket.class.getDeclaredField(propertyName).getAnnotation(Label.class).value();
 				}
 
 				newPropValue = event.getPersister().getPropertyValue(event.getEntity(), propertyName, entityMode);
 				if (newPropValue != null) {
-					if (!(newPropValue instanceof Collection)) {
+					final boolean ehUmaCollection = newPropValue instanceof Collection;
+					if (!ehUmaCollection) {
 						oldPropValue = event.getPersister().getPropertyValue(existingEntity, propertyName, entityMode);
 
 						final String oldValue = makeString(oldPropValue);
