@@ -79,8 +79,7 @@ CREATE TABLE sprint (
     sprint_key integer NOT NULL,
     nome character varying(255),
     data_inicial timestamp without time zone,
-    data_final timestamp without time zone,
-    imagem oid,
+    data_final timestamp without time zone,    
     fechado boolean NOT NULL,
     atual boolean NOT NULL
 );

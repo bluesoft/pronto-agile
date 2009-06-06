@@ -30,12 +30,12 @@
 							<p>Código</p>
 						</div>
 					</c:if>
-				<c:if test="${sprint.imagem ne null}">
+				
 					<div>
 						<img src="${urlSprint}imagem.action?sprintKey=${sprint.sprintKey}"/>
 						<p>Logo do Sprint</p>
 					</div>
-				</c:if>
+				
 				<div>
 					<form:input path="sprint.nome" cssClass="required"/>
 					<p>Nome</p>
@@ -67,17 +67,10 @@
 				</div>
 			</div>
 		</form>		
-		
+
 		<h2>Logo do Sprint</h2>
 		<c:if test="${sprint.sprintKey gt 0}">
-			<c:choose>
-				<c:when test="${sprint.imagem eq null}">
-					<h4>Incluir imagem</h4>
-				</c:when>
-				<c:otherwise>
-					<h4>Substituir imagem</h4>
-				</c:otherwise>
-			</c:choose>
+			<h4>Definir imagem</h4>
 			<form action="${urlSprint}upload.action?sprintKey=${sprint.sprintKey}" method="post" enctype="multipart/form-data">
 				<input type="file" name="arquivo">
 				<button type="submit">Upload</button>

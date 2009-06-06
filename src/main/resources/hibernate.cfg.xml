@@ -8,12 +8,10 @@
 		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 		<property name="hibernate.jdbc.fetch_size">20</property>
 		<property name="hibernate.jdbc.batch_size">20</property>
-		<property name="hibernate.connection.autocommit">false</property>
-		<!-- 
-			<property name="hibernate.hbm2ddl.auto"></property>
-		 -->
-		<property name="hibernate.use_sql_comments">true</property>
 		<property name="hibernate.show_sql">true</property>
+		
+		<property name="hibernate.connection.autocommit">false</property>
+		<property name="connection.autocommit">false</property> 
 
 		<!-- core classes -->
 		<mapping class="br.com.bluesoft.pronto.core.Backlog" />
@@ -31,7 +29,6 @@
 		<listener type="pre-delete" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />
 		<listener type="pre-update" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />
 		<listener type="pre-insert" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />
-		<listener type="pre-load" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />
 
 	</session-factory>
 </hibernate-configuration>

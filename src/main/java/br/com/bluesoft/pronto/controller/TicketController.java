@@ -143,8 +143,8 @@ public class TicketController {
 			}
 		}
 
-		final String desenvolvedoresAntigosStr = desenvolvedoresAntigos == null ? "nenhum" : desenvolvedoresAntigos.toString();
-		final String desenvolvedoresNovosStr = ticket.getDesenvolvedores() == null ? "nenhum" : ticket.getDesenvolvedores().toString();
+		final String desenvolvedoresAntigosStr = desenvolvedoresAntigos == null || desenvolvedoresAntigos.size() == 0 ? "nenhum" : desenvolvedoresAntigos.toString();
+		final String desenvolvedoresNovosStr = ticket.getDesenvolvedores() == null || ticket.getDesenvolvedores().size() == 0 ? "nenhum" : ticket.getDesenvolvedores().toString();
 		if (!desenvolvedoresAntigosStr.equals(desenvolvedoresNovosStr)) {
 			ticket.addLogDeAlteracao("desenvolvedores", desenvolvedoresAntigosStr, desenvolvedoresNovosStr);
 		}
@@ -378,6 +378,11 @@ public class TicketController {
 
 		return "/ticket/ticket.logDescricao.jsp";
 
+	}
+
+	@RequestMapping("/ticket/incluirTarefa.action")
+	public String incluirTarefa(final Model model, final int ticketHistoryKey) {
+		return "/ticket/ticket.editarTarefa.jsp";
 	}
 
 }

@@ -40,7 +40,7 @@
 					<pronto:icons name="restaurar.png" title="Restaurar" onclick="goTo('restaurar.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
-					<pronto:icons name="nova_tarefa.png" title="IncluirTarefa" onclick="goTo('incluirTarefa.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+					<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 				<!-- Fim das Operacoes -->
 				<br/><br/>
@@ -99,11 +99,28 @@
 					<p>Reporter</p> 
 				</div>
 				<div>
-					<form:input path="ticket.valorDeNegocio" cssClass="required digits"/><br/>
+					<c:choose>
+						<c:when test="${usuarioLogado.productOwner}">
+							<form:input path="ticket.valorDeNegocio" cssClass="required digits"/><br/>
+						</c:when>
+						<c:otherwise>
+							<form:hidden path="ticket.valorDeNegocio"/>
+							${ticket.valorDeNegocio}<br/>
+						</c:otherwise>
+					</c:choose>
 					<p>Valor de Negócio</p>
 				</div>
 				<div>
-					<form:input path="ticket.esforco" cssClass="required digits"/><br/>
+					<c:choose>
+						<c:when test="${usuarioLogado.desenvolvedor}">
+							<form:input path="ticket.esforco" cssClass="required digits"/><br/>
+						</c:when>
+						<c:otherwise>
+							<form:hidden path="ticket.esforco"/>
+							${ticket.esforco}<br/>
+						</c:otherwise>
+					</c:choose>
+					
 					<p>Esforço</p>
 				</div>
 					<div>

@@ -1,8 +1,10 @@
 package br.com.bluesoft.pronto.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Blob;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +15,6 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
+import br.com.bluesoft.pronto.service.Config;
 
 @Controller
 public class SprintController {
@@ -41,6 +43,9 @@ public class SprintController {
 
 	@Autowired
 	private TicketDao ticketDao;
+
+	@Autowired
+	private Config config;
 
 	@RequestMapping("/sprint/listar.action")
 	public String listar(final Model model) {
@@ -96,22 +101,39 @@ public class SprintController {
 
 	@RequestMapping("/sprint/upload.action")
 	public String upload(final HttpServletRequest request, final int sprintKey) throws Exception {
+		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
+
 		final byte[] bytes = getImageBytes(request);
-		sprint.setImagem(Hibernate.createBlob(bytes));
+
+		final String folderPath = config.getImagesFolder() + "sprints/";
+		final File folder = new File(folderPath);
+		folder.mkdirs();
+
+		final File file = new File(folderPath + sprint.getSprintKey());
+		final FileOutputStream outputStream = new FileOutputStream(file);
+		outputStream.write(bytes);
+		outputStream.flush();
+
 		sessionFactory.getCurrentSession().saveOrUpdate(sprint);
 		sessionFactory.getCurrentSession().flush();
+
+		tx.commit();
 		return "redirect:editar.action?sprintKey=" + sprintKey;
 	}
 
 	@RequestMapping("/sprint/imagem.action")
 	public String imagem(final HttpServletResponse response, final int sprintKey) throws Exception {
-		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
-		final Blob imagem = sprint.getImagem();
-		if (imagem != null) {
-			final InputStream is = imagem.getBinaryStream();
-			final byte[] bytes = new byte[is.available()];
-			is.read(bytes);
+
+		final String folderPath = config.getImagesFolder() + "sprints/";
+
+		final File arquivo = new File(folderPath + sprintKey);
+		if (arquivo.exists()) {
+			final FileInputStream fis = new FileInputStream(arquivo);
+			final int numberBytes = fis.available();
+			final byte bytes[] = new byte[numberBytes];
+			fis.read(bytes);
+			fis.close();
 			response.getOutputStream().write(bytes);
 		}
 		return null;

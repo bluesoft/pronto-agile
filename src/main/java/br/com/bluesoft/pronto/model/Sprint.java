@@ -1,6 +1,5 @@
 package br.com.bluesoft.pronto.model;
 
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -30,8 +29,6 @@ public class Sprint {
 	private Date dataInicial;
 
 	private Date dataFinal;
-
-	private Blob imagem;
 
 	private boolean fechado;
 
@@ -70,14 +67,6 @@ public class Sprint {
 
 	public void setDataFinal(final Date dataFinal) {
 		this.dataFinal = dataFinal;
-	}
-
-	public Blob getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(final Blob imagem) {
-		this.imagem = imagem;
 	}
 
 	@Override
