@@ -201,6 +201,14 @@
             font-size: 0.9em;
         }
         
+        tr.even {
+        	background: #f9f9f9;
+        }
+        
+        tr.odd {
+        	background: #fff;
+        }
+        
         td.even {
         	background: #f9f9f9;
         }

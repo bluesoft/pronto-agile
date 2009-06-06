@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.ProntoException;
 import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.dao.PapelDao;
 import br.com.bluesoft.pronto.dao.UsuarioDao;
@@ -20,9 +21,6 @@ public class UsuarioController {
 
 	private static final String VIEW_LISTAR = "usuario.listar.jsp";
 	private static final String VIEW_EDITAR = "usuario.editar.jsp";
-
-	@Autowired
-	private Seguranca seguranca;
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -41,7 +39,9 @@ public class UsuarioController {
 	}
 
 	@RequestMapping("/usuario/editar.action")
-	public String editar(final Model model, final String username) {
+	public String editar(final Model model, final String username) throws ProntoException {
+
+		Seguranca.validarPermissao(Papel.SCRUM_MASTER);
 
 		if (username != null) {
 			final Usuario usuario = usuarioDao.obter(username);
@@ -56,7 +56,9 @@ public class UsuarioController {
 	}
 
 	@RequestMapping("/usuario/excluir.action")
-	public String excluir(final Model model, final String username) {
+	public String excluir(final Model model, final String username) throws ProntoException {
+
+		Seguranca.validarPermissao(Papel.SCRUM_MASTER);
 
 		final int quantidade = usuarioDao.obterQuantidadeDeUsuariosCadastrados();
 
@@ -79,6 +81,9 @@ public class UsuarioController {
 
 	@RequestMapping("/usuario/salvar.action")
 	public String salvar(final Model model, final Usuario usuario, final int[] papel, final String password) throws Exception {
+
+		Seguranca.validarPermissao(Papel.SCRUM_MASTER);
+
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 		usuario.getPapeis().clear();
@@ -87,7 +92,7 @@ public class UsuarioController {
 		}
 
 		if (password != null) {
-			usuario.setPassword(seguranca.encrypt(password));
+			usuario.setPassword(Seguranca.encrypt(password));
 		}
 
 		usuarioDao.salvar(usuario);
@@ -99,6 +104,10 @@ public class UsuarioController {
 	@RequestMapping("/usuario/digitarSenha.action")
 	public String digitarSenha(final Model model, final String username) throws Exception {
 
+		if (!username.equals(Seguranca.getUsuario().getUsername())) {
+			Seguranca.validarPermissao(Papel.SCRUM_MASTER);
+		}
+
 		final Usuario usuario = usuarioDao.obter(username);
 		model.addAttribute("usuario", usuario);
 
@@ -109,8 +118,12 @@ public class UsuarioController {
 	@RequestMapping("/usuario/trocarSenha.action")
 	public String trocarSenha(final Model model, final String username, final String password) throws Exception {
 
+		if (!username.equals(Seguranca.getUsuario().getUsername())) {
+			Seguranca.validarPermissao(Papel.SCRUM_MASTER);
+		}
+
 		final Usuario usuario = usuarioDao.obter(username);
-		usuario.setPassword(seguranca.encrypt(password));
+		usuario.setPassword(Seguranca.encrypt(password));
 		usuarioDao.salvar(usuario);
 
 		return "redirect:listar.action";

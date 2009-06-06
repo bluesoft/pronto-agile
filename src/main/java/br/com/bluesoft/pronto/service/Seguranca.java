@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 
+import br.com.bluesoft.pronto.SegurancaException;
 import br.com.bluesoft.pronto.model.Usuario;
 
 @Service
@@ -33,7 +34,7 @@ public class Seguranca {
 		usuarios.remove();
 	}
 
-	public String encrypt(final String x) {
+	public static String encrypt(final String x) {
 		try {
 			final MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(x.getBytes());
@@ -43,5 +44,12 @@ public class Seguranca {
 		} catch (final Exception e) {
 			return null;
 		}
+	}
+
+	public static void validarPermissao(final int papelKey) throws SegurancaException {
+		if (!getUsuario().temOPapel(papelKey)) {
+			throw new SegurancaException("Você não possui permissão para realizar essa operação.");
+		}
+
 	}
 }

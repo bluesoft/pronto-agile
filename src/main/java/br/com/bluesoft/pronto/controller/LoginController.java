@@ -17,9 +17,6 @@ public class LoginController {
 	private static final String ACTION_KANBAN = "/kanban/kanban.action";
 
 	@Autowired
-	private Seguranca seguranca;
-
-	@Autowired
 	private SessionFactory sessionFactory;
 
 	public static Boolean initialized = false;
@@ -31,7 +28,7 @@ public class LoginController {
 
 	@RequestMapping("/login.action")
 	public String login(final Model model, final HttpSession httpSession, final String username, final String password) {
-		final String md5 = seguranca.encrypt(password);
+		final String md5 = Seguranca.encrypt(password);
 		final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().createQuery("select distinct u from Usuario u inner join fetch u.papeis where u.username = :username and u.password = :password").setString("username", username).setString("password", md5).uniqueResult();
 		if (usuario == null) {
 			model.addAttribute("mensagem", "Usuário e/ou senha inválidos!");

@@ -69,8 +69,13 @@
     </filter-mapping>
 	
 	<error-page>
+		<exception-type>br.com.bluesoft.pronto.SegurancaException</exception-type>
+		<location>/acessoNegado.action</location>
+	</error-page>
+	
+	<error-page>
 		<error-code>500</error-code>
-		<location>/commons/error.jsp</location>
+		<location>/erro.action</location>
 	</error-page>
 	
 	<resource-ref>

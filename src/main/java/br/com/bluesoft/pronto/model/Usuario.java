@@ -122,23 +122,32 @@ public class Usuario implements Comparable<Usuario> {
 	}
 
 	public boolean isProductOwner() {
-		return getPapeis().contains(Papel.PRODUCT_OWNER);
+		return temOPapel(Papel.PRODUCT_OWNER);
 	}
 
 	public boolean isDesenvolvedor() {
-		return getPapeis().contains(Papel.DESENVOLVEDOR);
+		return temOPapel(Papel.DESENVOLVEDOR);
 	}
 
 	public boolean isScrumMaster() {
-		return getPapeis().contains(Papel.SCRUM_MASTER);
+		return temOPapel(Papel.SCRUM_MASTER);
 	}
 
 	public boolean isSuporte() {
-		return getPapeis().contains(Papel.SUPORTE);
+		return temOPapel(Papel.SUPORTE);
 	}
 
 	public boolean isTestador() {
-		return getPapeis().contains(Papel.TESTADOR);
+		return temOPapel(Papel.TESTADOR);
+	}
+
+	public boolean temOPapel(final int papelKey) {
+		for (final Papel papel : papeis) {
+			if (papel.getPapelKey() == papelKey) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
