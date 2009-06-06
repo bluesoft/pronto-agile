@@ -58,7 +58,9 @@
 			<c:when test="${sprint.nome ne null}">
 				<h1>
 					Sprint ${sprint.nome} 
-					<pronto:icons name="estimar.png" title="Estimar Sprint" onclick="goTo('${estimarPorSprintUrl}?sprintKey=${sprint.sprintKey}')"/>
+					<c:if test="${usuarioLogado.desenvolvedor or usuarioLogado.productOwner}">
+						<pronto:icons name="estimar.png" title="Estimar Sprint" onclick="goTo('${estimarPorSprintUrl}?sprintKey=${sprint.sprintKey}')"/>
+					</c:if>
 					<pronto:icons name="adicionar.png" title="Adicionar Estórias ou Defeitos do Product Backlog ao Sprint" onclick="goTo('${adicionarTarefasUrl}?sprintKey=${sprint.sprintKey}')"/>
 				</h1>	
 			</c:when>

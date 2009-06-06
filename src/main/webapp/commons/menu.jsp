@@ -1,5 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:if test="${usuario ne null}">
+<c:if test="${usuarioLogado ne null}">
 	<c:url var="raiz" value="/"/>
 	<ul id="jsddm">
 		<li><a href="#">Cadastros</a>

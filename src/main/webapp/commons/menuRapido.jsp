@@ -1,5 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:if test="${usuario ne null}">
+<c:if test="${usuarioLogado ne null}">
 	<c:url value="/ticket/editar.action" var="editarTicketUrl"/>
 	<c:url value="/ticket/sprintAtual.action" var="sprintAtualUrl"/>
 	<div style="width: 90%" align="center">

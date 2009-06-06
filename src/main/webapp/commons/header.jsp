@@ -17,7 +17,7 @@
 		<h1><a href="<c:url value="/default.do"/>">Pronto!</a></h1>
         <p>Sistema de Gestão de Processos Ágeis</p>
 	</div> <!-- end branding -->
-		<c:if test="${usuario ne null}">
+		<c:if test="${usuarioLogado ne null}">
 			<div align="right"">
 				Busca <input type="text" name="busca" id="busca"/>
 				<pronto:icons name="buscar.png" title="Buscar" onclick="buscar();"/>

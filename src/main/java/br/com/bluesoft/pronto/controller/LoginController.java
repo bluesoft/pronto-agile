@@ -34,7 +34,7 @@ public class LoginController {
 			model.addAttribute("mensagem", "Usuário e/ou senha inválidos!");
 			return "/start.action";
 		} else {
-			httpSession.setAttribute("usuario", usuario);
+			httpSession.setAttribute("usuarioLogado", usuario);
 			return "redirect:" + ACTION_KANBAN;
 
 		}
@@ -43,7 +43,7 @@ public class LoginController {
 
 	@RequestMapping("/logout.action")
 	public String login(final Model model, final HttpSession httpSession) {
-		httpSession.removeAttribute("usuario");
+		httpSession.removeAttribute("usuarioLogado");
 		return "/login/login.login.jsp";
 	}
 

@@ -20,8 +20,8 @@ public class LoginFilter implements Filter {
 	private static final String LOGIN_URI = "/login.action";
 
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-		
+	public void init(final FilterConfig filterConfig) throws ServletException {
+
 	}
 
 	@Override
@@ -29,23 +29,20 @@ public class LoginFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest servletRequest,
-			ServletResponse servletResponse, FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain chain) throws IOException, ServletException {
 
-		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-		boolean logado = usuario != null;
-		boolean isStartAction = request.getRequestURI().contains(START_URI);
-		boolean isLoginAction = request.getRequestURI().contains(LOGIN_URI);
-		boolean isAProtectedResource = request.getRequestURI().contains("jsp")
-				|| request.getRequestURI().contains("action");
+		final HttpServletRequest request = (HttpServletRequest) servletRequest;
+		final Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLogado");
+		final boolean logado = usuarioLogado != null;
+		final boolean isStartAction = request.getRequestURI().contains(START_URI);
+		final boolean isLoginAction = request.getRequestURI().contains(LOGIN_URI);
+		final boolean isAProtectedResource = request.getRequestURI().contains("jsp") || request.getRequestURI().contains("action");
 
 		if (!logado && !isLoginAction && !isStartAction && isAProtectedResource) {
-			HttpServletResponse response = (HttpServletResponse) servletResponse;
+			final HttpServletResponse response = (HttpServletResponse) servletResponse;
 			response.sendRedirect(request.getContextPath() + START_URI);
 		} else {
-			Seguranca.setUsuario(usuario);
+			Seguranca.setUsuario(usuarioLogado);
 			chain.doFilter(servletRequest, servletResponse);
 			Seguranca.removeUsuario();
 		}
