@@ -91,24 +91,24 @@
 					<td>
 						<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${t.ticketKey}')"></pronto:icons>
 					</td>
-					<c:if test="${t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 3}">
+					<c:if test="${(t.backlog.backlogKey eq 1 and usuarioLogado.productOwner) or t.backlog.backlogKey eq 3}">
 						<td>
 							<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="toProductBacklog(${t.ticketKey})"></pronto:icons>
 						</td>
 					</c:if>
-					<c:if test="${t.backlog.backlogKey eq 2}">
+					<c:if test="${t.backlog.backlogKey eq 2 and usuarioLogado.productOwner}">
 						<td>
 							<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Idéias" onclick="toIdeias(${t.ticketKey})"></pronto:icons>
 						</td>
 					</c:if>
 					
-					<c:if test="${backlog.backlogKey eq 1 or backlog.backlogKey eq 2 or backlog.backlogKey eq 3}">
+					<c:if test="${backlog.backlogKey eq 1 or (backlog.backlogKey eq 2 and usuarioLogado.productOwner) or backlog.backlogKey eq 3}">
 						<td>
 							<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${t.ticketKey})"></pronto:icons>
 						</td>
 					</c:if>
 					
-					<c:if test="${t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2}">
+					<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
 						<td>
 							<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${t.ticketKey})"></pronto:icons>
 						</td>
@@ -133,14 +133,11 @@
 				<c:when test="${backlog.backlogKey eq 1}">
 					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=1">Nova Idéia</a>&nbsp;&nbsp;
 				</c:when>
-				<c:when test="${backlog.backlogKey eq 2}">
+				<c:when test="${backlog.backlogKey eq 2 and usuarioLogado.productOwner}">
 					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2">Nova Estória</a>&nbsp;&nbsp;
 					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3">Novo Defeito</a>&nbsp;&nbsp;
 				</c:when>
 			</c:choose>
-			<c:if test="${backlog.backlogKey ne 5 and backlog.backlogKey ne 4 and backlog.backlogKey ne 3 and backlog.backlogKey ne null}">
-				|
-			</c:if>			
 		</div>
 	</body>
 </html>

@@ -6,7 +6,9 @@
 		<div align="right">
 			<pronto:icons onclick="goTo('${editarTicketUrl}?backlogKey=2&tipoDeTicketKey=3');" name="novo_defeito.png" title="Incluir Defeito"/>
 			<pronto:icons onclick="goTo('${editarTicketUrl}?backlogKey=1&tipoDeTicketKey=1');" name="nova_ideia.png" title="Incluir Idéia"/>
-			<pronto:icons onclick="goTo('${editarTicketUrl}?backlogKey=2&tipoDeTicketKey=2');" name="nova_estoria.png" title="Incluir Estória"/>
+			<c:if test="${usuario.productOwner}">
+				<pronto:icons onclick="goTo('${editarTicketUrl}?backlogKey=2&tipoDeTicketKey=2');" name="nova_estoria.png" title="Incluir Estória"/>
+			</c:if>
 			<pronto:icons onclick="goTo('${sprintAtualUrl}');" name="sprint_atual.png" title="Sprint Atual"/>
 		</div>
 	</div>

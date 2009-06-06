@@ -195,8 +195,15 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/moverParaProductBacklog.action")
-	public String moverParaProductBacklog(final Model model, final int ticketKey, final HttpServletResponse response) {
+	public String moverParaProductBacklog(final Model model, final int ticketKey, final HttpServletResponse response) throws SegurancaException {
+
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+
+		final int backlogDeOrigem = ticket.getBacklog().getBacklogKey();
+		if (backlogDeOrigem == Backlog.IDEIAS) {
+			Seguranca.validarPermissao(Papel.PRODUCT_OWNER);
+		}
+
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.ESTORIA));
 		ticket.setSprint(null);
@@ -207,7 +214,10 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/moverParaIdeias.action")
-	public String moverParaIdeias(final Model model, final int ticketKey, final HttpServletResponse response) {
+	public String moverParaIdeias(final Model model, final int ticketKey, final HttpServletResponse response) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER);
+
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IDEIA));

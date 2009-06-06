@@ -48,7 +48,7 @@
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${usuario.desenvolvedor}">
+								<c:when test="${usuarioLogado.desenvolvedor}">
 									<input type="text" size="5" name="esforco" value="${t.esforco}"/>
 								</c:when>
 								<c:otherwise>

@@ -86,6 +86,9 @@ public class UsuarioController {
 
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
+		final Usuario usuarioAntesDaAlteracao = usuarioDao.obter(usuario.getUsername());
+		usuario.setPassword(usuarioAntesDaAlteracao.getPassword());
+
 		usuario.getPapeis().clear();
 		for (final int i : papel) {
 			usuario.addPapel((Papel) sessionFactory.getCurrentSession().get(Papel.class, i));
