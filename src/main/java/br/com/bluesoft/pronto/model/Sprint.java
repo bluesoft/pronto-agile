@@ -10,17 +10,18 @@ import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 import br.com.bluesoft.pronto.util.DateUtil;
 
 @Entity
+@SequenceGenerator(name = "SEQ_SPRINT", sequenceName = "SEQ_SPRINT")
 public class Sprint {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "SEQ_SPRINT")
 	private int sprintKey;
 
 	private String nome;

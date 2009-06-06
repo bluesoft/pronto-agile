@@ -18,7 +18,7 @@ import org.hibernate.event.PreLoadEventListener;
 import org.hibernate.event.PreUpdateEvent;
 import org.hibernate.event.PreUpdateEventListener;
 
-import br.com.bluesoft.pronto.model.Label;
+import br.com.bluesoft.pronto.annotations.Label;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.TicketLog;
 import br.com.bluesoft.pronto.service.Seguranca;

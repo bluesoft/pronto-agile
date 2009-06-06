@@ -5,12 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 @Entity
+@SequenceGenerator(name = "SEQ_TICKET_LOG", sequenceName = "SEQ_TICKET_LOG")
 public class TicketLog {
 
 	public static final int INCLUSAO = 1;
@@ -20,7 +21,7 @@ public class TicketLog {
 	public static final String EM_BRANCO = "Em Branco";
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "SEQ_TICKET_LOG")
 	private int ticketHistoryKey;
 
 	@ManyToOne
@@ -43,7 +44,7 @@ public class TicketLog {
 		return ticketHistoryKey;
 	}
 
-	public void setTicketHistoryKey(int ticketHistoryKey) {
+	public void setTicketHistoryKey(final int ticketHistoryKey) {
 		this.ticketHistoryKey = ticketHistoryKey;
 	}
 
@@ -51,7 +52,7 @@ public class TicketLog {
 		return ticket;
 	}
 
-	public void setTicket(Ticket ticket) {
+	public void setTicket(final Ticket ticket) {
 		this.ticket = ticket;
 	}
 
@@ -59,7 +60,7 @@ public class TicketLog {
 		return campo;
 	}
 
-	public void setCampo(String campo) {
+	public void setCampo(final String campo) {
 		this.campo = campo;
 	}
 
@@ -67,7 +68,7 @@ public class TicketLog {
 		return operacao;
 	}
 
-	public void setOperacao(int operacao) {
+	public void setOperacao(final int operacao) {
 		this.operacao = operacao;
 	}
 
@@ -75,7 +76,7 @@ public class TicketLog {
 		return valorAntigo;
 	}
 
-	public void setValorAntigo(String valorAntigo) {
+	public void setValorAntigo(final String valorAntigo) {
 		this.valorAntigo = trataValor(valorAntigo);
 
 	}
@@ -84,7 +85,7 @@ public class TicketLog {
 		return valorNovo;
 	}
 
-	public void setValorNovo(String valorNovo) {
+	public void setValorNovo(final String valorNovo) {
 		this.valorNovo = trataValor(valorNovo);
 	}
 
@@ -92,7 +93,7 @@ public class TicketLog {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(final Date data) {
 		this.data = data;
 	}
 
@@ -100,19 +101,20 @@ public class TicketLog {
 		return usuario;
 	}
 
-	public void setUsuario(String usuario) {
+	public void setUsuario(final String usuario) {
 		this.usuario = usuario;
 	}
 
 	public String getDescricao() {
 
-		if (this.getOperacao() == ALTERACAO) {
-			return MessageFormat.format("{4} - {3} - {0} mudou de \"{1}\" para \"{2}\"", campo, (valorAntigo), (valorNovo), usuario, data);
-		} else
+		if (getOperacao() == ALTERACAO) {
+			return MessageFormat.format("{4} - {3} - {0} mudou de \"{1}\" para \"{2}\"", campo, valorAntigo, valorNovo, usuario, data);
+		} else {
 			return null;
+		}
 	}
 
-	private String trataValor(String in) {
+	private String trataValor(final String in) {
 		if (in == null || in.equals("null") || in.length() <= 0) {
 			return null;
 		} else {
@@ -128,20 +130,20 @@ public class TicketLog {
 
 	public boolean isDiferente() {
 
-		if (this.getValorAntigo() == null && this.getValorNovo() == null) {
+		if (getValorAntigo() == null && getValorNovo() == null) {
 			return false;
 		}
 
-		if (this.getValorAntigo() != null && this.getValorNovo() == null) {
+		if (getValorAntigo() != null && getValorNovo() == null) {
 			return true;
 		}
 
-		if (this.getValorAntigo() == null && this.getValorNovo() != null) {
+		if (getValorAntigo() == null && getValorNovo() != null) {
 			return true;
 		}
 
-		if (this.getValorAntigo() != null && this.getValorNovo() != null) {
-			return !this.getValorAntigo().equals(this.getValorNovo());
+		if (getValorAntigo() != null && getValorNovo() != null) {
+			return !getValorAntigo().equals(getValorNovo());
 		}
 
 		return true;

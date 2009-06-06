@@ -1,4 +1,4 @@
-package br.com.bluesoft.pronto.model;
+package br.com.bluesoft.pronto.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

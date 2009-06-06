@@ -106,6 +106,6 @@
 				</td>
 			</tr>
 		</table>
-		<div align="center">* Clique duas vezes sobre o cartão para abri-lo</div>
+		<div align="center">* Clique duas vezes sobre o cartão para abrí-lo.</div>
 	</body>
 </html>

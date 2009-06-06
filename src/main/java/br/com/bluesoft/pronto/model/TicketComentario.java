@@ -4,18 +4,19 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import br.com.bluesoft.pronto.service.WikiFormatter;
 
 @Entity
+@SequenceGenerator(name = "SEQ_TICKET_COMENTARIO", sequenceName = "SEQ_TICKET_COMENTARIO")
 public class TicketComentario {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "")
 	private int ticketComentarioKey;
 
 	private String usuario;
@@ -32,7 +33,7 @@ public class TicketComentario {
 		return ticketComentarioKey;
 	}
 
-	public void setTicketComentarioKey(int ticketComentarioKey) {
+	public void setTicketComentarioKey(final int ticketComentarioKey) {
 		this.ticketComentarioKey = ticketComentarioKey;
 	}
 
@@ -40,7 +41,7 @@ public class TicketComentario {
 		return usuario;
 	}
 
-	public void setUsuario(String usuario) {
+	public void setUsuario(final String usuario) {
 		this.usuario = usuario;
 	}
 
@@ -48,7 +49,7 @@ public class TicketComentario {
 		return texto;
 	}
 
-	public void setTexto(String texto) {
+	public void setTexto(final String texto) {
 		this.texto = texto;
 	}
 
@@ -56,7 +57,7 @@ public class TicketComentario {
 		return ticket;
 	}
 
-	public void setTicket(Ticket ticket) {
+	public void setTicket(final Ticket ticket) {
 		this.ticket = ticket;
 	}
 
@@ -64,11 +65,11 @@ public class TicketComentario {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(final Date data) {
 		this.data = data;
 	}
-	
+
 	public String getHtml() {
-		return WikiFormatter.toHtml(this.getTexto());
+		return WikiFormatter.toHtml(getTexto());
 	}
 }

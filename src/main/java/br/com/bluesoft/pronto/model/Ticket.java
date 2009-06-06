@@ -8,20 +8,22 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
+import br.com.bluesoft.pronto.annotations.Label;
 import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.service.WikiFormatter;
 
 @Entity
+@SequenceGenerator(name = "SEQ_TICKET", sequenceName = "SEQ_TICKET")
 public class Ticket {
 
 	public Ticket() {
@@ -38,7 +40,7 @@ public class Ticket {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "SEQ_TICKET")
 	private int ticketKey;
 
 	@Label("título")

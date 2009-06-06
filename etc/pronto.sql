@@ -24,7 +24,42 @@ CREATE SEQUENCE hibernate_sequence
 
 SELECT pg_catalog.setval('hibernate_sequence', 62, true);
 
+CREATE SEQUENCE seq_ticket
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
 
+    ALTER TABLE public.seq_ticket OWNER TO pronto;
+
+
+CREATE SEQUENCE seq_sprint
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+    ALTER TABLE public.seq_sprint OWNER TO pronto;
+
+    
+CREATE SEQUENCE seq_ticket_comentario
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+    ALTER TABLE public.seq_ticket_comentario OWNER TO pronto;
+
+CREATE SEQUENCE seq_ticket_log
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+    ALTER TABLE public.seq_ticket_log OWNER TO pronto;
+    
+    
+    
 CREATE TABLE kanban_status (
     kanban_status_key integer NOT NULL,
     descricao character varying(255)
