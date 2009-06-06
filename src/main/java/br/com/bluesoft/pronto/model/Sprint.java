@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,7 +38,7 @@ public class Sprint {
 	private boolean atual;
 
 	@OneToMany(mappedBy = "sprint")
-	private SortedSet<Ticket> tickets;
+	private Set<Ticket> tickets;
 
 	public int getSprintKey() {
 		return sprintKey;
@@ -101,7 +101,7 @@ public class Sprint {
 		this.atual = atual;
 	}
 
-	public SortedSet<Ticket> getTickets() {
+	public Set<Ticket> getTickets() {
 		return tickets;
 	}
 
