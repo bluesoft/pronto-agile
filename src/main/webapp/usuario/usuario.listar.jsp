@@ -5,6 +5,7 @@
 		<%@ include file="/commons/scripts/scripts.jsp" %>
 	</head>
 	<body>
+		<h1>Usuários</h1>
 		<table style="width: 100%">
 			<thead>
 			<tr>

@@ -13,6 +13,7 @@
 		</script>
 	</head>
 	<body>
+		<h1>Burndown Chart</h1>
 		<div align="center">
 			<div id="my_chart"></div>
 		</div>
