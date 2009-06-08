@@ -128,14 +128,14 @@ public class Sprint {
 		return total;
 	}
 
-	public Map<String, Integer> getMapaEsforcoPorDia() {
-		final Map<String, Integer> mapa = new LinkedHashMap<String, Integer>();
+	public Map<String, Double> getMapaEsforcoPorDia() {
+		final Map<String, Double> mapa = new LinkedHashMap<String, Double>();
 
 		final List<Date> dias = getDias();
 		for (final Date date : dias) {
 			final String data = DateUtil.toStringMesAno(date);
 			if (mapa.get(data) == null) {
-				mapa.put(data, 0);
+				mapa.put(data, 0d);
 			}
 		}
 

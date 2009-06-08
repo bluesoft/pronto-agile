@@ -12,6 +12,7 @@ CREATE TABLE backlog (
     backlog_key integer NOT NULL,
     descricao character varying(255)
 );
+
 ALTER TABLE public.backlog OWNER TO pronto;
 
 CREATE SEQUENCE hibernate_sequence
@@ -94,7 +95,7 @@ CREATE TABLE ticket (
     solicitador character varying(255),
     branch character varying(255),
     valor_de_negocio integer NOT NULL,
-    esforco integer NOT NULL,
+    esforco real NOT NULL,
     par boolean NOT NULL,
     planejado boolean NOT NULL,
     data_de_pronto timestamp without time zone,

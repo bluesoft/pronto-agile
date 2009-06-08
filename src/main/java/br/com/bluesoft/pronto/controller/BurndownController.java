@@ -39,13 +39,13 @@ public class BurndownController {
 			sprint = sprintDao.obter(sprintKey);
 		}
 
-		final int esforcoTotal = sprint.getEsforcoTotal();
-		final Map<String, Integer> mapaEsforcoPorDia = sprint.getMapaEsforcoPorDia();
+		final double esforcoTotal = sprint.getEsforcoTotal();
+		final Map<String, Double> mapaEsforcoPorDia = sprint.getMapaEsforcoPorDia();
 
-		int burnNumber = esforcoTotal;
-		final List<Integer> burnValues = new LinkedList<Integer>();
+		double burnNumber = esforcoTotal;
+		final List<Double> burnValues = new LinkedList<Double>();
 		burnValues.add(burnNumber);
-		for (final Integer esforco : mapaEsforcoPorDia.values()) {
+		for (final Double esforco : mapaEsforcoPorDia.values()) {
 			burnNumber = burnNumber - esforco;
 			burnValues.add(burnNumber);
 		}
