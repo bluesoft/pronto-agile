@@ -182,12 +182,14 @@ INSERT INTO papel VALUES (5, 'Suporte');
 INSERT INTO papel VALUES (3, 'Desenvolvedor');
 
 INSERT INTO tipo_de_ticket VALUES (1, 'Idéia');
-INSERT INTO tipo_de_ticket VALUES (2, 'EstÃ³ria');
+INSERT INTO tipo_de_ticket VALUES (2, 'Estória');
 INSERT INTO tipo_de_ticket VALUES (3, 'Defeito');
 INSERT INTO tipo_de_ticket VALUES (5, 'Impedimento');
 INSERT INTO tipo_de_ticket VALUES (6, 'Tarefa');
 
 INSERT INTO usuario VALUES ('admin', '1B2M2Y8AsgTpgAmY7PhCfg==', 'Administrador do Pronto.', 'adm@localhost.com.br');
+
+INSERT INTO usuario_papel VALUES('admin',1);
 
 ALTER TABLE ONLY backlog
     ADD CONSTRAINT backlog_pkey PRIMARY KEY (backlog_key);
