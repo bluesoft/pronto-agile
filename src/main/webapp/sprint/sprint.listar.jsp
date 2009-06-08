@@ -22,6 +22,7 @@
 		</script>
 	</head>
 	<body>
+		<h1>Sprints</h1>
 		<table style="width: 100%">
 			<thead>
 			<tr>
