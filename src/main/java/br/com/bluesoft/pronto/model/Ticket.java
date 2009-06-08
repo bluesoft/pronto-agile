@@ -85,7 +85,7 @@ public class Ticket {
 	private int valorDeNegocio;
 
 	@Label("esforço")
-	private int esforco;
+	private double esforco;
 
 	@Label("em par?")
 	private boolean par;
@@ -185,11 +185,11 @@ public class Ticket {
 		this.valorDeNegocio = valorDeNegocio;
 	}
 
-	public int getEsforco() {
+	public double getEsforco() {
 		return esforco;
 	}
 
-	public void setEsforco(final int esforco) {
+	public void setEsforco(final double esforco) {
 		this.esforco = esforco;
 	}
 
