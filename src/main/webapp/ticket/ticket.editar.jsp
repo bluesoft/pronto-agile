@@ -1,6 +1,16 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 	<head>
+		<title>
+			<c:choose>
+				<c:when test="${ticket.ticketKey gt 0}">
+					${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}
+				</c:when>
+				<c:otherwise>
+					Incluir ${ticket.tipoDeTicket.descricao}
+				</c:otherwise>
+			</c:choose>
+		</title>
 		<script>
 		$(function() {
 			  $('#formTicket').validate();

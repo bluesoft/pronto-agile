@@ -1,6 +1,7 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 	<head>
+		<title>Troca de Senha</title>
 		<%@ include file="/commons/scripts/scripts.jsp" %>
 		<script>
 

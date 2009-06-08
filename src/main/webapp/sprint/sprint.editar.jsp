@@ -1,6 +1,7 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 	<head>
+		<title>Cadastro de Sprints</title>
 		<%@ include file="/commons/scripts/scripts.jsp" %>
 		<c:url var="urlSprint" value="/sprint/"/>
 		
