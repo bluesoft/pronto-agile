@@ -357,4 +357,20 @@ public class Ticket {
 		return getTipoDeTicket() != null && getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.IDEIA;
 	}
 
+	public boolean temFilhos() {
+		return filhos != null && filhos.size() > 0;
+	}
+
+	public boolean temPai() {
+		return pai != null;
+	}
+
+	public boolean isLixo() {
+		return backlog != null && backlog.getBacklogKey() == Backlog.LIXEIRA;
+	}
+
+	public boolean isImpedido() {
+		return backlog != null && backlog.getBacklogKey() == Backlog.IMPEDIMENTOS;
+	}
+
 }

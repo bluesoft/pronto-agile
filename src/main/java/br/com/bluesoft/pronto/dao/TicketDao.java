@@ -16,6 +16,34 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		super(Ticket.class);
 	}
 
+	@Override
+	public void salvar(final Ticket ticket) {
+
+		// Se um ticket tiver filhos, atualizar os dados dos filhos que devem ser sempre iguais aos do pai.
+		if (ticket.temFilhos()) {
+			for (final Ticket filho : ticket.getFilhos()) {
+
+				if (!filho.isImpedido() || !filho.isLixo()) {
+					filho.setBacklog(ticket.getBacklog());
+				}
+
+				filho.setCliente(ticket.getCliente());
+				filho.setSolicitador(ticket.getSolicitador());
+				filho.setSprint(ticket.getSprint());
+			}
+		}
+
+		// Se o ticket pai estiver impedido ou na lixeira, o ticket filho deve permancer da mesma forma.
+		if (ticket.temPai()) {
+			final Ticket pai = ticket.getPai();
+			if (pai.isLixo() || pai.isImpedido()) {
+				ticket.setBacklog(pai.getBacklog());
+			}
+		}
+
+		super.salvar(ticket);
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Ticket> buscar(final String busca) {
 		final String hql = "from Ticket t where upper(t.titulo) like :query";

@@ -201,4 +201,17 @@ public class Sprint {
 		return dias;
 
 	}
+
+	public List<Ticket> getTicketsParaOKanban() {
+		final List<Ticket> ticketsParaOKanban = new ArrayList<Ticket>();
+		if (ticketsParaOKanban != null) {
+			for (final Ticket ticket : tickets) {
+				if (!ticket.temFilhos() && !ticket.isImpedido() && !ticket.isLixo()) {
+					ticketsParaOKanban.add(ticket);
+				}
+			}
+		}
+		return ticketsParaOKanban;
+
+	}
 }

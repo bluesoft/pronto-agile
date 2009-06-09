@@ -152,16 +152,18 @@
 						</td>
 					</c:if>
 					
-					<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
-						<td>
+					<td>
+						<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
 							<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${t.ticketKey})"></pronto:icons>
-						</td>
-					</c:if>
+						</c:if>
+					</td>
+					<td>
 					<c:if test="${t.backlog.backlogKey eq 4 or t.backlog.backlogKey eq 5}">
-						<td>
+						<c:if test="${t.pai.backlog.backlogKey ne 4 and t.pai.backlog.backlogKey ne 5}">
 							<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${t.ticketKey})"></pronto:icons>
-						</td>
+						</c:if>
 					</c:if>
+					</td>
 					<td>
 						<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
 					</td>
