@@ -30,6 +30,7 @@ import br.com.bluesoft.pronto.service.WikiFormatter;
 public class Ticket {
 
 	public Ticket() {
+		// Inicializando campos para binding do Spring.
 		super();
 		tipoDeTicket = new TipoDeTicket(TipoDeTicket.ESTORIA);
 		backlog = new Backlog(Backlog.PRODUCT_BACKLOG);
@@ -101,7 +102,7 @@ public class Ticket {
 	@JoinColumn(name = "pai")
 	private Ticket pai;
 
-	@OneToMany(mappedBy = "pai")
+	@OneToMany(mappedBy = "pai", cascade = CascadeType.ALL)
 	private List<Ticket> filhos;
 
 	@Label("data de pronto")
@@ -247,6 +248,11 @@ public class Ticket {
 
 	public void setBacklog(final Backlog backlog) {
 		this.backlog = backlog;
+		if (filhos != null && filhos.size() > 0) {
+			for (final Ticket filho : filhos) {
+				filho.setBacklog(backlog);
+			}
+		}
 	}
 
 	public String getBranch() {
@@ -332,11 +338,15 @@ public class Ticket {
 	}
 
 	public boolean isDefeito() {
-		return getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.DEFEITO;
+		return getTipoDeTicket() != null && getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.DEFEITO;
 	}
 
 	public boolean isEstoria() {
-		return getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.ESTORIA;
+		return getTipoDeTicket() != null && getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.ESTORIA;
+	}
+
+	public boolean isTarefa() {
+		return getTipoDeTicket() != null && getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.TAREFA;
 	}
 
 	public boolean isDone() {
@@ -344,7 +354,7 @@ public class Ticket {
 	}
 
 	public boolean isIdeia() {
-		return getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.IDEIA;
+		return getTipoDeTicket() != null && getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.IDEIA;
 	}
 
 }
