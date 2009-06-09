@@ -403,7 +403,9 @@ public class TicketController {
 	@RequestMapping("/ticket/verDescricao.action")
 	public String verDescricao(final HttpServletResponse response, final int ticketKey) throws Exception {
 		final Ticket ticket = ticketDao.obter(ticketKey);
-		response.getOutputStream().write(ticket.getHtml().getBytes());
+		response.setCharacterEncoding("ISO-8859-1");
+		response.setContentType("text/plain; charset=ISO-8859-1");
+		response.getOutputStream().print("Olá, seja bem vindo!");
 		return null;
 	}
 

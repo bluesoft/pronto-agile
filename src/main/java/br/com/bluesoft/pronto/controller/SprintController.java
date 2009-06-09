@@ -204,7 +204,6 @@ public class SprintController {
 
 	@RequestMapping("/sprint/reabrir.action")
 	public String reabrir(final Model model, final int sprintKey) throws ProntoException {
-
 		try {
 			final Sprint sprintParaReabrir = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
 
@@ -218,7 +217,6 @@ public class SprintController {
 			model.addAttribute("erro", e.getMessage());
 			return "forward:/sprint/listar.action";
 		}
-
 	}
 
 }

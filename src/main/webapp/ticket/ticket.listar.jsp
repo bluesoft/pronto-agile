@@ -77,12 +77,16 @@
 			});
 
 			function verDescricao(ticketKey) {
-				var url = 'verDescricao.action?ticketKey=' + ticketKey;
-				$.post(url, function(data){
-					$("#dialog").dialog('option', 'title', '#' + ticketKey + ' - ' + $('#' + ticketKey + ' .titulo').text());
-					$("#dialogDescricao").html(data);
-					$("#dialog").dialog('open');
+				$.ajax({
+					url: 'verDescricao.action?ticketKey=' + ticketKey,
+					cache: false,
+					success: function (data) {
+						$("#dialog").dialog('option', 'title', '#' + ticketKey + ' - ' + $('#' + ticketKey + ' .titulo').text());
+						$("#dialogDescricao").html(data);
+						$("#dialog").dialog('open');
+					}
 				});
+
 			}
 		</script>
 	</head>
