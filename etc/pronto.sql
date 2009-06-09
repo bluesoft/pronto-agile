@@ -90,7 +90,7 @@ ALTER TABLE public.sprint OWNER TO pronto;
 CREATE TABLE ticket (
     ticket_key integer NOT NULL,
     titulo character varying(255),
-    descricao character varying(255),
+    descricao text,
     cliente character varying(255),
     solicitador character varying(255),
     branch character varying(255),
@@ -113,7 +113,7 @@ CREATE TABLE ticket_comentario (
     ticket_comentario_key integer NOT NULL,
     usuario character varying(255),
     data timestamp without time zone,
-    texto character varying(255),
+    texto text,
     ticket_key integer
 );
 
