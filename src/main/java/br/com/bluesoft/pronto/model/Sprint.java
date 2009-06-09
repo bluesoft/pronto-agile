@@ -108,9 +108,11 @@ public class Sprint {
 
 	public int getValorDeNegocioTotal() {
 		int total = 0;
-		for (final Ticket ticket : tickets) {
-			if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
-				total += ticket.getValorDeNegocio();
+		if (tickets != null) {
+			for (final Ticket ticket : tickets) {
+				if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
+					total += ticket.getValorDeNegocio();
+				}
 			}
 		}
 		return total;
@@ -118,10 +120,12 @@ public class Sprint {
 
 	public double getEsforcoRealizado(final Date date) {
 		double total = 0;
-		for (final Ticket ticket : tickets) {
-			if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
-				if (DateUtil.toString(ticket.getDataDePronto()).equals(DateUtil.toString(date))) {
-					total += ticket.getEsforco();
+		if (tickets != null) {
+			for (final Ticket ticket : tickets) {
+				if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
+					if (DateUtil.toString(ticket.getDataDePronto()).equals(DateUtil.toString(date))) {
+						total += ticket.getEsforco();
+					}
 				}
 			}
 		}
@@ -139,24 +143,26 @@ public class Sprint {
 			}
 		}
 
-		for (final Ticket ticket : tickets) {
+		if (tickets != null) {
+			for (final Ticket ticket : tickets) {
 
-			if (ticket.getDataDePronto() == null) {
-				continue;
-			}
-
-			if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
-				final String data;
-
-				if (ticket.getDataDePronto().before(dataInicial)) {
-					data = DateUtil.toStringMesAno(dataInicial);
-				} else if (ticket.getDataDePronto().after(dataFinal)) {
-					data = DateUtil.toStringMesAno(dataFinal);
-				} else {
-					data = DateUtil.toStringMesAno(ticket.getDataDePronto());
+				if (ticket.getDataDePronto() == null) {
+					continue;
 				}
 
-				mapa.put(data, mapa.get(data) + ticket.getEsforco());
+				if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
+					final String data;
+
+					if (ticket.getDataDePronto().before(dataInicial)) {
+						data = DateUtil.toStringMesAno(dataInicial);
+					} else if (ticket.getDataDePronto().after(dataFinal)) {
+						data = DateUtil.toStringMesAno(dataFinal);
+					} else {
+						data = DateUtil.toStringMesAno(ticket.getDataDePronto());
+					}
+
+					mapa.put(data, mapa.get(data) + ticket.getEsforco());
+				}
 			}
 		}
 		return mapa;
@@ -168,9 +174,11 @@ public class Sprint {
 
 	public List<Ticket> getTicketsEmAberto() {
 		final List<Ticket> ticketsEmAberto = new ArrayList<Ticket>();
-		for (final Ticket ticket : tickets) {
-			if (!ticket.isDone() && ticket.isSprintBacklog()) {
-				ticketsEmAberto.add(ticket);
+		if (tickets != null) {
+			for (final Ticket ticket : tickets) {
+				if (!ticket.isDone() && ticket.isSprintBacklog()) {
+					ticketsEmAberto.add(ticket);
+				}
 			}
 		}
 		return ticketsEmAberto;
