@@ -16,8 +16,6 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -352,7 +350,7 @@ public class TicketController {
 	@RequestMapping("/ticket/listarTarefasParaAdicionarAoSprint.action")
 	public String listarTarefasParaAdicionarAoSprint(final Model model, final int sprintKey) {
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
-		model.addAttribute("tickets", sessionFactory.getCurrentSession().createCriteria(Ticket.class).createAlias("backlog", "backlog").add(Restrictions.eq("backlog.backlogKey", Backlog.PRODUCT_BACKLOG)).addOrder(Order.desc("valorDeNegocio")).addOrder(Order.desc("esforco")).list());
+		model.addAttribute("tickets", ticketDao.listarPorBacklog(Backlog.PRODUCT_BACKLOG));
 		return "/ticket/ticket.adicionarAoSprint.jsp";
 	}
 
