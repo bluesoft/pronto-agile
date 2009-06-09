@@ -248,11 +248,6 @@ public class Ticket {
 
 	public void setBacklog(final Backlog backlog) {
 		this.backlog = backlog;
-		if (filhos != null && filhos.size() > 0) {
-			for (final Ticket filho : filhos) {
-				filho.setBacklog(backlog);
-			}
-		}
 	}
 
 	public String getBranch() {
@@ -285,7 +280,7 @@ public class Ticket {
 
 	@Override
 	public String toString() {
-		return "#" + getTicketKey();
+		return "#" + getTicketKey() + " - " + titulo;
 	}
 
 	public void addComentario(final String texto, final String usuario) {

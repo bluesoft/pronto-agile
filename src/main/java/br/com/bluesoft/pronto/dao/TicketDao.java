@@ -24,7 +24,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		if (ticket.temFilhos()) {
 			for (final Ticket filho : ticket.getFilhos()) {
 
-				if (!filho.isImpedido() || !filho.isLixo()) {
+				if (!filho.isImpedido() && !filho.isLixo()) {
 					filho.setBacklog(ticket.getBacklog());
 				}
 
@@ -107,7 +107,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
-		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO }).list();
+		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA }).list();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -118,6 +118,19 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
 		return getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO }).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Ticket> listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(final int backlogKey) {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(" select distinct t from Ticket t");
+		builder.append(" inner join fetch t.pai as pai ");
+		builder.append(" where t.backlog.backlogKey = :backlogKey");
+		builder.append(" and t.tipoDeTicket.tipoDeTicketKey = :tipoTarefa");
+		builder.append(" and t.pai.backlog.backlogKey != t.backlog.backlogKey");
+
+		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
+		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setInteger("tipoTarefa", TipoDeTicket.TAREFA).list();
 	}
 
 }

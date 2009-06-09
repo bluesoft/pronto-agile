@@ -7,11 +7,16 @@
 	<head>
 		<title>${backlog.descricao}${sprint.nome}</title>
 		<script>
+
+			function apagarLinha(ticketKey) {
+				$('#'+ticketKey).add('tr[pai='+ticketKey+']').remove();
+			}
+		
 			function toTrash(ticketKey){
 				var url = 'jogarNoLixo.action?ticketKey=' + ticketKey; 
 				$.post(url, {
 					success: function() {
-						$('#'+ticketKey).remove();
+						apagarLinha(ticketKey);
 						recalcular();		
 					}
 				});
@@ -21,7 +26,7 @@
 				var url = 'moverParaProductBacklog.action?ticketKey=' + ticketKey; 
 				$.post(url, {
 					success: function() {
-						$('#'+ticketKey).remove();
+						apagarLinha(ticketKey);
 						recalcular();		
 					}
 				});
@@ -31,7 +36,7 @@
 				var url = 'moverParaIdeias.action?ticketKey=' + ticketKey; 
 				$.post(url, {
 					success: function() {
-						$('#'+ticketKey).remove();
+						apagarLinha(ticketKey);
 						recalcular();		
 					}
 				});
@@ -41,7 +46,7 @@
 				var url = 'moverParaImpedimentos.action?ticketKey=' + ticketKey; 
 				$.post(url, {
 					success: function() {
-						$('#'+ticketKey).remove();
+						apagarLinha(ticketKey);	
 						recalcular();		
 					}
 				});
@@ -51,7 +56,7 @@
 				var url = 'restaurar.action?ticketKey=' + ticketKey; 
 				$.post(url, {
 					success: function() {
-						$('#'+ticketKey).remove();
+						apagarLinha(ticketKey);	
 						recalcular();		
 					}
 				});
@@ -134,17 +139,17 @@
 					<td class="esforco">${t.esforco}</td>
 					<td>${t.kanbanStatus.descricao}</td>
 					<td>
-						<c:if test="${!t.tarefa and ((t.backlog.backlogKey eq 1 and usuarioLogado.productOwner) or t.backlog.backlogKey eq 3)}">
+						<c:if test="${(t.backlog.backlogKey eq 1 and usuarioLogado.productOwner) or t.backlog.backlogKey eq 3}">
 							<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="toProductBacklog(${t.ticketKey})"></pronto:icons>
 						</c:if>
 					</td>
 					<td>
-						<c:if test="${t.backlog.backlogKey eq 2 and usuarioLogado.productOwner and !t.tarefa}">
+						<c:if test="${t.backlog.backlogKey eq 2 and usuarioLogado.productOwner}">
 								<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Idéias" onclick="toIdeias(${t.ticketKey})"></pronto:icons>
 						</c:if>
 					</td>
 					<td>
-						<c:if test="${backlog.backlogKey eq 1 or (backlog.backlogKey eq 2 and usuarioLogado.productOwner) or backlog.backlogKey eq 3}">
+						<c:if test="${t.backlog.backlogKey eq 1 or (t.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or t.backlog.backlogKey eq 3}">
 							<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${t.ticketKey})"></pronto:icons>
 						</c:if>
 					</td>
@@ -155,9 +160,7 @@
 					</td>
 					<td>
 					<c:if test="${t.backlog.backlogKey eq 4 or t.backlog.backlogKey eq 5}">
-						<c:if test="${t.pai.backlog.backlogKey ne 4 and t.pai.backlog.backlogKey ne 5}">
-							<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${t.ticketKey})"></pronto:icons>
-						</c:if>
+						<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${t.ticketKey})"></pronto:icons>
 					</c:if>
 					</td>
 					<td>
@@ -168,21 +171,86 @@
 					</td>
 				</tr>
 				<c:forEach items="${t.filhos}" var="f">
-					<c:set var="cor" value="${!cor}"/>	 
-					<tr class="${cor ? 'odd' : 'even'}">
-						<td>${f.ticketKey}</td>
-						<td class="titulo">${f.titulo}</td>
-						<td>${f.tipoDeTicket.descricao}</td>
-						<td>${f.cliente}</td>
-						<td class="valorDeNegocio">${f.valorDeNegocio}</td>
-						<td class="esforco">${f.esforco}</td>
-						<td>${f.kanbanStatus.descricao}</td>
-					</tr>
+					<c:if test="${f.backlog.backlogKey eq t.backlog.backlogKey}">
+						<c:set var="cor" value="${!cor}"/>	 
+						<tr class="${cor ? 'odd' : 'even'}" id="${f.ticketKey}" pai="${t.ticketKey}">
+							<td>${f.ticketKey}</td>
+							<td class="titulo">${f.titulo}</td>
+							<td>${f.tipoDeTicket.descricao}</td>
+							<td>${f.cliente}</td>
+							<td style="color:gray;" class="valorDeNegocio">${f.valorDeNegocio}</td>
+							<td style="color:gray;"class="esforco">${f.esforco}</td>
+							<td>${f.kanbanStatus.descricao}</td>
+							<td></td>
+							<td></td>
+							<td>
+								<c:if test="${f.backlog.backlogKey eq 1 or (f.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or f.backlog.backlogKey eq 3}">
+									<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${f.ticketKey})"></pronto:icons>
+								</c:if>
+							</td>
+							<td>
+								<c:if test="${(f.backlog.backlogKey eq 1 or f.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
+									<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${f.ticketKey})"></pronto:icons>
+								</c:if>
+							</td>
+							<td>
+							<c:if test="${f.backlog.backlogKey eq 4 or f.backlog.backlogKey eq 5}">
+								<c:if test="${f.pai.backlog.backlogKey ne 4 and f.pai.backlog.backlogKey ne 5}">
+									<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${f.ticketKey})"></pronto:icons>
+								</c:if>
+							</c:if>
+							</td>
+							<td>
+								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
+							</td>
+							<td>
+								<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${t.ticketKey}')"></pronto:icons>
+							</td>
+						</tr>
+					</c:if>
 				</c:forEach>
 				<tr style="height: 1px;">
 					<td colspan="15" style="background-color:#b4c24b"></td>
 				</tr>
 			</c:forEach>
+			<!-- Tarefas Soltas -->
+			<c:forEach items="${tarefasSoltas}" var="s">
+					<c:set var="cor" value="${!cor}"/>	 
+					<tr class="${cor ? 'odd' : 'even'}" id="${s.ticketKey}" pai="${s.pai.ticketKey}">
+						<td>${s.ticketKey}</td>
+						<td class="titulo">${s.titulo}</td>
+						<td>${s.tipoDeTicket.descricao}</td>
+						<td>${s.cliente}</td>
+						<td style="color:gray;" class="valorDeNegocio">${s.valorDeNegocio}</td>
+						<td style="color:gray;"class="esforco">${s.esforco}</td>
+						<td>${s.kanbanStatus.descricao}</td>
+						<td></td>
+						<td></td>
+						<td>
+							<c:if test="${s.backlog.backlogKey eq 1 or (s.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or s.backlog.backlogKey eq 3}">
+								<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${f.ticketKey})"></pronto:icons>
+							</c:if>
+						</td>
+						<td>
+							<c:if test="${(s.backlog.backlogKey eq 1 or s.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
+								<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${f.ticketKey})"></pronto:icons>
+							</c:if>
+						</td>
+						<td>
+						<c:if test="${s.backlog.backlogKey eq 4 or s.backlog.backlogKey eq 5}">
+							<c:if test="${s.pai.backlog.backlogKey ne 4 and s.pai.backlog.backlogKey ne 5}">
+								<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${s.ticketKey})"></pronto:icons>
+							</c:if>
+						</c:if>
+						</td>
+						<td>
+							<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${s.ticketKey});"/>
+						</td>
+						<td>
+							<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${s.ticketKey}')"></pronto:icons>
+						</td>
+					</tr>
+				</c:forEach>
 			<tr>
 				<th colspan="4"></th>
 				<th id="somaValorDeNegocio">${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
