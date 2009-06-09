@@ -84,9 +84,17 @@ public class TicketController {
 
 	@RequestMapping("/ticket/listarPorBacklog.action")
 	public String listarPorBacklog(final Model model, final int backlogKey) {
-		final List<Ticket> tickets = ticketDao.listarPorBacklog(backlogKey);
+		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey);
 		model.addAttribute("tickets", tickets);
-		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
+		model.addAttribute("backlog", backlogDao.obter(backlogKey));
+		return VIEW_LISTAR;
+	}
+
+	@RequestMapping("/ticket/listarPorSprint.action")
+	public String listarPorSprint(final Model model, final int sprintKey) {
+		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey);
+		model.addAttribute("tickets", tickets);
+		model.addAttribute("sprint", sprintDao.obter(sprintKey));
 		return VIEW_LISTAR;
 	}
 
@@ -100,14 +108,6 @@ public class TicketController {
 		} else {
 			return "forward:/ticket/listarPorSprint.action?sprintKey=" + sprint.getSprintKey();
 		}
-	}
-
-	@RequestMapping("/ticket/listarPorSprint.action")
-	public String listarPorSprint(final Model model, final int sprintKey) {
-		final List<Ticket> tickets = ticketDao.listarPorSprint(sprintKey);
-		model.addAttribute("tickets", tickets);
-		model.addAttribute("sprint", sprintDao.obter(sprintKey));
-		return VIEW_LISTAR;
 	}
 
 	@RequestMapping("/ticket/salvar.action")
@@ -195,8 +195,7 @@ public class TicketController {
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.LIXEIRA));
 		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
-		sessionFactory.getCurrentSession().update(ticket);
-		sessionFactory.getCurrentSession().flush();
+		ticketDao.salvar(ticket);
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
@@ -204,8 +203,7 @@ public class TicketController {
 	public String moverParaImpedimentos(final Model model, final int ticketKey, final HttpServletResponse response) {
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS));
-		sessionFactory.getCurrentSession().update(ticket);
-		sessionFactory.getCurrentSession().flush();
+		ticketDao.salvar(ticket);
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
@@ -223,8 +221,7 @@ public class TicketController {
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.ESTORIA));
 		ticket.setSprint(null);
 		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
-		sessionFactory.getCurrentSession().update(ticket);
-		sessionFactory.getCurrentSession().flush();
+		ticketDao.salvar(ticket);
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
@@ -238,8 +235,7 @@ public class TicketController {
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IDEIA));
 		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
 		ticket.setSprint(null);
-		sessionFactory.getCurrentSession().update(ticket);
-		sessionFactory.getCurrentSession().flush();
+		ticketDao.salvar(ticket);
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
@@ -262,8 +258,7 @@ public class TicketController {
 		}
 
 		ticket.setBacklog(backlog);
-		sessionFactory.getCurrentSession().update(ticket);
-		sessionFactory.getCurrentSession().flush();
+		ticketDao.salvar(ticket);
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
@@ -352,9 +347,8 @@ public class TicketController {
 			if (Seguranca.getUsuario().temOPapel(Papel.PRODUCT_OWNER)) {
 				ticket.setValorDeNegocio(valorDeNegocio[i]);
 			}
-			sessionFactory.getCurrentSession().update(ticket);
+			ticketDao.salvar(ticket);
 		}
-		sessionFactory.getCurrentSession().flush();
 
 		if (ticket.getBacklog().isSprintBacklog()) {
 			return "/ticket/listarPorSprint.action?sprintKey=" + ticket.getSprint().getSprintKey();
@@ -379,9 +373,8 @@ public class TicketController {
 			final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, key);
 			ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.SPRINT_BACKLOG));
 			ticket.setSprint(sprint);
-			sessionFactory.getCurrentSession().update(ticket);
+			ticketDao.salvar(ticket);
 		}
-		sessionFactory.getCurrentSession().flush();
 		return "redirect:/ticket/listarPorSprint.action?sprintKey=" + sprintKey;
 	}
 

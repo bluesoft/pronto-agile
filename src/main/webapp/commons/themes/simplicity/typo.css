@@ -201,6 +201,10 @@
             font-size: 0.9em;
         }
         
+        tr {
+        	height: 18px;
+        }
+        
         tr.even {
         	background: #f9f9f9;
         }

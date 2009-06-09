@@ -31,6 +31,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 				filho.setCliente(ticket.getCliente());
 				filho.setSolicitador(ticket.getSolicitador());
 				filho.setSprint(ticket.getSprint());
+				filho.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
 			}
 		}
 
@@ -39,7 +40,13 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 			final Ticket pai = ticket.getPai();
 			if (pai.isLixo() || pai.isImpedido()) {
 				ticket.setBacklog(pai.getBacklog());
+			} else {
+				if (!ticket.isLixo() && !ticket.isImpedido()) {
+					ticket.setBacklog(pai.getBacklog());
+				}
 			}
+			ticket.setSprint(pai.getSprint());
+			ticket.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
 		}
 
 		super.salvar(ticket);
@@ -89,15 +96,28 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		return getSession().createQuery(hql).setInteger("ticketKey", ticketKey).list();
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Ticket> listarEstoriasEDefeitosDoProductBacklog() {
+		return listarEstoriasEDefeitosPorBacklog(Backlog.PRODUCT_BACKLOG);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
+		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO }).list();
+	}
 
-		return getSession().createQuery(builder.toString()).setInteger("backlogKey", Backlog.PRODUCT_BACKLOG).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO }).list();
+	@SuppressWarnings("unchecked")
+	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey) {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(" select distinct t from Ticket t");
+		builder.append(" where t.sprint.sprintKey = :sprintKey");
+		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
+		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
+		return getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO }).list();
 	}
 
 }
