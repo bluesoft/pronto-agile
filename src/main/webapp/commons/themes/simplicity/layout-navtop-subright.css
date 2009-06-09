@@ -5,7 +5,7 @@
 /* NAV BAR AT THE TOP AND TWO COLUMNS OF CONTENT */
     div#content {
         position: relative;
-        width: 861px;
+        width: 90%;
         
         margin: 0 auto 20px auto;
         padding: 0;
@@ -14,7 +14,7 @@
     }
     div#main {
         float: left;
-        width: 700px;
+        width: 100%;
         display: inline;
     }
     div#sub {
