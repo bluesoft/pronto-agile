@@ -67,7 +67,7 @@ public class Backlog {
 		return tickets;
 	}
 
-	public int getEsforcoTotal() {
+	public double getEsforcoTotal() {
 		int total = 0;
 		if (tickets != null) {
 			for (final Ticket ticket : tickets) {

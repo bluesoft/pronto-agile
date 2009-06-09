@@ -94,8 +94,8 @@ public class Sprint {
 		return tickets;
 	}
 
-	public int getEsforcoTotal() {
-		int total = 0;
+	public double getEsforcoTotal() {
+		double total = 0;
 		if (tickets != null) {
 			for (final Ticket ticket : tickets) {
 				if (ticket.isDefeito() || ticket.isEstoria()) {
@@ -116,8 +116,8 @@ public class Sprint {
 		return total;
 	}
 
-	public int getEsforcoRealizado(final Date date) {
-		int total = 0;
+	public double getEsforcoRealizado(final Date date) {
+		double total = 0;
 		for (final Ticket ticket : tickets) {
 			if (ticket.isDefeito() || ticket.isEstoria()) {
 				if (DateUtil.toString(ticket.getDataDePronto()).equals(DateUtil.toString(date))) {
