@@ -38,7 +38,9 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 		// Se o ticket pai estiver impedido ou na lixeira, o ticket filho deve permancer da mesma forma.
 		if (ticket.temPai()) {
+
 			final Ticket pai = ticket.getPai();
+
 			if (pai.isLixo() || pai.isImpedido()) {
 				ticket.setBacklog(pai.getBacklog());
 			} else {

@@ -150,6 +150,7 @@ public class TicketController {
 
 			return "redirect:editar.action?ticketKey=" + ticket.getTicketKey();
 		} catch (final Exception e) {
+			e.printStackTrace();
 			model.addAttribute("erro", e.getMessage());
 			return "forward:editar.action";
 		}
