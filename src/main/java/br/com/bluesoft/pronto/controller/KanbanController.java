@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.dao.SprintDao;
+import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
 
 @Controller
@@ -25,7 +26,11 @@ public class KanbanController {
 
 	@RequestMapping("/kanban/kanban.action")
 	public String index(final Model model) {
-		model.addAttribute("sprint", sprintDao.getSprintAtual());
+		final Sprint sprint = sprintDao.getSprintAtual();
+
+		model.addAttribute("sprint", sprint);
+		model.addAttribute("tickets", sprint.getTicketsParaOKanban());
+
 		return VIEW_KANBAN;
 	}
 
