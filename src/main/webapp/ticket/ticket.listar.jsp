@@ -2,7 +2,7 @@
 <c:url var="estimarPorSprintUrl" value="/ticket/estimarSprint.action"/>
 <c:url var="estimarPorBacklogUrl" value="/ticket/estimarBacklog.action"/>
 <c:url var="adicionarTarefasUrl" value="/ticket/listarTarefasParaAdicionarAoSprint.action"/>
-
+<c:url var="verDescricao" value="/ticket/verDescricao.action"/>
 <html>
 	<head>
 		<title>${backlog.descricao}${sprint.nome}</title>
@@ -72,6 +72,22 @@
 				$('#somaEsforco').text(esforco);
 
 			}
+
+			$(function() {
+				$("#dialog").dialog({ autoOpen: false, height: 530, width: 600, modal: true });
+			});
+
+			function verDescricao(ticketKey) {
+
+				var url = 'verDescricao.action?ticketKey=' + ticketKey;
+				$.post(url, function(data){
+					$("#dialog").dialog('option', 'title', '#' + ticketKey + ' - ' + $('#' + ticketKey + ' .titulo').text());
+					$("#dialogDescricao").html(data);
+					$("#dialog").dialog('open');
+				});
+				
+				
+			}
 		</script>
 	</head>
 	<body>
@@ -103,7 +119,7 @@
 			<c:forEach items="${tickets}" var="t">
 				<tr id="${t.ticketKey}">
 					<td>${t.ticketKey}</td>
-					<td>${t.titulo}</td>
+					<td class="titulo">${t.titulo}</td>
 					<td>${t.tipoDeTicket.descricao}</td>
 					<td>${t.cliente}</td>
 					<td class="valorDeNegocio">${t.valorDeNegocio}</td>
@@ -139,6 +155,9 @@
 							<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${t.ticketKey})"></pronto:icons>
 						</td>
 					</c:if>
+					<td>
+						<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
+					</td>
 				</tr>
 			</c:forEach>
 			<tr>
@@ -159,6 +178,10 @@
 					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3">Novo Defeito</a>&nbsp;&nbsp;
 				</c:when>
 			</c:choose>
+		</div>
+		
+		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
+			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>
 	</body>
 </html>

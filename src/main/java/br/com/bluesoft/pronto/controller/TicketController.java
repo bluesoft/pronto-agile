@@ -400,4 +400,11 @@ public class TicketController {
 		return "forward:/ticket/editar.action";
 	}
 
+	@RequestMapping("/ticket/verDescricao.action")
+	public String verDescricao(final HttpServletResponse response, final int ticketKey) throws Exception {
+		final Ticket ticket = ticketDao.obter(ticketKey);
+		response.getOutputStream().write(ticket.getHtml().getBytes());
+		return null;
+	}
+
 }
