@@ -405,7 +405,7 @@ public class TicketController {
 		final Ticket ticket = ticketDao.obter(ticketKey);
 		response.setCharacterEncoding("ISO-8859-1");
 		response.setContentType("text/plain; charset=ISO-8859-1");
-		response.getOutputStream().print("Olá, seja bem vindo!");
+		response.getOutputStream().print(ticket.getHtml());
 		return null;
 	}
 
