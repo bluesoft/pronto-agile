@@ -1,9 +1,42 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 	<head>
-		<title>${backlog.descricao}${sprint.nome}</title>
+		<title>Estimar ${backlog.descricao}${sprint.nome}</title>
+		<script>
+
+			$(function(){ 
+				$('#formEstimativa').validate({
+					errorLabelContainer: "#errorBox",
+					wrapper: "li"
+				});
+			});
+		
+			function recalcular() {
+
+				var valorDeNegocio = 0;
+				$('.valorDeNegocio span').each(function(i, el){
+					valorDeNegocio += parseFloat($(el).text());
+				});
+				$('.valorDeNegocio input').each(function(i, el){
+					valorDeNegocio += parseFloat($(el).val());
+				});
+
+				var esforco = 0;
+				$('.esforco span').each(function(i, el){
+					esforco += parseFloat($(el).text());
+				});
+				$('.esforco input').each(function(i, el){
+					esforco += parseFloat($(el).val());
+				});
+
+				$('#somaEsforco').text(esforco);
+				$('#somaValorDeNegocio').text(valorDeNegocio);
+
+			}
+		</script>
 	</head>
 	<body>
+	
 		<c:choose>
 			<c:when test="${sprint.nome ne null}">
 				<h1>Sprint ${sprint.nome}</h1>	
@@ -12,9 +45,11 @@
 				<h1>${backlog.descricao}</h1>
 			</c:otherwise>
 		</c:choose>
+
+		<div id="errorBox"></div><br/>
 		
 		<c:url var="urlSalvarEstimativa" value="/ticket/salvarEstimativa.action"/>
-		<form action="${urlSalvarEstimativa}">
+		<form action="${urlSalvarEstimativa}" name="formEstimativa" id="formEstimativa">
 			<table style="width: 100%">
 				<tr>
 					<th>#</th>
@@ -36,28 +71,25 @@
 						<td>${t.tipoDeTicket.descricao}</td>
 						<td>${t.cliente}</td>
 						
-						<td>
+						<td class="valorDeNegocio">
 							<c:choose>
 								<c:when test="${usuarioLogado.productOwner}">
-									<input type="text" size="5" name="valorDeNegocio" value="${t.valorDeNegocio}"/>
+									<input type="text" size="5" name="valorDeNegocio" value="${t.valorDeNegocio}" onchange="recalcular()" class="required digits"/>
 								</c:when>
 								<c:otherwise>
-									${t.valorDeNegocio}
+									<span>${t.valorDeNegocio}</span>
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<td>
+						<td class="esforco">
 							<c:choose>
 								<c:when test="${usuarioLogado.desenvolvedor}">
-									<input type="text" size="5" name="esforco" value="${t.esforco}"/>
+									<input type="text" size="5" name="esforco" value="${t.esforco}" onchange="recalcular()" class="required number"/>
 								</c:when>
 								<c:otherwise>
-									${t.esforco}
+									<span>${t.esforco}</span>
 								</c:otherwise>
 							</c:choose>
-							
-							
-							
 						</td>
 						<td>${t.kanbanStatus.descricao}</td>
 						<td>
@@ -65,6 +97,16 @@
 						</td>
 					</tr>
 				</c:forEach>
+				<tr>
+					<th colspan="4"></th>
+					<th id="somaValorDeNegocio">
+						${sprint.valorDeNegocioTotal} ${backlog.valorDeNegocioTotal}
+					</th>
+					<th id="somaEsforco">
+						${sprint.esforcoTotal} ${backlog.esforcoTotal}
+					</th>
+					<td></td>
+				</tr>
 			</table>	
 		
 			<div align="center">

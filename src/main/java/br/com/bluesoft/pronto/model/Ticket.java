@@ -1,5 +1,6 @@
 package br.com.bluesoft.pronto.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -186,11 +187,11 @@ public class Ticket {
 	}
 
 	public double getEsforco() {
-		return esforco;
+		return new BigDecimal(esforco).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
 	public void setEsforco(final double esforco) {
-		this.esforco = esforco;
+		this.esforco = new BigDecimal(esforco).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
 	public boolean isPar() {

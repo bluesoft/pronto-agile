@@ -42,6 +42,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 	@Override
 	public final boolean onPreInsert(final PreInsertEvent event) {
 
+		StatelessSession session = null;
 		try {
 
 			if (!event.getEntity().getClass().equals(Ticket.class)) {
@@ -52,7 +53,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 			final EntityMode entityMode = event.getPersister().guessEntityMode(event.getEntity());
 			Object newPropValue = null;
 
-			final StatelessSession session = event.getPersister().getFactory().openStatelessSession();
+			session = event.getPersister().getFactory().openStatelessSession();
 			session.beginTransaction();
 
 			for (final String propertyName : event.getPersister().getPropertyNames()) {
@@ -73,14 +74,21 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 			}
 
 			session.getTransaction().commit();
-			session.close();
+
 		} catch (final HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
 		}
 		return false;
 	}
 
 	@Override
 	public final boolean onPreUpdate(final PreUpdateEvent event) {
+
+		StatelessSession session = null;
 		try {
 
 			if (!event.getEntity().getClass().equals(Ticket.class)) {
@@ -93,7 +101,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 			Object oldPropValue = null;
 			Object newPropValue = null;
 
-			final StatelessSession session = event.getPersister().getFactory().openStatelessSession();
+			session = event.getPersister().getFactory().openStatelessSession();
 			session.beginTransaction();
 
 			final Object existingEntity = session.get(event.getEntity().getClass(), entityId);
@@ -133,9 +141,10 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 			}
 
 			session.getTransaction().commit();
-			session.close();
 		} catch (final Exception e) {
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 		return false;
 	}

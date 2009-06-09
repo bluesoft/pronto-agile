@@ -324,7 +324,7 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/salvarEstimativa.action")
-	public String salvarEstimativa(final Model model, final int ticketKey[], final int valorDeNegocio[], final int esforco[]) throws SegurancaException {
+	public String salvarEstimativa(final Model model, final int ticketKey[], final int valorDeNegocio[], final double esforco[]) throws SegurancaException {
 
 		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.PRODUCT_OWNER);
 
