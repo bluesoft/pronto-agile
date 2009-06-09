@@ -28,6 +28,7 @@ import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
+import br.com.bluesoft.pronto.dao.BacklogDao;
 import br.com.bluesoft.pronto.dao.KanbanStatusDao;
 import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
@@ -68,6 +69,9 @@ public class TicketController {
 	@Autowired
 	private TipoDeTicketDao tipoDeTicketDao;
 
+	@Autowired
+	private BacklogDao backlogDao;
+
 	@ModelAttribute("usuarios")
 	public List<Usuario> getUsuarios() {
 		return usuarioDao.listar();
@@ -107,21 +111,29 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/salvar.action")
-	public String salvar(final Model model, final Ticket ticket, final String comentario, final String[] desenvolvedor, final String[] testador) {
+	public String salvar(final Model model, final Ticket ticket, final String comentario, final String[] desenvolvedor, final String[] testador, final Integer paiKey) {
 
 		try {
 			final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
-			ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, ticket.getBacklog().getBacklogKey()));
-			ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, ticket.getTipoDeTicket().getTipoDeTicketKey()));
-			ticket.setReporter((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, ticket.getReporter().getUsername()));
-			ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, ticket.getKanbanStatus().getKanbanStatusKey()));
+			if (paiKey == null) {
 
-			if (ticket.getSprint() != null && ticket.getSprint().getSprintKey() <= 0) {
-				ticket.setSprint(null);
+				ticket.setBacklog(backlogDao.obter(ticket.getBacklog().getBacklogKey()));
+				ticket.setTipoDeTicket(tipoDeTicketDao.obter(ticket.getTipoDeTicket().getTipoDeTicketKey()));
+
+				if (ticket.getSprint() != null && ticket.getSprint().getSprintKey() <= 0) {
+					ticket.setSprint(null);
+				} else {
+					ticket.setSprint((Sprint) sessionFactory.getCurrentSession().get(Sprint.class, ticket.getSprint().getSprintKey()));
+				}
+
 			} else {
-				ticket.setSprint((Sprint) sessionFactory.getCurrentSession().get(Sprint.class, ticket.getSprint().getSprintKey()));
+				final Ticket pai = ticketDao.obter(paiKey);
+				copiarDadosDoPai(pai, ticket);
 			}
+
+			ticket.setKanbanStatus(kanbanStatusDao.obter(ticket.getKanbanStatus().getKanbanStatusKey()));
+			ticket.setReporter(usuarioDao.obter(ticket.getReporter().getUsername()));
 
 			if (comentario != null && comentario.trim().length() > 0) {
 				ticket.addComentario(comentario, Seguranca.getUsuario().getNome());
@@ -446,18 +458,25 @@ public class TicketController {
 		final Ticket pai = ticketDao.obter(paiKey);
 
 		final Ticket tarefa = new Ticket();
-		tarefa.setReporter(Seguranca.getUsuario());
-		tarefa.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
-		tarefa.setPai(pai);
-		tarefa.setBacklog(null);
+		copiarDadosDoPai(pai, tarefa);
+
 		model.addAttribute("ticket", tarefa);
 		model.addAttribute("tipoDeTicketKey", TipoDeTicket.TAREFA);
-
 		model.addAttribute("kanbanStatus", kanbanStatusDao.listar());
 		model.addAttribute("testadores", usuarioDao.listarTestadores());
 		model.addAttribute("desenvolvedores", usuarioDao.listarDesenvolvedores());
 
 		return VIEW_EDITAR;
+	}
+
+	private void copiarDadosDoPai(final Ticket pai, final Ticket filho) {
+		filho.setPai(pai);
+		filho.setReporter(Seguranca.getUsuario());
+		filho.setTipoDeTicket(tipoDeTicketDao.obter(TipoDeTicket.TAREFA));
+		filho.setBacklog(pai.getBacklog());
+		filho.setSprint(pai.getSprint());
+		filho.setCliente(pai.getCliente());
+		filho.setSolicitador(pai.getSolicitador());
 	}
 
 }

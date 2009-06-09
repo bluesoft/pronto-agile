@@ -16,10 +16,10 @@
 			<c:choose>
 				<c:when test="${ticket.ticketKey gt 0}">
 					<form:hidden path="ticket.ticketKey"/>
-					<ul class="info"><h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}</h1></ul>
+					<h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey} - ${ticket.titulo}</h1>
 				</c:when>
 				<c:otherwise>
-					<ul class="info"><h1>Incluir ${ticket.tipoDeTicket.descricao}</h1></ul>
+					<h1>Incluir ${ticket.tipoDeTicket.descricao}</h1>
 				</c:otherwise>
 			</c:choose>
 
@@ -72,32 +72,73 @@
 			</c:if>
 			
 			<div class="group">
-				<div>
-					<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey"/>
-					<b>${ticket.tipoDeTicket.descricao}</b>					
-					<p>Tipo</p>
-				</div>
+				
 				<div>
 					<form:hidden path="ticket.backlog.backlogKey"/>
 					<b>${ticket.backlog.descricao}</b>					
 					<p>Backlog</p>
 				</div>
+				
 				<c:if test="${ticket.backlog.backlogKey eq 3}">
-					<form:select path="ticket.sprint.sprintKey">
-						<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
-					</form:select>
-					<p>Sprint</p>
+					<c:choose>
+						<c:when test="${!ticket.tarefa}">
+							<form:select path="ticket.sprint.sprintKey">
+								<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
+							</form:select>
+							<p>Sprint</p>
+						</c:when>
+						<c:otherwise>
+							<form:hidden path="ticket.sprint.sprintKey"/>
+							<b>${ticket.sprint.nome}</b>
+							<p>Sprint</p>
+						</c:otherwise>
+					</c:choose>
 				</c:if>
+				
+				<c:if test="${ticket.pai ne null}">
+					<input type="hidden" name="paiKey" value="${ticket.pai.ticketKey}"/>
+					<c:if test="${ticket.ticketKey gt 0}">
+						<pronto:icons name="estoria.png" title="Ir para Estória" onclick="goTo('editar.action?ticketKey=${ticket.pai.ticketKey}')"/>
+					</c:if>
+					<b>#${ticket.pai.ticketKey} - ${ticket.pai.titulo}</b>
+					<p>Estória</p>
+				</c:if>
+				
+				<c:if test="${!empty ticket.filhos}">
+					<c:forEach items="${ticket.filhos}" var="filho">
+						<pronto:icons name="tarefa.png" title="Ir para Tarefa" onclick="goTo('editar.action?ticketKey=${filho.ticketKey}')"/>
+						<b>#${filho.ticketKey} - ${filho.titulo}</b>
+						<br/>
+					</c:forEach>
+					<p>Tarefas</p>					
+				</c:if>
+				
 				<div>
 					<form:input path="ticket.titulo" size="100" id="titulo" cssClass="required"/>
 					<p>Título</p>
 				</div>
 				<div>
-					<form:input path="ticket.cliente"  cssClass="required"/><br/>
+					<c:choose>
+						<c:when test="${!ticket.tarefa}">
+							<form:input path="ticket.cliente"  cssClass="required"/><br/>
+						</c:when>
+						<c:otherwise>
+							<form:hidden path="ticket.cliente" />
+							<b>${ticket.cliente}</b>							
+						</c:otherwise>
+					</c:choose>
 					<p>Cliente</p>
 				</div>
 				<div>
-					<form:input path="ticket.solicitador"  cssClass="required"/><br/>
+					<c:choose>
+						<c:when test="${!ticket.tarefa}">
+							<form:input path="ticket.solicitador"  cssClass="required"/><br/>
+						</c:when>
+						<c:otherwise>
+							<form:hidden path="ticket.solicitador"/>
+							<b>${ticket.solicitador}</b>
+						</c:otherwise>
+					</c:choose>
 					<p>Solicitador</p>
 				</div>
 				<div>
