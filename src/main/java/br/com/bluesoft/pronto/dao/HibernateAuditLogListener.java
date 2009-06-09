@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.hibernate.EntityMode;
-import org.hibernate.HibernateException;
 import org.hibernate.StatelessSession;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.event.Initializable;
@@ -35,53 +34,11 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 
 	@Override
 	public final boolean onPreDelete(final PreDeleteEvent event) {
-
 		return false;
 	}
 
 	@Override
 	public final boolean onPreInsert(final PreInsertEvent event) {
-
-		StatelessSession session = null;
-		try {
-
-			if (!event.getEntity().getClass().equals(Ticket.class)) {
-				return false;
-			}
-
-			final Date transTime = new Date();
-			final EntityMode entityMode = event.getPersister().guessEntityMode(event.getEntity());
-			Object newPropValue = null;
-
-			session = event.getPersister().getFactory().openStatelessSession();
-			session.beginTransaction();
-
-			for (final String propertyName : event.getPersister().getPropertyNames()) {
-				newPropValue = event.getPersister().getPropertyValue(event.getEntity(), propertyName, entityMode);
-				if (newPropValue != null) {
-					if (!(newPropValue instanceof Collection)) {
-						final TicketLog history = new TicketLog();
-						history.setTicket((Ticket) event.getEntity());
-						history.setData(transTime);
-						history.setUsuario(Seguranca.getUsuario().getUsername());
-						history.setCampo(null);
-						history.setValorAntigo(null);
-						history.setValorNovo(String.valueOf(newPropValue));
-						history.setOperacao(TicketLog.INCLUSAO);
-						session.insert(history);
-					}
-				}
-			}
-
-			session.getTransaction().commit();
-
-		} catch (final HibernateException e) {
-			e.printStackTrace();
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
 		return false;
 	}
 
@@ -89,6 +46,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 	public final boolean onPreUpdate(final PreUpdateEvent event) {
 
 		StatelessSession session = null;
+
 		try {
 
 			if (!event.getEntity().getClass().equals(Ticket.class)) {

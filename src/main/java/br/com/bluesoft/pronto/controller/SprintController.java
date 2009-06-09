@@ -49,7 +49,7 @@ public class SprintController {
 
 	@RequestMapping("/sprint/listar.action")
 	public String listar(final Model model) {
-		model.addAttribute("sprints", sessionFactory.getCurrentSession().createCriteria(Sprint.class).list());
+		model.addAttribute("sprints", sprintDao.listar());
 		return VIEW_LISTAR;
 	}
 

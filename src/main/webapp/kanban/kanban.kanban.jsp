@@ -25,7 +25,7 @@
 			}
 			
 			.droppable {
-				height: 700px;
+				height: ${sprint.quantidadeDeTickets * 60 + 100}px;
 			}
 		</style>
 		<script>
@@ -54,12 +54,12 @@
 	<body>
 		<h1>Kanban</h1>
 		
-		<table align="center" style="width: 100%; height: 500px">
+		<table align="center" style="width: 100%;">
 			<tr>
 				<td style="width: 25%">		
 					<div id="todo" class="ui-widget-header droppable" status="1">
 						<p>TO DO</p>
-						<c:forEach items="${tickets}" var="t">
+						<c:forEach items="${sprint.tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 1}">
 								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}" ondblclick="openTicket(${t.ticketKey});">
 									<p>#${t.ticketKey} - ${t.titulo}</p>
@@ -71,7 +71,7 @@
 				<td style="width: 25%">
 					<div id="doing" class="ui-widget-header droppable" status="2">
 						<p>DOING</p>
-						<c:forEach items="${tickets}" var="t">
+						<c:forEach items="${sprint.tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 2}">
 								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}" ondblclick="openTicket(${t.ticketKey});">
 									<p>#${t.ticketKey} - ${t.titulo}</p>
@@ -83,7 +83,7 @@
 				<td style="width: 25%">
 					<div id="testing" class="ui-widget-header droppable" status="21">
 						<p>TESTING</p>
-						<c:forEach items="${tickets}" var="t">
+						<c:forEach items="${sprint.tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 21}">
 								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}" ondblclick="openTicket(${t.ticketKey});">
 									<p>#${t.ticketKey} - ${t.titulo}</p>
@@ -95,7 +95,7 @@
 				<td  style="width: 25%">
 					<div id="done" class="ui-state-highlight droppable" status="100">
 						<p>DONE</p>
-						<c:forEach items="${tickets}" var="t">
+						<c:forEach items="${sprint.tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 100}">
 								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : 'story'}" ondblclick="openTicket(${t.ticketKey});">
 									<p>#${t.ticketKey} - ${t.titulo}</p>

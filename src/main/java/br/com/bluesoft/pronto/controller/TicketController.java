@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -157,7 +158,7 @@ public class TicketController {
 				model.addAttribute("mensagem", "O Ticket #" + ticketKey + " não existe.");
 				return "/branca.jsp";
 			}
-			model.addAttribute("sprints", sessionFactory.getCurrentSession().createCriteria(Sprint.class).list());
+			model.addAttribute("sprints", sprintDao.listarSprintsEmAberto());
 			model.addAttribute("ticket", ticket);
 			model.addAttribute("anexos", listarAnexos(ticketKey));
 		} else {
@@ -378,9 +379,25 @@ public class TicketController {
 
 	}
 
-	@RequestMapping("/ticket/incluirTarefa.action")
-	public String incluirTarefa(final Model model, final int ticketHistoryKey) {
-		return "/ticket/ticket.editarTarefa.jsp";
+	@RequestMapping("/ticket/transformarEmEstoria.action")
+	public String transformarEmEstoria(final Model model, final int ticketKey) {
+		final Ticket ticket = ticketDao.obter(ticketKey);
+		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().createCriteria(TipoDeTicket.class).add(Restrictions.eq("tipoDeTicketKey", TipoDeTicket.ESTORIA)).uniqueResult());
+		ticketDao.salvar(ticket);
+		return "forward:/ticket/editar.action";
+	}
+
+	@RequestMapping("/ticket/transformarEmDefeito.action")
+	public String transformarEmDefeito(final Model model, final int ticketKey) {
+		final Ticket ticket = ticketDao.obter(ticketKey);
+
+		if (ticket.getFilhos() != null && ticket.getFilhos().size() > 0) {
+			model.addAttribute("erro", "Essa estória possui tarefas e por isso não pode ser transformada em um defeito.");
+		} else {
+			ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().createCriteria(TipoDeTicket.class).add(Restrictions.eq("tipoDeTicketKey", TipoDeTicket.DEFEITO)).uniqueResult());
+			ticketDao.salvar(ticket);
+		}
+		return "forward:/ticket/editar.action";
 	}
 
 }
