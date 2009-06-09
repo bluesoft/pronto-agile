@@ -36,10 +36,8 @@ public class Ticket {
 		reporter = new Usuario();
 		sprint = new Sprint();
 		kanbanStatus = new KanbanStatus(KanbanStatus.TO_DO);
-
 		comentarios = new ArrayList<TicketComentario>();
 		logs = new ArrayList<TicketLog>();
-
 	}
 
 	@Id
@@ -81,6 +79,11 @@ public class Ticket {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "TICKET_DESENVOLVEDOR", joinColumns = { @JoinColumn(name = "TICKET_KEY") }, inverseJoinColumns = { @JoinColumn(name = "USUARIO_KEY") })
 	private Set<Usuario> desenvolvedores;
+
+	@Label("testadores")
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "TICKET_TESTADOR", joinColumns = { @JoinColumn(name = "TICKET_KEY") }, inverseJoinColumns = { @JoinColumn(name = "USUARIO_KEY") })
+	private Set<Usuario> testadores;
 
 	@Label("valor de negócio")
 	private int valorDeNegocio;
@@ -176,6 +179,14 @@ public class Ticket {
 
 	public void setDesenvolvedores(final Set<Usuario> desenvolvedores) {
 		this.desenvolvedores = desenvolvedores;
+	}
+
+	public Set<Usuario> getTestadores() {
+		return testadores;
+	}
+
+	public void setTestadores(final Set<Usuario> testadores) {
+		this.testadores = testadores;
 	}
 
 	public int getValorDeNegocio() {
@@ -306,6 +317,10 @@ public class Ticket {
 
 	public void addDesenvolvedor(final Usuario usuario) {
 		desenvolvedores.add(usuario);
+	}
+
+	public void addTestador(final Usuario usuario) {
+		testadores.add(usuario);
 	}
 
 	public Date getDataDePronto() {

@@ -26,6 +26,12 @@ public class BurndownController {
 	@RequestMapping("/burndown/burndown.action")
 	public String burndown(final Model model, final Integer sprintKey) {
 		model.addAttribute("sprintKey", sprintKey);
+
+		if (sprintKey == null && sprintDao.getSprintAtual() == null) {
+			model.addAttribute("erro", "Não há um Sprint Atual!");
+			return "/branca.jsp";
+		}
+
 		return "/burndown/burndown.burndown.jsp";
 	}
 

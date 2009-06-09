@@ -126,12 +126,21 @@ CREATE TABLE ticket_desenvolvedor (
 
 ALTER TABLE public.ticket_desenvolvedor OWNER TO pronto;
 
+
+CREATE TABLE ticket_testador (
+    ticket_key integer NOT NULL,
+    usuario_key character varying(255) NOT NULL
+);
+
+ALTER TABLE public.ticket_testador OWNER TO pronto;
+
+
 CREATE TABLE ticket_log (
     ticket_history_key integer NOT NULL,
     campo character varying(255),
     operacao integer NOT NULL,
-    valor_antigo character varying(255),
-    valor_novo character varying(255),
+    valor_antigo text,
+    valor_novo text,
     data timestamp without time zone,
     usuario character varying(255),
     ticket_key integer
@@ -209,6 +218,9 @@ ALTER TABLE ONLY ticket_comentario
 
 ALTER TABLE ONLY ticket_desenvolvedor
     ADD CONSTRAINT ticket_desenvolvedor_pkey PRIMARY KEY (ticket_key, usuario_key);
+    
+ALTER TABLE ONLY ticket_testador
+    ADD CONSTRAINT ticket_testador_pkey PRIMARY KEY (ticket_key, usuario_key);
 
 ALTER TABLE ONLY ticket_log
     ADD CONSTRAINT ticket_log_pkey PRIMARY KEY (ticket_history_key);
@@ -237,6 +249,12 @@ ALTER TABLE ONLY ticket_desenvolvedor
 ALTER TABLE ONLY ticket_desenvolvedor
     ADD CONSTRAINT fk50e2688d8e8e74a4 FOREIGN KEY (usuario_key) REFERENCES usuario(username);
 
+ALTER TABLE ONLY ticket_testador
+    ADD CONSTRAINT fk50e2688d6484a110 FOREIGN KEY (ticket_key) REFERENCES ticket(ticket_key);
+
+ALTER TABLE ONLY ticket_testador
+    ADD CONSTRAINT fk50e2688d8e8e74a4 FOREIGN KEY (usuario_key) REFERENCES usuario(username);
+    
 ALTER TABLE ONLY ticket_log
     ADD CONSTRAINT fk7c90d7916484a110 FOREIGN KEY (ticket_key) REFERENCES ticket(ticket_key);
 

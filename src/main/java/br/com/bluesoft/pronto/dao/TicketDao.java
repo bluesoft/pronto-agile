@@ -17,12 +17,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Usuario> listarDesenvolvedoresDoTicket(final int ticketKey) {
-		final String hql = "select t.desenvolvedores from Ticket t where t.ticketKey = :ticketKey";
-		return getSession().createQuery(hql).setInteger("ticketKey", ticketKey).list();
-	}
-
-	@SuppressWarnings("unchecked")
 	public List<Ticket> buscar(final String busca) {
 		final String hql = "from Ticket t where upper(t.titulo) like :query";
 		final Query query = getSession().createQuery(hql).setString("query", '%' + busca.toUpperCase() + '%');
@@ -52,6 +46,18 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).list();
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Usuario> listarDesenvolvedoresDoTicket(final int ticketKey) {
+		final String hql = "select t.desenvolvedores from Ticket t where t.ticketKey = :ticketKey";
+		return getSession().createQuery(hql).setInteger("ticketKey", ticketKey).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Usuario> listarTestadoresDoTicket(final int ticketKey) {
+		final String hql = "select t.testadores from Ticket t where t.ticketKey = :ticketKey";
+		return getSession().createQuery(hql).setInteger("ticketKey", ticketKey).list();
 	}
 
 }
