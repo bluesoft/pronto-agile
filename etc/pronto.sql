@@ -173,7 +173,7 @@ CREATE TABLE usuario_papel (
 
 ALTER TABLE public.usuario_papel OWNER TO pronto;
 
-INSERT INTO backlog VALUES (1, 'Idéias');
+INSERT INTO backlog VALUES (1, 'IdŽias');
 INSERT INTO backlog VALUES (5, 'Impedimentos');
 INSERT INTO backlog VALUES (4, 'Lixeira');
 INSERT INTO backlog VALUES (2, 'Product Backlog');
@@ -191,13 +191,13 @@ INSERT INTO papel VALUES (2, 'Scrum Master');
 INSERT INTO papel VALUES (5, 'Suporte');
 INSERT INTO papel VALUES (3, 'Desenvolvedor');
 
-INSERT INTO tipo_de_ticket VALUES (1, 'Idéia');
-INSERT INTO tipo_de_ticket VALUES (2, 'Estória');
+INSERT INTO tipo_de_ticket VALUES (1, 'IdŽia');
+INSERT INTO tipo_de_ticket VALUES (2, 'Est—ria');
 INSERT INTO tipo_de_ticket VALUES (3, 'Defeito');
 INSERT INTO tipo_de_ticket VALUES (5, 'Impedimento');
 INSERT INTO tipo_de_ticket VALUES (6, 'Tarefa');
 
-INSERT INTO usuario VALUES ('admin', '1B2M2Y8AsgTpgAmY7PhCfg==', 'Administrador do Pronto.', 'adm@localhost.com.br');
+INSERT INTO usuario VALUES ('admin', 'X44voXGNG7yt8c2celT7jA==', 'Administrador do Pronto', 'adm@adm.com.br');
 
 INSERT INTO usuario_papel VALUES('admin',1);
 
