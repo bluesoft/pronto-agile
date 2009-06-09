@@ -261,6 +261,14 @@ public class TicketController {
 
 		ticket.setBacklog(backlog);
 		ticketDao.salvar(ticket);
+
+		if (ticket.getFilhos() != null) {
+			for (final Ticket filho : ticket.getFilhos()) {
+				filho.setBacklog(backlog);
+				ticketDao.salvar(ticket);
+			}
+		}
+
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
