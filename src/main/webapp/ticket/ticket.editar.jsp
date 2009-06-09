@@ -148,29 +148,32 @@
 					<form:hidden path="ticket.reporter.username"/><br/>
 					<p>Reporter</p> 
 				</div>
+				
+				<c:if test="!ticket.tarefa">
+					<div>
+						<c:choose>
+							<c:when test="${usuarioLogado.productOwner}">
+								<form:input path="ticket.valorDeNegocio" cssClass="required digits"/><br/>
+							</c:when>
+							<c:otherwise>
+								<form:hidden path="ticket.valorDeNegocio"/>
+								${ticket.valorDeNegocio}<br/>
+							</c:otherwise>
+						</c:choose>
+						<p>Valor de Negócio</p>
+					</div>
+				</c:if>
+				
 				<div>
 					<c:choose>
-						<c:when test="${usuarioLogado.productOwner}">
-							<form:input path="ticket.valorDeNegocio" cssClass="required digits"/><br/>
-						</c:when>
-						<c:otherwise>
-							<form:hidden path="ticket.valorDeNegocio"/>
-							${ticket.valorDeNegocio}<br/>
-						</c:otherwise>
-					</c:choose>
-					<p>Valor de Negócio</p>
-				</div>
-				<div>
-					<c:choose>
-						<c:when test="${usuarioLogado.desenvolvedor}">
+						<c:when test="${usuarioLogado.desenvolvedor and empty ticket.filhos}">
 							<form:input path="ticket.esforco" cssClass="required number" /><br/>
 						</c:when>
 						<c:otherwise>
 							<form:hidden path="ticket.esforco"/>
-							${ticket.esforco}<br/>
+							<b>${ticket.esforco}</b><br/>
 						</c:otherwise>
 					</c:choose>
-					
 					<p>Esforço</p>
 				</div>
 					<div>

@@ -198,8 +198,23 @@ public class Ticket {
 		this.valorDeNegocio = valorDeNegocio;
 	}
 
+	public double getSomaDoEsforcoDosFilhos() {
+		if (temFilhos()) {
+			double soma = 0d;
+			for (final Ticket filho : filhos) {
+				soma += filho.getEsforco();
+			}
+			return soma;
+		}
+		return 0d;
+	}
+
 	public double getEsforco() {
-		return new BigDecimal(esforco).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+		if (temFilhos()) {
+			return getSomaDoEsforcoDosFilhos();
+		} else {
+			return new BigDecimal(esforco).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+		}
 	}
 
 	public void setEsforco(final double esforco) {

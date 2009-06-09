@@ -22,6 +22,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 		// Se um ticket tiver filhos, atualizar os dados dos filhos que devem ser sempre iguais aos do pai.
 		if (ticket.temFilhos()) {
+			ticket.setEsforco(ticket.getSomaDoEsforcoDosFilhos());
 			for (final Ticket filho : ticket.getFilhos()) {
 
 				if (!filho.isImpedido() && !filho.isLixo()) {
@@ -47,6 +48,11 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 			}
 			ticket.setSprint(pai.getSprint());
 			ticket.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
+		}
+
+		// Tarefa nao tem valor de Negocio
+		if (ticket.isTarefa()) {
+			ticket.setValorDeNegocio(0);
 		}
 
 		super.salvar(ticket);
