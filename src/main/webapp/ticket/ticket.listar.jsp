@@ -11,7 +11,8 @@
 				var url = 'jogarNoLixo.action?ticketKey=' + ticketKey; 
 				$.post(url, {
 					success: function() {
-						$('#'+ticketKey).remove();		
+						$('#'+ticketKey).remove();
+						recalcular();		
 					}
 				});
 			}
@@ -20,7 +21,8 @@
 				var url = 'moverParaProductBacklog.action?ticketKey=' + ticketKey; 
 				$.post(url, {
 					success: function() {
-						$('#'+ticketKey).remove();		
+						$('#'+ticketKey).remove();
+						recalcular();		
 					}
 				});
 			}
@@ -29,7 +31,8 @@
 				var url = 'moverParaIdeias.action?ticketKey=' + ticketKey; 
 				$.post(url, {
 					success: function() {
-						$('#'+ticketKey).remove();		
+						$('#'+ticketKey).remove();
+						recalcular();		
 					}
 				});
 			}
@@ -38,7 +41,8 @@
 				var url = 'moverParaImpedimentos.action?ticketKey=' + ticketKey; 
 				$.post(url, {
 					success: function() {
-						$('#'+ticketKey).remove();		
+						$('#'+ticketKey).remove();
+						recalcular();		
 					}
 				});
 			}
@@ -47,9 +51,26 @@
 				var url = 'restaurar.action?ticketKey=' + ticketKey; 
 				$.post(url, {
 					success: function() {
-						$('#'+ticketKey).remove();		
+						$('#'+ticketKey).remove();
+						recalcular();		
 					}
 				});
+			}
+
+			function recalcular() {
+
+				var valorDeNegocio = 0;
+				$('.valorDeNegocio').each(function(i, el){
+					valorDeNegocio += parseFloat($(el).text());
+				});
+				$('#somaValorDeNegocio').text(valorDeNegocio);
+				
+				var esforco = 0;
+				$('.esforco').each(function(i, el){
+					esforco += parseFloat($(el).text());
+				});
+				$('#somaEsforco').text(esforco);
+
 			}
 		</script>
 	</head>
@@ -85,8 +106,8 @@
 					<td>${t.titulo}</td>
 					<td>${t.tipoDeTicket.descricao}</td>
 					<td>${t.cliente}</td>
-					<td>${t.valorDeNegocio}</td>
-					<td>${t.esforco}</td>
+					<td class="valorDeNegocio">${t.valorDeNegocio}</td>
+					<td class="esforco">${t.esforco}</td>
 					<td>${t.kanbanStatus.descricao}</td>
 					<td>
 						<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${t.ticketKey}')"></pronto:icons>
@@ -122,8 +143,8 @@
 			</c:forEach>
 			<tr>
 				<th colspan="4"></th>
-				<th>${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
-				<th>${sprint.esforcoTotal}${backlog.esforcoTotal}</th>
+				<th id="somaValorDeNegocio">${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
+				<th id="somaEsforco">${sprint.esforcoTotal}${backlog.esforcoTotal}</th>
 				<th></th>
 			</tr>
 		</table>	
