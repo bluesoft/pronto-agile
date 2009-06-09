@@ -25,6 +25,12 @@
 
 			<c:if test="${ticket.ticketKey gt 0}">
 				<!-- Operacoes -->
+				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
+					<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="goTo('transformarEmDefeito.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+				</c:if>
+				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
+					<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="goTo('transformarEmEstoria.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+				</c:if>
 				<c:if test="${ticket.backlog.backlogKey eq 1}">
 						<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="goTo('moverParaProductBacklog.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
@@ -41,13 +47,7 @@
 					<pronto:icons name="restaurar.png" title="Restaurar" onclick="goTo('restaurar.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
-					<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
-				</c:if>
-				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
-					<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="goTo('transformarEmDefeito.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
-				</c:if>
-				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
-					<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="goTo('transformarEmEstoria.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+					<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?paiKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 				<!-- Fim das Operacoes -->
 				<br/><br/>
@@ -131,7 +131,7 @@
 					<p>Esforço</p>
 				</div>
 					<div>
-					<c:forEach items="${usuarios}" var="u" varStatus="s">
+					<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
 						<c:set var="checked" value="${false}"/>
 						<c:forEach items="${ticket.desenvolvedores}" var="d">
 							<c:if test="${d.username eq u.username}">
@@ -139,12 +139,23 @@
 							</c:if>
 						</c:forEach>
 						<i><input type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''}>${u.nome}</i>
-						
-						<c:if test="${s.count % 3 == 0}">
-							<br/>
-						</c:if>
+						<c:if test="${s.count % 3 == 0}"><br/></c:if>
 					</c:forEach>					
 					<p>Desenvolvedores</p>
+				</div>
+				</div>
+					<div>
+					<c:forEach items="${testadores}" var="u" varStatus="s">
+						<c:set var="checked" value="${false}"/>
+						<c:forEach items="${ticket.testadores}" var="d">
+							<c:if test="${d.username eq u.username}">
+								<c:set var="checked" value="${true}"/>
+							</c:if>
+						</c:forEach>
+						<i><input type="checkbox" name="testador" value="${u.username}" ${checked ? 'checked="checked"' : ''}>${u.nome}</i>
+						<c:if test="${s.count % 3 == 0}"><br/></c:if>
+					</c:forEach>					
+					<p>Testadores</p>
 				</div>
 				<div>
 					<form:select path="ticket.kanbanStatus.kanbanStatusKey">

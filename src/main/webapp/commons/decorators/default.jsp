@@ -27,19 +27,21 @@
 	            	<h6 align="center" style="color: red">${erro}${param.erro}</h6>
 	            </c:if>
 	            
-	            <div id="main">
-	                <h1><decorator:getProperty property="page.heading"/></h1>
-	                <decorator:body/>
-	            </div>
-	            <c:set var="currentMenu" scope="request"><decorator:getProperty property="meta.menu"/></c:set>
-	
-	            <div id="nav">
+	             <div id="nav">
 	                <div class="wrapper">
 	                    <h2 class="accessibility">Navigation</h2>
 	                    <jsp:include page="/commons/menu.jsp"/>
 	                </div>
 	                <hr />
 	            </div><!-- end nav -->
+	            
+	            <div id="main">
+	                <h1><decorator:getProperty property="page.heading"/></h1>
+	                <decorator:body/>
+	            </div>
+	            <c:set var="currentMenu" scope="request"><decorator:getProperty property="meta.menu"/></c:set>
+	
+	           
 	        </div>
 	        
 	

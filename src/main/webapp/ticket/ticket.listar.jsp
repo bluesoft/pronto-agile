@@ -115,6 +115,13 @@
 				<th>Valor de Negócio</th>
 				<th>Esforço</th>
 				<th>Status</th>
+				<th style="width: 16px"></th>
+				<th style="width: 16px"></th>
+				<th style="width: 16px"></th>
+				<th style="width: 16px"></th>
+				<th style="width: 16px"></th>
+				<th style="width: 16px"></th>
+				<th style="width: 16px"></th>
 			</tr>
 			<c:forEach items="${tickets}" var="t">
 				<tr id="${t.ticketKey}">
@@ -164,7 +171,7 @@
 				<th colspan="4"></th>
 				<th id="somaValorDeNegocio">${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
 				<th id="somaEsforco">${sprint.esforcoTotal}${backlog.esforcoTotal}</th>
-				<th></th>
+				<th colspan="8"></th>
 			</tr>
 		</table>	
 		
