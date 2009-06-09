@@ -123,7 +123,7 @@
 				<div>
 					<c:choose>
 						<c:when test="${usuarioLogado.desenvolvedor}">
-							<form:input path="ticket.esforco" cssClass="required digits"/><br/>
+							<form:input path="ticket.esforco" cssClass="required number" /><br/>
 						</c:when>
 						<c:otherwise>
 							<form:hidden path="ticket.esforco"/>

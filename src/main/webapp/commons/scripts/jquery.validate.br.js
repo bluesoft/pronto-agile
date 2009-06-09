@@ -12,7 +12,7 @@ jQuery.extend(jQuery.validator.messages, {
 	dateBr: "Por favor, forne&ccedil;a uma data v&aacute;lida.",
 	dateISO: "Por favor, forne&ccedil;a uma data v&aacute;lida (ISO).",
 	dateDE: "Bitte geben Sie ein gÃ¼ltiges Datum ein.",
-	number: "Por favor, forne&ccedil;a um n&uacute;mero v&aacute;lida.",
+	number: "Por favor, forne&ccedil;a um n&uacute;mero v&aacute;lido.",
 	numberDE: "Bitte geben Sie eine Nummer ein.",
 	digits: "Por favor, forne&ccedil;a somente números inteiros.",
 	creditcard: "Por favor, forne&ccedil;a um cart&atilde;o de cr&eacute;dito v&aacute;lido.",

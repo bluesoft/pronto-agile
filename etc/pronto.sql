@@ -95,7 +95,7 @@ CREATE TABLE ticket (
     solicitador character varying(255),
     branch character varying(255),
     valor_de_negocio integer NOT NULL,
-    esforco real NOT NULL,
+    esforco double precision NOT NULL,
     par boolean NOT NULL,
     planejado boolean NOT NULL,
     data_de_pronto timestamp without time zone,
