@@ -14,8 +14,7 @@
 		});
 	</script>
 	<div id="branding">
-		<h1><a href="<c:url value="/kanban/kanban.action"/>">Pronto!</a></h1>
-        <p>Sistema de Gestão de Processos Ágeis</p>
+		<h1><a href="<c:url value="/kanban/kanban.action"/>"><pronto:images name="pronto_logo.png" title="Pronto!" /></a></h1>
 	</div> <!-- end branding -->
 		<c:if test="${usuarioLogado ne null}">
 			<div align="right"">
