@@ -147,7 +147,10 @@ public class Sprint {
 
 			if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
 				final String data;
-				if (ticket.getDataDePronto().after(dataFinal)) {
+
+				if (ticket.getDataDePronto().before(dataInicial)) {
+					data = DateUtil.toStringMesAno(dataInicial);
+				} else if (ticket.getDataDePronto().after(dataFinal)) {
 					data = DateUtil.toStringMesAno(dataFinal);
 				} else {
 					data = DateUtil.toStringMesAno(ticket.getDataDePronto());
