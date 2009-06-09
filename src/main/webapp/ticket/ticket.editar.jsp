@@ -52,6 +52,12 @@
 				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
 					<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
+				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
+					<pronto:icons name="transformar_em_bug.png" title="Transformar em Bug" onclick="goTo('transformarEmDefeito.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+				</c:if>
+				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
+					<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="goTo('transformarEmEstoria.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+				</c:if>
 				<!-- Fim das Operacoes -->
 				<br/><br/>
 				

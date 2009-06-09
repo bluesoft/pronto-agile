@@ -59,9 +59,9 @@ public class Ticket {
 	@JoinColumn(name = "KANBAN_STATUS_KEY")
 	private KanbanStatus kanbanStatus;
 
-	@Label("tipo de ticket")
 	@ManyToOne
 	@JoinColumn(name = "TIPO_DE_TICKET_KEY")
+	@Label("tipo de ticket")
 	private TipoDeTicket tipoDeTicket;
 
 	@Label("descrição")

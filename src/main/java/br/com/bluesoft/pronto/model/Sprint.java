@@ -98,7 +98,7 @@ public class Sprint {
 		double total = 0;
 		if (tickets != null) {
 			for (final Ticket ticket : tickets) {
-				if (ticket.isDefeito() || ticket.isEstoria()) {
+				if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
 					total += ticket.getEsforco();
 				}
 			}
@@ -109,7 +109,7 @@ public class Sprint {
 	public int getValorDeNegocioTotal() {
 		int total = 0;
 		for (final Ticket ticket : tickets) {
-			if (ticket.isDefeito() || ticket.isEstoria()) {
+			if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
 				total += ticket.getValorDeNegocio();
 			}
 		}
@@ -119,7 +119,7 @@ public class Sprint {
 	public double getEsforcoRealizado(final Date date) {
 		double total = 0;
 		for (final Ticket ticket : tickets) {
-			if (ticket.isDefeito() || ticket.isEstoria()) {
+			if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
 				if (DateUtil.toString(ticket.getDataDePronto()).equals(DateUtil.toString(date))) {
 					total += ticket.getEsforco();
 				}
@@ -145,7 +145,7 @@ public class Sprint {
 				continue;
 			}
 
-			if (ticket.isDefeito() || ticket.isEstoria()) {
+			if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
 				final String data;
 				if (ticket.getDataDePronto().after(dataFinal)) {
 					data = DateUtil.toStringMesAno(dataFinal);
@@ -166,7 +166,7 @@ public class Sprint {
 	public List<Ticket> getTicketsEmAberto() {
 		final List<Ticket> ticketsEmAberto = new ArrayList<Ticket>();
 		for (final Ticket ticket : tickets) {
-			if (!ticket.isDone()) {
+			if (!ticket.isDone() && ticket.isSprintBacklog()) {
 				ticketsEmAberto.add(ticket);
 			}
 		}
