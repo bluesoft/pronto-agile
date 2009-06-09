@@ -102,7 +102,9 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 		} catch (final Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			if (session != null) {
+				session.close();
+			}
 		}
 		return false;
 	}
