@@ -85,7 +85,9 @@ public class TicketController {
 	@RequestMapping("/ticket/listarPorBacklog.action")
 	public String listarPorBacklog(final Model model, final int backlogKey) {
 		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey);
+		final List<Ticket> tarefasSoltas = ticketDao.listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(backlogKey);
 		model.addAttribute("tickets", tickets);
+		model.addAttribute("tarefasSoltas", tarefasSoltas);
 		model.addAttribute("backlog", backlogDao.obter(backlogKey));
 		return VIEW_LISTAR;
 	}
