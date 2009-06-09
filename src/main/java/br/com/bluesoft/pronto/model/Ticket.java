@@ -345,6 +345,10 @@ public class Ticket {
 		return getTipoDeTicket() != null && getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.ESTORIA;
 	}
 
+	public boolean isEstoriaSemTarega() {
+		return isEstoria() && !temFilhos();
+	}
+
 	public boolean isTarefa() {
 		return getTipoDeTicket() != null && getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.TAREFA;
 	}

@@ -367,7 +367,7 @@ public class TicketController {
 	@RequestMapping("/ticket/listarTarefasParaAdicionarAoSprint.action")
 	public String listarTarefasParaAdicionarAoSprint(final Model model, final int sprintKey) {
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
-		model.addAttribute("tickets", ticketDao.listarPorBacklog(Backlog.PRODUCT_BACKLOG));
+		model.addAttribute("tickets", ticketDao.listarEstoriasEDefeitosDoProductBacklog());
 		return "/ticket/ticket.adicionarAoSprint.jsp";
 	}
 

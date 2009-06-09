@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.bluesoft.pronto.core.Backlog;
+import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.Usuario;
 
@@ -86,6 +87,17 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	public List<Usuario> listarTestadoresDoTicket(final int ticketKey) {
 		final String hql = "select t.testadores from Ticket t where t.ticketKey = :ticketKey";
 		return getSession().createQuery(hql).setInteger("ticketKey", ticketKey).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Ticket> listarEstoriasEDefeitosDoProductBacklog() {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(" select distinct t from Ticket t");
+		builder.append(" where t.backlog.backlogKey = :backlogKey");
+		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
+		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
+
+		return getSession().createQuery(builder.toString()).setInteger("backlogKey", Backlog.PRODUCT_BACKLOG).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO }).list();
 	}
 
 }

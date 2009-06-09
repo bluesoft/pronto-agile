@@ -31,10 +31,10 @@
 				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
 					<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="goTo('transformarEmEstoria.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
-				<c:if test="${ticket.backlog.backlogKey eq 1}">
+				<c:if test="${ticket.backlog.backlogKey eq 1 and !ticket.tarefa}">
 						<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="goTo('moverParaProductBacklog.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
-				<c:if test="${ticket.backlog.backlogKey eq 2}">
+				<c:if test="${ticket.backlog.backlogKey eq 2 and !ticket.tarefa}">
 						<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Idéias" onclick="goTo('moverParaIdeias.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 				<c:if test="${ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2}">
