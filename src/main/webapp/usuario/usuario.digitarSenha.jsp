@@ -24,7 +24,7 @@
 				<form:hidden path="usuario.username"/>
 				<div>
 					<b>${usuario.username}</b>
-					<p>username</p>
+					<p>Username</p>
 				</div>
 				<div>
 					<b>${usuario.nome}</b>
@@ -32,7 +32,7 @@
 				</div>
 				<div>
 					<input type="password" name="password" id="password" class="required">
-					<p>password</p>
+					<p>Senha</p>
 				</div>
 				<div align="center">
 					<button type="button" onclick="window.location.href='listar.action'">Cancelar</button>

@@ -267,11 +267,11 @@
 		<div align="center">
 			<c:choose>
 				<c:when test="${backlog.backlogKey eq 1}">
-					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=1">Nova Idéia</a>&nbsp;&nbsp;
+					&nbsp;&nbsp;<button type="button" onclick="window.location.href='editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=1'">Nova Idéia</button>&nbsp;&nbsp;
 				</c:when>
 				<c:when test="${backlog.backlogKey eq 2 and usuarioLogado.productOwner}">
-					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2">Nova Estória</a>&nbsp;&nbsp;
-					|&nbsp;&nbsp;<a href="editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3">Novo Defeito</a>&nbsp;&nbsp;
+					&nbsp;&nbsp;<button type="button" onclick="window.location.href='editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2'">Nova Estória</button>&nbsp;&nbsp;
+					&nbsp;&nbsp;<button type="button" onclick="window.location.href='editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3'">Novo Defeito</button>&nbsp;&nbsp;
 				</c:when>
 			</c:choose>
 		</div>
