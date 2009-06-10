@@ -9,9 +9,9 @@
 		<table style="width: 100%">
 			<thead>
 			<tr>
-				<th>username</th>
+				<th>Username</th>
 				<th>Nome</th>
-				<th>e-mail</th>
+				<th>E-mail</th>
 				<th colspan="3"></th>
 			</tr>
 			</thead>
