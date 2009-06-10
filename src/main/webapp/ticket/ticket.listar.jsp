@@ -178,7 +178,7 @@
 							<td class="titulo">${f.titulo}</td>
 							<td>${f.tipoDeTicket.descricao}</td>
 							<td>${f.cliente}</td>
-							<td style="color:gray;" class="valorDeNegocio">${f.valorDeNegocio}</td>
+							<td style="color:gray;" class="valorDeNegocio"></td>
 							<td style="color:gray;"class="esforco">${f.esforco}</td>
 							<td>${f.kanbanStatus.descricao}</td>
 							<td></td>
