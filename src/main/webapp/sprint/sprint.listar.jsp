@@ -27,11 +27,11 @@
 			<thead>
 			<tr>
 				<th style="width: 18px"></th>
-				<th>nome</th>
-				<th>período</th>
-				<th>quantidade</th>
-				<th>esforço</th>
-				<th>valor de negócio</th>
+				<th>Nome</th>
+				<th>Período</th>
+				<th>Quantidade de Tarefas</th>
+				<th>Esforço</th>
+				<th>Valor de Negócio</th>
 				<th style="width: 18px"></th>
 				<th style="width: 18px"></th>
 				<th style="width: 18px"></th>
