@@ -103,8 +103,12 @@ public class TicketController {
 	@RequestMapping("/ticket/sprintAtual.action")
 	public String sprintAtual(final Model model) {
 		final Sprint sprint = sprintDao.getSprintAtual();
+		final int quantidadeDeSprints = sprintDao.listar().size();
 
-		if (sprint == null) {
+		if (quantidadeDeSprints == 0) {
+			model.addAttribute("mensagem", "Por favor, crie um sprint.");
+			return "forward:/sprint/listar.action";
+		} else if (sprint == null) {
 			model.addAttribute("mensagem", "Por favor, informe qual é o Sprint atual.");
 			return "forward:/sprint/listar.action";
 		} else {
