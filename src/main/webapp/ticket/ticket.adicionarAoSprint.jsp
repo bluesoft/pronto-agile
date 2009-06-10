@@ -21,7 +21,7 @@
 				if($(":checkbox:checked").length == 0) {
 					alert("Selecione ao menos uma estória ou defeito");
 				} else {
-					submit();
+					document.form1.submit();
 				}
 			}
 		</script>	
@@ -29,7 +29,7 @@
 	<body>
 		<h1>Sprint ${sprint.nome}</h1>
 		<h2>Adicionar Estórias ou Defeitos</h2>	
-		<form action="${adicionarTarefasUrl}" method="post" >
+		<form action="${adicionarTarefasUrl}" method="post" name="form1">
 			<input type="hidden" name="sprintKey" value="${sprint.sprintKey}"/>
 			<table style="width: 100%">
 				<tr>
