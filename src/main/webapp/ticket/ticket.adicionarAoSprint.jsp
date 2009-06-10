@@ -16,6 +16,14 @@
 				$('#somaEsforco').text(esforco);
 				$('#somaValorDeNegocio').text(valorDeNegocio);
 			}
+
+			function enviar() {
+				if($(":checkbox:checked").length == 0) {
+					alert("Selecione ao menos uma estória ou defeito");
+				} else {
+					submit();
+				}
+			}
 		</script>	
 	</head>
 	<body>
@@ -55,7 +63,7 @@
 			</table>	
 			<div align="center">
 				<button type="button" onclick="goTo('${cancelarUrl}?sprintKey=${sprint.sprintKey}')">Cancelar</button>
-				<button type="submit">Adicionar</button>
+				<button type="button" onclick="enviar()">Adicionar</button>
 			</div>
 		</form>
 	</body>
