@@ -29,8 +29,7 @@ public class BurndownController {
 		model.addAttribute("sprintKey", sprintKey);
 
 		if (sprintKey == null && sprintDao.getSprintAtual() == null) {
-			model.addAttribute("erro", "Não há um Sprint Atual!");
-			return "/branca.jsp";
+			return LoginController.VIEW_BEM_VINDO;
 		}
 
 		return "/burndown/burndown.burndown.jsp";

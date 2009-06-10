@@ -15,6 +15,7 @@ import br.com.bluesoft.pronto.service.Seguranca;
 public class LoginController {
 
 	private static final String ACTION_KANBAN = "/kanban/kanban.action";
+	static final String VIEW_BEM_VINDO = "/bemVindo.jsp";
 
 	@Autowired
 	private SessionFactory sessionFactory;

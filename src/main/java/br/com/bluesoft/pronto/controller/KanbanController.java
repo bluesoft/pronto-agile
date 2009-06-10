@@ -17,7 +17,6 @@ import br.com.bluesoft.pronto.model.Ticket;
 public class KanbanController {
 
 	private static final String VIEW_KANBAN = "/kanban/kanban.kanban.jsp";
-	private static final String VIEW_BEM_VINDO = "/bemVindo.jsp";
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -30,7 +29,7 @@ public class KanbanController {
 		final Sprint sprintAtual = sprintDao.getSprintAtual();
 
 		if (sprintAtual == null) {
-			return VIEW_BEM_VINDO;
+			return LoginController.VIEW_BEM_VINDO;
 		}
 
 		model.addAttribute("sprint", sprintAtual);
