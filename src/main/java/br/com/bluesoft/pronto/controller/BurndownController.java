@@ -112,6 +112,8 @@ public class BurndownController {
 		y_axis.set("tick_length", 5);
 		raiz.put("y_axis", y_axis);
 
+		raiz.put("bg_colour", "#FFFFFF");
+
 		response.getOutputStream().print(raiz.toString());
 		response.getOutputStream().flush();
 
