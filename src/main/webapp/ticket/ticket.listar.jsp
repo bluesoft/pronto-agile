@@ -126,13 +126,7 @@
 				<th>Valor de Negócio</th>
 				<th>Esforço</th>
 				<th>Status</th>
-				<th style="width: 16px"></th>
-				<th style="width: 16px"></th>
-				<th style="width: 16px"></th>
-				<th style="width: 16px"></th>
-				<th style="width: 16px"></th>
-				<th style="width: 16px"></th>
-				<th style="width: 16px"></th>
+				<th style="width: 112px" colspan="7"></th>
 			</tr>
 			<c:forEach items="${tickets}" var="t">
 				<c:set var="cor" value="${!cor}"/>
@@ -207,10 +201,10 @@
 							</c:if>
 							</td>
 							<td>
-								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
+								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${f.ticketKey});"/>
 							</td>
 							<td>
-								<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${t.ticketKey}')"></pronto:icons>
+								<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${f.ticketKey}')"></pronto:icons>
 							</td>
 						</tr>
 					</c:if>
