@@ -25,13 +25,13 @@
 						<form:hidden path="usuario.username"/>
 						<div>
 							<b>${usuario.username}</b>
-							<p>username</p>
+							<p>Username</p>
 						</div>
 					</c:when>
 					<c:otherwise>
 						<div>
 							<form:input path="usuario.username" cssClass="required"/>
-							<p>username</p>
+							<p>Username</p>
 						</div>
 					</c:otherwise>
 				</c:choose>
@@ -46,7 +46,7 @@
 				<c:if test="${usuario.username eq null}">
 					<div>
 						<input type="password" name="password">
-						<p>password</p>
+						<p>Senha</p>
 					</div>
 				</c:if>
 				<div>

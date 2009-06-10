@@ -45,7 +45,7 @@
 		
 		<c:if test="${usuarioLogado.scrumMaster}">
 			<div align="center">
-				<a href="editar.action">Incluir Usuário</a>
+				<button type="button" onclick="window.location.href='editar.action'">Incluir Usuário</button>
 			</div>
 		</c:if>
 	</body>
