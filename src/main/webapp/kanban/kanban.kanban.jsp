@@ -56,7 +56,7 @@
 
 	</head>
 	<body>
-		<h1>Kanban</h1>
+		<h1>Kanban (Sprint ${sprint.nome})</h1>
 		<table align="center" style="width: 100%;">
 			<tr>
 				<td style="width: 25%">		
