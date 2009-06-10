@@ -1,6 +1,7 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="estimarPorSprintUrl" value="/ticket/estimarSprint.action"/>
 <c:url var="estimarPorBacklogUrl" value="/ticket/estimarBacklog.action"/>
+<c:url var="editarSprintUrl" value="/sprint/editar.action"/>
 <c:url var="adicionarTarefasUrl" value="/ticket/listarTarefasParaAdicionarAoSprint.action"/>
 <c:url var="verDescricao" value="/ticket/verDescricao.action"/>
 <html>
@@ -99,6 +100,7 @@
 			<c:when test="${sprint.nome ne null}">
 				<h1>
 					Sprint ${sprint.nome} 
+					<pronto:icons name="editar.png" title="Editar Sprint" onclick="goTo('${editarSprintUrl}?sprintKey=${sprint.sprintKey}')"/>
 					<c:if test="${(usuarioLogado.desenvolvedor or usuarioLogado.productOwner)}">
 						<pronto:icons name="estimar.png" title="Estimar Sprint" onclick="goTo('${estimarPorSprintUrl}?sprintKey=${sprint.sprintKey}')"/>
 					</c:if>

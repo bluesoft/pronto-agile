@@ -150,7 +150,7 @@ public class Sprint {
 					continue;
 				}
 
-				if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
+				if ((ticket.isDefeito() || ticket.isEstoriaSemTarega() || ticket.isTarefa()) && ticket.isSprintBacklog()) {
 					final String data;
 
 					if (ticket.getDataDePronto().before(dataInicial)) {
