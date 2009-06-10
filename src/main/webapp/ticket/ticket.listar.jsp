@@ -91,7 +91,6 @@
 						$("#dialog").dialog('open');
 					}
 				});
-
 			}
 		</script>
 	</head>

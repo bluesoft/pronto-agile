@@ -332,8 +332,9 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/estimarSprint.action")
-	public String estimarSprint(final Model model, final int sprintKey) {
-		final List<Ticket> tickets = ticketDao.listarPorSprint(sprintKey);
+	public String estimarSprint(final Model model, final int sprintKey) throws SegurancaException {
+		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.PRODUCT_OWNER);
+		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey);
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
 		return VIEW_ESTIMAR;
@@ -342,7 +343,7 @@ public class TicketController {
 	@RequestMapping("/ticket/estimarBacklog.action")
 	public String estimarBacklog(final Model model, final int backlogKey) throws SegurancaException {
 		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.PRODUCT_OWNER);
-		final List<Ticket> tickets = ticketDao.listarPorBacklog(backlogKey);
+		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey);
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
 		return VIEW_ESTIMAR;
