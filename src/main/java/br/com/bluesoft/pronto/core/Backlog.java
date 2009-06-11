@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import br.com.bluesoft.pronto.model.Ticket;
 
 @Entity
+@org.hibernate.annotations.Entity(mutable = false)
 public class Backlog {
 
 	public static final int IDEIAS = 1;

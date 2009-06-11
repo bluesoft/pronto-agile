@@ -148,8 +148,11 @@
 					<form:hidden path="ticket.reporter.username"/><br/>
 					<p>Reporter</p> 
 				</div>
-				
-				<c:if test="!ticket.tarefa">
+				<div>
+					<b><fmt:formatDate value="${ticket.dataDeCriacao}" type="both"/></b>
+					<p>Data de Criação</p> 
+				</div>
+				<c:if test="${!ticket.tarefa}">
 					<div>
 						<c:choose>
 							<c:when test="${usuarioLogado.productOwner}">
@@ -210,10 +213,14 @@
 					<br/>
 					<p>Kanban Status</p>
 				</div>
+				
+				
 				<div>
 					<form:input path="ticket.dataDePronto"/><br/>
 					<p>Data de Pronto</p>
 				</div>
+				
+				
 				<div>
 					<form:input path="ticket.branch"/><br/>
 					<p>Branch</p>
@@ -284,7 +291,7 @@
 							<li><fmt:formatDate value="${log.data}" pattern="HH:mm"/> - ${log.usuario} - Descrição Alterada <a href="logDescricao.action?ticketHistoryKey=${log.ticketHistoryKey}">(ver)</a></li>
 						</c:when>
 						<c:otherwise>
-							<li>${log.descricaoSemData}</li>
+							<li><fmt:formatDate value="${log.data}" pattern="HH:mm"/> - ${log.descricaoSemData}</li>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>

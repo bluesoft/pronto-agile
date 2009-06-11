@@ -77,12 +77,12 @@ public class Ticket {
 	private String branch;
 
 	@Label("desenvolvedores")
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "TICKET_DESENVOLVEDOR", joinColumns = { @JoinColumn(name = "TICKET_KEY") }, inverseJoinColumns = { @JoinColumn(name = "USUARIO_KEY") })
 	private Set<Usuario> desenvolvedores;
 
 	@Label("testadores")
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "TICKET_TESTADOR", joinColumns = { @JoinColumn(name = "TICKET_KEY") }, inverseJoinColumns = { @JoinColumn(name = "USUARIO_KEY") })
 	private Set<Usuario> testadores;
 
@@ -108,6 +108,9 @@ public class Ticket {
 	@Label("data de pronto")
 	private Date dataDePronto;
 
+	@Label("data de criaçao")
+	private Date dataDeCriacao;
+
 	@ManyToOne
 	@JoinColumn(name = "sprint")
 	private Sprint sprint;
@@ -127,6 +130,18 @@ public class Ticket {
 	}
 
 	public String getTitulo() {
+		return titulo;
+	}
+
+	public String getTituloResumido() {
+
+		if (titulo != null) {
+			final int tamanhoMaximo = 40;
+			if (titulo.length() > tamanhoMaximo) {
+				return titulo.substring(0, tamanhoMaximo) + "...";
+			}
+		}
+
 		return titulo;
 	}
 
@@ -385,6 +400,25 @@ public class Ticket {
 
 	public boolean isImpedido() {
 		return backlog != null && backlog.getBacklogKey() == Backlog.IMPEDIMENTOS;
+	}
+
+	public Date getDataDeCriacao() {
+		return dataDeCriacao;
+	}
+
+	public void setDataDeCriacao(final Date dataDeCriacao) {
+		this.dataDeCriacao = dataDeCriacao;
+	}
+
+	public boolean isTodosOsFilhosProntos() {
+		if (filhos != null) {
+			for (final Ticket filho : filhos) {
+				if (!filho.isDone()) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }

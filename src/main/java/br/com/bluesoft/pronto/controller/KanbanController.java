@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.dao.SprintDao;
+import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
 
@@ -24,9 +25,12 @@ public class KanbanController {
 	@Autowired
 	private SprintDao sprintDao;
 
+	@Autowired
+	private TicketDao ticketDao;
+
 	@RequestMapping("/kanban/kanban.action")
 	public String index(final Model model) {
-		final Sprint sprintAtual = sprintDao.getSprintAtual();
+		final Sprint sprintAtual = sprintDao.getSprintAtualComTickets();
 
 		if (sprintAtual == null) {
 			return LoginController.VIEW_BEM_VINDO;
@@ -50,8 +54,7 @@ public class KanbanController {
 			ticket.setDataDePronto(null);
 		}
 
-		sessionFactory.getCurrentSession().saveOrUpdate(ticket);
-		sessionFactory.getCurrentSession().flush();
+		ticketDao.salvar(ticket);
 
 		return null;
 	}
