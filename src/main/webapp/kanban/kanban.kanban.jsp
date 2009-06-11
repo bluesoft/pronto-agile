@@ -5,7 +5,6 @@
 	<head>
 		<title>Kanban</title>
 		<style>
-
 			#kanbanTable tr, #kanbanTable td  {
 				vertical-align: top;
 			}
@@ -24,6 +23,7 @@
 				height: 70px; 
 				font-family: Tahoma;
 				font-size: 10px;
+				cursor: crosshair;
 			}
 		
 			.bug {
@@ -62,16 +62,12 @@
 					mover(event, ui, $(this));
 				}
 			});
-			
-			
 
 			function mover(event, ui, drop) {
 
 				var $item = ui.draggable;
 				$item.fadeOut();
-				
-
-				var kanbanStatusKey = $(this).attr('status');
+				var kanbanStatusKey = drop.attr('status');
 				var ticketKey = ui.draggable.attr('id');
 				$.post(urlMover, {
 					'kanbanStatusKey': kanbanStatusKey,
@@ -94,41 +90,59 @@
 		<h1>Kanban (Sprint ${sprint.nome})</h1>
 		<table align="center" style="width: 100%;" id="kanbanTable">
 			<tr>
-				<td style="width: 25%" class="drop"> 		
-					<div class="ui-widget ui-helper-clearfix" status="1">
+				<td style="width: 25%"> 		
+					<div class="ui-widget ui-helper-clearfix">
 						<h4 class="ui-widget-header">TO DO</h4>
-
-						<ul id="todo" class="kanbanColumn ui-helper-reset ui-helper-clearfix">
+						<ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop"  status="1">
 							<c:forEach items="${tickets}" var="t">
 								<c:if test="${t.kanbanStatus.kanbanStatusKey eq 1}">
-									<li class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});">
-										<p>#${t.ticketKey} - ${t.tituloResumido}</p>
+									<li id="${t.ticketKey}" class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});" title="${t.titulo}">
+										<p><b>#${t.ticketKey}</b><br>${t.tituloResumido}</p>
 									</li> 
 								</c:if>
 							</c:forEach>
 						</ul>
-						
-						
 					</div>
 				</td>
 				<td style="width: 25%; height: 100%">
-					<div class="ui-widget ui-helper-clearfix" status="2">
+					<div class="ui-widget ui-helper-clearfix" >
 						<h4 class="ui-widget-header">DOING</h4>
-						<ul id="todo" class="kanbanColumn ui-helper-reset ui-helper-clearfix drop">
+						<ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop" status="2">
+							<c:forEach items="${tickets}" var="t">
+								<c:if test="${t.kanbanStatus.kanbanStatusKey eq 2}">
+									<li id="${t.ticketKey}" class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});" title="${t.titulo}">
+										<p><b>#${t.ticketKey}</b><br>${t.tituloResumido}</p>
+									</li> 
+								</c:if>
+							</c:forEach>
 						</ul>
 					</div>
 				</td>
 				<td style="width: 25%">
-					<div class="ui-widget ui-helper-clearfix" status="21">
+					<div class="ui-widget ui-helper-clearfix">
 						<h4 class="ui-widget-header">TESTING</h4>
-						<ul id="todo" class="kanbanColumn ui-helper-reset ui-helper-clearfix drop">
+						<ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop" status="21">
+							<c:forEach items="${tickets}" var="t">
+								<c:if test="${t.kanbanStatus.kanbanStatusKey eq 21}">
+									<li id="${t.ticketKey}" class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});" title="${t.titulo}">
+										<p><b>#${t.ticketKey}</b><br>${t.tituloResumido}</p>
+									</li> 
+								</c:if>
+							</c:forEach>
 						</ul>
 					</div>
 				</td>
 				<td  style="width: 25%">
-					<div class="ui-widget ui-helper-clearfix" status="200">
+					<div class="ui-widget ui-helper-clearfix" >
 						<h4 class="ui-widget-header">DONE</h4>
-						<ul id="todo" class="kanbanColumn ui-helper-reset ui-helper-clearfix drop">
+						<ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop" status="100">
+							<c:forEach items="${tickets}" var="t">
+								<c:if test="${t.kanbanStatus.kanbanStatusKey eq 100}">
+									<li id="${t.ticketKey}" class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});" title="${t.titulo}">
+										<p><b>#${t.ticketKey}</b><br>${t.tituloResumido}</p>
+									</li> 
+								</c:if>
+							</c:forEach>
 						</ul>
 					</div>
 				</td>

@@ -10,7 +10,6 @@ public class KanbanStatus {
 	public static final int TO_DO = 1;
 	public static final int DOING = 2;
 
-	public static final int TO_TEST = 20;
 	public static final int TESTING = 21;
 
 	public static final int DONE = 100;
