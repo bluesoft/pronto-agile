@@ -30,7 +30,7 @@ public class KanbanController {
 
 	@RequestMapping("/kanban/kanban.action")
 	public String index(final Model model) {
-		final Sprint sprintAtual = sprintDao.getSprintAtual();
+		final Sprint sprintAtual = sprintDao.getSprintAtualComTickets();
 
 		if (sprintAtual == null) {
 			return LoginController.VIEW_BEM_VINDO;

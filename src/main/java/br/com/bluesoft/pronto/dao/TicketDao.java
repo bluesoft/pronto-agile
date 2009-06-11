@@ -145,6 +145,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
+		builder.append(" left join fetch t.filhos ");
 		builder.append(" where t.sprint.sprintKey = :sprintKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
