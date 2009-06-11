@@ -291,7 +291,7 @@
 							<li><fmt:formatDate value="${log.data}" pattern="HH:mm"/> - ${log.usuario} - Descrição Alterada <a href="logDescricao.action?ticketHistoryKey=${log.ticketHistoryKey}">(ver)</a></li>
 						</c:when>
 						<c:otherwise>
-							<li>${log.descricaoSemData}</li>
+							<li><fmt:formatDate value="${log.data}" pattern="HH:mm"/> - ${log.descricaoSemData}</li>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>

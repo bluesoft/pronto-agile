@@ -284,8 +284,16 @@ ALTER TABLE ONLY ticket
 ALTER TABLE ONLY ticket
     ADD CONSTRAINT fkcbe86b0ce7f57efc FOREIGN KEY (pai) REFERENCES ticket(ticket_key);
 
+    
+CREATE INDEX idx_ticket_sprint ON ticket USING btree (sprint);    
+CREATE INDEX idx_ticket_tipo_de_ticket ON ticket USING btree (tipo_de_ticket_key);
+CREATE INDEX idx_ticket_kaban_status ON ticket USING btree (kanban_status_key);
+CREATE INDEX idx_ticket_backlog ON ticket USING btree (backlog_key);
+    
+
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
+
 
