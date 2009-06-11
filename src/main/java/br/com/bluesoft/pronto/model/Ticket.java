@@ -136,7 +136,7 @@ public class Ticket {
 	public String getTituloResumido() {
 
 		if (titulo != null) {
-			final int tamanhoMaximo = 45;
+			final int tamanhoMaximo = 40;
 			if (titulo.length() > tamanhoMaximo) {
 				return titulo.substring(0, tamanhoMaximo) + "...";
 			}
