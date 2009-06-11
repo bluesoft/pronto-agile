@@ -82,7 +82,8 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 			ticket.setValorDeNegocio(0);
 		}
 
-		super.salvar(ticket);
+		getSession().saveOrUpdate(ticket);
+		getSession().flush();
 	}
 
 	@SuppressWarnings("unchecked")

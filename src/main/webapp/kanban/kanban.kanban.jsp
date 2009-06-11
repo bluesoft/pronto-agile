@@ -65,7 +65,7 @@
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 1}">
 								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});">
-									<p>#${t.ticketKey} - ${t.titulo}</p>
+									<p>#${t.ticketKey} - ${t.tituloResumido}</p>
 								</div> 
 							</c:if>
 						</c:forEach>
@@ -77,7 +77,7 @@
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 2}">
 								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});">
-									<p>#${t.ticketKey} - ${t.titulo}</p>
+									<p>#${t.ticketKey} - ${t.tituloResumido}</p>
 								</div>
 							</c:if>
 						</c:forEach>
@@ -89,7 +89,7 @@
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 21}">
 								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});">
-									<p>#${t.ticketKey} - ${t.titulo}</p>
+									<p>#${t.ticketKey} - ${t.tituloResumido}</p>
 								</div>
 							</c:if>
 						</c:forEach>
@@ -101,7 +101,7 @@
 						<c:forEach items="${tickets}" var="t">
 							<c:if test="${t.kanbanStatus.kanbanStatusKey eq 100}">
 								<div id="${t.ticketKey}" class="draggable ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});">
-									<p>#${t.ticketKey} - ${t.titulo}</p>
+									<p>#${t.ticketKey} - ${t.tituloResumido}</p>
 								</div>
 							</c:if>
 						</c:forEach>
