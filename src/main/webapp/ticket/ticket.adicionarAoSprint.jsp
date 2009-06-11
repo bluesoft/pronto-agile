@@ -28,7 +28,7 @@
 	</head>
 	<body>
 		<h1>Sprint ${sprint.nome}</h1>
-		<h2>Adicionar Estórias ou Defeitos</h2>	
+		<h2>Adicionar Estórias ou Defeitos do Product Backlog ao Sprint</h2>	
 		<form action="${adicionarTarefasUrl}" method="post" name="form1">
 			<input type="hidden" name="sprintKey" value="${sprint.sprintKey}"/>
 			<table style="width: 100%">
