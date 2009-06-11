@@ -265,6 +265,11 @@ public class TicketController {
 		}
 
 		ticket.setBacklog(backlog);
+
+		if (!ticket.isTarefa() && ticket.getSprint() != null && ticket.getSprint().isFechado()) {
+			ticket.setSprint(null);
+		}
+
 		ticketDao.salvar(ticket);
 
 		if (ticket.getFilhos() != null) {
