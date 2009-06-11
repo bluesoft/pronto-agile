@@ -32,10 +32,7 @@
 				<th>Quantidade de Tarefas</th>
 				<th>Esforço</th>
 				<th>Valor de Negócio</th>
-				<th style="width: 18px"></th>
-				<th style="width: 18px"></th>
-				<th style="width: 18px"></th>
-				<th style="width: 18px"></th>
+				<th style="width: 72px" colspan="4"></th>
 			</tr>
 			</thead>
 			<tbody>

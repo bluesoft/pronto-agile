@@ -12,7 +12,7 @@
 				<th>Username</th>
 				<th>Nome</th>
 				<th>E-mail</th>
-				<th colspan="3"></th>
+				<th style="width: 54px" colspan="3"></th>
 			</tr>
 			</thead>
 			<tbody>
