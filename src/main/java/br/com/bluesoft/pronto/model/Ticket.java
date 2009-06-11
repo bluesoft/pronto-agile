@@ -133,6 +133,18 @@ public class Ticket {
 		return titulo;
 	}
 
+	public String getTituloResumido() {
+
+		if (titulo != null) {
+			final int tamanhoMaximo = 45;
+			if (titulo.length() > tamanhoMaximo) {
+				return titulo.substring(0, tamanhoMaximo) + "...";
+			}
+		}
+
+		return titulo;
+	}
+
 	public void setTitulo(final String titulo) {
 		this.titulo = titulo;
 	}
