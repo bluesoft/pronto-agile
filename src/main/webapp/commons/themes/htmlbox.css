@@ -1,4 +1,6 @@
-.htmlbox {
+
+* div.htmlbox {
+	
 	background-color: #FAFAD2;
 	width: 100%;
 	margin: 5px;
@@ -6,7 +8,17 @@
 	border-color: black;
 }
 
-.htmlbox ul, .htmlbox li {
-	list-style-type: !important disc;
+* div.htmlbox li {
 	list-style-position: !important inside;
 }
+
+* div.htmlbox ul {
+	list-style-type: !important disc;
+}
+
+* div.htmlbox ol {
+	list-style-type: !important decimal;
+}
+
+
+

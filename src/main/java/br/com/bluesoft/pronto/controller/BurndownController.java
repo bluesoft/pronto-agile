@@ -40,24 +40,16 @@ public class BurndownController {
 
 		final Sprint sprint;
 		if (sprintKey == null) {
-			sprint = sprintDao.getSprintAtual();
+			sprint = sprintDao.getSprintAtualComTickets();
 		} else {
-			sprint = sprintDao.obter(sprintKey);
+			sprint = sprintDao.obterSprintComTicket(sprintKey);
 		}
 
 		final double esforcoTotal = sprint.getEsforcoTotal();
 		final Map<String, Double> mapaEsforcoPorDia = sprint.getMapaEsforcoPorDia();
 		final int quantidadeDeDias = mapaEsforcoPorDia.keySet().size();
 		if (quantidadeDeDias > 31) {
-
-			final JSONObject raiz = new JSONObject();
-			final JSONObject title = new JSONObject();
-			title.set("text", "Não é possível criar um Burndown de um Sprint que possua mais de 1 mês.");
-			raiz.put("title", title);
-
-			response.getOutputStream().print(raiz.toString());
-			response.getOutputStream().flush();
-
+			return null;
 		}
 
 		double burnNumber = esforcoTotal;
