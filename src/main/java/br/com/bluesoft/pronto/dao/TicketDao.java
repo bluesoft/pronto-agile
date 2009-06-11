@@ -27,16 +27,13 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 			ticket.setEsforco(ticket.getSomaDoEsforcoDosFilhos());
 
 			for (final Ticket filho : ticket.getFilhos()) {
-
 				if (!filho.isImpedido() && !filho.isLixo()) {
 					filho.setBacklog(ticket.getBacklog());
 				}
-
 				filho.setCliente(ticket.getCliente());
 				filho.setSolicitador(ticket.getSolicitador());
 				filho.setSprint(ticket.getSprint());
 				filho.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
-
 			}
 
 			if (ticket.isTodosOsFilhosProntos()) {
