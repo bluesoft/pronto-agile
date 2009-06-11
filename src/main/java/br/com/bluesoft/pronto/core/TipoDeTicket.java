@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
+@org.hibernate.annotations.Entity(mutable = false)
 public class TipoDeTicket {
 
 	public static final int IDEIA = 1;

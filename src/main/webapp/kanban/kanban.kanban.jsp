@@ -29,7 +29,7 @@
 			}
 			
 			.droppable {
-				height: ${sprint.quantidadeDeTickets * 60 + 100}px;
+				height: ${sprint.quantidadeDeTickets * 61 + 100}px;
 			}
 		</style>
 		<script>

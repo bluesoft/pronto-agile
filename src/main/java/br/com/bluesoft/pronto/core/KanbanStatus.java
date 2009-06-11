@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
+@org.hibernate.annotations.Entity(mutable = false)
 public class KanbanStatus {
 
 	public static final int TO_DO = 1;
@@ -23,12 +24,12 @@ public class KanbanStatus {
 
 	}
 
-	public KanbanStatus(int kanbanStatusKey) {
+	public KanbanStatus(final int kanbanStatusKey) {
 		super();
 		this.kanbanStatusKey = kanbanStatusKey;
 	}
 
-	public KanbanStatus(int kanbanStatusKey, String descricao) {
+	public KanbanStatus(final int kanbanStatusKey, final String descricao) {
 		super();
 		this.kanbanStatusKey = kanbanStatusKey;
 		this.descricao = descricao;
@@ -38,7 +39,7 @@ public class KanbanStatus {
 		return kanbanStatusKey;
 	}
 
-	public void setKanbanStatusKey(int kanbanStatusKey) {
+	public void setKanbanStatusKey(final int kanbanStatusKey) {
 		this.kanbanStatusKey = kanbanStatusKey;
 	}
 
@@ -46,7 +47,7 @@ public class KanbanStatus {
 		return descricao;
 	}
 
-	public void setDescricao(String descricao) {
+	public void setDescricao(final String descricao) {
 		this.descricao = descricao;
 	}
 
@@ -54,5 +55,5 @@ public class KanbanStatus {
 	public String toString() {
 		return descricao;
 	}
-	
+
 }

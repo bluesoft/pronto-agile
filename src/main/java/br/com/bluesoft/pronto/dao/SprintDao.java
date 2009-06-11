@@ -34,12 +34,6 @@ public class SprintDao extends DaoHibernate<Sprint, Integer> {
 		return sprints;
 	}
 
-	public Sprint getSprintAtual() {
-		final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sprint.class);
-		criteria.add(Restrictions.eq("atual", true));
-		return (Sprint) criteria.uniqueResult();
-	}
-
 	@SuppressWarnings("unchecked")
 	public List<Sprint> listarSprintsEmAberto() {
 		final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sprint.class);
@@ -67,6 +61,17 @@ public class SprintDao extends DaoHibernate<Sprint, Integer> {
 
 			}
 		}
+	}
+
+	public Sprint getSprintAtual() {
+		final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sprint.class);
+		criteria.add(Restrictions.eq("atual", true));
+		return (Sprint) criteria.uniqueResult();
+	}
+
+	public Sprint getSprintAtualComTickets() {
+		final String hql = "select distinct s from Sprint s left join fetch s.tickets t left join fetch t.filhos f where s.atual = true";
+		return (Sprint) getSession().createQuery(hql).uniqueResult();
 	}
 
 }
