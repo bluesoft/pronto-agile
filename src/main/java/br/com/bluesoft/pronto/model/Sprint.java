@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 
 import br.com.bluesoft.pronto.util.DateUtil;
 
@@ -33,6 +34,12 @@ public class Sprint {
 	private boolean fechado;
 
 	private boolean atual;
+
+	@Transient
+	private double esforcoTotal;
+
+	@Transient
+	private int valorDeNegocioTotal;
 
 	@OneToMany(mappedBy = "sprint")
 	private Set<Ticket> tickets;
@@ -92,30 +99,6 @@ public class Sprint {
 
 	public Set<Ticket> getTickets() {
 		return tickets;
-	}
-
-	public double getEsforcoTotal() {
-		double total = 0;
-		if (tickets != null) {
-			for (final Ticket ticket : tickets) {
-				if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
-					total += ticket.getEsforco();
-				}
-			}
-		}
-		return total;
-	}
-
-	public int getValorDeNegocioTotal() {
-		int total = 0;
-		if (tickets != null) {
-			for (final Ticket ticket : tickets) {
-				if ((ticket.isDefeito() || ticket.isEstoria()) && ticket.isSprintBacklog()) {
-					total += ticket.getValorDeNegocio();
-				}
-			}
-		}
-		return total;
 	}
 
 	public double getEsforcoRealizado(final Date date) {
@@ -214,4 +197,21 @@ public class Sprint {
 		return ticketsParaOKanban;
 
 	}
+
+	public double getEsforcoTotal() {
+		return esforcoTotal;
+	}
+
+	public void setEsforcoTotal(final double esforcoTotal) {
+		this.esforcoTotal = esforcoTotal;
+	}
+
+	public int getValorDeNegocioTotal() {
+		return valorDeNegocioTotal;
+	}
+
+	public void setValorDeNegocioTotal(final int valorDeNegocioTotal) {
+		this.valorDeNegocioTotal = valorDeNegocioTotal;
+	}
+
 }
