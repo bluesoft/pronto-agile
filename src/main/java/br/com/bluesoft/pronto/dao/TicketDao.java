@@ -1,11 +1,13 @@
 package br.com.bluesoft.pronto.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.bluesoft.pronto.core.Backlog;
+import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.Usuario;
@@ -23,6 +25,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		// Se um ticket tiver filhos, atualizar os dados dos filhos que devem ser sempre iguais aos do pai.
 		if (ticket.temFilhos()) {
 			ticket.setEsforco(ticket.getSomaDoEsforcoDosFilhos());
+
 			for (final Ticket filho : ticket.getFilhos()) {
 
 				if (!filho.isImpedido() && !filho.isLixo()) {
@@ -33,7 +36,17 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 				filho.setSolicitador(ticket.getSolicitador());
 				filho.setSprint(ticket.getSprint());
 				filho.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
+
 			}
+
+			if (ticket.isTodosOsFilhosProntos()) {
+				if (ticket.getDataDePronto() == null) {
+					ticket.setDataDePronto(new Date());
+				}
+			} else {
+				ticket.setDataDePronto(null);
+			}
+
 		}
 
 		// Se o ticket pai estiver impedido ou na lixeira, o ticket filho deve permancer da mesma forma.
@@ -48,8 +61,20 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 					ticket.setBacklog(pai.getBacklog());
 				}
 			}
+
 			ticket.setSprint(pai.getSprint());
 			ticket.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
+
+			if (ticket.isDone() && pai.isTodosOsFilhosProntos()) {
+				if (pai.getDataDePronto() == null) {
+					pai.setDataDePronto(new Date());
+					pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.DONE));
+					super.getSession().update(pai);
+				}
+			} else {
+				pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
+				pai.setDataDePronto(null);
+			}
 		}
 
 		// Tarefa nao tem valor de Negocio

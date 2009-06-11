@@ -2,6 +2,7 @@ package br.com.bluesoft.pronto.dao;
 
 import java.util.List;
 
+import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
 
 import br.com.bluesoft.pronto.core.Papel;
@@ -35,5 +36,11 @@ public class UsuarioDao extends DaoHibernate<Usuario, String> {
 	public List<Usuario> listarUsuariosPorPapel(final int papelKey) {
 		final String hql = "select distinct u from Usuario u inner join fetch u.papeis p where p.papelKey = :papel order by u.username";
 		return getSession().createQuery(hql).setInteger("papel", papelKey).list();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Usuario> listar() {
+		return getSession().createCriteria(Usuario.class).addOrder(Order.asc("username")).list();
 	}
 }

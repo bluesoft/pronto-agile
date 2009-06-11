@@ -148,7 +148,10 @@
 					<form:hidden path="ticket.reporter.username"/><br/>
 					<p>Reporter</p> 
 				</div>
-				
+				<div>
+					<b><fmt:formatDate value="${ticket.dataDeCriacao}" type="both"/></b>
+					<p>Data de Criação</p> 
+				</div>
 				<c:if test="!ticket.tarefa">
 					<div>
 						<c:choose>
