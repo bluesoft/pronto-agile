@@ -108,6 +108,9 @@ public class Ticket {
 	@Label("data de pronto")
 	private Date dataDePronto;
 
+	@Label("data de criaçao")
+	private Date dataDeCriacao;
+
 	@ManyToOne
 	@JoinColumn(name = "sprint")
 	private Sprint sprint;
@@ -385,6 +388,25 @@ public class Ticket {
 
 	public boolean isImpedido() {
 		return backlog != null && backlog.getBacklogKey() == Backlog.IMPEDIMENTOS;
+	}
+
+	public Date getDataDeCriacao() {
+		return dataDeCriacao;
+	}
+
+	public void setDataDeCriacao(final Date dataDeCriacao) {
+		this.dataDeCriacao = dataDeCriacao;
+	}
+
+	public boolean isTodosOsFilhosProntos() {
+		if (filhos != null) {
+			for (final Ticket filho : filhos) {
+				if (!filho.isDone()) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }

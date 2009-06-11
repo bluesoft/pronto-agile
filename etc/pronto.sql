@@ -98,6 +98,7 @@ CREATE TABLE ticket (
     esforco double precision NOT NULL,
     par boolean NOT NULL,
     planejado boolean NOT NULL,
+    data_de_criacao timestamp without time zone,
     data_de_pronto timestamp without time zone,
     reporter_key character varying(255),
     pai integer,
