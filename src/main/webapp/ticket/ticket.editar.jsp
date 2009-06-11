@@ -152,7 +152,7 @@
 					<b><fmt:formatDate value="${ticket.dataDeCriacao}" type="both"/></b>
 					<p>Data de Criação</p> 
 				</div>
-				<c:if test="!ticket.tarefa">
+				<c:if test="${!ticket.tarefa}">
 					<div>
 						<c:choose>
 							<c:when test="${usuarioLogado.productOwner}">
@@ -213,10 +213,14 @@
 					<br/>
 					<p>Kanban Status</p>
 				</div>
+				
+				
 				<div>
 					<form:input path="ticket.dataDePronto"/><br/>
 					<p>Data de Pronto</p>
 				</div>
+				
+				
 				<div>
 					<form:input path="ticket.branch"/><br/>
 					<p>Branch</p>
