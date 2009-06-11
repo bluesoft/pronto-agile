@@ -29,7 +29,6 @@
 				<th style="width: 18px"></th>
 				<th>Nome</th>
 				<th>Período</th>
-				<th>Quantidade de Tarefas</th>
 				<th>Esforço</th>
 				<th>Valor de Negócio</th>
 				<th style="width: 18px"></th>
@@ -60,7 +59,6 @@
 					</td>
 					<td>${s.nome}</td>
 					<td><fmt:formatDate value="${s.dataInicial}"/> à <fmt:formatDate value="${s.dataFinal}"/></td>
-					<td>${s.quantidadeDeTickets}</td>
 					<td>${s.esforcoTotal}</td>
 					<td>${s.valorDeNegocioTotal}</td>
 					<td><pronto:icons name="editar_sprint.png" title="Editar Sprint" onclick="goTo('${urlSprint}editar.action?sprintKey=${s.sprintKey}')"/></td>
