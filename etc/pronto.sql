@@ -182,7 +182,6 @@ INSERT INTO backlog VALUES (3, 'Sprint Backlog');
 
 INSERT INTO kanban_status VALUES (1, 'To Do');
 INSERT INTO kanban_status VALUES (2, 'Doing');
-INSERT INTO kanban_status VALUES (20, 'To Test');
 INSERT INTO kanban_status VALUES (21, 'Testing');
 INSERT INTO kanban_status VALUES (100, 'Done');
 

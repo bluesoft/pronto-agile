@@ -8,11 +8,12 @@ body {
 }
 
 div#page {
-	width: 90%;
+	width: 94%;
 	margin: 0 auto;
 	padding: 0;
 	text-align: center;
 }
+
 
 /* HEADER */
 div#header {
