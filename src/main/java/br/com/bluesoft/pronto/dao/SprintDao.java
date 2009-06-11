@@ -74,4 +74,9 @@ public class SprintDao extends DaoHibernate<Sprint, Integer> {
 		return (Sprint) getSession().createQuery(hql).uniqueResult();
 	}
 
+	public Sprint obterSprintComTicket(final Integer sprintKey) {
+		final String hql = "select distinct s from Sprint s left join fetch s.tickets t left join fetch t.filhos f where s.sprintKey = :sprintKey";
+		return (Sprint) getSession().createQuery(hql).setInteger("sprintKey", sprintKey).uniqueResult();
+	}
+
 }
