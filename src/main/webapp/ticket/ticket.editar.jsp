@@ -20,9 +20,9 @@
 				</c:when>
 				<c:otherwise>
 					<h1>Incluir ${ticket.tipoDeTicket.descricao}</h1>
-					<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
 				</c:otherwise>
 			</c:choose>
+			<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
 
 			<c:if test="${ticket.ticketKey gt 0}">
 				<!-- Operacoes -->
