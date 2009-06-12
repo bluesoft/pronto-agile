@@ -83,6 +83,11 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 			ticket.setValorDeNegocio(0);
 		}
 
+		// Grava sysdate na criação
+		if (ticket.getDataDeCriacao() == null) {
+			ticket.setDataDeCriacao(new Date());
+		}
+
 		getSession().saveOrUpdate(ticket);
 		getSession().flush();
 	}
