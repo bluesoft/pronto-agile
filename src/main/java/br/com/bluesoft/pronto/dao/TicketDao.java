@@ -20,75 +20,79 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	}
 
 	@Override
-	public void salvar(final Ticket ticket) {
+	public void salvar(final Ticket... tickets) {
 
-		if (ticket.getDataDeCriacao() == null) {
-			ticket.setDataDeCriacao(new Date());
-		}
+		for (final Ticket ticket : tickets) {
 
-		// Se um ticket tiver filhos, atualizar os dados dos filhos que devem ser sempre iguais aos do pai.
-		if (ticket.temFilhos()) {
-			ticket.setEsforco(ticket.getSomaDoEsforcoDosFilhos());
-
-			for (final Ticket filho : ticket.getFilhos()) {
-				if (!filho.isImpedido() && !filho.isLixo()) {
-					filho.setBacklog(ticket.getBacklog());
-				}
-				filho.setCliente(ticket.getCliente());
-				filho.setSolicitador(ticket.getSolicitador());
-				filho.setSprint(ticket.getSprint());
-				filho.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
+			if (ticket.getDataDeCriacao() == null) {
+				ticket.setDataDeCriacao(new Date());
 			}
 
-			if (ticket.isTodosOsFilhosProntos()) {
-				if (ticket.getDataDePronto() == null) {
-					ticket.setDataDePronto(new Date());
+			// Se um ticket tiver filhos, atualizar os dados dos filhos que devem ser sempre iguais aos do pai.
+			if (ticket.temFilhos()) {
+				ticket.setEsforco(ticket.getSomaDoEsforcoDosFilhos());
+
+				for (final Ticket filho : ticket.getFilhos()) {
+					if (!filho.isImpedido() && !filho.isLixo()) {
+						filho.setBacklog(ticket.getBacklog());
+					}
+					filho.setCliente(ticket.getCliente());
+					filho.setSolicitador(ticket.getSolicitador());
+					filho.setSprint(ticket.getSprint());
+					filho.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
 				}
-			} else {
-				ticket.setDataDePronto(null);
+
+				if (ticket.isTodosOsFilhosProntos()) {
+					if (ticket.getDataDePronto() == null) {
+						ticket.setDataDePronto(new Date());
+					}
+				} else {
+					ticket.setDataDePronto(null);
+				}
+
 			}
 
-		}
+			// Se o ticket pai estiver impedido ou na lixeira, o ticket filho deve permancer da mesma forma.
+			if (ticket.temPai()) {
 
-		// Se o ticket pai estiver impedido ou na lixeira, o ticket filho deve permancer da mesma forma.
-		if (ticket.temPai()) {
+				final Ticket pai = ticket.getPai();
 
-			final Ticket pai = ticket.getPai();
-
-			if (pai.isLixo() || pai.isImpedido()) {
-				ticket.setBacklog(pai.getBacklog());
-			} else {
-				if (!ticket.isLixo() && !ticket.isImpedido()) {
+				if (pai.isLixo() || pai.isImpedido()) {
 					ticket.setBacklog(pai.getBacklog());
+				} else {
+					if (!ticket.isLixo() && !ticket.isImpedido()) {
+						ticket.setBacklog(pai.getBacklog());
+					}
+				}
+
+				ticket.setSprint(pai.getSprint());
+				ticket.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
+
+				if (ticket.isDone() && pai.isTodosOsFilhosProntos()) {
+					if (pai.getDataDePronto() == null) {
+						pai.setDataDePronto(new Date());
+						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.DONE));
+						super.getSession().update(pai);
+					}
+				} else {
+					pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
+					pai.setDataDePronto(null);
 				}
 			}
 
-			ticket.setSprint(pai.getSprint());
-			ticket.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
-
-			if (ticket.isDone() && pai.isTodosOsFilhosProntos()) {
-				if (pai.getDataDePronto() == null) {
-					pai.setDataDePronto(new Date());
-					pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.DONE));
-					super.getSession().update(pai);
-				}
-			} else {
-				pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
-				pai.setDataDePronto(null);
+			// Tarefa nao tem valor de Negocio
+			if (ticket.isTarefa()) {
+				ticket.setValorDeNegocio(0);
 			}
+
+			// Grava sysdate na criação
+			if (ticket.getDataDeCriacao() == null) {
+				ticket.setDataDeCriacao(new Date());
+			}
+
+			getSession().saveOrUpdate(ticket);
 		}
 
-		// Tarefa nao tem valor de Negocio
-		if (ticket.isTarefa()) {
-			ticket.setValorDeNegocio(0);
-		}
-
-		// Grava sysdate na criação
-		if (ticket.getDataDeCriacao() == null) {
-			ticket.setDataDeCriacao(new Date());
-		}
-
-		getSession().saveOrUpdate(ticket);
 		getSession().flush();
 	}
 
