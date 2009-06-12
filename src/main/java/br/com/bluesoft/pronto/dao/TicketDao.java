@@ -22,6 +22,10 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	@Override
 	public void salvar(final Ticket ticket) {
 
+		if (ticket.getDataDeCriacao() == null) {
+			ticket.setDataDeCriacao(new Date());
+		}
+
 		// Se um ticket tiver filhos, atualizar os dados dos filhos que devem ser sempre iguais aos do pai.
 		if (ticket.temFilhos()) {
 			ticket.setEsforco(ticket.getSomaDoEsforcoDosFilhos());
