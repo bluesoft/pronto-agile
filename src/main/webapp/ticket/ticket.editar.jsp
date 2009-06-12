@@ -32,16 +32,16 @@
 				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
 					<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="goTo('transformarEmEstoria.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
-				<c:if test="${ticket.backlog.backlogKey eq 1 and !ticket.tarefa}">
+				<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 3) and usuarioLogado.productOwner and !ticket.tarefa}">
 						<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="goTo('moverParaProductBacklog.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 				<c:if test="${ticket.backlog.backlogKey eq 2 and !ticket.tarefa}">
 						<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Idéias" onclick="goTo('moverParaIdeias.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
-				<c:if test="${ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2}">
+				<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
 					<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="goTo('jogarNoLixo.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
-				<c:if test="${ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2 or ticket.backlog.backlogKey eq 3}">
+				<c:if test="${ticket.backlog.backlogKey eq 1 or (ticket.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or ticket.backlog.backlogKey eq 3}">
 					<pronto:icons name="impedimento.png" title="Mover para Impedimentos" onclick="goTo('moverParaImpedimentos.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 				<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
@@ -163,7 +163,7 @@
 							</c:when>
 							<c:otherwise>
 								<form:hidden path="ticket.valorDeNegocio"/>
-								${ticket.valorDeNegocio}<br/>
+								${ticket.valorDeNegocio gt 0 ? ticket.valorDeNegocio : "-"}<br/>
 							</c:otherwise>
 						</c:choose>
 						<p>Valor de Negócio</p>
@@ -177,7 +177,7 @@
 						</c:when>
 						<c:otherwise>
 							<form:hidden path="ticket.esforco"/>
-							<b>${ticket.esforco}</b><br/>
+							<b>${ticket.esforco gt 0 ? ticket.esforco : "-"}</b><br/>
 						</c:otherwise>
 					</c:choose>
 					<p>Esforço</p>
