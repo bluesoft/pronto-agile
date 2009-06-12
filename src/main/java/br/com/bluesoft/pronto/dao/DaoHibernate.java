@@ -31,8 +31,10 @@ public class DaoHibernate<T, K extends Serializable> {
 		return this.getSession().createCriteria(clazz).list();
 	}
 
-	public void salvar(final T t) {
-		getSession().saveOrUpdate(t);
+	public void salvar(final T... ts) {
+		for (final T t : ts) {
+			getSession().saveOrUpdate(t);
+		}
 		getSession().flush();
 	}
 
