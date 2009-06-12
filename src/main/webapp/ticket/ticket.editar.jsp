@@ -20,6 +20,7 @@
 				</c:when>
 				<c:otherwise>
 					<h1>Incluir ${ticket.tipoDeTicket.descricao}</h1>
+					<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
 				</c:otherwise>
 			</c:choose>
 
@@ -41,7 +42,7 @@
 					<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="goTo('jogarNoLixo.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 				<c:if test="${ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2 or ticket.backlog.backlogKey eq 3}">
-					<pronto:icons name="impedimento.png" title="Mover para a Impedimentos" onclick="goTo('moverParaImpedimentos.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+					<pronto:icons name="impedimento.png" title="Mover para Impedimentos" onclick="goTo('moverParaImpedimentos.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 				<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
 					<c:if test="${!ticket.tarefa or (ticket.tarefa && ticket.pai.backlog.backlogKey ne 4 && ticket.pai.backlog.backlogKey ne 5)}">
