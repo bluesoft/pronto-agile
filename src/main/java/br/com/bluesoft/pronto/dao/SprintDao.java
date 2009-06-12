@@ -91,14 +91,18 @@ public class SprintDao extends DaoHibernate<Sprint, Integer> {
 		final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sprint.class);
 		criteria.add(Restrictions.eq("atual", true));
 		final Sprint sprint = (Sprint) criteria.uniqueResult();
-		preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint);
+		if (sprint != null) {
+			preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint);
+		}
 		return sprint;
 	}
 
 	public Sprint getSprintAtualComTickets() {
 		final String hql = "select distinct s from Sprint s left join fetch s.tickets t left join fetch t.filhos f where s.atual = true";
 		final Sprint sprint = (Sprint) getSession().createQuery(hql).uniqueResult();
-		preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint);
+		if (sprint != null) {
+			preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint);
+		}
 		return sprint;
 	}
 
