@@ -15,6 +15,42 @@ import br.com.bluesoft.pronto.model.Usuario;
 @Repository
 public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
+	@Override
+	public Ticket obter(final Integer ticketKey) {
+
+		final StringBuilder hql = new StringBuilder();
+		hql.append("select distinct t from Ticket t ");
+		hql.append("left join fetch t.sprint ");
+		hql.append("left join fetch t.pai ");
+		hql.append("left join fetch t.tipoDeTicket ");
+		hql.append("left join fetch t.backlog ");
+		hql.append("left join fetch t.kanbanStatus ");
+		hql.append("left join fetch t.reporter ");
+		hql.append("where t.ticketKey = :ticketKey");
+
+		return (Ticket) getSession().createQuery(hql.toString()).setInteger("ticketKey", ticketKey).uniqueResult();
+	}
+
+	public Ticket obterComDependecias(final Integer ticketKey) {
+
+		final StringBuilder hql = new StringBuilder();
+		hql.append("select distinct t from Ticket t ");
+		hql.append("left join fetch t.sprint ");
+		hql.append("left join fetch t.pai ");
+		hql.append("left join fetch t.tipoDeTicket ");
+		hql.append("left join fetch t.backlog ");
+		hql.append("left join fetch t.kanbanStatus ");
+		hql.append("left join fetch t.reporter ");
+		hql.append("left join t.filhos ");
+		hql.append("left join t.desenvolvedores ");
+		hql.append("left join t.comentarios ");
+		hql.append("left join t.logs ");
+		hql.append("left join t.testadores ");
+		hql.append("where t.ticketKey = :ticketKey");
+
+		return (Ticket) getSession().createQuery(hql.toString()).setInteger("ticketKey", ticketKey).uniqueResult();
+	}
+
 	public TicketDao() {
 		super(Ticket.class);
 	}
@@ -158,7 +194,8 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
-		builder.append(" left join fetch t.filhos ");
+		builder.append(" left join fetch t.filhos f ");
+		builder.append(" left join fetch t.pai p");
 		builder.append(" where t.sprint.sprintKey = :sprintKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");

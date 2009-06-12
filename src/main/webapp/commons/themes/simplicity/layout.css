@@ -57,11 +57,6 @@ div#main {
 	padding-left: 15px;
 }
 
-div#main form ul li {
-	list-style-type: none;
-	margin-left: 0;
-}
-
 /* END MAIN */ /* SUB */
 div#sub h2 {
 	margin-bottom: 5px;

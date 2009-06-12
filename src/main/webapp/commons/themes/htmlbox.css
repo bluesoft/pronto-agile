@@ -1,15 +1,9 @@
-
 * div.htmlbox {
-	
 	background-color: #FAFAD2;
 	width: 100%;
 	margin: 5px;
 	border-width: 2px;
 	border-color: black;
-}
-
-* div.htmlbox li {
-	list-style-position: !important inside;
 }
 
 * div.htmlbox ul {
@@ -19,6 +13,3 @@
 * div.htmlbox ol {
 	list-style-type: !important decimal;
 }
-
-
-

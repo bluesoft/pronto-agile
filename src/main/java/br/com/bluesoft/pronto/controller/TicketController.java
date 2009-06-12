@@ -445,7 +445,7 @@ public class TicketController {
 	@RequestMapping("/ticket/editar.action")
 	public String editar(final Model model, final Integer ticketKey, final Integer tipoDeTicketKey, final Integer backlogKey) {
 		if (ticketKey != null) {
-			final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+			final Ticket ticket = ticketDao.obterComDependecias(ticketKey);
 
 			if (ticket == null) {
 				model.addAttribute("mensagem", "O Ticket #" + ticketKey + " não existe.");
