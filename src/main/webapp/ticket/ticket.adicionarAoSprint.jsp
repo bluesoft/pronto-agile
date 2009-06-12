@@ -40,10 +40,11 @@
 					<th>Cliente</th>
 					<th>Valor de Negócio</th>
 					<th>Esforço</th>
-					<th>Status</th>
 				</tr>
+				<c:set var="cor" value="${true}"/>
 				<c:forEach items="${tickets}" var="t">
-					<tr id="${t.ticketKey}">
+					<c:set var="cor" value="${!cor}"/>
+					<tr id="${t.ticketKey}" class="${cor ? 'even' : 'odd'}">
 						<td><input type="checkbox" value="${t.ticketKey}" name="ticketKey" onchange="recalcular()"/></td>
 						<td>${t.ticketKey}</td>
 						<td>${t.titulo}</td>
@@ -51,14 +52,12 @@
 						<td>${t.cliente}</td>
 						<td class="valorDeNegocio">${t.valorDeNegocio}</td>
 						<td class="esforco">${t.esforco}</td>
-						<td>${t.kanbanStatus.descricao}</td>
 					</tr>
 				</c:forEach>
 				<tr>
-					<th colspan="5"></th>
+					<th colspan="5">Total</th>
 					<th id="somaValorDeNegocio"></th>
 					<th id="somaEsforco"></th>
-					<th></th>
 				</tr>
 			</table>	
 			<div align="center">

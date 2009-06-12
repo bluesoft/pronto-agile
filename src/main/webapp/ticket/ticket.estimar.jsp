@@ -166,7 +166,7 @@
 					</tr>
 				</c:forEach>
 				<tr>
-					<th colspan="4"></th>
+					<th colspan="4">Total</th>
 					<th id="somaValorDeNegocio">
 						${sprint.valorDeNegocioTotal} ${backlog.valorDeNegocioTotal}
 					</th>

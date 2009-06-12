@@ -206,7 +206,7 @@
         }
         
         tr.even {
-        	background: #f9f9f9;
+        	background: #ffc;
         }
         
         tr.odd {
@@ -214,7 +214,7 @@
         }
         
         td.even {
-        	background: #f9f9f9;
+        	background: #ffc;
         }
         
         td.odd {
