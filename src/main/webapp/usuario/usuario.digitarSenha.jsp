@@ -32,7 +32,7 @@
 				</div>
 				<div>
 					<input type="password" name="password" id="password" class="required">
-					<p>Senha</p>
+					<p>Nova Senha</p>
 				</div>
 				<div align="center">
 					<button type="button" onclick="window.location.href='listar.action'">Cancelar</button>

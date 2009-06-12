@@ -23,8 +23,12 @@ public class LoginController {
 	public static Boolean initialized = false;
 
 	@RequestMapping("/start.action")
-	public String start() {
-		return "/login/login.login.jsp";
+	public String start(final HttpSession httpSession) {
+		if (httpSession.getAttribute("usuarioLogado") != null) {
+			return "redirect:" + ACTION_KANBAN;
+		} else {
+			return "/login/login.login.jsp";
+		}
 	}
 
 	@RequestMapping("/login.action")
