@@ -139,7 +139,7 @@
 					<td class="esforco">${t.esforco}</td>
 					<td>${t.kanbanStatus.descricao}</td>
 					<td>
-						<c:if test="${(t.backlog.backlogKey eq 1 and usuarioLogado.productOwner) or t.backlog.backlogKey eq 3}">
+						<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 3) and usuarioLogado.productOwner}">
 							<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="toProductBacklog(${t.ticketKey})"></pronto:icons>
 						</c:if>
 					</td>
