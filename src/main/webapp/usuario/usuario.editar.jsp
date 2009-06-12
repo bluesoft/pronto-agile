@@ -4,7 +4,6 @@
 		<title>Cadastro de Usuários</title>
 		<%@ include file="/commons/scripts/scripts.jsp" %>
 		<script>
-
 			$(function() {
 				$('#formUsuario').validate();
 			});
@@ -41,7 +40,7 @@
 				</div>
 				<div>
 					<form:input path="usuario.email" cssClass="email required"/>
-					<p>e-mail</p>
+					<p>E-mail</p>
 				</div>
 				<c:if test="${usuario.username eq null}">
 					<div>

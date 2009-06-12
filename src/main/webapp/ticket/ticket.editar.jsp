@@ -126,7 +126,7 @@
 						</c:when>
 						<c:otherwise>
 							<form:hidden path="ticket.cliente" />
-							<b>${ticket.cliente}</b>							
+							<b>${ticket.cliente eq null ? '-' : ticket.cliente}</b>							
 						</c:otherwise>
 					</c:choose>
 					<p>Cliente</p>
@@ -138,7 +138,7 @@
 						</c:when>
 						<c:otherwise>
 							<form:hidden path="ticket.solicitador"/>
-							<b>${ticket.solicitador}</b>
+							<b>${ticket.solicitador eq null ? '-' : ticket.solicitador}</b>
 						</c:otherwise>
 					</c:choose>
 					<p>Solicitador</p>
@@ -148,10 +148,12 @@
 					<form:hidden path="ticket.reporter.username"/><br/>
 					<p>Reporter</p> 
 				</div>
-				<div>
-					<b><fmt:formatDate value="${ticket.dataDeCriacao}" type="both"/></b>
-					<p>Data de Criação</p> 
-				</div>
+				<c:if test="${ticket.ticketKey gt 0}">
+					<div>
+						<b><fmt:formatDate value="${ticket.dataDeCriacao}" type="both"/></b>
+						<p>Data de Criação</p> 
+					</div>
+				</c:if>
 				<c:if test="${!ticket.tarefa}">
 					<div>
 						<c:choose>
@@ -190,7 +192,7 @@
 						<i><input type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''}>${u.nome}</i>
 						<c:if test="${s.count % 3 == 0}"><br/></c:if>
 					</c:forEach>					
-					<p>Desenvolvedores</p>
+					<p><b>Desenvolvedores</b></p>
 				</div>
 				</div>
 					<div>
@@ -204,7 +206,7 @@
 						<i><input type="checkbox" name="testador" value="${u.username}" ${checked ? 'checked="checked"' : ''}>${u.nome}</i>
 						<c:if test="${s.count % 3 == 0}"><br/></c:if>
 					</c:forEach>					
-					<p>Testadores</p>
+					<p><b>Testadores</b></p>
 				</div>
 				<div>
 					<form:select path="ticket.kanbanStatus.kanbanStatusKey">

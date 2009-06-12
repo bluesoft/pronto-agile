@@ -35,8 +35,10 @@
 			</tr>
 			</thead>
 			<tbody>
+			<c:set var="cor" value="${false}"/>
 			<c:forEach items="${sprints}" var="s">
-				<tr style="${s.atual ? 'background-color:FFFFCC;' : ''}">
+				<c:set var="cor" value="${!cor}"/>
+				<tr style="${s.atual ? 'background-color:ebf5fc;' : ''}" class="${cor ? 'even' : 'odd'}">
 					<td>
 						<c:choose>
 							<c:when test="${s.atual}">
