@@ -77,7 +77,7 @@
 				</tr>
 				<c:forEach items="${tickets}" var="t">
 					<c:set var="cor" value="${!cor}"/>
-					<tr id="${t.ticketKey}" class="${cor ? 'even' : 'odd'}">
+					<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
 						<td>
 							${t.ticketKey}
 							<input type="hidden" name="ticketKey" value="${t.ticketKey}"/>
@@ -122,41 +122,43 @@
 						</td>
 					</tr>
 					<c:forEach items="${t.filhos}" var="f">
-						<c:set var="cor" value="${!cor}"/>	 
-						<tr class="${cor ? 'odd' : 'even'}" id="${f.ticketKey}" pai="${t.ticketKey}">
-							<td>
-								${f.ticketKey}
-								<input type="hidden" name="ticketKey" value="${f.ticketKey}"/>
-							</td>
-							<td>${f.titulo}</td>
-							<td>${f.tipoDeTicket.descricao}</td>
-							<td>${f.cliente}</td>
-							
-							<td class="valorDeNegocio">
-								<c:choose>
-									<c:when test="${usuarioLogado.productOwner}">
-										<input type="hidden" name="valorDeNegocio" value="0" />
-									</c:when>
-								</c:choose>
-							</td>
-							<td class="esforco">
-								<c:choose>
-									<c:when test="${usuarioLogado.desenvolvedor}">
-										<input type="text" size="5" name="esforco" value="${f.esforco}" onchange="recalcular()" class="required number"/>
-									</c:when>
-									<c:otherwise>
-										<span>${f.esforco}</span>
-									</c:otherwise>
-								</c:choose>
-							</td>
-							<td>${f.kanbanStatus.descricao}</td>
-							<td>
-								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${f.ticketKey});"/>
-							</td>
-							<td>
-								<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${f.ticketKey}')"></pronto:icons>
-							</td>
-						</tr>
+						<c:if test="${f.backlog.backlogKey eq t.backlog.backlogKey}">
+							<c:set var="cor" value="${!cor}"/>	 
+							<tr class="${cor ? 'odd' : 'even'}" id="${f.ticketKey}" pai="${t.ticketKey}">
+								<td>
+									${f.ticketKey}
+									<input type="hidden" name="ticketKey" value="${f.ticketKey}"/>
+								</td>
+								<td>${f.titulo}</td>
+								<td>${f.tipoDeTicket.descricao}</td>
+								<td>${f.cliente}</td>
+								
+								<td class="valorDeNegocio">
+									<c:choose>
+										<c:when test="${usuarioLogado.productOwner}">
+											<input type="hidden" name="valorDeNegocio" value="0" />
+										</c:when>
+									</c:choose>
+								</td>
+								<td class="esforco">
+									<c:choose>
+										<c:when test="${usuarioLogado.desenvolvedor}">
+											<input type="text" size="5" name="esforco" value="${f.esforco}" onchange="recalcular()" class="required number"/>
+										</c:when>
+										<c:otherwise>
+											<span>${f.esforco}</span>
+										</c:otherwise>
+									</c:choose>
+								</td>
+								<td>${f.kanbanStatus.descricao}</td>
+								<td>
+									<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${f.ticketKey});"/>
+								</td>
+								<td>
+									<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${f.ticketKey}')"></pronto:icons>
+								</td>
+							</tr>
+						</c:if>
 					</c:forEach>
 					<tr style="height: 1px;">
 						<td colspan="12" style="background-color:#b4c24b"></td>
