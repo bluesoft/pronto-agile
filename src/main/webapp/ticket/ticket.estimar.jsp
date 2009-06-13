@@ -137,9 +137,6 @@
 									<c:when test="${usuarioLogado.productOwner}">
 										<input type="hidden" name="valorDeNegocio" value="0" />
 									</c:when>
-									<c:otherwise>
-										<span>${f.valorDeNegocio}</span>
-									</c:otherwise>
 								</c:choose>
 							</td>
 							<td class="esforco">
