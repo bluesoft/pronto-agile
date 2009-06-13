@@ -2,6 +2,8 @@ package br.com.bluesoft.pronto.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +82,7 @@ public class UsuarioController {
 	}
 
 	@RequestMapping("/usuario/salvar.action")
-	public String salvar(final Model model, final Usuario usuario, final int[] papel, final String password) throws Exception {
+	public String salvar(final Model model, final Usuario usuario, final int[] papel, final String password, final HttpSession httpSession) throws Exception {
 
 		Seguranca.validarPermissao(Papel.SCRUM_MASTER);
 
@@ -98,6 +100,12 @@ public class UsuarioController {
 		}
 
 		usuarioDao.salvar(usuario);
+
+		// atualiza sessão do usuário com os novos papéis
+		final Usuario usuarioLogado = (Usuario) httpSession.getAttribute("usuarioLogado");
+		if (usuario.getUsername().equals(usuarioLogado.getUsername())) {
+			httpSession.setAttribute("usuarioLogado", usuario);
+		}
 
 		tx.commit();
 		return "forward:listar.action";
