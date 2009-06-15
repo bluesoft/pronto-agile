@@ -12,71 +12,77 @@
 		</script>
 	</head>
 	<body>
-		<form action="salvar.action" method="post" id="formTicket">
-			<c:choose>
-				<c:when test="${ticket.ticketKey gt 0}">
-					<form:hidden path="ticket.ticketKey"/>
-					<h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey} - ${ticket.titulo}</h1>
-				</c:when>
-				<c:otherwise>
-					<h1>Incluir ${ticket.tipoDeTicket.descricao}</h1>
-				</c:otherwise>
-			</c:choose>
-			<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
-
-			<c:if test="${ticket.ticketKey gt 0}">
-				<!-- Operacoes -->
-				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
-					<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="goTo('transformarEmDefeito.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
-				</c:if>
-				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
-					<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="goTo('transformarEmEstoria.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
-				</c:if>
-				<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 3) and usuarioLogado.productOwner and !ticket.tarefa}">
-						<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="goTo('moverParaProductBacklog.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
-				</c:if>
-				<c:if test="${ticket.backlog.backlogKey eq 2 and !ticket.tarefa}">
-						<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Idéias" onclick="goTo('moverParaIdeias.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
-				</c:if>
-				<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
-					<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="goTo('jogarNoLixo.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
-				</c:if>
-				<c:if test="${ticket.backlog.backlogKey eq 1 or (ticket.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or ticket.backlog.backlogKey eq 3}">
-					<pronto:icons name="impedimento.png" title="Mover para Impedimentos" onclick="goTo('moverParaImpedimentos.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
-				</c:if>
-				<c:if test="${(ticket.backlog.backlogKey eq 2 and usuarioLogado.productOwner)}">
-					<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="goTo('moverParaOSprintAtual.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
-				</c:if>
-				<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
-					<c:if test="${!ticket.tarefa or (ticket.tarefa && ticket.pai.backlog.backlogKey ne 4 && ticket.pai.backlog.backlogKey ne 5)}">
-						<pronto:icons name="restaurar.png" title="Restaurar" onclick="goTo('restaurar.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
-					</c:if>
-				</c:if>
-				<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2 and ticket.backlog.backlogKey ne 1}">
-					<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?paiKey=${ticket.ticketKey}')"></pronto:icons>
-				</c:if>
-				<!-- Fim das Operacoes -->
-				<br/><br/>
-				
-				<h3>Descrição</h3>
-				<div class="htmlbox">
-					${ticket.html}
-				</div>
-			</c:if>
 		
-			
-			<c:if test="${!empty ticket.comentarios}">
-				<h3>Comentários</h3>
-				<c:forEach items="${ticket.comentarios}" var="comentario">
-					<div class="htmlbox">
-						${comentario.html}
-						<br/>
-						<div align="right"><i>Por ${comentario.usuario} em <fmt:formatDate value="${comentario.data}" type="both"/></i></div> 
-					</div>
-				</c:forEach>
-				<br/>
+		<c:choose>
+			<c:when test="${ticket.ticketKey gt 0}">
+				<h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey} - ${ticket.titulo}</h1>
+			</c:when>
+			<c:otherwise>
+				<h1>Incluir ${ticket.tipoDeTicket.descricao}</h1>
+			</c:otherwise>
+		</c:choose>
+		<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
+
+		<c:if test="${ticket.ticketKey gt 0}">
+			<!-- Operacoes -->
+			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
+				<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="goTo('transformarEmDefeito.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
+			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
+				<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="goTo('transformarEmEstoria.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+			</c:if>
+			<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 3) and usuarioLogado.productOwner and !ticket.tarefa}">
+					<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="goTo('moverParaProductBacklog.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+			</c:if>
+			<c:if test="${ticket.backlog.backlogKey eq 2 and !ticket.tarefa}">
+					<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Idéias" onclick="goTo('moverParaIdeias.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+			</c:if>
+			<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
+				<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="goTo('jogarNoLixo.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+			</c:if>
+			<c:if test="${ticket.backlog.backlogKey eq 1 or (ticket.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or ticket.backlog.backlogKey eq 3}">
+				<pronto:icons name="impedimento.png" title="Mover para Impedimentos" onclick="goTo('moverParaImpedimentos.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+			</c:if>
+			<c:if test="${(ticket.backlog.backlogKey eq 2 and usuarioLogado.productOwner)}">
+				<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="goTo('moverParaOSprintAtual.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+			</c:if>
+			<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
+				<c:if test="${!ticket.tarefa or (ticket.tarefa && ticket.pai.backlog.backlogKey ne 4 && ticket.pai.backlog.backlogKey ne 5)}">
+					<pronto:icons name="restaurar.png" title="Restaurar" onclick="goTo('restaurar.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+				</c:if>
+			</c:if>
+			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2 and ticket.backlog.backlogKey ne 1}">
+				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?paiKey=${ticket.ticketKey}')"></pronto:icons>
+			</c:if>
+			<!-- Fim das Operacoes -->
+			<br/><br/>
 			
+			<h3>Descrição</h3>
+			<div class="htmlbox">
+				${ticket.html}
+			</div>
+		</c:if>
+	
+		
+		<c:if test="${!empty ticket.comentarios}">
+			<h3>Comentários</h3>
+			<c:forEach items="${ticket.comentarios}" var="comentario">
+				<div class="htmlbox">
+					${comentario.html}
+					<br/>
+					<div align="right"><i>Por ${comentario.usuario} em <fmt:formatDate value="${comentario.data}" type="both"/></i></div> 
+				</div>
+			</c:forEach>
+			<br/>
+		</c:if>
+			
+			
+		<form action="salvar.action" method="post" id="formTicket">
+		
+			<c:if test="${ticket.ticketKey gt 0}">
+				<form:hidden path="ticket.ticketKey"/>
+			</c:if>
+				
 			<div class="group">
 				
 				<div>
