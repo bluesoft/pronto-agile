@@ -60,12 +60,13 @@ public class LoginFilter implements Filter {
 			if (isAccessDenied) {
 				final HttpServletResponse response = (HttpServletResponse) servletResponse;
 				response.sendRedirect(request.getContextPath() + START_URI);
-			} else {
-				Seguranca.setUsuario(usuarioLogado);
-				chain.doFilter(servletRequest, servletResponse);
-				Seguranca.removeUsuario();
+				return;
 			}
 		}
+
+		Seguranca.setUsuario(usuarioLogado);
+		chain.doFilter(servletRequest, servletResponse);
+		Seguranca.removeUsuario();
 
 	}
 
