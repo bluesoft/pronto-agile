@@ -17,8 +17,10 @@
 				<th>Esforço</th>
 				<th>Status</th>
 			</tr>
+			<c:set var="cor" value="${true}"/>
 			<c:forEach items="${tickets}" var="t">
-				<tr id="${t.ticketKey}">
+				<c:set var="cor" value="${!cor}"/>
+				<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
 					<td>${t.ticketKey}</td>
 					<td>${t.titulo}</td>
 					<td>${t.tipoDeTicket.descricao}</td>
