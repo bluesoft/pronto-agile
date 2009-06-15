@@ -2,14 +2,15 @@
 	background-color: #FAFAD2;
 	width: 100%;
 	margin: 5px;
+	padding: 10px;
 	border-width: 2px;
 	border-color: black;
 }
 
-* div.htmlbox ul {
-	list-style-type: !important disc;
+div.htmlbox ul {
+	list-style-type: disc;
 }
 
-* div.htmlbox ol {
-	list-style-type: !important decimal;
+div.htmlbox ol {
+	list-style-type: decimal;
 }
