@@ -69,7 +69,7 @@ public class Backlog {
 	}
 
 	public double getEsforcoTotal() {
-		int total = 0;
+		double total = 0;
 		if (tickets != null) {
 			for (final Ticket ticket : tickets) {
 				if (ticket.isDefeito() || ticket.isEstoria() || ticket.isIdeia()) {
