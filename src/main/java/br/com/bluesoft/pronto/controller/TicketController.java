@@ -300,7 +300,7 @@ public class TicketController {
 		dir.mkdirs();
 
 		for (final FileItem fileItem : items) {
-			fileItem.write(new File(ticketDir + fileItem.getName().replaceAll("[^A-Za-z0-9]", "")));
+			fileItem.write(new File(ticketDir + fileItem.getName().replaceAll("[^A-Za-z0-9.]", "")));
 		}
 
 		return "redirect:editar.action?ticketKey=" + ticketKey;
@@ -358,9 +358,9 @@ public class TicketController {
 			mime = "application/ms-word";
 		}
 
-		response.setContentType(mime);
 		response.getOutputStream().write(bytes);
 		response.setHeader("Content-disposition", "attachment;filename=" + file);
+		response.setContentType(mime);
 
 		return null;
 

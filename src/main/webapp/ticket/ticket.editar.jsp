@@ -270,7 +270,7 @@
 			<h2>Anexos</h2>
 			<ul>
 				<c:forEach items="${anexos}" var="anexo">
-					<li>${anexo} - <a href="download.action?ticketKey=${ticket.ticketKey}&file=${anexo}">download</a> - <a href="excluirAnexo.action?ticketKey=${ticket.ticketKey}&file=${anexo}">excluir</a></li>
+					<li>${anexo} - <a target="_blank" href="download.action?ticketKey=${ticket.ticketKey}&file=${anexo}">download</a> - <a href="excluirAnexo.action?ticketKey=${ticket.ticketKey}&file=${anexo}">excluir</a></li>
 				</c:forEach>
 			</ul>
 			
