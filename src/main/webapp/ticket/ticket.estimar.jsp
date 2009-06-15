@@ -82,7 +82,7 @@
 							${t.ticketKey}
 							<input type="hidden" name="ticketKey" value="${t.ticketKey}"/>
 						</td>
-						<td>${t.titulo}</td>
+						<td class="titulo">${t.titulo}</td>
 						<td>${t.tipoDeTicket.descricao}</td>
 						<td>${t.cliente}</td>
 						
@@ -129,7 +129,7 @@
 									${f.ticketKey}
 									<input type="hidden" name="ticketKey" value="${f.ticketKey}"/>
 								</td>
-								<td>${f.titulo}</td>
+								<td class="titulo">${f.titulo}</td>
 								<td>${f.tipoDeTicket.descricao}</td>
 								<td>${f.cliente}</td>
 								
