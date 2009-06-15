@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.ProntoException;
 import br.com.bluesoft.pronto.SegurancaException;
 import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
@@ -237,6 +238,26 @@ public class TicketController {
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
 
+	@RequestMapping("/ticket/moverParaOSprintAtual.action")
+	public String moverParaOSprintAtual(final Model model, final int ticketKey, final HttpServletResponse response) throws ProntoException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER);
+
+		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+
+		final int backlogDeOrigem = ticket.getBacklog().getBacklogKey();
+		if (backlogDeOrigem != Backlog.PRODUCT_BACKLOG) {
+			throw new ProntoException("Para que uma Estória ou Bug seja movida para o Sprint Atual é preciso que ela esteja no Product Backlog.");
+		}
+
+		ticket.setSprint(sprintDao.getSprintAtual());
+		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG));
+		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
+		ticketDao.salvar(ticket);
+		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
+
+	}
+
 	@RequestMapping("/ticket/moverParaIdeias.action")
 	public String moverParaIdeias(final Model model, final int ticketKey, final HttpServletResponse response) throws SegurancaException {
 
@@ -359,7 +380,7 @@ public class TicketController {
 		}
 
 		response.getOutputStream().write(bytes);
-		response.setHeader("Content-disposition", "attachment;filename=" + file);
+		response.addHeader("content-disposition", "attachment; filename=" + file);
 		response.setContentType(mime);
 
 		return null;

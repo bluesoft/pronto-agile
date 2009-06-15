@@ -2,6 +2,7 @@ package br.com.bluesoft.pronto.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,13 @@ public class UsuarioDao extends DaoHibernate<Usuario, String> {
 
 	public UsuarioDao() {
 		super(Usuario.class);
+	}
+
+	@Override
+	public Usuario obter(final String username) {
+		final String hql = "select distinct u from Usuario u left join fetch u.papeis where u.username = :username";
+		final Query query = getSession().createQuery(hql).setString("username", username);
+		return (Usuario) query.uniqueResult();
 	}
 
 	public int obterQuantidadeDeUsuariosCadastrados() {
