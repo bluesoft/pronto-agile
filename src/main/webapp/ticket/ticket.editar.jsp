@@ -185,33 +185,40 @@
 					</c:choose>
 					<p>Esforço</p>
 				</div>
+				
+				
+				<c:if test="${!ticket.tarefa}">
 					<div>
-					<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
-						<c:set var="checked" value="${false}"/>
-						<c:forEach items="${ticket.desenvolvedores}" var="d">
-							<c:if test="${d.username eq u.username}">
-								<c:set var="checked" value="${true}"/>
-							</c:if>
-						</c:forEach>
-						<i><input type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''}>${u.nome}</i>
-						<c:if test="${s.count % 3 == 0}"><br/></c:if>
-					</c:forEach>					
-					<p><b>Desenvolvedores</b></p>
-				</div>
-				</div>
-					<div>
-					<c:forEach items="${testadores}" var="u" varStatus="s">
-						<c:set var="checked" value="${false}"/>
-						<c:forEach items="${ticket.testadores}" var="d">
-							<c:if test="${d.username eq u.username}">
-								<c:set var="checked" value="${true}"/>
-							</c:if>
-						</c:forEach>
-						<i><input type="checkbox" name="testador" value="${u.username}" ${checked ? 'checked="checked"' : ''}>${u.nome}</i>
-						<c:if test="${s.count % 3 == 0}"><br/></c:if>
-					</c:forEach>					
-					<p><b>Testadores</b></p>
-				</div>
+						<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
+							<c:set var="checked" value="${false}"/>
+							<c:forEach items="${ticket.desenvolvedores}" var="d">
+								<c:if test="${d.username eq u.username}">
+									<c:set var="checked" value="${true}"/>
+								</c:if>
+							</c:forEach>
+							<i><input type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''}>${u.nome}</i>
+							<c:if test="${s.count % 3 == 0}"><br/></c:if>
+						</c:forEach>					
+						<p><b>Desenvolvedores</b></p>
+					</div>
+					
+					</div>
+						<div>
+						<c:forEach items="${testadores}" var="u" varStatus="s">
+							<c:set var="checked" value="${false}"/>
+							<c:forEach items="${ticket.testadores}" var="d">
+								<c:if test="${d.username eq u.username}">
+									<c:set var="checked" value="${true}"/>
+								</c:if>
+							</c:forEach>
+							<i><input type="checkbox" name="testador" value="${u.username}" ${checked ? 'checked="checked"' : ''}>${u.nome}</i>
+							<c:if test="${s.count % 3 == 0}"><br/></c:if>
+						</c:forEach>					
+						<p><b>Testadores</b></p>
+					</div>
+				</c:if>
+				
+				
 				<div>
 					<form:select path="ticket.kanbanStatus.kanbanStatusKey">
 						<form:options items="${kanbanStatus}" itemLabel="descricao" itemValue="kanbanStatusKey"/>
