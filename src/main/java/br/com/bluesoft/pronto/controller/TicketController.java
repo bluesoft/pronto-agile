@@ -300,7 +300,7 @@ public class TicketController {
 		dir.mkdirs();
 
 		for (final FileItem fileItem : items) {
-			fileItem.write(new File(ticketDir + fileItem.getName()));
+			fileItem.write(new File(ticketDir + fileItem.getName().replaceAll("[^A-Za-z0-9]", "")));
 		}
 
 		return "redirect:editar.action?ticketKey=" + ticketKey;
@@ -334,6 +334,31 @@ public class TicketController {
 		fis.read(bytes);
 		fis.close();
 
+		String extensao = null;
+		if (file.lastIndexOf('.') > 0) {
+			extensao = file.substring(file.lastIndexOf('.') + 1, file.length());
+		}
+
+		String mime = null;
+		if (extensao.equalsIgnoreCase("png")) {
+			mime = "images/png";
+		} else if (extensao.equalsIgnoreCase("jpg") || extensao.equalsIgnoreCase("jpeg")) {
+			mime = "images/jpeg";
+		} else if (extensao.equalsIgnoreCase("gif")) {
+			mime = "images/gif";
+		} else if (extensao.equalsIgnoreCase("pdf")) {
+			mime = "application/pdf";
+		} else if (extensao.equalsIgnoreCase("xls") || extensao.equalsIgnoreCase("xlsx")) {
+			mime = "application/vnd.ms-excel";
+		} else if (extensao.equalsIgnoreCase("csv")) {
+			mime = "text/csv";
+		} else if (extensao.equalsIgnoreCase("txt")) {
+			mime = "text/plain";
+		} else if (extensao.equalsIgnoreCase("doc") || extensao.equalsIgnoreCase("docx")) {
+			mime = "application/ms-word";
+		}
+
+		response.setContentType(mime);
 		response.getOutputStream().write(bytes);
 		response.setHeader("Content-disposition", "attachment;filename=" + file);
 
