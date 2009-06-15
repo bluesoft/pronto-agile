@@ -84,5 +84,9 @@
 		<res-auth>Container</res-auth>
 		<res-sharing-scope>Shareable</res-sharing-scope>
 	</resource-ref>
+	
+	<session-config>
+		<session-timeout>90</session-timeout>
+	</session-config>
 
 </web-app>
