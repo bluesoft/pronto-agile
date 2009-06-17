@@ -215,4 +215,16 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setInteger("tipoTarefa", TipoDeTicket.TAREFA).list();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Ticket> listarTicketsQueNaoEstamNoBranchMaster() {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(" select distinct t from Ticket t");
+		builder.append(" left join fetch t.filhos f ");
+		builder.append(" left join fetch t.pai p");
+		builder.append(" where t.filhos is empty  and t.branch is not null and t.branch != 'master' and t.branch != ''");
+		builder.append(" order by t.branch, t.titulo");
+		return getSession().createQuery(builder.toString()).list();
+
+	}
+
 }
