@@ -13,6 +13,7 @@ import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
+import br.com.bluesoft.pronto.service.Seguranca;
 
 @Controller
 public class KanbanController {
@@ -50,8 +51,14 @@ public class KanbanController {
 
 		if (kanbanStatusKey == KanbanStatus.DONE) {
 			ticket.setDataDePronto(new Date());
+			if (Seguranca.getUsuario().isTestador()) {
+				ticket.addTestador(Seguranca.getUsuario());
+			}
 		} else {
 			ticket.setDataDePronto(null);
+			if (kanbanStatusKey == KanbanStatus.DOING && Seguranca.getUsuario().isDesenvolvedor()) {
+				ticket.addDesenvolvedor(Seguranca.getUsuario());
+			}
 		}
 
 		ticketDao.salvar(ticket);

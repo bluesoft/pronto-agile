@@ -54,6 +54,9 @@
 			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2 and ticket.backlog.backlogKey ne 1}">
 				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?paiKey=${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
+			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 6 and ticket.backlog.backlogKey ne 1}">
+				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?paiKey=${ticket.pai.ticketKey}')"></pronto:icons>
+			</c:if>
 			<!-- Fim das Operacoes -->
 			<br/><br/>
 			
@@ -194,7 +197,7 @@
 				</div>
 				
 				
-				<c:if test="${!ticket.tarefa}">
+				<c:if test="${ticket.tarefa}">
 					<div>
 						<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
 							<c:set var="checked" value="${false}"/>
