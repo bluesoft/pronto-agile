@@ -46,6 +46,7 @@ import br.com.bluesoft.pronto.service.Seguranca;
 public class TicketController {
 
 	private static final String VIEW_LISTAR = "ticket.listar.jsp";
+	private static final String VIEW_BRANCHES = "ticket.branches.jsp";
 	private static final String VIEW_ESTIMAR = "ticket.estimar.jsp";
 	private static final String VIEW_EDITAR = "ticket.editar.jsp";
 
@@ -99,6 +100,13 @@ public class TicketController {
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("sprint", sprintDao.obter(sprintKey));
 		return VIEW_LISTAR;
+	}
+
+	@RequestMapping("/ticket/branches.action")
+	public String branches(final Model model) {
+		final List<Ticket> tickets = ticketDao.listarTicketsQueNaoEstamNoBranchMaster();
+		model.addAttribute("tickets", tickets);
+		return VIEW_BRANCHES;
 	}
 
 	@RequestMapping("/ticket/sprintAtual.action")
@@ -213,6 +221,15 @@ public class TicketController {
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS));
 		ticketDao.salvar(ticket);
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
+	}
+
+	@RequestMapping("/ticket/moverParaBranchMaster.action")
+	public String moverParaBranchMaster(final Model model, final int ticketKey, final HttpServletResponse response) throws SegurancaException {
+		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.TESTADOR);
+		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
+		ticket.setBranch(Ticket.BRANCH_MASTER);
+		ticketDao.salvar(ticket);
+		return null;
 	}
 
 	@RequestMapping("/ticket/moverParaProductBacklog.action")

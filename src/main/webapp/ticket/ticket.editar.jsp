@@ -240,11 +240,13 @@
 					<p>Data de Pronto</p>
 				</div>
 				
-				
+				<c:if test="${empty ticket.filhos}">
 				<div>
 					<form:input path="ticket.branch"/><br/>
 					<p>Branch</p>
 				</div>
+				</c:if>
+				
 				<div>
 					<form:select path="ticket.par">
 						<form:option value="true">Sim</form:option>

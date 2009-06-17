@@ -29,6 +29,8 @@ import br.com.bluesoft.pronto.service.WikiFormatter;
 @SequenceGenerator(name = "SEQ_TICKET", sequenceName = "SEQ_TICKET")
 public class Ticket {
 
+	public static String BRANCH_MASTER = "master";
+
 	public Ticket() {
 		// Inicializando campos para binding do Spring.
 		super();

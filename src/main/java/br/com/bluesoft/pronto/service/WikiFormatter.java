@@ -6,8 +6,8 @@ import org.springframework.web.util.JavaScriptUtils;
 
 public class WikiFormatter {
 
-	private static final String wikiImages = "http://www.mywiki.com/wiki/${image}";
-	private static final String wikiTitles = "http://www.mywiki.com/wiki/${title}";
+	private static final String wikiImages = "/${image}";
+	private static final String wikiTitles = "/${title}";
 
 	public static String toHtml(final String wiki) {
 		final WikiModel wikiModel = new WikiModel(wikiImages, wikiTitles);

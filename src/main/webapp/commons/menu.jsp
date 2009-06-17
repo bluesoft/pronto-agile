@@ -19,6 +19,7 @@
 		<li><a href="${raiz}sprint/listar.action">Sprints</a></li>
 		<li><a href="${raiz}kanban/kanban.action">Kanban</a></li>
 		<li><a href="${raiz}burndown/burndown.action">Burndown</a></li>
+		<li><a href="${raiz}ticket/branches.action">Branches</a></li>
 		<li><a href="${raiz}logout.action">Sair</a></li>
 	</ul>
 	<div class="clear"></div>
