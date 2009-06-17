@@ -15,6 +15,11 @@
 			<li><a href="http://maven.apache.org">Maven 2</a> - <a href="http://maven.apache.org/license.html">Apache License 2.0</a></li>
 			<li><a href="http://www.hibernate.org/">Hibernate</a> - <a href="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html">LGPL 2.1</a></li>
 			<li><a href="http://www.springframework.org/">Spring Framework</a> - <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</a></li>
+			<li><a href="http://css.appfuse.org/themes/">App Fuse CSS Framework Themes</a> - <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</a></li>
+			
+			
+			
+			
 		</ul>
 	</body>
 </html>
