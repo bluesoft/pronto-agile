@@ -53,20 +53,24 @@ public class LoginFilter implements Filter {
 		final Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLogado");
 		final boolean logado = usuarioLogado != null;
 
-		if (!logado) {
+		final boolean isAccessDenied = isAccessDenied(request, logado);
 
-			final boolean isAccessDenied = isAccessDenied(request, logado);
+		if (isAccessDenied) {
 
-			if (isAccessDenied) {
+			if (!logado) {
 				final HttpServletResponse response = (HttpServletResponse) servletResponse;
 				response.sendRedirect(request.getContextPath() + START_URI);
 				return;
 			}
 		}
 
-		Seguranca.setUsuario(usuarioLogado);
-		chain.doFilter(servletRequest, servletResponse);
-		Seguranca.removeUsuario();
+		if (logado) {
+			Seguranca.setUsuario(usuarioLogado);
+			chain.doFilter(servletRequest, servletResponse);
+			Seguranca.removeUsuario();
+		} else {
+			chain.doFilter(servletRequest, servletResponse);
+		}
 
 	}
 

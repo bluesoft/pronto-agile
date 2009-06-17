@@ -1,5 +1,6 @@
 <decorators defaultdir="/commons/decorators">
     <excludes>
+    	<pattern>/burndown/burndown.fullscreen.jsp</pattern>
     </excludes> 
     <decorator name="default" page="default.jsp">
         <pattern>/*</pattern>
