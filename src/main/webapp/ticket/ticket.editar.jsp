@@ -161,6 +161,7 @@
 				<c:if test="${ticket.ticketKey gt 0}">
 					<div>
 						<b><fmt:formatDate value="${ticket.dataDeCriacao}" type="both"/></b>
+						<form:hidden path="ticket.dataDeCriacao"/>
 						<p>Data de Criação</p> 
 					</div>
 				</c:if>
