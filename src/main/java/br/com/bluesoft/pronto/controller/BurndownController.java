@@ -144,6 +144,8 @@ public class BurndownController {
 
 	@RequestMapping("/burndown/flash.action")
 	public String flash() {
-		return "redirect:/open-flash-chart.swf?ofc=burndown/data.action";
+		// return "redirect:/open-flash-chart.swf?ofc=burndown/data.action";
+
+		return "redirect:/burndown/burndown.fullscreen.jsp";
 	}
 }
