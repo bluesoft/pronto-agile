@@ -91,7 +91,7 @@
 	</resource-ref>
 	
 	<session-config>
-		<session-timeout>90</session-timeout>
+		<session-timeout>240</session-timeout>
 	</session-config>
 
 </web-app>
