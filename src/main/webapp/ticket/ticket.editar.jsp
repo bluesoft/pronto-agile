@@ -197,7 +197,7 @@
 				</div>
 				
 				
-				<c:if test="${ticket.tarefa}">
+				<c:if test="${ticket.tarefa or empty ticket.filhos}">
 					<div>
 						<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
 							<c:set var="checked" value="${false}"/>
