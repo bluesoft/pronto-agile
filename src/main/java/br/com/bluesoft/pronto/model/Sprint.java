@@ -1,6 +1,7 @@
 package br.com.bluesoft.pronto.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -14,6 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
+
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.comparators.ComparatorChain;
 
 import br.com.bluesoft.pronto.util.DateUtil;
 
@@ -185,6 +189,7 @@ public class Sprint {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Ticket> getTicketsParaOKanban() {
 		final List<Ticket> ticketsParaOKanban = new ArrayList<Ticket>();
 		if (ticketsParaOKanban != null) {
@@ -194,6 +199,18 @@ public class Sprint {
 				}
 			}
 		}
+
+		final List<BeanComparator> comparators = new ArrayList<BeanComparator>();
+		final BeanComparator comparatorValorDeNegocio = new BeanComparator("valorDeNegocio");
+		final BeanComparator comparatorEsforco = new BeanComparator("esforco");
+		final BeanComparator comparatorDataDeCriacao = new BeanComparator("dataDeCriacao");
+
+		comparators.add(comparatorValorDeNegocio);
+		comparators.add(comparatorEsforco);
+		comparators.add(comparatorDataDeCriacao);
+		final ComparatorChain comparatorChain = new ComparatorChain(comparators);
+		Collections.sort(ticketsParaOKanban, comparatorChain);
+
 		return ticketsParaOKanban;
 
 	}
