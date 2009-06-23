@@ -48,7 +48,7 @@
 						<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
 					</td>
 					<td>
-						<pronto:icons name="editar.png" title="Editar" onclick="goTo('${editarTicketUrl}?ticketKey=${t.ticketKey}')"></pronto:icons>
+						<a href="${editarTicketUrl}?ticketKey=${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 					</td>
 				</tr>
 			</c:forEach>
