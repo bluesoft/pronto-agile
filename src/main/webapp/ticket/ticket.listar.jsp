@@ -167,7 +167,7 @@
 						<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
 					</td>
 					<td>
-						<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${t.ticketKey}')"></pronto:icons>
+						<a href="editar.action?ticketKey=${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 					</td>
 				</tr>
 				<c:forEach items="${t.filhos}" var="f">
@@ -204,7 +204,7 @@
 								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${f.ticketKey});"/>
 							</td>
 							<td>
-								<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${f.ticketKey}')"></pronto:icons>
+								<a href="editar.action?ticketKey=${f.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 							</td>
 						</tr>
 					</c:if>
@@ -228,18 +228,18 @@
 						<td></td>
 						<td>
 							<c:if test="${s.backlog.backlogKey eq 1 or (s.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or s.backlog.backlogKey eq 3}">
-								<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${f.ticketKey})"></pronto:icons>
+								<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${f.ticketKey})" />
 							</c:if>
 						</td>
 						<td>
 							<c:if test="${(s.backlog.backlogKey eq 1 or s.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
-								<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${f.ticketKey})"></pronto:icons>
+								<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${f.ticketKey})" />
 							</c:if>
 						</td>
 						<td>
 						<c:if test="${s.backlog.backlogKey eq 4 or s.backlog.backlogKey eq 5}">
 							<c:if test="${s.pai.backlog.backlogKey ne 4 and s.pai.backlog.backlogKey ne 5}">
-								<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${s.ticketKey})"></pronto:icons>
+								<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${s.ticketKey})" />
 							</c:if>
 						</c:if>
 						</td>
@@ -247,7 +247,7 @@
 							<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${s.ticketKey});"/>
 						</td>
 						<td>
-							<pronto:icons name="editar.png" title="Editar" onclick="goTo('editar.action?ticketKey=${s.ticketKey}')"></pronto:icons>
+							<a href="editar.action?ticketKey=${s.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 						</td>
 					</tr>
 				</c:forEach>
