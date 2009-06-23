@@ -18,7 +18,7 @@ public class Config {
 	}
 
 	public String getImagesFolder() {
-		return System.getProperty("user.home") + "/" + properties.get("pronto.imagesFolder").toString();
+		return properties.get("pronto.imagesFolder").toString();
 	}
 
 }
