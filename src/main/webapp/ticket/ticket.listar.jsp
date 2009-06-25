@@ -116,6 +116,7 @@
 				</h1>
 			</c:otherwise>
 		</c:choose>
+		
 		<c:set var="cor" value="${true}"/>
 		<table style="width: 100%">
 			<tr>
@@ -252,7 +253,7 @@
 					</tr>
 				</c:forEach>
 			<tr>
-				<th colspan="4">Total</th>
+				<th colspan="4">Total: ${descricaoTotal}</th>
 				<th id="somaValorDeNegocio">${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
 				<th id="somaEsforco">${sprint.esforcoTotal}${backlog.esforcoTotal}</th>
 				<th colspan="8"></th>
