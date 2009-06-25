@@ -3,7 +3,9 @@ package br.com.bluesoft.pronto.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -84,6 +86,7 @@ public class TicketController {
 		return tipoDeTicketDao.listar();
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorBacklog.action")
 	public String listarPorBacklog(final Model model, final int backlogKey) {
 		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey);
@@ -91,6 +94,10 @@ public class TicketController {
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("tarefasSoltas", tarefasSoltas);
 		model.addAttribute("backlog", backlogDao.obter(backlogKey));
+
+		final Map<Integer, Integer> totaisPorTipoDeTicket = totaisPorTipoDeTicket(tickets, tarefasSoltas);
+		model.addAttribute("descricaoTotal", montaDescricaoTotal(totaisPorTipoDeTicket));
+
 		return VIEW_LISTAR;
 	}
 
@@ -99,7 +106,47 @@ public class TicketController {
 		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey);
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("sprint", sprintDao.obter(sprintKey));
+
+		final Map<Integer, Integer> totaisPorTipoDeTicket = totaisPorTipoDeTicket(tickets);
+		model.addAttribute("descricaoTotal", montaDescricaoTotal(totaisPorTipoDeTicket));
+
 		return VIEW_LISTAR;
+	}
+
+	private String montaDescricaoTotal(final Map<Integer, Integer> totaisPorTipoDeTicket) {
+		final Integer totalDeDefeitos = totaisPorTipoDeTicket.get(TipoDeTicket.DEFEITO);
+		final Integer totalDeEstorias = totaisPorTipoDeTicket.get(TipoDeTicket.ESTORIA);
+		final Integer totalDeTarefas = totaisPorTipoDeTicket.get(TipoDeTicket.TAREFA);
+		final Integer totalDeIdeias = totaisPorTipoDeTicket.get(TipoDeTicket.IDEIA);
+
+		final StringBuilder descricaoTotal = new StringBuilder();
+		descricaoTotal.append(totalDeDefeitos > 0 ? totalDeDefeitos + " defeito(s), " : "nenhum defeito, ");
+		descricaoTotal.append(totalDeEstorias > 0 ? totalDeEstorias + " estória(s), " : "nenhuma estória, ");
+		descricaoTotal.append(totalDeTarefas > 0 ? totalDeTarefas + " tarefa(s), " : "nenhuma tarefa, ");
+		descricaoTotal.append(totalDeIdeias > 0 ? totalDeIdeias + " idéia(s)" : "nenhuma idéia");
+
+		return descricaoTotal.toString();
+	}
+
+	private Map<Integer, Integer> totaisPorTipoDeTicket(final List<Ticket>... listas) {
+		final Map<Integer, Integer> totais = new HashMap<Integer, Integer>();
+		totais.put(TipoDeTicket.DEFEITO, 0);
+		totais.put(TipoDeTicket.ESTORIA, 0);
+		totais.put(TipoDeTicket.TAREFA, 0);
+		totais.put(TipoDeTicket.IDEIA, 0);
+
+		for (final List<Ticket> tickets : listas) {
+			for (final Ticket ticket : tickets) {
+				totais.put(ticket.getTipoDeTicket().getTipoDeTicketKey(), totais.get(ticket.getTipoDeTicket().getTipoDeTicketKey()) + 1);
+				for (final Ticket tarefa : ticket.getFilhos()) {
+					if (tarefa.getBacklog().getBacklogKey() == ticket.getBacklog().getBacklogKey()) {
+						totais.put(tarefa.getTipoDeTicket().getTipoDeTicketKey(), totais.get(tarefa.getTipoDeTicket().getTipoDeTicketKey()) + 1);
+					}
+				}
+			}
+		}
+
+		return totais;
 	}
 
 	@RequestMapping("/ticket/branches.action")
@@ -347,7 +394,10 @@ public class TicketController {
 	private List<String> listarAnexos(final int ticketKey) {
 		final File file = new File(config.getImagesFolder() + ticketKey);
 		if (file.exists()) {
-			return Arrays.asList(file.list());
+			final String[] anexos = file.list();
+			Arrays.sort(anexos);
+
+			return Arrays.asList(anexos);
 		} else {
 			return null;
 		}
