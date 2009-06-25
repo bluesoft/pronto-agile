@@ -29,9 +29,11 @@
 				<th>Título</th>
 				<th>Tipo</th>
 				<th>Cliente</th>
+				<th>Backlog</th>
 				<th>Valor de Negócio</th>
 				<th>Esforço</th>
 				<th>Status</th>
+				<th colspan="2">&nbsp;</th>
 			</tr>
 			<c:set var="cor" value="${true}"/>
 			<c:forEach items="${tickets}" var="t">
@@ -41,6 +43,7 @@
 					<td class="titulo">${t.titulo}</td>
 					<td>${t.tipoDeTicket.descricao}</td>
 					<td>${t.cliente}</td>
+					<td>${t.backlog.descricao}</td>
 					<td>${t.valorDeNegocio}</td>
 					<td>${t.esforco}</td>
 					<td>${t.kanbanStatus.descricao}</td>
