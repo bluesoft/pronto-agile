@@ -30,15 +30,21 @@ public class KanbanController {
 	private TicketDao ticketDao;
 
 	@RequestMapping("/kanban/kanban.action")
-	public String index(final Model model) {
-		final Sprint sprintAtual = sprintDao.getSprintAtualComTickets();
+	public String index(final Model model, final Integer sprintKey) {
+		Sprint sprint = null;
 
-		if (sprintAtual == null) {
+		if (sprintKey == null) {
+			sprint = sprintDao.getSprintAtualComTickets();
+		} else {
+			sprint = sprintDao.obterSprintComTicket(sprintKey);
+		}
+
+		if (sprint == null) {
 			return LoginController.VIEW_BEM_VINDO;
 		}
 
-		model.addAttribute("sprint", sprintAtual);
-		model.addAttribute("tickets", sprintAtual.getTicketsParaOKanban());
+		model.addAttribute("sprint", sprint);
+		model.addAttribute("tickets", sprint.getTicketsParaOKanban());
 
 		return VIEW_KANBAN;
 	}
