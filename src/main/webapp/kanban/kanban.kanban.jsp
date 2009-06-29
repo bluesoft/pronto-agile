@@ -1,6 +1,7 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="moverUrl" value="/kanban/mover.action"/>
 <c:url var="editarTicket" value="/ticket/editar.action"/>
+<c:url var="kanbanUrl" value="/kanban/kanban.action" />
 <html>
 	<head>
 		<title>Kanban</title>
@@ -83,11 +84,20 @@
 		function openTicket(ticketKey) {
 			goTo('${editarTicket}?ticketKey=' + ticketKey);
 		}
+
+		function recarregar(sprintKey) {
+			goTo('${kanbanUrl}?sprintKey=' + sprintKey);
+		}
+		
 		</script>	
 
 	</head>
 	<body>
-		<h1>Kanban (Sprint ${sprint.nome})</h1>
+		<h1>Kanban do Sprint
+			<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
+				<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
+			</form:select>
+		</h1>
 		<table align="center" style="width: 100%;" id="kanbanTable">
 			<tr>
 				<td style="width: 25%"> 		

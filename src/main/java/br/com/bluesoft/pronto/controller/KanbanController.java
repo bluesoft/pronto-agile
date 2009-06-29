@@ -30,13 +30,12 @@ public class KanbanController {
 	private TicketDao ticketDao;
 
 	@RequestMapping("/kanban/kanban.action")
-	public String index(final Model model, final Integer sprintKey) {
-		Sprint sprint = null;
+	public String index(final Model model, Sprint sprint) {
 
-		if (sprintKey == null) {
+		if (sprint == null || sprint.getSprintKey() == 0) {
 			sprint = sprintDao.getSprintAtualComTickets();
 		} else {
-			sprint = sprintDao.obterSprintComTicket(sprintKey);
+			sprint = sprintDao.obterSprintComTicket(sprint.getSprintKey());
 		}
 
 		if (sprint == null) {
@@ -45,6 +44,7 @@ public class KanbanController {
 
 		model.addAttribute("sprint", sprint);
 		model.addAttribute("tickets", sprint.getTicketsParaOKanban());
+		model.addAttribute("sprints", sprintDao.listarSprintsEmAberto());
 
 		return VIEW_KANBAN;
 	}

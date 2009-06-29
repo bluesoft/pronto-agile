@@ -76,7 +76,7 @@
 						</c:if>
 					</td>
 					<td>
-						<pronto:icons name="burndown_chart.png" title="Burndown chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${s.sprintKey}')"/>
+						<pronto:icons name="burndown_chart.png" title="Burndown Chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${s.sprintKey}')"/>
 					</td>
 					<td>
 						<pronto:icons name="kanban.gif" title="Kanban do Sprint" onclick="goTo('${kanbanUrl}?sprintKey=${s.sprintKey}')"/>
