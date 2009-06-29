@@ -2,6 +2,7 @@ package br.com.bluesoft.pronto.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.ComparatorChain;
+import org.apache.commons.collections.comparators.ReverseComparator;
 
 import br.com.bluesoft.pronto.util.DateUtil;
 
@@ -200,9 +202,9 @@ public class Sprint {
 			}
 		}
 
-		final List<BeanComparator> comparators = new ArrayList<BeanComparator>();
-		final BeanComparator comparatorValorDeNegocio = new BeanComparator("valorDeNegocio");
-		final BeanComparator comparatorEsforco = new BeanComparator("esforco");
+		final List<Comparator> comparators = new ArrayList<Comparator>();
+		final ReverseComparator comparatorValorDeNegocio = new ReverseComparator(new BeanComparator("valorDeNegocio"));
+		final ReverseComparator comparatorEsforco = new ReverseComparator(new BeanComparator("esforco"));
 		final BeanComparator comparatorDataDeCriacao = new BeanComparator("dataDeCriacao");
 		final BeanComparator comparatorTicketKey = new BeanComparator("ticketKey");
 
