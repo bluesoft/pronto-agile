@@ -52,7 +52,7 @@ public class SprintDao extends DaoHibernate<Sprint, Integer> {
 
 	@SuppressWarnings("unchecked")
 	private void preencheTotaisDeEsforcoEValorDeNegocioDosSprints(final Collection<Sprint> sprints) {
-		final String sql = "select sprint, sum(t.valor_de_negocio) as valor_de_negocio_total, sum(t.esforco) as esforco_total from ticket t where t.sprint is not null group by sprint";
+		final String sql = "select sprint, sum(t.valor_de_negocio) as valor_de_negocio_total, sum(t.esforco) as esforco_total from ticket t where t.sprint is not null and t.pai is null group by sprint";
 		final SQLQuery query = getSession().createSQLQuery(sql);
 		query.addScalar("sprint", Hibernate.INTEGER);
 		query.addScalar("valor_de_negocio_total", Hibernate.INTEGER);
@@ -73,15 +73,22 @@ public class SprintDao extends DaoHibernate<Sprint, Integer> {
 	}
 
 	private void preencheTotaisDeEsforcoEValorDeNegocioDoSprint(final Sprint sprint) {
-		final String sql = "select sprint, sum(t.valor_de_negocio) as valor_de_negocio_total, sum(t.esforco) as esforco_total from ticket t where t.sprint = :sprint group by sprint";
+		final String sql = "select sprint, sum(t.valor_de_negocio) as valor_de_negocio_total, sum(t.esforco) as esforco_total from ticket t where t.sprint = :sprint and t.pai is null group by sprint";
 		final SQLQuery query = getSession().createSQLQuery(sql);
 		query.setInteger("sprint", sprint.getSprintKey());
 		query.addScalar("sprint", Hibernate.INTEGER);
 		query.addScalar("valor_de_negocio_total", Hibernate.INTEGER);
 		query.addScalar("esforco_total", Hibernate.DOUBLE);
 		final Object[] o = (Object[]) query.uniqueResult();
-		final int valorDeNegocioTotal = (Integer) o[1];
-		final double esforcoTotal = (Double) o[2];
+
+		int valorDeNegocioTotal = 0;
+		double esforcoTotal = 0d;
+
+		if (o != null) {
+			valorDeNegocioTotal = (Integer) o[1];
+			esforcoTotal = (Double) o[2];
+		}
+
 		sprint.setEsforcoTotal(esforcoTotal);
 		sprint.setValorDeNegocioTotal(valorDeNegocioTotal);
 
@@ -91,7 +98,7 @@ public class SprintDao extends DaoHibernate<Sprint, Integer> {
 		final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sprint.class);
 		criteria.add(Restrictions.eq("atual", true));
 		final Sprint sprint = (Sprint) criteria.uniqueResult();
-		if (sprint != null) {
+		if (sprint != null && sprint.getQuantidadeDeTickets() > 0) {
 			preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint);
 		}
 		return sprint;
@@ -100,7 +107,7 @@ public class SprintDao extends DaoHibernate<Sprint, Integer> {
 	public Sprint getSprintAtualComTickets() {
 		final String hql = "select distinct s from Sprint s left join fetch s.tickets t left join fetch t.filhos f where s.atual = true";
 		final Sprint sprint = (Sprint) getSession().createQuery(hql).uniqueResult();
-		if (sprint != null) {
+		if (sprint != null && sprint.getQuantidadeDeTickets() > 0) {
 			preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint);
 		}
 		return sprint;
