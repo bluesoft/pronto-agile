@@ -4,5 +4,5 @@
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="onclick" required="false" %>
 
-<c:url var="imagesFolder" value="/commons/images/"/>
+<c:url var="imagesFolder" value="/commons/images"/>
 <img src="${imagesFolder}/${name}" title="${title}" alt="${title}" onclick="${onclick}" />
