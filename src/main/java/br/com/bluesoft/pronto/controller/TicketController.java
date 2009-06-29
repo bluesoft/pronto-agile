@@ -22,6 +22,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -446,9 +447,10 @@ public class TicketController {
 			mime = "application/ms-word";
 		}
 
-		response.getOutputStream().write(bytes);
 		response.addHeader("content-disposition", "attachment; filename=" + file);
 		response.setContentType(mime);
+		response.setContentLength(bytes.length);
+		FileCopyUtils.copy(bytes, response.getOutputStream());
 
 		return null;
 
