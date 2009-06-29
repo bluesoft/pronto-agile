@@ -317,7 +317,6 @@ public class TicketController {
 
 		ticket.setSprint(sprintDao.getSprintAtual());
 		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG));
-		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
 		ticketDao.salvar(ticket);
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 
