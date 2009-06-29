@@ -21,7 +21,6 @@
 				<h1>Incluir ${ticket.tipoDeTicket.descricao}</h1>
 			</c:otherwise>
 		</c:choose>
-		<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
 
 		<c:if test="${ticket.ticketKey gt 0}">
 			<!-- Operacoes -->
@@ -81,6 +80,8 @@
 			
 			
 		<form action="salvar.action" method="post" id="formTicket">
+		
+			<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
 		
 			<c:if test="${ticket.ticketKey gt 0}">
 				<form:hidden path="ticket.ticketKey"/>
