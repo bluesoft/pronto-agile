@@ -85,7 +85,7 @@
 			</tbody>
 		</table>	
 		<div align="center">
-			<button type="button" onclick="window.location.href='${urlSprint}/editar.action'">Incluir Sprint</button>
+			<button type="button" onclick="window.location.href='${urlSprint}editar.action'">Incluir Sprint</button>
 		</div>
 	</body>
 </html>
