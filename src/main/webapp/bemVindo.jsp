@@ -7,6 +7,6 @@
 	<body>
 		<h1>Bem-vindo ao Pronto!</h1>
 		<br/>
-		<h3>Comece <a href="${urlSprint}/editar.action">criando um sprint</a> ou definindo um dos sprints como o <a href="${urlSprint}/listar.action">sprint atual</a>.</h3>
+		<h3>Comece <a href="${urlSprint}editar.action">criando um sprint</a> ou definindo um dos sprints como o <a href="${urlSprint}listar.action">sprint atual</a>.</h3>
 	</body>
 </html>
