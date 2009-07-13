@@ -151,7 +151,7 @@ public class TicketController {
 
 	@RequestMapping("/ticket/branches.action")
 	public String branches(final Model model) {
-		final List<Ticket> tickets = ticketDao.listarTicketsQueNaoEstamNoBranchMaster();
+		final List<Ticket> tickets = ticketDao.listarTicketsQueNaoEstaoNoBranchMaster();
 		model.addAttribute("tickets", tickets);
 		return VIEW_BRANCHES;
 	}
