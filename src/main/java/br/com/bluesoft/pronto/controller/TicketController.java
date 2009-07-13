@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.bluesoft.pronto.ProntoException;
 import br.com.bluesoft.pronto.SegurancaException;
 import br.com.bluesoft.pronto.core.Backlog;
-import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.dao.BacklogDao;
@@ -258,7 +257,6 @@ public class TicketController {
 	public String jogarNoLixo(final Model model, final int ticketKey, final HttpServletResponse response) {
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.LIXEIRA));
-		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
 		ticketDao.salvar(ticket);
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
@@ -298,7 +296,6 @@ public class TicketController {
 		}
 
 		ticket.setSprint(null);
-		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
 		ticketDao.salvar(ticket);
 		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey;
 	}
@@ -329,7 +326,6 @@ public class TicketController {
 
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS));
-		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IDEIA));
 		ticket.setSprint(null);
 		ticketDao.salvar(ticket);
