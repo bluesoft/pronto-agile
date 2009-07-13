@@ -1,8 +1,14 @@
 package br.com.bluesoft.pronto.dao;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.comparators.ComparatorChain;
+import org.apache.commons.collections.comparators.ReverseComparator;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -184,10 +190,22 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
+		builder.append(" left join fetch t.filhos f ");
+		builder.append(" left join fetch t.pai p");
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
-		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
-		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA }).list();
+
+		final List<Ticket> lista = getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA }).list();
+
+		final List<Comparator> comparators = new ArrayList<Comparator>();
+		comparators.add(new ReverseComparator(new BeanComparator("valorDeNegocio")));
+		comparators.add(new ReverseComparator(new BeanComparator("esforco")));
+		comparators.add(new BeanComparator("ticketKey"));
+		final ComparatorChain comparatorChain = new ComparatorChain(comparators);
+
+		Collections.sort(lista, comparatorChain);
+
+		return lista;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -198,8 +216,18 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		builder.append(" left join fetch t.pai p");
 		builder.append(" where t.sprint.sprintKey = :sprintKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
-		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
-		return getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO }).list();
+
+		final List<Ticket> lista = getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO }).list();
+
+		final List<Comparator> comparators = new ArrayList<Comparator>();
+		comparators.add(new ReverseComparator(new BeanComparator("valorDeNegocio")));
+		comparators.add(new ReverseComparator(new BeanComparator("esforco")));
+		comparators.add(new BeanComparator("ticketKey"));
+		final ComparatorChain comparatorChain = new ComparatorChain(comparators);
+
+		Collections.sort(lista, comparatorChain);
+
+		return lista;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -216,7 +244,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Ticket> listarTicketsQueNaoEstamNoBranchMaster() {
+	public List<Ticket> listarTicketsQueNaoEstaoNoBranchMaster() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" left join fetch t.filhos f ");
