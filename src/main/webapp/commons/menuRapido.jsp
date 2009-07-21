@@ -4,12 +4,12 @@
 	<c:url value="/ticket/sprintAtual.action" var="sprintAtualUrl"/>
 	<div style="width: 90%" align="center">
 		<div align="right">
-			<pronto:icons onclick="goTo('${editarTicketUrl}?backlogKey=2&tipoDeTicketKey=3');" name="novo_defeito.png" title="Incluir Defeito"/>
-			<pronto:icons onclick="goTo('${editarTicketUrl}?backlogKey=1&tipoDeTicketKey=1');" name="nova_ideia.png" title="Incluir Idéia"/>
+			<a href="${editarTicketUrl}?backlogKey=2&tipoDeTicketKey=3"><pronto:icons name="novo_defeito.png" title="Incluir Defeito"/></a>
+			<a href="${editarTicketUrl}?backlogKey=1&tipoDeTicketKey=1"><pronto:icons name="nova_ideia.png" title="Incluir Idéia"/></a>
 			<c:if test="${usuarioLogado.productOwner}">
-				<pronto:icons onclick="goTo('${editarTicketUrl}?backlogKey=2&tipoDeTicketKey=2');" name="nova_estoria.png" title="Incluir Estória"/>
+				<a href="${editarTicketUrl}?backlogKey=2&tipoDeTicketKey=2"><pronto:icons name="nova_estoria.png" title="Incluir Estória"/></a>
 			</c:if>
-			<pronto:icons onclick="goTo('${sprintAtualUrl}');" name="sprint_atual.png" title="Sprint Atual"/>
+			<a href="${sprintAtualUrl}"><pronto:icons name="sprint_atual.png" title="Sprint Atual"/></a>
 		</div>
 	</div>
 </c:if>

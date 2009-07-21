@@ -114,7 +114,7 @@
 				<c:if test="${ticket.pai ne null}">
 					<input type="hidden" name="paiKey" value="${ticket.pai.ticketKey}"/>
 					<c:if test="${ticket.ticketKey gt 0}">
-						<pronto:icons name="estoria.png" title="Ir para Estória" onclick="goTo('editar.action?ticketKey=${ticket.pai.ticketKey}')"/>
+						<a href="editar.action?ticketKey=${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
 					</c:if>
 					<b>#${ticket.pai.ticketKey} - ${ticket.pai.titulo}</b>
 					<p>Estória</p>
@@ -122,7 +122,7 @@
 				
 				<c:if test="${!empty ticket.filhos}">
 					<c:forEach items="${ticket.filhos}" var="filho">
-						<pronto:icons name="tarefa.png" title="Ir para Tarefa" onclick="goTo('editar.action?ticketKey=${filho.ticketKey}')"/>
+						<a href="editar.action?ticketKey=${filho.ticketKey}"><pronto:icons name="tarefa.png" title="Ir para Tarefa" /></a>
 						<b>#${filho.ticketKey} - ${filho.titulo}</b>
 						<br/>
 					</c:forEach>
