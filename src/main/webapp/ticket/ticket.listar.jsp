@@ -100,18 +100,18 @@
 			<c:when test="${sprint.nome ne null}">
 				<h1>
 					Sprint ${sprint.nome} 
-					<pronto:icons name="editar.png" title="Editar Sprint" onclick="goTo('${editarSprintUrl}?sprintKey=${sprint.sprintKey}')"/>
+					<a href="${editarSprintUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="editar.png" title="Editar Sprint" /></a>
 					<c:if test="${(usuarioLogado.desenvolvedor or usuarioLogado.productOwner)}">
-						<pronto:icons name="estimar.png" title="Estimar Sprint" onclick="goTo('${estimarPorSprintUrl}?sprintKey=${sprint.sprintKey}')"/>
+						<a href="${estimarPorSprintUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="estimar.png" title="Estimar Sprint" /></a>
 					</c:if>
-					<pronto:icons name="adicionar.png" title="Adicionar Estórias ou Defeitos do Product Backlog ao Sprint" onclick="goTo('${adicionarTarefasUrl}?sprintKey=${sprint.sprintKey}')"/>
+					<a href="${adicionarTarefasUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="adicionar.png" title="Adicionar Estórias ou Defeitos do Product Backlog ao Sprint" /></a>
 				</h1>	
 			</c:when>
 			<c:otherwise>
 				<h1>
 					${backlog.descricao} 
 					<c:if test="${(usuarioLogado.desenvolvedor or usuarioLogado.productOwner) and (backlog.backlogKey le 3)}">
-						<pronto:icons name="estimar.png" title="Estimar Backlog" onclick="goTo('${estimarPorBacklogUrl}?backlogKey=${backlog.backlogKey}')"/>  
+						<a href="${estimarPorBacklogUrl}?backlogKey=${backlog.backlogKey}"><pronto:icons name="estimar.png" title="Estimar Backlog" /></a>  
 					</c:if>
 				</h1>
 			</c:otherwise>
