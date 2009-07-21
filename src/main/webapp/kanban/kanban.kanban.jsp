@@ -82,7 +82,7 @@
 
 		
 		function openTicket(ticketKey) {
-			goTo('${editarTicket}?ticketKey=' + ticketKey);
+			openWindow('${editarTicket}?ticketKey=' + ticketKey);
 		}
 
 		function recarregar(sprintKey) {
