@@ -60,11 +60,12 @@ public class SprintController {
 
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
-		sessionFactory.getCurrentSession().createQuery("update Sprint s set s.atual = false, s.fechado = false").executeUpdate();
+		sessionFactory.getCurrentSession().createQuery("update Sprint s set s.atual = false").executeUpdate();
 		sessionFactory.getCurrentSession().flush();
 
 		final Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
 		sprint.setAtual(true);
+		sprint.setFechado(false);
 		sessionFactory.getCurrentSession().update(sprint);
 		sessionFactory.getCurrentSession().flush();
 		tx.commit();
