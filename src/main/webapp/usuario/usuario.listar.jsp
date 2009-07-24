@@ -9,7 +9,7 @@
 		<table style="width: 100%">
 			<thead>
 			<tr>
-				<th>Username</th>
+				<th colspan="2">Username</th>
 				<th>Nome</th>
 				<th>E-mail</th>
 				<th style="width: 54px" colspan="3"></th>
@@ -20,6 +20,11 @@
 			<c:forEach items="${usuarios}" var="u">
 				<c:set var="cor" value="${!cor}"/>
 				<tr style="height: 18px" class="${cor ? 'even' : 'odd'}">
+					<td style="width: 30px;">
+						<c:if test="${u.emailMd5 ne null && u.emailMd5 ne ''}">
+							<img alt="Gravatar" align="top" title="Gravatar - Globally Recognized Avatars" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=25" />
+						</c:if>
+					</td>
 					<td>${u.username}</td>
 					<td>${u.nome}</td>
 					<td>${u.email}</td>

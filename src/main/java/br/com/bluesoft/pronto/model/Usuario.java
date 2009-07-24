@@ -45,6 +45,8 @@ public class Usuario implements Comparable<Usuario> {
 
 	private String email;
 
+	private String emailMd5;
+
 	@ManyToMany
 	@JoinTable(name = "USUARIO_PAPEL", joinColumns = { @JoinColumn(name = "USUARIO_KEY") }, inverseJoinColumns = { @JoinColumn(name = "PAPEL_KEY") })
 	private Set<Papel> papeis = new HashSet<Papel>();
@@ -79,6 +81,14 @@ public class Usuario implements Comparable<Usuario> {
 
 	public void setEmail(final String email) {
 		this.email = email;
+	}
+
+	public String getEmailMd5() {
+		return emailMd5;
+	}
+
+	public void setEmailMd5(final String emailMd5) {
+		this.emailMd5 = emailMd5;
 	}
 
 	public Set<Papel> getPapeis() {

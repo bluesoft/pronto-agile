@@ -31,6 +31,10 @@
 					<p>Nome</p>
 				</div>
 				<div>
+					<p><img alt="Gravatar" align="top" title="Gravatar - Globally Recognized Avatars" src="http://www.gravatar.com/avatar/${usuario.emailMd5}" /></p>
+					<p>Gravatar</p>
+				</div>
+				<div>
 					<input type="password" name="password" id="password" class="required">
 					<p>Nova Senha</p>
 				</div>

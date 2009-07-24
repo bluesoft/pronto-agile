@@ -42,6 +42,12 @@
 					<form:input path="usuario.email" cssClass="email required"/>
 					<p>E-mail</p>
 				</div>
+				<c:if test="${usuario.username ne null}">
+					<div>
+						<p><img alt="Gravatar" align="top" title="Gravatar - Globally Recognized Avatars" src="http://www.gravatar.com/avatar/${usuario.emailMd5}" /></p>
+						<p>Gravatar</p>
+					</div>
+				</c:if>
 				<c:if test="${usuario.username eq null}">
 					<div>
 						<input type="password" name="password">

@@ -37,6 +37,7 @@ import br.com.bluesoft.pronto.dao.PapelDao;
 import br.com.bluesoft.pronto.dao.UsuarioDao;
 import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.Seguranca;
+import br.com.bluesoft.pronto.util.MD5Util;
 
 @Controller
 public class UsuarioController {
@@ -118,6 +119,8 @@ public class UsuarioController {
 		} else {
 			usuario.setPassword(usuarioDao.obterPassword(usuario.getUsername()));
 		}
+
+		usuario.setEmailMd5(MD5Util.md5Hex(usuario.getEmail().toLowerCase()));
 
 		usuarioDao.salvar(usuario);
 
