@@ -68,8 +68,11 @@ import br.com.bluesoft.pronto.service.Seguranca;
 public class TicketController {
 
 	private static final String VIEW_LISTAR = "ticket.listar.jsp";
+
 	private static final String VIEW_BRANCHES = "ticket.branches.jsp";
+
 	private static final String VIEW_ESTIMAR = "ticket.estimar.jsp";
+
 	private static final String VIEW_EDITAR = "ticket.editar.jsp";
 
 	@Autowired
@@ -444,7 +447,9 @@ public class TicketController {
 		}
 
 		String mime = null;
-		if (extensao.equalsIgnoreCase("png")) {
+		if (extensao == null) {
+			mime = "text/plain";
+		} else if (extensao.equalsIgnoreCase("png")) {
 			mime = "images/png";
 		} else if (extensao.equalsIgnoreCase("jpg") || extensao.equalsIgnoreCase("jpeg")) {
 			mime = "images/jpeg";
@@ -627,5 +632,4 @@ public class TicketController {
 		filho.setCliente(pai.getCliente());
 		filho.setSolicitador(pai.getSolicitador());
 	}
-
 }
