@@ -20,6 +20,9 @@
 
 package br.com.bluesoft.pronto.dao;
 
+import java.util.List;
+
+import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
 
 import br.com.bluesoft.pronto.core.KanbanStatus;
@@ -29,5 +32,11 @@ public class KanbanStatusDao extends DaoHibernate<KanbanStatus, Integer> {
 
 	public KanbanStatusDao() {
 		super(KanbanStatus.class);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<KanbanStatus> listar() {
+		return getSession().createCriteria(KanbanStatus.class).addOrder(Order.asc("kanbanStatusKey")).list();
 	}
 }

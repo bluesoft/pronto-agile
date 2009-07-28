@@ -4,10 +4,12 @@
 <c:url var="kanbanUrl" value="/kanban/kanban.action" />
 <html>
 	<head>
+		<meta http-equiv=refresh content="60" />
 		<title>Kanban</title>
 		<style>
 			#kanbanTable tr, #kanbanTable td  {
 				vertical-align: top;
+				width: 100%;
 			}
 
 			.kanbanColumn.custom-state-active { background: #eee; }
@@ -42,52 +44,52 @@
 			
 		</style>
 		<script>
-		$(function() {
-			var urlMover = '${moverUrl}';
-
-			var $kanbanColumns = ('.kanbanColumn');
-			var $drop = $('.drop');
-			
-			// let the gallery items be draggable
-			$('li',$kanbanColumns).draggable({
-				revert: 'invalid', // when not dropped, the item will revert back to its initial position
-				helper: 'clone',
-				cursor: 'move'
-			});
-
-			// let the trash be droppable, accepting the gallery items
-			$drop.droppable({
-				accept: 'li',
-				activeClass: 'ui-state-highlight',
-				drop: function(event, ui) {
-					mover(event, ui, $(this));
-				}
-			});
-
-			function mover(event, ui, drop) {
-
-				var $item = ui.draggable;
-				$item.fadeOut();
-				var kanbanStatusKey = drop.attr('status');
-				var ticketKey = ui.draggable.attr('id');
-				$.post(urlMover, {
-					'kanbanStatusKey': kanbanStatusKey,
-					'ticketKey': ticketKey
+			$(function() {
+				var urlMover = '${moverUrl}';
+	
+				var $kanbanColumns = ('.kanbanColumn');
+				var $drop = $('.drop');
+				
+				// let the gallery items be draggable
+				$('li',$kanbanColumns).draggable({
+					revert: 'invalid', // when not dropped, the item will revert back to its initial position
+					helper: 'clone',
+					cursor: 'move'
 				});
-
-				$item.appendTo(drop).fadeIn();
+	
+				// let the trash be droppable, accepting the gallery items
+				$drop.droppable({
+					accept: 'li',
+					activeClass: 'ui-state-highlight',
+					drop: function(event, ui) {
+						mover(event, ui, $(this));
+					}
+				});
+	
+				function mover(event, ui, drop) {
+	
+					var $item = ui.draggable;
+					$item.fadeOut();
+					var kanbanStatusKey = drop.attr('status');
+					var ticketKey = ui.draggable.attr('id');
+					$.post(urlMover, {
+						'kanbanStatusKey': kanbanStatusKey,
+						'ticketKey': ticketKey
+					});
+	
+					$item.appendTo(drop).fadeIn();
+				}
+	
+			});
+	
+			
+			function openTicket(ticketKey) {
+				openWindow('${editarTicket}?ticketKey=' + ticketKey);
 			}
-
-		});
-
-		
-		function openTicket(ticketKey) {
-			openWindow('${editarTicket}?ticketKey=' + ticketKey);
-		}
-
-		function recarregar(sprintKey) {
-			goTo('${kanbanUrl}?sprintKey=' + sprintKey);
-		}
+	
+			function recarregar(sprintKey) {
+				goTo('${kanbanUrl}?sprintKey=' + sprintKey);
+			}
 		
 		</script>	
 
@@ -100,62 +102,29 @@
 		</h1>
 		<table align="center" style="width: 100%;" id="kanbanTable">
 			<tr>
-				<td style="width: 25%"> 		
-					<div class="ui-widget ui-helper-clearfix">
-						<h4 class="ui-widget-header">TO DO</h4>
-						<ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop"  status="1">
-							<c:forEach items="${tickets}" var="t">
-								<c:if test="${t.kanbanStatus.kanbanStatusKey eq 1}">
-									<li id="${t.ticketKey}" class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});" title="${t.titulo}">
-										<p><b>#${t.ticketKey}</b><br>${t.tituloResumido}</p>
-									</li> 
-								</c:if>
-							</c:forEach>
-						</ul>
-					</div>
-				</td>
-				<td style="width: 25%; height: 100%">
-					<div class="ui-widget ui-helper-clearfix" >
-						<h4 class="ui-widget-header">DOING</h4>
-						<ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop" status="2">
-							<c:forEach items="${tickets}" var="t">
-								<c:if test="${t.kanbanStatus.kanbanStatusKey eq 2}">
-									<li id="${t.ticketKey}" class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});" title="${t.titulo}">
-										<p><b>#${t.ticketKey}</b><br>${t.tituloResumido}</p>
-									</li> 
-								</c:if>
-							</c:forEach>
-						</ul>
-					</div>
-				</td>
-				<td style="width: 25%">
-					<div class="ui-widget ui-helper-clearfix">
-						<h4 class="ui-widget-header">TESTING</h4>
-						<ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop" status="21">
-							<c:forEach items="${tickets}" var="t">
-								<c:if test="${t.kanbanStatus.kanbanStatusKey eq 21}">
-									<li id="${t.ticketKey}" class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});" title="${t.titulo}">
-										<p><b>#${t.ticketKey}</b><br>${t.tituloResumido}</p>
-									</li> 
-								</c:if>
-							</c:forEach>
-						</ul>
-					</div>
-				</td>
-				<td  style="width: 25%">
-					<div class="ui-widget ui-helper-clearfix" >
-						<h4 class="ui-widget-header">DONE</h4>
-						<ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop" status="100">
-							<c:forEach items="${tickets}" var="t">
-								<c:if test="${t.kanbanStatus.kanbanStatusKey eq 100}">
-									<li id="${t.ticketKey}" class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});" title="${t.titulo}">
-										<p><b>#${t.ticketKey}</b><br>${t.tituloResumido}</p>
-									</li> 
-								</c:if>
-							</c:forEach>
-						</ul>
-					</div>
-				</td>
+                <c:forEach items="${status}" var="s">
+                    <c:choose>
+                        <c:when test="${s.kanbanStatusKey eq 1 || s.kanbanStatusKey eq 2 || s.kanbanStatusKey eq 100}">
+                            <td style="width: 20%; height: 100%">
+						</c:when>
+						<c:otherwise>
+							<td style="width: 10%; height: 100%">
+						</c:otherwise>
+					</c:choose>
+                                <div class="ui-widget ui-helper-clearfix">
+                                    <h4 class="ui-widget-header">${s.descricao}</h4>
+                                    <ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop" status="${s.kanbanStatusKey}">
+                                        <c:forEach items="${tickets}" var="t">
+                                            <c:if test="${t.kanbanStatus.kanbanStatusKey eq s.kanbanStatusKey}">
+                                                <li id="${t.ticketKey}" class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="openTicket(${t.ticketKey});" title="${t.titulo}">
+                                                    <p><b>#${t.ticketKey}</b><br>${t.tituloResumido}</p>
+                                                </li>
+                                            </c:if>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </td>
+                </c:forEach>
 			</tr>
 		</table>
 		<div align="center">* Clique duas vezes sobre o cartão para abrí-lo.</div>
