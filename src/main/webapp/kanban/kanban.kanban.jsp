@@ -96,9 +96,16 @@
 	</head>
 	<body>
 		<h1>Kanban do Sprint
-			<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
-				<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
-			</form:select>
+			<c:choose>
+				<c:when test="${fn:length(sprints) eq 1}">
+					${sprints[0].nome}
+				</c:when>
+				<c:otherwise>
+					<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
+						<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
+					</form:select>
+				</c:otherwise>
+			</c:choose>
 		</h1>
 		<table align="center" style="width: 100%;" id="kanbanTable">
 			<tr>
