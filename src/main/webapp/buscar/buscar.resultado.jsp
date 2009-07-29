@@ -55,6 +55,9 @@
 					</td>
 				</tr>
 			</c:forEach>
+			<tr>
+				<th colspan="10"><i>* ${fn:length(tickets)} resultado(s) encontrado(s)</i></th>
+			</tr>
 		</table>	
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>

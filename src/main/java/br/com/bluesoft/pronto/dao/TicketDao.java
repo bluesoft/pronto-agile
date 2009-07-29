@@ -67,7 +67,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		hql.append("left join fetch t.backlog ");
 		hql.append("left join fetch t.kanbanStatus ");
 		hql.append("left join fetch t.reporter ");
-		hql.append("left join t.filhos ");
+		hql.append("left join fetch t.filhos ");
 		hql.append("left join t.desenvolvedores ");
 		hql.append("left join t.comentarios ");
 		hql.append("left join t.logs ");
@@ -160,8 +160,18 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 	@SuppressWarnings("unchecked")
 	public List<Ticket> buscar(final String busca) {
-		final String hql = "from Ticket t where upper(t.titulo) like :query";
-		final Query query = getSession().createQuery(hql).setString("query", '%' + busca.toUpperCase() + '%');
+
+		final StringBuilder hql = new StringBuilder();
+		hql.append("from Ticket t                     ");
+		hql.append("left join fetch t.sprint          ");
+		hql.append("left join fetch t.reporter        ");
+		hql.append("left join fetch t.tipoDeTicket    ");
+		hql.append("left join fetch t.backlog         ");
+		hql.append("left join fetch t.kanbanStatus    ");
+		hql.append("left join fetch t.filhos          ");
+		hql.append("where upper(t.titulo) like :query ");
+
+		final Query query = getSession().createQuery(hql.toString()).setString("query", '%' + busca.toUpperCase() + '%');
 		return query.list();
 	}
 
@@ -212,6 +222,8 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" left join fetch t.filhos f ");
 		builder.append(" left join fetch t.pai p");
+		builder.append(" left join fetch t.kanbanStatus ");
+		builder.append(" left join fetch t.tipoDeTicket ");
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
 
