@@ -158,6 +158,7 @@
 					<p>Solicitador</p>
 				</div>
 				<div>
+					<img alt="Gravatar" align="bottom" title="Gravatar - Globally Recognized Avatars" src="http://www.gravatar.com/avatar/${ticket.reporter.emailMd5}?s=35" />
 					<b>${ticket.reporter.nome}</b>
 					<form:hidden path="ticket.reporter.username"/><br/>
 					<p>Reporter</p> 

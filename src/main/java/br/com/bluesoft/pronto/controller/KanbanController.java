@@ -29,6 +29,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.bluesoft.pronto.core.KanbanStatus;
+import br.com.bluesoft.pronto.dao.KanbanStatusDao;
 import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Sprint;
@@ -49,16 +50,26 @@ public class KanbanController {
 	@Autowired
 	private TicketDao ticketDao;
 
-	@RequestMapping("/kanban/kanban.action")
-	public String index(final Model model) {
-		final Sprint sprintAtual = sprintDao.getSprintAtualComTickets();
+	@Autowired
+	private KanbanStatusDao kanbanStatusDao;
 
-		if (sprintAtual == null) {
+	@RequestMapping("/kanban/kanban.action")
+	public String index(final Model model, Sprint sprint) {
+
+		if (sprint == null || sprint.getSprintKey() == 0) {
+			sprint = sprintDao.getSprintAtualComTickets();
+		} else {
+			sprint = sprintDao.obterSprintComTicket(sprint.getSprintKey());
+		}
+
+		if (sprint == null) {
 			return LoginController.VIEW_BEM_VINDO;
 		}
 
-		model.addAttribute("sprint", sprintAtual);
-		model.addAttribute("tickets", sprintAtual.getTicketsParaOKanban());
+		model.addAttribute("sprint", sprint);
+		model.addAttribute("status", kanbanStatusDao.listar());
+		model.addAttribute("tickets", sprint.getTicketsParaOKanban());
+		model.addAttribute("sprints", sprintDao.listarSprintsEmAberto());
 
 		return VIEW_KANBAN;
 	}
@@ -85,5 +96,4 @@ public class KanbanController {
 
 		return null;
 	}
-
 }

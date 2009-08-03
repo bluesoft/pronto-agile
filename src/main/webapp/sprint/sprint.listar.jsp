@@ -1,5 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="burndownUrl" value="/burndown/burndown.action"/>
+<c:url var="kanbanUrl" value="/kanban/kanban.action"/>
 <html>
 	<head>
 		<title>Sprints</title>
@@ -31,10 +32,7 @@
 				<th>Período</th>
 				<th>Esforço</th>
 				<th>Valor de Negócio</th>
-				<th style="width: 18px"></th>
-				<th style="width: 18px"></th>
-				<th style="width: 18px"></th>
-				<th style="width: 18px"></th>
+				<th style="width: 88px" colspan="5"></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -78,7 +76,10 @@
 						</c:if>
 					</td>
 					<td>
-						<pronto:icons name="burndown_chart.png" title="Burndown chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${s.sprintKey}')"/>
+						<pronto:icons name="burndown_chart.png" title="Burndown Chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${s.sprintKey}')"/>
+					</td>
+					<td>
+						<pronto:icons name="kanban.gif" title="Kanban do Sprint" onclick="goTo('${kanbanUrl}?sprintKey=${s.sprintKey}')"/>
 					</td>
 				</tr>
 			</c:forEach>
