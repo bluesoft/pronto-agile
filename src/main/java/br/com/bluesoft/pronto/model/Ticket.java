@@ -142,6 +142,7 @@ public class Ticket {
 	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
 	private final List<TicketLog> logs;
 
+	@OrderBy("data asc")
 	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
 	private List<TicketComentario> comentarios;
 
