@@ -95,18 +95,22 @@
 
 	</head>
 	<body>
-		<h1>Kanban do Sprint
-			<c:choose>
-				<c:when test="${fn:length(sprints) eq 1}">
+		<div align="left">
+			<h1>Kanban do Sprint
+				<c:if test="${fn:length(sprints) eq 1}">
 					${sprints[0].nome}
-				</c:when>
-				<c:otherwise>
-					<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
-						<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
-					</form:select>
-				</c:otherwise>
-			</c:choose>
-		</h1>
+				</c:if>
+			</h1>
+		</div>
+		<c:if test="${fn:length(sprints) gt 1}">
+			<div align="right">
+				Sprint: 
+				<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
+					<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
+				</form:select>
+			</div>
+		</c:if>
+		
 		<table align="center" style="width: 100%;" id="kanbanTable">
 			<tr>
                 <c:forEach items="${status}" var="s">

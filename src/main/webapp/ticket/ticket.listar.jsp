@@ -4,11 +4,16 @@
 <c:url var="editarSprintUrl" value="/sprint/editar.action"/>
 <c:url var="adicionarTarefasUrl" value="/ticket/listarTarefasParaAdicionarAoSprint.action"/>
 <c:url var="verDescricao" value="/ticket/verDescricao.action"/>
+<c:url var="listarPorSprintUrl" value="/ticket/listarPorSprint.action"/>
 <html>
 	<head>
 		<title>${backlog.descricao}${sprint.nome}</title>
 		<script>
 
+			function recarregar(sprintKey) {
+				goTo('${listarPorSprintUrl}?sprintKey=' + sprintKey);
+			}
+		
 			function apagarLinha(ticketKey) {
 				$('#'+ticketKey).add('tr[pai='+ticketKey+']').remove();
 			}
@@ -116,6 +121,15 @@
 				</h1>
 			</c:otherwise>
 		</c:choose>
+		
+		<c:if test="${fn:length(sprints) gt 1}">
+			<div align="right">
+				Sprint: 
+				<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
+					<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
+				</form:select>
+			</div>
+		</c:if>
 		
 		<c:set var="cor" value="${true}"/>
 		<table style="width: 100%">

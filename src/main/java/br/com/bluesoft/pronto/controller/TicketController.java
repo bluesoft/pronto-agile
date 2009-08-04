@@ -124,11 +124,13 @@ public class TicketController {
 		return VIEW_LISTAR;
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorSprint.action")
 	public String listarPorSprint(final Model model, final int sprintKey) {
 		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey);
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("sprint", sprintDao.obter(sprintKey));
+		model.addAttribute("sprints", sprintDao.listarSprintsEmAberto());
 
 		final Map<Integer, Integer> totaisPorTipoDeTicket = totaisPorTipoDeTicket(tickets);
 		model.addAttribute("descricaoTotal", montaDescricaoTotal(totaisPorTipoDeTicket));
