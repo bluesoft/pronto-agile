@@ -158,10 +158,9 @@
 					<p>Solicitador</p>
 				</div>
 				<div>
-					<img alt="Gravatar" align="bottom" title="Gravatar - Globally Recognized Avatars" src="http://www.gravatar.com/avatar/${ticket.reporter.emailMd5}?s=35" />
-					<b>${ticket.reporter.nome}</b>
+					<img alt="Gravatar" align="bottom" title="Gravatar - Globally Recognized Avatars" src="http://www.gravatar.com/avatar/${ticket.reporter.emailMd5}?s=45" />
 					<form:hidden path="ticket.reporter.username"/><br/>
-					<p>Reporter</p> 
+					<p>Reporter ${ticket.reporter.nome}</p> 
 				</div>
 				<c:if test="${ticket.ticketKey gt 0}">
 					<div>
