@@ -36,6 +36,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
 import br.com.bluesoft.pronto.annotations.Label;
@@ -125,6 +126,7 @@ public class Ticket {
 	private Ticket pai;
 
 	@OneToMany(mappedBy = "pai", cascade = CascadeType.ALL)
+	@OrderBy("esforco desc, ticketKey asc")
 	private List<Ticket> filhos;
 
 	@Label("data de pronto")

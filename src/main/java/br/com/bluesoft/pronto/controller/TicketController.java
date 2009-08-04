@@ -494,7 +494,7 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/salvarEstimativa.action")
-	public String salvarEstimativa(final Model model, final int ticketKey[], final int valorDeNegocio[], final double esforco[], final boolean par[], final boolean continuar) throws SegurancaException {
+	public String salvarEstimativa(final Model model, final int ticketKey[], final int valorDeNegocio[], final double esforco[], final boolean par[], final String branch[], final boolean continuar) throws SegurancaException {
 
 		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.PRODUCT_OWNER);
 
@@ -504,6 +504,7 @@ public class TicketController {
 			if (Seguranca.getUsuario().temOPapel(Papel.DESENVOLVEDOR)) {
 				ticket.setEsforco(esforco[i]);
 				ticket.setPar(par[i]);
+				ticket.setBranch(branch[i]);
 			}
 			if (Seguranca.getUsuario().temOPapel(Papel.PRODUCT_OWNER)) {
 				ticket.setValorDeNegocio(valorDeNegocio[i]);

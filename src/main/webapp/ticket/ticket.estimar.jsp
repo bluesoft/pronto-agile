@@ -75,6 +75,7 @@
 					<th>Valor de Negócio</th>
 					<th>Esforço</th>
 					<th>Em Par</th>
+					<th>Branch</th>
 					<th>Status</th>
 					<th colspan="2"></th>
 				</tr>
@@ -136,6 +137,23 @@
 								</c:otherwise>
 							</c:choose>
 						</td>
+						<td>
+							<c:choose>
+								<c:when test="${usuarioLogado.desenvolvedor}">
+									<c:choose>
+										<c:when test="${empty t.filhos}">
+											<input type="text" name="branch" value="${t.branch}" size="12"/>
+										</c:when>
+										<c:otherwise>
+											<input type="hidden" name="branch" value="${t.branch}"/>
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise>
+									<span>${t.branch}</span>
+								</c:otherwise>
+							</c:choose>
+						</td>
 						<td>${t.kanbanStatus.descricao}</td>
 						<td>
 							<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
@@ -183,6 +201,16 @@
 										</c:when>
 										<c:otherwise>
 											<span>${f.descricaoPar}</span>
+										</c:otherwise>
+									</c:choose>
+								</td>
+								<td>
+									<c:choose>
+										<c:when test="${usuarioLogado.desenvolvedor}">
+											<input type="text" name="branch" value="${f.branch}" size="12"/>
+										</c:when>
+										<c:otherwise>
+											<span>${f.branch}</span>
 										</c:otherwise>
 									</c:choose>
 								</td>
