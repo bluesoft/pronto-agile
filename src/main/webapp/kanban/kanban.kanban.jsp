@@ -96,10 +96,7 @@
 	</head>
 	<body>
 		<div align="left">
-			<h1>Kanban do Sprint
-				<c:if test="${fn:length(sprints) eq 1}">
-					${sprints[0].nome}
-				</c:if>
+			<h1>Kanban do Sprint ${sprint.nome}
 			</h1>
 		</div>
 		<c:if test="${fn:length(sprints) gt 1}">
@@ -116,10 +113,10 @@
                 <c:forEach items="${status}" var="s">
                     <c:choose>
                         <c:when test="${s.kanbanStatusKey eq 1 || s.kanbanStatusKey eq 2 || s.kanbanStatusKey eq 100}">
-                            <td style="width: 20%; height: 100%">
+                            <td style="width: 20%; height: 100%; background-color: #fafafa;">
 						</c:when>
 						<c:otherwise>
-							<td style="width: 10%; height: 100%">
+							<td style="width: 10%; height: 100%; background-color: #fafafa;">
 						</c:otherwise>
 					</c:choose>
                                 <div class="ui-widget ui-helper-clearfix">

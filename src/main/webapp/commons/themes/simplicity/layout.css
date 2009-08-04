@@ -1,5 +1,5 @@
 /* A CSS Framework by Mike Stenhouse of Content with Style */
-	/* SITE SPECIFIC LAYOUT */
+/* SITE SPECIFIC LAYOUT */
 body {
 	margin: 0;
 	padding: 0;
@@ -8,12 +8,11 @@ body {
 }
 
 div#page {
-	width: 94%;
+	width: 98%;
 	margin: 0 auto;
 	padding: 0;
 	text-align: center;
 }
-
 
 /* HEADER */
 div#header {
