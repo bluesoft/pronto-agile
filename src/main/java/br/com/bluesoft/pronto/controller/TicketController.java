@@ -223,7 +223,7 @@ public class TicketController {
 			ticket.setReporter(usuarioDao.obter(ticket.getReporter().getUsername()));
 
 			if (comentario != null && comentario.trim().length() > 0) {
-				ticket.addComentario(comentario, Seguranca.getUsuario().getNome());
+				ticket.addComentario(comentario, Seguranca.getUsuario());
 			}
 
 			definirDesenvolvedores(ticket, desenvolvedor);

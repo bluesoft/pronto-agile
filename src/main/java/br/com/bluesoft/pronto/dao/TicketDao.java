@@ -245,8 +245,12 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		final StringBuilder builder = new StringBuilder();
 
 		builder.append(" select distinct t from Ticket t");
-		builder.append(" left join t.filhos f ");
-		builder.append(" left join f.filhos n ");
+		builder.append(" left join fetch t.filhos f ");
+		builder.append(" left join fetch t.sprint ");
+		builder.append(" left join fetch t.tipoDeTicket ");
+		builder.append(" left join fetch t.backlog ");
+		builder.append(" left join fetch t.kanbanStatus ");
+		builder.append(" left join fetch t.reporter ");
 		builder.append(" where t.sprint.sprintKey = :sprintKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
 
@@ -267,7 +271,12 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	public List<Ticket> listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(final int backlogKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
-		builder.append(" inner join fetch t.pai as pai ");
+		builder.append(" left join fetch t.filhos f ");
+		builder.append(" left join fetch t.sprint ");
+		builder.append(" left join fetch t.tipoDeTicket ");
+		builder.append(" left join fetch t.backlog ");
+		builder.append(" left join fetch t.kanbanStatus ");
+		builder.append(" left join fetch t.reporter ");
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey = :tipoTarefa");
 		builder.append(" and t.pai.backlog.backlogKey != t.backlog.backlogKey");

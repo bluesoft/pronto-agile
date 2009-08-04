@@ -36,10 +36,12 @@ import br.com.bluesoft.pronto.service.WikiFormatter;
 public class TicketComentario {
 
 	@Id
-	@GeneratedValue(generator = "")
+	@GeneratedValue(generator = "SEQ_TICKET_COMENTARIO")
 	private int ticketComentarioKey;
 
-	private String usuario;
+	@ManyToOne
+	@JoinColumn(name = "USUARIO_KEY")
+	private Usuario usuario;
 
 	private Date data;
 
@@ -49,20 +51,20 @@ public class TicketComentario {
 	@JoinColumn(name = "TICKET_KEY")
 	private Ticket ticket;
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(final Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	public int getTicketComentarioKey() {
 		return ticketComentarioKey;
 	}
 
 	public void setTicketComentarioKey(final int ticketComentarioKey) {
 		this.ticketComentarioKey = ticketComentarioKey;
-	}
-
-	public String getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(final String usuario) {
-		this.usuario = usuario;
 	}
 
 	public String getTexto() {

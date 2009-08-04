@@ -337,7 +337,7 @@ public class Ticket {
 		return "#" + getTicketKey() + " - " + titulo;
 	}
 
-	public void addComentario(final String texto, final String usuario) {
+	public void addComentario(final String texto, final Usuario usuario) {
 		final TicketComentario comentario = new TicketComentario();
 		comentario.setTicket(this);
 		comentario.setData(new Date());
@@ -411,11 +411,19 @@ public class Ticket {
 	}
 
 	public boolean temFilhos() {
-		return filhos != null && filhos.size() > 0;
+		if (isTarefa()) {
+			return false;
+		} else {
+			return filhos != null && filhos.size() > 0;
+		}
 	}
 
 	public boolean temPai() {
-		return pai != null;
+		if (!isTarefa()) {
+			return false;
+		} else {
+			return pai != null;
+		}
 	}
 
 	public boolean isLixo() {
@@ -435,7 +443,7 @@ public class Ticket {
 	}
 
 	public boolean isTodosOsFilhosProntos() {
-		if (filhos != null) {
+		if (temFilhos()) {
 			for (final Ticket filho : filhos) {
 				if (!filho.isDone()) {
 					return false;

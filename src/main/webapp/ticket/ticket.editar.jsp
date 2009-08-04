@@ -69,10 +69,10 @@
 		<c:if test="${!empty ticket.comentarios}">
 			<h3>Comentários</h3>
 			<c:forEach items="${ticket.comentarios}" var="comentario">
-				<div class="htmlbox">
-					${comentario.html}
-					<br/>
-					<div align="right"><i>Por ${comentario.usuario} em <fmt:formatDate value="${comentario.data}" type="both"/></i></div> 
+				<div class="htmlbox" style="position: relative;">
+					<div align="right" style="size: 8px; color: #0066cc;"><i>Por ${comentario.usuario} em <fmt:formatDate value="${comentario.data}" type="both"/></i></div>
+					<img alt="Gravatar" align="left" title="Gravatar - Globally Recognized Avatars" src="http://www.gravatar.com/avatar/${comentario.usuario.emailMd5}?s=45" style="float: right; display: block; margin-top: 15px;"/>
+					<div style="margin-right: 62px">${comentario.html}</div>
 				</div>
 			</c:forEach>
 			<br/>

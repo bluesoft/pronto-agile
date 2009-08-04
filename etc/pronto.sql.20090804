@@ -1,0 +1,4 @@
+alter table ticket_comentario add username character varying(255);
+
+ALTER TABLE ONLY ticket_comentario
+    ADD CONSTRAINT fk_ticket_comentario_usuario FOREIGN KEY (usuario_key) REFERENCES usuario(username);
