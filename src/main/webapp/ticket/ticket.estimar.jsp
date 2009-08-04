@@ -11,6 +11,8 @@
 				});
 
 				$("#dialog").dialog({ autoOpen: false, height: 530, width: 600, modal: true });
+
+				recalcular();
 			});
 
 			function verDescricao(ticketKey) {
@@ -72,6 +74,7 @@
 					<th>Cliente</th>
 					<th>Valor de Negócio</th>
 					<th>Esforço</th>
+					<th>Em Par</th>
 					<th>Status</th>
 					<th colspan="2"></th>
 				</tr>
@@ -113,6 +116,26 @@
 								</c:otherwise>
 							</c:choose>
 						</td>
+						<td>
+							<c:choose>
+								<c:when test="${usuarioLogado.desenvolvedor}">
+									<c:choose>
+										<c:when test="${empty t.filhos}">
+											<select name="par">
+												<option value="true" ${t.par ? 'selected' : ''}>Par</option>
+												<option value="false" ${!t.par ? 'selected' : ''}>Solo</option>
+											</select>
+										</c:when>
+										<c:otherwise>
+											<input type="hidden" name="par" value="${t.par}"/>
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise>
+									<span>${t.descricaoPar}</span>
+								</c:otherwise>
+							</c:choose>
+						</td>
 						<td>${t.kanbanStatus.descricao}</td>
 						<td>
 							<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
@@ -147,6 +170,19 @@
 										</c:when>
 										<c:otherwise>
 											<span>${f.esforco}</span>
+										</c:otherwise>
+									</c:choose>
+								</td>
+								<td>
+									<c:choose>
+										<c:when test="${usuarioLogado.desenvolvedor}">
+											<select name="par" >
+												<option value="true" ${f.par ? 'selected="selected"' : ''}>Par</option>
+												<option value="false" ${!f.par ? 'selected="selected"' : ''}>Solo</option>
+											</select>
+										</c:when>
+										<c:otherwise>
+											<span>${f.descricaoPar}</span>
 										</c:otherwise>
 									</c:choose>
 								</td>
@@ -188,7 +224,8 @@
 				</c:choose>	
 				
 				<button type="button" onclick="goTo('${urlCancelar}')">Cancelar</button>
-				<button type="submit">Salvar</button>	
+				<button name="continuar" value="true" type="submit">Salvar e Continuar</button>
+				<button name="continuar" value="false" type="submit">Salvar e Encerrar</button>
 			</div>
 		</form>
 		

@@ -443,4 +443,8 @@ public class Ticket {
 		return true;
 	}
 
+	public String getDescricaoPar() {
+		return isPar() ? "Par" : "Solo";
+	}
+
 }

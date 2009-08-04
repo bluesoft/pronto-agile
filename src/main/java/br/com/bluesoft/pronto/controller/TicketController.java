@@ -473,7 +473,6 @@ public class TicketController {
 		FileCopyUtils.copy(bytes, response.getOutputStream());
 
 		return null;
-
 	}
 
 	@RequestMapping("/ticket/estimarSprint.action")
@@ -495,7 +494,7 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/salvarEstimativa.action")
-	public String salvarEstimativa(final Model model, final int ticketKey[], final int valorDeNegocio[], final double esforco[]) throws SegurancaException {
+	public String salvarEstimativa(final Model model, final int ticketKey[], final int valorDeNegocio[], final double esforco[], final boolean par[], final boolean continuar) throws SegurancaException {
 
 		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.PRODUCT_OWNER);
 
@@ -504,6 +503,7 @@ public class TicketController {
 			ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey[i]);
 			if (Seguranca.getUsuario().temOPapel(Papel.DESENVOLVEDOR)) {
 				ticket.setEsforco(esforco[i]);
+				ticket.setPar(par[i]);
 			}
 			if (Seguranca.getUsuario().temOPapel(Papel.PRODUCT_OWNER)) {
 				ticket.setValorDeNegocio(valorDeNegocio[i]);
@@ -512,9 +512,18 @@ public class TicketController {
 		}
 
 		if (ticket.getBacklog().isSprintBacklog()) {
-			return "/ticket/listarPorSprint.action?sprintKey=" + ticket.getSprint().getSprintKey();
+
+			if (continuar) {
+				return "/ticket/estimarSprint.action?sprintKey=" + ticket.getSprint().getSprintKey();
+			} else {
+				return "/ticket/listarPorSprint.action?sprintKey=" + ticket.getSprint().getSprintKey();
+			}
 		} else {
-			return "/ticket/listarPorBacklog.action?backlogKey=" + ticket.getBacklog().getBacklogKey();
+			if (continuar) {
+				return "/ticket/estimarBacklog.action?backlogKey=" + ticket.getBacklog().getBacklogKey();
+			} else {
+				return "/ticket/listarPorBacklog.action?backlogKey=" + ticket.getBacklog().getBacklogKey();
+			}
 		}
 
 	}

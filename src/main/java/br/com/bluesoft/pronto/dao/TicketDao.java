@@ -245,7 +245,14 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" left join fetch t.filhos f ");
-		builder.append(" left join fetch t.pai p");
+		builder.append(" left join fetch f.sprint ");
+		builder.append(" left join fetch f.pai ");
+		builder.append(" left join fetch f.tipoDeTicket ");
+		builder.append(" left join fetch f.kanbanStatus ");
+		builder.append(" left join fetch t.tipoDeTicket ");
+		builder.append(" left join fetch t.backlog ");
+		builder.append(" left join fetch t.kanbanStatus ");
+		builder.append(" left join fetch t.sprint ");
 		builder.append(" where t.sprint.sprintKey = :sprintKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
 
