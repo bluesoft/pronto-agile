@@ -22,6 +22,7 @@ package br.com.bluesoft.pronto.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +58,7 @@ import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.dao.TipoDeTicketDao;
 import br.com.bluesoft.pronto.dao.UsuarioDao;
+import br.com.bluesoft.pronto.model.Anexo;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.TicketLog;
@@ -406,22 +408,26 @@ public class TicketController {
 		dir.mkdirs();
 
 		for (final FileItem fileItem : items) {
-			fileItem.write(new File(ticketDir + fileItem.getName().replaceAll("[^A-Za-z0-9.]", "")));
+			fileItem.write(new File(ticketDir + fileItem.getName().toLowerCase().replace(' ', '_').replaceAll("[^A-Za-z0-9._\\-]", "")));
 		}
 
 		return "redirect:editar.action?ticketKey=" + ticketKey;
 	}
 
-	private List<String> listarAnexos(final int ticketKey) {
-		final File file = new File(config.getImagesFolder() + ticketKey);
-		if (file.exists()) {
-			final String[] anexos = file.list();
-			Arrays.sort(anexos);
-
-			return Arrays.asList(anexos);
+	private List<Anexo> listarAnexos(final int ticketKey) {
+		final File folder = new File(config.getImagesFolder() + ticketKey);
+		if (folder.exists()) {
+			final List<Anexo> anexos = new ArrayList<Anexo>();
+			final String[] files = folder.list();
+			Arrays.sort(files);
+			for (final String file : files) {
+				anexos.add(new Anexo(file));
+			}
+			return anexos;
 		} else {
 			return null;
 		}
+
 	}
 
 	@RequestMapping("/ticket/excluirAnexo.action")

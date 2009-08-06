@@ -9,6 +9,12 @@
 		      $("#comentario").markItUp(mySettings);
 		      $("#titulo").focus();
 		 });
+
+		 function excluirAnexo(ticketKey, anexo) {
+			if (confirm('Tem certeza que deseja excluir este anexo?')) {
+				goTo('excluirAnexo.action?ticketKey=' + ticketKey+ '&file=' + anexo);
+			}
+		 }
 		</script>
 	</head>
 	<body>
@@ -291,12 +297,30 @@
 	
 		<c:if test="${ticket.ticketKey gt 0}">
 			<h2>Anexos</h2>
-			<ul>
+			<ul style="list-style-type: none;">
 				<c:forEach items="${anexos}" var="anexo">
-					<li>${anexo} - <a target="_blank" href="download.action?ticketKey=${ticket.ticketKey}&file=${anexo}">download</a> - <a href="excluirAnexo.action?ticketKey=${ticket.ticketKey}&file=${anexo}">excluir</a></li>
+					<li>
+						<c:choose>
+							<c:when test="${anexo.imagem}">
+								<pronto:icons name="imagem.gif" title="Imagem ${anexo.extensao}"/>
+							</c:when>
+							<c:when test="${anexo.planilha}">
+								<pronto:icons name="excel.png" title="Planílha ${anexo.extensao}"/>
+							</c:when>
+							<c:when test="${anexo.extensao eq 'pdf'}">
+								<pronto:icons name="pdf.png" title="Arquivo PDF"/>
+							</c:when>
+							<c:otherwise>
+								<pronto:icons name="anexo.png" title="${anexo.extensao}"/>
+							</c:otherwise>
+						</c:choose>
+						
+						${anexo.nomeParaExibicao}
+						<pronto:icons name="download.gif" title="Baixar Anexo" onclick="goTo('download.action?ticketKey=${ticket.ticketKey}&file=${anexo}')"/>
+						<pronto:icons name="excluir.png" title="Excluir Anexo" onclick="excluirAnexo(${ticket.ticketKey},'${anexo}');"/>
+					</li>
 				</c:forEach>
 			</ul>
-			
 			<h4>Incluir anexo</h4>						
 			<form action="upload.action?ticketKey=${ticket.ticketKey}" method="post" enctype="multipart/form-data">
 				<input type="file" name="arquivo">
