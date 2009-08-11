@@ -589,12 +589,11 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/verDescricao.action")
-	public String verDescricao(final HttpServletResponse response, final int ticketKey) throws Exception {
+	public String verDescricao(final Model model, final int ticketKey) throws Exception {
 		final Ticket ticket = ticketDao.obter(ticketKey);
-		response.setCharacterEncoding("ISO-8859-1");
-		response.setContentType("text/plain; charset=ISO-8859-1");
-		response.getOutputStream().print(ticket.getHtml());
-		return null;
+		model.addAttribute("ticket", ticket);
+		model.addAttribute("anexos", listarAnexos(ticketKey));
+		return "/ticket/ticket.preview.jsp";
 	}
 
 	@RequestMapping("/ticket/editar.action")
