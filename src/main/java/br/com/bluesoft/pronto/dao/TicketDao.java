@@ -303,7 +303,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" left join fetch t.filhos f ");
 		builder.append(" left join fetch t.pai p");
-		builder.append(" where t.dataDePronto is null and t.backlog.backlogKey != 4");
+		builder.append(" where t.dataDePronto is null and t.backlog.backlogKey != 4 and t.filhos is empty");
 		builder.append(" order by t.dataDeCriacao");
 		return getSession().createQuery(builder.toString()).list();
 	}

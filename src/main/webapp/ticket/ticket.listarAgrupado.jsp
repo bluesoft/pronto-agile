@@ -146,7 +146,9 @@
 						<th>Status</th>
 						<th style="width: 112px" colspan="7"></th>
 					</tr>
+					<c:set var="quantidade" value="${0}"/>
 					<c:forEach items="${ticketsAgrupados[g]}" var="t">
+							<c:set var="quantidade" value="${quantidade+1}"/>
 							<c:set var="cor" value="${!cor}"/>
 							<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
 								<td>${t.ticketKey}</td>
@@ -192,49 +194,8 @@
 								<td colspan="15" style="background-color:#b4c24b"></td>
 							</tr>
 						</c:forEach>
-						<!-- Tarefas Soltas -->
-						<c:forEach items="${tarefasSoltas}" var="s">
-								<c:set var="cor" value="${!cor}"/>	 
-								<tr class="${cor ? 'odd' : 'even'}" id="${s.ticketKey}" pai="${s.pai.ticketKey}">
-									<td>${s.ticketKey}</td>
-									<td class="titulo">${s.titulo}</td>
-									<td>${s.tipoDeTicket.descricao}</td>
-									<td>${s.cliente}</td>
-									<td style="color:gray;" class="valorDeNegocio">${s.valorDeNegocio}</td>
-									<td style="color:gray;"class="esforco">${s.esforco}</td>
-									<td>${s.kanbanStatus.descricao}</td>
-									<td></td>
-									<td></td>
-									<td>
-										<c:if test="${s.backlog.backlogKey eq 1 or (s.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or s.backlog.backlogKey eq 3}">
-											<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${f.ticketKey})" />
-										</c:if>
-									</td>
-									<td>
-										<c:if test="${(s.backlog.backlogKey eq 1 or s.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
-											<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${f.ticketKey})" />
-										</c:if>
-									</td>
-									<td>
-									<c:if test="${s.backlog.backlogKey eq 4 or s.backlog.backlogKey eq 5}">
-										<c:if test="${s.pai.backlog.backlogKey ne 4 and s.pai.backlog.backlogKey ne 5}">
-											<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${s.ticketKey})" />
-										</c:if>
-									</c:if>
-									</td>
-									<td>
-										<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${s.ticketKey});"/>
-									</td>
-									<td>
-										<a href="editar.action?ticketKey=${s.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
-									</td>
-								</tr>
-							</c:forEach>
 						<tr>
-							<th colspan="4">Total</th>
-							<th id="somaValorDeNegocio">${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
-							<th id="somaEsforco">${sprint.esforcoTotal}${backlog.esforcoTotal}</th>
-							<th colspan="8"></th>
+							<th colspan="4">Total: ${quantidade}</th>
 						</tr>
 					</table>
 				</c:if>
