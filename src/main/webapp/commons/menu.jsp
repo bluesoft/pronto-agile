@@ -14,6 +14,7 @@
 				<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=1">Idéias</a></li>
 				<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=5">Impedimentos</a></li>
 				<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=4">Lixeira</a></li>
+				<li><a href="${raiz}ticket/listarPendentesPorCliente.action">Pendentes</a></li>
 			</ul>
 		</li>
 		<li><a href="${raiz}sprint/listar.action">Sprints</a></li>

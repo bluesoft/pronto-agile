@@ -66,16 +66,17 @@ import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.Config;
 import br.com.bluesoft.pronto.service.Seguranca;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 @Controller
 public class TicketController {
 
 	private static final String VIEW_LISTAR = "ticket.listar.jsp";
-
 	private static final String VIEW_BRANCHES = "ticket.branches.jsp";
-
 	private static final String VIEW_ESTIMAR = "ticket.estimar.jsp";
-
 	private static final String VIEW_EDITAR = "ticket.editar.jsp";
+	private static final String VIEW_LISTAR_AGRUPADO = "ticket.listarAgrupado.jsp";
 
 	@Autowired
 	private Config config;
@@ -138,6 +139,21 @@ public class TicketController {
 		model.addAttribute("descricaoTotal", montaDescricaoTotal(totaisPorTipoDeTicket));
 
 		return VIEW_LISTAR;
+	}
+
+	@RequestMapping("/ticket/listarPendentesPorCliente.action")
+	public String listarTicketsPendentesPorCliente(final Model model) {
+
+		final List<Ticket> tickets = ticketDao.listarTicketsPendentesPorCliente();
+
+		final Multimap<String, Ticket> ticketsAgrupados = ArrayListMultimap.create();
+		for (final Ticket ticket : tickets) {
+			ticketsAgrupados.put(ticket.getCliente(), ticket);
+		}
+
+		model.addAttribute("ticketsAgrupados", ticketsAgrupados.asMap());
+		model.addAttribute("grupos", ticketsAgrupados.keySet());
+		return VIEW_LISTAR_AGRUPADO;
 	}
 
 	private String montaDescricaoTotal(final Map<Integer, Integer> totaisPorTipoDeTicket) {

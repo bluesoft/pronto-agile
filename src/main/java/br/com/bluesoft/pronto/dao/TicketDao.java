@@ -297,4 +297,15 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Ticket> listarTicketsPendentesPorCliente() {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(" select distinct t from Ticket t");
+		builder.append(" left join fetch t.filhos f ");
+		builder.append(" left join fetch t.pai p");
+		builder.append(" where t.dataDePronto is null and t.backlog.backlogKey != 4");
+		builder.append(" order by t.dataDeCriacao");
+		return getSession().createQuery(builder.toString()).list();
+	}
+
 }
