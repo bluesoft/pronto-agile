@@ -138,8 +138,8 @@
 				<table style="width: 100%">
 					<tr>
 						<th>#</th>
-						<th>Título</th>
 						<th>Tipo</th>
+						<th>Título</th>
 						<th>Data</th>
 						<th>Valor de Negócio</th>
 						<th>Esforço</th>
@@ -152,8 +152,8 @@
 							<c:set var="cor" value="${!cor}"/>
 							<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
 								<td>${t.ticketKey}</td>
-								<td class="titulo">${t.titulo}</td>
 								<td>${t.tipoDeTicket.descricao}</td>
+								<td class="titulo">${t.titulo}</td>
 								<td><fmt:formatDate value="${t.dataDeCriacao}"/></td>
 								<td class="valorDeNegocio">${t.valorDeNegocio}</td>
 								<td class="esforco">${t.esforco}</td>
