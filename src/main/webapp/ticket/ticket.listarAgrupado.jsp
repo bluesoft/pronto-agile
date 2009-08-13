@@ -4,14 +4,14 @@
 <c:url var="editarSprintUrl" value="/sprint/editar.action"/>
 <c:url var="adicionarTarefasUrl" value="/ticket/listarTarefasParaAdicionarAoSprint.action"/>
 <c:url var="verDescricao" value="/ticket/verDescricao.action"/>
-<c:url var="listarPorSprintUrl" value="/ticket/listarPorSprint.action"/>
+<c:url var="listarUrl" value="/ticket/listarPendentesPorCliente.action"/>
 <html>
 	<head>
 		<title>${backlog.descricao}${sprint.nome}</title>
 		<script>
 
-			function recarregar(sprintKey) {
-				goTo('${listarPorSprintUrl}?sprintKey=' + sprintKey);
+			function recarregar() {
+				goTo('${listarUrl}?kanbanStatusKey=' + $('#kanbanStatusKey').val());
 			}
 		
 			function apagarLinha(ticketKey) {
@@ -101,54 +101,40 @@
 		</script>
 	</head>
 	<body>
-		<c:choose>
-			<c:when test="${sprint.nome ne null}">
-				<h1>
-					Sprint ${sprint.nome} 
-					<a href="${editarSprintUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="editar.png" title="Editar Sprint" /></a>
-					<c:if test="${(usuarioLogado.desenvolvedor or usuarioLogado.productOwner)}">
-						<a href="${estimarPorSprintUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="estimar.png" title="Estimar Sprint" /></a>
-					</c:if>
-					<a href="${adicionarTarefasUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="adicionar.png" title="Adicionar Estórias ou Defeitos do Product Backlog ao Sprint" /></a>
-				</h1>	
-			</c:when>
-			<c:otherwise>
-				<h1>
-					${backlog.descricao} 
-					<c:if test="${(usuarioLogado.desenvolvedor or usuarioLogado.productOwner) and (backlog.backlogKey le 3)}">
-						<a href="${estimarPorBacklogUrl}?backlogKey=${backlog.backlogKey}"><pronto:icons name="estimar.png" title="Estimar Backlog" /></a>  
-					</c:if>
-				</h1>
-			</c:otherwise>
-		</c:choose>
+		<h1>Estórias e Defeitos por Cliente</h1>
 		
-		<c:if test="${fn:length(sprints) gt 1}">
-			<div align="right">
-				Sprint: 
-				<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
-					<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
-				</form:select>
-			</div>
-		</c:if>
+		<div align="right">
+			Status: 
+			<select name="kanbanStatusKey" onchange="recarregar()" id="kanbanStatusKey">
+				<option value="-1">Pendente</option>
+				<c:forEach var="k" items="${kanbanStatus}">
+					<option value="${k.kanbanStatusKey}" ${kanbanStatusKey eq k.kanbanStatusKey ? 'selected' : ''}>${k.descricao}</option>
+				</c:forEach>
+			</select>
+		</div>
 		
+		<c:set var="quantidadeTotal" value="${0}"/>
+				<table style="width: 100%">
 		<c:forEach items="${grupos}" var="g">
 			<c:if test="${!empty ticketsAgrupados[g]}">
-			<h4>${g}</h4>
+			<tr>
+				<td align="center" colspan="14"><br/><h2>${g}</h2></td>
+			</tr>
+			<tr>
+				<th>#</th>
+				<th>Tipo</th>
+				<th>Título</th>
+				<th>Data</th>
+				<th>Valor de Negócio</th>
+				<th>Esforço</th>
+				<th>Status</th>
+				<th style="width: 112px" colspan="7"></th>
+			</tr>
 			<c:set var="cor" value="${true}"/>
-				<table style="width: 100%">
-					<tr>
-						<th>#</th>
-						<th>Tipo</th>
-						<th>Título</th>
-						<th>Data</th>
-						<th>Valor de Negócio</th>
-						<th>Esforço</th>
-						<th>Status</th>
-						<th style="width: 112px" colspan="7"></th>
-					</tr>
 					<c:set var="quantidade" value="${0}"/>
 					<c:forEach items="${ticketsAgrupados[g]}" var="t">
 							<c:set var="quantidade" value="${quantidade+1}"/>
+							<c:set var="quantidadeTotal" value="${quantidadeTotal+1}"/>
 							<c:set var="cor" value="${!cor}"/>
 							<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
 								<td>${t.ticketKey}</td>
@@ -195,11 +181,14 @@
 							</tr>
 						</c:forEach>
 						<tr>
-							<th colspan="4">Total: ${quantidade}</th>
+							<th colspan="14">Subtotal: ${quantidade}</th>
 						</tr>
-					</table>
 				</c:if>
 		</c:forEach>
+			<tr>
+				<th colspan="14" style="font-weight: bold;">Total: ${quantidadeTotal}</th>
+			</tr>
+		</table>
 		
 		<div align="center">
 			<c:choose>

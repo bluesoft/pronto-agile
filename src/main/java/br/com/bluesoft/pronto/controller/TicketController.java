@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,17 +143,26 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/listarPendentesPorCliente.action")
-	public String listarTicketsPendentesPorCliente(final Model model) {
+	public String listarTicketsPendentesPorCliente(final Model model, final Integer kanbanStatusKey) {
 
-		final List<Ticket> tickets = ticketDao.listarTicketsPendentesPorCliente();
+		List<Ticket> tickets = null;
+		if (kanbanStatusKey != null && kanbanStatusKey > 0) {
+			tickets = ticketDao.listarEstoriasEDefeitosPorKanbanStatus(kanbanStatusKey);
+		} else {
+			tickets = ticketDao.listarEstoriasEDefeitosPendentes();
+		}
 
 		final Multimap<String, Ticket> ticketsAgrupados = ArrayListMultimap.create();
 		for (final Ticket ticket : tickets) {
-			ticketsAgrupados.put(ticket.getCliente(), ticket);
+			ticketsAgrupados.put(ticket.getCliente() != null ? ticket.getCliente() : "Indefinido", ticket);
 		}
 
 		model.addAttribute("ticketsAgrupados", ticketsAgrupados.asMap());
-		model.addAttribute("grupos", ticketsAgrupados.keySet());
+		final ArrayList<String> grupo = new ArrayList<String>(ticketsAgrupados.keySet());
+		Collections.sort(grupo);
+		model.addAttribute("grupos", grupo);
+		model.addAttribute("kanbanStatusKey", kanbanStatusKey);
+		model.addAttribute("kanbanStatus", kanbanStatusDao.listar());
 		return VIEW_LISTAR_AGRUPADO;
 	}
 

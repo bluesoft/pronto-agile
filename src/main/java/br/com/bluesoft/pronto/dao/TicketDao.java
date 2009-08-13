@@ -298,14 +298,35 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Ticket> listarTicketsPendentesPorCliente() {
+	public List<Ticket> listarEstoriasEDefeitosPorKanbanStatus(final Integer kabanStatusKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" left join fetch t.filhos f ");
 		builder.append(" left join fetch t.pai p");
-		builder.append(" where t.dataDePronto is null and t.backlog.backlogKey != 4 and t.pai is null");
+		builder.append(" where t.backlog.backlogKey != 4 and t.pai is null");
+		if (kabanStatusKey != null && kabanStatusKey > 0) {
+			builder.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey");
+		}
 		builder.append(" order by t.dataDeCriacao");
-		return getSession().createQuery(builder.toString()).list();
+		final Query query = getSession().createQuery(builder.toString());
+		if (kabanStatusKey != null && kabanStatusKey > 0) {
+			query.setInteger("kanbanStatusKey", kabanStatusKey);
+		}
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Ticket> listarEstoriasEDefeitosPendentes() {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(" select distinct t from Ticket t");
+		builder.append(" left join fetch t.filhos f ");
+		builder.append(" left join fetch t.pai p");
+		builder.append(" where t.backlog.backlogKey != 4 and t.pai is null");
+		builder.append(" and t.dataDePronto is null");
+		builder.append(" order by t.dataDeCriacao");
+		final Query query = getSession().createQuery(builder.toString());
+
+		return query.list();
 	}
 
 }
