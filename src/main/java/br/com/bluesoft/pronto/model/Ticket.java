@@ -46,6 +46,9 @@ import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.service.Seguranca;
 import br.com.bluesoft.pronto.service.WikiFormatter;
 
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
+
 @Entity
 @SequenceGenerator(name = "SEQ_TICKET", sequenceName = "SEQ_TICKET")
 public class Ticket {
@@ -407,6 +410,10 @@ public class Ticket {
 		return kanbanStatus != null && kanbanStatus.getKanbanStatusKey() == KanbanStatus.DONE;
 	}
 
+	public boolean isToDo() {
+		return kanbanStatus != null && kanbanStatus.getKanbanStatusKey() == KanbanStatus.TO_DO;
+	}
+
 	public boolean isIdeia() {
 		return getTipoDeTicket() != null && getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.IDEIA;
 	}
@@ -456,6 +463,26 @@ public class Ticket {
 
 	public String getDescricaoPar() {
 		return isPar() ? "Par" : "Solo";
+	}
+
+	public boolean isEmAndamento() {
+		if (temFilhos()) {
+			final Multiset<Integer> contadorDeStatus = HashMultiset.create();
+			final int quantidadeDeFilhos = filhos.size();
+			for (final Ticket filho : filhos) {
+				contadorDeStatus.add(filho.getKanbanStatus().getKanbanStatusKey());
+			}
+
+			if (contadorDeStatus.count(KanbanStatus.DONE) != quantidadeDeFilhos && contadorDeStatus.count(KanbanStatus.TO_DO) != quantidadeDeFilhos) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} else {
+			return !isDone() && !isToDo();
+		}
+
 	}
 
 }

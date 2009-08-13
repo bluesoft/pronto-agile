@@ -137,7 +137,11 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 						super.getSession().update(pai);
 					}
 				} else {
-					pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
+					if (pai.isEmAndamento()) {
+						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.DOING));
+					} else {
+						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
+					}
 					pai.setDataDePronto(null);
 				}
 			}
