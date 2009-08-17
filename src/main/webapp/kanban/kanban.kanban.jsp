@@ -2,6 +2,7 @@
 <c:url var="moverUrl" value="/kanban/mover.action"/>
 <c:url var="editarTicket" value="/ticket/editar.action"/>
 <c:url var="kanbanUrl" value="/kanban/kanban.action" />
+<c:url var="urlSprint" value="/sprint/"/>
 <html>
 	<head>
 		<meta http-equiv=refresh content="60" />
@@ -105,6 +106,7 @@
 				<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
 					<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
 				</form:select>
+				<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="goTo('${urlSprint}../ticket/listarPorSprint.action?sprintKey=${sprint.sprintKey}')"/>
 			</div>
 		</c:if>
 		

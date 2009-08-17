@@ -86,6 +86,8 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 		for (final Ticket ticket : tickets) {
 
+			getSession().saveOrUpdate(ticket);
+
 			if (ticket.getDataDeCriacao() == null) {
 				ticket.setDataDeCriacao(new Date());
 			}

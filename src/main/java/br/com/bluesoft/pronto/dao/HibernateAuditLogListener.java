@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.hibernate.EntityMode;
-import org.hibernate.StatelessSession;
+import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.event.Initializable;
 import org.hibernate.event.PreDeleteEvent;
@@ -65,7 +65,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 	@Override
 	public final boolean onPreUpdate(final PreUpdateEvent event) {
 
-		StatelessSession session = null;
+		Session session = null;
 
 		try {
 
@@ -79,7 +79,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 			Object oldPropValue = null;
 			Object newPropValue = null;
 
-			session = event.getPersister().getFactory().openStatelessSession();
+			session = event.getPersister().getFactory().openSession();
 			session.beginTransaction();
 
 			final Object existingEntity = session.get(event.getEntity().getClass(), entityId);
@@ -111,7 +111,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 							history.setValorNovo(newValue);
 							history.setOperacao(TicketLog.ALTERACAO);
 							if (history.isDiferente()) {
-								session.insert(history);
+								session.save(history);
 							}
 						}
 					}

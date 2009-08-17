@@ -5,6 +5,7 @@
 <c:url var="adicionarTarefasUrl" value="/ticket/listarTarefasParaAdicionarAoSprint.action"/>
 <c:url var="verDescricao" value="/ticket/verDescricao.action"/>
 <c:url var="listarPorSprintUrl" value="/ticket/listarPorSprint.action"/>
+<c:url var="urlKanban" value="/kanban/kanban.action" />
 <html>
 	<head>
 		<title>${backlog.descricao}${sprint.nome}</title>
@@ -110,6 +111,7 @@
 						<a href="${estimarPorSprintUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="estimar.png" title="Estimar Sprint" /></a>
 					</c:if>
 					<a href="${adicionarTarefasUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="adicionar.png" title="Adicionar Estórias ou Defeitos do Product Backlog ao Sprint" /></a>
+					<pronto:icons name="kanban.png" title="Ver Kanban" onclick="goTo('${urlKanban}?sprintKey=${sprint.sprintKey}')"/>
 				</h1>	
 			</c:when>
 			<c:otherwise>
