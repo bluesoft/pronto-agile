@@ -248,7 +248,10 @@ public class TicketController {
 			}
 
 			ticket.setKanbanStatus(kanbanStatusDao.obter(ticket.getKanbanStatus().getKanbanStatusKey()));
-			ticket.setReporter(usuarioDao.obter(ticket.getReporter().getUsername()));
+
+			if (ticket.getTicketKey() == 0) {
+				ticket.setReporter(usuarioDao.obter(ticket.getReporter().getUsername()));
+			}
 
 			if (comentario != null && comentario.trim().length() > 0) {
 				ticket.addComentario(comentario, Seguranca.getUsuario());
