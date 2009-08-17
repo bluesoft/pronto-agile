@@ -29,6 +29,7 @@ import java.util.List;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.ComparatorChain;
 import org.apache.commons.collections.comparators.ReverseComparator;
+import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -84,9 +85,19 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	@Override
 	public void salvar(final Ticket... tickets) {
 
+		super.salvar(tickets);
+
+		getSession().flush();
+		getSession().clear();
+
+		defnieValores(tickets);
+	}
+
+	private void defnieValores(final Ticket... tickets) {
+
 		for (final Ticket ticket : tickets) {
 
-			getSession().saveOrUpdate(ticket);
+			getSession().lock(ticket, LockMode.NONE);
 
 			if (ticket.getDataDeCriacao() == null) {
 				ticket.setDataDeCriacao(new Date());
@@ -159,6 +170,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 			}
 
 			getSession().saveOrUpdate(ticket);
+
 		}
 
 		getSession().flush();

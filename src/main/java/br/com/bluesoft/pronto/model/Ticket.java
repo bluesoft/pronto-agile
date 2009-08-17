@@ -39,6 +39,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.Cascade;
+
 import br.com.bluesoft.pronto.annotations.Label;
 import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
@@ -126,10 +128,12 @@ public class Ticket {
 
 	@ManyToOne
 	@JoinColumn(name = "pai")
+	@Cascade(org.hibernate.annotations.CascadeType.LOCK)
 	private Ticket pai;
 
 	@OneToMany(mappedBy = "pai", cascade = CascadeType.ALL)
 	@OrderBy("esforco desc, ticketKey asc")
+	@Cascade(org.hibernate.annotations.CascadeType.LOCK)
 	private List<Ticket> filhos;
 
 	@Label("data de pronto")

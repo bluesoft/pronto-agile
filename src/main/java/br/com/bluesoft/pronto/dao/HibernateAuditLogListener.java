@@ -26,6 +26,7 @@ import java.util.Date;
 
 import org.hibernate.EntityMode;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.event.Initializable;
 import org.hibernate.event.PreDeleteEvent;
@@ -80,7 +81,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 			Object newPropValue = null;
 
 			session = event.getPersister().getFactory().openSession();
-			session.beginTransaction();
+			final Transaction tx = session.beginTransaction();
 
 			final Object existingEntity = session.get(event.getEntity().getClass(), entityId);
 
@@ -118,7 +119,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 				}
 			}
 
-			session.getTransaction().commit();
+			tx.commit();
 		} catch (final Exception e) {
 			e.printStackTrace();
 		} finally {
