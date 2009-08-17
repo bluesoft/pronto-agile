@@ -7,7 +7,7 @@
 <c:url var="listarUrl" value="/ticket/listarPendentesPorCliente.action"/>
 <html>
 	<head>
-		<title>${backlog.descricao}${sprint.nome}</title>
+		<title>Estórias e Defeitos por Cliente</title>
 		<script>
 
 			function recarregar() {
