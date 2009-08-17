@@ -79,7 +79,7 @@
 						<pronto:icons name="burndown_chart.png" title="Burndown Chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${s.sprintKey}')"/>
 					</td>
 					<td>
-						<pronto:icons name="kanban.gif" title="Kanban do Sprint" onclick="goTo('${kanbanUrl}?sprintKey=${s.sprintKey}')"/>
+						<pronto:icons name="kanban.png" title="Kanban do Sprint" onclick="goTo('${kanbanUrl}?sprintKey=${s.sprintKey}')"/>
 					</td>
 				</tr>
 			</c:forEach>
