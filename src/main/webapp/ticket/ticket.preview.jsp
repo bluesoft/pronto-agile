@@ -1,9 +1,10 @@
 <%@ include file="/commons/taglibs.jsp"%>
 ${ticket.html}
+<c:if test="${!empty anexos}">
 <br/>
 <h2>Anexos</h2>
 	<ul style="list-style-type: none;">
-		<c:forEach items="${anexos}" var="anexo">
+	<c:forEach items="${anexos}" var="anexo">
 		<li>
 			<c:choose>
 				<c:when test="${anexo.imagem}">
@@ -26,4 +27,4 @@ ${ticket.html}
 		</li>
 	</c:forEach>
 </ul>
-
+</c:if>
