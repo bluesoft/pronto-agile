@@ -1,8 +1,25 @@
 <%@ include file="/commons/taglibs.jsp"%>
+<c:url var="urlAlterarOrdem" value="/ticket/alterarOrdemDasTarefas.action"/>
 <html>
 	<head>
 		<title><c:choose><c:when test="${ticket.ticketKey gt 0}">${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}</c:when><c:otherwise>Incluir ${ticket.tipoDeTicket.descricao}</c:otherwise></c:choose></title>
 		<script>
+
+		 var alterarPrioridadeDaTarefa = function(ui, event) {
+
+				var $tarefas = $('#tarefas li');
+				var novaOrdem = new Array($tarefas.length);
+				var indice = 0;
+				$tarefas.each(function(i, el) {
+					novaOrdem[indice++] = el.id;
+				});
+
+				$.post('${urlAlterarOrdem}', { 'ticketKey': novaOrdem, 'pai': ${ticket.ticketKey} }, function(data){
+					alert('ok!');
+				});
+
+			};
+		
 		$(function() {
 			  $('#formTicket').validate();
 		      $("#descricao").markItUp(mySettings);
@@ -12,10 +29,14 @@
     		  $("#dialog").dialog({ autoOpen: false, height: 530, width: 600, modal: true });
 
     		  $("#tarefas").sortable({
-    				placeholder: 'ui-state-highlight'
+    				placeholder: 'ui-state-highlight',
+    				stop: alterarPrioridadeDaTarefa 
     		  });
     		  $("#tarefas").disableSelection();
 		 });
+
+		
+		 
 
 		 function excluirAnexo(ticketKey, anexo) {
 			if (confirm('Tem certeza que deseja excluir este anexo?')) {
@@ -121,11 +142,10 @@
 				<h3>Tarefas</h3>
 				<ul style="width: 100%; font-size: 12px;" id="tarefas">
 					<c:forEach items="${ticket.filhos}" var="filho">
-						<li class="ui-state-default">
+						<li class="ui-state-default" id="${filho.ticketKey}">
 							<span style="float: left;">
 								<b>${filho.ticketKey}</b>
 								<span class="titulo">${filho.titulo}</span>
-								${filho.kanbanStatus}
 							</span>
 							<span style="float: right;">
 								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${filho.ticketKey});"/>

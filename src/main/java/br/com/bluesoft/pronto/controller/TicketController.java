@@ -671,11 +671,26 @@ public class TicketController {
 
 	private void copiarDadosDoPai(final Ticket pai, final Ticket filho) {
 		filho.setPai(pai);
-		filho.setReporter(Seguranca.getUsuario());
+		if (filho.getReporter() == null) {
+			filho.setReporter(Seguranca.getUsuario());
+		}
 		filho.setTipoDeTicket(tipoDeTicketDao.obter(TipoDeTicket.TAREFA));
 		filho.setBacklog(pai.getBacklog());
 		filho.setSprint(pai.getSprint());
 		filho.setCliente(pai.getCliente());
 		filho.setSolicitador(pai.getSolicitador());
+	}
+
+	@RequestMapping("/ticket/alterarOrdemDasTarefas.action")
+	public void alterarOrdem(final int pai, final int ticketKey[]) {
+		final Ticket ticketPai = ticketDao.obterComDependecias(pai);
+		int prioridade = 0;
+		for (final int filhoKey : ticketKey) {
+			final Ticket ticketFilho = ticketPai.getFilhoPorKey(filhoKey);
+			if (ticketFilho != null) {
+				ticketFilho.setPrioridade(++prioridade);
+				ticketDao.salvar(ticketFilho);
+			}
+		}
 	}
 }

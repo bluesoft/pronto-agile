@@ -102,7 +102,8 @@ CREATE TABLE ticket (
     kanban_status_key integer,
     sprint integer,
     tipo_de_ticket_key integer,
-    backlog_key integer
+    backlog_key integer,
+    prioridade integer
 );
 
 ALTER TABLE public.ticket OWNER TO pronto;

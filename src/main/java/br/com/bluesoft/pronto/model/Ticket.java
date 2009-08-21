@@ -132,7 +132,7 @@ public class Ticket {
 	private Ticket pai;
 
 	@OneToMany(mappedBy = "pai", cascade = CascadeType.ALL)
-	@OrderBy("esforco desc, ticketKey asc")
+	@OrderBy("prioridade asc")
 	@Cascade(org.hibernate.annotations.CascadeType.LOCK)
 	private List<Ticket> filhos;
 
@@ -141,6 +141,9 @@ public class Ticket {
 
 	@Label("data de criaçao")
 	private Date dataDeCriacao;
+
+	@Label("prioridade")
+	private Integer prioridade;
 
 	@ManyToOne
 	@JoinColumn(name = "sprint")
@@ -328,6 +331,14 @@ public class Ticket {
 		this.planejado = planejado;
 	}
 
+	public Integer getPrioridade() {
+		return prioridade;
+	}
+
+	public void setPrioridade(final Integer prioridade) {
+		this.prioridade = prioridade;
+	}
+
 	public List<TicketLog> getLogs() {
 		return logs;
 	}
@@ -487,6 +498,15 @@ public class Ticket {
 			return !isDone() && !isToDo();
 		}
 
+	}
+
+	public Ticket getFilhoPorKey(final int filhoKey) {
+		for (final Ticket f : filhos) {
+			if (f.getTicketKey() == filhoKey) {
+				return f;
+			}
+		}
+		return null;
 	}
 
 }
