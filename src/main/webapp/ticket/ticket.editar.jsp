@@ -8,6 +8,13 @@
 		      $("#descricao").markItUp(mySettings);
 		      $("#comentario").markItUp(mySettings);
 		      $("#titulo").focus();
+
+    		  $("#dialog").dialog({ autoOpen: false, height: 530, width: 600, modal: true });
+
+    		  $("#tarefas").sortable({
+    				placeholder: 'ui-state-highlight'
+    		  });
+    		  $("#tarefas").disableSelection();
 		 });
 
 		 function excluirAnexo(ticketKey, anexo) {
@@ -15,7 +22,26 @@
 				goTo('excluirAnexo.action?ticketKey=' + ticketKey+ '&file=' + anexo);
 			}
 		 }
+
+		 function verDescricao(ticketKey) {
+				$.ajax({
+					url: 'verDescricao.action?ticketKey=' + ticketKey,
+					cache: false,
+					success: function (data) {
+						$("#dialog").dialog('option', 'title', '#' + ticketKey + ' - ' + $('#' + ticketKey + ' .titulo').text());
+						$("#dialogDescricao").html(data);
+						$("#dialog").dialog('open');
+					}
+				});
+			}
 		</script>
+		<style>
+			#tarefas { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+			#tarefas li { margin: 0 5px 5px 5px; padding: 2px; height: 1.5em; font-size: 12px}
+			html>body #tarefas li { height: 1.5em; line-height: 1.2em; }
+			.ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+			.ui-state-default { background-image: none; background-color: #f8f8f8; color: #0066cc; }
+		</style>
 	</head>
 	<body>
 		
@@ -86,11 +112,28 @@
 			
 			
 		<form action="salvar.action" method="post" id="formTicket">
-		
 			<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
-		
 			<c:if test="${ticket.ticketKey gt 0}">
 				<form:hidden path="ticket.ticketKey"/>
+			</c:if>
+			
+			<c:if test="${!empty ticket.filhos}">
+				<h3>Tarefas</h3>
+				<ul style="width: 100%; font-size: 12px;" id="tarefas">
+					<c:forEach items="${ticket.filhos}" var="filho">
+						<li class="ui-state-default">
+							<span style="float: left;">
+								<b>${filho.ticketKey}</b>
+								<span class="titulo">${filho.titulo}</span>
+								${filho.kanbanStatus}
+							</span>
+							<span style="float: right;">
+								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${filho.ticketKey});"/>
+								<a href="editar.action?ticketKey=${filho.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+							</span>
+						</li>
+					</c:forEach>
+				</ul>
 			</c:if>
 				
 			<div class="group">
@@ -124,15 +167,6 @@
 					</c:if>
 					<b>#${ticket.pai.ticketKey} - ${ticket.pai.titulo}</b>
 					<p>Estória</p>
-				</c:if>
-				
-				<c:if test="${!empty ticket.filhos}">
-					<c:forEach items="${ticket.filhos}" var="filho">
-						<a href="editar.action?ticketKey=${filho.ticketKey}"><pronto:icons name="tarefa.png" title="Ir para Tarefa" /></a>
-						<b>#${filho.ticketKey} - ${filho.titulo}</b>
-						<br/>
-					</c:forEach>
-					<p>Tarefas</p>					
 				</c:if>
 				
 				<div>
@@ -347,5 +381,9 @@
 				</c:forEach>
 			</ul>
 		</c:if>
+		
+		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
+			<div align="left" id="dialogDescricao">Aguarde...</div>
+		</div>
 	</body>
 </html>
