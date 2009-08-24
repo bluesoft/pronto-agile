@@ -509,4 +509,20 @@ public class Ticket {
 		return null;
 	}
 
+	public int getMaiorPrioridade() {
+		int maiorPrioridade = 0;
+		for (final Ticket f : filhos) {
+			maiorPrioridade = Math.max(maiorPrioridade, f.getPrioridade() == null ? 0 : f.getPrioridade());
+		}
+		return maiorPrioridade;
+	}
+
+	public int getMenorPrioridade() {
+		int menorPrioridade = 0;
+		for (final Ticket f : filhos) {
+			menorPrioridade = Math.min(menorPrioridade, f.getPrioridade() == null ? 0 : f.getPrioridade());
+		}
+		return menorPrioridade;
+	}
+
 }
