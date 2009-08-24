@@ -14,3 +14,14 @@ div.htmlbox ul {
 div.htmlbox ol {
 	list-style-type: decimal;
 }
+
+.type-thumb {
+	padding: 0px;
+	margin: 0px;
+}
+
+.thumbcaption {
+	font-size: 10px;
+	margin: 0px;
+	padding: 1px;
+}

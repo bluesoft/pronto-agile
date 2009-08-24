@@ -304,7 +304,7 @@
 					<p>Data de Pronto</p>
 				</div>
 				
-				<c:if test="${empty ticket.tarefa}">
+				<c:if test="${ticket.tarefa}">
 					<form:hidden path="ticket.prioridade"/><br/>
 				</c:if>
 				
