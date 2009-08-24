@@ -26,7 +26,7 @@ import org.springframework.web.util.JavaScriptUtils;
 
 public class WikiFormatter {
 
-	private static final String wikiImages = "${image}";
+	private static final String wikiImages = "../file/${image}";
 	private static final String wikiLinks = "../ticket/editar.action?ticketKey=${title}";
 
 	public static String toHtml(final String wiki) {

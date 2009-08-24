@@ -20,24 +20,23 @@
 
 package br.com.bluesoft.pronto.service;
 
+import java.io.IOException;
 import java.util.Properties;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.stereotype.Service;
-
-@Service
 public class Config {
 
-	private Properties properties;
+	private final static Properties properties;
 
-	@PostConstruct
-	public void initialize() throws Exception {
+	static {
 		properties = new Properties();
-		properties.load(Config.class.getResourceAsStream("/pronto.properties"));
+		try {
+			properties.load(Config.class.getResourceAsStream("/pronto.properties"));
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public String getImagesFolder() {
+	public static String getImagesFolder() {
 		return properties.get("pronto.imagesFolder").toString();
 	}
 

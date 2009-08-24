@@ -80,9 +80,6 @@ public class TicketController {
 	private static final String VIEW_LISTAR_AGRUPADO = "ticket.listarAgrupado.jsp";
 
 	@Autowired
-	private Config config;
-
-	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Autowired
@@ -436,7 +433,7 @@ public class TicketController {
 		final ServletFileUpload upload = new ServletFileUpload(factory);
 
 		final List<FileItem> items = upload.parseRequest(request);
-		final String ticketDir = config.getImagesFolder() + ticketKey + "/";
+		final String ticketDir = Config.getImagesFolder() + ticketKey + "/";
 		final File dir = new File(ticketDir);
 		dir.mkdirs();
 
@@ -449,7 +446,7 @@ public class TicketController {
 	}
 
 	private List<Anexo> listarAnexos(final int ticketKey) {
-		final File folder = new File(config.getImagesFolder() + ticketKey);
+		final File folder = new File(Config.getImagesFolder() + ticketKey);
 		if (folder.exists()) {
 			final List<Anexo> anexos = new ArrayList<Anexo>();
 			final String[] files = folder.list();
@@ -466,7 +463,7 @@ public class TicketController {
 
 	@RequestMapping("/ticket/excluirAnexo.action")
 	public String excluirAnexo(final String file, final int ticketKey) throws Exception {
-		final File arquivo = new File(config.getImagesFolder() + ticketKey + "/" + file);
+		final File arquivo = new File(Config.getImagesFolder() + ticketKey + "/" + file);
 		if (arquivo.exists()) {
 			arquivo.delete();
 		}
@@ -476,7 +473,7 @@ public class TicketController {
 	@RequestMapping("/ticket/download.action")
 	public String download(final HttpServletResponse response, final String file, final int ticketKey) throws Exception {
 
-		final File arquivo = new File(config.getImagesFolder() + ticketKey + "/" + file);
+		final File arquivo = new File(Config.getImagesFolder() + ticketKey + "/" + file);
 		final FileInputStream fis = new FileInputStream(arquivo);
 		final int numberBytes = fis.available();
 		final byte bytes[] = new byte[numberBytes];

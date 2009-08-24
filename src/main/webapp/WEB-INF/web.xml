@@ -75,4 +75,14 @@
 	<listener>
 		<listener-class>br.com.bluesoft.pronto.web.listener.StartupListener</listener-class>
 	</listener>
+	<servlet>
+		<description></description>
+		<display-name>FileServlet</display-name>
+		<servlet-name>FileServlet</servlet-name>
+		<servlet-class>br.com.bluesoft.pronto.web.servlet.FileServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FileServlet</servlet-name>
+		<url-pattern>/file/*</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -66,9 +66,6 @@ public class SprintController {
 	@Autowired
 	private TicketDao ticketDao;
 
-	@Autowired
-	private Config config;
-
 	@RequestMapping("/sprint/listar.action")
 	public String listar(final Model model) {
 		model.addAttribute("sprints", sprintDao.listar());
@@ -129,7 +126,7 @@ public class SprintController {
 
 		final byte[] bytes = getImageBytes(request);
 
-		final String folderPath = config.getImagesFolder() + "/sprints/";
+		final String folderPath = Config.getImagesFolder() + "/sprints/";
 		final File folder = new File(folderPath);
 		folder.mkdirs();
 
@@ -148,7 +145,7 @@ public class SprintController {
 	@RequestMapping("/sprint/imagem.action")
 	public String imagem(final HttpServletResponse response, final int sprintKey) throws Exception {
 
-		final String folderPath = config.getImagesFolder() + "/sprints/";
+		final String folderPath = Config.getImagesFolder() + "/sprints/";
 
 		final File arquivo = new File(folderPath + sprintKey);
 
