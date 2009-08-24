@@ -304,6 +304,10 @@
 					<p>Data de Pronto</p>
 				</div>
 				
+				<c:if test="${empty ticket.tarefa}">
+					<form:hidden path="ticket.prioridade"/><br/>
+				</c:if>
+				
 				<c:if test="${empty ticket.filhos}">
 				<div>
 					<form:input path="ticket.branch"/><br/>
@@ -319,6 +323,7 @@
 					<br/>
 					<p>Em Par?</p>
 				</div>
+				
 				<div>
 					<form:select path="ticket.planejado">
 						<form:option value="true">Sim</form:option>
@@ -328,6 +333,7 @@
 					<p>Planejado?</p>
 				</div>
 				<h3>Descrição</h3>
+				
 				<div>
 					<form:textarea path="ticket.descricao" id="descricao"/>
 				</div>
