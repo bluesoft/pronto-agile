@@ -231,7 +231,7 @@ public class TicketController {
 		try {
 			final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
-			if (ticket.getDescricao() == null || ticket.getDescricao().trim().length() <= 0) {
+			if (ticket.getTitulo() == null || ticket.getTitulo().trim().length() <= 0) {
 				throw new ProntoException("Não é possível salvar uma estória, defeito ou tarefa sem descrição!");
 			}
 
