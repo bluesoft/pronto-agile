@@ -26,9 +26,8 @@ import org.springframework.web.util.JavaScriptUtils;
 
 public class WikiFormatter {
 
-	private static final String raiz = "/" + Seguranca.getApplicationName();
-	private static final String wikiImages = raiz + "/ticket/download.action?ticketKey=3080&file=imagem1.png${image}";
-	private static final String wikiLinks = raiz + "/ticket/editar.action?ticketKey=${title}";
+	private static final String wikiImages = "${image}";
+	private static final String wikiLinks = "../ticket/editar.action?ticketKey=${title}";
 
 	public static String toHtml(final String wiki) {
 		final WikiModel wikiModel = new WikiModel(wikiImages, wikiLinks);

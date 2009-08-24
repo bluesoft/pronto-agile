@@ -22,12 +22,8 @@ package br.com.bluesoft.pronto.service;
 
 import java.security.MessageDigest;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
 
 import br.com.bluesoft.pronto.SegurancaException;
 import br.com.bluesoft.pronto.model.Usuario;
@@ -37,16 +33,6 @@ public class Seguranca {
 
 	private static final ThreadLocal<Usuario> usuarios = new ThreadLocal<Usuario>();
 	private static final Usuario anonimo;
-
-	private static String applicationName = null;
-
-	@PostConstruct
-	public void setApplicationName() {
-		applicationName = webApplicationContext.getServletContext().getServletContextName();
-	}
-
-	@Autowired
-	private WebApplicationContext webApplicationContext;
 
 	static {
 		anonimo = new Usuario();
@@ -93,10 +79,6 @@ public class Seguranca {
 			throw new SegurancaException("Você não possui permissão para realizar essa operação.");
 		}
 
-	}
-
-	public static String getApplicationName() {
-		return applicationName;
 	}
 
 }
