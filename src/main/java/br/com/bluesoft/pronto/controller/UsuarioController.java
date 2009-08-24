@@ -64,7 +64,7 @@ public class UsuarioController {
 	@RequestMapping("/usuario/editar.action")
 	public String editar(final Model model, final String username) throws ProntoException {
 
-		Seguranca.validarPermissao(Papel.SCRUM_MASTER);
+		Seguranca.validarPermissao(Papel.ADMINISTRADOR);
 
 		if (username != null) {
 			final Usuario usuario = usuarioDao.obter(username);
@@ -81,7 +81,7 @@ public class UsuarioController {
 	@RequestMapping("/usuario/excluir.action")
 	public String excluir(final Model model, final String username) throws ProntoException {
 
-		Seguranca.validarPermissao(Papel.SCRUM_MASTER);
+		Seguranca.validarPermissao(Papel.ADMINISTRADOR);
 
 		final int quantidade = usuarioDao.obterQuantidadeDeUsuariosCadastrados();
 
@@ -105,7 +105,7 @@ public class UsuarioController {
 	@RequestMapping("/usuario/salvar.action")
 	public String salvar(final Model model, final Usuario usuario, final int[] papel, final String password, final HttpSession httpSession) throws Exception {
 
-		Seguranca.validarPermissao(Papel.SCRUM_MASTER);
+		Seguranca.validarPermissao(Papel.ADMINISTRADOR);
 
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
@@ -138,7 +138,7 @@ public class UsuarioController {
 	public String digitarSenha(final Model model, final String username) throws Exception {
 
 		if (!username.equals(Seguranca.getUsuario().getUsername())) {
-			Seguranca.validarPermissao(Papel.SCRUM_MASTER);
+			Seguranca.validarPermissao(Papel.ADMINISTRADOR);
 		}
 
 		final Usuario usuario = usuarioDao.obter(username);
@@ -152,7 +152,7 @@ public class UsuarioController {
 	public String trocarSenha(final Model model, final String username, final String password) throws Exception {
 
 		if (!username.equals(Seguranca.getUsuario().getUsername())) {
-			Seguranca.validarPermissao(Papel.SCRUM_MASTER);
+			Seguranca.validarPermissao(Papel.ADMINISTRADOR);
 		}
 
 		final Usuario usuario = usuarioDao.obter(username);

@@ -38,6 +38,7 @@ import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.Usuario;
+import br.com.bluesoft.pronto.service.Seguranca;
 
 @Repository
 public class TicketDao extends DaoHibernate<Ticket, Integer> {
@@ -101,6 +102,10 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 			if (ticket.getDataDeCriacao() == null) {
 				ticket.setDataDeCriacao(new Date());
+			}
+
+			if (ticket.getReporter() == null) {
+				ticket.setReporter(Seguranca.getUsuario());
 			}
 
 			// Se um ticket tiver filhos, atualizar os dados dos filhos que devem ser sempre iguais aos do pai.

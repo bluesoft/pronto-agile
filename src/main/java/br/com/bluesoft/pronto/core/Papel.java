@@ -31,6 +31,7 @@ public class Papel {
 	public static final int DESENVOLVEDOR = 3;
 	public static final int TESTADOR = 4;
 	public static final int SUPORTE = 5;
+	public static final int ADMINISTRADOR = 6;
 
 	public Papel() {
 

@@ -29,17 +29,17 @@
 					<td>${u.nome}</td>
 					<td>${u.email}</td>
 					<td>
-						<c:if test="${usuarioLogado.username eq u.username or usuarioLogado.scrumMaster}">
+						<c:if test="${usuarioLogado.username eq u.username or usuarioLogado.administrador}">
 							<pronto:icons name="trocar_senha.png" title="Trocar Senha" onclick="goTo('digitarSenha.action?username=${u.username}')"/>
 						</c:if>
 					</td>
 					<td>
-						<c:if test="${usuarioLogado.scrumMaster}">
+						<c:if test="${usuarioLogado.administrador}">
 							<pronto:icons name="editar_usuario.png" title="Editar Usuário" onclick="goTo('editar.action?username=${u.username}')"/>
 						</c:if>
 					</td>
 					<td>
-						<c:if test="${usuarioLogado.scrumMaster}">
+						<c:if test="${usuarioLogado.administrador}">
 							<pronto:icons name="excluir_usuario.png" title="Excluir Usuário" onclick="goTo('excluir.action?username=${u.username}')"/>
 						</c:if>
 					</td>

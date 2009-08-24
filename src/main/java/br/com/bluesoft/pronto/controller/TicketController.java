@@ -671,7 +671,7 @@ public class TicketController {
 
 	private void copiarDadosDoPai(final Ticket pai, final Ticket filho) {
 		filho.setPai(pai);
-		if (filho.getReporter() == null) {
+		if (filho.getReporter() == null || filho.getReporter().getUsername() == null) {
 			filho.setReporter(Seguranca.getUsuario());
 		}
 		filho.setTipoDeTicket(tipoDeTicketDao.obter(TipoDeTicket.TAREFA));

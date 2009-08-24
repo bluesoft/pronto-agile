@@ -171,6 +171,10 @@ public class Usuario implements Comparable<Usuario> {
 		return temOPapel(Papel.TESTADOR);
 	}
 
+	public boolean isAdministrador() {
+		return temOPapel(Papel.ADMINISTRADOR);
+	}
+
 	public boolean temOPapel(final int papelKey) {
 		for (final Papel papel : papeis) {
 			if (papel.getPapelKey() == papelKey) {

@@ -188,6 +188,7 @@ INSERT INTO papel VALUES (4, 'Testador');
 INSERT INTO papel VALUES (2, 'Scrum Master');
 INSERT INTO papel VALUES (5, 'Suporte');
 INSERT INTO papel VALUES (3, 'Desenvolvedor');
+INSERT INTO papel VALUES (6, 'Administrador');
 
 INSERT INTO tipo_de_ticket VALUES (1, 'Idéia');
 INSERT INTO tipo_de_ticket VALUES (2, 'Estória');
@@ -202,6 +203,7 @@ INSERT INTO usuario_papel VALUES('admin',2);
 INSERT INTO usuario_papel VALUES('admin',3);
 INSERT INTO usuario_papel VALUES('admin',4);
 INSERT INTO usuario_papel VALUES('admin',5);
+INSERT INTO usuario_papel VALUES('admin',6);
 
 ALTER TABLE ONLY backlog
     ADD CONSTRAINT backlog_pkey PRIMARY KEY (backlog_key);
