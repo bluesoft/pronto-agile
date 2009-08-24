@@ -163,9 +163,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 					pai.setDataDePronto(null);
 				}
 
-				if (ticket.getPrioridade() == null) {
-					ticket.setPrioridade(pai.getMaiorPrioridade() + 1);
-				}
 			}
 
 			// Tarefa nao tem valor de Negocio
