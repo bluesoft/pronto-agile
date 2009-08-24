@@ -231,6 +231,10 @@ public class TicketController {
 		try {
 			final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
+			if (ticket.getDescricao() == null || ticket.getDescricao().trim().length() <= 0) {
+				throw new ProntoException("Não é possível salvar uma estória, defeito ou tarefa sem descrição!");
+			}
+
 			if (paiKey == null) {
 
 				ticket.setBacklog(backlogDao.obter(ticket.getBacklog().getBacklogKey()));
@@ -436,8 +440,12 @@ public class TicketController {
 		final File dir = new File(ticketDir);
 		dir.mkdirs();
 
+		final Ticket ticket = ticketDao.obter(ticketKey);
+
 		for (final FileItem fileItem : items) {
-			fileItem.write(new File(ticketDir + fileItem.getName().toLowerCase().replace(' ', '_').replaceAll("[^A-Za-z0-9._\\-]", "")));
+			final String nomeDoArquivo = fileItem.getName().toLowerCase().replace(' ', '_').replaceAll("[^A-Za-z0-9._\\-]", "");
+			fileItem.write(new File(ticketDir + nomeDoArquivo));
+			ticket.addComentario("Novo anexo " + nomeDoArquivo, Seguranca.getUsuario());
 		}
 
 		return "redirect:editar.action?ticketKey=" + ticketKey;
