@@ -332,7 +332,7 @@ public class Ticket {
 	}
 
 	public Integer getPrioridade() {
-		return prioridade;
+		return prioridade != null ? prioridade : 0;
 	}
 
 	public void setPrioridade(final Integer prioridade) {

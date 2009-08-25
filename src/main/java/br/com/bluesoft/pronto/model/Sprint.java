@@ -214,7 +214,7 @@ public class Sprint {
 	@SuppressWarnings("unchecked")
 	public List<Ticket> getTicketsParaOKanban() {
 		final List<Ticket> ticketsParaOKanban = new ArrayList<Ticket>();
-		if (ticketsParaOKanban != null) {
+		if (tickets != null) {
 			for (final Ticket ticket : tickets) {
 				if (!ticket.temFilhos() && !ticket.isImpedido() && !ticket.isLixo()) {
 					ticketsParaOKanban.add(ticket);
@@ -223,15 +223,17 @@ public class Sprint {
 		}
 
 		final List<Comparator> comparators = new ArrayList<Comparator>();
+
+		final BeanComparator comparatorPrioridade = new BeanComparator("prioridade");
 		final ReverseComparator comparatorValorDeNegocio = new ReverseComparator(new BeanComparator("valorDeNegocio"));
 		final ReverseComparator comparatorEsforco = new ReverseComparator(new BeanComparator("esforco"));
 		final BeanComparator comparatorDataDeCriacao = new BeanComparator("dataDeCriacao");
-		final BeanComparator comparatorTicketKey = new BeanComparator("ticketKey");
 
+		comparators.add(comparatorPrioridade);
 		comparators.add(comparatorValorDeNegocio);
 		comparators.add(comparatorEsforco);
 		comparators.add(comparatorDataDeCriacao);
-		comparators.add(comparatorTicketKey);
+
 		final ComparatorChain comparatorChain = new ComparatorChain(comparators);
 		Collections.sort(ticketsParaOKanban, comparatorChain);
 

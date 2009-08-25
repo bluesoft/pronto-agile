@@ -77,6 +77,9 @@
 
 		<c:if test="${ticket.ticketKey gt 0}">
 			<!-- Operacoes -->
+			<c:if test="${ticket.pai ne null and ticket.ticketKey gt 0}">
+				<a href="editar.action?ticketKey=${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
+			</c:if>
 			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
 				<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="goTo('transformarEmDefeito.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
