@@ -5,6 +5,25 @@
 		<title><c:choose><c:when test="${ticket.ticketKey gt 0}">${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}</c:when><c:otherwise>Incluir ${ticket.tipoDeTicket.descricao}</c:otherwise></c:choose></title>
 		<script>
 
+		function alterarDesenvolvedores() {
+			$('.desenvolvedor').css('display','inline');
+		}
+		
+		function toogleDesenvolvedor(username){
+			var $imagem = $('#dev_img_'+username);
+			var $campo = $('#dev_chk_'+username);
+			
+			if ($imagem.hasClass('ativo')) {
+				$imagem.removeClass('ativo');
+				$imagem.addClass('inativo');
+				$campo.removeAttr('checked');
+			} else {
+				$imagem.removeClass('inativo');
+				$imagem.addClass('ativo');
+				$campo.attr('checked','checked');
+			}
+		}
+
 		 var alterarPrioridadeDaTarefa = function(ui, event) {
 
 				var $tarefas = $('#tarefas li');
@@ -14,10 +33,7 @@
 					novaOrdem[indice++] = el.id;
 				});
 
-				$.post('${urlAlterarOrdem}', { 'ticketKey': novaOrdem, 'pai': ${ticket.ticketKey} }, function(data){
-					alert('ok!');
-				});
-
+				$.post('${urlAlterarOrdem}', { 'ticketKey': novaOrdem, 'pai': ${ticket.ticketKey} });
 			};
 		
 		$(function() {
@@ -270,10 +286,10 @@
 									<c:set var="checked" value="${true}"/>
 								</c:if>
 							</c:forEach>
-							<i><input type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''}>${u.nome}</i>
-							<c:if test="${s.count % 3 == 0}"><br/></c:if>
-						</c:forEach>					
-						<p><b>Desenvolvedores</b></p>
+							<img alt="${u.username} - Clique para adicionar/remover" id="dev_img_${u.username}" class="desenvolvedor ${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleDesenvolvedor('${u.username}')" style="display: ${checked ? 'inline' : 'none'}; cursor:pointer"/>
+							<input id="dev_chk_${u.username}"  type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
+						</c:forEach>
+						<p><b>Desenvolvedores</b><pronto:icons name="editar.png" title="Alterar Desenvolvedores" onclick="alterarDesenvolvedores()"/></p>
 					</div>
 					
 					</div>
