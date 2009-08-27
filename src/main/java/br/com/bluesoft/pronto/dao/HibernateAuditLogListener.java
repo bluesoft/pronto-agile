@@ -63,6 +63,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public final boolean onPreUpdate(final PreUpdateEvent event) {
 

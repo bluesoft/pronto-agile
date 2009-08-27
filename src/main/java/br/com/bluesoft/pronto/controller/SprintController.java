@@ -44,7 +44,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.bluesoft.pronto.ProntoException;
 import br.com.bluesoft.pronto.dao.SprintDao;
-import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.service.Config;
 
@@ -59,9 +58,6 @@ public class SprintController {
 
 	@Autowired
 	private SprintDao sprintDao;
-
-	@Autowired
-	private TicketDao ticketDao;
 
 	@RequestMapping("/sprint/listar.action")
 	public String listar(final Model model) {
