@@ -25,9 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,7 +46,6 @@ import br.com.bluesoft.pronto.ProntoException;
 import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Sprint;
-import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.service.Config;
 
 @Controller
@@ -188,48 +185,13 @@ public class SprintController {
 	public String fechar(final Model model, final int sprintKey) throws ProntoException {
 
 		try {
-			final Sprint sprintAtual = sprintDao.getSprintAtualComTickets();
 			final Sprint sprintParaFechar = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey);
-
-			final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 			if (sprintParaFechar.isAtual()) {
 				throw new ProntoException("Não é possível fechar o Sprint Atual!");
 			}
 
-			final Set<Ticket> ticketsParaSalvar = new HashSet<Ticket>();
-			final List<Ticket> ticketsEmAberto = sprintParaFechar.getTicketsEmAberto();
-			if (ticketsEmAberto.size() > 0) {
-
-				if (sprintAtual == null) {
-					throw new ProntoException("É preciso definir um Sprint Atual para que as estórias pendentes do Sprint a ser fechado sejam transferidas.");
-				}
-
-				for (final Ticket ticket : ticketsEmAberto) {
-
-					if (ticket.temFilhos()) {
-						for (final Ticket filho : ticket.getFilhos()) {
-							filho.setSprint(sprintAtual);
-							ticketsParaSalvar.add(filho);
-						}
-					}
-
-					if (ticket.temPai()) {
-						ticket.getPai().setSprint(sprintAtual);
-						ticketsParaSalvar.add(ticket.getPai());
-					}
-
-					ticket.setSprint(sprintAtual);
-
-					ticketsParaSalvar.add(ticket);
-
-				}
-			}
-
-			ticketDao.salvar(ticketsParaSalvar.toArray(new Ticket[ticketsParaSalvar.size()]));
-			sprintParaFechar.setFechado(true);
-			sprintDao.salvar(sprintParaFechar);
-			tx.commit();
+			sprintDao.fecharSprint(sprintParaFechar);
 
 			return "redirect:/sprint/listar.action";
 		} catch (final Exception e) {

@@ -32,6 +32,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import br.com.bluesoft.pronto.core.Backlog;
+import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.model.Sprint;
 
 @Repository
@@ -138,6 +140,21 @@ public class SprintDao extends DaoHibernate<Sprint, Integer> {
 		final Sprint sprint = (Sprint) getSession().createQuery(hql).setInteger("sprintKey", sprintKey).uniqueResult();
 		preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint);
 		return sprint;
+	}
+
+	public void moverTicketEmAbertoParaOSprintAtual(final int sprintAntigoKey) {
+		final StringBuilder sql = new StringBuilder();
+		sql.append(" update ticket set sprint = (select sprint_key from sprint where atual = true) where sprint = :sprintAntigoKey and backlog_key = :backlog and (data_de_pronto is null or kanban_status_key != :done) ");
+		getSession().createSQLQuery(sql.toString()).setInteger("sprintAntigoKey", sprintAntigoKey).setInteger("backlog", Backlog.SPRINT_BACKLOG).setInteger("done", KanbanStatus.DONE).executeUpdate();
+	}
+
+	public void fecharSprint(final Sprint sprintParaFechar) {
+		getSession().beginTransaction();
+		moverTicketEmAbertoParaOSprintAtual(sprintParaFechar.getSprintKey());
+		sprintParaFechar.setFechado(true);
+		salvar(sprintParaFechar);
+		getSession().flush();
+		getSession().getTransaction().commit();
 	}
 
 }
