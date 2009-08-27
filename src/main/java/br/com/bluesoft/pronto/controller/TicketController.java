@@ -66,6 +66,7 @@ import br.com.bluesoft.pronto.model.TicketLog;
 import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.Config;
 import br.com.bluesoft.pronto.service.Seguranca;
+import br.com.bluesoft.pronto.util.ControllerUtil;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -532,40 +533,56 @@ public class TicketController {
 		return VIEW_ESTIMAR;
 	}
 
-	@RequestMapping("/ticket/salvarEstimativa.action")
-	public String salvarEstimativa(final Model model, final int ticketKey[], final int valorDeNegocio[], final double esforco[], final boolean par[], final String branch[], final boolean continuar) throws SegurancaException {
-
-		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.PRODUCT_OWNER);
-
-		Ticket ticket = null;
-		for (int i = 0; i < ticketKey.length; i++) {
-			ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey[i]);
-			if (Seguranca.getUsuario().temOPapel(Papel.DESENVOLVEDOR)) {
-				ticket.setEsforco(esforco[i]);
-				ticket.setPar(par[i]);
-				ticket.setBranch(branch[i]);
-			}
-			if (Seguranca.getUsuario().temOPapel(Papel.PRODUCT_OWNER)) {
-				ticket.setValorDeNegocio(valorDeNegocio[i]);
-			}
+	@RequestMapping("/ticket/salvarValorDeNegocio.action")
+	public void salvarValorDeNegocio(final HttpServletResponse response, final int ticketKey, final int valorDeNegocio) throws SegurancaException {
+		try {
+			Seguranca.validarPermissao(Papel.PRODUCT_OWNER);
+			final Ticket ticket = ticketDao.obter(ticketKey);
+			ticket.setValorDeNegocio(valorDeNegocio);
 			ticketDao.salvar(ticket);
+			ControllerUtil.writeText(response, true);
+		} catch (final Exception e) {
+			ControllerUtil.writeText(response, false);
 		}
+	}
 
-		if (ticket.getBacklog().isSprintBacklog()) {
-
-			if (continuar) {
-				return "/ticket/estimarSprint.action?sprintKey=" + ticket.getSprint().getSprintKey();
-			} else {
-				return "/ticket/listarPorSprint.action?sprintKey=" + ticket.getSprint().getSprintKey();
-			}
-		} else {
-			if (continuar) {
-				return "/ticket/estimarBacklog.action?backlogKey=" + ticket.getBacklog().getBacklogKey();
-			} else {
-				return "/ticket/listarPorBacklog.action?backlogKey=" + ticket.getBacklog().getBacklogKey();
-			}
+	@RequestMapping("/ticket/salvarBranch.action")
+	public void salvarBranch(final HttpServletResponse response, final int ticketKey, final String branch) throws SegurancaException {
+		try {
+			Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.TESTADOR);
+			final Ticket ticket = ticketDao.obter(ticketKey);
+			ticket.setBranch(branch);
+			ticketDao.salvar(ticket);
+			ControllerUtil.writeText(response, true);
+		} catch (final Exception e) {
+			ControllerUtil.writeText(response, false);
 		}
+	}
 
+	@RequestMapping("/ticket/salvarEsforco.action")
+	public void salvarEsforco(final HttpServletResponse response, final int ticketKey, final double esforco) throws SegurancaException {
+		try {
+			Seguranca.validarPermissao(Papel.DESENVOLVEDOR);
+			final Ticket ticket = ticketDao.obter(ticketKey);
+			ticket.setEsforco(esforco);
+			ticketDao.salvar(ticket);
+			ControllerUtil.writeText(response, true);
+		} catch (final Exception e) {
+			ControllerUtil.writeText(response, false);
+		}
+	}
+
+	@RequestMapping("/ticket/salvarPar.action")
+	public void salvarPar(final HttpServletResponse response, final int ticketKey, final boolean par) throws SegurancaException {
+		try {
+			Seguranca.validarPermissao(Papel.DESENVOLVEDOR);
+			final Ticket ticket = ticketDao.obter(ticketKey);
+			ticket.setPar(par);
+			ticketDao.salvar(ticket);
+			ControllerUtil.writeText(response, true);
+		} catch (final Exception e) {
+			ControllerUtil.writeText(response, false);
+		}
 	}
 
 	@RequestMapping("/ticket/listarTarefasParaAdicionarAoSprint.action")

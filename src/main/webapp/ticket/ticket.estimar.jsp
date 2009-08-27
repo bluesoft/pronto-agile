@@ -1,4 +1,8 @@
 <%@ include file="/commons/taglibs.jsp"%>
+<c:url var="urlSalvarEsforco" value="/ticket/salvarEsforco.action"/>
+<c:url var="urlSalvarValorDeNegocio" value="/ticket/salvarValorDeNegocio.action"/>
+<c:url var="urlSalvarPar" value="/ticket/salvarPar.action"/>
+<c:url var="urlSalvarBranch" value="/ticket/salvarBranch.action"/>
 <html>
 	<head>
 		<title>Estimar ${backlog.descricao}${sprint.nome}</title>
@@ -49,6 +53,42 @@
 				$('#somaValorDeNegocio').text(valorDeNegocio);
 
 			}
+
+			function depoisDeSalvar(resposta) {
+				if (!resposta == 'true') {
+					alert('Ocorreu um erro e não foi possível salvar.');
+				}
+
+			}
+			
+			function salvarEsforco(campo){
+				var $campo = $(campo);
+				var ticketKey = $campo.parents('tr').attr('id');
+				var valor = $campo.val();
+				$.post('${urlSalvarEsforco}', {'ticketKey':ticketKey, 'esforco' :valor}, depoisDeSalvar);
+			}
+
+			function salvarPar(campo){
+				var $campo = $(campo);
+				var ticketKey = $campo.parents('tr').attr('id');
+				var valor = $campo.val();
+				$.post('${urlSalvarPar}', {'ticketKey':ticketKey, 'par' :valor}, depoisDeSalvar);
+			}
+
+			function salvarBranch(campo){
+				var $campo = $(campo);
+				var ticketKey = $campo.parents('tr').attr('id');
+				var valor = $campo.val();
+				$.post('${urlSalvarBranch}', {'ticketKey':ticketKey, 'branch' :valor}, depoisDeSalvar);
+			}
+
+			function salvarValorDeNegocio(campo){
+				var $campo = $(campo);
+				var ticketKey = $campo.parents('tr').attr('id');
+				var valor = $campo.val();
+				$.post('${urlSalvarValorDeNegocio}', {'ticketKey':ticketKey, 'valorDeNegocio' :valor}, depoisDeSalvar);
+			}
+			
 		</script>
 	</head>
 	<body>
@@ -93,7 +133,7 @@
 						<td class="valorDeNegocio">
 							<c:choose>
 								<c:when test="${usuarioLogado.productOwner}">
-									<input type="text" size="5" name="valorDeNegocio" value="${t.valorDeNegocio}" onchange="recalcular()" class="required digits"/>
+									<input type="text" size="5" name="valorDeNegocio" value="${t.valorDeNegocio}" onchange="recalcular();salvarValorDeNegocio(this);" class="required digits"/>
 								</c:when>
 								<c:otherwise>
 									<span>${t.valorDeNegocio}</span>
@@ -105,7 +145,7 @@
 								<c:when test="${usuarioLogado.desenvolvedor}">
 									<c:choose>
 										<c:when test="${empty t.filhos}">
-											<input type="text" size="5" name="esforco" value="${t.esforco}" onchange="recalcular()" class="required number"/>
+											<input type="text" size="5" name="esforco" value="${t.esforco}" onchange="recalcular();salvarEsforco(this);" class="required number"/>
 										</c:when>
 										<c:otherwise>
 											<input type="hidden"  name="esforco" value="${t.esforco}"/>
@@ -122,7 +162,7 @@
 								<c:when test="${usuarioLogado.desenvolvedor}">
 									<c:choose>
 										<c:when test="${empty t.filhos}">
-											<select name="par">
+											<select name="par" onchange="salvarPar(this);">
 												<option value="true" ${t.par ? 'selected' : ''}>Par</option>
 												<option value="false" ${!t.par ? 'selected' : ''}>Solo</option>
 											</select>
@@ -142,7 +182,7 @@
 								<c:when test="${usuarioLogado.desenvolvedor}">
 									<c:choose>
 										<c:when test="${empty t.filhos}">
-											<input type="text" name="branch" value="${t.branch}" size="12"/>
+											<input type="text" name="branch" value="${t.branch}" size="12" onchange="salvarBranch(this);"/>
 										</c:when>
 										<c:otherwise>
 											<input type="hidden" name="branch" value="${t.branch}"/>
@@ -184,7 +224,7 @@
 								<td class="esforco">
 									<c:choose>
 										<c:when test="${usuarioLogado.desenvolvedor}">
-											<input type="text" size="5" name="esforco" value="${f.esforco}" onchange="recalcular()" class="required number"/>
+											<input type="text" size="5" name="esforco" value="${f.esforco}" onchange="recalcular();salvarEsforco(this);" class="required number"/>
 										</c:when>
 										<c:otherwise>
 											<span>${f.esforco}</span>
@@ -194,7 +234,7 @@
 								<td>
 									<c:choose>
 										<c:when test="${usuarioLogado.desenvolvedor}">
-											<select name="par" >
+											<select name="par" onchange="salvarPar(this);">
 												<option value="true" ${f.par ? 'selected="selected"' : ''}>Par</option>
 												<option value="false" ${!f.par ? 'selected="selected"' : ''}>Solo</option>
 											</select>
@@ -207,7 +247,7 @@
 								<td>
 									<c:choose>
 										<c:when test="${usuarioLogado.desenvolvedor}">
-											<input type="text" name="branch" value="${f.branch}" size="12"/>
+											<input type="text" name="branch" value="${f.branch}" size="12" onchange="salvarBranch(this);"/>
 										</c:when>
 										<c:otherwise>
 											<span>${f.branch}</span>
@@ -251,9 +291,7 @@
 					</c:otherwise>
 				</c:choose>	
 				
-				<button type="button" onclick="goTo('${urlCancelar}')">Cancelar</button>
-				<button name="continuar" value="true" type="submit">Salvar e Continuar</button>
-				<button name="continuar" value="false" type="submit">Salvar e Encerrar</button>
+				<button type="button" onclick="goTo('${urlCancelar}')">Voltar</button>
 			</div>
 		</form>
 		
