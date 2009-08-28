@@ -5,24 +5,24 @@
  is written in portuguese, volunteers to translate it into english 
  are very welcome.
 ---------------------------------------------------------------------
- Pronto È um projeto para gest„o de projetos ·geis. 
- As principais funcionalidades do projeto s„o:
+ Pronto √© um projeto para gest√£oo de projetos √°geis. 
+ As principais funcionalidades do projeto s√£o:
  * Kanban.
- * Gest„o de estÛrias de usu·rio.
- * Gest„o de de tarefas por estÛria.
- * Gest„o de de defeitos.
- * Estimativa e PriorizaÁ„o de EstÛrias.
- * Registros do resultados das reuniıes de retrospectiva. 
- * Gest„o de Sprints.
+ * Gest√£o de est√≥rias de usu√°rio.
+ * Gest√£o de de tarefas por est√£ria.
+ * Gest√£o de de defeitos.
+ * Estimativa e Prioriza√ß√£o de Est√≥rias de usu√°rio.
+ * Registros do resultados das reuni√µes de retrospectiva. 
+ * Gest√£o de Sprints.
  * Burndown Charts.
- * Gest„o de Product Backlog.
- * Gest„o de IdÈias (Backlog de IdÈias).
- * Gest„o de Impedimentos.
- * Gest„o de Branches e IntegraÁ„o de cÛdigo.
+ * Gest√£o de Product Backlog.
+ * Gest√£o de Id√©ias (Backlog de Id√©ias).
+ * Gest√£o de Impedimentos.
+ * Gest√£o de Branches e Integra√ß√£o de c√≥digo.
 ---------------------------------------------------------------------
- MudanÁas de Banco de Dados
+ Mudan√ßas de Banco de Dados
 ---------------------------------------------------------------------
- Todas as mudanÁas de banco de dados s„o armazenas no diretorio /etc/
- em arquivos .sql contendo em seu nome a data da alteracao no formato
+ Todas as mudan√ßas de banco de dados s√£o armazenas no diretorio /etc/
+ em arquivos .sql contendo em seu nome a data da altera√ß√£o no formato
  ano mes dia (ex: 20091230).
 ---------------------------------------------------------------------
