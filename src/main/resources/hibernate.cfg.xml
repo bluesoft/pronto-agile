@@ -18,6 +18,7 @@
 		<mapping class="br.com.bluesoft.pronto.core.KanbanStatus" />
 		<mapping class="br.com.bluesoft.pronto.core.Papel" />
 		<mapping class="br.com.bluesoft.pronto.core.TipoDeTicket" />
+		<mapping class="br.com.bluesoft.pronto.core.TipoRetrospectivaItem" />
 
 		<!-- model classes -->
 		<mapping class="br.com.bluesoft.pronto.model.Sprint" />
@@ -25,6 +26,9 @@
 		<mapping class="br.com.bluesoft.pronto.model.Usuario" />
 		<mapping class="br.com.bluesoft.pronto.model.TicketLog" />
 		<mapping class="br.com.bluesoft.pronto.model.TicketComentario" />
+		
+		<mapping class="br.com.bluesoft.pronto.model.Retrospectiva" />
+		<mapping class="br.com.bluesoft.pronto.model.RetrospectivaItem" />
 
 		<listener type="pre-delete" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />
 		<listener type="pre-update" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />

@@ -3,6 +3,8 @@
 <%@ attribute name="name" required="true" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="onclick" required="false" %>
+<%@ attribute name="id" required="false" %>
+<%@ attribute name="clazz" required="false" %>
 
 <c:url var="iconsFolder" value="/commons/icons"/>
-<img src="${iconsFolder}/${name}" title="${title}" alt="${title}" onclick="${onclick}" style="cursor:pointer"/>
+<img src="${iconsFolder}/${name}" title="${title}" alt="${title}" onclick="${onclick}"  class="${clazz}" id="${id}" style="cursor:pointer"/>

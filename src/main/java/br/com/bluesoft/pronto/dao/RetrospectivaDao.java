@@ -17,23 +17,22 @@
  * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+package br.com.bluesoft.pronto.dao;
 
-package br.com.bluesoft.pronto.util;
+import org.springframework.stereotype.Repository;
 
-import javax.servlet.http.HttpServletResponse;
+import br.com.bluesoft.pronto.model.Retrospectiva;
 
-public class ControllerUtil {
+@Repository
+public class RetrospectivaDao extends DaoHibernate<Retrospectiva, Integer> {
 
-	public static final String ENCODING_UTF8 = "UTF-8";
+	public RetrospectivaDao() {
+		super(Retrospectiva.class);
+	}
 
-	public static void writeText(final HttpServletResponse response, final Object text) {
-		try {
-			response.setContentType("text/plain");
-			response.setCharacterEncoding(ENCODING_UTF8);
-			response.getWriter().print(text);
-		} catch (final Exception e) {
-			throw new RuntimeException("Não foi possível gerar a resposta JSON.", e);
-		}
+	public Retrospectiva obterRetrospectivaDoSprint(final int sprintKey) {
+		final String hql = "from Retrospectiva r where r.sprint.sprintKey = :sprintKey";
+		return (Retrospectiva) getSession().createQuery(hql).setInteger("sprintKey", sprintKey).uniqueResult();
 	}
 
 }

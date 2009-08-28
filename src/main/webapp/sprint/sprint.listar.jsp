@@ -1,4 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
+<c:url var="retrospectivaUrl" value="/retrospectiva/ver.action"/>
 <c:url var="burndownUrl" value="/burndown/burndown.action"/>
 <c:url var="kanbanUrl" value="/kanban/kanban.action"/>
 <html>
@@ -77,6 +78,7 @@
 					<td>
 						<pronto:icons name="burndown_chart.png" title="Burndown Chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${s.sprintKey}')"/>
 					</td>
+					<td><pronto:icons name="retrospectiva.png" title="Retrospectiva" onclick="goTo('${retrospectivaUrl}?sprintKey=${s.sprintKey}')"/></td>
 					<td>
 						<pronto:icons name="kanban.png" title="Kanban do Sprint" onclick="goTo('${kanbanUrl}?sprintKey=${s.sprintKey}')"/>
 					</td>

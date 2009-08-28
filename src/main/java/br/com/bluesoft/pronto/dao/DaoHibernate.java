@@ -58,4 +58,11 @@ public class DaoHibernate<T, K extends Serializable> {
 		getSession().flush();
 	}
 
+	public void excluir(final T... ts) {
+		for (final T t : ts) {
+			getSession().delete(t);
+		}
+		getSession().flush();
+	}
+
 }
