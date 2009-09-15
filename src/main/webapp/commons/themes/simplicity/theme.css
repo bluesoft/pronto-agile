@@ -33,3 +33,18 @@ img.ativo {
 Ê   filter:alpha(opacity=100);
 	padding: 2px;
 }
+
+div.person_name {
+	text-align: center;
+	font-size: 10px;
+}
+
+div.person {
+	background-color: #f9f9f9;
+	border-width: thin;
+	border-color: #CCCCCC;
+	border-style: solid;
+	padding: 3px;
+	margin:3px;
+	float: left;
+}

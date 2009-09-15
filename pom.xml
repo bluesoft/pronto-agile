@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pronto-agile</groupId>
@@ -99,21 +100,17 @@
 			<version>1.4</version>
 		</dependency>
 
-		<!-- 
-		<dependency>
-			<groupId>geronimo-spec</groupId>
+		<!--
+			<dependency> <groupId>geronimo-spec</groupId>
 			<artifactId>geronimo-spec-jta</artifactId>
-			<version>1.0.1B-rc4</version>
-		</dependency>
-		 -->
+			<version>1.0.1B-rc4</version> </dependency>
+		-->
 
 		<dependency>
 			<artifactId>json-lib</artifactId>
 			<groupId>net.sf.json-lib</groupId>
 			<version>0.9</version>
 		</dependency>
-
-
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -126,6 +123,7 @@
 			<artifactId>spring-web</artifactId>
 			<version>2.5.6</version>
 		</dependency>
+		
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -183,12 +181,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>info.bliki.wiki</groupId>
-			<artifactId>bliki-core</artifactId>
-			<version>3.0.11</version>
-		</dependency>
-
-		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>${javamail.version}</version>
@@ -215,21 +207,13 @@
 			<version>1.0-rc2</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>info.bliki.wiki</groupId>
+			<artifactId>bliki-core</artifactId>
+			<version>3.0.13</version>
+		</dependency>
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>info-bliki-repository</id>
-			<url>http://gwtwiki.googlecode.com/svn/maven-repository/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 
 	<properties>
 		<hibernate.annotations.version>3.2.1.ga</hibernate.annotations.version>

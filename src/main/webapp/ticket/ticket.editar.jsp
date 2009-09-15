@@ -8,10 +8,29 @@
 		function alterarDesenvolvedores() {
 			$('.desenvolvedor').css('display','inline');
 		}
+
+		function alterarTestadores() {
+			$('.testador').css('display','inline');
+		}
 		
 		function toogleDesenvolvedor(username){
 			var $imagem = $('#dev_img_'+username);
 			var $campo = $('#dev_chk_'+username);
+			
+			if ($imagem.hasClass('ativo')) {
+				$imagem.removeClass('ativo');
+				$imagem.addClass('inativo');
+				$campo.removeAttr('checked');
+			} else {
+				$imagem.removeClass('inativo');
+				$imagem.addClass('ativo');
+				$campo.attr('checked','checked');
+			}
+		}
+
+		function toogleTestador(username){
+			var $imagem = $('#tes_img_'+username);
+			var $campo = $('#tes_chk_'+username);
 			
 			if ($imagem.hasClass('ativo')) {
 				$imagem.removeClass('ativo');
@@ -286,14 +305,17 @@
 									<c:set var="checked" value="${true}"/>
 								</c:if>
 							</c:forEach>
-							<img alt="${u.username} - Clique para adicionar/remover" id="dev_img_${u.username}" class="desenvolvedor ${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleDesenvolvedor('${u.username}')" style="display: ${checked ? 'inline' : 'none'}; cursor:pointer"/>
-							<input id="dev_chk_${u.username}"  type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
+							<div class="person desenvolvedor" style="display: ${checked ? 'inline' : 'none'}">
+								<img alt="${u.username} - Clique para adicionar/remover" id="dev_img_${u.username}" class="${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleDesenvolvedor('${u.username}')" style="cursor:pointer"/>
+								<input id="dev_chk_${u.username}"  type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
+								<div class="person_name">${u.username}</div>
+							</div>
 						</c:forEach>
 						<p><b>Desenvolvedores</b><pronto:icons name="editar.png" title="Alterar Desenvolvedores" onclick="alterarDesenvolvedores()"/></p>
 					</div>
 					
-					</div>
-						<div>
+					
+					<div>
 						<c:forEach items="${testadores}" var="u" varStatus="s">
 							<c:set var="checked" value="${false}"/>
 							<c:forEach items="${ticket.testadores}" var="d">
@@ -301,11 +323,15 @@
 									<c:set var="checked" value="${true}"/>
 								</c:if>
 							</c:forEach>
-							<i><input type="checkbox" name="testador" value="${u.username}" ${checked ? 'checked="checked"' : ''}>${u.nome}</i>
-							<c:if test="${s.count % 3 == 0}"><br/></c:if>
-						</c:forEach>					
-						<p><b>Testadores</b></p>
+							<div class="person testador" style="display: ${checked ? 'inline' : 'none'}">
+								<img alt="${u.username} - Clique para adicionar/remover" id="tes_img_${u.username}" class="${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleTestador('${u.username}')" style="cursor:pointer"/>
+								<input id="tes_chk_${u.username}"  type="checkbox" name="testador" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
+								<div class="person_name">${u.username}</div>
+							</div>
+						</c:forEach>
+						<p><b>Testadores</b><pronto:icons name="editar.png" title="Alterar Testadores" onclick="alterarTestadores()"/></p>
 					</div>
+					
 				</c:if>
 				
 				
