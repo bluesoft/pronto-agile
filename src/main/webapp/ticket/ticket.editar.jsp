@@ -313,8 +313,6 @@
 						</c:forEach>
 						<p><b>Desenvolvedores</b><pronto:icons name="editar.png" title="Alterar Desenvolvedores" onclick="alterarDesenvolvedores()"/></p>
 					</div>
-					
-					
 					<div>
 						<c:forEach items="${testadores}" var="u" varStatus="s">
 							<c:set var="checked" value="${false}"/>
@@ -331,9 +329,7 @@
 						</c:forEach>
 						<p><b>Testadores</b><pronto:icons name="editar.png" title="Alterar Testadores" onclick="alterarTestadores()"/></p>
 					</div>
-					
 				</c:if>
-				
 				
 				<div>
 					<form:select path="ticket.kanbanStatus.kanbanStatusKey">

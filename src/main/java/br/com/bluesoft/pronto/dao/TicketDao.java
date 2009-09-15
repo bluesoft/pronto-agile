@@ -186,7 +186,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	public List<Ticket> buscar(final String busca) {
 
 		final StringBuilder hql = new StringBuilder();
-		hql.append("from Ticket t                     ");
+		hql.append("select distinct t from Ticket t   ");
 		hql.append("left join fetch t.sprint          ");
 		hql.append("left join fetch t.reporter        ");
 		hql.append("left join fetch t.tipoDeTicket    ");
