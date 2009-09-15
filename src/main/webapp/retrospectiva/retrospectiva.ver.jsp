@@ -14,17 +14,18 @@
 			}
 			
 			#wcbiDiv {
-				float: right;
+				margin-left: 80px;
+				float: left;
 				width: 400px;
 				vertical-align: top;
 			}
 			
 			#www { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-			#www li { margin: 0 5px 5px 5px; padding: 2px; height: 1.5em; font-size: 12px}
+			#www li {  padding: 2px; height: 1.5em; font-size: 11px}
 			html>body #www li { height: 1.5em; line-height: 1.2em; }
 			
 			#wcbi { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-			#wcbi li { margin: 0 5px 5px 5px; padding: 2px; height: 1.5em; font-size: 12px}
+			#wcbi li {margin: 1px;  padding: 2px; height: 1.5em; font-size: 11px}
 			html>body #wcbi li { height: 1.5em; line-height: 1.2em; }
 			
 			.ui-state-highlight { height: 1.5em; line-height: 1.2em; }
@@ -105,7 +106,7 @@
 			<pronto:icons name="excluir.png" title="excluir item" id="excluirModelo" clazz="icon"/>
 		</div>
 		
-		<div style="width: 80%" align="center">
+		
 			<div id="wwwDiv">
 				<ul style="width: 100%; font-size: 12px;" id="www">
 					<span>
@@ -137,7 +138,6 @@
 					
 				</ul>
 			</div>
-		</div>
 		
 		<div title="Retrospectiva" id="dialog" style="display: none; width: 500px;">
 				<div class="group" align="left" id="form">
