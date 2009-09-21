@@ -48,3 +48,14 @@ div.person {
 	margin:3px;
 	float: left;
 }
+
+textarea.mono {
+	font-size: 12px;
+	font-family: Monaco, Courier New, Courier, monospace;
+	width: 700px;
+	height: 400px;
+}
+
+
+
+
