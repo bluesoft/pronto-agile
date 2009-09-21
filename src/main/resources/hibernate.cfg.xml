@@ -29,6 +29,10 @@
 		
 		<mapping class="br.com.bluesoft.pronto.model.Retrospectiva" />
 		<mapping class="br.com.bluesoft.pronto.model.RetrospectivaItem" />
+		
+		<mapping class="br.com.bluesoft.pronto.model.BancoDeDados" />
+		<mapping class="br.com.bluesoft.pronto.model.Script" />
+		<mapping class="br.com.bluesoft.pronto.model.Execucao" />
 
 		<listener type="pre-delete" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />
 		<listener type="pre-update" class="br.com.bluesoft.pronto.dao.HibernateAuditLogListener" />

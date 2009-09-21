@@ -20,7 +20,13 @@
 		<li><a href="${raiz}sprint/listar.action">Sprints</a></li>
 		<li><a href="${raiz}kanban/kanban.action">Kanban</a></li>
 		<li><a href="${raiz}burndown/burndown.action">Burndown</a></li>
-		<li><a href="${raiz}ticket/branches.action">Branches</a></li>
+		<li><a href="#">Ferramentas</a>
+			<ul>
+				<li><a href="${raiz}bancoDeDados/listar.action">Bancos de Dados</a></li>
+				<li><a href="${raiz}ticket/branches.action">Branches</a></li>
+				<li><a href="${raiz}script/listar.action">Scripts</a></li>
+			</ul>
+		</li>
 		<li><a href="${raiz}logout.action">Sair</a></li>
 	</ul>
 	<div class="clear"></div>
