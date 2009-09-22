@@ -37,6 +37,8 @@
 				</div>
 
 				<h5>Executar nos Bancos de Dados:</h5>
+				
+				<input type="checkbox" name="bancoDeDadosKey" value="${b.bancoDeDadosKey}"  ${checked ? 'checked="checked"' : ''} /> ${b.nome}
 				<c:forEach items="${bancos}" var="b">
 					<c:set var="checked" value="false"/>
 					<c:forEach var="bd" items="${script.bancosDeDados}">

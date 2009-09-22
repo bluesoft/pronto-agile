@@ -1,4 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
+<c:url var="listarExecucoesUrl" value="/execucao/listar.action"/>
+<c:url var="listarBancosUrl" value="/bancoDeDados/listar.action"/>
 <html>
 	<head>
 		<title>Scripts</title>
@@ -17,7 +19,11 @@
 		</script>
 	</head>
 	<body>
-		<h1>Scripts</h1>
+		<h1>
+			Scripts
+			<pronto:icons name="banco_de_dados.png" title="Ver Bancos de Dados" onclick="goTo('${listarBancosUrl}')"/>
+			<pronto:icons name="execucao.png" title="Ver Execuções" onclick="goTo('${listarExecucoesUrl}')"/>
+		</h1>
 		<c:set var="cor" value="${true}"/>
 		<table style="width: 100%">
 			<tr>
@@ -33,10 +39,10 @@
 					<td>${s.scriptKey}</td>
 					<td class="descricao">${s.descricao}</td>
 					<td>
-						<a href="editar.action?scriptKey=${s.scriptKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+						<a href="editar.action?scriptKey=${s.scriptKey}"><pronto:icons name="editar_script.png" title="Editar" /></a>
 					</td>
 					<td>
-						<a href="#"><pronto:icons name="excluir.png" title="Excluir" onclick="excluir(${s.scriptKey});"/></a>
+						<a href="#"><pronto:icons name="excluir_script.png" title="Excluir" onclick="excluir(${s.scriptKey});"/></a>
 					</td>
 				</tr>
 			</c:forEach>

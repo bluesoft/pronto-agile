@@ -23,15 +23,19 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.JavaScriptUtils;
 
 import br.com.bluesoft.pronto.dao.BancoDeDadosDao;
 import br.com.bluesoft.pronto.dao.ScriptDao;
 import br.com.bluesoft.pronto.model.BancoDeDados;
 import br.com.bluesoft.pronto.model.Script;
+import br.com.bluesoft.pronto.util.ControllerUtil;
 
 @Controller
 public class ScriptController {
@@ -48,7 +52,7 @@ public class ScriptController {
 	@RequestMapping("/script/listar.action")
 	public String listar(final Model model) {
 
-		final List<Script> scripts = scriptDao.listarPendentes();
+		final List<Script> scripts = scriptDao.listar();
 		model.addAttribute("scripts", scripts);
 
 		return VIEW_LISTAR;
@@ -56,13 +60,8 @@ public class ScriptController {
 
 	@RequestMapping("/script/editar.action")
 	public String editar(final Model model, final int scriptKey) {
-
-		final Script script = scriptDao.obter(scriptKey);
-		final List<BancoDeDados> bancos = bancoDeDadosDao.listar();
-
-		model.addAttribute("script", script);
-		model.addAttribute("bancos", bancos);
-
+		model.addAttribute("script", scriptDao.obter(scriptKey));
+		model.addAttribute("bancos", bancoDeDadosDao.listar());
 		return VIEW_EDITAR;
 
 	}
@@ -70,6 +69,7 @@ public class ScriptController {
 	@RequestMapping("/script/incluir.action")
 	public String incluir(final Model model) {
 		model.addAttribute("script", new Script());
+		model.addAttribute("bancos", bancoDeDadosDao.listar());
 		return VIEW_EDITAR;
 	}
 
@@ -104,6 +104,11 @@ public class ScriptController {
 
 			scriptDao.salvar(scriptOriginal);
 		} else {
+			if (bancoDeDadosKey != null) {
+				for (final Integer banco : bancoDeDadosKey) {
+					script.adicionarExecucaoParaOBanco(bancoDeDadosDao.obter(banco));
+				}
+			}
 			scriptDao.salvar(script);
 		}
 
@@ -116,4 +121,10 @@ public class ScriptController {
 		return "redirect:listar.action";
 	}
 
+	@RequestMapping("/script/verScript.action")
+	public void verScript(final HttpServletResponse response, final int scriptKey) {
+		final Script script = scriptDao.obter(scriptKey);
+		final String json = String.format("{descricao: '%s', script: '%s'}", script.getDescricao(), JavaScriptUtils.javaScriptEscape(script.getScript()));
+		ControllerUtil.writeText(response, json);
+	}
 }

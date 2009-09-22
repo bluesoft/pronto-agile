@@ -19,13 +19,19 @@
  */
 package br.com.bluesoft.pronto.model;
 
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 @Entity
 @SequenceGenerator(name = "SEQ_BANCO_DE_DADOS", sequenceName = "SEQ_BANCO_DE_DADOS")
@@ -37,7 +43,7 @@ public class BancoDeDados {
 
 	private String nome;
 
-	@OneToMany(mappedBy = "bancoDeDados")
+	@OneToMany(mappedBy = "bancoDeDados", cascade = CascadeType.REMOVE)
 	private Set<Execucao> execucoes;
 
 	public int getBancoDeDadosKey() {
@@ -67,6 +73,18 @@ public class BancoDeDados {
 	@Override
 	public String toString() {
 		return this.nome;
+	}
+
+	public List<Execucao> getExecucoesPendentes() {
+
+		return Lists.newArrayList(Iterables.filter(execucoes, new Predicate<Execucao>() {
+
+			@Override
+			public boolean apply(final Execucao input) {
+				return input.getData() == null;
+			}
+		}));
+
 	}
 
 }

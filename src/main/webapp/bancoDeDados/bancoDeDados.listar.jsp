@@ -1,4 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
+<c:url var="listarExecucoesUrl" value="/execucao/listar.action"/>
+<c:url var="listarScriptsUrl" value="/script/listar.action"/>
 <html>
 	<head>
 		<title>Bancos de Dados</title>
@@ -17,7 +19,11 @@
 		</script>
 	</head>
 	<body>
-		<h1>Bancos de Dados</h1>
+		<h1>
+			Bancos de Dados
+			<pronto:icons name="script.png" title="Ver Scripts" onclick="goTo('${listarScriptsUrl}')"/>
+			<pronto:icons name="execucao.png" title="Ver Execuções de Todos os Bancos de Dados" onclick="goTo('${listarExecucoesUrl}')"/>
+		</h1>
 		<c:set var="cor" value="${true}"/>
 		<table style="width: 100%">
 			<tr>
@@ -25,6 +31,7 @@
 				<th>Nome</th>
 				<th style="width: 16px;"></th>
 				<th style="width: 16px;"></th> 
+				<th style="width: 16px;"></th>
 			</tr>
 			<c:forEach items="${bancos}" var="b">
 				<c:set var="cor" value="${!cor}"/>
@@ -33,10 +40,13 @@
 					<td>${b.bancoDeDadosKey}</td>
 					<td class="descricao">${b.nome}</td>
 					<td>
-						<a href="editar.action?bancoDeDadosKey=${b.bancoDeDadosKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+						<pronto:icons name="execucao.png" title="Ver Execuções do Banco de Dados ${b.nome}" onclick="goTo('${listarExecucoesUrl}?bancoDeDadosKey=${b.bancoDeDadosKey}')"/>
 					</td>
 					<td>
-						<a href="#"><pronto:icons name="excluir.png" title="Excluir" onclick="excluir(${b.bancoDeDadosKey})"/></a>
+						<a href="editar.action?bancoDeDadosKey=${b.bancoDeDadosKey}"><pronto:icons name="editar_banco_de_dados.png" title="Editar" /></a>
+					</td>
+					<td>
+						<a href="#"><pronto:icons name="excluir_banco_de_dados.png" title="Excluir" onclick="excluir(${b.bancoDeDadosKey})"/></a>
 					</td>
 				</tr>
 			</c:forEach>

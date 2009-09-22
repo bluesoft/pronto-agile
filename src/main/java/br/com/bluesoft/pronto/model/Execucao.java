@@ -19,6 +19,7 @@
  */
 package br.com.bluesoft.pronto.model;
 
+import java.text.MessageFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -95,6 +96,16 @@ public class Execucao {
 
 	public boolean isExecutado() {
 		return this.getData() != null;
+	}
+
+	public String getStatus() {
+
+		if (isExecutado()) {
+			return MessageFormat.format("Executado em {0} por {1}", data, usuario.getUsername());
+		} else {
+			return "Não Executado";
+		}
+
 	}
 
 }

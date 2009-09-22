@@ -25,6 +25,7 @@
 				<li><a href="${raiz}bancoDeDados/listar.action">Bancos de Dados</a></li>
 				<li><a href="${raiz}ticket/branches.action">Branches</a></li>
 				<li><a href="${raiz}script/listar.action">Scripts</a></li>
+				<li><a href="${raiz}execucao/listar.action">Execuções de Scripts</a></li>
 			</ul>
 		</li>
 		<li><a href="${raiz}logout.action">Sair</a></li>
