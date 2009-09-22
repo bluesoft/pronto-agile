@@ -33,7 +33,7 @@
 				<th>Período</th>
 				<th>Esforço</th>
 				<th>Valor de Negócio</th>
-				<th style="width: 88px" colspan="5"></th>
+				<th style="width: 88px" colspan="7"></th>
 			</tr>
 			</thead>
 			<tbody>
