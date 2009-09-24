@@ -206,14 +206,7 @@
 			<artifactId>google-collections</artifactId>
 			<version>1.0-rc2</version>
 		</dependency>
-
-		<dependency>
-			<groupId>info.bliki.wiki</groupId>
-			<artifactId>bliki-core</artifactId>
-			<version>3.0.13</version>
-		</dependency>
 	</dependencies>
-
 
 	<properties>
 		<hibernate.annotations.version>3.2.1.ga</hibernate.annotations.version>
@@ -227,5 +220,4 @@
 		<cglib.version>2.1_3</cglib.version>
 		<log4j.version>1.2.14</log4j.version>
 	</properties>
-
 </project>
