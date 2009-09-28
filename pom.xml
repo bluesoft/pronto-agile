@@ -206,6 +206,14 @@
 			<artifactId>google-collections</artifactId>
 			<version>1.0-rc2</version>
 		</dependency>
+        
+        <dependency>
+            <groupId>info.bliki.wiki</groupId>
+            <artifactId>bliki-core</artifactId>
+            <version>3.0.11</version>
+        </dependency>
+        
+        
 	</dependencies>
 
 	<properties>

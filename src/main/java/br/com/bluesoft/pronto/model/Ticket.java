@@ -145,8 +145,11 @@ public class Ticket {
 	@Label("data de criaçao")
 	private Date dataDeCriacao;
 
-	@Label("prioridade")
+	@Label("prioridade de desenvolvimento")
 	private Integer prioridade;
+
+	@Label("prioridade do cliente")
+	private Integer prioridadeDoCliente;
 
 	@ManyToOne
 	@JoinColumn(name = "sprint")
@@ -526,6 +529,14 @@ public class Ticket {
 			menorPrioridade = Math.min(menorPrioridade, f.getPrioridade() == null ? 0 : f.getPrioridade());
 		}
 		return menorPrioridade;
+	}
+
+	public Integer getPrioridadeDoCliente() {
+		return prioridadeDoCliente;
+	}
+
+	public void setPrioridadeDoCliente(final Integer prioridadeDoCliente) {
+		this.prioridadeDoCliente = prioridadeDoCliente;
 	}
 
 }

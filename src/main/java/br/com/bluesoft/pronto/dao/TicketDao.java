@@ -358,9 +358,18 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		return query.list();
 	}
 
-	public List<Ticket> listarPorCliente(final String username) {
-		return null;
-
+	@SuppressWarnings("unchecked")
+	public List<Ticket> listarPorCliente(final int clienteKey) {
+		final StringBuilder builder = new StringBuilder();
+		builder.append(" select distinct t from Ticket t");
+		builder.append(" left join fetch t.filhos f ");
+		builder.append(" left join fetch t.pai p");
+		builder.append(" where t.backlog.backlogKey != 4 and t.pai is null");
+		builder.append(" and t.cliente.clienteKey = :clienteKey");
+		builder.append(" order by t.prioridadeCliente");
+		final Query query = getSession().createQuery(builder.toString());
+		query.setInteger("clienteKey", clienteKey);
+		return query.list();
 	}
 
 }

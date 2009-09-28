@@ -96,7 +96,7 @@ public class ClienteController {
 
 		Seguranca.validarPermissao(Papel.CLIENTE);
 
-		final List<Ticket> tickets = ticketDao.listarPorCliente(Seguranca.getUsuario().getUsername());
+		final List<Ticket> tickets = ticketDao.listarPorCliente(Seguranca.getUsuario().getCliente().getClienteKey());
 		model.addAttribute("tickets", tickets);
 
 		return VIEW_BACKLOG;

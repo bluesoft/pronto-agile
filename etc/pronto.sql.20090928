@@ -23,6 +23,8 @@ ALTER TABLE ONLY USUARIO
  
 ALTER TABLE TICKET ADD CLIENTE_KEY INTEGER; 
 
+ALTER TABLE TICKET ADD PRIORIDADE_CLIENTE INTEGER;
+
 ALTER TABLE ONLY TICKET
     ADD CONSTRAINT FK_TICKET_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);    
 
@@ -41,3 +43,4 @@ delete from papel where papel_key in (3,4,5,8);
 --o script abaixo vai buscar um cliente de mesmo nome e fazer a link entre as tabelas tarefa e cliente
 --depois apagará o campo cliente do ticket mantendo somente o cliente_key.
 update ticket set cliente_key = (select cliente_key from cliente c where c.nome = cliente);
+
