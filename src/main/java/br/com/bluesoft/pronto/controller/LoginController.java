@@ -34,7 +34,8 @@ import br.com.bluesoft.pronto.service.Seguranca;
 @Controller
 public class LoginController {
 
-	private static final String ACTION_KANBAN = "/kanban/kanban.action";
+	static final String ACTION_KANBAN = "/kanban/kanban.action";
+	static final String ACTION_BACKLOG_DO_CLIENTE = "/cliente/backlog.action";
 	static final String VIEW_BEM_VINDO = "/bemVindo.jsp";
 
 	@Autowired
@@ -44,8 +45,13 @@ public class LoginController {
 
 	@RequestMapping("/start.action")
 	public String start(final HttpSession httpSession) {
-		if (httpSession.getAttribute("usuarioLogado") != null) {
-			return "redirect:" + ACTION_KANBAN;
+		final Usuario usuarioLogado = (Usuario) httpSession.getAttribute("usuarioLogado");
+		if (usuarioLogado != null) {
+			if (usuarioLogado.isClientePapel()) {
+				return "redirect:" + ACTION_BACKLOG_DO_CLIENTE;
+			} else {
+				return "redirect:" + ACTION_KANBAN;
+			}
 		} else {
 			return "/login/login.login.jsp";
 		}
@@ -60,8 +66,11 @@ public class LoginController {
 			return "/start.action";
 		} else {
 			httpSession.setAttribute("usuarioLogado", usuario);
-			return "redirect:" + ACTION_KANBAN;
-
+			if (usuario.isClientePapel()) {
+				return "redirect:" + ACTION_BACKLOG_DO_CLIENTE;
+			} else {
+				return "redirect:" + ACTION_KANBAN;
+			}
 		}
 
 	}

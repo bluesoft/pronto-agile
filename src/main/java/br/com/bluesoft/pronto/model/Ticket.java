@@ -98,7 +98,10 @@ public class Ticket {
 	@JoinColumn(name = "REPORTER_KEY")
 	private Usuario reporter;
 
-	private String cliente;
+	@Label("cliente")
+	@ManyToOne
+	@JoinColumn(name = "CLIENTE_KEY")
+	private Cliente cliente;
 
 	private String solicitador;
 
@@ -208,11 +211,11 @@ public class Ticket {
 		this.reporter = reporter;
 	}
 
-	public String getCliente() {
+	public Cliente getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(final String cliente) {
+	public void setCliente(final Cliente cliente) {
 		this.cliente = cliente;
 	}
 

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.SegurancaException;
+import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.dao.BancoDeDadosDao;
 import br.com.bluesoft.pronto.dao.ExecucaoDao;
 import br.com.bluesoft.pronto.model.BancoDeDados;
@@ -29,7 +31,9 @@ public class ExecucaoController {
 	private ExecucaoDao execucaoDao;
 
 	@RequestMapping("/execucao/listar.action")
-	public String listar(final Model model, final Integer bancoDeDadosKey, final Boolean pendentes) {
+	public String listar(final Model model, final Integer bancoDeDadosKey, final Boolean pendentes) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.EQUIPE);
 
 		final List<BancoDeDados> bancosComExecucoes = Lists.newArrayList();
 
@@ -48,7 +52,9 @@ public class ExecucaoController {
 	}
 
 	@RequestMapping("/execucao/gerarScript.action")
-	public String listar(final Model model, final Integer bancoDeDadosKey, final Integer[] execucaoKey) {
+	public String listar(final Model model, final Integer bancoDeDadosKey, final Integer[] execucaoKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.EQUIPE);
 
 		final StringBuilder script = new StringBuilder();
 
@@ -69,7 +75,9 @@ public class ExecucaoController {
 	}
 
 	@RequestMapping("/execucao/confirmar.action")
-	public String confirmar(final Model model, final Integer bancoDeDadosKey, final Integer[] execucaoKey) {
+	public String confirmar(final Model model, final Integer bancoDeDadosKey, final Integer[] execucaoKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.EQUIPE);
 
 		final StringBuilder script = new StringBuilder();
 

@@ -107,7 +107,7 @@
 				<h1>
 					Sprint ${sprint.nome} 
 					<a href="${editarSprintUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="editar.png" title="Editar Sprint" /></a>
-					<c:if test="${(usuarioLogado.desenvolvedor or usuarioLogado.productOwner)}">
+					<c:if test="${(usuarioLogado.equipe or usuarioLogado.productOwner)}">
 						<a href="${estimarPorSprintUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="estimar.png" title="Estimar Sprint" /></a>
 					</c:if>
 					<a href="${adicionarTarefasUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="adicionar.png" title="Adicionar Estórias ou Defeitos do Product Backlog ao Sprint" /></a>
@@ -117,7 +117,7 @@
 			<c:otherwise>
 				<h1>
 					${backlog.descricao} 
-					<c:if test="${(usuarioLogado.desenvolvedor or usuarioLogado.productOwner) and (backlog.backlogKey le 3)}">
+					<c:if test="${(usuarioLogado.equipe or usuarioLogado.productOwner) and (backlog.backlogKey le 3)}">
 						<a href="${estimarPorBacklogUrl}?backlogKey=${backlog.backlogKey}"><pronto:icons name="estimar.png" title="Estimar Backlog" /></a>  
 					</c:if>
 				</h1>

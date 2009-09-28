@@ -204,7 +204,7 @@
 				
 				<c:if test="${ticket.backlog.backlogKey eq 3}">
 					<c:choose>
-						<c:when test="${!ticket.tarefa}">
+						<c:when test="${!ticket.tarefa and !(ticket.sprint ne null and ticket.sprint.fechado)}">
 							<form:select path="ticket.sprint.sprintKey">
 								<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
 							</form:select>
@@ -234,11 +234,24 @@
 				<div>
 					<c:choose>
 						<c:when test="${!ticket.tarefa}">
-							<form:input path="ticket.cliente"  cssClass="required"/><br/>
+							<select name="clienteKey" id="clienteKey">
+								<c:forEach var="c" items="${clientes}">
+									<c:choose>
+										<c:when test="${c.clienteKey eq ticket.cliente.clienteKey}">
+											<option value="${c.clienteKey}" selected="selected">${c.nome}</option>	
+										</c:when>
+										<c:otherwise>
+											<option value="${c.clienteKey}">${c.nome}</option>
+										</c:otherwise>
+									</c:choose>
+									
+								</c:forEach>							
+							</select>
+							<br/>
 						</c:when>
 						<c:otherwise>
 							<form:hidden path="ticket.cliente" />
-							<b>${ticket.cliente eq null ? '-' : ticket.cliente}</b>							
+							<b>${ticket.cliente eq null ? '-' : ticket.cliente.nome}</b>							
 						</c:otherwise>
 					</c:choose>
 					<p>Cliente</p>
@@ -284,7 +297,7 @@
 				
 				<div>
 					<c:choose>
-						<c:when test="${usuarioLogado.desenvolvedor and empty ticket.filhos}">
+						<c:when test="${usuarioLogado.equipe and empty ticket.filhos}">
 							<form:input path="ticket.esforco" cssClass="required number" /><br/>
 						</c:when>
 						<c:otherwise>

@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.bluesoft.pronto.ProntoException;
 import br.com.bluesoft.pronto.core.Papel;
+import br.com.bluesoft.pronto.dao.ClienteDao;
 import br.com.bluesoft.pronto.dao.PapelDao;
 import br.com.bluesoft.pronto.dao.UsuarioDao;
 import br.com.bluesoft.pronto.model.Usuario;
@@ -44,6 +45,9 @@ public class UsuarioController {
 
 	private static final String VIEW_LISTAR = "usuario.listar.jsp";
 	private static final String VIEW_EDITAR = "usuario.editar.jsp";
+
+	@Autowired
+	private ClienteDao clienteDao;
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -73,6 +77,7 @@ public class UsuarioController {
 			model.addAttribute("usuario", new Usuario());
 		}
 
+		model.addAttribute("clientes", clienteDao.listar());
 		model.addAttribute("papeis", papelDao.listar());
 
 		return VIEW_EDITAR;
@@ -103,7 +108,7 @@ public class UsuarioController {
 	}
 
 	@RequestMapping("/usuario/salvar.action")
-	public String salvar(final Model model, final Usuario usuario, final int[] papel, final String password, final HttpSession httpSession) throws Exception {
+	public String salvar(final Model model, final HttpSession httpSession, final Usuario usuario, final int[] papel, final Integer clienteKey, final String password) throws Exception {
 
 		Seguranca.validarPermissao(Papel.ADMINISTRADOR);
 
@@ -112,6 +117,10 @@ public class UsuarioController {
 		usuario.getPapeis().clear();
 		for (final int i : papel) {
 			usuario.addPapel((Papel) sessionFactory.getCurrentSession().get(Papel.class, i));
+		}
+
+		if (usuario.isClientePapel()) {
+			usuario.setCliente(clienteDao.obter(clienteKey));
 		}
 
 		if (password != null) {

@@ -26,12 +26,13 @@ import javax.persistence.Id;
 @Entity
 public class Papel {
 
+	public static final int ADMINISTRADOR = 6;
+
 	public static final int PRODUCT_OWNER = 1;
 	public static final int SCRUM_MASTER = 2;
-	public static final int DESENVOLVEDOR = 3;
-	public static final int TESTADOR = 4;
-	public static final int SUPORTE = 5;
-	public static final int ADMINISTRADOR = 6;
+	public static final int EQUIPE = 9;
+
+	public static final int CLIENTE = 7;
 
 	public Papel() {
 

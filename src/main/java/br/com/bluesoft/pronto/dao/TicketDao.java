@@ -175,6 +175,11 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 				ticket.setDataDeCriacao(new Date());
 			}
 
+			// Se o status for pronto tem que ter data de pronto.
+			if (ticket.getKanbanStatus().getKanbanStatusKey() == KanbanStatus.DONE && ticket.getDataDePronto() == null) {
+				ticket.setDataDePronto(new Date());
+			}
+
 			getSession().saveOrUpdate(ticket);
 
 		}
@@ -351,6 +356,11 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		final Query query = getSession().createQuery(builder.toString());
 
 		return query.list();
+	}
+
+	public List<Ticket> listarPorCliente(final String username) {
+		return null;
+
 	}
 
 }

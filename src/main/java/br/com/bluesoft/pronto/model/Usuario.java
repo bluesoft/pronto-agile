@@ -30,6 +30,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import br.com.bluesoft.pronto.core.Papel;
 
@@ -46,6 +47,10 @@ public class Usuario implements Comparable<Usuario> {
 	private String email;
 
 	private String emailMd5;
+
+	@ManyToOne
+	@JoinColumn(name = "CLIENTE_KEY")
+	private Cliente cliente;
 
 	@ManyToMany
 	@JoinTable(name = "USUARIO_PAPEL", joinColumns = { @JoinColumn(name = "USUARIO_KEY") }, inverseJoinColumns = { @JoinColumn(name = "PAPEL_KEY") })
@@ -155,24 +160,20 @@ public class Usuario implements Comparable<Usuario> {
 		return temOPapel(Papel.PRODUCT_OWNER);
 	}
 
-	public boolean isDesenvolvedor() {
-		return temOPapel(Papel.DESENVOLVEDOR);
-	}
-
 	public boolean isScrumMaster() {
 		return temOPapel(Papel.SCRUM_MASTER);
 	}
 
-	public boolean isSuporte() {
-		return temOPapel(Papel.SUPORTE);
-	}
-
-	public boolean isTestador() {
-		return temOPapel(Papel.TESTADOR);
+	public boolean isEquipe() {
+		return temOPapel(Papel.EQUIPE);
 	}
 
 	public boolean isAdministrador() {
 		return temOPapel(Papel.ADMINISTRADOR);
+	}
+
+	public boolean isClientePapel() {
+		return temOPapel(Papel.CLIENTE);
 	}
 
 	public boolean temOPapel(final int papelKey) {
@@ -182,6 +183,14 @@ public class Usuario implements Comparable<Usuario> {
 			}
 		}
 		return false;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(final Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 }

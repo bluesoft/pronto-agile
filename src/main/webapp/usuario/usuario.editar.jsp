@@ -6,11 +6,34 @@
 		<script>
 			$(function() {
 				$('#formUsuario').validate();
+				onChangePapeis();
 			});
 		
 			function salvar() {
 				$('#formUsuario').submit();
+			}
+
+			function onChangePapeis(){
+				var ehCliente = temOPapelCliente();
+				if (ehCliente) {
+					$('#clienteKey').removeAttr('disabled');
+				} else {
+					$('#clienteKey').attr('disabled','disabled');
+				}
 			}		
+
+
+			function temOPapelCliente() {
+				var $papel = $('#papel');
+				var papeis = new String($papel.val()).split(',');
+				var tem = false;
+				for (p in papeis) {
+					tem = tem || parseFloat(papeis[p]) == 7;
+				}
+				return tem;
+			}
+
+			
 		</script>
 	</head>
 	<body>
@@ -55,13 +78,23 @@
 					</div>
 				</c:if>
 				<div>
-					<select size="5" multiple="multiple" name="papel" class="required">
+					<select size="5" multiple="multiple" name="papel" class="required" onchange="onChangePapeis()" id="papel">
 						<c:forEach items="${papeis}" var="papel">
 							<option value="${papel.papelKey}" ${usuario.mapaPapeis[papel.papelKey] ? 'selected="selected"' : ''}>${papel.descricao}</option>
 						</c:forEach>
 					</select>
 					<p>Papéis</p>
 				</div>
+				
+				<div>
+					<select name="clienteKey" disabled="disabled" id="clienteKey">
+						<c:forEach items="${clientes}" var="cliente">
+							<option value="${cliente.clienteKey}" ${usuario.cliente.clienteKey eq cliente.clienteKey ? 'selected="selected"' : ''}>${cliente.nome}</option>
+						</c:forEach>
+					</select>
+					<p>Cliente</p>
+				</div>
+				
 				<div align="center">
 					<button type="button" onclick="window.location.href='listar.action'">Cancelar</button>
 					<button type="button" onclick="salvar()">Salvar</button><br/>

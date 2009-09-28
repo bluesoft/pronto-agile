@@ -1,0 +1,43 @@
+CREATE SEQUENCE seq_cliente
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+    ALTER TABLE seq_cliente OWNER TO pronto;
+
+CREATE TABLE cliente (
+    cliente_key integer NOT NULL,
+    nome character varying(120)
+);
+
+ALTER TABLE cliente OWNER TO pronto;
+
+ALTER TABLE ONLY cliente
+    ADD CONSTRAINT cliente_pkey PRIMARY KEY (cliente_key);
+    
+ALTER TABLE USUARIO ADD CLIENTE_KEY INTEGER;
+  
+ALTER TABLE ONLY USUARIO
+    ADD CONSTRAINT FK_USUARIO_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);    
+ 
+ALTER TABLE TICKET ADD CLIENTE_KEY INTEGER; 
+
+ALTER TABLE ONLY TICKET
+    ADD CONSTRAINT FK_TICKET_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);    
+
+
+--Apagamos os tipos desenvolvedor, suporte e testador e mantivemos apenas equipe para ficar mais leal ao Scrum.
+insert into papel VALUES (9,'Equipe');
+INSERT INTO papel VALUES (7, 'Cliente');
+
+insert into usuario_papel select distinct usuario_key, 9 from usuario_papel where papel_key in (3,4,5,8);
+delete from usuario_papel where papel_key in (3,4,5,8);
+delete from papel where papel_key in (3,4,5,8);
+
+--O cliente do ticket agora deve apontar para um cliente da tabela cliente.
+--Por isso, antes de rodar o script abaixo cadastre os seus cliente na tabela cliente
+--com os mesmos nomes que você digitava no campo cliente dos tickets.
+--o script abaixo vai buscar um cliente de mesmo nome e fazer a link entre as tabelas tarefa e cliente
+--depois apagará o campo cliente do ticket mantendo somente o cliente_key.
+update ticket set cliente_key = (select cliente_key from cliente c where c.nome = cliente);

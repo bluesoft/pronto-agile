@@ -28,8 +28,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.SegurancaException;
+import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Ticket;
+import br.com.bluesoft.pronto.service.Seguranca;
 
 @Controller
 public class BuscarController {
@@ -38,7 +41,9 @@ public class BuscarController {
 	private TicketDao ticketDao;
 
 	@RequestMapping("/buscar.action")
-	public String buscar(final Model model, final String query) {
+	public String buscar(final Model model, final String query) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER);
 
 		if (NumberUtils.toInt(query) > 0) {
 			return "redirect:/ticket/editar.action?ticketKey=" + query;

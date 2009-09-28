@@ -35,8 +35,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.SegurancaException;
+import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.model.Sprint;
+import br.com.bluesoft.pronto.service.Seguranca;
 
 @Controller
 public class BurndownController {
@@ -45,7 +48,10 @@ public class BurndownController {
 	private SprintDao sprintDao;
 
 	@RequestMapping("/burndown/burndown.action")
-	public String burndown(final Model model, final Integer sprintKey) {
+	public String burndown(final Model model, final Integer sprintKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.EQUIPE, Papel.PRODUCT_OWNER, Papel.SCRUM_MASTER);
+
 		model.addAttribute("sprintKey", sprintKey);
 
 		if (sprintKey == null && sprintDao.getSprintAtual() == null) {
@@ -164,8 +170,6 @@ public class BurndownController {
 
 	@RequestMapping("/burndown/flash.action")
 	public String flash() {
-		// return "redirect:/open-flash-chart.swf?ofc=burndown/data.action";
-
 		return "redirect:/burndown/burndown.fullscreen.jsp";
 	}
 }

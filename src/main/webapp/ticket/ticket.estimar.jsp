@@ -142,7 +142,7 @@
 						</td>
 						<td class="esforco">
 							<c:choose>
-								<c:when test="${usuarioLogado.desenvolvedor}">
+								<c:when test="${usuarioLogado.equipe}">
 									<c:choose>
 										<c:when test="${empty t.filhos}">
 											<input type="text" size="5" name="esforco" value="${t.esforco}" onchange="recalcular();salvarEsforco(this);" class="required number"/>
@@ -159,7 +159,7 @@
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${usuarioLogado.desenvolvedor}">
+								<c:when test="${usuarioLogado.equipe}">
 									<c:choose>
 										<c:when test="${empty t.filhos}">
 											<select name="par" onchange="salvarPar(this);">
@@ -179,7 +179,7 @@
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${usuarioLogado.desenvolvedor}">
+								<c:when test="${usuarioLogado.equipe}">
 									<c:choose>
 										<c:when test="${empty t.filhos}">
 											<input type="text" name="branch" value="${t.branch}" size="12" onchange="salvarBranch(this);"/>
@@ -223,7 +223,7 @@
 								</td>
 								<td class="esforco">
 									<c:choose>
-										<c:when test="${usuarioLogado.desenvolvedor}">
+										<c:when test="${usuarioLogado.equipe}">
 											<input type="text" size="5" name="esforco" value="${f.esforco}" onchange="recalcular();salvarEsforco(this);" class="required number"/>
 										</c:when>
 										<c:otherwise>
@@ -233,7 +233,7 @@
 								</td>
 								<td>
 									<c:choose>
-										<c:when test="${usuarioLogado.desenvolvedor}">
+										<c:when test="${usuarioLogado.equipe}">
 											<select name="par" onchange="salvarPar(this);">
 												<option value="true" ${f.par ? 'selected="selected"' : ''}>Par</option>
 												<option value="false" ${!f.par ? 'selected="selected"' : ''}>Solo</option>
@@ -246,7 +246,7 @@
 								</td>
 								<td>
 									<c:choose>
-										<c:when test="${usuarioLogado.desenvolvedor}">
+										<c:when test="${usuarioLogado.equipe}">
 											<input type="text" name="branch" value="${f.branch}" size="12" onchange="salvarBranch(this);"/>
 										</c:when>
 										<c:otherwise>

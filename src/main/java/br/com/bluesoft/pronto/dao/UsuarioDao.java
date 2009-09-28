@@ -52,12 +52,8 @@ public class UsuarioDao extends DaoHibernate<Usuario, String> {
 
 	}
 
-	public List<Usuario> listarTestadores() {
-		return listarUsuariosPorPapel(Papel.TESTADOR);
-	}
-
-	public List<Usuario> listarDesenvolvedores() {
-		return listarUsuariosPorPapel(Papel.DESENVOLVEDOR);
+	public List<Usuario> listarEquipe() {
+		return listarUsuariosPorPapel(Papel.EQUIPE);
 	}
 
 	@SuppressWarnings("unchecked")

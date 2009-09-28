@@ -28,7 +28,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.SegurancaException;
 import br.com.bluesoft.pronto.core.KanbanStatus;
+import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.dao.KanbanStatusDao;
 import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
@@ -54,7 +56,9 @@ public class KanbanController {
 	private KanbanStatusDao kanbanStatusDao;
 
 	@RequestMapping("/kanban/kanban.action")
-	public String index(final Model model, Sprint sprint) {
+	public String index(final Model model, Sprint sprint) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER);
 
 		if (sprint == null || sprint.getSprintKey() == 0) {
 			sprint = sprintDao.getSprintAtualComTickets();
@@ -75,21 +79,17 @@ public class KanbanController {
 	}
 
 	@RequestMapping("/kanban/mover.action")
-	public String mover(final Model model, final int ticketKey, final int kanbanStatusKey) {
+	public String mover(final Model model, final int ticketKey, final int kanbanStatusKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.EQUIPE);
 
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setKanbanStatus((KanbanStatus) sessionFactory.getCurrentSession().get(KanbanStatus.class, kanbanStatusKey));
 
 		if (kanbanStatusKey == KanbanStatus.DONE) {
 			ticket.setDataDePronto(new Date());
-			if (Seguranca.getUsuario().isTestador()) {
-				ticket.addTestador(Seguranca.getUsuario());
-			}
 		} else {
 			ticket.setDataDePronto(null);
-			if (kanbanStatusKey == KanbanStatus.DOING && Seguranca.getUsuario().isDesenvolvedor()) {
-				ticket.addDesenvolvedor(Seguranca.getUsuario());
-			}
 		}
 
 		ticketDao.salvar(ticket);

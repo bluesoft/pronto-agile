@@ -18,6 +18,9 @@
 			<tbody>
 			<c:set var="cor" value="${true}"/>
 			<c:forEach items="${usuarios}" var="u">
+				
+				<c:if test="${usuarioLogado.username eq u.username or usuarioLogado.administrador}">
+			
 				<c:set var="cor" value="${!cor}"/>
 				<tr style="height: 18px" class="${cor ? 'even' : 'odd'}">
 					<td style="width: 30px;">
@@ -44,11 +47,13 @@
 						</c:if>
 					</td>
 				</tr>
+				
+				</c:if>
 			</c:forEach>
 			</tbody>
 		</table>	
 		
-		<c:if test="${usuarioLogado.scrumMaster}">
+		<c:if test="${usuarioLogado.administrador}">
 			<div align="center">
 				<button type="button" onclick="window.location.href='editar.action'">Incluir Usuário</button>
 			</div>

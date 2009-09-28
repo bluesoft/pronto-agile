@@ -54,6 +54,7 @@ import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.dao.BacklogDao;
+import br.com.bluesoft.pronto.dao.ClienteDao;
 import br.com.bluesoft.pronto.dao.KanbanStatusDao;
 import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
@@ -79,6 +80,9 @@ public class TicketController {
 	private static final String VIEW_ESTIMAR = "ticket.estimar.jsp";
 	private static final String VIEW_EDITAR = "ticket.editar.jsp";
 	private static final String VIEW_LISTAR_AGRUPADO = "ticket.listarAgrupado.jsp";
+
+	@Autowired
+	private ClienteDao clienteDao;
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -113,7 +117,10 @@ public class TicketController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorBacklog.action")
-	public String listarPorBacklog(final Model model, final int backlogKey) {
+	public String listarPorBacklog(final Model model, final int backlogKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER);
+
 		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey);
 		final List<Ticket> tarefasSoltas = ticketDao.listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(backlogKey);
 		model.addAttribute("tickets", tickets);
@@ -128,7 +135,10 @@ public class TicketController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/listarPorSprint.action")
-	public String listarPorSprint(final Model model, final int sprintKey) {
+	public String listarPorSprint(final Model model, final int sprintKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER);
+
 		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey);
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("sprint", sprintDao.obter(sprintKey));
@@ -141,7 +151,9 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/listarPendentesPorCliente.action")
-	public String listarTicketsPendentesPorCliente(final Model model, final Integer kanbanStatusKey) {
+	public String listarTicketsPendentesPorCliente(final Model model, final Integer kanbanStatusKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER);
 
 		List<Ticket> tickets = null;
 		if (kanbanStatusKey != null && kanbanStatusKey > 0) {
@@ -152,7 +164,7 @@ public class TicketController {
 
 		final Multimap<String, Ticket> ticketsAgrupados = ArrayListMultimap.create();
 		for (final Ticket ticket : tickets) {
-			ticketsAgrupados.put(ticket.getCliente() != null ? ticket.getCliente() : "Indefinido", ticket);
+			ticketsAgrupados.put(ticket.getCliente() != null ? ticket.getCliente().getNome() : "Indefinido", ticket);
 		}
 
 		model.addAttribute("ticketsAgrupados", ticketsAgrupados.asMap());
@@ -164,7 +176,8 @@ public class TicketController {
 		return VIEW_LISTAR_AGRUPADO;
 	}
 
-	private String montaDescricaoTotal(final Map<Integer, Integer> totaisPorTipoDeTicket) {
+	private String montaDescricaoTotal(final Map<Integer, Integer> totaisPorTipoDeTicket) throws SegurancaException {
+
 		final Integer totalDeDefeitos = totaisPorTipoDeTicket.get(TipoDeTicket.DEFEITO);
 		final Integer totalDeEstorias = totaisPorTipoDeTicket.get(TipoDeTicket.ESTORIA);
 		final Integer totalDeTarefas = totaisPorTipoDeTicket.get(TipoDeTicket.TAREFA);
@@ -224,7 +237,9 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/salvar.action")
-	public String salvar(final Model model, final Ticket ticket, final String comentario, final String[] desenvolvedor, final String[] testador, final Integer paiKey) {
+	public String salvar(final Model model, final Ticket ticket, final String comentario, final String[] desenvolvedor, final String[] testador, final Integer paiKey, final Integer clienteKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER);
 
 		try {
 			final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
@@ -251,6 +266,10 @@ public class TicketController {
 
 			ticket.setKanbanStatus(kanbanStatusDao.obter(ticket.getKanbanStatus().getKanbanStatusKey()));
 
+			if (clienteKey != null) {
+				ticket.setCliente(clienteDao.obter(clienteKey));
+			}
+
 			if (ticket.getTicketKey() == 0) {
 				ticket.setReporter(usuarioDao.obter(ticket.getReporter().getUsername()));
 			}
@@ -275,7 +294,9 @@ public class TicketController {
 
 	}
 
-	private void definirDesenvolvedores(final Ticket ticket, final String[] desenvolvedor) {
+	private void definirDesenvolvedores(final Ticket ticket, final String[] desenvolvedor) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.EQUIPE, Papel.SCRUM_MASTER);
 
 		final Set<Usuario> desenvolvedoresAntigos = new TreeSet<Usuario>(ticketDao.listarDesenvolvedoresDoTicket(ticket.getTicketKey()));
 
@@ -293,7 +314,9 @@ public class TicketController {
 		}
 	}
 
-	private void definirTestadores(final Ticket ticket, final String[] testador) {
+	private void definirTestadores(final Ticket ticket, final String[] testador) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.EQUIPE, Papel.SCRUM_MASTER);
 
 		final Set<Usuario> testadoresAntigos = new TreeSet<Usuario>(ticketDao.listarTestadoresDoTicket(ticket.getTicketKey()));
 
@@ -312,7 +335,10 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/jogarNoLixo.action")
-	public String jogarNoLixo(final Model model, final int ticketKey, final HttpServletResponse response) {
+	public String jogarNoLixo(final Model model, final int ticketKey, final HttpServletResponse response) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE);
+
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.LIXEIRA));
 		ticketDao.salvar(ticket);
@@ -320,7 +346,10 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/moverParaImpedimentos.action")
-	public String moverParaImpedimentos(final Model model, final int ticketKey, final HttpServletResponse response) {
+	public String moverParaImpedimentos(final Model model, final int ticketKey, final HttpServletResponse response) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE);
+
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS));
 		ticketDao.salvar(ticket);
@@ -329,7 +358,9 @@ public class TicketController {
 
 	@RequestMapping("/ticket/moverParaBranchMaster.action")
 	public String moverParaBranchMaster(final Model model, final int ticketKey, final HttpServletResponse response) throws SegurancaException {
-		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.TESTADOR);
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE);
+
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 		ticket.setBranch(Ticket.BRANCH_MASTER);
 		ticketDao.salvar(ticket);
@@ -391,7 +422,10 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/restaurar.action")
-	public String restaurar(final Model model, final int ticketKey, final HttpServletResponse response) {
+	public String restaurar(final Model model, final int ticketKey, final HttpServletResponse response) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE);
+
 		final Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey);
 
 		Backlog backlog = null;
@@ -517,7 +551,7 @@ public class TicketController {
 
 	@RequestMapping("/ticket/estimarSprint.action")
 	public String estimarSprint(final Model model, final int sprintKey) throws SegurancaException {
-		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.PRODUCT_OWNER);
+		Seguranca.validarPermissao(Papel.EQUIPE, Papel.PRODUCT_OWNER);
 		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey);
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
@@ -526,7 +560,7 @@ public class TicketController {
 
 	@RequestMapping("/ticket/estimarBacklog.action")
 	public String estimarBacklog(final Model model, final int backlogKey) throws SegurancaException {
-		Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.PRODUCT_OWNER);
+		Seguranca.validarPermissao(Papel.EQUIPE, Papel.PRODUCT_OWNER);
 		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey);
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey));
@@ -549,7 +583,7 @@ public class TicketController {
 	@RequestMapping("/ticket/salvarBranch.action")
 	public void salvarBranch(final HttpServletResponse response, final int ticketKey, final String branch) throws SegurancaException {
 		try {
-			Seguranca.validarPermissao(Papel.DESENVOLVEDOR, Papel.TESTADOR);
+			Seguranca.validarPermissao(Papel.EQUIPE);
 			final Ticket ticket = ticketDao.obter(ticketKey);
 			ticket.setBranch(branch);
 			ticketDao.salvar(ticket);
@@ -562,7 +596,7 @@ public class TicketController {
 	@RequestMapping("/ticket/salvarEsforco.action")
 	public void salvarEsforco(final HttpServletResponse response, final int ticketKey, final double esforco) throws SegurancaException {
 		try {
-			Seguranca.validarPermissao(Papel.DESENVOLVEDOR);
+			Seguranca.validarPermissao(Papel.EQUIPE);
 			final Ticket ticket = ticketDao.obter(ticketKey);
 			ticket.setEsforco(esforco);
 			ticketDao.salvar(ticket);
@@ -575,7 +609,7 @@ public class TicketController {
 	@RequestMapping("/ticket/salvarPar.action")
 	public void salvarPar(final HttpServletResponse response, final int ticketKey, final boolean par) throws SegurancaException {
 		try {
-			Seguranca.validarPermissao(Papel.DESENVOLVEDOR);
+			Seguranca.validarPermissao(Papel.EQUIPE);
 			final Ticket ticket = ticketDao.obter(ticketKey);
 			ticket.setPar(par);
 			ticketDao.salvar(ticket);
@@ -586,7 +620,10 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/listarTarefasParaAdicionarAoSprint.action")
-	public String listarTarefasParaAdicionarAoSprint(final Model model, final int sprintKey) {
+	public String listarTarefasParaAdicionarAoSprint(final Model model, final int sprintKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE);
+
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey));
 		model.addAttribute("tickets", ticketDao.listarEstoriasEDefeitosDoProductBacklog());
 		return "/ticket/ticket.adicionarAoSprint.jsp";
@@ -616,7 +653,10 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/transformarEmEstoria.action")
-	public String transformarEmEstoria(final Model model, final int ticketKey) {
+	public String transformarEmEstoria(final Model model, final int ticketKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE);
+
 		final Ticket ticket = ticketDao.obter(ticketKey);
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().createCriteria(TipoDeTicket.class).add(Restrictions.eq("tipoDeTicketKey", TipoDeTicket.ESTORIA)).uniqueResult());
 		ticketDao.salvar(ticket);
@@ -624,7 +664,10 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/transformarEmDefeito.action")
-	public String transformarEmDefeito(final Model model, final int ticketKey) {
+	public String transformarEmDefeito(final Model model, final int ticketKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE);
+
 		final Ticket ticket = ticketDao.obter(ticketKey);
 
 		if (ticket.getFilhos() != null && ticket.getFilhos().size() > 0) {
@@ -645,7 +688,10 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/editar.action")
-	public String editar(final Model model, final Integer ticketKey, final Integer tipoDeTicketKey, final Integer backlogKey) {
+	public String editar(final Model model, final Integer ticketKey, final Integer tipoDeTicketKey, final Integer backlogKey) throws SegurancaException {
+
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE);
+
 		if (ticketKey != null) {
 			final Ticket ticket = ticketDao.obterComDependecias(ticketKey);
 
@@ -665,8 +711,9 @@ public class TicketController {
 			model.addAttribute("tipoDeTicketKey", tipoDeTicketKey);
 		}
 
-		model.addAttribute("testadores", usuarioDao.listarTestadores());
-		model.addAttribute("desenvolvedores", usuarioDao.listarDesenvolvedores());
+		model.addAttribute("clientes", clienteDao.listar());
+		model.addAttribute("testadores", usuarioDao.listarEquipe());
+		model.addAttribute("desenvolvedores", usuarioDao.listarEquipe());
 		model.addAttribute("kanbanStatus", kanbanStatusDao.listar());
 		return VIEW_EDITAR;
 	}
@@ -674,16 +721,19 @@ public class TicketController {
 	@RequestMapping("/ticket/incluirTarefa.action")
 	public String incluirTarefa(final Model model, final int paiKey) throws Exception {
 
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE);
+
 		final Ticket pai = ticketDao.obter(paiKey);
 
 		final Ticket tarefa = new Ticket();
 		copiarDadosDoPai(pai, tarefa);
+		tarefa.setPrioridade(9999);
 
 		model.addAttribute("ticket", tarefa);
 		model.addAttribute("tipoDeTicketKey", TipoDeTicket.TAREFA);
 		model.addAttribute("kanbanStatus", kanbanStatusDao.listar());
-		model.addAttribute("testadores", usuarioDao.listarTestadores());
-		model.addAttribute("desenvolvedores", usuarioDao.listarDesenvolvedores());
+		model.addAttribute("testadores", usuarioDao.listarEquipe());
+		model.addAttribute("desenvolvedores", usuarioDao.listarEquipe());
 
 		return VIEW_EDITAR;
 	}

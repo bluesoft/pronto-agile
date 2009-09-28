@@ -26,8 +26,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.SegurancaException;
+import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.dao.BancoDeDadosDao;
 import br.com.bluesoft.pronto.model.BancoDeDados;
+import br.com.bluesoft.pronto.service.Seguranca;
 
 @Controller
 public class BancoDeDadosController {
@@ -39,33 +42,38 @@ public class BancoDeDadosController {
 	private BancoDeDadosDao bancoDeDadosDao;
 
 	@RequestMapping("/bancoDeDados/listar.action")
-	public String listar(final Model model) {
+	public String listar(final Model model) throws SegurancaException {
+		Seguranca.validarPermissao(Papel.EQUIPE);
 		final List<BancoDeDados> bancos = bancoDeDadosDao.listar();
 		model.addAttribute("bancos", bancos);
 		return VIEW_LISTAR;
 	}
 
 	@RequestMapping("/bancoDeDados/editar.action")
-	public String editar(final Model model, final int bancoDeDadosKey) {
+	public String editar(final Model model, final int bancoDeDadosKey) throws SegurancaException {
+		Seguranca.validarPermissao(Papel.EQUIPE);
 		final BancoDeDados bancoDeDados = bancoDeDadosDao.obter(bancoDeDadosKey);
 		model.addAttribute("bancoDeDados", bancoDeDados);
 		return VIEW_EDITAR;
 	}
 
 	@RequestMapping("/bancoDeDados/incluir.action")
-	public String incluir(final Model model) {
+	public String incluir(final Model model) throws SegurancaException {
+		Seguranca.validarPermissao(Papel.EQUIPE);
 		model.addAttribute("bancoDeDados", new BancoDeDados());
 		return VIEW_EDITAR;
 	}
 
 	@RequestMapping("/bancoDeDados/salvar.action")
-	public String salvar(final Model model, final BancoDeDados bancoDeDados) {
+	public String salvar(final Model model, final BancoDeDados bancoDeDados) throws SegurancaException {
+		Seguranca.validarPermissao(Papel.EQUIPE);
 		bancoDeDadosDao.salvar(bancoDeDados);
 		return "redirect:listar.action";
 	}
 
 	@RequestMapping("/bancoDeDados/excluir.action")
-	public String excluir(final Model model, final int bancoDeDadosKey) {
+	public String excluir(final Model model, final int bancoDeDadosKey) throws SegurancaException {
+		Seguranca.validarPermissao(Papel.EQUIPE);
 		final BancoDeDados bancoDeDados = bancoDeDadosDao.obter(bancoDeDadosKey);
 		bancoDeDadosDao.excluir(bancoDeDados);
 		return "redirect:listar.action";
