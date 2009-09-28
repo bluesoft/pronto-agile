@@ -85,7 +85,8 @@
 				<th>#</th>
 				<th class="titulo">Título</th>
 				<th>Solicitador</th>
-				<th>Data</th>
+				<th>Data da Solicitação</th>
+				<th>Data da Entrega</th>
 				<th style="width: 16px"></th>
 			</tr>
 			</thead>
@@ -99,6 +100,7 @@
 						<td class="titulo">${t.titulo}</td>
 						<td>${t.solicitador}</td>
 						<td><fmt:formatDate value="${t.dataDeCriacao}"/></td>
+						<td><fmt:formatDate value="${t.dataDePronto}"/></td>
 						<td>
 							<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
 						</td>
