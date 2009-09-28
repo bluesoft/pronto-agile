@@ -58,6 +58,30 @@ CREATE SEQUENCE seq_ticket_log
     CACHE 1;
 
     ALTER TABLE public.seq_ticket_log OWNER TO pronto;
+
+CREATE SEQUENCE seq_script
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+    ALTER TABLE seq_script OWNER TO pronto;
+
+CREATE SEQUENCE seq_banco_de_dados
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+    ALTER TABLE seq_banco_de_dados OWNER TO pronto;
+
+CREATE SEQUENCE seq_execucao
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+    ALTER TABLE seq_execucao OWNER TO pronto;
     
 CREATE TABLE kanban_status (
     kanban_status_key integer NOT NULL,
@@ -110,7 +134,7 @@ ALTER TABLE public.ticket OWNER TO pronto;
 
 CREATE TABLE ticket_comentario (
     ticket_comentario_key integer NOT NULL,
-    usuario character varying(255),
+    usuario_key character varying(255),
     data timestamp without time zone,
     texto text,
     ticket_key integer
@@ -159,7 +183,8 @@ CREATE TABLE usuario (
     username character varying(100) NOT NULL,
     "password" character varying(30),
     nome character varying(150),
-    email character varying(170)
+    email character varying(170),
+    email_md5 character varying(170)
 );
 
 ALTER TABLE public.usuario OWNER TO pronto;
@@ -172,7 +197,32 @@ CREATE TABLE usuario_papel (
 
 ALTER TABLE public.usuario_papel OWNER TO pronto;
 
-INSERT INTO backlog VALUES (1, 'IdŽias');
+CREATE TABLE banco_de_dados (
+    banco_de_dados_key integer NOT NULL,
+    nome character varying(120)
+);
+
+ALTER TABLE banco_de_dados OWNER TO pronto;
+
+CREATE TABLE script (
+    script_key integer NOT NULL,
+    descricao character varying(120) not null,
+    script text    
+);
+
+ALTER TABLE script OWNER TO pronto;
+
+CREATE TABLE execucao (
+    execucao_key integer NOT NULL,
+    script_key integer NOT NULL,
+    banco_de_dados_key integer NOT NULL,
+    username character varying(255),
+    data  timestamp without time zone
+);   
+
+ALTER TABLE execucao OWNER TO pronto;
+
+INSERT INTO backlog VALUES (1, 'Idéias');
 INSERT INTO backlog VALUES (5, 'Impedimentos');
 INSERT INTO backlog VALUES (4, 'Lixeira');
 INSERT INTO backlog VALUES (2, 'Product Backlog');
@@ -190,8 +240,8 @@ INSERT INTO papel VALUES (5, 'Suporte');
 INSERT INTO papel VALUES (3, 'Desenvolvedor');
 INSERT INTO papel VALUES (6, 'Administrador');
 
-INSERT INTO tipo_de_ticket VALUES (1, 'IdŽia');
-INSERT INTO tipo_de_ticket VALUES (2, 'Est—ria');
+INSERT INTO tipo_de_ticket VALUES (1, 'Idéia');
+INSERT INTO tipo_de_ticket VALUES (2, 'Estória');
 INSERT INTO tipo_de_ticket VALUES (3, 'Defeito');
 INSERT INTO tipo_de_ticket VALUES (5, 'Impedimento');
 INSERT INTO tipo_de_ticket VALUES (6, 'Tarefa');
@@ -241,6 +291,15 @@ ALTER TABLE ONLY usuario_papel
 ALTER TABLE ONLY usuario
     ADD CONSTRAINT usuario_pkey PRIMARY KEY (username);
 
+ALTER TABLE ONLY banco_de_dados
+    ADD CONSTRAINT banco_de_dados_pkey PRIMARY KEY (banco_de_dados_key);
+
+ALTER TABLE ONLY script
+    ADD CONSTRAINT script_pkey PRIMARY KEY (script_key);
+
+ALTER TABLE ONLY execucao
+    ADD CONSTRAINT execucao_pkey PRIMARY KEY (execucao_key);
+
 ALTER TABLE ONLY usuario_papel
     ADD CONSTRAINT fk4d25cd3566f20c10 FOREIGN KEY (papel_key) REFERENCES papel(papel_key);
 
@@ -265,6 +324,9 @@ ALTER TABLE ONLY ticket_log
 ALTER TABLE ONLY ticket_comentario
     ADD CONSTRAINT fkae76b2f46484a110 FOREIGN KEY (ticket_key) REFERENCES ticket(ticket_key);
 
+ALTER TABLE ONLY ticket_comentario
+    ADD CONSTRAINT fk_ticket_comentario_usuario FOREIGN KEY (usuario_key) REFERENCES usuario(username);
+
 ALTER TABLE ONLY ticket
     ADD CONSTRAINT fkcbe86b0c6bb18e7e FOREIGN KEY (backlog_key) REFERENCES backlog(backlog_key);
 
@@ -282,12 +344,67 @@ ALTER TABLE ONLY ticket
 
 ALTER TABLE ONLY ticket
     ADD CONSTRAINT fkcbe86b0ce7f57efc FOREIGN KEY (pai) REFERENCES ticket(ticket_key);
+
+ALTER TABLE ONLY execucao
+    ADD CONSTRAINT fk_execucao_script FOREIGN KEY (script_key) REFERENCES script(script_key);    
+
+ALTER TABLE ONLY execucao
+    ADD CONSTRAINT fk_exeucao_banco_de_dados FOREIGN KEY (banco_de_dados_key) REFERENCES banco_de_dados(banco_de_dados_key);   
+    
+ALTER TABLE ONLY execucao
+    ADD CONSTRAINT fk_execucao_usuario FOREIGN KEY (username) REFERENCES usuario(username);
     
 CREATE INDEX idx_ticket_sprint ON ticket USING btree (sprint);    
 CREATE INDEX idx_ticket_tipo_de_ticket ON ticket USING btree (tipo_de_ticket_key);
 CREATE INDEX idx_ticket_kaban_status ON ticket USING btree (kanban_status_key);
 CREATE INDEX idx_ticket_backlog ON ticket USING btree (backlog_key);
 CREATE INDEX idx_ticket_titulo ON ticket USING btree (titulo);
+
+CREATE SEQUENCE seq_cliente
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+    ALTER TABLE seq_cliente OWNER TO pronto;
+
+CREATE TABLE cliente (
+    cliente_key integer NOT NULL,
+    nome character varying(120)
+);
+
+ALTER TABLE cliente OWNER TO pronto;
+
+ALTER TABLE ONLY cliente
+    ADD CONSTRAINT cliente_pkey PRIMARY KEY (cliente_key);
+    
+ALTER TABLE USUARIO ADD CLIENTE_KEY INTEGER;
+  
+ALTER TABLE ONLY USUARIO
+    ADD CONSTRAINT FK_USUARIO_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);    
+ 
+ALTER TABLE TICKET ADD CLIENTE_KEY INTEGER; 
+
+ALTER TABLE TICKET ADD PRIORIDADE_CLIENTE INTEGER;
+
+ALTER TABLE ONLY TICKET
+    ADD CONSTRAINT FK_TICKET_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);    
+
+
+--Apagamos os tipos desenvolvedor, suporte e testador e mantivemos apenas equipe para ficar mais leal ao Scrum.
+insert into papel VALUES (9,'Equipe');
+INSERT INTO papel VALUES (7, 'Cliente');
+
+insert into usuario_papel select distinct usuario_key, 9 from usuario_papel where papel_key in (3,4,5,8);
+delete from usuario_papel where papel_key in (3,4,5,8);
+delete from papel where papel_key in (3,4,5,8);
+
+--O cliente do ticket agora deve apontar para um cliente da tabela cliente.
+--Por isso, antes de rodar o script abaixo cadastre os seus cliente na tabela cliente
+--com os mesmos nomes que você digitava no campo cliente dos tickets.
+--o script abaixo vai buscar um cliente de mesmo nome e fazer a link entre as tabelas tarefa e cliente
+--depois apagará o campo cliente do ticket mantendo somente o cliente_key.
+update ticket set cliente_key = (select cliente_key from cliente c where c.nome = cliente);
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
