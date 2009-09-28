@@ -1,5 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:if test="${usuarioLogado ne null}">
+<c:if test="${usuarioLogado ne null and (usuarioLogado.productOwner or usuarioLogado.equipe or usuarioLogado.scrumMaster)}">
 	<c:url value="/ticket/editar.action" var="editarTicketUrl"/>
 	<c:url value="/ticket/sprintAtual.action" var="sprintAtualUrl"/>
 	<c:url value="/kanban/kanban.action" var="kanbanUrl"/>

@@ -26,7 +26,7 @@
 		</c:if>
 		
 		<c:if test="${usuarioLogado.clientePapel}">
-			<li><a href="${raiz}cliente/backlog.action">Backlog do Cliente</a></li>
+			<li><a href="${raiz}cliente/backlog.action">Backlog</a></li>
 		</c:if>
 		
 		<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">

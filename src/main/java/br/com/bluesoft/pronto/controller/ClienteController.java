@@ -96,10 +96,21 @@ public class ClienteController {
 
 		Seguranca.validarPermissao(Papel.CLIENTE);
 
-		final List<Ticket> tickets = ticketDao.listarPorCliente(Seguranca.getUsuario().getCliente().getClienteKey());
+		final Cliente cliente = Seguranca.getUsuario().getCliente();
+		final List<Ticket> tickets = ticketDao.listarPorCliente(cliente.getClienteKey());
+
 		model.addAttribute("tickets", tickets);
+		model.addAttribute("cliente", cliente);
 
 		return VIEW_BACKLOG;
+	}
+
+	@RequestMapping("/cliente/priorizar.action")
+	public String priorizar(final Integer[] ticketKey) throws SegurancaException {
+		Seguranca.validarPermissao(Papel.CLIENTE);
+		final Cliente cliente = Seguranca.getUsuario().getCliente();
+		ticketDao.alterarPrioridadeDoCliente(cliente.getClienteKey(), ticketKey);
+		return "redirect" + VIEW_BACKLOG;
 	}
 
 }

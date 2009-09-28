@@ -366,10 +366,23 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		builder.append(" left join fetch t.pai p");
 		builder.append(" where t.backlog.backlogKey != 4 and t.pai is null");
 		builder.append(" and t.cliente.clienteKey = :clienteKey");
-		builder.append(" order by t.prioridadeCliente");
+		builder.append(" order by t.prioridadeDoCliente");
 		final Query query = getSession().createQuery(builder.toString());
 		query.setInteger("clienteKey", clienteKey);
 		return query.list();
 	}
 
+	public void alterarPrioridadeDoCliente(final int clienteKey, final Integer[] tickets) {
+
+		final String sql = "update ticket set prioridade_do_cliente = :prioridade where ticket_key =:ticketKey and cliente_key = :clienteKey";
+		int prioridade = 0;
+		if (tickets != null) {
+			for (int i = 0; i < tickets.length; i++) {
+				if (tickets[i] != null) {
+					getSession().createSQLQuery(sql).setInteger("ticketKey", tickets[i]).setInteger("clienteKey", clienteKey).setInteger("prioridade", ++prioridade).executeUpdate();
+				}
+			}
+		}
+
+	}
 }
