@@ -228,11 +228,13 @@ public class Sprint {
 		final ReverseComparator comparatorValorDeNegocio = new ReverseComparator(new BeanComparator("valorDeNegocio"));
 		final ReverseComparator comparatorEsforco = new ReverseComparator(new BeanComparator("esforco"));
 		final BeanComparator comparatorDataDeCriacao = new BeanComparator("dataDeCriacao");
+		final BeanComparator comparatorKey = new BeanComparator("ticketKey");
 
 		comparators.add(comparatorPrioridade);
 		comparators.add(comparatorValorDeNegocio);
 		comparators.add(comparatorEsforco);
 		comparators.add(comparatorDataDeCriacao);
+		comparators.add(comparatorKey);
 
 		final ComparatorChain comparatorChain = new ComparatorChain(comparators);
 		Collections.sort(ticketsParaOKanban, comparatorChain);

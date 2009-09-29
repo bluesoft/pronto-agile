@@ -11,7 +11,7 @@
 		<script>
 
 			function recarregar() {
-				goTo('${listarUrl}?kanbanStatusKey=' + $('#kanbanStatusKey').val());
+				goTo('${listarUrl}?kanbanStatusKey=' + $('#kanbanStatusKey').val() + '&clienteKey=' + $('#clienteKey').val());
 			}
 		
 			function apagarLinha(ticketKey) {
@@ -104,9 +104,17 @@
 		<h1>Estórias e Defeitos por Cliente</h1>
 		
 		<div align="right">
+			Cliente: 
+			<select name="clienteKey" onchange="recarregar()" id="clienteKey">
+				<option value="-1">Todos</option>
+				<c:forEach var="c" items="${clientes}">
+					<option value="${c.clienteKey}" ${clienteKey eq c.clienteKey ? 'selected' : ''}>${c.nome}</option>
+				</c:forEach>
+			</select>
 			Status: 
 			<select name="kanbanStatusKey" onchange="recarregar()" id="kanbanStatusKey">
 				<option value="-1">Pendente</option>
+				<option value="0">Todos</option>
 				<c:forEach var="k" items="${kanbanStatus}">
 					<option value="${k.kanbanStatusKey}" ${kanbanStatusKey eq k.kanbanStatusKey ? 'selected' : ''}>${k.descricao}</option>
 				</c:forEach>

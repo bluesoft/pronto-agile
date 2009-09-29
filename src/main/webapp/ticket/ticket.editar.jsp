@@ -103,7 +103,7 @@
 		
 		<c:choose>
 			<c:when test="${ticket.ticketKey gt 0}">
-				<h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey} - ${ticket.titulo}</h1>
+				<h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey} - ${ticket.titulo} (${ticket.kanbanStatus.descricao})</h1>
 			</c:when>
 			<c:otherwise>
 				<h1>Incluir ${ticket.tipoDeTicket.descricao}</h1>

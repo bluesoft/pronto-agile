@@ -123,6 +123,7 @@ public class TicketController {
 
 		final List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey);
 		final List<Ticket> tarefasSoltas = ticketDao.listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(backlogKey);
+
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("tarefasSoltas", tarefasSoltas);
 		model.addAttribute("backlog", backlogDao.obter(backlogKey));
@@ -151,15 +152,15 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/listarPendentesPorCliente.action")
-	public String listarTicketsPendentesPorCliente(final Model model, final Integer kanbanStatusKey) throws SegurancaException {
+	public String listarTicketsPendentesPorCliente(final Model model, final Integer kanbanStatusKey, final Integer clienteKey) throws SegurancaException {
 
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER);
 
 		List<Ticket> tickets = null;
-		if (kanbanStatusKey != null && kanbanStatusKey > 0) {
-			tickets = ticketDao.listarEstoriasEDefeitosPorKanbanStatus(kanbanStatusKey);
+		if (kanbanStatusKey != null && kanbanStatusKey >= 0) {
+			tickets = ticketDao.listarEstoriasEDefeitosPorKanbanStatusECliente(kanbanStatusKey, clienteKey);
 		} else {
-			tickets = ticketDao.listarEstoriasEDefeitosPendentes();
+			tickets = ticketDao.listarEstoriasEDefeitosPendentesPorCliente(clienteKey);
 		}
 
 		final Multimap<String, Ticket> ticketsAgrupados = ArrayListMultimap.create();
@@ -170,9 +171,13 @@ public class TicketController {
 		model.addAttribute("ticketsAgrupados", ticketsAgrupados.asMap());
 		final ArrayList<String> grupo = new ArrayList<String>(ticketsAgrupados.keySet());
 		Collections.sort(grupo);
+
 		model.addAttribute("grupos", grupo);
+		model.addAttribute("clienteKey", clienteKey);
 		model.addAttribute("kanbanStatusKey", kanbanStatusKey);
 		model.addAttribute("kanbanStatus", kanbanStatusDao.listar());
+		model.addAttribute("clientes", clienteDao.listar());
+
 		return VIEW_LISTAR_AGRUPADO;
 	}
 

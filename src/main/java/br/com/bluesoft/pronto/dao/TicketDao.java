@@ -327,34 +327,48 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Ticket> listarEstoriasEDefeitosPorKanbanStatus(final Integer kabanStatusKey) {
+	public List<Ticket> listarEstoriasEDefeitosPorKanbanStatusECliente(final Integer kabanStatusKey, final Integer clienteKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" left join fetch t.filhos f ");
 		builder.append(" left join fetch t.pai p");
 		builder.append(" where t.backlog.backlogKey != 4 and t.pai is null");
+
 		if (kabanStatusKey != null && kabanStatusKey > 0) {
 			builder.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey");
 		}
+
+		if (clienteKey != null && clienteKey > 0) {
+			builder.append(" and t.cliente.clienteKey = :clienteKey");
+		}
+
 		builder.append(" order by t.dataDeCriacao");
 		final Query query = getSession().createQuery(builder.toString());
 		if (kabanStatusKey != null && kabanStatusKey > 0) {
 			query.setInteger("kanbanStatusKey", kabanStatusKey);
 		}
+		if (clienteKey != null && clienteKey > 0) {
+			query.setInteger("clienteKey", clienteKey);
+		}
 		return query.list();
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Ticket> listarEstoriasEDefeitosPendentes() {
+	public List<Ticket> listarEstoriasEDefeitosPendentesPorCliente(final Integer clienteKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" left join fetch t.filhos f ");
 		builder.append(" left join fetch t.pai p");
 		builder.append(" where t.backlog.backlogKey != 4 and t.pai is null");
 		builder.append(" and t.dataDePronto is null");
+		if (clienteKey != null && clienteKey > 0) {
+			builder.append(" and t.cliente.clienteKey = :clienteKey");
+		}
 		builder.append(" order by t.dataDeCriacao");
 		final Query query = getSession().createQuery(builder.toString());
-
+		if (clienteKey != null && clienteKey > 0) {
+			query.setInteger("clienteKey", clienteKey);
+		}
 		return query.list();
 	}
 
