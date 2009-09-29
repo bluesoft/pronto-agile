@@ -250,7 +250,7 @@
 							<br/>
 						</c:when>
 						<c:otherwise>
-							<form:hidden path="ticket.cliente" />
+							<input type="hidden" name="clienteKey" value="${ticket.cliente.clienteKey}" />
 							<b>${ticket.cliente eq null ? '-' : ticket.cliente.nome}</b>							
 						</c:otherwise>
 					</c:choose>
