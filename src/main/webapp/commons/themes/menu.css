@@ -6,7 +6,7 @@
 #jsddm li {
 	float: left;
 	list-style: none;
-	font: 12px Tahoma, Arial;
+	font-size: 12px ;
 }
 
 #jsddm li a {
@@ -40,7 +40,7 @@
 	width: auto;
 	background: #f9f9f9;
 	color: #24313C;
-	font: 12px Tahoma, Arial;
+	font-size: 12px;
 }
 
 #jsddm li ul li a:hover {

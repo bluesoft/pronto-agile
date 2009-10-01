@@ -131,7 +131,7 @@
         }
 
         pre {
-            font-family: monospace;
+            font-family: Monaco, monospace;
             font-size: 12px;
         }
 
@@ -144,7 +144,7 @@
         }
 
         code {
-            font-family: "courier new", courier, monospace;
+            font-family: monaco, "courier new", courier, monospace;
             font-size: 12px;
             white-space: pre;
         }

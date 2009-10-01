@@ -25,3 +25,11 @@ div.htmlbox ol {
 	margin: 0px;
 	padding: 1px;
 }
+
+pre {
+	border: 1px;
+	border-color: gray;
+	background-color: f9f9f9;
+	padding: 5px;
+	margin: 2px;
+}
