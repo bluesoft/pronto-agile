@@ -36,7 +36,9 @@ import org.springframework.stereotype.Repository;
 import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
+import br.com.bluesoft.pronto.model.Classificacao;
 import br.com.bluesoft.pronto.model.Ticket;
+import br.com.bluesoft.pronto.model.TicketOrdem;
 import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.Seguranca;
 
@@ -188,17 +190,18 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Ticket> buscar(final String busca, final Integer kanbanStatusKey, final Integer clienteKey) {
+	public List<Ticket> buscar(final String busca, final Integer kanbanStatusKey, final Integer clienteKey, final TicketOrdem ordem, final Classificacao classificacao) {
 
 		final StringBuilder hql = new StringBuilder();
-		hql.append("select distinct t from Ticket t   ");
-		hql.append("left join fetch t.sprint          ");
-		hql.append("left join fetch t.reporter        ");
-		hql.append("left join fetch t.tipoDeTicket    ");
-		hql.append("left join fetch t.backlog         ");
-		hql.append("left join fetch t.kanbanStatus    ");
-		hql.append("left join fetch t.filhos          ");
-		hql.append("where upper(t.titulo) like :query ");
+		hql.append(" select distinct t from Ticket t   ");
+		hql.append(" left join fetch t.sprint          ");
+		hql.append(" left join fetch t.reporter        ");
+		hql.append(" left join fetch t.tipoDeTicket as tipoDeTicket ");
+		hql.append(" left join fetch t.backlog as b    ");
+		hql.append(" left join fetch t.kanbanStatus as kanbanStatus ");
+		hql.append(" left join fetch t.filhos          ");
+		hql.append(" left join fetch t.cliente as cliente  ");
+		hql.append(" where upper(t.titulo) like :query ");
 
 		if (kanbanStatusKey != null && kanbanStatusKey > 0) {
 			hql.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
@@ -207,6 +210,8 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		if (clienteKey != null && clienteKey > 0) {
 			hql.append(" and t.cliente.clienteKey = :clienteKey ");
 		}
+
+		hql.append(buildOrdem(ordem, classificacao));
 
 		final Query query = getSession().createQuery(hql.toString()).setString("query", '%' + busca.toUpperCase() + '%');
 
@@ -219,6 +224,42 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		}
 
 		return query.list();
+	}
+
+	private String buildOrdem(final TicketOrdem ordem, final Classificacao classificacao) {
+		String hqlOrdem = null;
+		if (ordem != null) {
+			switch (ordem) {
+				case BACKLOG:
+					hqlOrdem = "b.descricao";
+					break;
+				case CODIGO:
+					hqlOrdem = "t.ticketKey";
+					break;
+				case CLIENTE:
+					hqlOrdem = "cliente.nome";
+					break;
+				case ESFORCO:
+					hqlOrdem = "t.esforco";
+					break;
+				case STATUS:
+					hqlOrdem = "kanbanStatus.descricao";
+					break;
+				case TIPO:
+					hqlOrdem = "tipoDeTicket.descricao";
+					break;
+				case VALOR_DE_NEGOCIO:
+					hqlOrdem = "t.valorDeNegocio";
+					break;
+				default:
+					hqlOrdem = "t.titulo";
+					break;
+			}
+		} else {
+			hqlOrdem = "t.titulo ";
+		}
+		final String hqlClassificacao = classificacao == null || classificacao == Classificacao.ASCENDENTE ? " asc" : " desc";
+		return " order by " + hqlOrdem + hqlClassificacao;
 	}
 
 	@SuppressWarnings("unchecked")

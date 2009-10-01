@@ -33,7 +33,9 @@ import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.dao.ClienteDao;
 import br.com.bluesoft.pronto.dao.KanbanStatusDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
+import br.com.bluesoft.pronto.model.Classificacao;
 import br.com.bluesoft.pronto.model.Ticket;
+import br.com.bluesoft.pronto.model.TicketOrdem;
 import br.com.bluesoft.pronto.service.Seguranca;
 
 @Controller
@@ -49,7 +51,7 @@ public class BuscarController {
 	private KanbanStatusDao kanbanStatusDao;
 
 	@RequestMapping("/buscar.action")
-	public String buscar(final Model model, final String query, final Integer kanbanStatusKey, final Integer clienteKey) throws SegurancaException {
+	public String buscar(final Model model, final String query, final Integer kanbanStatusKey, final Integer clienteKey, final String ordem, final String classificacao) throws SegurancaException {
 
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER);
 
@@ -57,17 +59,30 @@ public class BuscarController {
 			return "redirect:/ticket/editar.action?ticketKey=" + query;
 		}
 
-		final List<Ticket> tickets = ticketDao.buscar(query, kanbanStatusKey, clienteKey);
+		TicketOrdem ticketOrdem = TicketOrdem.TITULO;
+
+		if (ordem != null && ordem.length() > 0) {
+			ticketOrdem = TicketOrdem.valueOf(ordem);
+		}
+
+		Classificacao ticketClassificacao = Classificacao.ASCENDENTE;
+		if (classificacao != null && classificacao.length() > 0) {
+			ticketClassificacao = Classificacao.valueOf(classificacao);
+		}
+
+		final List<Ticket> tickets = ticketDao.buscar(query, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao);
 		model.addAttribute("tickets", tickets);
 		model.addAttribute("query", query);
 		model.addAttribute("kanbanStatusKey", kanbanStatusKey);
 		model.addAttribute("clienteKey", clienteKey);
-
 		model.addAttribute("kanbanStatus", kanbanStatusDao.listar());
 		model.addAttribute("clientes", clienteDao.listar());
+		model.addAttribute("ordens", TicketOrdem.values());
+		model.addAttribute("ordem", ticketOrdem);
+		model.addAttribute("classificacoes", Classificacao.values());
+		model.addAttribute("classificacao", ticketClassificacao);
 
 		return "/buscar/buscar.resultado.jsp";
 
 	}
-
 }
