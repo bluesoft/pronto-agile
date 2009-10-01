@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.bluesoft.pronto.SegurancaException;
 import br.com.bluesoft.pronto.core.Papel;
+import br.com.bluesoft.pronto.dao.ClienteDao;
+import br.com.bluesoft.pronto.dao.KanbanStatusDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.service.Seguranca;
@@ -40,8 +42,14 @@ public class BuscarController {
 	@Autowired
 	private TicketDao ticketDao;
 
+	@Autowired
+	private ClienteDao clienteDao;
+
+	@Autowired
+	private KanbanStatusDao kanbanStatusDao;
+
 	@RequestMapping("/buscar.action")
-	public String buscar(final Model model, final String query) throws SegurancaException {
+	public String buscar(final Model model, final String query, final Integer kanbanStatusKey, final Integer clienteKey) throws SegurancaException {
 
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER);
 
@@ -49,8 +57,15 @@ public class BuscarController {
 			return "redirect:/ticket/editar.action?ticketKey=" + query;
 		}
 
-		final List<Ticket> tickets = ticketDao.buscar(query);
+		final List<Ticket> tickets = ticketDao.buscar(query, kanbanStatusKey, clienteKey);
 		model.addAttribute("tickets", tickets);
+		model.addAttribute("query", query);
+		model.addAttribute("kanbanStatusKey", kanbanStatusKey);
+		model.addAttribute("clienteKey", clienteKey);
+
+		model.addAttribute("kanbanStatus", kanbanStatusDao.listar());
+		model.addAttribute("clientes", clienteDao.listar());
+
 		return "/buscar/buscar.resultado.jsp";
 
 	}

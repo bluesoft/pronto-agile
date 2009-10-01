@@ -188,7 +188,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Ticket> buscar(final String busca) {
+	public List<Ticket> buscar(final String busca, final Integer kanbanStatusKey, final Integer clienteKey) {
 
 		final StringBuilder hql = new StringBuilder();
 		hql.append("select distinct t from Ticket t   ");
@@ -200,7 +200,24 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		hql.append("left join fetch t.filhos          ");
 		hql.append("where upper(t.titulo) like :query ");
 
+		if (kanbanStatusKey != null && kanbanStatusKey > 0) {
+			hql.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
+		}
+
+		if (clienteKey != null && clienteKey > 0) {
+			hql.append(" and t.cliente.clienteKey = :clienteKey ");
+		}
+
 		final Query query = getSession().createQuery(hql.toString()).setString("query", '%' + busca.toUpperCase() + '%');
+
+		if (kanbanStatusKey != null && kanbanStatusKey > 0) {
+			query.setInteger("kanbanStatusKey", kanbanStatusKey);
+		}
+
+		if (clienteKey != null && clienteKey > 0) {
+			query.setInteger("clienteKey", clienteKey);
+		}
+
 		return query.list();
 	}
 

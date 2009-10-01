@@ -1,13 +1,16 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="editarTicketUrl" value="/ticket/editar.action"/>
 <c:url var="verDescricaoUrl" value="/ticket/verDescricao.action"/>
+<c:url var="buscarUrl" value="/buscar.action"/>
 <html>
 	<head>
 		<title>Busca</title>
 		<script>
+
 		$(function(){ 
 			$("#dialog").dialog({ autoOpen: false, height: 530, width: 600, modal: true });
 		});
+
 		function verDescricao(ticketKey) {
 			$.ajax({
 				url: '${verDescricaoUrl}?ticketKey=' + ticketKey,
@@ -19,10 +22,37 @@
 				}
 			});
 		}
+
+		function recarregar() {
+			goTo('${buscarUrl}?kanbanStatusKey=' + $('#kanbanStatusKey').val() + '&clienteKey=' + $('#clienteKey').val() + '&query=' + $('#query').val());
+		}
+		
 		</script>
 	</head>
 	<body>
 		<h1>Resultado da Busca</h1>
+		
+		<div align="right">
+			Busca:
+				<input type="text" name="query" value="${query}" id="query"/>
+			Cliente: 
+			<select name="clienteKey" onchange="recarregar()" id="clienteKey">
+				<option value="-1">Todos</option>
+				<c:forEach var="c" items="${clientes}">
+					<option value="${c.clienteKey}" ${clienteKey eq c.clienteKey ? 'selected' : ''}>${c.nome}</option>
+				</c:forEach>
+			</select>
+			Status: 
+			<select name="kanbanStatusKey" onchange="recarregar()" id="kanbanStatusKey">
+				<option value="0">Todos</option>
+				<c:forEach var="k" items="${kanbanStatus}">
+					<option value="${k.kanbanStatusKey}" ${kanbanStatusKey eq k.kanbanStatusKey ? 'selected' : ''}>${k.descricao}</option>
+				</c:forEach>
+			</select>
+			<pronto:icons name="buscar.png" title="Refinar Busca" onclick="recarregar();"/>
+		</div>
+		
+		
 		<table style="width: 100%">
 			<tr>
 				<th>#</th>
