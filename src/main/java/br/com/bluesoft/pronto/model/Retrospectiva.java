@@ -21,7 +21,7 @@
 package br.com.bluesoft.pronto.model;
 
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +30,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 
 import br.com.bluesoft.pronto.core.TipoRetrospectivaItem;
 
@@ -49,8 +52,9 @@ public class Retrospectiva {
 	@JoinColumn(name = "SPRINT_KEY")
 	private Sprint sprint;
 
+	@Sort(type = SortType.NATURAL)
 	@OneToMany(mappedBy = "retrospectiva")
-	private Set<RetrospectivaItem> itens;
+	private SortedSet<RetrospectivaItem> itens;
 
 	public int getRetrospectivaKey() {
 		return retrospectivaKey;

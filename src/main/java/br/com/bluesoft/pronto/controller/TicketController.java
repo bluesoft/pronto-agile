@@ -169,6 +169,7 @@ public class TicketController {
 		}
 
 		model.addAttribute("ticketsAgrupados", ticketsAgrupados.asMap());
+
 		final ArrayList<String> grupo = new ArrayList<String>(ticketsAgrupados.keySet());
 		Collections.sort(grupo);
 

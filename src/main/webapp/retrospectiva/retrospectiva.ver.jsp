@@ -39,11 +39,10 @@
 			$(function(){
 				$("#www").add('#wcbi').sortable({
     				placeholder: 'ui-state-highlight',
+    				items: 'li'
     		  	});
-				$("#wcbi").add('#wcbi').disableSelection();
 
 				$("#dialog").dialog({ autoOpen: false, height: 100, width: 600, modal: true });
-				
 			});
 
 
@@ -109,7 +108,7 @@
 		
 			<div id="wwwDiv">
 				<ul style="width: 100%; font-size: 12px;" id="www">
-					<span>
+					<span class="title">
 						<pronto:icons name="adicionar.png" title="adicionar item" clazz="icon"  onclick="incluirWWW()"/>
 						<h4 class="ui-widget-header">O que foi bom?</h4>
 					</span>
@@ -124,7 +123,7 @@
 			
 			<div id="wcbiDiv">
 				<ul style="width: 100%; font-size: 12px;" id="wcbi">
-					<span>
+					<span class="title">
 						<pronto:icons name="adicionar.png" title="adicionar item" clazz="icon"  onclick="incluirWCBI()"/>
 						<h4 class="ui-widget-header">O que pode ser melhorado?</h4>
 					</span>

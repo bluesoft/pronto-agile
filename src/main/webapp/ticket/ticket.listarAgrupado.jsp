@@ -134,6 +134,7 @@
 				<th>Título</th>
 				<th>Data</th>
 				<th>Valor de Negócio</th>
+				<th>Prioridade do Cliente</th>
 				<th>Esforço</th>
 				<th>Status</th>
 				<th style="width: 112px" colspan="7"></th>
@@ -150,6 +151,7 @@
 								<td class="titulo">${t.titulo}</td>
 								<td><fmt:formatDate value="${t.dataDeCriacao}"/></td>
 								<td class="valorDeNegocio">${t.valorDeNegocio}</td>
+								<td class="prioridadeCliente">${t.prioridadeDoCliente}</td>
 								<td class="esforco">${t.esforco}</td>
 								<td>${t.kanbanStatus.descricao}</td>
 								<td>
