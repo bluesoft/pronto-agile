@@ -46,6 +46,7 @@
 				</select>
 				Status: 
 				<select name="kanbanStatusKey" onchange="recarregar()" id="kanbanStatusKey">
+					<option value="-1">Pendentes</option>
 					<option value="0">Todos</option>
 					<c:forEach var="k" items="${kanbanStatus}">
 						<option value="${k.kanbanStatusKey}" ${kanbanStatusKey eq k.kanbanStatusKey ? 'selected' : ''}>${k.descricao}</option>

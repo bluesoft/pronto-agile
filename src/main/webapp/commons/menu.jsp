@@ -20,7 +20,7 @@
 					<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=1">Idéias</a></li>
 					<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=5">Impedimentos</a></li>
 					<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=4">Lixeira</a></li>
-					<li><a href="${raiz}ticket/listarPendentesPorCliente.action">Pendentes</a></li>
+					<li><a href="${raiz}ticket/listarPendentesPorCliente.action?kanbanStatusKey=-1">Pendentes</a></li>
 				</ul>
 			</li>
 		</c:if>

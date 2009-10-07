@@ -29,6 +29,7 @@ public enum TicketOrdem {
 	/**/BACKLOG("Backlog"),
 	/**/VALOR_DE_NEGOCIO("Valor de Negócio"),
 	/**/ESFORCO("Esforço"),
+	/**/PRIORIDADE_DO_CLIENTE("Prioridade do Cliente"),
 	/**/STATUS("Status");
 
 	private String descricao;

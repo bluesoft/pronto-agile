@@ -190,7 +190,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Ticket> buscar(final String busca, final Integer kanbanStatusKey, final Integer clienteKey, final TicketOrdem ordem, final Classificacao classificacao) {
+	public List<Ticket> buscar(String busca, final Integer kanbanStatusKey, final Integer clienteKey, final TicketOrdem ordem, final Classificacao classificacao) {
 
 		final StringBuilder hql = new StringBuilder();
 		hql.append(" select distinct t from Ticket t   ");
@@ -203,8 +203,12 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		hql.append(" left join fetch t.cliente as cliente  ");
 		hql.append(" where upper(t.titulo) like :query ");
 
-		if (kanbanStatusKey != null && kanbanStatusKey > 0) {
-			hql.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
+		if (kanbanStatusKey != null) {
+			if (kanbanStatusKey == -1) {
+				hql.append(" and t.dataDePronto is null ");
+			} else if (kanbanStatusKey > 0) {
+				hql.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
+			}
 		}
 
 		if (clienteKey != null && clienteKey > 0) {
@@ -212,6 +216,8 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		}
 
 		hql.append(buildOrdem(ordem, classificacao));
+
+		busca = busca == null ? "" : busca;
 
 		final Query query = getSession().createQuery(hql.toString()).setString("query", '%' + busca.toUpperCase() + '%');
 
@@ -250,6 +256,9 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 					break;
 				case VALOR_DE_NEGOCIO:
 					hqlOrdem = "t.valorDeNegocio";
+					break;
+				case PRIORIDADE_DO_CLIENTE:
+					hqlOrdem = "cliente.nome, t.prioridadeDoCliente";
 					break;
 				default:
 					hqlOrdem = "t.titulo";
@@ -382,52 +391,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		builder.append(" order by t.branch, t.titulo");
 		return getSession().createQuery(builder.toString()).list();
 
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Ticket> listarEstoriasEDefeitosPorKanbanStatusECliente(final Integer kabanStatusKey, final Integer clienteKey) {
-		final StringBuilder builder = new StringBuilder();
-		builder.append(" select distinct t from Ticket t");
-		builder.append(" left join fetch t.filhos f ");
-		builder.append(" left join fetch t.pai p");
-		builder.append(" where t.backlog.backlogKey != 4 and t.pai is null");
-
-		if (kabanStatusKey != null && kabanStatusKey > 0) {
-			builder.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey");
-		}
-
-		if (clienteKey != null && clienteKey > 0) {
-			builder.append(" and t.cliente.clienteKey = :clienteKey");
-		}
-
-		builder.append(" order by t.dataDeCriacao");
-		final Query query = getSession().createQuery(builder.toString());
-		if (kabanStatusKey != null && kabanStatusKey > 0) {
-			query.setInteger("kanbanStatusKey", kabanStatusKey);
-		}
-		if (clienteKey != null && clienteKey > 0) {
-			query.setInteger("clienteKey", clienteKey);
-		}
-		return query.list();
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Ticket> listarEstoriasEDefeitosPendentesPorCliente(final Integer clienteKey) {
-		final StringBuilder builder = new StringBuilder();
-		builder.append(" select distinct t from Ticket t");
-		builder.append(" left join fetch t.filhos f ");
-		builder.append(" left join fetch t.pai p");
-		builder.append(" where t.backlog.backlogKey != 4 and t.pai is null");
-		builder.append(" and t.dataDePronto is null");
-		if (clienteKey != null && clienteKey > 0) {
-			builder.append(" and t.cliente.clienteKey = :clienteKey");
-		}
-		builder.append(" order by t.dataDeCriacao");
-		final Query query = getSession().createQuery(builder.toString());
-		if (clienteKey != null && clienteKey > 0) {
-			query.setInteger("clienteKey", clienteKey);
-		}
-		return query.list();
 	}
 
 	@SuppressWarnings("unchecked")
