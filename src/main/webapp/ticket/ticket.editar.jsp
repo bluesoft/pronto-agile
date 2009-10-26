@@ -362,6 +362,8 @@
 					<form:hidden path="ticket.prioridade"/><br/>
 				</c:if>
 				
+				<form:hidden path="ticket.prioridadeDoCliente"/><br/>
+				
 				<c:if test="${empty ticket.filhos}">
 				<div>
 					<form:input path="ticket.branch"/><br/>

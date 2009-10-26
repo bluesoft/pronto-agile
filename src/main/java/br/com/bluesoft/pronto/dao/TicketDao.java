@@ -87,16 +87,11 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 	@Override
 	public void salvar(final Ticket... tickets) {
-
 		super.salvar(tickets);
-
-		getSession().flush();
-		getSession().clear();
-
-		defnieValores(tickets);
+		defineValores(tickets);
 	}
 
-	private void defnieValores(final Ticket... tickets) {
+	private void defineValores(final Ticket... tickets) {
 
 		for (final Ticket ticket : tickets) {
 
@@ -186,7 +181,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 		}
 
-		getSession().flush();
 	}
 
 	@SuppressWarnings("unchecked")
