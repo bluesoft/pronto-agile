@@ -11,7 +11,8 @@
 		<script>
 
 			function recarregar() {
-				goTo('${listarUrl}?kanbanStatusKey=' + $('#kanbanStatusKey').val() + '&clienteKey=' + $('#clienteKey').val());
+				var parametros = $('#formListar').serialize();
+				goTo('${listarUrl}?' + parametros);
 			}
 		
 			function apagarLinha(ticketKey) {
@@ -104,6 +105,7 @@
 		<h1>Estórias e Defeitos por Cliente</h1>
 		
 		<div align="right">
+		<form action="${listarUrl}" id="formListar">
 			Cliente: 
 			<select name="clienteKey" onchange="recarregar()" id="clienteKey">
 				<option value="-1">Todos</option>
@@ -113,12 +115,25 @@
 			</select>
 			Status: 
 			<select name="kanbanStatusKey" onchange="recarregar()" id="kanbanStatusKey">
-				<option value="-1">Pendente</option>
+				<option value="-1">Pendentes</option>
 				<option value="0">Todos</option>
 				<c:forEach var="k" items="${kanbanStatus}">
 					<option value="${k.kanbanStatusKey}" ${kanbanStatusKey eq k.kanbanStatusKey ? 'selected' : ''}>${k.descricao}</option>
 				</c:forEach>
 			</select>
+			Ordem:
+			<select name="ordem" onchange="recarregar()" id="ordem">
+				<c:forEach var="o" items="${ordens}">
+					<option value="${o}" ${o eq ordem ? 'selected' : ''}>${o.descricao}</option>
+				</c:forEach>
+			</select>
+			Classificação:
+			<select name="classificacao" onchange="recarregar()" id="classificacao">
+				<c:forEach var="c" items="${classificacoes}">
+					<option value="${c}" ${c eq classificacao ? 'selected' : ''}>${c.descricao}</option>
+				</c:forEach>
+			</select>
+		</form>
 		</div>
 		
 		<c:set var="quantidadeTotal" value="${0}"/>
@@ -126,7 +141,7 @@
 		<c:forEach items="${grupos}" var="g">
 			<c:if test="${!empty ticketsAgrupados[g]}">
 			<tr>
-				<td align="center" colspan="14"><br/><h2>${g}</h2></td>
+				<td align="center" colspan="15"><br/><h2>${g}</h2></td>
 			</tr>
 			<tr>
 				<th>#</th>
@@ -191,12 +206,12 @@
 							</tr>
 						</c:forEach>
 						<tr>
-							<th colspan="14">Subtotal: ${quantidade}</th>
+							<th colspan="15">Subtotal: ${quantidade}</th>
 						</tr>
 				</c:if>
 		</c:forEach>
 			<tr>
-				<th colspan="14" style="font-weight: bold;">Total: ${quantidadeTotal}</th>
+				<th colspan="15" style="font-weight: bold;">Total: ${quantidadeTotal}</th>
 			</tr>
 		</table>
 		

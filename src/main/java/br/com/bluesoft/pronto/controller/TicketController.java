@@ -61,9 +61,11 @@ import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.dao.TipoDeTicketDao;
 import br.com.bluesoft.pronto.dao.UsuarioDao;
 import br.com.bluesoft.pronto.model.Anexo;
+import br.com.bluesoft.pronto.model.Classificacao;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.TicketLog;
+import br.com.bluesoft.pronto.model.TicketOrdem;
 import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.Config;
 import br.com.bluesoft.pronto.service.Seguranca;
@@ -152,20 +154,30 @@ public class TicketController {
 	}
 
 	@RequestMapping("/ticket/listarPendentesPorCliente.action")
-	public String listarTicketsPendentesPorCliente(final Model model, final Integer kanbanStatusKey, final Integer clienteKey) throws SegurancaException {
+	public String listarTicketsPendentesPorCliente(final Model model, final Integer kanbanStatusKey, final Integer clienteKey, final String ordem, final String classificacao) throws SegurancaException {
 
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER);
 
-		List<Ticket> tickets = null;
-		if (kanbanStatusKey != null && kanbanStatusKey >= 0) {
-			tickets = ticketDao.listarEstoriasEDefeitosPorKanbanStatusECliente(kanbanStatusKey, clienteKey);
-		} else {
-			tickets = ticketDao.listarEstoriasEDefeitosPendentesPorCliente(clienteKey);
+		TicketOrdem ticketOrdem = TicketOrdem.TITULO;
+
+		if (ordem != null && ordem.length() > 0) {
+			ticketOrdem = TicketOrdem.valueOf(ordem);
 		}
+
+		Classificacao ticketClassificacao = Classificacao.ASCENDENTE;
+		if (classificacao != null && classificacao.length() > 0) {
+			ticketClassificacao = Classificacao.valueOf(classificacao);
+		}
+
+		List<Ticket> tickets = null;
+		tickets = ticketDao.buscar(null, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao);
 
 		final Multimap<String, Ticket> ticketsAgrupados = ArrayListMultimap.create();
 		for (final Ticket ticket : tickets) {
-			ticketsAgrupados.put(ticket.getCliente() != null ? ticket.getCliente().getNome() : "Indefinido", ticket);
+			// Não exibe nem as tarefas nem os itens na lixeira
+			if (ticket.getPai() == null && ticket.getBacklog().getBacklogKey() != Backlog.LIXEIRA) {
+				ticketsAgrupados.put(ticket.getCliente() != null ? ticket.getCliente().getNome() : "Indefinido", ticket);
+			}
 		}
 
 		model.addAttribute("ticketsAgrupados", ticketsAgrupados.asMap());
@@ -178,6 +190,10 @@ public class TicketController {
 		model.addAttribute("kanbanStatusKey", kanbanStatusKey);
 		model.addAttribute("kanbanStatus", kanbanStatusDao.listar());
 		model.addAttribute("clientes", clienteDao.listar());
+		model.addAttribute("ordens", TicketOrdem.values());
+		model.addAttribute("ordem", ticketOrdem);
+		model.addAttribute("classificacoes", Classificacao.values());
+		model.addAttribute("classificacao", ticketClassificacao);
 
 		return VIEW_LISTAR_AGRUPADO;
 	}
