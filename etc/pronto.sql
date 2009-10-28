@@ -8,13 +8,6 @@ SET search_path = public, pg_catalog;
 SET default_tablespace = '';
 SET default_with_oids = false;
 
-CREATE TABLE backlog (
-    backlog_key integer NOT NULL,
-    descricao character varying(255)
-);
-
-ALTER TABLE public.backlog OWNER TO pronto;
-
 CREATE SEQUENCE hibernate_sequence
     INCREMENT BY 1
     NO MAXVALUE
@@ -82,6 +75,37 @@ CREATE SEQUENCE seq_execucao
     CACHE 1;
 
     ALTER TABLE seq_execucao OWNER TO pronto;
+
+CREATE SEQUENCE seq_retrospectiva
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+    ALTER TABLE seq_retrospectiva OWNER TO pronto;
+
+CREATE SEQUENCE seq_retrospectiva_item
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+    ALTER TABLE seq_retrospectiva OWNER TO pronto;
+
+CREATE SEQUENCE seq_cliente
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+    ALTER TABLE seq_cliente OWNER TO pronto;
+
+CREATE TABLE backlog (
+    backlog_key integer NOT NULL,
+    descricao character varying(255)
+);
+
+ALTER TABLE public.backlog OWNER TO pronto;
     
 CREATE TABLE kanban_status (
     kanban_status_key integer NOT NULL,
@@ -119,7 +143,7 @@ CREATE TABLE ticket (
     esforco double precision NOT NULL,
     par boolean NOT NULL,
     planejado boolean NOT NULL,
-    data_de_criacao timestamp without time zone,
+    data_de_criacao timestamp without time zone default now(),
     data_de_pronto timestamp without time zone,
     reporter_key character varying(255),
     pai integer,
@@ -127,7 +151,9 @@ CREATE TABLE ticket (
     sprint integer,
     tipo_de_ticket_key integer,
     backlog_key integer,
-    prioridade integer
+    prioridade integer,
+    cliente_key integer,
+    prioridade_do_cliente integer
 );
 
 ALTER TABLE public.ticket OWNER TO pronto;
@@ -184,7 +210,8 @@ CREATE TABLE usuario (
     "password" character varying(30),
     nome character varying(150),
     email character varying(170),
-    email_md5 character varying(170)
+    email_md5 character varying(170),
+    cliente_key integer
 );
 
 ALTER TABLE public.usuario OWNER TO pronto;
@@ -222,6 +249,36 @@ CREATE TABLE execucao (
 
 ALTER TABLE execucao OWNER TO pronto;
 
+CREATE TABLE tipo_retrospectiva_item (
+    tipo_retrospectiva_item_key integer NOT NULL,
+    descricao character varying(120)
+);
+
+ALTER TABLE public.tipo_retrospectiva_item OWNER TO pronto;
+
+CREATE TABLE retrospectiva (
+    retrospectiva_key integer NOT NULL,
+    sprint_key integer NOT NULL 
+);
+
+ALTER TABLE public.retrospectiva OWNER TO pronto;
+
+CREATE TABLE retrospectiva_item (
+    retrospectiva_item_key integer NOT NULL,
+    retrospectiva_key integer NOT NULL,
+    tipo_retrospectiva_item_key integer NOT NULL,
+    descricao character varying(255) NOT NULL 
+);
+
+ALTER TABLE public. retrospectiva_item OWNER TO pronto;
+
+CREATE TABLE cliente (
+    cliente_key integer NOT NULL,
+    nome character varying(120)
+);
+
+ALTER TABLE cliente OWNER TO pronto;
+
 INSERT INTO backlog VALUES (1, 'Idéias');
 INSERT INTO backlog VALUES (5, 'Impedimentos');
 INSERT INTO backlog VALUES (4, 'Lixeira');
@@ -234,11 +291,10 @@ INSERT INTO kanban_status VALUES (21, 'Testing');
 INSERT INTO kanban_status VALUES (100, 'Done');
 
 INSERT INTO papel VALUES (1, 'Product Owner');
-INSERT INTO papel VALUES (4, 'Testador');
 INSERT INTO papel VALUES (2, 'Scrum Master');
-INSERT INTO papel VALUES (5, 'Suporte');
-INSERT INTO papel VALUES (3, 'Desenvolvedor');
 INSERT INTO papel VALUES (6, 'Administrador');
+INSERT INTO papel VALUES (7, 'Cliente');
+INSERT INTO papel VALUES (9, 'Equipe');
 
 INSERT INTO tipo_de_ticket VALUES (1, 'Idéia');
 INSERT INTO tipo_de_ticket VALUES (2, 'Estória');
@@ -250,10 +306,11 @@ INSERT INTO usuario VALUES ('admin', 'ISMvKXpXpadDiUoOSoAfww==', 'Administrador 
 
 INSERT INTO usuario_papel VALUES('admin',1);
 INSERT INTO usuario_papel VALUES('admin',2);
-INSERT INTO usuario_papel VALUES('admin',3);
-INSERT INTO usuario_papel VALUES('admin',4);
-INSERT INTO usuario_papel VALUES('admin',5);
 INSERT INTO usuario_papel VALUES('admin',6);
+INSERT INTO usuario_papel VALUES('admin',9);
+
+INSERT INTO tipo_retrospectiva_item VALUES (1, 'O que foi bem');
+INSERT INTO tipo_retrospectiva_item VALUES (2, 'O que pode ser melhorado');
 
 ALTER TABLE ONLY backlog
     ADD CONSTRAINT backlog_pkey PRIMARY KEY (backlog_key);
@@ -299,6 +356,18 @@ ALTER TABLE ONLY script
 
 ALTER TABLE ONLY execucao
     ADD CONSTRAINT execucao_pkey PRIMARY KEY (execucao_key);
+
+ALTER TABLE ONLY tipo_retrospectiva_item
+    ADD CONSTRAINT tipo_retrospectiva_item_pkey PRIMARY KEY (tipo_retrospectiva_item_key);
+
+ALTER TABLE ONLY retrospectiva
+    ADD CONSTRAINT retrospectiva_pkey PRIMARY KEY (retrospectiva_key);
+
+ALTER TABLE ONLY retrospectiva_item
+    ADD CONSTRAINT retrospectiva_item_pkey PRIMARY KEY (retrospectiva_item_key);
+
+ALTER TABLE ONLY cliente
+    ADD CONSTRAINT cliente_pkey PRIMARY KEY (cliente_key);
 
 ALTER TABLE ONLY usuario_papel
     ADD CONSTRAINT fk4d25cd3566f20c10 FOREIGN KEY (papel_key) REFERENCES papel(papel_key);
@@ -353,58 +422,31 @@ ALTER TABLE ONLY execucao
     
 ALTER TABLE ONLY execucao
     ADD CONSTRAINT fk_execucao_usuario FOREIGN KEY (username) REFERENCES usuario(username);
+
+ALTER TABLE ONLY retrospectiva
+    ADD CONSTRAINT fk_retrospectiva_sprint FOREIGN KEY (sprint_key) REFERENCES sprint(sprint_key);
+
+ALTER TABLE ONLY retrospectiva_item
+    ADD CONSTRAINT fk_retrospectiva_item_retrospectiva FOREIGN KEY (retrospectiva_key) REFERENCES retrospectiva(retrospectiva_key);    
+
+ALTER TABLE ONLY tipo_retrospectiva_item
+    ADD CONSTRAINT fk_retrospectiva_item_tipo_retrospectiva_item FOREIGN KEY (tipo_retrospectiva_item_key) REFERENCES tipo_retrospectiva_item(tipo_retrospectiva_item_key);
+
+ALTER TABLE ONLY USUARIO
+    ADD CONSTRAINT FK_USUARIO_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);
+
+ALTER TABLE ONLY TICKET
+    ADD CONSTRAINT FK_TICKET_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);    
     
 CREATE INDEX idx_ticket_sprint ON ticket USING btree (sprint);    
 CREATE INDEX idx_ticket_tipo_de_ticket ON ticket USING btree (tipo_de_ticket_key);
 CREATE INDEX idx_ticket_kaban_status ON ticket USING btree (kanban_status_key);
 CREATE INDEX idx_ticket_backlog ON ticket USING btree (backlog_key);
 CREATE INDEX idx_ticket_titulo ON ticket USING btree (titulo);
-
-CREATE SEQUENCE seq_cliente
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-    ALTER TABLE seq_cliente OWNER TO pronto;
-
-CREATE TABLE cliente (
-    cliente_key integer NOT NULL,
-    nome character varying(120)
-);
-
-ALTER TABLE cliente OWNER TO pronto;
-
-ALTER TABLE ONLY cliente
-    ADD CONSTRAINT cliente_pkey PRIMARY KEY (cliente_key);
-    
-ALTER TABLE USUARIO ADD CLIENTE_KEY INTEGER;
-  
-ALTER TABLE ONLY USUARIO
-    ADD CONSTRAINT FK_USUARIO_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);    
- 
-ALTER TABLE TICKET ADD CLIENTE_KEY INTEGER; 
-
-ALTER TABLE TICKET ADD PRIORIDADE_CLIENTE INTEGER;
-
-ALTER TABLE ONLY TICKET
-    ADD CONSTRAINT FK_TICKET_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);    
-
-
---Apagamos os tipos desenvolvedor, suporte e testador e mantivemos apenas equipe para ficar mais leal ao Scrum.
-insert into papel VALUES (9,'Equipe');
-INSERT INTO papel VALUES (7, 'Cliente');
-
-insert into usuario_papel select distinct usuario_key, 9 from usuario_papel where papel_key in (3,4,5,8);
-delete from usuario_papel where papel_key in (3,4,5,8);
-delete from papel where papel_key in (3,4,5,8);
-
---O cliente do ticket agora deve apontar para um cliente da tabela cliente.
---Por isso, antes de rodar o script abaixo cadastre os seus cliente na tabela cliente
---com os mesmos nomes que você digitava no campo cliente dos tickets.
---o script abaixo vai buscar um cliente de mesmo nome e fazer a link entre as tabelas tarefa e cliente
---depois apagará o campo cliente do ticket mantendo somente o cliente_key.
-update ticket set cliente_key = (select cliente_key from cliente c where c.nome = cliente);
+CREATE INDEX idx_ticket_cliente ON ticket USING btree (cliente_key);
+CREATE INDEX idx_ticket_branch ON ticket USING btree (branch);
+CREATE INDEX idx_execucao_script ON execucao USING btree (script_key);
+CREATE INDEX idx_execucao_banco_de_dados ON execucao USING btree (banco_de_dados_key);
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
