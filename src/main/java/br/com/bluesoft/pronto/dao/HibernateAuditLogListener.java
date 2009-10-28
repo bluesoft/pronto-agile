@@ -86,34 +86,37 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 
 			final Object existingEntity = session.get(event.getEntity().getClass(), entityId);
 
-			for (final String propertyName : event.getPersister().getPropertyNames()) {
+			if (existingEntity != null) {
 
-				String campo = propertyName;
-				final boolean temLabel = Ticket.class.getDeclaredField(propertyName).isAnnotationPresent(Label.class);
-				if (temLabel) {
-					campo = Ticket.class.getDeclaredField(propertyName).getAnnotation(Label.class).value();
-				}
+				for (final String propertyName : event.getPersister().getPropertyNames()) {
 
-				newPropValue = event.getPersister().getPropertyValue(event.getEntity(), propertyName, entityMode);
-				if (newPropValue != null) {
-					final boolean ehUmaCollection = newPropValue instanceof Collection;
-					if (!ehUmaCollection) {
-						oldPropValue = event.getPersister().getPropertyValue(existingEntity, propertyName, entityMode);
+					String campo = propertyName;
+					final boolean temLabel = Ticket.class.getDeclaredField(propertyName).isAnnotationPresent(Label.class);
+					if (temLabel) {
+						campo = Ticket.class.getDeclaredField(propertyName).getAnnotation(Label.class).value();
+					}
 
-						final String oldValue = makeString(oldPropValue);
-						final String newValue = makeString(newPropValue);
+					newPropValue = event.getPersister().getPropertyValue(event.getEntity(), propertyName, entityMode);
+					if (newPropValue != null) {
+						final boolean ehUmaCollection = newPropValue instanceof Collection;
+						if (!ehUmaCollection) {
+							oldPropValue = event.getPersister().getPropertyValue(existingEntity, propertyName, entityMode);
 
-						if (!oldValue.equals(newValue)) {
-							final TicketLog history = new TicketLog();
-							history.setTicket((Ticket) event.getEntity());
-							history.setData(transTime);
-							history.setUsuario(Seguranca.getUsuario().getUsername());
-							history.setCampo(campo);
-							history.setValorAntigo(oldValue);
-							history.setValorNovo(newValue);
-							history.setOperacao(TicketLog.ALTERACAO);
-							if (history.isDiferente()) {
-								session.save(history);
+							final String oldValue = makeString(oldPropValue);
+							final String newValue = makeString(newPropValue);
+
+							if (!oldValue.equals(newValue)) {
+								final TicketLog history = new TicketLog();
+								history.setTicket((Ticket) event.getEntity());
+								history.setData(transTime);
+								history.setUsuario(Seguranca.getUsuario().getUsername());
+								history.setCampo(campo);
+								history.setValorAntigo(oldValue);
+								history.setValorNovo(newValue);
+								history.setOperacao(TicketLog.ALTERACAO);
+								if (history.isDiferente()) {
+									session.save(history);
+								}
 							}
 						}
 					}

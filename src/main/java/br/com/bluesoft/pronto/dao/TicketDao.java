@@ -89,6 +89,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	public void salvar(final Ticket... tickets) {
 		super.salvar(tickets);
 		defineValores(tickets);
+		getSession().flush();
 	}
 
 	private void defineValores(final Ticket... tickets) {
@@ -96,10 +97,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		for (final Ticket ticket : tickets) {
 
 			getSession().lock(ticket, LockMode.NONE);
-
-			if (ticket.getDataDeCriacao() == null) {
-				ticket.setDataDeCriacao(new Date());
-			}
 
 			if (ticket.getReporter() == null) {
 				ticket.setReporter(Seguranca.getUsuario());
