@@ -209,7 +209,7 @@ public class TicketController {
 		descricaoTotal.append(totalDeDefeitos > 0 ? totalDeDefeitos + " defeito(s), " : "nenhum defeito, ");
 		descricaoTotal.append(totalDeEstorias > 0 ? totalDeEstorias + " estória(s), " : "nenhuma estória, ");
 		descricaoTotal.append(totalDeTarefas > 0 ? totalDeTarefas + " tarefa(s), " : "nenhuma tarefa, ");
-		descricaoTotal.append(totalDeIdeias > 0 ? totalDeIdeias + " idéia(s)" : "nenhuma idéia");
+		descricaoTotal.append(totalDeIdeias > 0 ? totalDeIdeias + " ideia(s)" : "nenhuma ideia");
 
 		return descricaoTotal.toString();
 	}
@@ -401,7 +401,7 @@ public class TicketController {
 
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG));
 
-		// caso não seja uma idéia mantém o tipo original
+		// caso não seja uma ideia mantém o tipo original
 		if (ticket.getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.IDEIA) {
 			ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.ESTORIA));
 		}

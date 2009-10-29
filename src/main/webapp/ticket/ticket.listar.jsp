@@ -162,7 +162,7 @@
 					</td>
 					<td>
 						<c:if test="${t.backlog.backlogKey eq 2 and usuarioLogado.productOwner}">
-								<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Idéias" onclick="toIdeias(${t.ticketKey})"></pronto:icons>
+								<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Ideias" onclick="toIdeias(${t.ticketKey})"></pronto:icons>
 						</c:if>
 					</td>
 					<td>
@@ -282,7 +282,7 @@
 		<div align="center">
 			<c:choose>
 				<c:when test="${backlog.backlogKey eq 1}">
-					&nbsp;&nbsp;<button type="button" onclick="window.location.href='editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=1'">Nova Idéia</button>&nbsp;&nbsp;
+					&nbsp;&nbsp;<button type="button" onclick="window.location.href='editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=1'">Nova Ideia</button>&nbsp;&nbsp;
 				</c:when>
 				<c:when test="${backlog.backlogKey eq 2 and usuarioLogado.productOwner}">
 					&nbsp;&nbsp;<button type="button" onclick="window.location.href='editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2'">Nova Estória</button>&nbsp;&nbsp;

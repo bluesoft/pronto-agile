@@ -279,7 +279,7 @@ CREATE TABLE cliente (
 
 ALTER TABLE cliente OWNER TO pronto;
 
-INSERT INTO backlog VALUES (1, 'Idéias');
+INSERT INTO backlog VALUES (1, 'Ideias');
 INSERT INTO backlog VALUES (5, 'Impedimentos');
 INSERT INTO backlog VALUES (4, 'Lixeira');
 INSERT INTO backlog VALUES (2, 'Product Backlog');
@@ -296,7 +296,7 @@ INSERT INTO papel VALUES (6, 'Administrador');
 INSERT INTO papel VALUES (7, 'Cliente');
 INSERT INTO papel VALUES (9, 'Equipe');
 
-INSERT INTO tipo_de_ticket VALUES (1, 'Idéia');
+INSERT INTO tipo_de_ticket VALUES (1, 'Ideia');
 INSERT INTO tipo_de_ticket VALUES (2, 'Estória');
 INSERT INTO tipo_de_ticket VALUES (3, 'Defeito');
 INSERT INTO tipo_de_ticket VALUES (5, 'Impedimento');
