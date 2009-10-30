@@ -21,7 +21,6 @@
 	            <c:if test="${mensagem ne null}">
 	            	<h6 align="center">${mensagem}</h6>
 	            </c:if>
-
 					            
 	            <c:if test="${erro ne null || param.erro ne null}">
 	            	<h6 align="center" style="color: red">${erro}${param.erro}</h6>

@@ -318,8 +318,6 @@ public class TicketController {
 
 	private void definirDesenvolvedores(final Ticket ticket, final String[] desenvolvedor) throws SegurancaException {
 
-		Seguranca.validarPermissao(Papel.EQUIPE, Papel.SCRUM_MASTER);
-
 		final Set<Usuario> desenvolvedoresAntigos = new TreeSet<Usuario>(ticketDao.listarDesenvolvedoresDoTicket(ticket.getTicketKey()));
 
 		if (desenvolvedor != null && desenvolvedor.length > 0) {
@@ -337,8 +335,6 @@ public class TicketController {
 	}
 
 	private void definirTestadores(final Ticket ticket, final String[] testador) throws SegurancaException {
-
-		Seguranca.validarPermissao(Papel.EQUIPE, Papel.SCRUM_MASTER);
 
 		final Set<Usuario> testadoresAntigos = new TreeSet<Usuario>(ticketDao.listarTestadoresDoTicket(ticket.getTicketKey()));
 

@@ -4,7 +4,7 @@
 	</head>
 	<body>
 		<h1>Sobre</h1>
-		<p>O projeto Pronto surgiu em 2009 ... FIAP... André Faria Gomes, Luiz dos Santos Faias Junior, Prof. Dr. Surjan</p>
+		<p>O projeto Pronto surgiu em 2009 como trabalho de conclusão de curso na faculdade FIAP por André Faria Gomes, Luiz dos Santos Faias Junior e com a orientação do Prof. Msc. Surjan</p>
 		
 		<h2>Frameworks e Bibliotecas Utilizados</h2>
 		<ul>
@@ -16,11 +16,6 @@
 			<li><a href="http://www.hibernate.org/">Hibernate</a> - <a href="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html">LGPL 2.1</a></li>
 			<li><a href="http://www.springframework.org/">Spring Framework</a> - <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</a></li>
 			<li><a href="http://css.appfuse.org/themes/">App Fuse CSS Framework Themes</a> - <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</a></li>
-			
-			
-			
-			
 		</ul>
 	</body>
 </html>
-
