@@ -1,5 +1,7 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="urlAlterarOrdem" value="/ticket/alterarOrdemDasTarefas.action"/>
+<c:url var="urlScriptIncluir" value="/script/incluir.action"/>
+<c:url var="urlScriptEditar" value="/script/editar.action"/>
 <html>
 	<head>
 		<title><c:choose><c:when test="${ticket.ticketKey gt 0}">${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}</c:when><c:otherwise>Incluir ${ticket.tipoDeTicket.descricao}</c:otherwise></c:choose></title>
@@ -70,9 +72,14 @@
     		  $("#tarefas").disableSelection();
 		 });
 
-		
-		 
+		function adicionarScript() {
+			goTo('${urlScriptIncluir}?ticketKey=${ticket.ticketKey}');
+		}
 
+		function editarScript() {
+			goTo('${urlScriptEditar}?scriptKey=${ticket.script.scriptKey}');
+		}
+		
 		 function excluirAnexo(ticketKey, anexo) {
 			if (confirm('Tem certeza que deseja excluir este anexo?')) {
 				goTo('excluirAnexo.action?ticketKey=' + ticketKey+ '&file=' + anexo);
@@ -147,6 +154,14 @@
 			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 6 and ticket.backlog.backlogKey ne 1}">
 				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?paiKey=${ticket.pai.ticketKey}')"></pronto:icons>
 			</c:if>
+			<c:choose>
+				<c:when test="${ticket.script eq null}">
+					<pronto:icons name="adicionar_script.png" title="Adicionar Script de Banco de Dados" onclick="adicionarScript()"/>
+				</c:when>
+				<c:otherwise>
+					<pronto:icons name="editar_script.png" title="Editar Script de Banco de Dados" onclick="editarScript()"/>
+				</c:otherwise>
+			</c:choose>
 			<!-- Fim das Operacoes -->
 			<br/><br/>
 			
@@ -442,7 +457,7 @@
 				<input type="file" name="arquivo">
 				<button type="submit">Upload</button>
 			</form>
-		
+			
 			<h2>Log</h2>
 			<ul>
 				<c:set var="dataGrupo" value="${null}"/>

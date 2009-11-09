@@ -72,8 +72,9 @@
 					<table style="width: 100%">
 						<tr>
 							<th style="width: 20px;"></th>
-							<th style="width: 40px;">#</th>
+							<th style="width: 40px;"></th>
 							<th>Descrição</th>
+							<th>Ticket</th>
 							<th>Status</th>
 							<th style="width: 16px;"></th>
 							<th style="width: 16px;"></th>
@@ -90,6 +91,23 @@
 								</td>
 								<td>${e.execucaoKey}</td>
 								<td class="descricao">${e.script.descricao}</td>
+								<td>
+									<c:if test="${e.script.ticket ne null}">
+										<c:choose>
+											<c:when test="${e.script.ticket.estoria}">
+												<pronto:icons name="estoria.png" title="Ir para Estória - ${e.script.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${s.ticket.ticketKey}')"/>								
+											</c:when>
+											<c:when test="${e.script.ticket.tarefa}">
+												<pronto:icons name="tarefa.png" title="Ir para Tarefa - ${e.script.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${s.ticket.ticketKey}')"/>
+											</c:when>
+											<c:otherwise>
+												<pronto:icons name="defeito.png" title="Ir para Defeito - ${e.script.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${s.ticket.ticketKey}')"/>
+											</c:otherwise>
+										</c:choose>
+										#${e.script.ticket.ticketKey}
+										(${e.script.ticket.kanbanStatus.descricao})
+									</c:if>
+								</td>
 								<td class="descricao">${e.status}</td>
 								<td>
 									<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verScript(${e.script.scriptKey});"/>

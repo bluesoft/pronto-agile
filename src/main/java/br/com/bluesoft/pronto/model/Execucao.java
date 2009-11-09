@@ -98,6 +98,10 @@ public class Execucao {
 		return this.getData() != null;
 	}
 
+	public boolean isPendente() {
+		return this.getData() == null;
+	}
+
 	public String getStatus() {
 
 		if (isExecutado()) {

@@ -31,10 +31,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.JavaScriptUtils;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+
 import br.com.bluesoft.pronto.dao.BancoDeDadosDao;
 import br.com.bluesoft.pronto.dao.ScriptDao;
+import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.BancoDeDados;
 import br.com.bluesoft.pronto.model.Script;
+import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.util.ControllerUtil;
 
 @Controller
@@ -49,10 +54,26 @@ public class ScriptController {
 	@Autowired
 	private BancoDeDadosDao bancoDeDadosDao;
 
-	@RequestMapping("/script/listar.action")
-	public String listar(final Model model) {
+	@Autowired
+	private TicketDao ticketDao;
 
-		final List<Script> scripts = scriptDao.listar();
+	@RequestMapping("/script/listar.action")
+	public String listar(final Model model, Integer situacao) {
+
+		final List<Script> todosOsScripts = scriptDao.listarComDependencias();
+
+		Iterator<Script> scripts = null;
+		if (situacao != null) {
+			if (situacao == 1) {
+				scripts = Iterables.filter(todosOsScripts, filterPendente).iterator();
+			} else {
+				scripts = Iterables.filter(todosOsScripts, filterExecutado).iterator();
+			}
+		} else {
+			scripts = todosOsScripts.iterator();
+		}
+
+		model.addAttribute("situacao", situacao);
 		model.addAttribute("scripts", scripts);
 
 		return VIEW_LISTAR;
@@ -74,7 +95,7 @@ public class ScriptController {
 	}
 
 	@RequestMapping("/script/salvar.action")
-	public String salvar(final Model model, final Script script, final Integer[] bancoDeDadosKey) {
+	public String salvar(final Model model, final Script script, final Integer[] bancoDeDadosKey, final Integer ticketKey) {
 
 		if (script.getScriptKey() > 0) {
 
@@ -110,6 +131,11 @@ public class ScriptController {
 				}
 			}
 			scriptDao.salvar(script);
+			if (ticketKey != null) {
+				Ticket ticket = ticketDao.obter(ticketKey);
+				ticket.setScript(script);
+				ticketDao.salvar(ticket);
+			}
 		}
 
 		return "redirect:listar.action";
@@ -117,7 +143,13 @@ public class ScriptController {
 
 	@RequestMapping("/script/excluir.action")
 	public String excluir(final Model model, final int scriptKey) {
-		scriptDao.excluir(scriptDao.obter(scriptKey));
+		final Script script = scriptDao.obter(scriptKey);
+		final Ticket ticket = script.getTicket();
+		if (ticket != null) {
+			ticket.setScript(null);
+			ticketDao.salvar(ticket);
+		}
+		scriptDao.excluir(script);
 		return "redirect:listar.action";
 	}
 
@@ -127,4 +159,23 @@ public class ScriptController {
 		final String json = String.format("{descricao: '%s', script: '%s'}", script.getDescricao(), JavaScriptUtils.javaScriptEscape(script.getScript()));
 		ControllerUtil.writeText(response, json);
 	}
+
+	private final Predicate<Script> filterPendente = new Predicate<Script>() {
+
+		@Override
+		public boolean apply(Script script) {
+			return !script.isTudoExecutado();
+		}
+
+	};
+
+	private final Predicate<Script> filterExecutado = new Predicate<Script>() {
+
+		@Override
+		public boolean apply(Script script) {
+			return script.isTudoExecutado();
+		}
+
+	};
+
 }

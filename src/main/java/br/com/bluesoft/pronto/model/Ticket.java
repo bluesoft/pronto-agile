@@ -36,6 +36,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
@@ -154,6 +155,10 @@ public class Ticket {
 	@ManyToOne
 	@JoinColumn(name = "sprint")
 	private Sprint sprint;
+
+	@OneToOne
+	@JoinColumn(name = "script_key")
+	private Script script;
 
 	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
 	private final List<TicketLog> logs;
@@ -537,6 +542,14 @@ public class Ticket {
 
 	public void setPrioridadeDoCliente(final Integer prioridadeDoCliente) {
 		this.prioridadeDoCliente = prioridadeDoCliente;
+	}
+
+	public Script getScript() {
+		return script;
+	}
+
+	public void setScript(Script script) {
+		this.script = script;
 	}
 
 }

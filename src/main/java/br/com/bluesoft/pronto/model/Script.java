@@ -19,6 +19,7 @@
  */
 package br.com.bluesoft.pronto.model;
 
+import java.text.MessageFormat;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -26,6 +27,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import com.google.common.collect.Sets;
@@ -41,6 +43,9 @@ public class Script {
 	private String descricao;
 
 	private String script;
+
+	@OneToOne(mappedBy = "script")
+	private Ticket ticket;
 
 	@OneToMany(mappedBy = "script", cascade = CascadeType.ALL)
 	private Set<Execucao> execucoes;
@@ -127,6 +132,43 @@ public class Script {
 			execucoes.remove(execucao);
 		}
 
+	}
+
+	public Ticket getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(Ticket ticket) {
+		this.ticket = ticket;
+	}
+	
+	public boolean isTudoExecutado() {
+		if (execucoes != null) {
+			for (final Execucao execucao : execucoes) {
+				if (!execucao.isExecutado()) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public String getSituacao() {
+		if (execucoes != null) {
+			int totalDeExecucoes = execucoes.size();
+			int execucoesExecutadas = 0;
+			for (final Execucao execucao : execucoes) {
+				if (execucao.isExecutado()) {
+					execucoesExecutadas++;
+				}
+			}
+			if (totalDeExecucoes == execucoesExecutadas) {
+				return "Tudo Executado";
+			} else {
+				return MessageFormat.format("{0} de {1} executados", execucoesExecutadas, totalDeExecucoes);
+			}
+		}
+		return "Não há Execuções";
 	}
 
 }

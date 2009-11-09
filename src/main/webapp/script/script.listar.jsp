@@ -1,6 +1,7 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="listarExecucoesUrl" value="/execucao/listar.action"/>
 <c:url var="listarBancosUrl" value="/bancoDeDados/listar.action"/>
+<c:url var="editarTicketUrl" value="/ticket/editar.action"/>
 <html>
 	<head>
 		<title>Scripts</title>
@@ -15,6 +16,10 @@
 					goTo('excluir.action?scriptKey=' + scriptKey);
 				}
 			}
+
+			function reload() {
+				$('#formListar').submit();
+			}
 		
 		</script>
 	</head>
@@ -24,11 +29,25 @@
 			<pronto:icons name="banco_de_dados.png" title="Ver Bancos de Dados" onclick="goTo('${listarBancosUrl}')"/>
 			<pronto:icons name="execucao.png" title="Ver Execuções" onclick="goTo('${listarExecucoesUrl}')"/>
 		</h1>
+		
+		<div align="right">
+			<form action="listar.action" id="formListar">
+				Exibir:
+				<select name="situacao" onchange="reload()">
+					<option value="1"  ${situacao eq 1 ? 'selected="selected"' : ''}>Pendentes</option>
+					<option value="2" ${situacao eq 2 ? 'selected="selected"' : ''}>Executados</option>
+					<option value="0" ${situacao eq null ? 'selected="selected"' : ''}>Todos</option>
+				</select>
+			</form>
+		</div>
+		
 		<c:set var="cor" value="${true}"/>
 		<table style="width: 100%">
 			<tr>
-				<th style="width: 40px;">#</th>
+				<th style="width: 40px;"></th>
 				<th>Descrição</th>
+				<th>Situação</th>
+				<th>#</th>
 				<th style="width: 16px;"></th>
 				<th style="width: 16px;"></th>
 			</tr>
@@ -38,6 +57,25 @@
 				<tr id="${s.scriptKey}" class="${cor ? 'odd' : 'even'}">
 					<td>${s.scriptKey}</td>
 					<td class="descricao">${s.descricao}</td>
+					<td>${s.situacao}</td>
+					<td>
+						<c:if test="${s.ticket ne null}">
+							<c:choose>
+								<c:when test="${s.ticket.estoria}">
+									<pronto:icons name="estoria.png" title="Ir para Estória - ${s.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${s.ticket.ticketKey}')"/>								
+								</c:when>
+								<c:when test="${s.ticket.tarefa}">
+									<pronto:icons name="tarefa.png" title="Ir para Tarefa - ${s.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${s.ticket.ticketKey}')"/>
+								</c:when>
+								<c:otherwise>
+									<pronto:icons name="defeito.png" title="Ir para Defeito - ${s.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${s.ticket.ticketKey}')"/>
+								</c:otherwise>
+							</c:choose>
+							#${s.ticket.ticketKey}
+							(${s.ticket.kanbanStatus.descricao})
+						</c:if>
+					</td>
+					
 					<td>
 						<a href="editar.action?scriptKey=${s.scriptKey}"><pronto:icons name="editar_script.png" title="Editar" /></a>
 					</td>
