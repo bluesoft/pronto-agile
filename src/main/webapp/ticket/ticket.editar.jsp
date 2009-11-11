@@ -188,7 +188,11 @@
 		<form action="salvar.action" method="post" id="formTicket">
 			
 			<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
-			<form:hidden path="ticket.script.scriptKey" />
+			
+			<c:if test="${ticket.script ne null}">
+				<form:hidden path="ticket.script.scriptKey" />
+			</c:if>
+			
 			<form:hidden path="ticket.prioridadeDoCliente"/>
 			
 			<c:if test="${ticket.ticketKey gt 0}">
