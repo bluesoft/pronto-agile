@@ -101,6 +101,10 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 			if (ticket.getReporter() == null) {
 				ticket.setReporter(Seguranca.getUsuario());
 			}
+			
+			if (ticket.getScript() != null && ticket.getScript().getScriptKey() == 0) {
+				ticket.setScript(null);
+			}
 
 			// Se um ticket tiver filhos, atualizar os dados dos filhos que devem ser sempre iguais aos do pai.
 			if (ticket.temFilhos()) {

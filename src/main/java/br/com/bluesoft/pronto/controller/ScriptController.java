@@ -64,13 +64,15 @@ public class ScriptController {
 
 		Iterator<Script> scripts = null;
 		if (situacao != null) {
-			if (situacao == 1) {
+			if (situacao == 0) {
+				scripts = todosOsScripts.iterator();
+			} else if (situacao == 1) {
 				scripts = Iterables.filter(todosOsScripts, filterPendente).iterator();
 			} else {
 				scripts = Iterables.filter(todosOsScripts, filterExecutado).iterator();
 			}
 		} else {
-			scripts = todosOsScripts.iterator();
+			scripts = Iterables.filter(todosOsScripts, filterPendente).iterator();
 		}
 
 		model.addAttribute("situacao", situacao);

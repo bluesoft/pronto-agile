@@ -34,9 +34,9 @@
 			<form action="listar.action" id="formListar">
 				Exibir:
 				<select name="situacao" onchange="reload()">
-					<option value="1"  ${situacao eq 1 ? 'selected="selected"' : ''}>Pendentes</option>
+					<option value="1"  ${situacao eq 1 or situacao eq null ? 'selected="selected"' : ''}>Pendentes</option>
 					<option value="2" ${situacao eq 2 ? 'selected="selected"' : ''}>Executados</option>
-					<option value="0" ${situacao eq null ? 'selected="selected"' : ''}>Todos</option>
+					<option value="0" ${situacao eq 0 ? 'selected="selected"' : ''}>Todos</option>
 				</select>
 			</form>
 		</div>

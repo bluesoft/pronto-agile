@@ -186,7 +186,11 @@
 			
 			
 		<form action="salvar.action" method="post" id="formTicket">
+			
 			<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
+			<form:hidden path="ticket.script.scriptKey" />
+			<form:hidden path="ticket.prioridadeDoCliente"/>
+			
 			<c:if test="${ticket.ticketKey gt 0}">
 				<form:hidden path="ticket.ticketKey"/>
 			</c:if>
@@ -313,7 +317,7 @@
 				<div>
 					<c:choose>
 						<c:when test="${usuarioLogado.equipe and empty ticket.filhos}">
-							<form:input path="ticket.esforco" cssClass="required number" /><br/>
+							<form:input path="ticket.esforco" cssClass="required number" size="5"/><br/>
 						</c:when>
 						<c:otherwise>
 							<form:hidden path="ticket.esforco"/>
@@ -367,7 +371,6 @@
 					<p>Kanban Status</p>
 				</div>
 				
-				
 				<div>
 					<form:input path="ticket.dataDePronto"/><br/>
 					<p>Data de Pronto</p>
@@ -377,11 +380,9 @@
 					<form:hidden path="ticket.prioridade"/><br/>
 				</c:if>
 				
-				<form:hidden path="ticket.prioridadeDoCliente"/><br/>
-				
 				<c:if test="${empty ticket.filhos}">
 				<div>
-					<form:input path="ticket.branch"/><br/>
+					<form:input path="ticket.branch" size="38"/><br/>
 					<p>Branch</p>
 				</div>
 				</c:if>

@@ -68,6 +68,7 @@ public class Ticket {
 		kanbanStatus = new KanbanStatus(KanbanStatus.TO_DO);
 		comentarios = new ArrayList<TicketComentario>();
 		logs = new ArrayList<TicketLog>();
+		script = new Script();
 	}
 
 	@Id
