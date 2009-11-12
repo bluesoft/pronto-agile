@@ -87,9 +87,18 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 	@Override
 	public void salvar(final Ticket... tickets) {
+		prepararParaSalvar(tickets);
 		super.salvar(tickets);
 		defineValores(tickets);
 		getSession().flush();
+	}
+
+	private void prepararParaSalvar(final Ticket... tickets) {
+		for (Ticket ticket : tickets) {
+			if (ticket.getScript() != null && ticket.getScript().getScriptKey() == 0) {
+				ticket.setScript(null);
+			}
+		}
 	}
 
 	private void defineValores(final Ticket... tickets) {
@@ -101,7 +110,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 			if (ticket.getReporter() == null) {
 				ticket.setReporter(Seguranca.getUsuario());
 			}
-			
+
 			if (ticket.getScript() != null && ticket.getScript().getScriptKey() == 0) {
 				ticket.setScript(null);
 			}
