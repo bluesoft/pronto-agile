@@ -27,9 +27,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.bluesoft.pronto.core.TipoRetrospectiva;
 import br.com.bluesoft.pronto.dao.RetrospectivaDao;
 import br.com.bluesoft.pronto.dao.RetrospectivaItemDao;
 import br.com.bluesoft.pronto.dao.SprintDao;
+import br.com.bluesoft.pronto.dao.TipoRetrospectivaDao;
 import br.com.bluesoft.pronto.dao.TipoRetrospectivaItemDao;
 import br.com.bluesoft.pronto.model.Retrospectiva;
 import br.com.bluesoft.pronto.model.RetrospectivaItem;
@@ -48,6 +50,9 @@ public class RetrospectivaController {
 	private RetrospectivaItemDao retrospectivaItemDao;
 
 	@Autowired
+	private TipoRetrospectivaDao tipoRetrospectivaDao;
+
+	@Autowired
 	private SprintDao sprintDao;
 
 	@RequestMapping("/retrospectiva/ver.action")
@@ -55,13 +60,23 @@ public class RetrospectivaController {
 		Retrospectiva retrospectiva = retrospectivaDao.obterRetrospectivaDoSprint(sprintKey);
 		if (retrospectiva == null) {
 			retrospectiva = new Retrospectiva();
+			retrospectiva.setTipoRetrospectiva(tipoRetrospectivaDao.obter(TipoRetrospectiva.TRADICIONAL));
 			retrospectiva.setSprint(sprintDao.obter(sprintKey));
 		}
 		retrospectivaDao.salvar(retrospectiva);
 
 		model.addAttribute("retrospectiva", retrospectiva);
-		model.addAttribute("tipos", tipoRetrospectivaItemDao.listar());
+		model.addAttribute("tiposDeRetrospectiva", tipoRetrospectivaDao.listar());
+		model.addAttribute("tiposDeItem", tipoRetrospectivaItemDao.listarPorTipoDeRetrospectiva(retrospectiva.getTipoRetrospectiva().getTipoRetrospectivaKey()));
 		return "/retrospectiva/retrospectiva.ver.jsp";
+	}
+
+	@RequestMapping("/retrospectiva/alterarTipoDeRetrospectiva.action")
+	public String alterarTipoDeRetrospectiva(final HttpServletResponse response, final int retrospectivaKey, final int tipoRetrospectivaKey) {
+		final Retrospectiva retrospectiva = retrospectivaDao.obter(retrospectivaKey);
+		retrospectiva.setTipoRetrospectiva(tipoRetrospectivaDao.obter(tipoRetrospectivaKey));
+		retrospectivaDao.salvar(retrospectiva);
+		return "/retrospectiva/ver.action?sprintKey=" + retrospectiva.getSprint().getSprintKey();
 	}
 
 	@RequestMapping("/retrospectiva/salvarItem.action")

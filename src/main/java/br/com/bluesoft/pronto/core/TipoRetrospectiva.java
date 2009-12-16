@@ -17,26 +17,36 @@
  * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+package br.com.bluesoft.pronto.core;
 
-package br.com.bluesoft.pronto.dao;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-import java.util.List;
+@Entity
+public class TipoRetrospectiva {
 
-import org.springframework.stereotype.Repository;
+	public static int TRADICIONAL = 1;
+	public static int SEIS_CHAPEUS = 2;
 
-import br.com.bluesoft.pronto.core.TipoRetrospectivaItem;
+	@Id
+	private int tipoRetrospectivaKey;
 
-@Repository
-public class TipoRetrospectivaItemDao extends DaoHibernate<TipoRetrospectivaItem, Integer> {
+	private String descricao;
 
-	public TipoRetrospectivaItemDao() {
-		super(TipoRetrospectivaItem.class);
+	public int getTipoRetrospectivaKey() {
+		return tipoRetrospectivaKey;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<TipoRetrospectivaItem> listarPorTipoDeRetrospectiva(final int tipoRetrospectivaKey) {
-		final String hql = "from TipoRetrospectivaItem t where t.tipoRetrospectiva.tipoRetrospectivaKey = :tipoRetrospectivaKey";
-		return getSession().createQuery(hql).setInteger("tipoRetrospectivaKey", tipoRetrospectivaKey).list();
+	public void setTipoRetrospectivaKey(final int tipoRetrospectivaKey) {
+		this.tipoRetrospectivaKey = tipoRetrospectivaKey;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(final String descricao) {
+		this.descricao = descricao;
 	}
 
 }

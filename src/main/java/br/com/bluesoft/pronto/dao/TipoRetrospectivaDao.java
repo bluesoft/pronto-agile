@@ -20,23 +20,15 @@
 
 package br.com.bluesoft.pronto.dao;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 
-import br.com.bluesoft.pronto.core.TipoRetrospectivaItem;
+import br.com.bluesoft.pronto.core.TipoRetrospectiva;
 
 @Repository
-public class TipoRetrospectivaItemDao extends DaoHibernate<TipoRetrospectivaItem, Integer> {
+public class TipoRetrospectivaDao extends DaoHibernate<TipoRetrospectiva, Integer> {
 
-	public TipoRetrospectivaItemDao() {
-		super(TipoRetrospectivaItem.class);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<TipoRetrospectivaItem> listarPorTipoDeRetrospectiva(final int tipoRetrospectivaKey) {
-		final String hql = "from TipoRetrospectivaItem t where t.tipoRetrospectiva.tipoRetrospectivaKey = :tipoRetrospectivaKey";
-		return getSession().createQuery(hql).setInteger("tipoRetrospectivaKey", tipoRetrospectivaKey).list();
+	public TipoRetrospectivaDao() {
+		super(TipoRetrospectiva.class);
 	}
 
 }

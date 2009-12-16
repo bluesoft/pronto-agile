@@ -19,6 +19,7 @@
 		<mapping class="br.com.bluesoft.pronto.core.Papel" />
 		<mapping class="br.com.bluesoft.pronto.core.TipoDeTicket" />
 		<mapping class="br.com.bluesoft.pronto.core.TipoRetrospectivaItem" />
+		<mapping class="br.com.bluesoft.pronto.core.TipoRetrospectiva"  />
 
 		<!-- model classes -->
 		<mapping class="br.com.bluesoft.pronto.model.Cliente" />

@@ -55,4 +55,12 @@ ALTER TABLE ONLY retrospectiva_item
     ADD CONSTRAINT fk_retrospectiva_item_retrospectiva FOREIGN KEY (retrospectiva_key) REFERENCES retrospectiva(retrospectiva_key);    
 
 ALTER TABLE ONLY tipo_retrospectiva_item
-    ADD CONSTRAINT fk_retrospectiva_item_tipo_retrospectiva_item FOREIGN KEY (tipo_retrospectiva_item_key) REFERENCES tipo_retrospectiva_item(tipo_retrospectiva_item_key);   
+    ADD CONSTRAINT fk_retrospectiva_item_tipo_retrospectiva_item FOREIGN KEY (tipo_retrospectiva_item_key) REFERENCES tipo_retrospectiva_item(tipo_retrospectiva_item_key);
+    
+    
+INSERT INTO tipo_retrospectiva_item VALUES (3, 'Chapéu Azul - Objetivos', 2);
+INSERT INTO tipo_retrospectiva_item VALUES (4, 'Chapéu Branco - Fatos e Informações', 2);
+INSERT INTO tipo_retrospectiva_item VALUES (5, 'Chapéu Amarelo - Acontecimentos Positivos', 2);
+INSERT INTO tipo_retrospectiva_item VALUES (6, 'Chapéu Preto - Acontecimentos Negativos', 2);
+INSERT INTO tipo_retrospectiva_item VALUES (7, 'Chapéu Verde - Idéias', 2);
+INSERT INTO tipo_retrospectiva_item VALUES (8, 'Chapéu Vermelho - Sentimentos', 2);    

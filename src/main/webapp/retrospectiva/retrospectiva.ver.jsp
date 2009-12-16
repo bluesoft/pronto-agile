@@ -1,6 +1,7 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="urlSprint" value="/sprint/"/>
 <c:url var="salvarUrl" value="/retrospectiva/salvarItem.action"/>
+<c:url var="alterarTipoDeRetrospectivaUrl" value="/retrospectiva/alterarTipoDeRetrospectiva.action"/>
 <c:url var="excluirUrl" value="/retrospectiva/excluirItem.action"/>
 <html>	
 	<head>
@@ -67,20 +68,40 @@
 				
 			}
 
-			
+			function trocarTipo(){
+				$('#formAlterar').submit();				
+			}
 		
 		</script>
 	</head>
 	<body>
-		<h1>Retrospectiva</h1>
+	
+		<h1>Retrospectiva (${retrospectiva.tipoRetrospectiva.descricao})</h1>
 		
-		<input type="hidden" id="retrospectivaKey" value="${retrospectiva.retrospectivaKey}">
+		
+		<form action="${alterarTipoDeRetrospectivaUrl}" id="formAlterar">
+			<input type="hidden" id="retrospectivaKey" name="retrospectivaKey" value="${retrospectiva.retrospectivaKey}">
+			<select onchange="trocarTipo()" id="tipoRetrospectivaKey" name="tipoRetrospectivaKey">
+				<c:forEach var="tipo" items="${tiposDeRetrospectiva}">
+					<c:choose>
+						<c:when test="${tipo.tipoRetrospectivaKey eq retrospectiva.tipoRetrospectiva.tipoRetrospectivaKey}">
+							<option value="${tipo.tipoRetrospectivaKey}" selected="selected">${tipo.descricao}</option>
+						</c:when>
+						<c:otherwise>
+							<option value="${tipo.tipoRetrospectivaKey}">${tipo.descricao}</option>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</select>
+		</form>
+		
+
 		
 		<div style="display: none">
 			<pronto:icons name="excluir.png" title="excluir item" id="excluirModelo" clazz="icon"/>
 		</div>
 		
-		<c:forEach var="tipo" items="${tipos}">
+		<c:forEach var="tipo" items="${tiposDeItem}">
 			<ul class="lista" tipo="${tipo.tipoRetrospectivaItemKey}">
 				<span class="title">
 					<h4 class="ui-widget-header">${tipo.descricao}</h4>

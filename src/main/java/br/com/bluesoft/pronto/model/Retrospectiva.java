@@ -33,6 +33,8 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
+import br.com.bluesoft.pronto.core.TipoRetrospectiva;
+
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
@@ -51,6 +53,10 @@ public class Retrospectiva {
 	@Sort(type = SortType.NATURAL)
 	@OneToMany(mappedBy = "retrospectiva")
 	private SortedSet<RetrospectivaItem> itens;
+
+	@ManyToOne
+	@JoinColumn(name = "TIPO_RETROSPECTIVA_KEY")
+	private TipoRetrospectiva tipoRetrospectiva;
 
 	public int getRetrospectivaKey() {
 		return retrospectivaKey;
@@ -80,6 +86,14 @@ public class Retrospectiva {
 
 	public SortedSet<RetrospectivaItem> getItens() {
 		return itens;
+	}
+
+	public TipoRetrospectiva getTipoRetrospectiva() {
+		return tipoRetrospectiva;
+	}
+
+	public void setTipoRetrospectiva(final TipoRetrospectiva tipoRetrospectiva) {
+		this.tipoRetrospectiva = tipoRetrospectiva;
 	}
 
 }

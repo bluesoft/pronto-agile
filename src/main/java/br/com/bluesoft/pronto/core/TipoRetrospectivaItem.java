@@ -22,17 +22,20 @@ package br.com.bluesoft.pronto.core;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class TipoRetrospectivaItem {
-
-	public static final int WWW = 1;
-	public static final int WCBI = 2;
 
 	@Id
 	private int tipoRetrospectivaItemKey;
 
 	private String descricao;
+
+	@ManyToOne
+	@JoinColumn(name = "TIPO_RETROSPECTIVA_KEY")
+	private TipoRetrospectiva tipoRetrospectiva;
 
 	public int getTipoRetrospectivaItemKey() {
 		return tipoRetrospectivaItemKey;
@@ -48,6 +51,14 @@ public class TipoRetrospectivaItem {
 
 	public void setDescricao(final String descricao) {
 		this.descricao = descricao;
+	}
+
+	public TipoRetrospectiva getTipoRetrospectiva() {
+		return tipoRetrospectiva;
+	}
+
+	public void setTipoRetrospectiva(final TipoRetrospectiva tipoRetrospectiva) {
+		this.tipoRetrospectiva = tipoRetrospectiva;
 	}
 
 }
