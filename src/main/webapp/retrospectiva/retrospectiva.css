@@ -1,0 +1,38 @@
+
+
+.lista { 
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0; 
+	width: 400px;
+	float: left; 
+	padding: 10px;
+}
+
+.lista li {  
+	padding: 2px; 
+	height: 1.5em; 
+	font-size: 11px
+}
+
+html>body .lista li { 
+	height: 1.5em; 
+	line-height: 1.2em; 
+}
+
+.ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+.ui-state-default { background-image: none; background-color: #f8f8f8; color: #0066cc; }
+
+.lista input{
+	font-size: 10px;
+	background-color: white;
+	border:0px;
+	font-weight: bolder;
+	width: 100%;
+	
+}
+
+
+.icon { float: right;}
+
+

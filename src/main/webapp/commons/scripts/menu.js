@@ -31,8 +31,9 @@
 
 	$(document).ready( function()
 	{
-		$('#jsddm > li').bind('mouseover', jsddm_open);
-		$('#jsddm > li').bind('mouseout', jsddm_timer);
+		var $jsddmLis = $('#jsddm > li'); 
+		$jsddmLis.bind('mouseover', jsddm_open);
+		$jsddmLis.bind('mouseout', jsddm_timer);
 	});
 
 	document.onclick = jsddm_close;

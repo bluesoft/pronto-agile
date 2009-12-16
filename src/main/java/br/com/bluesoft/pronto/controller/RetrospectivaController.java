@@ -60,6 +60,7 @@ public class RetrospectivaController {
 		retrospectivaDao.salvar(retrospectiva);
 
 		model.addAttribute("retrospectiva", retrospectiva);
+		model.addAttribute("tipos", tipoRetrospectivaItemDao.listar());
 		return "/retrospectiva/retrospectiva.ver.jsp";
 	}
 

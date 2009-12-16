@@ -7,11 +7,18 @@
 				$('#username').focus();
 			});		
 		</script>
+		<style>
+			input {
+				font-size: 14px;
+			}
+		</style>
 	</head>
 	<body>
+	
 		<c:url var="loginUrl" value="/login.action"/>
 		<form action="${loginUrl}" method="post">
-			<ul class="info"><h1>Login</h1></ul>
+			<h1>Login</h1>
+			
 			<h3>${mensagem}</h3>
 			<div class="group">
 				<div>

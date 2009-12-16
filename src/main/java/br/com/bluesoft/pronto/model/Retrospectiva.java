@@ -20,7 +20,6 @@
 
 package br.com.bluesoft.pronto.model;
 
-import java.util.List;
 import java.util.SortedSet;
 
 import javax.persistence.Entity;
@@ -34,11 +33,8 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 
-import br.com.bluesoft.pronto.core.TipoRetrospectivaItem;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 @Entity
 @SequenceGenerator(name = "SEQ_RETROSPECTIVA", sequenceName = "SEQ_RETROSPECTIVA")
@@ -82,32 +78,8 @@ public class Retrospectiva {
 		});
 	}
 
-	public List<RetrospectivaItem> getWww() {
-		if (itens != null) {
-			return Lists.newLinkedList(Iterables.<RetrospectivaItem> filter(itens, new Predicate<RetrospectivaItem>() {
-
-				@Override
-				public boolean apply(final RetrospectivaItem i) {
-					return i.getTipoRetrospectivaItem().getTipoRetrospectivaItemKey() == TipoRetrospectivaItem.WWW;
-				}
-			}));
-		} else {
-			return null;
-		}
-	}
-
-	public List<RetrospectivaItem> getWcbi() {
-		if (itens != null) {
-			return Lists.newLinkedList(Iterables.<RetrospectivaItem> filter(itens, new Predicate<RetrospectivaItem>() {
-
-				@Override
-				public boolean apply(final RetrospectivaItem i) {
-					return i.getTipoRetrospectivaItem().getTipoRetrospectivaItemKey() == TipoRetrospectivaItem.WCBI;
-				}
-			}));
-		} else {
-			return null;
-		}
+	public SortedSet<RetrospectivaItem> getItens() {
+		return itens;
 	}
 
 }
