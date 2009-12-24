@@ -5,7 +5,7 @@
 <c:url var="excluirUrl" value="/retrospectiva/excluirItem.action"/>
 <html>	
 	<head>
-		<title>Retrospectiva</title>
+		<title>Retrospectiva do Sprint ${retrospectiva.sprint.nome}</title>
 		<link rel="stylesheet" type="text/css" media="all" href="retrospectiva.css" />
 		<script>
 
@@ -19,7 +19,6 @@
 					 }
 				});
 			});
-
 
 			function excluir(key){
 				$.post('${excluirUrl}', {retrospectivaItemKey:key}, function(){
@@ -65,19 +64,15 @@
 					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 					async: false
 				});
-				
 			}
 
 			function trocarTipo(){
 				$('#formAlterar').submit();				
 			}
-		
 		</script>
 	</head>
 	<body>
-	
-		<h1>Retrospectiva (${retrospectiva.tipoRetrospectiva.descricao})</h1>
-		
+		<h1>Retrospectiva do Sprint ${retrospectiva.sprint.nome} (${retrospectiva.tipoRetrospectiva.descricao})</h1>
 		
 		<form action="${alterarTipoDeRetrospectivaUrl}" id="formAlterar">
 			<input type="hidden" id="retrospectivaKey" name="retrospectivaKey" value="${retrospectiva.retrospectivaKey}">
@@ -94,8 +89,6 @@
 				</c:forEach>
 			</select>
 		</form>
-		
-
 		
 		<div style="display: none">
 			<pronto:icons name="excluir.png" title="excluir item" id="excluirModelo" clazz="icon"/>
@@ -119,7 +112,5 @@
 				</li>
 			</ul>	
 		</c:forEach>
-		
 	</body>
-	
 </html>
