@@ -52,7 +52,7 @@
 		<table style="width: 100%" id="pendentes">
 			<thead>
 			<tr>
-				<th>#</th>
+				<th colspan="2">#</th>
 				<th>Título</th>
 				<th>Solicitador</th>
 				<th>Data</th>
@@ -65,6 +65,7 @@
 				<c:if test="${!t.done}">
 					<c:set var="cor" value="${!cor}"/>
 					<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
+						<td><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></td>
 						<td>${t.ticketKey}</td>	
 						<td class="titulo">${t.titulo}</td>
 						<td>${t.solicitador}</td>
