@@ -75,6 +75,7 @@
 		<h1>Retrospectiva do Sprint ${retrospectiva.sprint.nome} (${retrospectiva.tipoRetrospectiva.descricao})</h1>
 		
 		<form action="${alterarTipoDeRetrospectivaUrl}" id="formAlterar">
+			Alterar para o modelo: 
 			<input type="hidden" id="retrospectivaKey" name="retrospectivaKey" value="${retrospectiva.retrospectivaKey}">
 			<select onchange="trocarTipo()" id="tipoRetrospectivaKey" name="tipoRetrospectivaKey">
 				<c:forEach var="tipo" items="${tiposDeRetrospectiva}">
