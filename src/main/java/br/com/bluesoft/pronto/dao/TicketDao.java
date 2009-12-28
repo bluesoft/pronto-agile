@@ -1,21 +1,16 @@
 /*
  * Copyright 2009 Pronto Agile Project Management.
- *
  * This file is part of Pronto.
- *
  * Pronto is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  * Pronto is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 package br.com.bluesoft.pronto.dao;
@@ -37,6 +32,7 @@ import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Classificacao;
+import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.TicketOrdem;
 import br.com.bluesoft.pronto.model.Usuario;
@@ -94,7 +90,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 	}
 
 	private void prepararParaSalvar(final Ticket... tickets) {
-		for (Ticket ticket : tickets) {
+		for (final Ticket ticket : tickets) {
 			if (ticket.getScript() != null && ticket.getScript().getScriptKey() == 0) {
 				ticket.setScript(null);
 			}
@@ -285,7 +281,20 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
 
 		return getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).setInteger("backlogKey", Backlog.SPRINT_BACKLOG).list();
+	}
 
+	public List<Ticket> listarNaoConcluidosPorSprint(final int sprintKey) {
+
+		final List<Ticket> ticketsDoSprint = listarPorSprint(sprintKey);
+		final List<Ticket> ticketsNaoConcluidos = new ArrayList<Ticket>();
+
+		for (final Ticket ticket : ticketsDoSprint) {
+			if (ticket.getKanbanStatus().getKanbanStatusKey() != KanbanStatus.DONE) {
+				ticketsNaoConcluidos.add(ticket);
+			}
+		}
+
+		return ticketsNaoConcluidos;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -424,4 +433,11 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		}
 
 	}
+
+	public void moverParaSprintAtual(final List<Ticket> ticketsParaMover, final Sprint sprintAtual) {
+		for (final Ticket ticket : ticketsParaMover) {
+			ticket.setSprint(sprintAtual);
+		}
+	}
+
 }

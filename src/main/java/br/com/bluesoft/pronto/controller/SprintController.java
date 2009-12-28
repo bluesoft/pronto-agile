@@ -1,21 +1,16 @@
 /*
  * Copyright 2009 Pronto Agile Project Management.
- *
  * This file is part of Pronto.
- *
  * Pronto is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  * Pronto is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 package br.com.bluesoft.pronto.controller;
@@ -44,7 +39,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.bluesoft.pronto.ProntoException;
 import br.com.bluesoft.pronto.dao.SprintDao;
+import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.Sprint;
+import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.service.Config;
 
 @Controller
@@ -58,6 +55,9 @@ public class SprintController {
 
 	@Autowired
 	private SprintDao sprintDao;
+
+	@Autowired
+	private TicketDao ticketDao;
 
 	@RequestMapping("/sprint/listar.action")
 	public String listar(final Model model) {
@@ -187,7 +187,15 @@ public class SprintController {
 				throw new ProntoException("Não é possível fechar o Sprint Atual!");
 			}
 
-			sprintDao.fecharSprint(sprintParaFechar);
+			final Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+
+			final List<Ticket> ticketsParaMover = ticketDao.listarNaoConcluidosPorSprint(sprintKey);
+			final Sprint sprintAtual = sprintDao.getSprintAtual();
+			ticketDao.moverParaSprintAtual(ticketsParaMover, sprintAtual);
+
+			sprintParaFechar.setFechado(true);
+			sprintDao.salvar(sprintParaFechar);
+			tx.commit();
 
 			return "redirect:/sprint/listar.action";
 		} catch (final Exception e) {
