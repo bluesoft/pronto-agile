@@ -8,7 +8,7 @@ INSERT INTO tipo_retrospectiva VALUES (2, '6 Chapéus');
 
 ALTER TABLE public.tipo_retrospectiva OWNER TO pronto;
 
-ALTER TABLE ONLY retrospectiva
+ALTER TABLE ONLY tipo_retrospectiva
     ADD CONSTRAINT tipo_retrospectiva_pkey PRIMARY KEY (tipo_retrospectiva_key);
     
 ALTER TABLE retrospectiva add tipo_retrospectiva_key integer;

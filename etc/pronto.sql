@@ -251,14 +251,16 @@ ALTER TABLE execucao OWNER TO pronto;
 
 CREATE TABLE tipo_retrospectiva_item (
     tipo_retrospectiva_item_key integer NOT NULL,
-    descricao character varying(120)
+    descricao character varying(120),
+	tipo_retrospectiva_key integer DEFAULT 1
 );
 
 ALTER TABLE public.tipo_retrospectiva_item OWNER TO pronto;
 
 CREATE TABLE retrospectiva (
     retrospectiva_key integer NOT NULL,
-    sprint_key integer NOT NULL 
+    sprint_key integer NOT NULL,
+	tipo_retrospectiva_key integer DEFAULT 1 NOT NULL
 );
 
 ALTER TABLE public.retrospectiva OWNER TO pronto;
@@ -270,7 +272,7 @@ CREATE TABLE retrospectiva_item (
     descricao character varying(255) NOT NULL 
 );
 
-ALTER TABLE public. retrospectiva_item OWNER TO pronto;
+ALTER TABLE public.retrospectiva_item OWNER TO pronto;
 
 CREATE TABLE cliente (
     cliente_key integer NOT NULL,
@@ -278,6 +280,13 @@ CREATE TABLE cliente (
 );
 
 ALTER TABLE cliente OWNER TO pronto;
+
+CREATE TABLE tipo_retrospectiva (
+    tipo_retrospectiva_key integer NOT NULL,
+    descricao character varying(120)
+);
+
+ALTER TABLE public.tipo_retrospectiva OWNER TO pronto;
 
 INSERT INTO backlog VALUES (1, 'Ideias');
 INSERT INTO backlog VALUES (5, 'Impedimentos');
@@ -309,8 +318,18 @@ INSERT INTO usuario_papel VALUES('admin',2);
 INSERT INTO usuario_papel VALUES('admin',6);
 INSERT INTO usuario_papel VALUES('admin',9);
 
-INSERT INTO tipo_retrospectiva_item VALUES (1, 'O que foi bem');
-INSERT INTO tipo_retrospectiva_item VALUES (2, 'O que pode ser melhorado');
+INSERT INTO tipo_retrospectiva VALUES (1, 'Tradicional');
+INSERT INTO tipo_retrospectiva VALUES (2, '6 Chapéus');
+
+INSERT INTO tipo_retrospectiva_item VALUES (1, 'O que foi bem', 1);
+INSERT INTO tipo_retrospectiva_item VALUES (2, 'O que pode ser melhorado', 1);
+
+INSERT INTO tipo_retrospectiva_item VALUES (3, 'Chapéu Azul - Objetivos', 2);
+INSERT INTO tipo_retrospectiva_item VALUES (4, 'Chapéu Branco - Fatos e Informações', 2);
+INSERT INTO tipo_retrospectiva_item VALUES (5, 'Chapéu Amarelo - Acontecimentos Positivos', 2);
+INSERT INTO tipo_retrospectiva_item VALUES (6, 'Chapéu Preto - Acontecimentos Negativos', 2);
+INSERT INTO tipo_retrospectiva_item VALUES (7, 'Chapéu Verde - Ideias', 2);
+INSERT INTO tipo_retrospectiva_item VALUES (8, 'Chapéu Vermelho - Sentimentos', 2);
 
 ALTER TABLE ONLY backlog
     ADD CONSTRAINT backlog_pkey PRIMARY KEY (backlog_key);
@@ -368,6 +387,9 @@ ALTER TABLE ONLY retrospectiva_item
 
 ALTER TABLE ONLY cliente
     ADD CONSTRAINT cliente_pkey PRIMARY KEY (cliente_key);
+
+ALTER TABLE ONLY tipo_retrospectiva
+    ADD CONSTRAINT tipo_retrospectiva_pkey PRIMARY KEY (tipo_retrospectiva_key);
 
 ALTER TABLE ONLY usuario_papel
     ADD CONSTRAINT fk4d25cd3566f20c10 FOREIGN KEY (papel_key) REFERENCES papel(papel_key);
@@ -436,7 +458,13 @@ ALTER TABLE ONLY USUARIO
     ADD CONSTRAINT FK_USUARIO_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);
 
 ALTER TABLE ONLY TICKET
-    ADD CONSTRAINT FK_TICKET_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);    
+    ADD CONSTRAINT FK_TICKET_CLIENTE FOREIGN KEY (CLIENTE_KEY) REFERENCES CLIENTE (CLIENTE_KEY);
+
+ALTER TABLE ONLY retrospectiva
+    ADD CONSTRAINT fk_retrospectiva_tipo_retrospectiva FOREIGN KEY (tipo_retrospectiva_key) REFERENCES tipo_retrospectiva;
+
+ALTER TABLE ONLY tipo_retrospectiva_item
+    ADD CONSTRAINT fk_tipo_retrospectiva_item_tipo_retrospectiva FOREIGN KEY (tipo_retrospectiva_key) REFERENCES tipo_retrospectiva;
     
 CREATE INDEX idx_ticket_sprint ON ticket USING btree (sprint);    
 CREATE INDEX idx_ticket_tipo_de_ticket ON ticket USING btree (tipo_de_ticket_key);
