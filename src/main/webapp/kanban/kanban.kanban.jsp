@@ -3,6 +3,8 @@
 <c:url var="editarTicket" value="/ticket/editar.action"/>
 <c:url var="kanbanUrl" value="/kanban/kanban.action" />
 <c:url var="urlSprint" value="/sprint/"/>
+<c:url var="burndownUrl" value="/burndown/burndown.action"/>
+<c:url var="retrospectivaUrl" value="/retrospectiva/ver.action"/>
 <html>
 	<head>
 		<meta http-equiv=refresh content="60" />
@@ -97,7 +99,11 @@
 	</head>
 	<body>
 		<div align="left">
-			<h1>Kanban do Sprint ${sprint.nome}
+			<h1>
+				Kanban do Sprint ${sprint.nome}
+				<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="goTo('${urlSprint}../ticket/listarPorSprint.action?sprintKey=${sprint.sprintKey}')"/>
+				<pronto:icons name="burndown_chart.png" title="Burndown Chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${sprint.sprintKey}')"/>
+				<pronto:icons name="retrospectiva.png" title="Retrospectiva" onclick="goTo('${retrospectivaUrl}?sprintKey=${sprint.sprintKey}')"/>
 			</h1>
 		</div>
 		<c:if test="${fn:length(sprints) gt 1}">
@@ -106,7 +112,6 @@
 				<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
 					<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
 				</form:select>
-				<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="goTo('${urlSprint}../ticket/listarPorSprint.action?sprintKey=${sprint.sprintKey}')"/>
 			</div>
 		</c:if>
 		

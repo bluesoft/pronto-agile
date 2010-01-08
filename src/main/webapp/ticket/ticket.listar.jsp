@@ -6,6 +6,8 @@
 <c:url var="verDescricao" value="/ticket/verDescricao.action"/>
 <c:url var="listarPorSprintUrl" value="/ticket/listarPorSprint.action"/>
 <c:url var="urlKanban" value="/kanban/kanban.action" />
+<c:url var="burndownUrl" value="/burndown/burndown.action"/>
+<c:url var="retrospectivaUrl" value="/retrospectiva/ver.action"/>
 <html>
 	<head>
 		<title>${backlog.descricao}${sprint.nome}</title>
@@ -112,6 +114,8 @@
 					</c:if>
 					<a href="${adicionarTarefasUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="adicionar.png" title="Adicionar Estórias ou Defeitos do Product Backlog ao Sprint" /></a>
 					<pronto:icons name="kanban.png" title="Ver Kanban" onclick="goTo('${urlKanban}?sprintKey=${sprint.sprintKey}')"/>
+					<pronto:icons name="burndown_chart.png" title="Burndown Chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${sprint.sprintKey}')"/>
+					<pronto:icons name="retrospectiva.png" title="Retrospectiva" onclick="goTo('${retrospectivaUrl}?sprintKey=${sprint.sprintKey}')"/>
 				</h1>	
 			</c:when>
 			<c:otherwise>

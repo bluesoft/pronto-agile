@@ -3,6 +3,8 @@
 <c:url var="salvarUrl" value="/retrospectiva/salvarItem.action"/>
 <c:url var="alterarTipoDeRetrospectivaUrl" value="/retrospectiva/alterarTipoDeRetrospectiva.action"/>
 <c:url var="excluirUrl" value="/retrospectiva/excluirItem.action"/>
+<c:url var="urlKanban" value="/kanban/kanban.action" />
+<c:url var="burndownUrl" value="/burndown/burndown.action"/>
 <html>	
 	<head>
 		<title>Retrospectiva do Sprint ${retrospectiva.sprint.nome}</title>
@@ -72,7 +74,12 @@
 		</script>
 	</head>
 	<body>
-		<h1>Retrospectiva do Sprint ${retrospectiva.sprint.nome} (${retrospectiva.tipoRetrospectiva.descricao})</h1>
+		<h1>
+			Retrospectiva do Sprint ${retrospectiva.sprint.nome} (${retrospectiva.tipoRetrospectiva.descricao})
+			<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="goTo('${urlSprint}../ticket/listarPorSprint.action?sprintKey=${retrospectiva.sprint.sprintKey}')"/>
+			<pronto:icons name="kanban.png" title="Ver Kanban" onclick="goTo('${urlKanban}?sprintKey=${retrospectiva.sprint.sprintKey}')"/>
+			<pronto:icons name="burndown_chart.png" title="Burndown Chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${retrospectiva.sprint.sprintKey}')"/>
+		</h1>
 		
 		<form action="${alterarTipoDeRetrospectivaUrl}" id="formAlterar">
 			Alterar para o modelo: 
