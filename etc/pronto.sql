@@ -153,7 +153,8 @@ CREATE TABLE ticket (
     backlog_key integer,
     prioridade integer,
     cliente_key integer,
-    prioridade_do_cliente integer
+    prioridade_do_cliente integer,
+    script_key integer
 );
 
 ALTER TABLE public.ticket OWNER TO pronto;
@@ -465,6 +466,9 @@ ALTER TABLE ONLY retrospectiva
 
 ALTER TABLE ONLY tipo_retrospectiva_item
     ADD CONSTRAINT fk_tipo_retrospectiva_item_tipo_retrospectiva FOREIGN KEY (tipo_retrospectiva_key) REFERENCES tipo_retrospectiva;
+
+ALTER TABLE ONLY TICKET
+    ADD CONSTRAINT FK_TICKET_SCRIPT FOREIGN KEY (SCRIPT_KEY) REFERENCES SCRIPT (SCRIPT_KEY);
     
 CREATE INDEX idx_ticket_sprint ON ticket USING btree (sprint);    
 CREATE INDEX idx_ticket_tipo_de_ticket ON ticket USING btree (tipo_de_ticket_key);
@@ -475,6 +479,7 @@ CREATE INDEX idx_ticket_cliente ON ticket USING btree (cliente_key);
 CREATE INDEX idx_ticket_branch ON ticket USING btree (branch);
 CREATE INDEX idx_execucao_script ON execucao USING btree (script_key);
 CREATE INDEX idx_execucao_banco_de_dados ON execucao USING btree (banco_de_dados_key);
+CREATE INDEX idx_ticket_script ON TICKET USING btree (SCRIPT_KEY);
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
