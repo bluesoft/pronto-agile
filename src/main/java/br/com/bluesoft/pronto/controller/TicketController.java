@@ -33,6 +33,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -65,6 +66,7 @@ import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.Config;
 import br.com.bluesoft.pronto.service.Seguranca;
 import br.com.bluesoft.pronto.util.ControllerUtil;
+import br.com.bluesoft.pronto.util.StringUtil;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -485,12 +487,46 @@ public class TicketController {
 		final File dir = new File(ticketDir);
 		dir.mkdirs();
 
+		final List<String> nomesDosArquivos = new ArrayList<String>();
+
 		for (final FileItem fileItem : items) {
-			final String nomeDoArquivo = fileItem.getName().toLowerCase().replace(' ', '_').replaceAll("[^A-Za-z0-9._\\-]", "");
+			final String nomeDoArquivo = StringUtil.retiraAcentuacao(fileItem.getName().toLowerCase().replace(' ', '_')).replaceAll("[^A-Za-z0-9._\\-]", "");
 			fileItem.write(new File(ticketDir + nomeDoArquivo));
+
+			nomesDosArquivos.add(nomeDoArquivo);
 		}
 
+		this.insereImagensNaDescricao(ticketKey, nomesDosArquivos);
+
 		return "redirect:editar.action?ticketKey=" + ticketKey;
+	}
+
+	private void insereImagensNaDescricao(final int ticketKey, final List<String> nomesDosArquivos) {
+		final Ticket ticket = ticketDao.obter(ticketKey);
+
+		String novaDescricao = ticket.getDescricao();
+
+		for (final String nomeDoArquivo : nomesDosArquivos) {
+			if (ehImagem(getExtensao(nomeDoArquivo))) {
+				novaDescricao += "\r\n [[Image:" + ticketKey + "/" + nomeDoArquivo + "]]";
+			}
+		}
+
+		ticket.setDescricao(novaDescricao);
+		ticketDao.salvar(ticket);
+	}
+
+	private boolean ehImagem(String extensao) {
+		extensao = StringUtils.lowerCase(extensao);
+		return extensao.equals("png") || extensao.equals("jpg") || extensao.equals("jpeg") || extensao.equals("gif");
+	}
+
+	private String getExtensao(final String nomeDoArquivo) {
+		String extensao = null;
+		if (nomeDoArquivo.lastIndexOf('.') > 0) {
+			extensao = nomeDoArquivo.substring(nomeDoArquivo.lastIndexOf('.') + 1, nomeDoArquivo.length());
+		}
+		return extensao;
 	}
 
 	private List<Anexo> listarAnexos(final int ticketKey) {
@@ -528,10 +564,7 @@ public class TicketController {
 		fis.read(bytes);
 		fis.close();
 
-		String extensao = null;
-		if (file.lastIndexOf('.') > 0) {
-			extensao = file.substring(file.lastIndexOf('.') + 1, file.length());
-		}
+		final String extensao = getExtensao(file);
 
 		String mime = null;
 		if (extensao == null) {
