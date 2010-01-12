@@ -459,7 +459,7 @@
 				<button type="submit">Upload</button>
 			</form>
 			
-			<h2>Log</h2>
+			<h2>Histórico</h2>
 			<ul>
 				<c:set var="dataGrupo" value="${null}"/>
 				<c:forEach items="${ticket.logs}" var="log">

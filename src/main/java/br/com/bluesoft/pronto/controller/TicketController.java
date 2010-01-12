@@ -508,7 +508,7 @@ public class TicketController {
 
 		for (final String nomeDoArquivo : nomesDosArquivos) {
 			if (ehImagem(getExtensao(nomeDoArquivo))) {
-				novaDescricao += "\r\n[[Image:" + ticketKey + "/" + nomeDoArquivo + "]]";
+				novaDescricao += "\r\n\r\n[[Image:" + ticketKey + "/" + nomeDoArquivo + "]]";
 			}
 		}
 
