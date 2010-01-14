@@ -2,7 +2,7 @@
 	<c:url var="buscarUrl" value="/buscar.action"/>
 	<script>
 		function buscar(){
-			goTo('${buscarUrl}?query=' + $('#busca').val());
+			goTo('${buscarUrl}?kanbanStatusKey=1&query=' + $('#busca').val());
 		}
 
 		$(function() {
