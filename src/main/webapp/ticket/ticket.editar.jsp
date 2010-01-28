@@ -148,10 +148,10 @@
 					<pronto:icons name="restaurar.png" title="Restaurar" onclick="goTo('restaurar.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 			</c:if>
-			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2 and ticket.backlog.backlogKey ne 1}">
+			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 1 or ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
 				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?paiKey=${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
-			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 6 and ticket.backlog.backlogKey ne 1}">
+			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 6}">
 				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?paiKey=${ticket.pai.ticketKey}')"></pronto:icons>
 			</c:if>
 			<c:choose>
