@@ -60,6 +60,16 @@
 					}
 				});
 			}
+
+			function toSprintAtual(ticketKey){
+				var url = 'moverParaOSprintAtual.action?ticketKey=' + ticketKey; 
+				$.post(url, {
+					success: function() {
+						apagarLinha(ticketKey);	
+						recalcular();		
+					}
+				});
+			}
 			
 			function restaurar(ticketKey){
 				var url = 'restaurar.action?ticketKey=' + ticketKey; 
@@ -147,7 +157,7 @@
 				<th>Valor de Negócio</th>
 				<th>Esforço</th>
 				<th>Status</th>
-				<th style="width: 112px" colspan="7"></th>
+				<th style="width: 128px" colspan="8"></th>
 			</tr>
 			<c:forEach items="${tickets}" var="t">
 				<c:set var="cor" value="${!cor}"/>
@@ -172,6 +182,11 @@
 					<td>
 						<c:if test="${t.backlog.backlogKey eq 1 or (t.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or t.backlog.backlogKey eq 3}">
 							<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${t.ticketKey})"></pronto:icons>
+						</c:if>
+					</td>
+					<td>
+						<c:if test="${(t.backlog.backlogKey eq 2 and usuarioLogado.productOwner)}">
+							<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="toSprintAtual(${t.ticketKey})"></pronto:icons>
 						</c:if>
 					</td>
 					<td>
@@ -209,6 +224,7 @@
 									<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${f.ticketKey})"></pronto:icons>
 								</c:if>
 							</td>
+							<td></td>
 							<td>
 								<c:if test="${(f.backlog.backlogKey eq 1 or f.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
 									<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${f.ticketKey})"></pronto:icons>
@@ -231,7 +247,7 @@
 					</c:if>
 				</c:forEach>
 				<tr style="height: 1px;">
-					<td colspan="15" style="background-color:#b4c24b"></td>
+					<td colspan="16" style="background-color:#b4c24b"></td>
 				</tr>
 			</c:forEach>
 			<!-- Tarefas Soltas -->
@@ -252,6 +268,7 @@
 								<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${f.ticketKey})" />
 							</c:if>
 						</td>
+						<td></td>
 						<td>
 							<c:if test="${(s.backlog.backlogKey eq 1 or s.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
 								<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${f.ticketKey})" />
@@ -276,10 +293,10 @@
 				<th colspan="4">Total</th>
 				<th id="somaValorDeNegocio">${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
 				<th id="somaEsforco">${sprint.esforcoTotal}${backlog.esforcoTotal}</th>
-				<th colspan="8"></th>
+				<th colspan="9"></th>
 			</tr>
 			<tr>
-				<td colspan="14"><i>* ${descricaoTotal}</i></td>
+				<td colspan="15"><i>* ${descricaoTotal}</i></td>
 			</tr>
 		</table>	
 		
