@@ -477,7 +477,7 @@ public class TicketController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/ticket/upload.action")
-	public String upload(final HttpServletRequest request, final int ticketKey) throws Exception {
+	public String upload(final Model model, final HttpServletRequest request, final int ticketKey) throws Exception {
 
 		final FileItemFactory factory = new DiskFileItemFactory();
 		final ServletFileUpload upload = new ServletFileUpload(factory);
@@ -491,14 +491,26 @@ public class TicketController {
 
 		for (final FileItem fileItem : items) {
 			final String nomeDoArquivo = StringUtil.retiraAcentuacao(fileItem.getName().toLowerCase().replace(' ', '_')).replaceAll("[^A-Za-z0-9._\\-]", "");
-			fileItem.write(new File(ticketDir + nomeDoArquivo));
 
-			nomesDosArquivos.add(nomeDoArquivo);
+			if (ehUmNomeDeArquivoValido(nomeDoArquivo)) {
+				fileItem.write(new File(ticketDir + nomeDoArquivo));
+
+				nomesDosArquivos.add(nomeDoArquivo);
+			} else {
+				model.addAttribute("erro", "Não é possível anexar o arquivo '" + nomeDoArquivo + "' pois este não possui uma extensão.");
+			}
 		}
 
 		this.insereImagensNaDescricao(ticketKey, nomesDosArquivos);
 
 		return "redirect:editar.action?ticketKey=" + ticketKey;
+	}
+
+	private boolean ehUmNomeDeArquivoValido(final String nomeDoArquivo) {
+		if (nomeDoArquivo.lastIndexOf('.') > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	private void insereImagensNaDescricao(final int ticketKey, final List<String> nomesDosArquivos) {
@@ -518,12 +530,12 @@ public class TicketController {
 
 	private boolean ehImagem(String extensao) {
 		extensao = StringUtils.lowerCase(extensao);
-		return extensao.equals("png") || extensao.equals("jpg") || extensao.equals("jpeg") || extensao.equals("gif");
+		return extensao != null && (extensao.equals("png") || extensao.equals("jpg") || extensao.equals("jpeg") || extensao.equals("gif"));
 	}
 
 	private String getExtensao(final String nomeDoArquivo) {
 		String extensao = null;
-		if (nomeDoArquivo.lastIndexOf('.') > 0) {
+		if (ehUmNomeDeArquivoValido(nomeDoArquivo)) {
 			extensao = nomeDoArquivo.substring(nomeDoArquivo.lastIndexOf('.') + 1, nomeDoArquivo.length());
 		}
 		return extensao;
