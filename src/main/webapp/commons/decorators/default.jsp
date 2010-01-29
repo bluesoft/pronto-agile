@@ -17,13 +17,25 @@
 	        </div>
 			<jsp:include page="/commons/menuRapido.jsp"/>
 	        <div id="content" class="clearfix">
-	            
-	            <c:if test="${mensagem ne null}">
-	            	<h6 align="center">${mensagem}</h6>
+
+	            <c:if test="${mensagem ne null || param.mensagem ne null}">
+	            	<br>
+					<div class="ui-widget"> 
+						<div class="ui-state-highlight ui-corner-all" style="padding-left: 10px;"> 
+							<p><br><span class="ui-icon ui-icon-info" style="float: left;"> </span> 
+							&nbsp; ${mensagem}${param.mensagem}</p> 
+						</div> 
+					</div>
 	            </c:if>
 					            
 	            <c:if test="${erro ne null || param.erro ne null}">
-	            	<h6 align="center" style="color: red">${erro}${param.erro}</h6>
+					<br>
+					<div class="ui-widget">
+						<div class="ui-state-error ui-corner-all" style="padding-left: 10px;">
+							<p><br><span class="ui-icon ui-icon-alert" style="float: left;"> </span>
+							&nbsp; ${erro}${param.erro}</p>
+						</div>
+					</div>
 	            </c:if>
 	            
 	             <div id="nav">
@@ -39,11 +51,8 @@
 	                <decorator:body/>
 	            </div>
 	            <c:set var="currentMenu" scope="request"><decorator:getProperty property="meta.menu"/></c:set>
-	
-	           
 	        </div>
-	        
-	
+
 	        <div id="footer" class="clearfix">
 	            <jsp:include page="/commons/footer.jsp"/>
 	        </div>
