@@ -6,7 +6,7 @@
 	<packaging>war</packaging>
 	<name>Pronto!</name>
 	<version>1.0.0</version>
-	<url>http://www.bluesoft.com.br/pronto</url>
+	<url>http://pronto.bluesoft.com.br</url>
 
 	<build>
 		<plugins>
