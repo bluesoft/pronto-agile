@@ -43,6 +43,11 @@ public class LoginController {
 
 	public static Boolean initialized = false;
 
+	@RequestMapping("/")
+	public String root(final HttpSession httpSession) {
+		return start(httpSession);
+	}
+
 	@RequestMapping("/start.action")
 	public String start(final HttpSession httpSession) {
 		final Usuario usuarioLogado = (Usuario) httpSession.getAttribute("usuarioLogado");

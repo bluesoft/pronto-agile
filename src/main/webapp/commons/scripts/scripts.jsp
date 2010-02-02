@@ -29,3 +29,9 @@
 
 <c:url var="swfObject" value="/commons/scripts/swfobject.js"/>
 <script type="text/javascript" src="${swfObject}"></script>
+
+<c:url var="raiz" value="/"/>
+<script>
+	var pronto = pronto? pronto : {};
+	pronto.raiz = '${raiz}'; 
+</script>

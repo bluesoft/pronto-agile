@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+
 	<display-name>pronto-agile</display-name>
+
 	<welcome-file-list>
 		<welcome-file>/index.jsp</welcome-file>
 	</welcome-file-list>
+
+	<!-- LOCALE -->
+	<context-param>
+		<param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
+		<param-value>pt_BR</param-value>
+	</context-param>
+
+	<!-- ENCODING -->
+	<filter>
+		<filter-name>characterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- STARTUP -->
+	<listener>
+		<listener-class>br.com.bluesoft.pronto.web.listener.StartupListener</listener-class>
+	</listener>
+
+	<!-- REST FILTER (PUT AND DELETE) _method attribute -->
+	<filter>
+		<filter-name>httpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>httpMethodFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- SPRING MVC -->
 	<servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -11,7 +55,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
-		<url-pattern>*.action</url-pattern>
+		<url-pattern>/app/*</url-pattern>
 	</servlet-mapping>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -20,10 +64,11 @@
 			classpath*:/applicationContext-*.xml 
 		</param-value>
 	</context-param>
-	<context-param>
-		<param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
-		<param-value>pt_BR</param-value>
-	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- OPEN SESSION IN VIEW -->
 	<filter>
 		<filter-name>HibernateFilter</filter-name>
 		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
@@ -32,21 +77,30 @@
 		<filter-name>HibernateFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+	<!-- LOGIN -->
 	<filter>
 		<filter-name>LoginFilter</filter-name>
 		<filter-class>br.com.bluesoft.pronto.controller.LoginFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
-		<url-pattern>*.action</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+	<error-page>
+		<exception-type>br.com.bluesoft.pronto.SegurancaException</exception-type>
+		<location>/app/acessoNegado.action</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/erro.action</location>
+	</error-page>
+
+	<!-- SITE-MESH -->
 	<filter>
 		<filter-name>sitemesh</filter-name>
 		<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
@@ -55,26 +109,21 @@
 		<filter-name>sitemesh</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<error-page>
-		<exception-type>br.com.bluesoft.pronto.SegurancaException</exception-type>
-		<location>/acessoNegado.action</location>
-	</error-page>
-	<error-page>
-		<error-code>500</error-code>
-		<location>/erro.action</location>
-	</error-page>
+
+
+	<!-- BANCO DE DADOS -->
 	<resource-ref>
 		<res-ref-name>jdbc/pronto</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 		<res-sharing-scope>Shareable</res-sharing-scope>
 	</resource-ref>
+
 	<session-config>
 		<session-timeout>240</session-timeout>
 	</session-config>
-	<listener>
-		<listener-class>br.com.bluesoft.pronto.web.listener.StartupListener</listener-class>
-	</listener>
+
+	<!-- UPLOAD DE ARQUIVOS -->
 	<servlet>
 		<description></description>
 		<display-name>FileServlet</display-name>
@@ -85,4 +134,18 @@
 		<servlet-name>FileServlet</servlet-name>
 		<url-pattern>/file/*</url-pattern>
 	</servlet-mapping>
+
+	<!-- URLS LIMPAS /welcome  -->
+	<!-- NECESSARIO PARA SPRING MVC 3 + RESTFULL URLS  -->
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
 </web-app>

@@ -4,7 +4,7 @@
 	<ul id="jsddm">
 		<li><a href="#">Cadastros</a>
 		<ul>
-			<li><a href="${raiz}usuario/listar.action">Usuários</a></li>
+			<li><a href="${raiz}usuarios">Usuários</a></li>
 			<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
 				<li><a href="${raiz}cliente/listar.action">Clientes</a></li>
 			</c:if>

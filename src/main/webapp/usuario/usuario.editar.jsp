@@ -37,7 +37,7 @@
 		</script>
 	</head>
 	<body>
-		<form action="salvar.action" method="post" id="formUsuario">
+		<form action="${raiz}usuarios" method="post" id="formUsuario">
 			<ul class="info">
 				<h1>Cadastro de Usuários</h1>
 			</ul>
@@ -96,7 +96,7 @@
 				</div>
 				
 				<div align="center">
-					<button type="button" onclick="window.location.href='listar.action'">Cancelar</button>
+					<button type="button" onclick="window.location.href='${raiz}usuarios'">Cancelar</button>
 					<button type="button" onclick="salvar()">Salvar</button><br/>
 				</div>
 			</div>

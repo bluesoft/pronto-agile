@@ -1,1 +1,1 @@
-<jsp:forward page="start.action"/>
+<jsp:forward page="app/start.action"/>

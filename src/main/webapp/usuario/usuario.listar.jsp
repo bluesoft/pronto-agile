@@ -33,17 +33,17 @@
 					<td>${u.email}</td>
 					<td>
 						<c:if test="${usuarioLogado.username eq u.username or usuarioLogado.administrador}">
-							<pronto:icons name="trocar_senha.png" title="Trocar Senha" onclick="goTo('digitarSenha.action?username=${u.username}')"/>
+							<pronto:icons name="trocar_senha.png" title="Trocar Senha" onclick="goTo('${raiz}usuarios/${u.username}/trocarSenha')"/>
 						</c:if>
 					</td>
 					<td>
 						<c:if test="${usuarioLogado.administrador}">
-							<pronto:icons name="editar_usuario.png" title="Editar Usuário" onclick="goTo('editar.action?username=${u.username}')"/>
+							<pronto:icons name="editar_usuario.png" title="Editar Usuário" onclick="goTo('${u.username}')"/>
 						</c:if>
 					</td>
 					<td>
 						<c:if test="${usuarioLogado.administrador}">
-							<pronto:icons name="excluir_usuario.png" title="Excluir Usuário" onclick="goTo('excluir.action?username=${u.username}')"/>
+							<pronto:icons name="excluir_usuario.png" title="Excluir Usuário" onclick="goTo('${raiz}usuarios/${u.username}?_method=delete')"/>
 						</c:if>
 					</td>
 				</tr>
@@ -55,7 +55,7 @@
 		
 		<c:if test="${usuarioLogado.administrador}">
 			<div align="center">
-				<button type="button" onclick="window.location.href='editar.action'">Incluir Usuário</button>
+				<button type="button" onclick="window.location.href='${raiz}usuarios/novo'">Incluir Usuário</button>
 			</div>
 		</c:if>
 	</body>

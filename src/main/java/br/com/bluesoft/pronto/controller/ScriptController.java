@@ -31,9 +31,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.JavaScriptUtils;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-
 import br.com.bluesoft.pronto.dao.BancoDeDadosDao;
 import br.com.bluesoft.pronto.dao.ScriptDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
@@ -41,6 +38,9 @@ import br.com.bluesoft.pronto.model.BancoDeDados;
 import br.com.bluesoft.pronto.model.Script;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.util.ControllerUtil;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 
 @Controller
 public class ScriptController {
@@ -58,7 +58,7 @@ public class ScriptController {
 	private TicketDao ticketDao;
 
 	@RequestMapping("/script/listar.action")
-	public String listar(final Model model, Integer situacao) {
+	public String listar(final Model model, final Integer situacao) {
 
 		final List<Script> todosOsScripts = scriptDao.listarComDependencias();
 
@@ -134,7 +134,7 @@ public class ScriptController {
 			}
 			scriptDao.salvar(script);
 			if (ticketKey != null) {
-				Ticket ticket = ticketDao.obter(ticketKey);
+				final Ticket ticket = ticketDao.obter(ticketKey);
 				ticket.setScript(script);
 				ticketDao.salvar(ticket);
 			}
@@ -152,7 +152,7 @@ public class ScriptController {
 			ticketDao.salvar(ticket);
 		}
 		scriptDao.excluir(script);
-		return "redirect:listar.action";
+		return "redirect:/script/listar.action";
 	}
 
 	@RequestMapping("/script/verScript.action")
@@ -165,7 +165,7 @@ public class ScriptController {
 	private final Predicate<Script> filterPendente = new Predicate<Script>() {
 
 		@Override
-		public boolean apply(Script script) {
+		public boolean apply(final Script script) {
 			return !script.isTudoExecutado();
 		}
 
@@ -174,7 +174,7 @@ public class ScriptController {
 	private final Predicate<Script> filterExecutado = new Predicate<Script>() {
 
 		@Override
-		public boolean apply(Script script) {
+		public boolean apply(final Script script) {
 			return script.isTudoExecutado();
 		}
 

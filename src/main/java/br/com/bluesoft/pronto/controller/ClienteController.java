@@ -38,9 +38,9 @@ import br.com.bluesoft.pronto.service.Seguranca;
 @Controller
 public class ClienteController {
 
-	private static final String VIEW_LISTAR = "cliente.listar.jsp";
-	private static final String VIEW_EDITAR = "cliente.editar.jsp";
-	private static final String VIEW_BACKLOG = "cliente.backlog.jsp";
+	private static final String VIEW_LISTAR = "/cliente/cliente.listar.jsp";
+	private static final String VIEW_EDITAR = "/cliente/cliente.editar.jsp";
+	private static final String VIEW_BACKLOG = "/cliente/cliente.backlog.jsp";
 
 	@Autowired
 	private ClienteDao clienteDao;

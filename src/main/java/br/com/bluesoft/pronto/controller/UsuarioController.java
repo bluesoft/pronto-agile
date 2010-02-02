@@ -29,7 +29,9 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.bluesoft.pronto.ProntoException;
 import br.com.bluesoft.pronto.core.Papel;
@@ -41,10 +43,11 @@ import br.com.bluesoft.pronto.service.Seguranca;
 import br.com.bluesoft.pronto.util.MD5Util;
 
 @Controller
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
-	private static final String VIEW_LISTAR = "usuario.listar.jsp";
-	private static final String VIEW_EDITAR = "usuario.editar.jsp";
+	private static final String VIEW_LISTAR = "/usuario/usuario.listar.jsp";
+	private static final String VIEW_EDITAR = "/usuario/usuario.editar.jsp";
 
 	@Autowired
 	private ClienteDao clienteDao;
@@ -58,15 +61,20 @@ public class UsuarioController {
 	@Autowired
 	private PapelDao papelDao;
 
-	@RequestMapping("/usuario/listar.action")
+	@RequestMapping(method = RequestMethod.GET)
 	public String listar(final Model model) {
 		final List<Usuario> usuarios = usuarioDao.listar();
 		model.addAttribute("usuarios", usuarios);
 		return VIEW_LISTAR;
 	}
 
-	@RequestMapping("/usuario/editar.action")
-	public String editar(final Model model, final String username) throws ProntoException {
+	@RequestMapping(value = "/novo", method = RequestMethod.GET)
+	public String novo(final Model model) throws ProntoException {
+		return editar(model, null);
+	}
+
+	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
+	public String editar(final Model model, @PathVariable final String username) throws ProntoException {
 
 		Seguranca.validarPermissao(Papel.ADMINISTRADOR);
 
@@ -83,8 +91,8 @@ public class UsuarioController {
 		return VIEW_EDITAR;
 	}
 
-	@RequestMapping("/usuario/excluir.action")
-	public String excluir(final Model model, final String username) throws ProntoException {
+	@RequestMapping(value = "/{username}", method = RequestMethod.DELETE)
+	public String excluir(final Model model, final @PathVariable String username) throws ProntoException {
 
 		Seguranca.validarPermissao(Papel.ADMINISTRADOR);
 
@@ -104,10 +112,10 @@ public class UsuarioController {
 			model.addAttribute("mensagem", "Este usuário não pode ser excluido porque existem tarefas vinculadas a ele.");
 		}
 
-		return "forward:listar.action";
+		return "redirect:/usuarios";
 	}
 
-	@RequestMapping("/usuario/salvar.action")
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	public String salvar(final Model model, final HttpSession httpSession, final Usuario usuario, final int[] papel, final Integer clienteKey, final String password) throws Exception {
 
 		Seguranca.validarPermissao(Papel.ADMINISTRADOR);
@@ -140,11 +148,11 @@ public class UsuarioController {
 		}
 
 		tx.commit();
-		return "forward:listar.action";
+		return "redirect:/usuarios";
 	}
 
-	@RequestMapping("/usuario/digitarSenha.action")
-	public String digitarSenha(final Model model, final String username) throws Exception {
+	@RequestMapping(value = "/{username}/trocarSenha", method = RequestMethod.GET)
+	public String digitarSenha(final Model model, @PathVariable final String username) throws Exception {
 
 		if (!username.equals(Seguranca.getUsuario().getUsername())) {
 			Seguranca.validarPermissao(Papel.ADMINISTRADOR);
@@ -157,8 +165,8 @@ public class UsuarioController {
 
 	}
 
-	@RequestMapping("/usuario/trocarSenha.action")
-	public String trocarSenha(final Model model, final String username, final String password) throws Exception {
+	@RequestMapping(value = "/{username}/trocarSenha", method = RequestMethod.PUT)
+	public String trocarSenha(final Model model, @PathVariable final String username, final String password) throws Exception {
 
 		if (!username.equals(Seguranca.getUsuario().getUsername())) {
 			Seguranca.validarPermissao(Papel.ADMINISTRADOR);
@@ -168,7 +176,7 @@ public class UsuarioController {
 		usuario.setPassword(Seguranca.encrypt(password));
 		usuarioDao.salvar(usuario);
 
-		return "redirect:listar.action";
+		return "redirect:/usuarios";
 
 	}
 

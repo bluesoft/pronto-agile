@@ -16,7 +16,9 @@
 		</script>
 	</head>
 	<body>
-		<form action="trocarSenha.action" method="post" id="formUsuario">
+		<form action="trocarSenha" method="post" id="formUsuario">
+			<input type="hidden" name="_method" value="PUT"/>
+			
 			<ul class="info">
 				<h1>Troca de Senha</h1>
 			</ul>
@@ -39,7 +41,7 @@
 					<p>Nova Senha</p>
 				</div>
 				<div align="center">
-					<button type="button" onclick="window.location.href='listar.action'">Cancelar</button>
+					<button type="button" onclick="window.location.href='${raiz}usuarios'">Cancelar</button>
 					<button type="button" onclick="salvar()">Confirmar</button><br/>
 				</div>
 			</div>

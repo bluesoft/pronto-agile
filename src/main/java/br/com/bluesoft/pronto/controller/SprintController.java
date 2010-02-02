@@ -80,7 +80,7 @@ public class SprintController {
 		sessionFactory.getCurrentSession().flush();
 		tx.commit();
 
-		return "redirect:listar.action";
+		return "redirect:/sprint/listar.action";
 	}
 
 	@RequestMapping("/sprint/editar.action")
@@ -109,7 +109,7 @@ public class SprintController {
 		sessionFactory.getCurrentSession().saveOrUpdate(sprint);
 		sessionFactory.getCurrentSession().flush();
 		tx.commit();
-		return "forward:listar.action";
+		return "forward:/sprint/listar.action";
 	}
 
 	@RequestMapping("/sprint/upload.action")
@@ -132,7 +132,7 @@ public class SprintController {
 		sessionFactory.getCurrentSession().flush();
 
 		tx.commit();
-		return "redirect:editar.action?sprintKey=" + sprintKey;
+		return "redirect:/sprint/editar.action?sprintKey=" + sprintKey;
 	}
 
 	@RequestMapping("/sprint/imagem.action")
