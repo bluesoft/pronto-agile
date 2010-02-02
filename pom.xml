@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pronto-agile</groupId>
@@ -23,13 +22,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<repositories>
-		<repository>
-			<id>maweb</id>
-			<url>http://www.maweb.com.br/mvn_repo</url>
-		</repository>
-	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -107,12 +99,6 @@
 			<version>1.4</version>
 		</dependency>
 
-		<!--
-			<dependency> <groupId>geronimo-spec</groupId>
-			<artifactId>geronimo-spec-jta</artifactId>
-			<version>1.0.1B-rc4</version> </dependency>
-		-->
-
 		<dependency>
 			<artifactId>json-lib</artifactId>
 			<groupId>net.sf.json-lib</groupId>
@@ -122,50 +108,43 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>2.5.6</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>2.5.6</version>
+			<version>${spring.version}</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>2.5.6</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>2.5.6</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>2.5.6</version>
-		</dependency>
-
-		<dependency>
-			<groupId>hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.7</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>2.5.6</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.4</version>
+			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -211,16 +190,29 @@
 		<dependency>
 			<groupId>com.google.collections</groupId>
 			<artifactId>google-collections</artifactId>
-			<version>1.0-rc2</version>
+			<version>1.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>info.bliki.wiki</groupId>
 			<artifactId>bliki-core</artifactId>
-			<version>3.0.11</version>
+			<version>3.0.13</version>
 		</dependency>
-
 	</dependencies>
+
+
+	<repositories>
+		<repository>
+			<id>info-bliki-repository</id>
+			<url>http://gwtwiki.googlecode.com/svn/maven-repository/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<properties>
 		<hibernate.annotations.version>3.2.1.ga</hibernate.annotations.version>
@@ -228,10 +220,12 @@
 		<hibernate-validator.version>3.0.0.ga</hibernate-validator.version>
 		<hibernate.version>3.2.5.ga</hibernate.version>
 		<sitemesh.version>2.2.1</sitemesh.version>
+		<spring.version>3.0.0.RELEASE</spring.version>
 		<javamail.version>1.4</javamail.version>
 		<servlet.version>2.4</servlet.version>
 		<jsp.version>2.0</jsp.version>
 		<cglib.version>2.1_3</cglib.version>
 		<log4j.version>1.2.14</log4j.version>
 	</properties>
+
 </project>
