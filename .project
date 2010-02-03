@@ -37,6 +37,7 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.eclipse.jdt.groovy.core.groovyNature</nature>
 		<nature>org.springframework.ide.eclipse.core.springnature</nature>
 		<nature>org.maven.ide.eclipse.maven2Nature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>

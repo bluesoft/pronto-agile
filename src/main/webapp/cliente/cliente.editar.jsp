@@ -14,7 +14,7 @@
 		</script>
 	</head>
 	<body>
-		<form action="salvar.action" method="post" id="formCliente">
+		<form action="${raiz}clientes" method="POST" id="formCliente">
 			<ul class="info">
 				<h1>Cadastro de Clientes</h1>
 			</ul>
@@ -33,7 +33,7 @@
 				</div>
 				
 				<div align="center">
-					<button type="button" onclick="window.location.href='listar.action'">Cancelar</button>
+					<button type="button" onclick="window.location.href='${raiz}clientes'">Cancelar</button>
 					<button type="button" onclick="salvar()">Salvar</button><br/>
 				</div>
 			</div>

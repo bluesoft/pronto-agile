@@ -6,7 +6,7 @@
 		<ul>
 			<li><a href="${raiz}usuarios">Usuários</a></li>
 			<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
-				<li><a href="${raiz}cliente/listar.action">Clientes</a></li>
+				<li><a href="${raiz}clientes">Clientes</a></li>
 			</c:if>
 			
 		</ul>
@@ -26,11 +26,11 @@
 		</c:if>
 		
 		<c:if test="${usuarioLogado.clientePapel}">
-			<li><a href="${raiz}cliente/backlog.action">Backlog</a></li>
+			<li><a href="${raiz}clientes/backlog">Backlog</a></li>
 		</c:if>
 		
 		<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
-			<li><a href="${raiz}sprint/listar.action">Sprints</a></li>
+			<li><a href="${raiz}sprints">Sprints</a></li>
 			<li><a href="${raiz}kanban/kanban.action">Kanban</a></li>
 			<li><a href="${raiz}burndown/burndown.action">Burndown</a></li>
 		</c:if>

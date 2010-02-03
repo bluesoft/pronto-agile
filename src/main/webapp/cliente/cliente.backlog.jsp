@@ -1,6 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="detalhesUrl" value="/ticket/verDescricao.action"/>
-<c:url var="urlAlterarOrdem" value="/cliente/priorizar.action"/>
+<c:url var="urlAlterarOrdem" value="/clientes/priorizar"/>
 
 <html>
 	<head>

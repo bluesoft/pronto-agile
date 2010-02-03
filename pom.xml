@@ -20,7 +20,31 @@
 					<optimize>true</optimize>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.groovy.maven</groupId>
+				<artifactId>gmaven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generateStubs</goal>
+							<goal>compile</goal>
+							<goal>generateTestStubs</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.groovy.maven</groupId>
+					<artifactId>gmaven-plugin</artifactId>
+					<version>1.0</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 	</build>
 
 	<dependencies>
@@ -282,7 +306,21 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.codehaus.groovy.maven</groupId>
+			<artifactId>gmaven-mojo</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy.maven.runtime</groupId>
+			<artifactId>gmaven-runtime-1.6</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>1.7.0</version>
+		</dependency>
 	</dependencies>
 
 

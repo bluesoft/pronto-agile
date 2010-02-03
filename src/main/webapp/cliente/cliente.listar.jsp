@@ -22,12 +22,12 @@
 					<td>${c.nome}</td>
 					<td>
 						<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
-							<pronto:icons name="editar_usuario.png" title="Editar Usuário" onclick="goTo('editar.action?clienteKey=${c.clienteKey}')"/>
+							<pronto:icons name="editar_usuario.png" title="Editar Usuário" onclick="goTo('${raiz}clientes/${c.clienteKey}')"/>
 						</c:if>
 					</td>
 					<td>
 						<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
-							<pronto:icons name="excluir_usuario.png" title="Excluir Usuário" onclick="goTo('excluir.action?clienteKey=${c.clienteKey}')"/>
+							<pronto:icons name="excluir_usuario.png" title="Excluir Usuário" onclick="pronto.doDelete('${raiz}clientes/${c.clienteKey}')"/>
 						</c:if>
 					</td>
 				</tr>
@@ -37,7 +37,7 @@
 		
 		<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
 			<div align="center">
-				<button type="button" onclick="window.location.href='editar.action'">Incluir Cliente</button>
+				<button type="button" onclick="window.location.href='${raiz}clientes/novo'">Incluir Cliente</button>
 			</div>
 		</c:if>
 	</body>

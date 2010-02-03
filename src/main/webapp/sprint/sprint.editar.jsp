@@ -3,8 +3,7 @@
 	<head>
 		<title>Cadastro de Sprints</title>
 		<%@ include file="/commons/scripts/scripts.jsp" %>
-		<c:url var="urlSprint" value="/sprint/"/>
-		
+
 		<script>
 			$(function(){
 				$('#formSprint').validate();
@@ -22,7 +21,7 @@
 
 		<h1>Cadastro de Sprints</h1>
 	
-		<form action="salvar.action" method="post" id="formSprint">
+		<form action="${raiz}sprints" method="post" id="formSprint">
 			<div class="group">
 					<c:if test="${sprint.sprintKey gt 0}">
 						<form:hidden path="sprint.sprintKey"/>
@@ -31,20 +30,23 @@
 							<p>Código</p>
 						</div>
 						<div>
-							<img src="${urlSprint}imagem.action?sprintKey=${sprint.sprintKey}"/>
+							<img src="${raiz}sprints/${sprint.sprintKey}/imagem"/>
 							<p>Logo do Sprint</p>
 						</div>
 					</c:if>
+				
 				<div>
 					<form:input path="sprint.nome" cssClass="required"/>
 					<p>Nome</p>
 				</div>
 				<div>
-					<form:input path="sprint.dataInicial" cssClass="required dateBr"/>
+					<fmt:formatDate var="dataInicial" value="${sprint.dataInicial}"/>
+					<input type="text" name="dataInicial" class="required dateBr" value="${dataInicial}"/>
 					<p>Data Inicial</p>
 				</div>
 				<div>
-					<form:input path="sprint.dataFinal" cssClass="required dateBr"/>
+					<fmt:formatDate var="dataFinal" value="${sprint.dataFinal}"/>
+					<input type="text" name="dataFinal" class="required dateBr" value="${dataFinal}"/>
 					<p>Data Final</p>
 				</div>
 				<div>
@@ -61,7 +63,7 @@
 				</div>
 				
 				<div align="center">
-					<button type="button" onclick="window.location.href='${urlSprint}listar.action'">Cancelar</button>
+					<button type="button" onclick="window.location.href='${raiz}sprints'">Cancelar</button>
 					<button type="button" onclick="salvar()">Salvar</button><br/>
 				</div>
 			</div>
@@ -70,7 +72,7 @@
 		<c:if test="${sprint.sprintKey gt 0}">
 			<h2>Logo do Sprint</h2>
 			<h4>Definir imagem</h4>
-			<form action="${urlSprint}upload.action?sprintKey=${sprint.sprintKey}" method="post" enctype="multipart/form-data">
+			<form action="${raiz}sprints/${sprint.sprintKey}/upload" method="post" enctype="multipart/form-data">
 				<input type="file" name="arquivo">
 				<button type="submit">Upload</button>
 			</form>

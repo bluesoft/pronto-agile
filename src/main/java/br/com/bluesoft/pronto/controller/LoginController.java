@@ -35,7 +35,7 @@ import br.com.bluesoft.pronto.service.Seguranca;
 public class LoginController {
 
 	static final String ACTION_KANBAN = "/kanban/kanban.action";
-	static final String ACTION_BACKLOG_DO_CLIENTE = "/cliente/backlog.action";
+	static final String ACTION_BACKLOG_DO_CLIENTE = "/clientes/backlog";
 	static final String VIEW_BEM_VINDO = "/bemVindo.jsp";
 
 	@Autowired
