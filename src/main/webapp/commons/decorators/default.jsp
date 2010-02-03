@@ -10,7 +10,6 @@
         <decorator:head/>
     </head>
 	<body<decorator:getProperty property="body.id" writeEntireProperty="true"/><decorator:getProperty property="body.class" writeEntireProperty="true"/>>
-	
 	    <div id="page">
 	        <div id="header" class="clearfix">
 	            <jsp:include page="/commons/header.jsp"/>

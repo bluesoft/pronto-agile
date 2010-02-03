@@ -43,7 +43,7 @@
 					</td>
 					<td>
 						<c:if test="${usuarioLogado.administrador}">
-							<pronto:icons name="excluir_usuario.png" title="Excluir Usuário" onclick="goTo('${raiz}usuarios/${u.username}?_method=delete')"/>
+							<pronto:icons name="excluir_usuario.png" title="Excluir Usuário" onclick="excluir('${u.username}')"/>
 						</c:if>
 					</td>
 				</tr>
@@ -52,11 +52,15 @@
 			</c:forEach>
 			</tbody>
 		</table>	
-		
 		<c:if test="${usuarioLogado.administrador}">
 			<div align="center">
 				<button type="button" onclick="window.location.href='${raiz}usuarios/novo'">Incluir Usuário</button>
 			</div>
 		</c:if>
+		<script>
+			function excluir(username) {
+				pronto.confirm('Confirma a exclusão do usuário ' + username + '?', function() { pronto.doDelete('${raiz}usuarios/' + username); });
+			}
+		</script>
 	</body>
 </html>
