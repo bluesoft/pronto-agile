@@ -1,6 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="listarExecucoesUrl" value="/execucao/listar.action"/>
-<c:url var="listarBancosUrl" value="/bancoDeDados/listar.action"/>
+<c:url var="listarBancosUrl" value="/bancosDeDados"/>
 <c:url var="editarTicketUrl" value="/ticket/editar.action"/>
 <html>
 	<head>
@@ -8,12 +8,12 @@
 		<script type="text/javascript">
 
 			function incluir(){
-				goTo('incluir.action');
+				goTo('${raiz}scripts/novo');
 			}
 
 			function excluir(scriptKey) {
 				if (confirm('Tem certeza que deseja excluir este script? Todos as execuções associadas a ele serão excluídas.')) {
-					goTo('excluir.action?scriptKey=' + scriptKey);
+					pronto.doDelete('${raiz}scripts/' + scriptKey);
 				}
 			}
 
@@ -31,7 +31,7 @@
 		</h1>
 		
 		<div align="right">
-			<form action="listar.action" id="formListar">
+			<form action="${raiz}scripts" id="formListar">
 				Exibir:
 				<select name="situacao" onchange="reload()">
 					<option value="1"  ${situacao eq 1 or situacao eq null ? 'selected="selected"' : ''}>Pendentes</option>
@@ -77,7 +77,7 @@
 					</td>
 					
 					<td>
-						<a href="editar.action?scriptKey=${s.scriptKey}"><pronto:icons name="editar_script.png" title="Editar" /></a>
+						<a href="${raiz}scripts/${s.scriptKey}"><pronto:icons name="editar_script.png" title="Editar" /></a>
 					</td>
 					<td>
 						<a href="#"><pronto:icons name="excluir_script.png" title="Excluir" onclick="excluir(${s.scriptKey});"/></a>

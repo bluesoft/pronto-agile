@@ -6,7 +6,7 @@
 		<script type="text/javascript">
 
 		function voltar() {
-			goTo('listar.action');
+			goTo('${raiz}/scripts');
 		}
 
 		function salvar() {
@@ -58,7 +58,7 @@
 		
 		<h1> ${script.scriptKey eq 0 ? 'Incluir' : 'Editar'} Script </h1>
 		
-		<form action="salvar.action" method="post" id="form">
+		<form action="${raiz}/scripts" method="POST" id="form">
 			
 			<input type="hidden" name="ticketKey" value="${param.ticketKey}"/>
 			

@@ -5,7 +5,7 @@
 		<script type="text/javascript">
 
 		function voltar() {
-			goTo('listar.action');
+			goTo('${raiz}bancosDeDados');
 		}
 
 		function salvar() {
@@ -16,13 +16,11 @@
 			  $('#form').validate();
 			  $('input[name=nome]').get(0).focus();
 		});
-		
 		</script>
 	</head>
 	<body>
 		<h1> ${bancoDeDados.bancoDeDadosKey eq 0 ? 'Incluir' : 'Editar'} Banco de Dados </h1>
-		
-		<form action="salvar.action" method="post" id="form">
+		<form action="${raiz}bancosDeDados" method="POST" id="form">
 			<form:hidden path="bancoDeDados.bancoDeDadosKey"/>
 			
 			<div class="group">

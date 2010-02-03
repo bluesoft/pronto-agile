@@ -7,15 +7,15 @@
 		<script type="text/javascript">
 
 			function incluir(){
-				goTo('incluir.action');
+				goTo('${raiz}bancosDeDados/novo');
 			}
 
 			function excluir(bancoDeDadosKey){
-				if (confirm('Tem certeza que deseja excluir este banco de dados? Todos as execuções de scripts associadas a ele serão excluídas.')) {
-					goTo('excluir.action?bancoDeDadosKey=' + bancoDeDadosKey);
-				}
+				var callback = function(){
+					pronto.doDelete('${raiz}bancosDeDados/' + bancoDeDadosKey);
+				};
+				pronto.confirm('Tem certeza que deseja excluir este banco de dados? Todos as execuções de scripts associadas a ele serão excluídas.', callback);
 			}
-		
 		</script>
 	</head>
 	<body>
@@ -43,7 +43,7 @@
 						<pronto:icons name="execucao.png" title="Ver Execuções do Banco de Dados ${b.nome}" onclick="goTo('${listarExecucoesUrl}?bancoDeDadosKey=${b.bancoDeDadosKey}')"/>
 					</td>
 					<td>
-						<a href="editar.action?bancoDeDadosKey=${b.bancoDeDadosKey}"><pronto:icons name="editar_banco_de_dados.png" title="Editar" /></a>
+						<a href="${raiz}bancosDeDados/${b.bancoDeDadosKey}"><pronto:icons name="editar_banco_de_dados.png" title="Editar" /></a>
 					</td>
 					<td>
 						<a href="#"><pronto:icons name="excluir_banco_de_dados.png" title="Excluir" onclick="excluir(${b.bancoDeDadosKey})"/></a>
