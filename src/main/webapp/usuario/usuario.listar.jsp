@@ -38,7 +38,7 @@
 					</td>
 					<td>
 						<c:if test="${usuarioLogado.administrador}">
-							<pronto:icons name="editar_usuario.png" title="Editar Usuário" onclick="goTo('${u.username}')"/>
+							<pronto:icons name="editar_usuario.png" title="Editar Usuário" onclick="goTo('${raiz}usuarios/${u.username}')"/>
 						</c:if>
 					</td>
 					<td>

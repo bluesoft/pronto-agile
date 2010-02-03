@@ -9,12 +9,13 @@ function openWindow(url) {
 var pronto = pronto ? pronto : {};
 
 pronto.doDelete = function(url) {
-	var f = $('<form>');
+	var f = $('<form></form>');
 	f.attr({
-		method : 'post',
-		action : url
+		method: 'POST',
+		action: url
 	});
 	f.append('<input type="hidden" name="_method" value="DELETE" />');
+	$(document.body).append(f);
 	f.submit();
 };
 
@@ -24,8 +25,20 @@ pronto.doPost = function(url) {
 		method : 'post',
 		action : url
 	});
+	$(document.body).append(f);
 	f.submit();
 };
+
+pronto.doGet = function(url) {
+	var f = $('<form>');
+	f.attr({
+		method : 'get',
+		action : url
+	});
+	$(document.body).append(f);
+	f.submit();
+};
+
 
 pronto.doPut = function(url) {
 	var f = $('<form>');
@@ -34,6 +47,7 @@ pronto.doPut = function(url) {
 		action : url
 	});
 	f.append('<input type="hidden" name="_method" value="PUT" />');
+	$(document.body).append(f);
 	f.submit();
 };
 
