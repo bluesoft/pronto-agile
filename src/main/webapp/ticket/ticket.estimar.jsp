@@ -1,8 +1,8 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="urlSalvarEsforco" value="/ticket/salvarEsforco.action"/>
-<c:url var="urlSalvarValorDeNegocio" value="/ticket/salvarValorDeNegocio.action"/>
-<c:url var="urlSalvarPar" value="/ticket/salvarPar.action"/>
-<c:url var="urlSalvarBranch" value="/ticket/salvarBranch.action"/>
+<c:url var="urlSalvarEsforco" value="/tickets/{ticketKey}/salvarEsforco"/>
+<c:url var="urlSalvarValorDeNegocio" value="/tickets/{ticketKey}/salvarValorDeNegocio"/>
+<c:url var="urlSalvarPar" value="/tickets/{ticketKey}salvarPar"/>
+<c:url var="urlSalvarBranch" value="/tickets/{ticketKey}/salvarBranch"/>
 <html>
 	<head>
 		<title>Estimar ${backlog.descricao}${sprint.nome}</title>
@@ -65,28 +65,28 @@
 				var $campo = $(campo);
 				var ticketKey = $campo.parents('tr').attr('id');
 				var valor = $campo.val();
-				$.post('${urlSalvarEsforco}', {'ticketKey':ticketKey, 'esforco' :valor}, depoisDeSalvar);
+				$.post('${urlSalvarEsforco}'.replace('{ticketKey}',ticketKey), {'ticketKey':ticketKey, 'esforco' :valor}, depoisDeSalvar);
 			}
 
 			function salvarPar(campo){
 				var $campo = $(campo);
 				var ticketKey = $campo.parents('tr').attr('id');
 				var valor = $campo.val();
-				$.post('${urlSalvarPar}', {'ticketKey':ticketKey, 'par' :valor}, depoisDeSalvar);
+				$.post('${urlSalvarPar}'.replace('{ticketKey}',ticketKey), {'ticketKey':ticketKey, 'par' :valor}, depoisDeSalvar);
 			}
 
 			function salvarBranch(campo){
 				var $campo = $(campo);
 				var ticketKey = $campo.parents('tr').attr('id');
 				var valor = $campo.val();
-				$.post('${urlSalvarBranch}', {'ticketKey':ticketKey, 'branch' :valor}, depoisDeSalvar);
+				$.post('${urlSalvarBranch}'.replace('{ticketKey}',ticketKey), {'ticketKey':ticketKey, 'branch' :valor}, depoisDeSalvar);
 			}
 
 			function salvarValorDeNegocio(campo){
 				var $campo = $(campo);
 				var ticketKey = $campo.parents('tr').attr('id');
 				var valor = $campo.val();
-				$.post('${urlSalvarValorDeNegocio}', {'ticketKey':ticketKey, 'valorDeNegocio' :valor}, depoisDeSalvar);
+				$.post('${urlSalvarValorDeNegocio}'.replace('{ticketKey}',ticketKey), {'ticketKey':ticketKey, 'valorDeNegocio' :valor}, depoisDeSalvar);
 			}
 			
 		</script>

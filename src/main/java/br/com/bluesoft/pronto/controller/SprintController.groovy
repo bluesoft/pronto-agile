@@ -43,11 +43,14 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 import br.com.bluesoft.pronto.ProntoException
+import br.com.bluesoft.pronto.core.Backlog;
+import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.dao.SprintDao
 import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.model.Sprint
 import br.com.bluesoft.pronto.model.Ticket
 import br.com.bluesoft.pronto.service.Config
+import br.com.bluesoft.pronto.service.Seguranca;
 
 import java.io.IOException
 import org.apache.commons.fileupload.FileUploadException
@@ -58,12 +61,11 @@ class SprintController {
 	
 	private static final String VIEW_LISTAR = "/sprint/sprint.listar.jsp"
 	private static final String VIEW_EDITAR = "/sprint/sprint.editar.jsp"
-	
-	@Autowired private SessionFactory sessionFactory
-	
-	@Autowired private SprintDao sprintDao
-	
-	@Autowired private TicketDao ticketDao
+	public static final String VIEW_ESTIMAR = "/ticket/ticket.estimar.jsp"
+
+	@Autowired SessionFactory sessionFactory
+	@Autowired SprintDao sprintDao
+	@Autowired TicketDao ticketDao
 	
 	@RequestMapping(method = GET)
 	String listar(final Model model) {
@@ -229,4 +231,37 @@ class SprintController {
 		}
 	}
 	
+	@RequestMapping(value="/{sprintKey}/estimar", method=GET)
+	String estimarSprint( Model model,  @PathVariable int sprintKey) {
+		Seguranca.validarPermissao Papel.EQUIPE, Papel.PRODUCT_OWNER
+		List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey)
+		model.addAttribute("tickets", tickets)
+		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey))
+		return VIEW_ESTIMAR
+	}
+	
+	@RequestMapping(value="/{sprintKey}/adicionarTarefas", method=GET)
+	String listarTarefasParaAdicionarAoSprint( Model model, @PathVariable int sprintKey)  {
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
+		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey))
+		model.addAttribute("tickets", ticketDao.listarEstoriasEDefeitosDoProductBacklog())
+		return "/ticket/ticket.adicionarAoSprint.jsp"
+	}
+	
+	@RequestMapping(value="/{sprintKey}/adicionarTarefas", method=POST)
+	String adicionarAoSprint( Model model, @PathVariable int sprintKey,  int[] ticketKey) {
+		Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey)
+		for ( int key : ticketKey) {
+			Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, key)
+			ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.SPRINT_BACKLOG))
+			ticket.setSprint(sprint)
+			ticketDao.salvar(ticket)
+		}
+		return "redirect:/ticket/listarPorSprint.action?sprintKey=" + sprintKey
+	}
+	
+	@RequestMapping(value="/{sprintKey}/backlog", method=GET)
+	String backlog(Model model, @PathVariable int sprintKey) {
+		"redirect:/backlogs/sprints/${sprintKey}"
+	}
 }

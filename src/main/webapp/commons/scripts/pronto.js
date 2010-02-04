@@ -30,13 +30,7 @@ pronto.doPost = function(url) {
 };
 
 pronto.doGet = function(url) {
-	var f = $('<form>');
-	f.attr({
-		method : 'get',
-		action : url
-	});
-	$(document.body).append(f);
-	f.submit();
+	window.location = url;
 };
 
 

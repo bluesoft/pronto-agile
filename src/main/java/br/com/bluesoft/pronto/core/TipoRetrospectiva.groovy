@@ -9,7 +9,7 @@
  * (at your option) any later version.
  *
  * Pronto is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * but WITHOUT ANY WARRANTY without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
@@ -17,36 +17,20 @@
  * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package br.com.bluesoft.pronto.core;
+package br.com.bluesoft.pronto.core
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.Entity
+import javax.persistence.Id
 
 @Entity
 public class TipoRetrospectiva {
 
-	public static int TRADICIONAL = 1;
-	public static int SEIS_CHAPEUS = 2;
+	public static final int TRADICIONAL = 1
+	public static final int SEIS_CHAPEUS = 2
 
 	@Id
-	private int tipoRetrospectivaKey;
+	int tipoRetrospectivaKey
 
-	private String descricao;
-
-	public int getTipoRetrospectivaKey() {
-		return tipoRetrospectivaKey;
-	}
-
-	public void setTipoRetrospectivaKey(final int tipoRetrospectivaKey) {
-		this.tipoRetrospectivaKey = tipoRetrospectivaKey;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(final String descricao) {
-		this.descricao = descricao;
-	}
+	String descricao
 
 }

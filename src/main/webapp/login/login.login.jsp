@@ -1,4 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
+<c:url var="loginUrl" value="/logar"/>
 <html>
 	<head>
 		<title>Login</title>
@@ -7,18 +8,16 @@
 				$('#username').focus();
 			});		
 		</script>
+		
 		<style>
 			input {
-				font-size: 14px;
+				font-size: 18px;
 			}
 		</style>
 	</head>
 	<body>
-	
-		<c:url var="loginUrl" value="/login.action"/>
-		<form action="${loginUrl}" method="post">
+		<form id="formLogin" action="${loginUrl}" method="POST">
 			<h1>Login</h1>
-			
 			<h3>${mensagem}</h3>
 			<div class="group">
 				<div>
@@ -31,10 +30,8 @@
 				</div>
 			</div>
 			<div align="center">
-				<button type="submit">Login</button>
+				<button type="submit" >Login</button>
 			</div>
 		</form>	
-		
-		
 	</body>
 </html>

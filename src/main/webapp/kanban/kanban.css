@@ -1,0 +1,37 @@
+#kanbanTable tr, #kanbanTable td  {
+	vertical-align: top;
+	width: 100%;
+}
+
+.kanbanColumn.custom-state-active { background: #eee; }
+.kanbanColumn li { float: left; width: 96px; padding: 0.4em; margin: 0 0.4em 0.4em 0; text-align: center; }
+.kanbanColumn li h5 { margin: 0 0 0.4em; cursor: move; }
+
+.drop {
+	height: 100%;
+	height: ${sprint.quantidadeDeTickets * 65 + 100}px;
+}
+
+.ticket {
+	width: 100px;
+	height: 70px; 
+	font-family: "Lucida Grande", Trebuchet MS, verdana, arial, helvetica, sans-serif;
+	font-size: 10px;
+	cursor: crosshair;
+}
+
+.bug {
+	background-color: #FFCCCC;
+}
+
+.story {
+	background-color: #FFFF99;
+}
+
+.task {
+	border-color: #c3e5ff;
+	border-width: 1px;
+	border-style: solid;
+	color: #3977a6;
+	background-color: #ebf6ff;
+}

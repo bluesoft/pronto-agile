@@ -39,8 +39,8 @@ import br.com.bluesoft.pronto.service.Seguranca;
 
 public class LoginFilter implements Filter {
 
-	private static final String START_URI = "/start.action";
-	private static final String LOGIN_URI = "/login.action";
+	private static final String LOGIN_URI = "/login";
+	private static final String LOGAR_URI = "/logar";
 
 	private static final Set<String> freeResources;
 
@@ -79,7 +79,7 @@ public class LoginFilter implements Filter {
 
 			if (!logado) {
 				final HttpServletResponse response = (HttpServletResponse) servletResponse;
-				response.sendRedirect(request.getContextPath() + START_URI);
+				response.sendRedirect(request.getContextPath() + LOGIN_URI);
 				return;
 			}
 		}
@@ -92,12 +92,13 @@ public class LoginFilter implements Filter {
 			chain.doFilter(servletRequest, servletResponse);
 		}
 
+		
 	}
 
 	private boolean isAccessDenied(final HttpServletRequest request, final boolean logado) {
 		final String uri = request.getRequestURI();
-		final boolean isStartAction = uri.contains(START_URI);
-		final boolean isLoginAction = uri.contains(LOGIN_URI);
+		final boolean isLoginAction = uri.equals(request.getContextPath() + LOGIN_URI) || uri.equals(request.getContextPath() + LOGIN_URI + "/");
+		final boolean isLogarAction = uri.equals(request.getContextPath() + LOGAR_URI) || uri.equals(request.getContextPath() + LOGAR_URI + "/");
 
 		boolean isntProtected = false;
 		for (final String s : freeResources) {
@@ -107,7 +108,7 @@ public class LoginFilter implements Filter {
 			}
 		}
 
-		final boolean isAccessDenied = !logado && !isLoginAction && !isStartAction && !isntProtected;
+		final boolean isAccessDenied = !logado && !isLoginAction && !isntProtected && !isLogarAction;
 		return isAccessDenied;
 	}
 

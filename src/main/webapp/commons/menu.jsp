@@ -41,12 +41,12 @@
 					<li><a href="${raiz}ticket/branches.action">Branches</a></li>
 					<li><a href="${raiz}bancosDeDados">Bancos de Dados</a></li>
 					<li><a href="${raiz}script/listar.action">Scripts</a></li>
-					<li><a href="${raiz}execucao/listar.action">Execuções de Scripts</a></li>
+					<li><a href="${raiz}execucoes/pendentes">Execuções de Scripts</a></li>
 				</ul>
 			</li>
 		</c:if>
 		
-		<li><a href="${raiz}logout.action">Sair</a></li>
+		<li><a href="${raiz}logout">Sair</a></li>
 	</ul>
 	<div class="clear"></div>
 </c:if>

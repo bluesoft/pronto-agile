@@ -65,7 +65,7 @@ class UsuarioController {
 	
 	@RequestMapping(value = "/novo", method = GET)
 	String novo(final Model model) {
-		return editar(model, null)
+		editar(model, null)
 	}
 	
 	@RequestMapping(value = "/{username}", method = GET)

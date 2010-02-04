@@ -5,7 +5,7 @@
 		<script type="text/javascript">
 
 			function voltar() {
-				goTo('listar.action');
+				goTo('${raiz}execucoes');
 			}
 
 		</script>
@@ -17,14 +17,13 @@
 		<br/>
 		
 		
-		<form action="confirmar.action">
-
+		<form action="${raiz}execucoes" method="POST">
 			<input type="hidden" name="bancoDeDadosKey" value="${bancoDeDadosKey}"/>
-			
+
 			<c:forEach items="${execucaoKey}" var="key">
 				<input type="hidden" name="execucaoKey" value="${key}"/>
 			</c:forEach>		
-			
+
 			<div align="center">
 				<button type="button" onclick="voltar()">Voltar</button>
 				<button type="submit">Confirmar</button>

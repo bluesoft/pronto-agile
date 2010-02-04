@@ -17,42 +17,24 @@
  * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package br.com.bluesoft.pronto.model;
+
+package br.com.bluesoft.pronto.core;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-@SequenceGenerator(name = "SEQ_CLIENTE", sequenceName = "SEQ_CLIENTE")
-public class Cliente {
-
+class TipoRetrospectivaItem {
+	
 	@Id
-	@GeneratedValue(generator = "SEQ_CLIENTE")
-	private int clienteKey;
-
-	private String nome;
-
-	public int getClienteKey() {
-		return clienteKey;
-	}
-
-	public void setClienteKey(final int clienteKey) {
-		this.clienteKey = clienteKey;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(final String nome) {
-		this.nome = nome;
-	}
-
-	@Override
-	public String toString() {
-		return this.nome;
-	}
-
+	int tipoRetrospectivaItemKey;
+	
+	String descricao;
+	
+	@ManyToOne
+	@JoinColumn(name = "TIPO_RETROSPECTIVA_KEY") 
+	TipoRetrospectiva tipoRetrospectiva;
+	
 }

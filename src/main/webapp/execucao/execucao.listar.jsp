@@ -1,27 +1,32 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="verScriptUrl" value="/script/verScript.action"/>
-<c:url var="editarScriptUrl" value="/script/editar.action"/>
-<c:url var="listarScriptsUrl" value="/script/listar.action"/>
-<c:url var="listarBancosUrl" value="/bancoDeDados/listar.action"/>
+<c:url var="listarScriptsUrl" value="/scripts"/>
+<c:url var="listarBancosUrl" value="/bancosDeDados"/>
 <c:url var="editarTicketUrl" value="/ticket/editar.action"/>
 <html>
 	<head>
-		<title>Scripts</title>
+		<title>Execuções de Scripts</title>
 		<script type="text/javascript">
 
-			function excluir(scriptKey) {
-				if (confirm('Tem certeza que deseja excluir este script? Todos as execuções associadas a ele serão excluídas.')) {
-					goTo('excluir.action?scriptKey=' + scriptKey);
-				}
-			}
-
 			function reload() {
-				$('#formListar').submit();
+				var bancoDeDadosKey = $('#bancoDeDadosKey').val();
+				var pendentes = $('#pendentes').val();
+
+				var url = pronto.raiz + 'execucoes';
+				if (parseInt(bancoDeDadosKey) > 0){
+					url += '/' + bancoDeDadosKey;
+				}
+
+				if (pendentes == 'true') {
+					url += "/pendentes";
+				}
+
+				pronto.doGet(url);
+				
 			}
 
 			 function verScript(scriptKey) {
 					$.ajax({
-						url: '${verScriptUrl}?scriptKey=' + scriptKey,
+						url: '${raiz}scripts/' + scriptKey + '/json',
 						cache: false,
 						dataType: 'json',
 						success: function (script) {
@@ -30,7 +35,7 @@
 							$("#dialog").dialog('open');
 						}
 					});
-				}
+			}
 
 			$(function(){
 				$("#dialog").dialog({ autoOpen: false, height: 530, width: 600, modal: true });
@@ -40,24 +45,23 @@
 	</head>
 	<body>
 		<h1>
-			Execuções
+			Execuções de Scripts
 			<pronto:icons name="banco_de_dados.png" title="Ver Bancos de Dados" onclick="goTo('${listarBancosUrl}')"/>
 			<pronto:icons name="script.png" title="Ver Scripts" onclick="goTo('${listarScriptsUrl}')"/>
 		</h1>
 		
 		<div align="right">
-			<form action="listar.action" id="formListar">
+			<form action="${raiz}execucoes" id="formListar" method="GET">
 				Banco de Dados:
-				<select name="bancoDeDadosKey" onchange="reload()">
-					<option value="">Todos</option>
+				<select name="bancoDeDadosKey" id="bancoDeDadosKey" onchange="reload()">
+					<option value="0">Todos</option>
 					<c:forEach items="${bancos}" var="b">
 						<c:set var="selected" value="${bancoDeDadosKey eq b.bancoDeDadosKey}"/>
 						<option value="${b.bancoDeDadosKey}" ${selected ? 'selected="selected"' : ''}>${b.nome}</option>
 					</c:forEach>
 				</select>
-				
 				Exibir:
-				<select name="pendentes" onchange="reload()">
+				<select name="pendentes" id="pendentes" onchange="reload()">
 					<option value="true"  ${pendentes ? 'selected="selected"' : ''}>Pendentes</option>
 					<option value="false" ${!pendentes ? 'selected="selected"' : ''}>Todos</option>
 				</select>
@@ -67,7 +71,7 @@
 		<c:forEach items="${bancosComExecucoes}" var="b">
 			<c:set var="execucoes" value="${pendentes ? b.execucoesPendentes : b.execucoes}"/>
 			<c:if test="${!empty execucoes}">
-				<form action="gerarScript.action">
+				<form action="${raiz}execucoes/gerar" method="post">
 					<input type="hidden" name="bancoDeDadosKey" value="${b.bancoDeDadosKey}"/>
 					<h2>${b.nome}</h2>		
 					<table style="width: 100%">
@@ -114,7 +118,7 @@
 									<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verScript(${e.script.scriptKey});"/>
 								</td>
 								<td>
-									<a href="${editarScriptUrl}?scriptKey=${e.script.scriptKey}"><pronto:icons name="editar_script.png" title="Editar Script" /></a>
+									<a href="${raiz}scripts/${e.script.scriptKey}"><pronto:icons name="editar_script.png" title="Editar Script" /></a>
 								</td>
 							</tr>
 						</c:forEach>
