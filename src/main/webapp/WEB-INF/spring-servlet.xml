@@ -16,7 +16,11 @@
 		<property name="defaultLocale" value="pt_BR" />
 	</bean>
 
+	<!-- Controllers driven by annotations -->
+	<bean name="internalPathMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.InternalPathMethodNameResolver" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="methodNameResolver" ref="internalPathMethodNameResolver" />
 		<property name="webBindingInitializer">
 			<bean class="br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer" />
 		</property>

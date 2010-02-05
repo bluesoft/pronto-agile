@@ -41,10 +41,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.util.FileCopyUtils
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
 import br.com.bluesoft.pronto.ProntoException
 import br.com.bluesoft.pronto.SegurancaException
@@ -69,6 +72,7 @@ import br.com.bluesoft.pronto.service.Config
 import br.com.bluesoft.pronto.service.Seguranca
 import br.com.bluesoft.pronto.util.ControllerUtil
 import br.com.bluesoft.pronto.util.StringUtil
+import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer;
 
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.Multimap
@@ -93,6 +97,12 @@ class TicketController {
 	@Autowired KanbanStatusDao kanbanStatusDao
 	@Autowired TipoDeTicketDao tipoDeTicketDao
 	@Autowired BacklogDao backlogDao
+	
+	@InitBinder
+	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
+		def defaultBindingInitializer = new DefaultBindingInitializer()
+		defaultBindingInitializer.initBinder binder, webRequest
+	}
 	
 	@ModelAttribute("usuarios")
 	List<Usuario> getUsuarios() {
@@ -410,10 +420,15 @@ class TicketController {
 		} else {
 			return null
 		}
-		
 	}
 	
 	
+	@RequestMapping(value = '/anexos', method = GET)
+	String download( HttpServletResponse response,  String file)  {
+		def ticketKey = Integer.parseInt( file.replaceAll('(.*)?\\/.*', '$1'))
+		def path = file.replaceAll('.*?\\/(.*)', '$1')
+		return download(response, path, ticketKey)
+	}
 	
 	@RequestMapping(value = '/{ticketKey}/anexos', method = GET)
 	String download( HttpServletResponse response,  String file,  @PathVariable int ticketKey)  {

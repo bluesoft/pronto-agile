@@ -1,6 +1,4 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="moverParaBranchMaster" value="/ticket/moverParaBranchMaster.action"/>
-<c:url var="verDescricao" value="/ticket/verDescricao.action"/>
 <html>
 	<head>
 		<title>Branches</title>
@@ -11,7 +9,7 @@
 			}
 		
 			function moverParaBranchMaster(ticketKey){
-				var url = '${moverParaBranchMaster}?ticketKey=' + ticketKey; 
+				var url = '${raiz}tickets/' + ticketKey + '/moverParaBranchMaster'; 
 				$.post(url, {
 					success: function() {
 						apagarLinha(ticketKey);
@@ -25,7 +23,7 @@
 
 			function verDescricao(ticketKey) {
 				$.ajax({
-					url: 'verDescricao.action?ticketKey=' + ticketKey,
+					url: '${raiz}tickets/' + ticketKey + '/descricao',
 					cache: false,
 					success: function (data) {
 						$("#dialog").dialog('option', 'title', '#' + ticketKey + ' - ' + $('#' + ticketKey + ' .titulo').text());
@@ -73,7 +71,7 @@
 						<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
 					</td>
 					<td>
-						<a href="editar.action?ticketKey=${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+						<a href="${raiz}tickets/${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 					</td>
 				</tr>
 			</c:forEach>

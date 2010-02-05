@@ -101,38 +101,59 @@ pronto.buscar =  function (){
 	pronto.doPost(pronto.raiz + 'buscar/' + $('#busca').val(), [{name: 'kanbanStatusKey', value:1}]);
 };
 
-pronto.transformarEmEstoria = function(ticketKey){
-	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/transformarEmEstoria');
+pronto.transformarEmEstoria = function(ticketKey, ajax){
+	var url = pronto.raiz + 'tickets/' + ticketKey + '/transformarEmEstoria';
+	pronto.moverTicket(ticketKey, url, ajax);
 };
 
-pronto.transformarEmDefeito = function(ticketKey){
-	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/transformarEmDefeito');
+pronto.transformarEmDefeito = function(ticketKey, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/transformarEmDefeito');
+	pronto.moverTicket(ticketKey, url, ajax);
 };
 
-pronto.moverParaProductBacklog = function(ticketKey){
-	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/moverParaProductBacklog');
+pronto.moverParaProductBacklog = function(ticketKey, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaProductBacklog');
+	pronto.moverTicket(ticketKey, url, ajax);
 };
 
-pronto.moverParaIdeias = function(ticketKey){
-	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/moverParaIdeias');
+pronto.moverParaIdeias = function(ticketKey, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaIdeias');
+	pronto.moverTicket(ticketKey, url, ajax);
 };
 
-pronto.jogarNoLixo = function(ticketKey){
-	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/jogarNoLixo');
+pronto.jogarNoLixo = function(ticketKey, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/jogarNoLixo');
+	pronto.moverTicket(ticketKey, url, ajax);
 };
 
-pronto.impedir = function(ticketKey){
-	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/moverParaImpedimentos');
+pronto.impedir = function(ticketKey, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaImpedimentos');
+	pronto.moverTicket(ticketKey, url, ajax);
 };
 
-pronto.restaurar = function(ticketKey){
-	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/restaurar');
+pronto.restaurar = function(ticketKey, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/restaurar');
+	pronto.moverTicket(ticketKey, url, ajax);
 };
 
-pronto.incluirTarefa = function(ticketKey){
-	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/incluirTarefa');
+pronto.incluirTarefa = function(ticketKey, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/incluirTarefa');
+	pronto.moverTicket(ticketKey, url, ajax);
 };
 
-pronto.moverParaSprintAtual = function(ticketKey){
-	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/moverParaSprintAtual');
+pronto.moverParaSprintAtual = function(ticketKey, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaSprintAtual');
+	pronto.moverTicket(ticketKey, url, ajax);
 };
+
+pronto.moverTicket = function(ticketKey, url, ajax){
+	if (ajax) {
+		$.get(url);
+		$('#'+ticketKey).fadeOut('slow', function(){
+			$(this).remove();
+		});
+	} else {
+		pronto.doGet(url);	
+	}
+}
+

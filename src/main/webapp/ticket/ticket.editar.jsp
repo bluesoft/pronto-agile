@@ -176,7 +176,7 @@
 		</c:if>
 			
 			
-		<form action="salvar.action" method="post" id="formTicket">
+		<form action="${raiz}tickets" method="post" id="formTicket">
 			<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
 			<form:hidden path="ticket.prioridadeDoCliente"/>
 			<c:if test="${ticket.ticketKey gt 0}">
@@ -285,8 +285,8 @@
 				</div>
 				<c:if test="${ticket.ticketKey gt 0}">
 					<div>
-						<b><fmt:formatDate value="${ticket.dataDeCriacao}" type="both"/></b>
-						<form:hidden path="ticket.dataDeCriacao"/>
+						<b><fmt:formatDate value="${ticket.dataDeCriacao}" type="both" var="dataDeCriacao"/></b>
+						<input type="hidden" name="dataDeCriacao" value="${dataDeCriacao}">
 						<p>Data de Criação</p> 
 					</div>
 				</c:if>
