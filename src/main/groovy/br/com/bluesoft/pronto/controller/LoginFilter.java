@@ -70,6 +70,7 @@ public class LoginFilter implements Filter {
 	public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain chain) throws IOException, ServletException {
 
 		final HttpServletRequest request = (HttpServletRequest) servletRequest;
+		final HttpServletResponse response = (HttpServletResponse) servletResponse;
 		final Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLogado");
 		final boolean logado = usuarioLogado != null;
 
@@ -78,7 +79,7 @@ public class LoginFilter implements Filter {
 		if (isAccessDenied) {
 
 			if (!logado) {
-				final HttpServletResponse response = (HttpServletResponse) servletResponse;
+				
 				response.sendRedirect(request.getContextPath() + LOGIN_URI);
 				return;
 			}
@@ -86,7 +87,12 @@ public class LoginFilter implements Filter {
 
 		if (logado) {
 			Seguranca.setUsuario(usuarioLogado);
-			chain.doFilter(servletRequest, servletResponse);
+			boolean isRootURL = request.getRequestURI() .equals( request.getContextPath()) || request.getRequestURI() .equals( request.getContextPath() + "/");
+			if (isRootURL) {
+				response.sendRedirect(request.getContextPath() + "/kanban");
+			} else {
+				chain.doFilter(servletRequest, servletResponse);
+			}
 			Seguranca.removeUsuario();
 		} else {
 			chain.doFilter(servletRequest, servletResponse);

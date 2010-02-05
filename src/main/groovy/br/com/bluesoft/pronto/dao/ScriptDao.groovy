@@ -28,7 +28,7 @@ import br.com.bluesoft.pronto.model.Script;
 
 @Repository
 public class ScriptDao extends DaoHibernate<Script, Integer> {
-
+	
 	public ScriptDao() {
 		super(Script.class);
 	}
@@ -47,7 +47,6 @@ public class ScriptDao extends DaoHibernate<Script, Integer> {
 		getSession().delete(execucao);
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Script> listarComDependencias() {
 		String hql = "select distinct s from Script s ";
 		hql += " left join fetch s.execucoes e ";

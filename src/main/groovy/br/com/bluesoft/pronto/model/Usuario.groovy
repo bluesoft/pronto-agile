@@ -103,8 +103,7 @@ class Usuario implements Comparable<Usuario>, Serializable {
 		return true
 	}
 	
-	@Override
-	int compareTo(final Usuario outro) {
+	int compareTo(def outro) {
 		return username.compareTo(outro.username)
 	}
 	

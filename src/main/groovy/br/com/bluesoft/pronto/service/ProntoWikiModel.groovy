@@ -6,7 +6,6 @@ import info.bliki.wiki.model.Configuration
 import info.bliki.wiki.model.ImageFormat;
 import info.bliki.wiki.model.WikiModel
 
-
 class ProntoWikiModel extends WikiModel {
 	
 	private static final  String wikiImages = '../tickets/anexos?file=${image}' 
@@ -21,6 +20,5 @@ class ProntoWikiModel extends WikiModel {
 		super.appendInternalImageLink link, raw, img
 		
 	}
-	
 	
 }

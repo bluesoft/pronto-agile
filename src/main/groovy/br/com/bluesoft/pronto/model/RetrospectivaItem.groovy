@@ -31,7 +31,7 @@ import br.com.bluesoft.pronto.core.TipoRetrospectivaItem
 
 @Entity
 @SequenceGenerator(name = "SEQ_RETROSPECTIVA_ITEM", sequenceName = "SEQ_RETROSPECTIVA_ITEM")
-class RetrospectivaItem implements Comparable<RetrospectivaItem> {
+class RetrospectivaItem implements Comparable {
 	
 	@Id
 	@GeneratedValue(generator = "SEQ_RETROSPECTIVA_ITEM")
@@ -48,7 +48,7 @@ class RetrospectivaItem implements Comparable<RetrospectivaItem> {
 	TipoRetrospectivaItem tipoRetrospectivaItem
 	
 	@Override
-	int compareTo(final RetrospectivaItem other) {
+	public int compareTo(Object other) {
 		return Integer.valueOf(this.retrospectivaItemKey).compareTo(Integer.valueOf(other.getRetrospectivaItemKey()))
 	}
 	
