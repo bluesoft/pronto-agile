@@ -123,9 +123,8 @@
 						<a href="${estimarPorSprintUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="estimar.png" title="Estimar Sprint" /></a>
 					</c:if>
 					<a href="${adicionarTarefasUrl}?sprintKey=${sprint.sprintKey}"><pronto:icons name="adicionar.png" title="Adicionar Estórias ou Defeitos do Product Backlog ao Sprint" /></a>
-					<pronto:icons name="kanban.png" title="Ver Kanban" onclick="goTo('${urlKanban}?sprintKey=${sprint.sprintKey}')"/>
-					<pronto:icons name="burndown_chart.png" title="Burndown Chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${sprint.sprintKey}')"/>
-					<pronto:icons name="retrospectiva.png" title="Retrospectiva" onclick="goTo('${retrospectivaUrl}?sprintKey=${sprint.sprintKey}')"/>
+					
+					<%@ include file="/commons/sprintLinks.jsp" %>
 				</h1>	
 			</c:when>
 			<c:otherwise>

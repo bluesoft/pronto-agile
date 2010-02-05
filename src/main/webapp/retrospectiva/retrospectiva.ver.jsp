@@ -1,14 +1,8 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="urlSprint" value="/sprint/"/>
-<c:url var="salvarUrl" value="/retrospectiva/salvarItem.action"/>
-<c:url var="alterarTipoDeRetrospectivaUrl" value="/retrospectiva/alterarTipoDeRetrospectiva.action"/>
-<c:url var="excluirUrl" value="/retrospectiva/excluirItem.action"/>
-<c:url var="urlKanban" value="/kanban/kanban.action" />
-<c:url var="burndownUrl" value="/burndown/burndown.action"/>
 <html>	
 	<head>
 		<title>Retrospectiva do Sprint ${retrospectiva.sprint.nome}</title>
-		<link rel="stylesheet" type="text/css" media="all" href="retrospectiva.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="${raiz}retrospectiva/retrospectiva.css" />
 		<script>
 
 			var $listaAtual = null; 
@@ -23,8 +17,12 @@
 			});
 
 			function excluir(key){
-				$.post('${excluirUrl}', {retrospectivaItemKey:key}, function(){
-					$('#'+key).remove();
+				var url = '${raiz}retrospectivas/itens/' + key;
+				var data = {'_method': 'delete'};
+				$.post(url, data, function(){
+					$('#'+key).fadeOut('slow',function(){ 
+						$(this).remove(); 
+					});
 				});
 			}
 			
@@ -44,7 +42,7 @@
 				};
 
 				var callback = function(key){
-					var $li = $('<li class="ui-state-default" id="'+key+'">'+ descricao +'</li>');
+					var $li = $('<li class="ui-state-default" style="display:none" id="'+key+'">'+ descricao +'</li>');
 					var $icon = $('#excluirModelo').clone();
 					$li.append($icon);
 					$icon.click(function(){
@@ -56,11 +54,13 @@
 					} else {
 						$lista.append($li);
 					}
+
+					$li.fadeIn('slow');
 				}; 	
 				
 				$.ajax({
 					type:'post',
-					url: '${salvarUrl}',
+					url: '${raiz}retrospectivas/${retrospectiva.retrospectivaKey}',
 					'data': data,
 					success: callback,
 					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -76,12 +76,10 @@
 	<body>
 		<h1>
 			Retrospectiva do Sprint ${retrospectiva.sprint.nome} (${retrospectiva.tipoRetrospectiva.descricao})
-			<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="goTo('${urlSprint}../ticket/listarPorSprint.action?sprintKey=${retrospectiva.sprint.sprintKey}')"/>
-			<pronto:icons name="kanban.png" title="Ver Kanban" onclick="goTo('${urlKanban}?sprintKey=${retrospectiva.sprint.sprintKey}')"/>
-			<pronto:icons name="burndown_chart.png" title="Burndown Chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${retrospectiva.sprint.sprintKey}')"/>
+			<%@ include file="/commons/sprintLinks.jsp" %>
 		</h1>
 		
-		<form action="${alterarTipoDeRetrospectivaUrl}" id="formAlterar">
+		<form action="${raiz}retrospectivas/${retrospectiva.retrospectivaKey}/alterarTipoDeRetrospectiva" id="formAlterar" method="post">
 			Alterar para o modelo: 
 			<input type="hidden" id="retrospectivaKey" name="retrospectivaKey" value="${retrospectiva.retrospectivaKey}">
 			<select onchange="trocarTipo()" id="tipoRetrospectivaKey" name="tipoRetrospectivaKey">

@@ -31,16 +31,16 @@
 		
 		<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
 			<li><a href="${raiz}sprints">Sprints</a></li>
-			<li><a href="${raiz}kanban/kanban.action">Kanban</a></li>
-			<li><a href="${raiz}burndown/burndown.action">Burndown</a></li>
+			<li><a href="${raiz}kanban">Kanban</a></li>
+			<li><a href="${raiz}burndown">Burndown</a></li>
 		</c:if>
 		
 		<c:if test="${usuarioLogado.equipe}">
 			<li><a href="#">Ferramentas</a>
 				<ul>
-					<li><a href="${raiz}ticket/branches.action">Branches</a></li>
+					<li><a href="${raiz}tickets/branches">Branches</a></li>
 					<li><a href="${raiz}bancosDeDados">Bancos de Dados</a></li>
-					<li><a href="${raiz}script/listar.action">Scripts</a></li>
+					<li><a href="${raiz}scripts">Scripts</a></li>
 					<li><a href="${raiz}execucoes/pendentes">Execuções de Scripts</a></li>
 				</ul>
 			</li>

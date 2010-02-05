@@ -11,12 +11,13 @@
 
 .lista li {  
 	padding: 2px; 
-	height: 1.5em; 
-	font-size: 11px
+	min-height: 1.5em;
+	font-size: 11px;
+	height: auto;
 }
 
 html>body .lista li { 
-	height: 1.5em; 
+	min-height: 1.5em; 
 	line-height: 1.2em; 
 }
 
@@ -29,7 +30,6 @@ html>body .lista li {
 	border:0px;
 	font-weight: bolder;
 	width: 100%;
-	
 }
 
 

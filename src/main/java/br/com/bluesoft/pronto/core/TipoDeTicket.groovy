@@ -49,5 +49,8 @@ class TipoDeTicket {
 		this.tipoDeTicketKey = tipoDeTicketKey
 	}
 	
+	public String toString() {
+		descricao
+	}
 	
 }

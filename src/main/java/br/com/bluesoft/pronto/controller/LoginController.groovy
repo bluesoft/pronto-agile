@@ -35,9 +35,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.*
 @Controller
 class LoginController {
 	
-	static final String ACTION_KANBAN = "/kanban"
-	static final String ACTION_BACKLOG_DO_CLIENTE = "/clientes/backlog"
-	static final String VIEW_BEM_VINDO = "/bemVindo.jsp"
+	public static final String ACTION_KANBAN = "/kanban"
+	public static final String ACTION_BACKLOG_DO_CLIENTE = "/clientes/backlog"
+	public static final String VIEW_BEM_VINDO = "/bemVindo.jsp"
 	
 	@Autowired SessionFactory sessionFactory
 	

@@ -1,6 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="chart" value="/open-flash-chart.swf"/>
-<c:url var="data" value="/burndown/data.action"/>
+<c:url var="data" value="/burndown/data"/>
 <html>
 	<head>
 		<meta http-equiv="refresh" content="120" />
@@ -10,7 +10,7 @@
 		swfobject.embedSWF(
 		  "${chart}", "my_chart", "100%", "100%",
 		  "9.0.0", "expressInstall.swf",
-		  {"data-file":"${data}?sprintKey=${sprintKey}"}
+		  {"data-file":"${data}/${sprintKey}"}
 		  );
 		</script>
 		<c:url var="swfObject" value="/commons/scripts/swfobject.js"/>

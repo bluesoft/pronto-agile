@@ -20,6 +20,11 @@
         line-height: 1em;
         color: #444;
     }
+    
+    input {
+    	font-family: "Lucida Grande", Trebuchet MS, verdana, arial, helvetica, sans-serif;
+    }
+    
 
     div {
         font-size: 1em;
