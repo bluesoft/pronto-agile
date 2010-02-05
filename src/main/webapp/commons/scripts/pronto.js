@@ -8,7 +8,11 @@ function openWindow(url) {
 
 var pronto = pronto ? pronto : {};
 
-pronto.doDelete = function(url) {
+pronto.doGet = function(url) {
+	goTo(url);
+};
+
+pronto.doDelete = function(url, data) {
 	var f = $('<form></form>');
 	f.attr({
 		method: 'POST',
@@ -16,25 +20,23 @@ pronto.doDelete = function(url) {
 	});
 	f.append('<input type="hidden" name="_method" value="DELETE" />');
 	$(document.body).append(f);
+	pronto.includeDataInForm(f, data);
 	f.submit();
 };
 
-pronto.doPost = function(url) {
+pronto.doPost = function(url, data) {
 	var f = $('<form>');
 	f.attr({
 		method : 'post',
 		action : url
 	});
 	$(document.body).append(f);
+	pronto.includeDataInForm(f, data);
 	f.submit();
 };
 
-pronto.doGet = function(url) {
-	window.location = url;
-};
 
-
-pronto.doPut = function(url) {
+pronto.doPut = function(url, data) {
 	var f = $('<form>');
 	f.attr({
 		method : 'post',
@@ -42,7 +44,17 @@ pronto.doPut = function(url) {
 	});
 	f.append('<input type="hidden" name="_method" value="PUT" />');
 	$(document.body).append(f);
+	pronto.includeDataInForm(f, data);
 	f.submit();
+};
+
+pronto.includeDataInForm = function ($form, data){
+	if (data && data != null && data.length > 0) {
+		for (var i = 0; i < data.length; i++) {
+			var entry = data[i];
+			$form.append('<input type="hidden" name="'+entry.name+'" value="'+entry.value+'"/>');
+		}
+	}	
 };
 
 pronto.confirm = function(message, yesCallback, noCallback, onOpen, onClose) {
@@ -83,4 +95,44 @@ pronto.confirm = function(message, yesCallback, noCallback, onOpen, onClose) {
 	        }
 	    } 
 	});
-}
+};
+
+pronto.buscar =  function (){
+	pronto.doPost(pronto.raiz + 'buscar/' + $('#busca').val(), [{name: 'kanbanStatusKey', value:1}]);
+};
+
+pronto.transformarEmEstoria = function(ticketKey){
+	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/transformarEmEstoria');
+};
+
+pronto.transformarEmDefeito = function(ticketKey){
+	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/transformarEmDefeito');
+};
+
+pronto.moverParaProductBacklog = function(ticketKey){
+	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/moverParaProductBacklog');
+};
+
+pronto.moverParaIdeias = function(ticketKey){
+	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/moverParaIdeias');
+};
+
+pronto.jogarNoLixo = function(ticketKey){
+	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/jogarNoLixo');
+};
+
+pronto.impedir = function(ticketKey){
+	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/moverParaImpedimentos');
+};
+
+pronto.restaurar = function(ticketKey){
+	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/restaurar');
+};
+
+pronto.incluirTarefa = function(ticketKey){
+	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/incluirTarefa');
+};
+
+pronto.moverParaSprintAtual = function(ticketKey){
+	pronto.doGet(pronto.raiz + 'tickets/' + ticketKey + '/moverParaSprintAtual');
+};

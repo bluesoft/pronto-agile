@@ -1,14 +1,9 @@
 <%@ include file="/commons/taglibs.jsp"%>
-	<c:url var="buscarUrl" value="/buscar.action"/>
 	<script>
-		function buscar(){
-			goTo('${buscarUrl}?kanbanStatusKey=1&query=' + $('#busca').val());
-		}
-
-		$(function() {
+		$(function(){
 			$('#busca').keypress(function(e) {
 				 if (e.keyCode == 13) {
-					buscar();
+					pronto.buscar();
 				 }
 			});
 		});

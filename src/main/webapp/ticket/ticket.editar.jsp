@@ -1,7 +1,4 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="urlAlterarOrdem" value="/ticket/alterarOrdemDasTarefas.action"/>
-<c:url var="urlScriptIncluir" value="/script/incluir.action"/>
-<c:url var="urlScriptEditar" value="/script/editar.action"/>
 <html>
 	<head>
 		<title><c:choose><c:when test="${ticket.ticketKey gt 0}">${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}</c:when><c:otherwise>Incluir ${ticket.tipoDeTicket.descricao}</c:otherwise></c:choose></title>
@@ -46,15 +43,13 @@
 		}
 
 		 var alterarPrioridadeDaTarefa = function(ui, event) {
-
 				var $tarefas = $('#tarefas li');
 				var novaOrdem = new Array($tarefas.length);
 				var indice = 0;
 				$tarefas.each(function(i, el) {
 					novaOrdem[indice++] = el.id;
 				});
-
-				$.post('${urlAlterarOrdem}', { 'ticketKey': novaOrdem, 'pai': ${ticket.ticketKey} });
+				$.post('${raiz}tickets/${ticket.ticketKey}/ordenar', { 'ticketKey': novaOrdem });
 			};
 		
 		$(function() {
@@ -62,9 +57,7 @@
 		      $("#descricao").markItUp(mySettings);
 		      $("#comentario").markItUp(mySettings);
 		      $("#titulo").focus();
-
     		  $("#dialog").dialog({ autoOpen: false, height: 530, width: 600, modal: true });
-
     		  $("#tarefas").sortable({
     				placeholder: 'ui-state-highlight',
     				stop: alterarPrioridadeDaTarefa 
@@ -73,22 +66,22 @@
 		 });
 
 		function adicionarScript() {
-			goTo('${urlScriptIncluir}?ticketKey=${ticket.ticketKey}');
+			goTo('${raiz}scripts/novo?ticketKey=${ticket.ticketKey}');
 		}
 
 		function editarScript() {
-			goTo('${urlScriptEditar}?scriptKey=${ticket.script.scriptKey}');
+			goTo('${raiz}scripts/${ticket.script.scriptKey}');
 		}
 		
 		 function excluirAnexo(ticketKey, anexo) {
 			if (confirm('Tem certeza que deseja excluir este anexo?')) {
-				goTo('excluirAnexo.action?ticketKey=' + ticketKey+ '&file=' + anexo);
+				pronto.doDelete('${raiz}tickets/' +ticketKey + '/anexos/', [{name:'file', value:anexo}]);
 			}
 		 }
 
 		 function verDescricao(ticketKey) {
 				$.ajax({
-					url: 'verDescricao.action?ticketKey=' + ticketKey,
+					url: '${raiz}tickets/' + ticketKey + '/descricao',
 					cache: false,
 					success: function (data) {
 						$("#dialog").dialog('option', 'title', '#' + ticketKey + ' - ' + $('#' + ticketKey + ' .titulo').text());
@@ -120,39 +113,39 @@
 		<c:if test="${ticket.ticketKey gt 0}">
 			<!-- Operacoes -->
 			<c:if test="${ticket.pai ne null and ticket.ticketKey gt 0}">
-				<a href="editar.action?ticketKey=${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
+				<a href="${raiz}tickets/${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
 			</c:if>
 			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
-				<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="goTo('transformarEmDefeito.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+				<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="pronto.transformarEmDefeito('${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
 			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
-				<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="goTo('transformarEmEstoria.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+				<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="pronto.transformarEmEstoria('${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
 			<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 3) and usuarioLogado.productOwner and !ticket.tarefa}">
-					<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="goTo('moverParaProductBacklog.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+					<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="pronto.moverParaProductBacklog('${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
 			<c:if test="${ticket.backlog.backlogKey eq 2 and !ticket.tarefa}">
-					<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Ideias" onclick="goTo('moverParaIdeias.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+					<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Ideias" onclick="pronto.moverParaIdeias('${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
 			<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
-				<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="goTo('jogarNoLixo.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+				<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo('${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
 			<c:if test="${ticket.backlog.backlogKey eq 1 or (ticket.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or ticket.backlog.backlogKey eq 3}">
-				<pronto:icons name="impedimento.png" title="Mover para Impedimentos" onclick="goTo('moverParaImpedimentos.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+				<pronto:icons name="impedimento.png" title="Mover para Impedimentos" onclick="pronto.impedir('${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
 			<c:if test="${(ticket.backlog.backlogKey eq 2 and usuarioLogado.productOwner)}">
-				<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="goTo('moverParaOSprintAtual.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+				<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="pronto.moverParaSprintAtual('${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
 			<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
 				<c:if test="${!ticket.tarefa or (ticket.tarefa && ticket.pai.backlog.backlogKey ne 4 && ticket.pai.backlog.backlogKey ne 5)}">
-					<pronto:icons name="restaurar.png" title="Restaurar" onclick="goTo('restaurar.action?ticketKey=${ticket.ticketKey}')"></pronto:icons>
+					<pronto:icons name="restaurar.png" title="Restaurar" onclick="pronto.restaurar('${ticket.ticketKey}')"></pronto:icons>
 				</c:if>
 			</c:if>
 			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 1 or ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
-				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?paiKey=${ticket.ticketKey}')"></pronto:icons>
+				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="pronto.incluirTarefa('${ticket.ticketKey}')"></pronto:icons>
 			</c:if>
 			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 6}">
-				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="goTo('incluirTarefa.action?paiKey=${ticket.pai.ticketKey}')"></pronto:icons>
+				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="pronto.incluirTarefa('${ticket.pai.ticketKey}')"></pronto:icons>
 			</c:if>
 			<c:choose>
 				<c:when test="${ticket.script eq null}">
@@ -170,8 +163,6 @@
 				${ticket.html}
 			</div>
 		</c:if>
-	
-		
 		<c:if test="${!empty ticket.comentarios}">
 			<h3>Comentários</h3>
 			<c:forEach items="${ticket.comentarios}" var="comentario">
@@ -372,7 +363,8 @@
 				</div>
 				
 				<div>
-					<form:input path="ticket.dataDePronto"/><br/>
+					<fmt:formatDate var="dataDePronto" value="${ticket.dataDePronto}" pattern="dd/MM/yyyy"/>
+					<input type="text" value="${dataDePronto}" name="dataDePronto"/>
 					<p>Data de Pronto</p>
 				</div>
 				
@@ -417,10 +409,10 @@
 			<div align="center">
 				<c:choose>
 					<c:when test="${ticket.sprint ne null}">
-						<button type="button" onclick="window.location.href='listarPorSprint.action?sprintKey=${ticket.sprint.sprintKey}'">Cancelar</button>
+						<button type="button" onclick="pronto.doGet('${raiz}backlogs/sprints/${ticket.sprint.sprintKey}')">Cancelar</button>
 					</c:when>
 					<c:otherwise>
-						<button type="button" onclick="window.location.href='listarPorBacklog.action?backlogKey=${ticket.backlog.backlogKey}'">Cancelar</button>
+						<button type="button" onclick="pronto.doGet('${raiz}backlogs/${ticket.backlog.backlogKey}')">Cancelar</button>
 					</c:otherwise>
 				</c:choose>
 				<button type="submit">Salvar</button>
@@ -448,13 +440,13 @@
 						</c:choose>
 						
 						${anexo.nomeParaExibicao}
-						<pronto:icons name="download.gif" title="Baixar Anexo" onclick="goTo('download.action?ticketKey=${ticket.ticketKey}&file=${anexo}')"/>
+						<pronto:icons name="download.gif" title="Baixar Anexo" onclick="goTo('${raiz}tickets/${ticket.ticketKey}/anexos?file=${anexo}')"/>
 						<pronto:icons name="excluir.png" title="Excluir Anexo" onclick="excluirAnexo(${ticket.ticketKey},'${anexo}');"/>
 					</li>
 				</c:forEach>
 			</ul>
 			<h4>Incluir anexo</h4>						
-			<form action="upload.action?ticketKey=${ticket.ticketKey}" method="post" enctype="multipart/form-data">
+			<form action="${raiz}tickets/${ticket.ticketKey}/upload" method="post" enctype="multipart/form-data">
 				<input type="file" name="arquivo">
 				<button type="submit">Upload</button>
 			</form>

@@ -35,7 +35,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*
 @Controller
 class LoginController {
 	
-	static final String ACTION_KANBAN = "/kanban/kanban.action"
+	static final String ACTION_KANBAN = "/kanban"
 	static final String ACTION_BACKLOG_DO_CLIENTE = "/clientes/backlog"
 	static final String VIEW_BEM_VINDO = "/bemVindo.jsp"
 	

@@ -15,7 +15,7 @@
 		<div align="left">
 			<h1>
 				Kanban do Sprint ${sprint.nome}
-				<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="goTo('${urlSprint}../ticket/listarPorSprint.action?sprintKey=${sprint.sprintKey}')"/>
+				<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="goTo('${raiz}backlogs/sprints/${sprint.sprintKey}')"/>
 				<pronto:icons name="burndown_chart.png" title="Burndown Chart do Sprint" onclick="goTo('${burndownUrl}?sprintKey=${sprint.sprintKey}')"/>
 				<pronto:icons name="retrospectiva.png" title="Retrospectiva" onclick="goTo('${retrospectivaUrl}?sprintKey=${sprint.sprintKey}')"/>
 			</h1>

@@ -15,12 +15,12 @@
 		<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
 			<li><a href="#">Backlogs</a>
 				<ul>
-					<li><a href="${raiz}ticket/sprintAtual.action">Sprint Atual</a></li>
-					<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=2">Product Backlog</a></li>
-					<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=1">Ideias</a></li>
-					<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=5">Impedimentos</a></li>
-					<li><a href="${raiz}ticket/listarPorBacklog.action?backlogKey=4">Lixeira</a></li>
-					<li><a href="${raiz}ticket/listarPendentesPorCliente.action?kanbanStatusKey=-1">Pendentes</a></li>
+					<li><a href="${raiz}backlogs/sprints/atual">Sprint Atual</a></li>
+					<li><a href="${raiz}backlogs/2">Product Backlog</a></li>
+					<li><a href="${raiz}backlogs/1">Ideias</a></li>
+					<li><a href="${raiz}backlogs/5">Impedimentos</a></li>
+					<li><a href="${raiz}backlogs/4">Lixeira</a></li>
+					<li><a href="${raiz}backlogs/clientes">Pendentes</a></li>
 				</ul>
 			</li>
 		</c:if>

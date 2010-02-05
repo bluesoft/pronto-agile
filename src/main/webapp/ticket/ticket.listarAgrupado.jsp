@@ -11,16 +11,17 @@
 		<script>
 
 			function recarregar() {
-				var parametros = $('#formListar').serialize();
-				goTo('${listarUrl}?' + parametros);
+				var parametros = $('#formListar').serializeArray();
+				var clienteKey = $('#clienteKey').val();
+				pronto.doPost('${raiz}backlogs/clientes/' + clienteKey, parametros);
 			}
 		
 			function apagarLinha(ticketKey) {
-				$('#'+ticketKey).add('tr[pai='+ticketKey+']').remove();
+				$('#'+ticketKey).add('tr[pai='+ticketKey+']').fadeOut('slow', function(){ $(this).remove(); });
 			}
 		
 			function toTrash(ticketKey){
-				var url = 'jogarNoLixo.action?ticketKey=' + ticketKey; 
+				var url = '${raiz}tickets/'+ticketKey+'/jogarNoLixo/'; 
 				$.post(url, {
 					success: function() {
 						apagarLinha(ticketKey);

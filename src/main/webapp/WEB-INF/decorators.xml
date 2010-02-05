@@ -1,7 +1,7 @@
 <decorators defaultdir="/commons/decorators">
     <excludes>
     	<pattern>/burndown/burndown.fullscreen.jsp</pattern>
-    	<pattern>/ticket/verDescricao.action*</pattern>
+    	<pattern>/tickets/**/descricao*</pattern>
     </excludes> 
     <decorator name="default" page="default.jsp">
         <pattern>/*</pattern>

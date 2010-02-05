@@ -15,6 +15,7 @@
 
 package br.com.bluesoft.pronto.controller
 
+
 import java.io.File
 import java.io.FileInputStream
 import java.util.ArrayList
@@ -159,7 +160,7 @@ class TicketController {
 			
 			tx.commit()
 			
-			return "redirect:editar.action?ticketKey=" + ticket.getTicketKey()
+			return "redirect:/tickets/${ticket.ticketKey}"
 		} catch ( Exception e) {
 			e.printStackTrace()
 			model.addAttribute("erro", e.getMessage())
@@ -212,7 +213,7 @@ class TicketController {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.LIXEIRA))
 		ticketDao.salvar(ticket)
-		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey
+		return "redirect:/tickets/${ticketKey}"
 	}
 	
 	@RequestMapping("/{ticketKey}/moverParaImpedimentos")
@@ -223,18 +224,18 @@ class TicketController {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS))
 		ticketDao.salvar(ticket)
-		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey
+		return "redirect:/tickets/${ticketKey}"
 	}
 	
 	@RequestMapping("/{ticketKey}/moverParaBranchMaster")
-	String moverParaBranchMaster( Model model,  @PathVariable int ticketKey,  HttpServletResponse response) throws SegurancaException {
+	void moverParaBranchMaster( Model model,  @PathVariable int ticketKey,  HttpServletResponse response) throws SegurancaException {
 		
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
 		
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		ticket.setBranch(Ticket.BRANCH_MASTER)
 		ticketDao.salvar(ticket)
-		return null
+		
 	}
 	
 	@RequestMapping("/{ticketKey}/moverParaProductBacklog")
@@ -256,11 +257,11 @@ class TicketController {
 		
 		ticket.setSprint(null)
 		ticketDao.salvar(ticket)
-		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey
+		return "redirect:/tickets/${ticketKey}"
 	}
 	
 	@RequestMapping("/{ticketKey}/moverParaSprintAtual")
-	String moverParaOSprintAtual( Model model,  int ticketKey,  HttpServletResponse response) throws ProntoException {
+	String moverParaOSprintAtual( Model model,  @PathVariable int ticketKey,  HttpServletResponse response) throws ProntoException {
 		
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
 		
@@ -274,7 +275,7 @@ class TicketController {
 		ticket.setSprint(sprintDao.getSprintAtual())
 		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG))
 		ticketDao.salvar(ticket)
-		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey
+		return "redirect:/tickets/${ticket.ticketKey}"
 		
 	}
 	
@@ -289,7 +290,7 @@ class TicketController {
 		ticket.setSprint(null)
 		ticketDao.salvar(ticket)
 		
-		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey
+		return "redirect:/tickets/${ticket.ticketKey}"
 	}
 	
 	@RequestMapping("/{ticketKey}/restaurar")
@@ -328,7 +329,7 @@ class TicketController {
 			}
 		}
 		
-		return "redirect:/ticket/editar.action?ticketKey=" + ticketKey
+		return "redirect:/tickets/${ticketKey}"
 	}
 	
 	@RequestMapping("/{ticketKey}/upload")
@@ -358,7 +359,7 @@ class TicketController {
 		
 		this.insereImagensNaDescricao(ticketKey, nomesDosArquivos)
 		
-		return "redirect:editar.action?ticketKey=" + ticketKey
+		return "redirect:/tickets/${ticketKey}"
 	}
 	
 	boolean ehUmNomeDeArquivoValido( String nomeDoArquivo) {
@@ -412,17 +413,10 @@ class TicketController {
 		
 	}
 	
-	@RequestMapping(value = "/{ticketKey}/{file}", method=DELETE)
-	String excluirAnexo( @PathVariable String file,  @PathVariable int ticketKey)  {
-		File arquivo = new File(Config.getImagesFolder() + ticketKey + "/" + file)
-		if (arquivo.exists()) {
-			arquivo.delete()
-		}
-		return "redirect:editar.action?ticketKey=" + ticketKey
-	}
 	
-	@RequestMapping(value = '/{ticketKey}/${file}', method = GET)
-	String download( HttpServletResponse response,  @PathVariable String file,  @PathVariable int ticketKey)  {
+	
+	@RequestMapping(value = '/{ticketKey}/anexos', method = GET)
+	String download( HttpServletResponse response,  String file,  @PathVariable int ticketKey)  {
 		
 		File arquivo = new File(Config.getImagesFolder() + ticketKey + "/" + file)
 		FileInputStream fis = new FileInputStream(arquivo)
@@ -458,8 +452,16 @@ class TicketController {
 		response.setContentType(mime)
 		response.setContentLength(bytes.length)
 		FileCopyUtils.copy(bytes, response.getOutputStream())
-		
 		return null
+	}
+	
+	@RequestMapping(value = "/{ticketKey}/anexos", method=DELETE)
+	String excluirAnexo(@PathVariable int ticketKey, String file)  {
+		File arquivo = new File(Config.getImagesFolder() + ticketKey + "/" + file)
+		if (arquivo.exists()) {
+			arquivo.delete()
+		}
+		return "redirect:/tickets/${ticketKey}"
 	}
 	
 	
@@ -515,19 +517,21 @@ class TicketController {
 		}
 	}
 	
-	@RequestMapping("/ticket/transformarEmEstoria.action")
-	String transformarEmEstoria( Model model,  int ticketKey) throws SegurancaException {
+	@RequestMapping("/{ticketKey}/transformarEmEstoria")
+	String transformarEmEstoria( Model model,  @PathVariable int ticketKey) {
 		
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
 		
 		Ticket ticket = ticketDao.obter(ticketKey)
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().createCriteria(TipoDeTicket.class).add(Restrictions.eq("tipoDeTicketKey", TipoDeTicket.ESTORIA)).uniqueResult())
 		ticketDao.salvar(ticket)
-		return "forward:/ticket/editar.action"
+		
+		return "redirect:/tickets/${ticketKey}"
+		
 	}
 	
-	@RequestMapping("/ticket/transformarEmDefeito.action")
-	String transformarEmDefeito( Model model,  int ticketKey) throws SegurancaException {
+	@RequestMapping("/{ticketKey}/transformarEmDefeito")
+	String transformarEmDefeito( Model model, @PathVariable @PathVariable int ticketKey)  {
 		
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
 		
@@ -539,7 +543,7 @@ class TicketController {
 			ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().createCriteria(TipoDeTicket.class).add(Restrictions.eq("tipoDeTicketKey", TipoDeTicket.DEFEITO)).uniqueResult())
 			ticketDao.salvar(ticket)
 		}
-		return "forward:/ticket/editar.action"
+		return "redirect:/tickets/${ticketKey}"
 	}
 	
 	@RequestMapping("/{ticketKey}/descricao")
@@ -583,6 +587,7 @@ class TicketController {
 		model.addAttribute("testadores", usuarioDao.listarEquipe())
 		model.addAttribute("desenvolvedores", usuarioDao.listarEquipe())
 		model.addAttribute("kanbanStatus", kanbanStatusDao.listar())
+
 		return VIEW_EDITAR
 	}
 	
@@ -619,7 +624,7 @@ class TicketController {
 	}
 	
 	@RequestMapping(value="/{pai}/ordenar", method=POST)
-	void alterarOrdem( int pai,  int[] ticketKey) {
+	void alterarOrdem(@PathVariable int pai,  int[] ticketKey) {
 		Ticket ticketPai = ticketDao.obterComDependecias(pai)
 		int prioridade = 0
 		for ( int filhoKey : ticketKey) {

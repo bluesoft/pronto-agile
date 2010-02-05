@@ -27,6 +27,7 @@ import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping
 
 import br.com.bluesoft.pronto.SegurancaException
@@ -38,8 +39,10 @@ import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.model.Sprint
 import br.com.bluesoft.pronto.model.Ticket
 import br.com.bluesoft.pronto.service.Seguranca
+import static org.springframework.web.bind.annotation.RequestMethod.*
 
 @Controller
+@RequestMapping("/kanban")
 public class KanbanController {
 	
 	private static final String VIEW_KANBAN = "/kanban/kanban.kanban.jsp"
@@ -52,10 +55,16 @@ public class KanbanController {
 	
 	@Autowired KanbanStatusDao kanbanStatusDao
 	
-	@RequestMapping("/kanban/kanban.action")
-	String index(final Model model, Sprint sprint) throws SegurancaException {
+	
+	@RequestMapping(value= '/{sprintKey}', method = GET)
+	String index(final Model model, @PathVariable int sprintKey) {
+		index model, new Sprint(sprintKey: sprintKey)
+	}
+	
+	@RequestMapping(method = GET)
+	String index(final Model model, Sprint sprint) {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
 		if (sprint == null || sprint.sprintKey == 0) {
 			sprint = sprintDao.getSprintAtualComTickets()
@@ -86,9 +95,7 @@ public class KanbanController {
 		return mapaDeQuantidades;
 	}
 	
-	
-	
-	@RequestMapping("/kanban/mover.action")
+	@RequestMapping("/mover")
 	void mover(final Model model, final int ticketKey, final int kanbanStatusKey) throws SegurancaException {
 		
 		Seguranca.validarPermissao(Papel.EQUIPE)

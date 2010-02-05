@@ -3,7 +3,7 @@ var pronto = pronto ? pronto : {};
 pronto.kanban = {
 		
 	startup: function(){
-		this.urlMover = pronto.raiz + 'kanban/mover.action';
+		this.urlMover = pronto.raiz + 'kanban/mover';
 		this.setDragAndDrop();
 	},
 
@@ -38,11 +38,11 @@ pronto.kanban = {
 	},
 	
 	openTicket: function (ticketKey) {
-		openWindow(pronto.raiz + 'ticket/editar.action?ticketKey=' + ticketKey);
+		openWindow(pronto.raiz + 'tickets/' + ticketKey);
 	},
 
 	recarregar: function (sprintKey) {
-		goTo(pronto.raiz + '$kanban/kanban.action?sprintKey=' + sprintKey);
+		goTo(pronto.raiz + 'kanban/' + sprintKey);
 	}
 		
 };

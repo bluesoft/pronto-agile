@@ -1,7 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="editarTicketUrl" value="/ticket/editar.action"/>
-<c:url var="verDescricaoUrl" value="/ticket/verDescricao.action"/>
-<c:url var="buscarUrl" value="/buscar.action"/>
+<c:url var="buscarUrl" value="/buscar"/>
 <html>
 	<head>
 		<title>Busca</title>
@@ -13,7 +11,7 @@
 
 		function verDescricao(ticketKey) {
 			$.ajax({
-				url: '${verDescricaoUrl}?ticketKey=' + ticketKey,
+				url: '${raiz}tickets/'+ ticketKey + '/descricao',
 				cache: false,
 				success: function (data) {
 					$("#dialog").dialog('option', 'title', '#' + ticketKey + ' - ' + $('#' + ticketKey + ' .titulo').text());
@@ -24,16 +22,26 @@
 		}
 
 		function recarregar() {
-			var parametros = $('#formBuscaAvancada').serialize();
-			goTo('${buscarUrl}?' + parametros);
+			var parametros = $('#formBuscaAvancada').serializeArray();
+			var query = $('#query').val();
+			pronto.doPost('${buscarUrl}/' + query, parametros);
 		}
-		
+
+		$(function(){
+			$('#query').keypress(function(e) {
+				 if (e.keyCode == 13) {
+					 recarregar();
+					 return false;
+				 }
+			});
+		});
+
 		</script>
 	</head>
 	<body>
 		<h1>Resultado da Busca</h1>
 		
-		<form action="${buscarUrl}" id="formBuscaAvancada">
+		<form id="formBuscaAvancada">
 			<div align="right">
 				Busca:
 					<input type="text" name="query" value="${query}" id="query"/>
@@ -98,7 +106,7 @@
 						<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
 					</td>
 					<td>
-						<a href="${editarTicketUrl}?ticketKey=${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+						<a href="${raiz}tickets/${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 					</td>
 				</tr>
 			</c:forEach>

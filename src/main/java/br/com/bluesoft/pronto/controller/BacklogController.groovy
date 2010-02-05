@@ -101,7 +101,7 @@ class BacklogController {
 	
 	@RequestMapping("/clientes")
 	String listarTicketsPendentesPorCliente( Model model) {
-		return listarTicketsPendentesPorCliente(model, null, null, null, null)
+		return listarTicketsPendentesPorCliente(model, null, -1, null, null)
 		
 	}
 	
