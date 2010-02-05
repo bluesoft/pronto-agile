@@ -21,17 +21,25 @@
 }
 
 .bug {
-	background-color: #FFCCCC;
+	background-color: #ffe3e3;
+	border-color: #ffcccc;
+	color: #a64242;
+	border-width: 1px;
+	border-style: solid;
 }
 
 .story {
-	background-color: #FFFF99;
+	background-color: #e8f4d9;
+	border-color: #d3e8ba;
+	color: #468a37;
+	border-width: 1px;
+	border-style: solid;
 }
 
 .task {
+	background-color: #ebf6ff;
 	border-color: #c3e5ff;
+	color: #3977a6;
 	border-width: 1px;
 	border-style: solid;
-	color: #3977a6;
-	background-color: #ebf6ff;
 }
