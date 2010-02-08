@@ -56,18 +56,13 @@
 					<groupId>javax.transaction</groupId>
 				</exclusion>
 			</exclusions>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-commons-annotations</artifactId>
 			<version>${hibernate.commons.annotations.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -81,6 +76,14 @@
 					<groupId>javax.persistence</groupId>
 				</exclusion>
 			</exclusions>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -297,19 +300,6 @@
 			</exclusions>
 			<scope>provided</scope>
 		</dependency>
-
-		<!-- 
-		<dependency>
-			<groupId>org.codehaus.groovy.maven</groupId>
-			<artifactId>gmaven-mojo</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.groovy.maven.runtime</groupId>
-			<artifactId>gmaven-runtime-1.6</artifactId>
-			<version>1.0</version>
-		</dependency>
-		 -->
 
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
