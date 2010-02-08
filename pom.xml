@@ -34,6 +34,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<sourceEncoding>ISO-8859-1</sourceEncoding>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
