@@ -31,11 +31,6 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- STARTUP -->
-	<listener>
-		<listener-class>br.com.bluesoft.pronto.service.StartupListener</listener-class>
-	</listener>
-
 	<!-- REST FILTER (PUT AND DELETE) _method attribute -->
 	<filter>
 		<filter-name>httpMethodFilter</filter-name>
