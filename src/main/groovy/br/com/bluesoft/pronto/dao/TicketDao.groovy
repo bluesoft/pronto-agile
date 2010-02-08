@@ -115,7 +115,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 			if (ticket.temFilhos()) {
 				ticket.setEsforco(ticket.getSomaDoEsforcoDosFilhos());
 
-				for (final Ticket filho : ticket.getFilhos()) {
+				for (Ticket filho : ticket.getFilhos()) {
 					if (!filho.isImpedido() && !filho.isLixo()) {
 						filho.setBacklog(ticket.getBacklog());
 					}
@@ -336,8 +336,8 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
 
-		final List<Ticket> lista = getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA }).list();
-
+		final List<Ticket> lista = getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA ]).list();
+		
 		final List<Comparator> comparators = new ArrayList<Comparator>();
 		comparators.add(new ReverseComparator(new BeanComparator("valorDeNegocio")));
 		comparators.add(new ReverseComparator(new BeanComparator("esforco")));
@@ -363,7 +363,7 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		builder.append(" where t.sprint.sprintKey = :sprintKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
 
-		final List<Ticket> lista = getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).setParameterList("tipos", new Integer[] { TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO }).list();
+		final List<Ticket> lista = getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO ]).list();
 
 		final List<Comparator> comparators = new ArrayList<Comparator>();
 		comparators.add(new ReverseComparator(new BeanComparator("valorDeNegocio")));
@@ -394,7 +394,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setInteger("tipoTarefa", TipoDeTicket.TAREFA).list();
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Ticket> listarTicketsQueNaoEstaoNoBranchMaster() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
@@ -406,7 +405,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Ticket> listarPorCliente(final int clienteKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");

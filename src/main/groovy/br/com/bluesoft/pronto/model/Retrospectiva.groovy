@@ -58,14 +58,8 @@ class Retrospectiva {
 	@JoinColumn(name = "TIPO_RETROSPECTIVA_KEY")
 	TipoRetrospectiva tipoRetrospectiva
 	
-	RetrospectivaItem getItemPorKey(final int retrospectivaItemKey) {
-		return Iterables.<RetrospectivaItem> find(itens, new Predicate<RetrospectivaItem>() {
-			
-			@Override
-			boolean apply(final RetrospectivaItem i) {
-				return i.getRetrospectivaItemKey() == retrospectivaItemKey
-			}
-		})
+	RetrospectivaItem getItemPorKey(int retrospectivaItemKey) {
+		itens.find { it.retrospectivaItemKey == retrospectivaItemKey }
 	}
 	
 	

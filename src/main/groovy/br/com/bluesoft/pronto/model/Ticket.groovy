@@ -363,7 +363,7 @@ class Ticket {
 		return menorPrioridade
 	}
 	
-	public List<Ticket> getFilhos() {
+	List<Ticket> getFilhos() {
 		return filhos;
 	}
 	

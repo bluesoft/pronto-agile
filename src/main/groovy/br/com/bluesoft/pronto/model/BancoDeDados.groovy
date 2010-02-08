@@ -46,21 +46,12 @@ class BancoDeDados {
 	@OneToMany(mappedBy = "bancoDeDados", cascade = CascadeType.REMOVE)
 	Set<Execucao> execucoes
 	
-	@Override
 	String toString() {
-		return this.nome
+		this.nome
 	}
 	
 	List<Execucao> getExecucoesPendentes() {
-		
-		return Lists.newArrayList(Iterables.filter(execucoes, new Predicate<Execucao>() {
-			
-			@Override
-			boolean apply(final Execucao input) {
-				return input.getData() == null
-			}
-		}))
-		
+		execucoes.findAll { it.data == null }
 	}
 	
 }

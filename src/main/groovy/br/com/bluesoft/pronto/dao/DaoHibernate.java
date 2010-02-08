@@ -21,6 +21,7 @@
 package br.com.bluesoft.pronto.dao;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -29,13 +30,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class DaoHibernate<T, K extends Serializable> {
 
-	@Autowired
-	private SessionFactory sessionFactory;
-	private final Class<T> clazz;
+	@SuppressWarnings("unchecked")
+	public DaoHibernate() {
+		this.clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	}
 
 	public DaoHibernate(final Class<T> clazz) {
 		this.clazz = clazz;
 	}
+
+	@Autowired
+	private SessionFactory sessionFactory;
+	private final Class<T> clazz;
 
 	protected Session getSession() {
 		return sessionFactory.getCurrentSession();

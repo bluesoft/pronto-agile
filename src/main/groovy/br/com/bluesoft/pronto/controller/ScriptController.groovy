@@ -68,9 +68,9 @@ class ScriptController {
 			if (situacao == 0) {
 				scripts = todosOsScripts.iterator()
 			} else if (situacao == 1) {
-				scripts = Iterables.filter(todosOsScripts, filterPendente).iterator()
+				scripts = todosOsScripts.findAll { Script it -> !it.isTudoExecutado() }
 			} else {
-				scripts = Iterables.filter(todosOsScripts, filterExecutado).iterator()
+				scripts = todosOsScripts.findAll { Script it -> it.isTudoExecutado() }
 			}
 		} else {
 			scripts = Iterables.filter(todosOsScripts, filterPendente).iterator()
@@ -165,23 +165,5 @@ class ScriptController {
 		Script script = scriptDao.obter(scriptKey)
 		String.format("{descricao: '%s', script: '%s'}", script.descricao, JavaScriptUtils.javaScriptEscape(script.script))
 	}
-	
-	private  Predicate<Script> filterPendente = new Predicate<Script>() {
 		
-		@Override
-		boolean apply( Script script) {
-			return !script.isTudoExecutado()
-		}
-		
-	}
-	
-	private  Predicate<Script> filterExecutado = new Predicate<Script>() {
-		
-		@Override
-		boolean apply( Script script) {
-			return script.isTudoExecutado()
-		}
-		
-	}
-	
 }
