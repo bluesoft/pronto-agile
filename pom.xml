@@ -56,7 +56,6 @@
 					<groupId>javax.transaction</groupId>
 				</exclusion>
 			</exclusions>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -82,7 +81,6 @@
 					<groupId>javax.persistence</groupId>
 				</exclusion>
 			</exclusions>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
