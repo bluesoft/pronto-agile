@@ -22,21 +22,20 @@ package br.com.bluesoft.pronto.dao;
 
 import java.util.List;
 
-import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
 
-import br.com.bluesoft.pronto.core.KanbanStatus;
+import br.com.bluesoft.pronto.model.Execucao;
 
 @Repository
-public class KanbanStatusDao extends DaoHibernate<KanbanStatus, Integer> {
+public class ExecucaoDao extends DaoHibernate<Execucao, Integer> {
 
-	public KanbanStatusDao() {
-		super(KanbanStatus.class);
+	public ExecucaoDao() {
+		super(Execucao.class);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<KanbanStatus> listar() {
-		return getSession().createCriteria(KanbanStatus.class).addOrder(Order.asc("kanbanStatusKey")).list();
+	public List<Execucao> listar(final Integer[] execucaoKey) {
+		final String hql = "select e from Execucao e inner join fetch e.script where e.execucaoKey in ( :execucaoKey )";
+		return getSession().createQuery(hql).setParameterList("execucaoKey", execucaoKey).list();
 	}
+
 }

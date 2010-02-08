@@ -18,11 +18,11 @@
  *
  */
 
-package br.com.bluesoft.pronto.service;
+package br.com.bluesoft.pronto.service
 
-import info.bliki.wiki.model.WikiModel;
+import info.bliki.wiki.model.WikiModel
 
-import org.springframework.web.util.JavaScriptUtils;
+import org.springframework.web.util.JavaScriptUtils
 
 class WikiFormatter {
 	

@@ -35,9 +35,9 @@ import br.com.bluesoft.pronto.dao.UsuarioDao;
 @RequestMapping("/backlogs")
 class BacklogController {
 	
-	public static final String VIEW_LISTAR = "/ticket/ticket.listar.jsp"
-	public static final String VIEW_LISTAR_AGRUPADO = "/ticket/ticket.listarAgrupado.jsp"
-	public static final String VIEW_ESTIMAR = "/ticket/ticket.estimar.jsp"
+	private static final String VIEW_LISTAR = "/ticket/ticket.listar.jsp"
+	private static final String VIEW_LISTAR_AGRUPADO = "/ticket/ticket.listarAgrupado.jsp"
+	private static final String VIEW_ESTIMAR = "/ticket/ticket.estimar.jsp"
 		
 	@Autowired ClienteDao clienteDao
 	@Autowired SessionFactory sessionFactory

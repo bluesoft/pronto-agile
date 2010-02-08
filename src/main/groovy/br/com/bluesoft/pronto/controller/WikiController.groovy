@@ -18,19 +18,20 @@
  *
  */
 
-package br.com.bluesoft.pronto.web.listener;
+package br.com.bluesoft.pronto.controller
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import javax.servlet.http.HttpServletResponse
 
-public class StartupListener implements ServletContextListener {
+import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.RequestMapping
+import br.com.bluesoft.pronto.service.WikiFormatter
 
-	public void contextInitialized(final ServletContextEvent sce) {
+@Controller
+class WikiController {
 
+	@RequestMapping("/wiki/parse.action")
+	public String parse(final HttpServletResponse response, final String data) throws Exception {
+		response.getOutputStream().print(WikiFormatter.toHtml(data))
+		return null
 	}
-
-	public void contextDestroyed(final ServletContextEvent sce) {
-
-	}
-
 }

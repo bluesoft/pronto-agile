@@ -608,12 +608,14 @@ class TicketController {
 			model.addAttribute("tipoDeTicketKey", tipoDeTicketKey)
 		}
 		
-		model.addAttribute("clientes", clienteDao.listar())
-		model.addAttribute("testadores", usuarioDao.listarEquipe())
-		model.addAttribute("desenvolvedores", usuarioDao.listarEquipe())
-		model.addAttribute("kanbanStatus", kanbanStatusDao.listar())
+		def equipe = usuarioDao.listarEquipe()
+		
+		model.addAttribute "clientes", clienteDao.listar()
+		model.addAttribute "testadores", equipe 
+		model.addAttribute "desenvolvedores", equipe
+		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
 
-		return VIEW_EDITAR
+		VIEW_EDITAR
 	}
 	
 	@RequestMapping("/{paiKey}/incluirTarefa")

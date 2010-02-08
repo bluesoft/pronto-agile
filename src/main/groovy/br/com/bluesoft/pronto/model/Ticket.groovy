@@ -68,7 +68,7 @@ class Ticket {
 	@GeneratedValue(generator = "SEQ_TICKET")
 	int ticketKey
 	
-	@Label("título")
+	@Label("titulo")
 	String titulo
 	
 	@Label("backlog")
@@ -86,7 +86,7 @@ class Ticket {
 	@Label("tipo de ticket")
 	TipoDeTicket tipoDeTicket
 	
-	@Label("descrição")
+	@Label("descricao")
 	String descricao
 	
 	@ManyToOne

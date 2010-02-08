@@ -18,21 +18,25 @@
  *
  */
 
-package br.com.bluesoft.pronto.controller;
+package br.com.bluesoft.pronto.dao;
 
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.hibernate.criterion.Order;
+import org.springframework.stereotype.Repository;
 
-import br.com.bluesoft.pronto.service.WikiFormatter;
+import br.com.bluesoft.pronto.core.KanbanStatus;
 
-@Controller
-public class WikiController {
+@Repository
+public class KanbanStatusDao extends DaoHibernate<KanbanStatus, Integer> {
 
-	@RequestMapping("/wiki/parse.action")
-	public String parse(final HttpServletResponse response, final String data) throws Exception {
-		response.getOutputStream().print(WikiFormatter.toHtml(data));
-		return null;
+	public KanbanStatusDao() {
+		super(KanbanStatus.class);
 	}
+
+	@Override
+	public List<KanbanStatus> listar() {
+		return getSession().createCriteria(KanbanStatus.class).addOrder(Order.asc("kanbanStatusKey")).list();
+	}
+	
 }

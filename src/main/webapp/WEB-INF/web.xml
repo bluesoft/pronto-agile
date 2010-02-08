@@ -33,7 +33,7 @@
 
 	<!-- STARTUP -->
 	<listener>
-		<listener-class>br.com.bluesoft.pronto.web.listener.StartupListener</listener-class>
+		<listener-class>br.com.bluesoft.pronto.service.StartupListener</listener-class>
 	</listener>
 
 	<!-- REST FILTER (PUT AND DELETE) _method attribute -->

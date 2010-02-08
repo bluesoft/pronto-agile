@@ -27,7 +27,7 @@
 			</div>
 
 			<div align="center">
-				<button type="button" onclick="goTo('editar.action?ticketKey=${log.ticket.ticketKey}');">Voltar</button>
+				<button type="button" onclick="goTo('${raiz}tickets/${log.ticket.ticketKey}');">Voltar</button>
 			</div>
 	</body>
 </html>

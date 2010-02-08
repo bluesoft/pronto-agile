@@ -28,8 +28,6 @@ import com.google.common.collect.ImmutableSet
 
 class Anexo implements Serializable {
 	
-	public static final long serialVersionUID = 1L
-	
 	final String nomeCompleto
 	final String nomeDoArquivo
 	final String nomeParaExibicao

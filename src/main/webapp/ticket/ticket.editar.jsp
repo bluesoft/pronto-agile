@@ -318,7 +318,6 @@
 					<p>Esforço</p>
 				</div>
 				
-				
 				<c:if test="${ticket.tarefa or empty ticket.filhos}">
 					<div>
 						<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
@@ -461,8 +460,8 @@
 						<fmt:formatDate value="${log.data}" pattern="dd/MM/yyyy" var="dataGrupo"/>
 					</c:if>
 					<c:choose>
-						<c:when test="${log.campo eq 'descrição'}">
-							<li><fmt:formatDate value="${log.data}" pattern="HH:mm"/> - ${log.usuario} - Descrição Alterada <a href="logDescricao.action?ticketHistoryKey=${log.ticketHistoryKey}">(ver)</a></li>
+						<c:when test="${log.campo eq 'descrição' or log.campo eq 'descricao'}">
+							<li><fmt:formatDate value="${log.data}" pattern="HH:mm"/> - ${log.usuario} - Descrição Alterada <a href="${raiz}tickets/${ticket.ticketKey}/log/${log.ticketHistoryKey}">(ver)</a></li>
 						</c:when>
 						<c:otherwise>
 							<li><fmt:formatDate value="${log.data}" pattern="HH:mm"/> - ${log.descricaoSemData}</li>
@@ -475,5 +474,6 @@
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>
+		
 	</body>
 </html>

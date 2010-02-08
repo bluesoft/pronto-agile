@@ -13,6 +13,7 @@ public class ProntoWikiModel extends WikiModel {
 	}
 	
 	public void appendInternalImageLink(String link, String raw, ImageFormat img) {
+		
 		link = "../tickets/" + link.replaceAll(".*Image:(.*)?\\/.*", "$1") + "/anexos?file=" + link.replaceAll(".*Image:.*?\\/(.*)", "$1");  
 		super.appendInternalImageLink(link, raw, img);
 	}

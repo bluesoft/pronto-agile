@@ -18,25 +18,19 @@
  *
  */
 
-package br.com.bluesoft.pronto.dao;
+package br.com.bluesoft.pronto.service;
 
-import java.util.List;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
-import org.springframework.stereotype.Repository;
+public class StartupListener implements ServletContextListener {
 
-import br.com.bluesoft.pronto.model.Execucao;
+	public void contextInitialized(final ServletContextEvent sce) {
 
-@Repository
-public class ExecucaoDao extends DaoHibernate<Execucao, Integer> {
-
-	public ExecucaoDao() {
-		super(Execucao.class);
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Execucao> listar(final Integer[] execucaoKey) {
-		final String hql = "select e from Execucao e inner join fetch e.script where e.execucaoKey in ( :execucaoKey )";
-		return getSession().createQuery(hql).setParameterList("execucaoKey", execucaoKey).list();
+	public void contextDestroyed(final ServletContextEvent sce) {
+
 	}
 
 }

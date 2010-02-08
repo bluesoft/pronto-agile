@@ -34,9 +34,7 @@ import org.springframework.util.FileCopyUtils;
 
 import br.com.bluesoft.pronto.service.Config;
 
-public class FileServlet extends HttpServlet {
-
-	private static final long serialVersionUID = 1L;
+class FileServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
@@ -45,13 +43,13 @@ public class FileServlet extends HttpServlet {
 
 			final String url = request.getRequestURI();
 			final String path = url.substring(url.indexOf("file/"));
-			final String file = path.replaceAll("(.*)/", "");
-			final String ticketKey = path.replaceAll("(.*)(/)(.*)(/)(.*)", "$3");
+			final String file = path.replaceAll('(.*)/', '');
+			final String ticketKey = path.replaceAll('(.*)(/)(.*)(/)(.*)', '$3');
 
 			final File arquivo = new File(Config.getImagesFolder() + ticketKey + "/" + file);
 			final FileInputStream fis = new FileInputStream(arquivo);
 			final int numberBytes = fis.available();
-			final byte bytes[] = new byte[numberBytes];
+			final byte[] bytes = new byte[numberBytes];
 			fis.read(bytes);
 			fis.close();
 
