@@ -23,6 +23,7 @@
 			<plugin>
 				<groupId>org.codehaus.groovy.maven</groupId>
 				<artifactId>gmaven-plugin</artifactId>
+				<version>1.0</version>
 				<executions>
 					<execution>
 						<goals>
@@ -35,16 +36,6 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.groovy.maven</groupId>
-					<artifactId>gmaven-plugin</artifactId>
-					<version>1.0</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-
 	</build>
 
 	<dependencies>
@@ -198,7 +189,6 @@
 		</dependency>
 
 
-
 		<dependency>
 			<groupId>opensymphony</groupId>
 			<artifactId>sitemesh</artifactId>
@@ -222,19 +212,20 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<version>2.4</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>2.1</version>
+			<version>2.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<version>1.1.2</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Wiki API -->
