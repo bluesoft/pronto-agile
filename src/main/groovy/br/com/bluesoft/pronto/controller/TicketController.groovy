@@ -18,6 +18,7 @@ package br.com.bluesoft.pronto.controller
 
 import java.io.File
 import java.io.FileInputStream
+import java.io.FileNotFoundException;
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.Collections
@@ -33,6 +34,7 @@ import org.apache.commons.fileupload.FileItem
 import org.apache.commons.fileupload.FileItemFactory
 import org.apache.commons.fileupload.disk.DiskFileItemFactory
 import org.apache.commons.fileupload.servlet.ServletFileUpload
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils
 import org.hibernate.SessionFactory
 import org.hibernate.Transaction
@@ -433,7 +435,15 @@ class TicketController {
 	@RequestMapping(value = '/{ticketKey}/anexos', method = GET)
 	String download( HttpServletResponse response,  String file,  @PathVariable int ticketKey)  {
 		
-		File arquivo = new File(Config.getImagesFolder() + ticketKey + "/" + file)
+		File arquivo = null
+		
+		try {
+			arquivo = new File(Config.getImagesFolder() + ticketKey + "/" + file)
+			if (!arquivo.exists()) throw new FileNotFoundException()
+		} catch(e) {
+			arquivo = new File(this.getClass().getResource("/noimage.gif").getFile())
+		}
+		
 		FileInputStream fis = new FileInputStream(arquivo)
 		int numberBytes = fis.available()
 		byte[] bytes = new byte[numberBytes]
