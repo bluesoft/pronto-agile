@@ -20,6 +20,8 @@
 					<optimize>true</optimize>
 				</configuration>
 			</plugin>
+		</plugins>
+			<!--  
 			<plugin>
 				<groupId>org.codehaus.groovy.maven</groupId>
 				<artifactId>gmaven-plugin</artifactId>
@@ -44,7 +46,8 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
+		-->
+		
 	</build>
 
 	<dependencies>
@@ -306,6 +309,8 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<!-- 
 		<dependency>
 			<groupId>org.codehaus.groovy.maven</groupId>
 			<artifactId>gmaven-mojo</artifactId>
@@ -316,11 +321,14 @@
 			<artifactId>gmaven-runtime-1.6</artifactId>
 			<version>1.0</version>
 		</dependency>
+		 -->
+		
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 			<version>1.7.0</version>
 		</dependency>
+		
 	</dependencies>
 
 
