@@ -27,7 +27,6 @@
 					<encoding>ISO-8859-1</encoding>
 				</configuration>
 			</plugin>
-			<!-- 
 			<plugin>
 				<groupId>org.codehaus.groovy.maven</groupId>
 				<artifactId>gmaven-plugin</artifactId>
@@ -46,7 +45,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			 -->
 		</plugins>
 	</build>
 
