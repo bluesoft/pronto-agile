@@ -99,7 +99,7 @@ class ExecucaoController {
 		
 		StringBuilder script = new StringBuilder()
 		
-		List<Execucao> execucoes = execucaoDao.listar(execucaoKey)
+		List<Execucao> execucoes = execucaoDao.listarPorKeys(execucaoKey)
 		for ( Execucao execucao : execucoes) {
 			script.append("/*").append(org.apache.commons.lang.StringUtils.center("", 80, '-')).append("*/").append("\n")
 			script.append("/*").append(org.apache.commons.lang.StringUtils.center(" " + execucao.getScript().getDescricao() + " ", 80, ' ')).append("*/").append("\n")

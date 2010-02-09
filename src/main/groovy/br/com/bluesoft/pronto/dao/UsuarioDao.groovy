@@ -30,7 +30,7 @@ import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.model.Usuario;
 
 @Repository
-public class UsuarioDao extends DaoHibernate<Usuario, String> {
+public class UsuarioDao extends DaoHibernate {
 
 	public UsuarioDao() {
 		super(Usuario.class);

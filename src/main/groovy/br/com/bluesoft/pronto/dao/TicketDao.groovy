@@ -1,18 +1,3 @@
-/*
- * Copyright 2009 Pronto Agile Project Management.
- * This file is part of Pronto.
- * Pronto is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Pronto is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License
- * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
- */
-
 package br.com.bluesoft.pronto.dao;
 
 import java.util.ArrayList;
@@ -39,7 +24,7 @@ import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.Seguranca;
 
 @Repository
-public class TicketDao extends DaoHibernate<Ticket, Integer> {
+public class TicketDao extends DaoHibernate {
 
 	@Override
 	public Ticket obter(final Integer ticketKey) {
@@ -189,7 +174,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Ticket> buscar(String busca, final Integer kanbanStatusKey, final Integer clienteKey, final TicketOrdem ordem, final Classificacao classificacao) {
 
 		final StringBuilder hql = new StringBuilder();
@@ -271,7 +255,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		return " order by " + hqlOrdem + hqlClassificacao;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Ticket> listarPorSprint(final int sprintKey) {
 
 		final StringBuilder builder = new StringBuilder();
@@ -297,7 +280,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		return ticketsNaoConcluidos;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Ticket> listarPorBacklog(final int backlogKey) {
 
 		final StringBuilder builder = new StringBuilder();
@@ -309,13 +291,11 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Usuario> listarDesenvolvedoresDoTicket(final int ticketKey) {
 		final String hql = "select t.desenvolvedores from Ticket t where t.ticketKey = :ticketKey";
 		return getSession().createQuery(hql).setInteger("ticketKey", ticketKey).list();
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Usuario> listarTestadoresDoTicket(final int ticketKey) {
 		final String hql = "select t.testadores from Ticket t where t.ticketKey = :ticketKey";
 		return getSession().createQuery(hql).setInteger("ticketKey", ticketKey).list();
@@ -325,7 +305,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		return listarEstoriasEDefeitosPorBacklog(Backlog.PRODUCT_BACKLOG);
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
@@ -349,7 +328,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey) {
 		final StringBuilder builder = new StringBuilder();
 
@@ -376,7 +354,6 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Ticket> listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(final int backlogKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");

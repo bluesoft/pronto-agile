@@ -1,17 +1,22 @@
 package br.com.bluesoft.pronto.dao
 
-import java.util.List
-
-import org.springframework.stereotype.Repository;
-
 import br.com.bluesoft.pronto.model.Execucao
 
-@Repository
-class ExecucaoDao extends DaoHibernate<Execucao, Integer> {
+import org.hibernate.Query;
+import org.springframework.stereotype.Repository
 
-	List<Execucao> listar(final Integer[] execucaoKey) {
+@Repository
+class ExecucaoDao extends DaoHibernate {
+	
+	ExecucaoDao() {
+		super(Execucao.class)
+	}
+	
+	List listarPorKeys(Collection keys) {
 		final String hql = 'select e from Execucao e inner join fetch e.script where e.execucaoKey in ( :execucaoKey )'
-		return getSession().createQuery(hql).setParameterList("execucaoKey", execucaoKey).list()
+		Query query = getSession().createQuery(hql)
+		query.setParameterList("execucaoKey", keys)
+		return query.list()
 	}
 
 }

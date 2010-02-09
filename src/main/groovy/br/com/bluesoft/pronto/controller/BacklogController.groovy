@@ -39,8 +39,8 @@ class BacklogController {
 	private static final String VIEW_LISTAR_AGRUPADO = "/ticket/ticket.listarAgrupado.jsp"
 	private static final String VIEW_ESTIMAR = "/ticket/ticket.estimar.jsp"
 		
-	@Autowired ClienteDao clienteDao
 	@Autowired SessionFactory sessionFactory
+	@Autowired ClienteDao clienteDao
 	@Autowired TicketDao ticketDao
 	@Autowired SprintDao sprintDao
 	@Autowired UsuarioDao usuarioDao
@@ -72,7 +72,7 @@ class BacklogController {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey)
+		List tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey)
 		model.addAttribute "tickets", tickets
 		model.addAttribute "sprint", sprintDao.obter(sprintKey)
 		model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
@@ -121,7 +121,7 @@ class BacklogController {
 			ticketClassificacao = Classificacao.valueOf(classificacao)
 		}
 		
-		List<Ticket> tickets = null
+		List tickets = null
 		tickets = ticketDao.buscar(null, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao)
 		
 		Multimap<String, Ticket> ticketsAgrupados = ArrayListMultimap.create()
@@ -153,7 +153,7 @@ class BacklogController {
 	@RequestMapping("/{backlogKey}/estimar")
 	String estimarBacklog( Model model, @PathVariable  int backlogKey) {
 		Seguranca.validarPermissao(Papel.EQUIPE, Papel.PRODUCT_OWNER)
-		List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey)
+		List tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey)
 		model.addAttribute("tickets", tickets)
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey))
 		return VIEW_ESTIMAR
@@ -174,14 +174,14 @@ class BacklogController {
 		return descricaoTotal.toString()
 	}
 	
-	Map<Integer, Integer> totaisPorTipoDeTicket( List<Ticket>... listas) {
+	Map<Integer, Integer> totaisPorTipoDeTicket( List... listas) {
 		Map<Integer, Integer> totais = new HashMap<Integer, Integer>()
 		totais.put(TipoDeTicket.DEFEITO, 0)
 		totais.put(TipoDeTicket.ESTORIA, 0)
 		totais.put(TipoDeTicket.TAREFA, 0)
 		totais.put(TipoDeTicket.IDEIA, 0)
 		
-		for ( List<Ticket> tickets : listas) {
+		for ( List tickets : listas) {
 			for ( Ticket ticket : tickets) {
 				totais.put(ticket.getTipoDeTicket().getTipoDeTicketKey(), totais.get(ticket.getTipoDeTicket().getTipoDeTicketKey()) + 1)
 				for ( Ticket tarefa : ticket.getFilhos()) {

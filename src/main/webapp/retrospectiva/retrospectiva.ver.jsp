@@ -63,7 +63,7 @@
 					url: '${raiz}retrospectivas/${retrospectiva.retrospectivaKey}',
 					'data': data,
 					success: callback,
-					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+					contentType: 'application/x-www-form-urlencoded; charset=ISO-8859-1',
 					async: false
 				});
 			}

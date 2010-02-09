@@ -1,60 +1,41 @@
-/*
- * Copyright 2009 Pronto Agile Project Management.
- *
- * This file is part of Pronto.
- *
- * Pronto is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Pronto is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-package br.com.bluesoft.pronto.dao;
+package br.com.bluesoft.pronto.dao
 
-import java.util.List;
+import java.util.List
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Repository
 
-import br.com.bluesoft.pronto.model.Execucao;
-import br.com.bluesoft.pronto.model.Script;
+import br.com.bluesoft.pronto.model.Execucao
+import br.com.bluesoft.pronto.model.Script
 
 @Repository
-public class ScriptDao extends DaoHibernate<Script, Integer> {
+public class ScriptDao extends DaoHibernate{
 	
 	public ScriptDao() {
-		super(Script.class);
+		super(Script.class)
 	}
 
 	public void removerExecucoesDoScript(final Script script) {
 		if (script.getExecucoes() != null) {
 			for (final Execucao execucao : script.getExecucoes()) {
-				removerExecucao(execucao);
+				removerExecucao(execucao)
 			}
 		}
 	}
 
 	public void removerExecucao(final Execucao execucao) {
-		final Script script = execucao.getScript();
-		script.removerExecucao(execucao);
-		getSession().delete(execucao);
+		final Script script = execucao.getScript()
+		script.removerExecucao(execucao)
+		getSession().delete(execucao)
 	}
 
 	public List<Script> listarComDependencias() {
-		String hql = "select distinct s from Script s ";
-		hql += " left join fetch s.execucoes e ";
-		hql += " left join fetch s.ticket t ";
-		hql += " left join fetch t.cliente as c ";
-		hql += " left join fetch e.bancoDeDados b ";
-		hql += " left join fetch e.usuario b ";
-		hql += " left join fetch t.kanbanStatus k";
-		return getSession().createQuery(hql).list();
+		String hql = "select distinct s from Script s "
+		hql += " left join fetch s.execucoes e "
+		hql += " left join fetch s.ticket t "
+		hql += " left join fetch t.cliente as c "
+		hql += " left join fetch e.bancoDeDados b "
+		hql += " left join fetch e.usuario b "
+		hql += " left join fetch t.kanbanStatus k"
+		return getSession().createQuery(hql).list()
 	}
 }
