@@ -60,7 +60,7 @@ class BurndownController {
 		
 		Seguranca.validarPermissao(Papel.EQUIPE, Papel.PRODUCT_OWNER, Papel.SCRUM_MASTER)
 
-		def sprint = null
+		Sprint sprint = null
 		
 		if (sprintKey == null) {
 			sprint = sprintDao.getSprintAtual();
@@ -73,9 +73,14 @@ class BurndownController {
 			sprint = sprintDao.obter(sprintKey)
 		}
 		
-		model.addAttribute("sprint", sprint)
-		
-		return "/burndown/burndown.burndown.jsp"
+		if (sprint.getMapaEsforcoPorDia().keySet().size() < 31) {
+			model.addAttribute("sprint", sprint)
+			return "/burndown/burndown.burndown.jsp"			
+		} else {
+			model.addAttribute("erro", 'Não é possível construir um burndown chart de um sprint com mais de 31 dias!')
+			return "/branca.jsp";
+		}
+
 	}
 	
 	@RequestMapping(value='/data/{sprintKey}',method=GET)

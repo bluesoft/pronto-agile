@@ -77,9 +77,8 @@ public class LoginFilter implements Filter {
 		final boolean isAccessDenied = isAccessDenied(request, logado);
 
 		if (isAccessDenied) {
-
 			if (!logado) {
-				
+				request.getSession().setAttribute 'lastRequestURI', request.getRequestURI()
 				response.sendRedirect(request.getContextPath() + LOGIN_URI);
 				return;
 			}

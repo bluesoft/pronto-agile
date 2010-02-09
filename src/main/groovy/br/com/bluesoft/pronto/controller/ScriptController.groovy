@@ -68,12 +68,12 @@ class ScriptController {
 			if (situacao == 0) {
 				scripts = todosOsScripts.iterator()
 			} else if (situacao == 1) {
-				scripts = todosOsScripts.findAll { Script it -> !it.isTudoExecutado() }
+				scripts = todosOsScripts.findAll { Script it -> !it.isTudoExecutado() }.iterator()
 			} else {
-				scripts = todosOsScripts.findAll { Script it -> it.isTudoExecutado() }
+				scripts = todosOsScripts.findAll { Script it -> it.isTudoExecutado() }.iterator()
 			}
 		} else {
-			scripts = Iterables.filter(todosOsScripts, filterPendente).iterator()
+			scripts = todosOsScripts.findAll { Script it -> !it.isTudoExecutado() }.iterator()
 		}
 		
 		model.addAttribute "situacao", situacao
