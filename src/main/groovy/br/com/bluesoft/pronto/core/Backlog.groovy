@@ -25,6 +25,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import br.com.bluesoft.pronto.model.Ticket;
 
@@ -38,44 +39,27 @@ public class Backlog {
 	public static final int LIXEIRA = 4;
 	public static final int IMPEDIMENTOS = 5;
 
-	public Backlog() {
+	Backlog() {
 
 	}
 
-	public Backlog(final int backlogKey) {
+	Backlog(final int backlogKey) {
 		this.backlogKey = backlogKey;
 	}
 
-	public Backlog(final int backlogKey, final String descricao) {
+	Backlog(final int backlogKey, final String descricao) {
 		this.backlogKey = backlogKey;
 		this.descricao = descricao;
 	}
 
 	@Id
-	private int backlogKey;
+	int backlogKey;
 
-	private String descricao;
+	String descricao;
 
 	@OneToMany(mappedBy = "backlog")
-	private List<Ticket> tickets;
+	List<Ticket> tickets;
 
-	public int getBacklogKey() {
-		return backlogKey;
-	}
-
-	public void setBacklogKey(final int backlogKey) {
-		this.backlogKey = backlogKey;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(final String descricao) {
-		this.descricao = descricao;
-	}
-
-	@Override
 	public String toString() {
 		return descricao;
 	}
@@ -87,8 +71,9 @@ public class Backlog {
 	public List<Ticket> getTickets() {
 		return tickets;
 	}
-
-	public double getEsforcoTotal() {
+	
+	@Transient
+	double getEsforcoTotal() {
 		double total = 0;
 		if (tickets != null) {
 			for (final Ticket ticket : tickets) {
@@ -99,8 +84,9 @@ public class Backlog {
 		}
 		return total;
 	}
-
-	public int getValorDeNegocioTotal() {
+	
+	@Transient
+	int getValorDeNegocioTotal() {
 		int total = 0;
 		if (tickets != null) {
 			for (final Ticket ticket : tickets) {
@@ -110,5 +96,20 @@ public class Backlog {
 			}
 		}
 		return total;
+	}
+	
+	@Transient
+	Integer getTempoDeVidaMedioEmDias() {
+		int total = 0
+		int quantidade = 0
+		if (tickets != null) {
+			for (final Ticket ticket : tickets) {
+				if (ticket.isDefeito() || ticket.isEstoria() || ticket.isIdeia()) {
+					quantidade++
+					total += ticket.getTempoDeVidaEmDias()
+				}
+			}
+		}
+		return total / quantidade;
 	}
 }

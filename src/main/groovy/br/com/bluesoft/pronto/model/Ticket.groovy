@@ -1,18 +1,3 @@
-/*
- * Copyright 2009 Pronto Agile Project Management.
- * This file is part of Pronto.
- * Pronto is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Pronto is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License
- * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
- */
-
 package br.com.bluesoft.pronto.model
 
 import java.util.ArrayList
@@ -33,6 +18,7 @@ import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.OrderBy
 import javax.persistence.SequenceGenerator
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade
 
@@ -42,6 +28,7 @@ import br.com.bluesoft.pronto.core.KanbanStatus
 import br.com.bluesoft.pronto.core.TipoDeTicket
 import br.com.bluesoft.pronto.service.Seguranca
 import br.com.bluesoft.pronto.service.WikiFormatter
+import br.com.bluesoft.pronto.util.DateUtil;
 
 import com.google.common.collect.HashMultiset
 import com.google.common.collect.Multiset
@@ -137,6 +124,9 @@ class Ticket {
 	@Label("data de pronto")
 	Date dataDePronto
 	
+	@Label("data da última alteração")
+	Date dataDaUltimaAlteracao
+	
 	@Label("data de criaçao")
 	Date dataDeCriacao
 	
@@ -202,6 +192,15 @@ class Ticket {
 	
 	Integer getPrioridade() {
 		return prioridade != null ? prioridade : 0
+	}
+	
+	@Transient
+	Integer getTempoDeVidaEmDias() {
+		if (dataDePronto) {
+			return dataDePronto - dataDeCriacao
+		} else {
+			return new Date() - dataDeCriacao
+		}
 	}
 	
 	@Override
@@ -319,13 +318,7 @@ class Ticket {
 		return backlog != null && backlog.getBacklogKey() == Backlog.IMPEDIMENTOS
 	}
 	
-	Date getDataDeCriacao() {
-		return dataDeCriacao
-	}
 	
-	void setDataDeCriacao(final Date dataDeCriacao) {
-		this.dataDeCriacao = dataDeCriacao
-	}
 	
 	boolean isTodosOsFilhosProntos() {
 		if (temFilhos()) {

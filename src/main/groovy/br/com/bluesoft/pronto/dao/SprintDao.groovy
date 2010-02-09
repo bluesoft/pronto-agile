@@ -70,7 +70,10 @@ public class SprintDao extends DaoHibernate{
 	}
 
 	private void preencheTotaisDeEsforcoEValorDeNegocioDoSprint(final Sprint sprint) {
-		final String sql = "select sprint, sum(t.valor_de_negocio) as valor_de_negocio_total, sum(t.esforco) as esforco_total from ticket t where t.sprint = :sprint and t.pai is null group by sprint"
+		final String sql = """  select sprint, sum(t.valor_de_negocio) as valor_de_negocio_total, 
+								sum(t.esforco) as esforco_total from ticket t 
+								where t.sprint = :sprint and t.pai is null group by sprint """
+		
 		final SQLQuery query = getSession().createSQLQuery(sql)
 		query.setInteger("sprint", sprint.getSprintKey())
 		query.addScalar("sprint", Hibernate.INTEGER)

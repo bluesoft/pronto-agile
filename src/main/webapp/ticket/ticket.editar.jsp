@@ -163,6 +163,7 @@
 				${ticket.html}
 			</div>
 		</c:if>
+		
 		<c:if test="${!empty ticket.comentarios}">
 			<h3>Comentários</h3>
 			<c:forEach items="${ticket.comentarios}" var="comentario">
@@ -174,7 +175,6 @@
 			</c:forEach>
 			<br/>
 		</c:if>
-			
 			
 		<form action="${raiz}tickets" method="post" id="formTicket">
 			<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
@@ -190,12 +190,14 @@
 				<h3>Tarefas</h3>
 				<ul style="width: 100%; font-size: 12px;" id="tarefas">
 					<c:forEach items="${ticket.filhos}" var="filho">
-						<li class="ui-state-default" id="${filho.ticketKey}">
+						<c:set var="cssClass" value="${filho.dataDePronto eq null ? 'ui-state-default': 'ui-state-disabled'}"/>
+						<li class="${cssClass}" id="${filho.ticketKey}">
 							<span style="float: left;">
 								<b>${filho.ticketKey}</b>
 								<span class="titulo">${filho.titulo}</span>
 							</span>
 							<span style="float: right;">
+								${filho.kanbanStatus.descricao}
 								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${filho.ticketKey});"/>
 								<a href="${raiz}tickets/${filho.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 							</span>
@@ -283,13 +285,17 @@
 					<form:hidden path="ticket.reporter.username"/><br/>
 					<p>Reporter ${ticket.reporter.nome}</p> 
 				</div>
+				
 				<c:if test="${ticket.ticketKey gt 0}">
+					
 					<div>
 						<b><fmt:formatDate value="${ticket.dataDeCriacao}" type="both" var="dataDeCriacao"/></b>
 						<input type="hidden" name="dataDeCriacao" value="${dataDeCriacao}">
 						<p>Data de Criação</p> 
 					</div>
+					
 				</c:if>
+				
 				<c:if test="${!ticket.tarefa}">
 					<div>
 						<c:choose>
@@ -366,6 +372,17 @@
 					<input type="text" value="${dataDePronto}" name="dataDePronto"/>
 					<p>Data de Pronto</p>
 				</div>
+				
+				<c:if test="${ticket.ticketKey gt 0}">
+					<div>
+						<b>${ticket.tempoDeVidaEmDias}</b>
+						<p>Tempo de Vida em Dias</p>
+					<div>
+					<div>
+						<b><fmt:formatDate value="${ticket.dataDaUltimaAlteracao}" pattern="dd/MM/yyyy HH:mm:ss"/></b>
+						<p>Data da Última Alteração</p>
+					<div>
+				</c:if>
 				
 				<c:if test="${ticket.tarefa}">
 					<form:hidden path="ticket.prioridade"/><br/>

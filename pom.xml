@@ -27,7 +27,6 @@
 					<encoding>ISO-8859-1</encoding>
 				</configuration>
 			</plugin>
-			<!-- 
 			<plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
@@ -79,9 +78,6 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
-			
-			
 		</plugins>
 	</build>
 

@@ -98,6 +98,7 @@
 				<th>Valor de Negócio</th>
 				<th>Esforço</th>
 				<th>Status</th>
+				<th title="Tempo de Vida em Dias">LifeTime</th>
 				<th style="width: 128px" colspan="8"></th>
 			</tr>
 			<c:forEach items="${tickets}" var="t">
@@ -110,6 +111,7 @@
 					<td class="valorDeNegocio">${t.valorDeNegocio}</td>
 					<td class="esforco">${t.esforco}</td>
 					<td>${t.kanbanStatus.descricao}</td>
+					<td>${t.tempoDeVidaEmDias}</td>
 					<td>
 						<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 3) and usuarioLogado.productOwner}">
 							<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="pronto.moverParaProductBacklog(${t.ticketKey},true)"></pronto:icons>
@@ -160,6 +162,7 @@
 							<td style="color:gray;" class="valorDeNegocio"></td>
 							<td style="color:gray;"class="esforco">${f.esforco}</td>
 							<td>${f.kanbanStatus.descricao}</td>
+							<td>-</td>
 							<td></td>
 							<td></td>
 							<td>
@@ -204,6 +207,7 @@
 						<td style="color:gray;" class="valorDeNegocio">${s.valorDeNegocio}</td>
 						<td style="color:gray;"class="esforco">${s.esforco}</td>
 						<td>${s.kanbanStatus.descricao}</td>
+						<td>-</td>
 						<td></td>
 						<td></td>
 						<td>
@@ -236,7 +240,9 @@
 				<th colspan="4">Total</th>
 				<th id="somaValorDeNegocio">${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
 				<th id="somaEsforco">${sprint.esforcoTotal}${backlog.esforcoTotal}</th>
-				<th colspan="9"></th>
+				<th></th>
+				<th id="tempoDeVidaMedio">${sprint.tempoDeVidaMedioEmDias}${backlog.tempoDeVidaMedioEmDias}</th>
+				<th colspan="8"></th>
 			</tr>
 			<tr>
 				<td colspan="15"><i>* ${descricaoTotal}</i></td>

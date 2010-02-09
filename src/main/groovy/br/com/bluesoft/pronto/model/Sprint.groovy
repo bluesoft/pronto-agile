@@ -15,6 +15,7 @@
 
 package br.com.bluesoft.pronto.model
 
+import java.math.RoundingMode;
 import java.util.ArrayList
 import java.util.Collection;
 import java.util.Collections
@@ -199,5 +200,21 @@ public class Sprint {
 		}
 		return mapaPorEtapa
 	}
-
+	
+	@Transient
+	Integer getTempoDeVidaMedioEmDias() {
+		
+		def quantidade = 0
+		def total = 0
+		
+		for (Ticket t: tickets) {
+			if (!t.isTarefa()) {
+				quantidade++
+				total += t.getTempoDeVidaEmDias()
+			}
+		}
+		
+		return (total / quantidade).setScale(2, RoundingMode.HALF_UP)
+	}
+	
 }

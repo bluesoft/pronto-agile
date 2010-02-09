@@ -85,8 +85,10 @@ public class TicketDao extends DaoHibernate {
 	private void defineValores(final Ticket... tickets) {
 
 		for (final Ticket ticket : tickets) {
-
+			
 			getSession().lock(ticket, LockMode.NONE);
+			
+			ticket.dataDaUltimaAlteracao = new Date()
 
 			if (ticket.getReporter() == null) {
 				ticket.setReporter(Seguranca.getUsuario());
