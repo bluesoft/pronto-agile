@@ -46,7 +46,7 @@ public class DefaultBindingInitializer implements WebBindingInitializer {
 	}
 
 	private void registrarBinderParaDatas(final WebDataBinder binder) {
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, true));
 		binder.registerCustomEditor(java.sql.Date.class, new SqlDateEditor(dateFormat, true));

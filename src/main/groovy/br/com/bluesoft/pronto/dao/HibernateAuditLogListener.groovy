@@ -1,23 +1,3 @@
-/*
- * Copyright 2009 Pronto Agile Project Management.
- *
- * This file is part of Pronto.
- *
- * Pronto is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Pronto is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
 package br.com.bluesoft.pronto.dao;
 
 import java.io.Serializable;
@@ -26,6 +6,7 @@ import java.util.Date;
 
 import org.hibernate.EntityMode;
 import org.hibernate.Session;
+import org.hibernate.StatelessSession;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.event.Initializable;
@@ -46,27 +27,21 @@ import br.com.bluesoft.pronto.util.DateUtil;
 
 public final class HibernateAuditLogListener implements PreDeleteEventListener, PreInsertEventListener, PreUpdateEventListener, PreLoadEventListener, Initializable {
 
-	private static final long serialVersionUID = 1L;
+	public final void initialize(final Configuration cfg) {}
 
-	@Override
-	public final void initialize(final Configuration cfg) {
-
-	}
-
-	@Override
+	
 	public final boolean onPreDelete(final PreDeleteEvent event) {
 		return false;
 	}
 
-	@Override
+	
 	public final boolean onPreInsert(final PreInsertEvent event) {
 		return false;
 	}
 
-	@Override
 	public final boolean onPreUpdate(final PreUpdateEvent event) {
 
-		Session session = null;
+		StatelessSession session = null;
 
 		try {
 
@@ -80,8 +55,7 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 			Object oldPropValue = null;
 			Object newPropValue = null;
 
-			session = event.getPersister().getFactory().openSession();
-			final Transaction tx = session.beginTransaction();
+			session = event.getPersister().getFactory().openStatelessSession()
 
 			final Object existingEntity = session.get(event.getEntity().getClass(), entityId);
 
@@ -114,15 +88,14 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 								history.setValorNovo(newValue);
 								history.setOperacao(TicketLog.ALTERACAO);
 								if (history.isDiferente()) {
-									session.save(history);
+									session.insert(history);
 								}
 							}
 						}
 					}
 				}
 			}
-
-			tx.commit();
+			
 		} catch (final Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -148,8 +121,5 @@ public final class HibernateAuditLogListener implements PreDeleteEventListener, 
 		}
 	}
 
-	@Override
-	public final void onPreLoad(final PreLoadEvent event) {
-
-	}
+	public final void onPreLoad(final PreLoadEvent event) {}
 }

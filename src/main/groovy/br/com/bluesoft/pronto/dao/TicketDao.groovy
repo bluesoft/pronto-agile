@@ -11,6 +11,7 @@ import org.apache.commons.collections.comparators.ComparatorChain;
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 import br.com.bluesoft.pronto.core.Backlog;
@@ -68,12 +69,14 @@ public class TicketDao extends DaoHibernate {
 
 	@Override
 	public void salvar(final Ticket... tickets) {
-		prepararParaSalvar(tickets);
-		super.salvar(tickets);
-		defineValores(tickets);
-		getSession().flush();
+		prepararParaSalvar(tickets)
+		super.salvar(tickets)
+		getSession().flush()
+		defineValores(tickets)
+		getSession().flush()
 	}
-
+	
+	
 	private void prepararParaSalvar(final Ticket... tickets) {
 		for (final Ticket ticket : tickets) {
 			if (ticket.getScript() != null && ticket.getScript().getScriptKey() == 0) {
@@ -85,8 +88,6 @@ public class TicketDao extends DaoHibernate {
 	private void defineValores(final Ticket... tickets) {
 
 		for (final Ticket ticket : tickets) {
-			
-			getSession().lock(ticket, LockMode.NONE);
 			
 			ticket.dataDaUltimaAlteracao = new Date()
 
@@ -152,7 +153,6 @@ public class TicketDao extends DaoHibernate {
 					}
 					pai.setDataDePronto(null);
 				}
-
 			}
 
 			// Tarefa nao tem valor de Negocio
@@ -368,7 +368,6 @@ public class TicketDao extends DaoHibernate {
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey = :tipoTarefa");
 		builder.append(" and t.pai.backlog.backlogKey != t.backlog.backlogKey");
-
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
 		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setInteger("tipoTarefa", TipoDeTicket.TAREFA).list();
 	}
@@ -415,6 +414,12 @@ public class TicketDao extends DaoHibernate {
 		for (final Ticket ticket : ticketsParaMover) {
 			ticket.setSprint(sprintAtual);
 		}
+	}
+	
+	public Date obterDataDaUltimaAlteracaoDoTicket(int ticketKey) {
+		Query query = session.createQuery('select t.dataDaUltimaAlteracao from Ticket t where t.ticketKey = :ticketKey')
+		query.setInteger 'ticketKey', ticketKey
+		return query.uniqueResult()
 	}
 
 }

@@ -129,6 +129,13 @@ class TicketController {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
 		try {
+			
+			def dataDaUltimaAlteracao = ticketDao.obterDataDaUltimaAlteracaoDoTicket(ticket.ticketKey)
+			if (ticket.dataDaUltimaAlteracao < dataDaUltimaAlteracao) {
+				def erro = 'Não foi possivel alterar o Ticket porque ele já foi alterado depois que você começou a editá-lo!' 
+				return "redirect:/tickets/${ticket.ticketKey}?erro=${erro}";
+			}
+
 			Transaction tx = sessionFactory.getCurrentSession().beginTransaction()
 			
 			if (ticket.getTitulo() == null || ticket.getTitulo().trim().length() <= 0) {
@@ -175,10 +182,8 @@ class TicketController {
 			return "redirect:/tickets/${ticket.ticketKey}"
 		} catch ( Exception e) {
 			e.printStackTrace()
-			model.addAttribute("erro", e.getMessage())
-			return "forward:/app/tickets/${ticket.ticketKey}"
+			return "redirect:/tickets/${ticket.ticketKey}?erro=${e.message}"
 		}
-		
 	}
 	
 	void definirDesenvolvedores( Ticket ticket,  String[] desenvolvedor) throws SegurancaException {

@@ -379,7 +379,9 @@
 						<p>Tempo de Vida em Dias</p>
 					<div>
 					<div>
-						<b><fmt:formatDate value="${ticket.dataDaUltimaAlteracao}" pattern="dd/MM/yyyy HH:mm:ss"/></b>
+						<fmt:formatDate var="dataDaUltimaAlteracao" value="${ticket.dataDaUltimaAlteracao}" pattern="dd/MM/yyyy HH:mm:ss"/>
+						<input type="hidden" name="dataDaUltimaAlteracao" value="${dataDaUltimaAlteracao}"/>
+						<b>${dataDaUltimaAlteracao}</b>
 						<p>Data da Última Alteração</p>
 					<div>
 				</c:if>
