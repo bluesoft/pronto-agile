@@ -48,7 +48,11 @@ class LoginController {
 			if (usuarioLogado.isClientePapel()) {
 				return "redirect:" + ACTION_BACKLOG_DO_CLIENTE
 			} else {
-				return "redirect:" + ACTION_KANBAN
+				if (httpSession.getAttribute('lastRequestURI') != null) {
+					return "redirect:" + httpSession.getAttribute('lastRequestURI')
+				} else {
+					return "redirect:" + ACTION_KANBAN
+				}
 			}
 		} else {
 			return "/login/login.login.jsp"

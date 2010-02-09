@@ -236,28 +236,28 @@ public class TicketDao extends DaoHibernate<Ticket, Integer> {
 		String hqlOrdem = null;
 		if (ordem != null) {
 			switch (ordem) {
-				case BACKLOG:
+				case TicketOrdem.BACKLOG:
 					hqlOrdem = "b.descricao";
 					break;
-				case CODIGO:
+				case TicketOrdem.CODIGO:
 					hqlOrdem = "t.ticketKey";
 					break;
-				case CLIENTE:
+				case TicketOrdem.CLIENTE:
 					hqlOrdem = "cliente.nome";
 					break;
-				case ESFORCO:
+				case TicketOrdem.ESFORCO:
 					hqlOrdem = "t.esforco";
 					break;
-				case STATUS:
+				case TicketOrdem.STATUS:
 					hqlOrdem = "kanbanStatus.descricao";
 					break;
-				case TIPO:
+				case TicketOrdem.TIPO:
 					hqlOrdem = "tipoDeTicket.descricao";
 					break;
-				case VALOR_DE_NEGOCIO:
+				case TicketOrdem.VALOR_DE_NEGOCIO:
 					hqlOrdem = "t.valorDeNegocio";
 					break;
-				case PRIORIDADE_DO_CLIENTE:
+				case TicketOrdem.PRIORIDADE_DO_CLIENTE:
 					hqlOrdem = "cliente.nome, t.prioridadeDoCliente";
 					break;
 				default:

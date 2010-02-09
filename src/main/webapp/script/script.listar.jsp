@@ -1,7 +1,4 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="listarExecucoesUrl" value="/execucao/listar.action"/>
-<c:url var="listarBancosUrl" value="/bancosDeDados"/>
-<c:url var="editarTicketUrl" value="/ticket/editar.action"/>
 <html>
 	<head>
 		<title>Scripts</title>
@@ -26,8 +23,8 @@
 	<body>
 		<h1>
 			Scripts
-			<pronto:icons name="banco_de_dados.png" title="Ver Bancos de Dados" onclick="goTo('${listarBancosUrl}')"/>
-			<pronto:icons name="execucao.png" title="Ver Execuções" onclick="goTo('${listarExecucoesUrl}')"/>
+			<pronto:icons name="banco_de_dados.png" title="Ver Bancos de Dados" onclick="goTo('${raiz}bancosDedados')"/>
+			<pronto:icons name="execucao.png" title="Ver Execuções" onclick="goTo('${raiz}execucoes')"/>
 		</h1>
 		
 		<div align="right">
@@ -62,13 +59,13 @@
 						<c:if test="${s.ticket ne null}">
 							<c:choose>
 								<c:when test="${s.ticket.estoria}">
-									<pronto:icons name="estoria.png" title="Ir para Estória - ${s.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${s.ticket.ticketKey}')"/>								
+									<pronto:icons name="estoria.png" title="Ir para Estória - ${s.ticket}" onclick="goTo('${raiz}ticktes/${s.ticket.ticketKey}')"/>								
 								</c:when>
 								<c:when test="${s.ticket.tarefa}">
-									<pronto:icons name="tarefa.png" title="Ir para Tarefa - ${s.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${s.ticket.ticketKey}')"/>
+									<pronto:icons name="tarefa.png" title="Ir para Tarefa - ${s.ticket}" onclick="goTo('${raiz}ticktes/${s.ticket.ticketKey}')"/>
 								</c:when>
 								<c:otherwise>
-									<pronto:icons name="defeito.png" title="Ir para Defeito - ${s.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${s.ticket.ticketKey}')"/>
+									<pronto:icons name="defeito.png" title="Ir para Defeito - ${s.ticket}" onclick="goTo('${raiz}ticktes/${s.ticket.ticketKey}')"/>
 								</c:otherwise>
 							</c:choose>
 							#${s.ticket.ticketKey}

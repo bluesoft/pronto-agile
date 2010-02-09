@@ -1,6 +1,4 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="listarExecucoesUrl" value="/execucao/listar.action"/>
-<c:url var="listarScriptsUrl" value="/script/listar.action"/>
 <html>
 	<head>
 		<title>Bancos de Dados</title>
@@ -21,8 +19,8 @@
 	<body>
 		<h1>
 			Bancos de Dados
-			<pronto:icons name="script.png" title="Ver Scripts" onclick="goTo('${listarScriptsUrl}')"/>
-			<pronto:icons name="execucao.png" title="Ver Execuções de Todos os Bancos de Dados" onclick="goTo('${listarExecucoesUrl}')"/>
+			<pronto:icons name="script.png" title="Ver Scripts" onclick="goTo('${raiz}scripts')"/>
+			<pronto:icons name="execucao.png" title="Ver Execuções de Todos os Bancos de Dados" onclick="goTo('${raiz}execucoes')"/>
 		</h1>
 		<c:set var="cor" value="${true}"/>
 		<table style="width: 100%">
@@ -40,7 +38,7 @@
 					<td>${b.bancoDeDadosKey}</td>
 					<td class="descricao">${b.nome}</td>
 					<td>
-						<pronto:icons name="execucao.png" title="Ver Execuções do Banco de Dados ${b.nome}" onclick="goTo('${listarExecucoesUrl}?bancoDeDadosKey=${b.bancoDeDadosKey}')"/>
+						<pronto:icons name="execucao.png" title="Ver Execuções do Banco de Dados ${b.nome}" onclick="goTo('${raiz}execucoes/${b.bancoDeDadosKey}/pendentes')"/>
 					</td>
 					<td>
 						<a href="${raiz}bancosDeDados/${b.bancoDeDadosKey}"><pronto:icons name="editar_banco_de_dados.png" title="Editar" /></a>
@@ -58,4 +56,3 @@
 		
 	</body>
 </html>
-

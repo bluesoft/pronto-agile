@@ -1,7 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="detalhesUrl" value="/ticket/verDescricao.action"/>
 <c:url var="urlAlterarOrdem" value="/clientes/priorizar"/>
-
 <html>
 	<head>
 		<title>Backlog</title>
@@ -9,7 +7,7 @@
 		<script>
 			function verDescricao(ticketKey) {
 				$.ajax({
-					url: '${detalhesUrl}?ticketKey=' + ticketKey,
+					url: '${raiz}tickets/' + ticketKey + '/descricao',
 					cache: false,
 					success: function (data) {
 						$("#dialog").dialog('option', 'title', '#' + ticketKey + ' - ' + $('#' + ticketKey + ' .titulo').text());

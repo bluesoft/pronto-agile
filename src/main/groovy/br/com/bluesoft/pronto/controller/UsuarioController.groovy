@@ -89,7 +89,7 @@ class UsuarioController {
 		
 		if (quantidade == 1) {
 			model.addAttribute("mensagem", "Você não pode excluir todos os usuários do Pronto!.")
-			return "forward:listar.action"
+			return "forward:/app/usuarios"
 		}
 		
 		def usuario = usuarioDao.obter(username)

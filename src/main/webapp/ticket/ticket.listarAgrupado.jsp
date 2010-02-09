@@ -1,10 +1,4 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="estimarPorSprintUrl" value="/ticket/estimarSprint.action"/>
-<c:url var="estimarPorBacklogUrl" value="/ticket/estimarBacklog.action"/>
-<c:url var="editarSprintUrl" value="/sprint/editar.action"/>
-<c:url var="adicionarTarefasUrl" value="/ticket/listarTarefasParaAdicionarAoSprint.action"/>
-<c:url var="verDescricao" value="/ticket/verDescricao.action"/>
-<c:url var="listarUrl" value="/ticket/listarPendentesPorCliente.action"/>
 <html>
 	<head>
 		<title>Estórias e Defeitos por Cliente</title>
@@ -25,46 +19,6 @@
 				$.post(url, {
 					success: function() {
 						apagarLinha(ticketKey);
-						recalcular();		
-					}
-				});
-			}
-
-			function toProductBacklog(ticketKey){
-				var url = 'moverParaProductBacklog.action?ticketKey=' + ticketKey; 
-				$.post(url, {
-					success: function() {
-						apagarLinha(ticketKey);
-						recalcular();		
-					}
-				});
-			}
-
-			function toIdeias(ticketKey){
-				var url = 'moverParaIdeias.action?ticketKey=' + ticketKey; 
-				$.post(url, {
-					success: function() {
-						apagarLinha(ticketKey);
-						recalcular();		
-					}
-				});
-			}
-
-			function toImpedimentos(ticketKey){
-				var url = 'moverParaImpedimentos.action?ticketKey=' + ticketKey; 
-				$.post(url, {
-					success: function() {
-						apagarLinha(ticketKey);	
-						recalcular();		
-					}
-				});
-			}
-			
-			function restaurar(ticketKey){
-				var url = 'restaurar.action?ticketKey=' + ticketKey; 
-				$.post(url, {
-					success: function() {
-						apagarLinha(ticketKey);	
 						recalcular();		
 					}
 				});
@@ -91,7 +45,7 @@
 
 			function verDescricao(ticketKey) {
 				$.ajax({
-					url: 'verDescricao.action?ticketKey=' + ticketKey,
+					url: '${raiz}tickets/' + ticketKey + '/descricao',
 					cache: false,
 					success: function (data) {
 						$("#dialog").dialog('option', 'title', '#' + ticketKey + ' - ' + $('#' + ticketKey + ' .titulo').text());
@@ -106,7 +60,7 @@
 		<h1>Estórias e Defeitos por Cliente</h1>
 		
 		<div align="right">
-		<form action="${listarUrl}" id="formListar">
+		<form action="${raiz}backlogs/clientes" id="formListar">
 			Cliente: 
 			<select name="clienteKey" onchange="recarregar()" id="clienteKey">
 				<option value="-1">Todos</option>
@@ -172,34 +126,34 @@
 								<td>${t.kanbanStatus.descricao}</td>
 								<td>
 									<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 3) and usuarioLogado.productOwner}">
-										<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="toProductBacklog(${t.ticketKey})"></pronto:icons>
+										<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="pronto.moverParaProductBacklog(${t.ticketKey}, true)"></pronto:icons>
 									</c:if>
 								</td>
 								<td>
 									<c:if test="${t.backlog.backlogKey eq 2 and usuarioLogado.productOwner}">
-											<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Ideias" onclick="toIdeias(${t.ticketKey})"></pronto:icons>
+											<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Ideias" onclick="pronto.moverParaIdeias(${t.ticketKey}, true)"></pronto:icons>
 									</c:if>
 								</td>
 								<td>
 									<c:if test="${t.backlog.backlogKey eq 1 or (t.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or t.backlog.backlogKey eq 3}">
-										<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="toImpedimentos(${t.ticketKey})"></pronto:icons>
+										<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${t.ticketKey}, true)"></pronto:icons>
 									</c:if>
 								</td>
 								<td>
 									<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
-										<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="toTrash(${t.ticketKey})"></pronto:icons>
+										<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${t.ticketKey}, true)"></pronto:icons>
 									</c:if>
 								</td>
 								<td>
 								<c:if test="${t.backlog.backlogKey eq 4 or t.backlog.backlogKey eq 5}">
-									<pronto:icons name="restaurar.png" title="Restaurar" onclick="restaurar(${t.ticketKey})"></pronto:icons>
+									<pronto:icons name="restaurar.png" title="Restaurar" onclick="pronto.restaurar(${t.ticketKey}, true)"></pronto:icons>
 								</c:if>
 								</td>
 								<td>
 									<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
 								</td>
 								<td>
-									<a href="editar.action?ticketKey=${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+									<a href="${raiz}tickets/${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 								</td>
 							</tr>
 							<tr style="height: 1px;">
@@ -215,19 +169,17 @@
 				<th colspan="15" style="font-weight: bold;">Total: ${quantidadeTotal}</th>
 			</tr>
 		</table>
-		
 		<div align="center">
 			<c:choose>
 				<c:when test="${backlog.backlogKey eq 1}">
-					&nbsp;&nbsp;<button type="button" onclick="window.location.href='editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=1'">Nova Ideia</button>&nbsp;&nbsp;
+					&nbsp;&nbsp;<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=1')">Nova Ideia</button>&nbsp;&nbsp;
 				</c:when>
 				<c:when test="${backlog.backlogKey eq 2 and usuarioLogado.productOwner}">
-					&nbsp;&nbsp;<button type="button" onclick="window.location.href='editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2'">Nova Estória</button>&nbsp;&nbsp;
-					&nbsp;&nbsp;<button type="button" onclick="window.location.href='editar.action?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3'">Novo Defeito</button>&nbsp;&nbsp;
+					&nbsp;&nbsp;<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2')">Nova Estória</button>&nbsp;&nbsp;
+					&nbsp;&nbsp;<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3')">Novo Defeito</button>&nbsp;&nbsp;
 				</c:when>
 			</c:choose>
 		</div>
-		
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>

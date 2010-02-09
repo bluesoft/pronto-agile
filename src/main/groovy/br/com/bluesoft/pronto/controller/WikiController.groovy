@@ -29,7 +29,7 @@ import br.com.bluesoft.pronto.service.WikiFormatter
 @Controller
 class WikiController {
 
-	@RequestMapping("/wiki/parse.action")
+	@RequestMapping("/wiki/parse")
 	public String parse(final HttpServletResponse response, final String data) throws Exception {
 		response.getOutputStream().print(WikiFormatter.toHtml(data))
 		return null

@@ -1,7 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="listarScriptsUrl" value="/scripts"/>
 <c:url var="listarBancosUrl" value="/bancosDeDados"/>
-<c:url var="editarTicketUrl" value="/ticket/editar.action"/>
 <html>
 	<head>
 		<title>Execuções de Scripts</title>
@@ -100,13 +99,13 @@
 									<c:if test="${e.script.ticket ne null}">
 										<c:choose>
 											<c:when test="${e.script.ticket.estoria}">
-												<pronto:icons name="estoria.png" title="Ir para Estória - ${e.script.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${e.script.ticket.ticketKey}')"/>								
+												<pronto:icons name="estoria.png" title="Ir para Estória - ${e.script.ticket}" onclick="goTo('${raiz}tickets/${e.script.ticket.ticketKey}')"/>								
 											</c:when>
 											<c:when test="${e.script.ticket.tarefa}">
-												<pronto:icons name="tarefa.png" title="Ir para Tarefa - ${e.script.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${e.script.ticket.ticketKey}')"/>
+												<pronto:icons name="tarefa.png" title="Ir para Tarefa - ${e.script.ticket}" onclick="goTo('${raiz}tickets/${e.script.ticket.ticketKey}')"/>
 											</c:when>
 											<c:otherwise>
-												<pronto:icons name="defeito.png" title="Ir para Defeito - ${e.script.ticket}" onclick="goTo('${editarTicketUrl}?ticketKey=${e.script.ticket.ticketKey}')"/>
+												<pronto:icons name="defeito.png" title="Ir para Defeito - ${e.script.ticket}" onclick="goTo('${raiz}tickets/${e.script.ticket.ticketKey}')"/>
 											</c:otherwise>
 										</c:choose>
 										#${e.script.ticket.ticketKey}

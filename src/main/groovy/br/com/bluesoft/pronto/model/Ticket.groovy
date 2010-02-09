@@ -68,7 +68,7 @@ class Ticket {
 	@GeneratedValue(generator = "SEQ_TICKET")
 	int ticketKey
 	
-	@Label("titulo")
+	@Label("título")
 	String titulo
 	
 	@Label("backlog")
@@ -86,7 +86,7 @@ class Ticket {
 	@Label("tipo de ticket")
 	TipoDeTicket tipoDeTicket
 	
-	@Label("descricao")
+	@Label("descrição")
 	String descricao
 	
 	@ManyToOne
@@ -227,6 +227,30 @@ class Ticket {
 		log.setCampo(campo)
 		log.setValorAntigo(valorAntigo)
 		log.setValorNovo(valorNovo)
+		logs.add(log)
+	}
+	
+	void addLogDeInclusao(final String campo, final String valor) {
+		final TicketLog log = new TicketLog()
+		log.setTicket(this)
+		log.setData(new Date())
+		log.setUsuario(Seguranca.getUsuario().getUsername())
+		log.setOperacao(TicketLog.INCLUSAO)
+		log.setCampo(campo)
+		log.setValorAntigo(null)
+		log.setValorNovo(valor)
+		logs.add(log)
+	}
+	
+	void addLogDeExclusao(final String campo, final String valor) {
+		final TicketLog log = new TicketLog()
+		log.setTicket(this)
+		log.setData(new Date())
+		log.setUsuario(Seguranca.getUsuario().getUsername())
+		log.setOperacao(TicketLog.EXCLUSAO)
+		log.setCampo(campo)
+		log.setValorAntigo(valor)
+		log.setValorNovo(null)
 		logs.add(log)
 	}
 	

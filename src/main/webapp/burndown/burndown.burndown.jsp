@@ -1,6 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="chart" value="/open-flash-chart.swf"/>
-<c:url var="data" value="/burndown/data/${sprintKey}"/>
+<c:url var="data" value="/burndown/data/${sprint.sprintKey}"/>
 <html>
 	<head>
 		<title>Burndown Chart</title>
@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		<h1>
-			Burndown Chart
+			Burndown Chart do Sprint ${sprint.nome}
 			<%@ include file="/commons/sprintLinks.jsp" %>
 		</h1>
 		<div align="center">

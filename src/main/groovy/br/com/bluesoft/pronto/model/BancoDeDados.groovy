@@ -51,7 +51,7 @@ class BancoDeDados {
 	}
 	
 	List<Execucao> getExecucoesPendentes() {
-		execucoes.findAll { it.data == null }
+		execucoes.findAll { it.data == null } as List
 	}
 	
 }

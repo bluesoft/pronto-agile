@@ -1,6 +1,4 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="adicionarTarefasUrl" value="/ticket/adicionarAoSprint.action"/>
-<c:url var="cancelarUrl" value="/ticket/listarPorSprint.action"/>
 <html>
 	<head>
 		<title>${sprint.nome}</title>
@@ -29,7 +27,7 @@
 	<body>
 		<h1>Sprint ${sprint.nome}</h1>
 		<h2>Adicionar Estórias ou Defeitos do Product Backlog ao Sprint</h2>	
-		<form action="${adicionarTarefasUrl}" method="post" name="form1">
+		<form action="${raiz}sprints/${sprint.sprintKey}/adicionarTarefas" method="post" name="form1">
 			<input type="hidden" name="sprintKey" value="${sprint.sprintKey}"/>
 			<table style="width: 100%">
 				<tr>
@@ -61,7 +59,7 @@
 				</tr>
 			</table>	
 			<div align="center">
-				<button type="button" onclick="goTo('${cancelarUrl}?sprintKey=${sprint.sprintKey}')">Cancelar</button>
+				<button type="button" onclick="goTo('${raiz}backlogs/sprints/${sprint.sprintKey}')">Cancelar</button>
 				<button type="button" onclick="enviar()">Adicionar</button>
 			</div>
 		</form>

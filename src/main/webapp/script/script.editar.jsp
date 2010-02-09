@@ -1,5 +1,4 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="ticketEditarUrl" value="/ticket/editar.action"/>
 <html>
 	<head>
 		<title>Scripts</title>
@@ -73,7 +72,7 @@
 				
 				<c:if test="${script.ticket ne null}">
 					<div>
-						<a href="${ticketEditarUrl}?ticketKey=${script.ticket.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
+						<a href="${raiz}tickets/${script.ticket.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
 						<b>${script.ticket.ticketKey}</b> ${script.ticket.titulo}
 						<p>Estória</p>
 					</div>

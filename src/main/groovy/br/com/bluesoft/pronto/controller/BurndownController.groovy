@@ -60,15 +60,20 @@ class BurndownController {
 		
 		Seguranca.validarPermissao(Papel.EQUIPE, Papel.PRODUCT_OWNER, Papel.SCRUM_MASTER)
 
-		if (sprintKey == null) {
-			sprintKey = sprintDao.getSprintAtual().getSprintKey()
-		}
-
-		model.addAttribute("sprintKey", sprintKey)
+		def sprint = null
 		
-		if (sprintKey == null && sprintDao.getSprintAtual() == null) {
-			return LoginController.VIEW_BEM_VINDO
+		if (sprintKey == null) {
+			sprint = sprintDao.getSprintAtual();
+			if (sprint == null) {
+				return LoginController.VIEW_BEM_VINDO
+			} else {
+				return "redirect:/burndown/${sprint.sprintKey}"
+			}
+		} else {
+			sprint = sprintDao.obter(sprintKey)
 		}
+		
+		model.addAttribute("sprint", sprint)
 		
 		return "/burndown/burndown.burndown.jsp"
 	}

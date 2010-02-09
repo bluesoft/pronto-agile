@@ -22,8 +22,7 @@ ${ticket.html}
 			</c:choose>
 			
 			${anexo.nomeParaExibicao}
-			<pronto:icons name="download.gif" title="Baixar Anexo" onclick="goTo('download.action?ticketKey=${ticket.ticketKey}&file=${anexo}')"/>
-			<pronto:icons name="excluir.png" title="Excluir Anexo" onclick="excluirAnexo(${ticket.ticketKey},'${anexo}');"/>
+			<pronto:icons name="download.gif" title="Baixar Anexo" onclick="goTo('${raiz}tickets/${ticket.ticketKey}/anexos?file=${anexo}')"/>
 		</li>
 	</c:forEach>
 </ul>

@@ -356,7 +356,9 @@ class TicketController {
 		dir.mkdirs()
 		
 		List<String> nomesDosArquivos = new ArrayList<String>()
-		
+
+		Ticket ticket = ticketDao.obter(ticketKey)
+
 		for ( FileItem fileItem : items) {
 			String nomeDoArquivo = StringUtil.retiraAcentuacao(fileItem.getName().toLowerCase().replace(' ', '_')).replaceAll("[^A-Za-z0-9._\\-]", "")
 			
@@ -364,13 +366,16 @@ class TicketController {
 				fileItem.write(new File(ticketDir + nomeDoArquivo))
 				
 				nomesDosArquivos.add(nomeDoArquivo)
+				ticket.addLogDeInclusao 'anexo', nomeDoArquivo
 			} else {
 				model.addAttribute("erro", "Não é possível anexar o arquivo '" + nomeDoArquivo + "' pois este não possui uma extensão.")
 			}
 		}
 		
 		this.insereImagensNaDescricao(ticketKey, nomesDosArquivos)
-		
+
+		ticketDao.salvar ticket
+
 		return "redirect:/tickets/${ticketKey}"
 	}
 	
@@ -486,6 +491,11 @@ class TicketController {
 		if (arquivo.exists()) {
 			arquivo.delete()
 		}
+		
+		Ticket ticket = ticketDao.obter(ticketKey)
+		ticket.addLogDeExclusao 'anexo', file
+		ticketDao.salvar ticket
+		
 		return "redirect:/tickets/${ticketKey}"
 	}
 	

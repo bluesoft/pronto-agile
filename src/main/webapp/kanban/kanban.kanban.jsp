@@ -1,9 +1,4 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="moverUrl" value="/kanban/mover.action"/>
-<c:url var="editarTicket" value="/ticket/editar.action"/>
-<c:url var="urlSprint" value="/sprint/"/>
-<c:url var="burndownUrl" value="/burndown/burndown.action"/>
-<c:url var="retrospectivaUrl" value="/retrospectiva/ver.action"/>
 <html>
 	<head>
 		<meta http-equiv=refresh content="60" />

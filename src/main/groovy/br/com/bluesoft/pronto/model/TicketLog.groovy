@@ -78,20 +78,30 @@ class TicketLog {
 	}
 	
 	String getDescricaoSemData() {
-		
-		if (getOperacao() == ALTERACAO) {
-			return MessageFormat.format("{1} - {2} mudou de \"{3}\" para \"{4}\"", DateUtil.toStringHora(data), usuario, campo, valorAntigo, valorNovo)
-		} else {
-			return MessageFormat.format("{1} - {2} foi definido como \"{3}\"", DateUtil.toStringHora(data), usuario, campo, valorNovo)
-		}
+		this.getDescricao false
 	}
 	
 	String getDescricaoCompleta() {
+		this.getDescricao true
+	}
+	
+	String getDescricao(boolean exibirData) {
 		
-		if (getOperacao() == ALTERACAO) {
-			return MessageFormat.format("{1} - {2} mudou de \"{3}\" para \"{4}\"", data, usuario, campo, valorAntigo, valorNovo)
-		} else {
-			return MessageFormat.format("{1} - {2} foi definido como \"{3}\"", data, usuario, campo, valorNovo)
+		def dataDaDescricao = exibirData ? this.data : DateUtil.toStringHora(this.data)
+		
+		switch (getOperacao()) {
+			case ALTERACAO: 
+				return MessageFormat.format("{0} - {1} - {2} mudou de \"{3}\" para \"{4}\"", dataDaDescricao, usuario, campo, valorAntigo, valorNovo)
+			case INCLUSAO:
+				if (campo == 'anexo') {
+					return MessageFormat.format("{0} - {1} - {2} incluiu o anexo \"{3}\"", dataDaDescricao, usuario, valorNovo)
+				} else {
+					return MessageFormat.format("{0} - {1} - {2} foi definido como \"{3}\"", dataDaDescricao, usuario, campo, valorNovo)
+				}
+			case EXCLUSAO:
+				if (campo == 'anexo') {
+					return MessageFormat.format("{0} - {1} - {2} excluiu o anexo \"{3}\"", dataDaDescricao, usuario, valorAntigo)
+				} 
 		}
 	}
 	
