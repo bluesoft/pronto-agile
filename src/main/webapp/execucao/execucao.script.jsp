@@ -2,22 +2,14 @@
 <html>
 	<head>
 		<title>Scripts</title>
-		<script type="text/javascript">
-
-			function voltar() {
-				goTo('${raiz}execucoes');
-			}
-
-		</script>
 	</head>
 	<body>
 		<h1>Execuções</h1>
-		
-		<textarea id="script" class="mono">${script}</textarea>
+		<textarea id="script" class="mono"></textarea>
+
 		<br/>
-		
-		
 		<form action="${raiz}execucoes" method="POST">
+			
 			<input type="hidden" name="bancoDeDadosKey" value="${bancoDeDadosKey}"/>
 
 			<c:forEach items="${execucaoKey}" var="key">
@@ -28,7 +20,24 @@
 				<button type="button" onclick="voltar()">Voltar</button>
 				<button type="submit">Confirmar</button>
 			</div>
+			
 		</form>
+		<script type="text/javascript">
+
+			function voltar() {
+				goTo('${raiz}execucoes/pendentes');
+			}
+
+			$(function(){
+				$.blockUI({ message: '<h1>Gerando Script...</h1>' });
+				$('#script').load('${raiz}/execucoes/gerarScript', {
+					execucaoKey: $('[name=execucaoKey]').val(),
+					bancoDeDadosKey: $('[name=bancoDeDadosKey]').val()
+				}, function() {
+					$.unblockUI();
+				});
+			});	
+		</script>
 		
 	</body>
 </html>

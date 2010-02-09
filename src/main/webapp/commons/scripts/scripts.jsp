@@ -30,6 +30,9 @@
 <c:url var="swfObject" value="/commons/scripts/swfobject.js"/>
 <script type="text/javascript" src="${swfObject}"></script>
 
+<c:url var="jqueryBlockUI" value="/commons/scripts/jquery.blockUI.js"/>
+<script type="text/javascript" src="${jqueryBlockUI}"></script>
+
 <c:url var="raiz" value="/"/>
 <script>
 	var pronto = pronto? pronto : {};

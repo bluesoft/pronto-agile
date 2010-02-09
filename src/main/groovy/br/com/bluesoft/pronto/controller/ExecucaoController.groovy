@@ -1,33 +1,16 @@
-/*
- * Copyright 2009 Pronto Agile Project Management.
- *
- * This file is part of Pronto.
- *
- * Pronto is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Pronto is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
 package br.com.bluesoft.pronto.controller
 
 import java.util.Date
 import java.util.List
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.bluesoft.pronto.SegurancaException
 import br.com.bluesoft.pronto.core.Papel
@@ -92,24 +75,33 @@ class ExecucaoController {
 	}
 	
 	
+	
 	@RequestMapping(value="/gerar", method=POST)
 	String gerar( Model model,  Integer bancoDeDadosKey,  Integer[] execucaoKey)  {
-		
-		Seguranca.validarPermissao(Papel.EQUIPE)
-		
-		StringBuilder script = new StringBuilder()
-		
-		List<Execucao> execucoes = execucaoDao.listarPorKeys(execucaoKey)
-		for ( Execucao execucao : execucoes) {
-			script.append("/*").append(org.apache.commons.lang.StringUtils.center("", 80, '-')).append("*/").append("\n")
-			script.append("/*").append(org.apache.commons.lang.StringUtils.center(" " + execucao.getScript().getDescricao() + " ", 80, ' ')).append("*/").append("\n")
-			script.append("/*").append(org.apache.commons.lang.StringUtils.center("", 80, '-')).append("*/").append("\n")
-			script.append(execucao.getScript().getScript()).append("\n\n\n")
-		}
-		
-		model.addAttribute 'script', script.toString()
+		Seguranca.validarPermissao Papel.EQUIPE
 		model.addAttribute 'execucaoKey', execucaoKey
 		model.addAttribute 'bancoDeDadosKey', bancoDeDadosKey
+		VIEW_EXECUCAO
+	}
+	
+	@RequestMapping(value="/gerarScript", method=POST)
+	@ResponseBody String gerarScript( Model model,  Integer bancoDeDadosKey,  Integer[] execucaoKey)  {
+		
+		Seguranca.validarPermissao Papel.EQUIPE
+		
+		String script = ''
+		
+		List<Execucao> execucoes = execucaoDao.listarPorKeys(execucaoKey as List)
+		for (Execucao execucao : execucoes) {
+			script += ("/*") + (org.apache.commons.lang.StringUtils.center("", 80, '-')) + ("*/") + ("\n")
+			script += ("/*") + (org.apache.commons.lang.StringUtils.center(" " + execucao.getScript().getDescricao() + " ", 80, ' ')) + ("*/") + ("\n")
+			script += ("/*") + (org.apache.commons.lang.StringUtils.center("", 80, '-')) + ("*/") + ("\n")
+			script += (execucao.getScript().getScript()) + ("\n\n\n")
+		}
+		
+		model.addAttribute 'execucaoKey', execucaoKey
+		model.addAttribute 'bancoDeDadosKey', bancoDeDadosKey
+		return script
 		
 		VIEW_EXECUCAO
 		
