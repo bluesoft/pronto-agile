@@ -58,7 +58,6 @@ public class UsuarioDao extends DaoHibernate<Usuario, String> {
 
 	public List<Usuario> listarUsuariosPorPapel(final int papelKey) {
 		final String hql = "select distinct u from Usuario u inner join fetch u.papeis p where p.papelKey = :papel order by u.username";
-		System.out.println(papelKey);
 		return getSession().createQuery(hql).setInteger("papel", papelKey).list();
 	}
 

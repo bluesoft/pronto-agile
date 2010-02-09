@@ -27,24 +27,60 @@
 					<encoding>ISO-8859-1</encoding>
 				</configuration>
 			</plugin>
+			
 			<plugin>
-				<groupId>org.codehaus.groovy.maven</groupId>
-				<artifactId>gmaven-plugin</artifactId>
-				<version>1.0</version>
-				<configuration>
-					<sourceEncoding>ISO-8859-1</sourceEncoding>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generateStubs</goal>
-							<goal>compile</goal>
-							<goal>generateTestStubs</goal>
-							<goal>testCompile</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <tasks>
+                                <taskdef name="groovyc"
+                                    classname="org.codehaus.groovy.ant.Groovyc">
+                                    <classpath refid="maven.compile.classpath"/>
+                                </taskdef>
+                                <mkdir dir="${project.build.outputDirectory}"/>
+                                <groovyc
+                                	destdir="${project.build.outputDirectory}"
+                                    srcdir="${basedir}/src/main/groovy/" 
+                                    listfiles="true" 
+                                    encoding="ISO-8859-1">
+                                    <classpath refid="maven.compile.classpath"/>
+                                </groovyc>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <configuration>
+                            <tasks>
+                                <taskdef name="groovyc"
+                                    classname="org.codehaus.groovy.ant.Groovyc">
+                                    <classpath refid="maven.compile.classpath"/>
+                                </taskdef>
+                                <mkdir dir="${project.build.testOutputDirectory}"/>
+                                <groovyc 
+                                	destdir="${project.build.testOutputDirectory}"
+                                    srcdir="${basedir}/src/test/groovy/" 
+                                    listfiles="true"
+                                    encoding="ISO-8859-1">>
+                                    <classpath refid="maven.test.classpath"/>
+                                </groovyc>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+			
+			
 		</plugins>
 	</build>
 

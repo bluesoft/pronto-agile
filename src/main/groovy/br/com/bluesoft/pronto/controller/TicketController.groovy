@@ -176,7 +176,7 @@ class TicketController {
 		} catch ( Exception e) {
 			e.printStackTrace()
 			model.addAttribute("erro", e.getMessage())
-			return "forward:editar.action"
+			return "forward:/app/tickets/${ticket.ticketKey}"
 		}
 		
 	}
@@ -556,7 +556,7 @@ class TicketController {
 	}
 	
 	@RequestMapping("/{ticketKey}/transformarEmDefeito")
-	String transformarEmDefeito( Model model, @PathVariable @PathVariable int ticketKey)  {
+	String transformarEmDefeito( Model model, @PathVariable int ticketKey)  {
 		
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
 		

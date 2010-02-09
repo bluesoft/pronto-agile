@@ -197,7 +197,7 @@
 							</span>
 							<span style="float: right;">
 								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${filho.ticketKey});"/>
-								<a href="editar.action?ticketKey=${filho.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+								<a href="${raiz}tickets/${filho.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 							</span>
 						</li>
 					</c:forEach>
@@ -231,7 +231,7 @@
 				<c:if test="${ticket.pai ne null}">
 					<input type="hidden" name="paiKey" value="${ticket.pai.ticketKey}"/>
 					<c:if test="${ticket.ticketKey gt 0}">
-						<a href="editar.action?ticketKey=${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
+						<a href="${raiz}tickets/${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
 					</c:if>
 					<b>#${ticket.pai.ticketKey} - ${ticket.pai.titulo}</b>
 					<p>Estória</p>

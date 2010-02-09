@@ -28,9 +28,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class DaoHibernate<T, K extends Serializable> {
+public class DaoHibernate<T, K extends Object> {
 
-	@SuppressWarnings("unchecked")
 	public DaoHibernate() {
 		this.clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}

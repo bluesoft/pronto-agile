@@ -21,19 +21,32 @@
 package br.com.bluesoft.pronto.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import br.com.bluesoft.pronto.SegurancaException;
 
 @Controller
 public class ErroController {
 
-	@RequestMapping("/erro.action")
+	@RequestMapping("/erro")
 	public String erro() {
 		return "redirect:/branca.jsp?erro=Ocorreu um Erro!";
 	}
 
-	@RequestMapping("/acessoNegado.action")
+	@RequestMapping("/acessoNegado")
 	public String acessoNegado() {
 		return "redirect:/branca.jsp?erro=Acesso Negado!";
+	}
+	
+	@ExceptionHandler(SegurancaException.class)
+	public String seguracaException(SegurancaException se){
+		return acessoNegado()
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public String erro(Exception se){
+		return "redirect:/branca.jsp?erro=${se.message}";
 	}
 
 }

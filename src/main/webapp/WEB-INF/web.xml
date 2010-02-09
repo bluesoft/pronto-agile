@@ -88,11 +88,11 @@
 	</filter-mapping>
 	<error-page>
 		<exception-type>br.com.bluesoft.pronto.SegurancaException</exception-type>
-		<location>/app/acessoNegado.action</location>
+		<location>/app/acessoNegado</location>
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
-		<location>/erro.action</location>
+		<location>/app/erro</location>
 	</error-page>
 
 	<!-- SITE-MESH -->

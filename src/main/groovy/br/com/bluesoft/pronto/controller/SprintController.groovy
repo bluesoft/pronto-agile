@@ -257,7 +257,7 @@ class SprintController {
 			ticket.setSprint(sprint)
 			ticketDao.salvar(ticket)
 		}
-		return "redirect:/ticket/listarPorSprint.action?sprintKey=" + sprintKey
+		return "redirect:/backlogs/sprints/${sprintKey}"
 	}
 	
 	@RequestMapping(value="/{sprintKey}/backlog", method=GET)
