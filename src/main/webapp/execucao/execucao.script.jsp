@@ -30,8 +30,12 @@
 
 			$(function(){
 				$.blockUI({ message: '<h1>Gerando Script...</h1>' });
+				var execucoes = new Array(); 
+				$('[name=execucaoKey]').each(function(i,el){ 
+					execucoes.push($(el).val()); 
+				}); 
 				$('#script').load('${raiz}/execucoes/gerarScript', {
-					execucaoKey: $('[name=execucaoKey]').val(),
+					execucaoKey: execucoes,
 					bancoDeDadosKey: $('[name=bancoDeDadosKey]').val()
 				}, function() {
 					$.unblockUI();
