@@ -131,10 +131,12 @@ class TicketController {
 		
 		try {
 			
-			def dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(ticketDao.obterDataDaUltimaAlteracaoDoTicket(ticket.ticketKey))
-			if (ticket.dataDaUltimaAlteracao < dataDaUltimaAlteracao) {
-				def erro = 'Não foi possivel alterar o Ticket porque ele já foi alterado depois que você começou a editá-lo!' 
-				return "redirect:/tickets/${ticket.ticketKey}?erro=${erro}";
+			if (ticket.ticketKey > 0) {
+				def dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(ticketDao.obterDataDaUltimaAlteracaoDoTicket(ticket.ticketKey))
+				if (ticket.dataDaUltimaAlteracao < dataDaUltimaAlteracao) {
+					def erro = 'Não foi possivel alterar o Ticket porque ele já foi alterado depois que você começou a editá-lo!' 
+					return "redirect:/tickets/${ticket.ticketKey}?erro=${erro}";
+				}
 			}
 
 			Transaction tx = sessionFactory.getCurrentSession().beginTransaction()
