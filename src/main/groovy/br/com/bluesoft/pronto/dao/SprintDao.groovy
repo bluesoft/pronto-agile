@@ -105,7 +105,16 @@ public class SprintDao extends DaoHibernate{
 	}
 
 	public Sprint getSprintAtualComTickets() {
-		final String hql = "select distinct s from Sprint s left join fetch s.tickets t left join fetch t.filhos f where s.atual = true"
+		final String hql = """
+			select distinct s 
+			from Sprint s 
+			left join fetch s.tickets t 
+			left join fetch t.filhos f 
+			left join fetch t.backlog
+			left join fetch t.tipoDeTicket
+			left join fetch t.kanbanStatus
+			where s.atual = true
+		"""
 		final Sprint sprint = (Sprint) getSession().createQuery(hql).uniqueResult()
 		if (sprint != null && sprint.getQuantidadeDeTickets() > 0) {
 			preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint)
@@ -114,7 +123,17 @@ public class SprintDao extends DaoHibernate{
 	}
 
 	public Sprint obterSprintComTicket(final Integer sprintKey) {
-		final String hql = "select distinct s from Sprint s left join fetch s.tickets t left join fetch t.filhos f where s.sprintKey = :sprintKey"
+		final String hql = """
+			select distinct s 
+			from Sprint s 
+			left join fetch s.tickets t 
+			left join fetch t.filhos f
+			left join fetch t.backlog
+			left join fetch t.tipoDeTicket
+			left join fetch t.kanbanStatus
+			where s.sprintKey = :sprintKey
+		""" 
+		
 		final Sprint sprint = (Sprint) getSession().createQuery(hql).setInteger("sprintKey", sprintKey).uniqueResult()
 		preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint)
 		return sprint

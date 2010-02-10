@@ -53,7 +53,7 @@ class ExecucaoController {
 	String listarPorBancoDeDados( Model model,  @PathVariable Integer bancoDeDadosKey) {
 		listar model, bancoDeDadosKey, false
 	}
-	
+		
 	private String listar( Model model,  Integer bancoDeDadosKey,  Boolean pendentes) {
 		
 		Seguranca.validarPermissao Papel.EQUIPE
@@ -61,9 +61,9 @@ class ExecucaoController {
 		def bancosComExecucoes = []
 		
 		if (bancoDeDadosKey != null) {
-			bancosComExecucoes.add(bancoDeDadosDao.obter(bancoDeDadosKey))
+			bancosComExecucoes.add(pendentes ? bancoDeDadosDao.obterComExecucoesPendentes(bancoDeDadosKey) : bancoDeDadosDao.obterComExecucoes(bancoDeDadosKey))
 		} else {
-			bancosComExecucoes.addAll(bancoDeDadosDao.listar())
+			bancosComExecucoes.addAll(pendentes ? bancoDeDadosDao.listarComExecucoesPendentes() : bancoDeDadosDao.listarComExecucoes())
 		}
 		
 		model.addAttribute "bancosComExecucoes", bancosComExecucoes
@@ -113,7 +113,7 @@ class ExecucaoController {
 		Seguranca.validarPermissao Papel.EQUIPE
 		
 		def agora = new Date()
-		def execucoes = execucaoDao.listar(execucaoKey)
+		def execucoes = execucaoDao.listarPorKeys(execucaoKey as List)
 		execucoes.each() { Execucao it ->
 			it.usuario = Seguranca.usuario
 			it.data = agora
@@ -122,7 +122,7 @@ class ExecucaoController {
 		
 		model.addAttribute "execucaoKey", execucaoKey
 		
-		"redirect:/execucoes/${bancoDeDadosKey}"
+		"redirect:/execucoes/${bancoDeDadosKey}/pendentes"
 	}
 	
 }

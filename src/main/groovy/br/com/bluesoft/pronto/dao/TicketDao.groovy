@@ -1,5 +1,6 @@
 package br.com.bluesoft.pronto.dao;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,6 +24,7 @@ import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.TicketOrdem;
 import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.Seguranca;
+import br.com.bluesoft.pronto.util.DateUtil
 
 @Repository
 public class TicketDao extends DaoHibernate {
@@ -89,7 +91,7 @@ public class TicketDao extends DaoHibernate {
 
 		for (final Ticket ticket : tickets) {
 			
-			ticket.dataDaUltimaAlteracao = new Date()
+			ticket.dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(new Timestamp(new Date().getTime()))
 
 			if (ticket.getReporter() == null) {
 				ticket.setReporter(Seguranca.getUsuario());

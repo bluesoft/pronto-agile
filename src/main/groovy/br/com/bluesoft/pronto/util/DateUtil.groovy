@@ -1,5 +1,6 @@
 package br.com.bluesoft.pronto.util
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -31,6 +32,13 @@ public class DateUtil {
 		calendar.setTime(date)
 		calendar.add(Calendar.DAY_OF_MONTH, days)
 		return calendar.getTime()
+	}
+	
+	public static getTimestampSemMilissegundos(Timestamp timestamp) {
+		def cal = Calendar.getInstance()
+		cal.setTime timestamp
+		cal.set Calendar.MILLISECOND, 0
+		return new Timestamp(cal.getTime().getTime())
 	}
 	
 }

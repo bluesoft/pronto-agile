@@ -1,5 +1,6 @@
 package br.com.bluesoft.pronto.model
 
+import java.sql.Timestamp;
 import java.util.ArrayList
 import java.util.Date
 import java.util.List
@@ -125,7 +126,7 @@ class Ticket {
 	Date dataDePronto
 	
 	@Label("data da última alteração")
-	Date dataDaUltimaAlteracao
+	Timestamp dataDaUltimaAlteracao
 	
 	@Label("data de criaçao")
 	Date dataDeCriacao

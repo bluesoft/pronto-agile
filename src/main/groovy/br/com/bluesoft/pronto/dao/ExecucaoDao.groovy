@@ -2,7 +2,7 @@ package br.com.bluesoft.pronto.dao
 
 import br.com.bluesoft.pronto.model.Execucao
 
-import org.hibernate.Query;
+import org.hibernate.Query
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -13,10 +13,10 @@ class ExecucaoDao extends DaoHibernate {
 	}
 	
 	List listarPorKeys(Collection keys) {
-		final String hql = 'select e from Execucao e inner join fetch e.script where e.execucaoKey in ( :execucaoKey )'
+		String hql = 'select e from Execucao e inner join fetch e.script where e.execucaoKey in ( :execucaoKey )'
 		Query query = getSession().createQuery(hql)
 		query.setParameterList("execucaoKey", keys)
-		return query.list()
+		query.list()
 	}
 
 }

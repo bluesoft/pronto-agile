@@ -1,22 +1,3 @@
-/*
- * Copyright 2009 Pronto Agile Project Management.
- *
- * This file is part of Pronto.
- *
- * Pronto is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Pronto is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
- *
- */
 package br.com.bluesoft.pronto.controller
 
 import static org.springframework.web.bind.annotation.RequestMethod.*
@@ -42,9 +23,6 @@ import br.com.bluesoft.pronto.model.BancoDeDados
 import br.com.bluesoft.pronto.model.Script
 import br.com.bluesoft.pronto.model.Ticket
 
-import com.google.common.base.Predicate
-import com.google.common.collect.Iterables
-
 @Controller
 @RequestMapping("/scripts")
 class ScriptController {
@@ -58,24 +36,27 @@ class ScriptController {
 	
 	@Autowired private TicketDao ticketDao
 	
+	static final TODOS = 0
+	static final PENDENTES = 1
+	static final EXECUTADOS = 2
+	
 	@RequestMapping(method = GET)
 	String listar( Model model,  Integer situacao) {
 		
-		def todosOsScripts = scriptDao.listarComDependencias()
-		
-		Iterator<Script> scripts = null
-		if (situacao != null) {
-			if (situacao == 0) {
-				scripts = todosOsScripts.iterator()
-			} else if (situacao == 1) {
-				scripts = todosOsScripts.findAll { Script it -> !it.isTudoExecutado() }.iterator()
-			} else {
-				scripts = todosOsScripts.findAll { Script it -> it.isTudoExecutado() }.iterator()
-			}
-		} else {
-			scripts = todosOsScripts.findAll { Script it -> !it.isTudoExecutado() }.iterator()
+		def scripts = null
+
+		switch (situacao) {
+			case EXECUTADOS:
+				scripts = scriptDao.listarExecutadosComDependencias()
+			break;
+			case TODOS:
+				scripts = scriptDao.listarComDependencias()
+			break;
+			default:
+				scripts = scriptDao.listarPendentesComDependencias()	
+			break;
 		}
-		
+
 		model.addAttribute "situacao", situacao
 		model.addAttribute "scripts", scripts
 		

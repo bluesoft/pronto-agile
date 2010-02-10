@@ -73,6 +73,7 @@ import br.com.bluesoft.pronto.model.Usuario
 import br.com.bluesoft.pronto.service.Config
 import br.com.bluesoft.pronto.service.Seguranca
 import br.com.bluesoft.pronto.util.ControllerUtil
+import br.com.bluesoft.pronto.util.DateUtil
 import br.com.bluesoft.pronto.util.StringUtil
 import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer;
 
@@ -130,7 +131,7 @@ class TicketController {
 		
 		try {
 			
-			def dataDaUltimaAlteracao = ticketDao.obterDataDaUltimaAlteracaoDoTicket(ticket.ticketKey)
+			def dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(ticketDao.obterDataDaUltimaAlteracaoDoTicket(ticket.ticketKey))
 			if (ticket.dataDaUltimaAlteracao < dataDaUltimaAlteracao) {
 				def erro = 'Não foi possivel alterar o Ticket porque ele já foi alterado depois que você começou a editá-lo!' 
 				return "redirect:/tickets/${ticket.ticketKey}?erro=${erro}";

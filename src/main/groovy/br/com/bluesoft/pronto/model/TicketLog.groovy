@@ -94,13 +94,13 @@ class TicketLog {
 				return MessageFormat.format("{0} - {1} - {2} mudou de \"{3}\" para \"{4}\"", dataDaDescricao, usuario, campo, valorAntigo, valorNovo)
 			case INCLUSAO:
 				if (campo == 'anexo') {
-					return MessageFormat.format("{0} - {1} - {2} incluiu o anexo \"{3}\"", dataDaDescricao, usuario, valorNovo)
+					return MessageFormat.format("{0} - {1} - incluiu o anexo \"{2}\"", dataDaDescricao, usuario, valorNovo)
 				} else {
 					return MessageFormat.format("{0} - {1} - {2} foi definido como \"{3}\"", dataDaDescricao, usuario, campo, valorNovo)
 				}
 			case EXCLUSAO:
 				if (campo == 'anexo') {
-					return MessageFormat.format("{0} - {1} - {2} excluiu o anexo \"{3}\"", dataDaDescricao, usuario, valorAntigo)
+					return MessageFormat.format("{0} - {1} - excluiu o anexo \"{2}\"", dataDaDescricao, usuario, valorAntigo)
 				} 
 		}
 	}
