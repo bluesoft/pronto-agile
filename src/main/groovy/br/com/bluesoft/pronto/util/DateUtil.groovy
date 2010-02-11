@@ -34,7 +34,14 @@ public class DateUtil {
 		return calendar.getTime()
 	}
 	
+	
+	
+	
 	public static getTimestampSemMilissegundos(Timestamp timestamp) {
+		if (timestamp == null) {
+			return null
+		}
+		
 		def cal = Calendar.getInstance()
 		cal.setTime timestamp
 		cal.set Calendar.MILLISECOND, 0
