@@ -73,7 +73,7 @@
 				<h1>
 					${backlog.descricao} 
 					<c:if test="${(usuarioLogado.equipe or usuarioLogado.productOwner) and (backlog.backlogKey le 3)}">
-						<a href="${raiz}backlogs${backlog.backlogKey}/estimar"><pronto:icons name="estimar.png" title="Estimar Backlog" /></a>  
+						<a href="${raiz}/backlogs/${backlog.backlogKey}/estimar"><pronto:icons name="estimar.png" title="Estimar Backlog" /></a>  
 					</c:if>
 				</h1>
 			</c:otherwise>
