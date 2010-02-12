@@ -21,7 +21,7 @@
 
 			function verDescricao(ticketKey) {
 				$.ajax({
-					url: '${raiz}tickets/' + ticketKey + '/descricao',
+					url: '${raiz}/tickets/' + ticketKey + '/descricao',
 					cache: false,
 					success: function (data) {
 						$("#dialog").dialog('option', 'title', '#' + ticketKey + ' - ' + $('#' + ticketKey + ' .titulo').text());
@@ -198,7 +198,7 @@
 							<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
 						</td>
 						<td>
-							<a href="${raiz}tickets/${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+							<a href="${raiz}/tickets/${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 						</td>
 					</tr>
 					<c:forEach items="${t.filhos}" var="f">
@@ -258,7 +258,7 @@
 									<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${f.ticketKey});"/>
 								</td>
 								<td>
-									<a href="${raiz}tickets/${f.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+									<a href="${raiz}/tickets/${f.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 								</td>
 							</tr>
 						</c:if>
@@ -283,10 +283,10 @@
 				
 				<c:choose>
 					<c:when test="${sprint ne null}">
-						<c:url var="urlCancelar" value="${raiz}backlogs/sprints${sprint.sprintKey}"/>
+						<c:url var="urlCancelar" value="${raiz}/backlogs/sprints/${sprint.sprintKey}"/>
 					</c:when>
 					<c:otherwise>
-						<c:url var="urlCancelar" value="${raiz}backlogs/${backlog.backlogKey}"/>
+						<c:url var="urlCancelar" value="${raiz}/backlogs/${backlog.backlogKey}"/>
 					</c:otherwise>
 				</c:choose>	
 				
