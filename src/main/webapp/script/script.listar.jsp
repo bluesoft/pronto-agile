@@ -59,13 +59,13 @@
 						<c:if test="${s.ticket ne null}">
 							<c:choose>
 								<c:when test="${s.ticket.estoria}">
-									<pronto:icons name="estoria.png" title="Ir para Estória - ${s.ticket}" onclick="goTo('${raiz}ticktes/${s.ticket.ticketKey}')"/>								
+									<pronto:icons name="estoria.png" title="Ir para Estória - ${s.ticket}" onclick="goTo('${raiz}tickets/${s.ticket.ticketKey}')"/>								
 								</c:when>
 								<c:when test="${s.ticket.tarefa}">
-									<pronto:icons name="tarefa.png" title="Ir para Tarefa - ${s.ticket}" onclick="goTo('${raiz}ticktes/${s.ticket.ticketKey}')"/>
+									<pronto:icons name="tarefa.png" title="Ir para Tarefa - ${s.ticket}" onclick="goTo('${raiz}tickets/${s.ticket.ticketKey}')"/>
 								</c:when>
 								<c:otherwise>
-									<pronto:icons name="defeito.png" title="Ir para Defeito - ${s.ticket}" onclick="goTo('${raiz}ticktes/${s.ticket.ticketKey}')"/>
+									<pronto:icons name="defeito.png" title="Ir para Defeito - ${s.ticket}" onclick="goTo('${raiz}tickets/${s.ticket.ticketKey}')"/>
 								</c:otherwise>
 							</c:choose>
 							#${s.ticket.ticketKey}

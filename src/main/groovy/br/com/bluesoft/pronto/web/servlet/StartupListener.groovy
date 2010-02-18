@@ -5,10 +5,12 @@ import javax.servlet.ServletContextListener;
 
 class StartupListener implements ServletContextListener {
 	
-	static String contextName 
+	static String contextPath 
 	
 	public void contextInitialized(ServletContextEvent sce){
-		this.contextName = "/" + sce.servletContext.servletContextName
+		String path = sce.getServletContext().getResource("/").getPath();
+		this.contextPath = path.substring(0, path.lastIndexOf("/"));
+		this.contextPath = this.contextPath.substring(contextPath.lastIndexOf("/"));
 	}
 	
 	public void contextDestroyed(ServletContextEvent sce){}

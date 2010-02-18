@@ -8,7 +8,7 @@
 			<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
 				<li><a href="${raiz}clientes">Clientes</a></li>
 			</c:if>
-			
+			<li><a href="${raiz}configuracoes">Configurações</a></li>
 		</ul>
 		</li>
 		
