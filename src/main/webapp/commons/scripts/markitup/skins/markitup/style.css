@@ -15,7 +15,7 @@
 }
 
 .markItUp  {
-	width:700px;
+	width:900px;
 	margin:5px 0 5px 0;
 	border:5px solid #F5F5F5;	
 }
@@ -33,9 +33,8 @@
 	font-family: Monaco, Courier New, Courier, monospace;
 	padding:5px 5px 5px 35px;
 	border:3px solid #3C769D;
-	width:643px;
+	width: 100%;
 	height:320px;
-	background-image:url(images/bg-editor.png);
 	background-repeat:no-repeat;
 	clear:both; display:block;
 	line-height:18px;

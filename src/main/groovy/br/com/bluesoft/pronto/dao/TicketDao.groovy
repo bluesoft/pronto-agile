@@ -86,10 +86,12 @@ public class TicketDao extends DaoHibernate {
 			if (ticket.getScript() != null && ticket.getScript().getScriptKey() == 0) {
 				ticket.setScript(null);
 			} 
-		
-			Ticket antigo = obter(ticket.ticketKey)
-			def logs = GeradorDeLogDeTicket.gerarLogs(antigo, ticket)
-			ticket.logs.addAll(logs)
+			
+			if (ticket.ticketKey > 0) {
+				Ticket antigo = obter(ticket.ticketKey)
+				def logs = GeradorDeLogDeTicket.gerarLogs(antigo, ticket)
+				ticket.logs.addAll(logs)
+			}
 		}
 		session.clear()
 	}
