@@ -45,20 +45,25 @@ class LoginController {
 	String start(final HttpSession httpSession) {
 		final Usuario usuarioLogado = (Usuario) httpSession.getAttribute("usuarioLogado")
 		if (usuarioLogado != null) {
-			if (usuarioLogado.isClientePapel()) {
-				return "redirect:" + ACTION_BACKLOG_DO_CLIENTE
-			} else {
-				if (httpSession.getAttribute('lastRequestURI') != null) {
-					return "redirect:" + httpSession.getAttribute('lastRequestURI')
-				} else {
-					return "redirect:" + ACTION_KANBAN
-				}
-			}
+			return pageToStart(httpSession)
 		} else {
 			return "/login/login.login.jsp"
 		}
 	}
-	
+	private pageToStart(HttpSession httpSession) {
+		final Usuario usuarioLogado = (Usuario) httpSession.getAttribute("usuarioLogado")
+		if (usuarioLogado.isClientePapel()) {
+			return "redirect:" + ACTION_BACKLOG_DO_CLIENTE
+		} else {
+			if (httpSession.getAttribute('lastRequestURI') != null) {
+				def uri = httpSession.getAttribute("lastRequestURI")
+				httpSession.removeAttribute("lastRequestURI")
+				return "redirect:${uri}"
+			} else {
+				return "redirect:" + ACTION_KANBAN
+			}
+		}
+	}
 	
 	@RequestMapping(value = "/logar", method=POST)
 	String login(final Model model, final HttpSession httpSession, final String username, final String password) {
@@ -69,11 +74,7 @@ class LoginController {
 			return "redirect:/login"
 		} else {
 			httpSession.setAttribute("usuarioLogado", usuario)
-			if (usuario.isClientePapel()) {
-				return "redirect:" + ACTION_BACKLOG_DO_CLIENTE
-			} else {
-				return "redirect:" + ACTION_KANBAN
-			}
+			return pageToStart(httpSession)
 		}
 		
 	}

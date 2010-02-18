@@ -19,10 +19,12 @@ import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.model.Classificacao;
+import br.com.bluesoft.pronto.model.Script;
 import br.com.bluesoft.pronto.model.Sprint;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.TicketOrdem;
 import br.com.bluesoft.pronto.model.Usuario;
+import br.com.bluesoft.pronto.service.GeradorDeLogDeTicket;
 import br.com.bluesoft.pronto.service.Seguranca;
 import br.com.bluesoft.pronto.util.DateUtil
 
@@ -83,14 +85,19 @@ public class TicketDao extends DaoHibernate {
 		for (final Ticket ticket : tickets) {
 			if (ticket.getScript() != null && ticket.getScript().getScriptKey() == 0) {
 				ticket.setScript(null);
-			}
+			} 
+		
+			Ticket antigo = obter(ticket.ticketKey)
+			def logs = GeradorDeLogDeTicket.gerarLogs(antigo, ticket)
+			ticket.logs.addAll(logs)
 		}
+		session.clear()
 	}
 
 	private void defineValores(final Ticket... tickets) {
 
 		for (final Ticket ticket : tickets) {
-			
+
 			ticket.dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(new Timestamp(new Date().getTime()))
 
 			if (ticket.getReporter() == null) {

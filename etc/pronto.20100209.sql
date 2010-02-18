@@ -15,6 +15,8 @@ CREATE INDEX idx_sprint_fechado ON SPRINT USING btree (fechado);
 
 CREATE INDEX idx_retrospectiva_item_retrospectiva ON RETROSPECTIVA_ITEM USING btree (RETROSPECTIVA_KEY);
 
+alter table ticket_log alter column ticket_key set not null;
+
 CREATE TABLE configuracoes (
 	chave varchar(50) primary key,
 	valor varchar(100)	

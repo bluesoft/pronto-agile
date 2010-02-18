@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.Seguranca;
+import br.com.bluesoft.pronto.web.servlet.StartupListener;
 
 public class LoginFilter implements Filter {
 
@@ -78,7 +79,9 @@ public class LoginFilter implements Filter {
 
 		if (isAccessDenied) {
 			if (!logado) {
-				request.getSession().setAttribute 'lastRequestURI', request.getRequestURI()
+				if (request.getMethod().toUpperCase().equals("GET")) {
+					request.getSession().setAttribute 'lastRequestURI', getURIWithoutContextPath(request)
+				}
 				response.sendRedirect(request.getContextPath() + LOGIN_URI);
 				return;
 			}
@@ -88,7 +91,7 @@ public class LoginFilter implements Filter {
 			Seguranca.setUsuario(usuarioLogado);
 			boolean isRootURL = request.getRequestURI() .equals( request.getContextPath()) || request.getRequestURI() .equals( request.getContextPath() + "/");
 			if (isRootURL) {
-				response.sendRedirect(request.getContextPath() + "/kanban");
+				response.sendRedirect(request.getContextPath() + "/login");
 			} else {
 				chain.doFilter(servletRequest, servletResponse);
 			}
@@ -99,7 +102,11 @@ public class LoginFilter implements Filter {
 
 		
 	}
-
+	
+	private String getURIWithoutContextPath(HttpServletRequest request) {
+		return request.getRequestURI().substring(request.getRequestURI().indexOf('/',1))
+	}
+	
 	private boolean isAccessDenied(final HttpServletRequest request, final boolean logado) {
 		final String uri = request.getRequestURI();
 		final boolean isLoginAction = uri.equals(request.getContextPath() + LOGIN_URI) || uri.equals(request.getContextPath() + LOGIN_URI + "/");

@@ -3,6 +3,7 @@ package br.com.bluesoft.pronto.model
 import java.sql.Timestamp;
 import java.util.ArrayList
 import java.util.Date
+import java.util.LinkedList;
 import java.util.List
 import java.util.Set
 
@@ -22,7 +23,9 @@ import javax.persistence.SequenceGenerator
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade
+import org.springframework.beans.factory.annotation.Autowired;
 
+import br.com.bluesoft.pronto.annotations.Auditable;
 import br.com.bluesoft.pronto.annotations.Label
 import br.com.bluesoft.pronto.core.Backlog
 import br.com.bluesoft.pronto.core.KanbanStatus
@@ -56,59 +59,75 @@ class Ticket {
 	@GeneratedValue(generator = "SEQ_TICKET")
 	int ticketKey
 	
+	
+	@Auditable
 	@Label("título")
 	String titulo
 	
+	@Auditable
 	@Label("backlog")
 	@ManyToOne
 	@JoinColumn(name = "BACKLOG_KEY")
 	Backlog backlog
 	
+	@Auditable
 	@Label("status do kanban")
 	@ManyToOne
 	@JoinColumn(name = "KANBAN_STATUS_KEY")
 	KanbanStatus kanbanStatus
 	
+	@Auditable
 	@ManyToOne
 	@JoinColumn(name = "TIPO_DE_TICKET_KEY")
 	@Label("tipo de ticket")
 	TipoDeTicket tipoDeTicket
 	
+	@Auditable
 	@Label("descrição")
 	String descricao
 	
+	@Auditable
 	@ManyToOne
 	@JoinColumn(name = "REPORTER_KEY")
 	Usuario reporter
 	
+	@Auditable
 	@Label("cliente")
 	@ManyToOne
 	@JoinColumn(name = "CLIENTE_KEY")
 	Cliente cliente
 	
+	@Auditable
 	String solicitador
 	
+	@Auditable
 	String branch
 	
+	@Auditable
 	@Label("desenvolvedores")
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "TICKET_DESENVOLVEDOR", joinColumns =  @JoinColumn(name = "TICKET_KEY") , inverseJoinColumns =  @JoinColumn(name = "USUARIO_KEY") )
-	Set<Usuario> desenvolvedores
+	List<Usuario> desenvolvedores
 	
+	@Auditable
 	@Label("testadores")
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "TICKET_TESTADOR", joinColumns =  @JoinColumn(name = "TICKET_KEY") , inverseJoinColumns =  @JoinColumn(name = "USUARIO_KEY") )
-	Set<Usuario> testadores
+	List<Usuario> testadores
 	
+	@Auditable
 	@Label("valor de negócio")
 	int valorDeNegocio
 	
+	@Auditable
 	@Label("esforço")
 	double esforco
 	
+	@Auditable
 	@Label("em par?")
 	boolean par
 	
+	@Auditable
 	@Label("planejado?")
 	boolean planejado
 	
@@ -122,6 +141,7 @@ class Ticket {
 	@Cascade(org.hibernate.annotations.CascadeType.LOCK)
 	List<Ticket> filhos
 	
+	@Auditable
 	@Label("data de pronto")
 	Date dataDePronto
 	
@@ -131,12 +151,15 @@ class Ticket {
 	@Label("data de criaçao")
 	Date dataDeCriacao
 	
+	@Auditable
 	@Label("prioridade de desenvolvimento")
 	Integer prioridade
 	
+	@Auditable
 	@Label("prioridade do cliente")
 	Integer prioridadeDoCliente
 	
+	@Auditable
 	@ManyToOne
 	@JoinColumn(name = "sprint")
 	Sprint sprint
@@ -383,6 +406,22 @@ class Ticket {
 	
 	List<Ticket> getFilhos() {
 		return filhos;
+	}
+	
+	public void setDesenvolvedores(List<Usuario> desenvolvedores) {
+		this.desenvolvedores = new LinkedList(desenvolvedores);
+	}
+	
+	public void setDesenvolvedores(Collection<Usuario> desenvolvedores) {
+		this.desenvolvedores = new LinkedList(desenvolvedores);
+	}
+	
+	public void setTestadores(Collection<Usuario> testadores) {
+		this.testadores = new LinkedList(testadores);
+	}
+	
+	public void setTestadores(List<Usuario> testadores) {
+		this.testadores = new LinkedList(testadores);
 	}
 	
 }

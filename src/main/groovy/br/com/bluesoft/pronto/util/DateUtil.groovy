@@ -19,6 +19,18 @@ public class DateUtil {
 		}
 	}
 
+	public static Date toDate(String str) {
+		if (str != null) {
+			try {
+				return new SimpleDateFormat(PADRAO_COMPLETO).parse(str)
+			} catch (Exception e) {
+				return null
+			}
+		} else {
+			return null
+		}
+	}
+
 	public static String toStringMesAno(final Date date) {
 		return new SimpleDateFormat(PADRAO_MES_ANO).format(date)
 	}
@@ -33,8 +45,6 @@ public class DateUtil {
 		calendar.add(Calendar.DAY_OF_MONTH, days)
 		return calendar.getTime()
 	}
-	
-	
 	
 	
 	public static getTimestampSemMilissegundos(Timestamp timestamp) {
