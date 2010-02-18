@@ -22,6 +22,7 @@
 		<mapping class="br.com.bluesoft.pronto.core.TipoRetrospectiva"  />
 
 		<!-- model classes -->
+		<mapping class="br.com.bluesoft.pronto.model.Configuracao" />
 		<mapping class="br.com.bluesoft.pronto.model.Cliente" />
 		<mapping class="br.com.bluesoft.pronto.model.Sprint" />
 		<mapping class="br.com.bluesoft.pronto.model.Ticket" />
