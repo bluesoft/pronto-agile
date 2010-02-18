@@ -75,9 +75,10 @@ public class TicketDao extends DaoHibernate {
 	public void salvar(final Ticket... tickets) {
 		prepararParaSalvar(tickets)
 		super.salvar(tickets)
-		getSession().flush()
+		session.flush()
+		session.clear()
 		defineValores(tickets)
-		getSession().flush()
+		session.flush()
 	}
 	
 	
@@ -97,7 +98,7 @@ public class TicketDao extends DaoHibernate {
 	}
 
 	private void defineValores(final Ticket... tickets) {
-
+		
 		for (final Ticket ticket : tickets) {
 
 			ticket.dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(new Timestamp(new Date().getTime()))
@@ -157,11 +158,6 @@ public class TicketDao extends DaoHibernate {
 						super.getSession().update(pai);
 					}
 				} else {
-					if (pai.isEmAndamento()) {
-						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.DOING));
-					} else {
-						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.TO_DO));
-					}
 					pai.setDataDePronto(null);
 				}
 			}
