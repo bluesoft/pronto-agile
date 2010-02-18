@@ -27,10 +27,9 @@ pronto.kanban = {
 			helper : 'clone',
 			cursor : 'move'
 		});
-
+		
 		$drop.droppable( {
 			accept : 'li',
-			activeClass : 'ui-state-highlight',
 			drop : function(event, ui) {
 				pronto.kanban.mover(event, ui, $(this));
 			}

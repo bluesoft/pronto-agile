@@ -34,12 +34,12 @@
 						</c:otherwise>
 					</c:choose>
 					<td style="width: ${width}%; height: 100%;">
-                              <div class="ui-widget ui-helper-clearfix" align="center">
+                              <div class="ui-widget ui-helper-clearfix kanban-area" align="center">
                                   <h4 class="ui-widget-header">${s.descricao} (${mapaDeQuantidades[s.kanbanStatusKey] != null ? mapaDeQuantidades[s.kanbanStatusKey] : 0}) </h4>
                                   <ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop" status="${s.kanbanStatusKey}">
                                       <c:forEach items="${mapaDeTickets[s.kanbanStatusKey]}" var="t">
                                               <li id="${t.ticketKey}" class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="pronto.kanban.openTicket(${t.ticketKey});" title="${t.titulo}">
-                                                  <p><b>#${t.ticketKey}</b><br>${t.tituloResumido}</p>
+                                                  <p><span class="ticketKey">#${t.ticketKey}</span><br>${t.tituloResumido}</p>
                                               </li>
                                       </c:forEach>
                                   </ul>

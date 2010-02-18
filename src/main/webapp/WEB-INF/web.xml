@@ -62,6 +62,11 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+	<!-- STARTUP -->
+	<listener>
+		<listener-class>br.com.bluesoft.pronto.web.servlet.StartupListener</listener-class>
+	</listener>
 
 	<!-- OPEN SESSION IN VIEW -->
 	<filter>

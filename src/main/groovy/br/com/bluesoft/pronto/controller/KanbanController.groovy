@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.bluesoft.pronto.SegurancaException
 import br.com.bluesoft.pronto.core.KanbanStatus
@@ -76,7 +77,7 @@ public class KanbanController {
 	}
 	
 	@RequestMapping("/mover")
-	void mover(final Model model, final int ticketKey, final int kanbanStatusKey) throws SegurancaException {
+	@ResponseBody String mover(final Model model, final int ticketKey, final int kanbanStatusKey) throws SegurancaException {
 		
 		Seguranca.validarPermissao(Papel.EQUIPE)
 		
@@ -91,5 +92,6 @@ public class KanbanController {
 		
 		ticketDao.salvar(ticket)
 		
+		"true"
 	}
 }
