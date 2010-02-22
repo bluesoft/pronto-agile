@@ -42,6 +42,7 @@ public class LoginFilter implements Filter {
 
 	private static final String LOGIN_URI = "/login";
 	private static final String LOGAR_URI = "/logar";
+	private static final String BRANCA_URI = "/branca.jsp";
 
 	private static final Set<String> freeResources;
 
@@ -111,6 +112,7 @@ public class LoginFilter implements Filter {
 		final String uri = request.getRequestURI();
 		final boolean isLoginAction = uri.equals(request.getContextPath() + LOGIN_URI) || uri.equals(request.getContextPath() + LOGIN_URI + "/");
 		final boolean isLogarAction = uri.equals(request.getContextPath() + LOGAR_URI) || uri.equals(request.getContextPath() + LOGAR_URI + "/");
+		final boolean isBranca = uri.equals(request.getContextPath() + BRANCA_URI) || uri.equals(request.getContextPath() + BRANCA_URI + "/");
 
 		boolean isntProtected = false;
 		for (final String s : freeResources) {
@@ -120,7 +122,7 @@ public class LoginFilter implements Filter {
 			}
 		}
 
-		final boolean isAccessDenied = !logado && !isLoginAction && !isntProtected && !isLogarAction;
+		final boolean isAccessDenied = !logado && !isLoginAction && !isntProtected && !isLogarAction && !isBranca;
 		return isAccessDenied;
 	}
 
