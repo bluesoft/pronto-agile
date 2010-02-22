@@ -7,7 +7,7 @@
 }
 
 #divReporter {
-	float: right;	
+	float: right;
 }
 
 .bloco div {
@@ -53,4 +53,34 @@
 #listaHistorico li {
 	margin-left: 25px;
 	color: #888888;
+}
+
+#listaTarefas {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+#listaTarefas li {
+	margin: 0 5px 5px 5px;
+	padding: 2px;
+	height: 1.5em;
+	font-size: 12px
+}
+
+html>body #listaTarefas li {
+	height: 1.5em;
+	line-height: 1.2em;
+}
+
+.ui-state-highlight {
+	height: 1.5em;
+	line-height: 1.2em;
+}
+
+.ui-state-default {
+	background-image: none;
+	background-color: #f8f8f8;
+	color: #0066cc;
 }

@@ -83,7 +83,11 @@ public class KanbanController {
 		
 		def ticket = (Ticket) sessionFactory.currentSession.get(Ticket.class, ticketKey)
 		ticket.kanbanStatus = sessionFactory.currentSession.get(KanbanStatus.class, kanbanStatusKey)
-		
+
+		if (kanbanStatusKey == KanbanStatus.DOING) {
+			ticket.addDesenvolvedor Seguranca.usuario
+		}
+
 		if (kanbanStatusKey == KanbanStatus.DONE) {
 			ticket.setDataDePronto(new Date())
 		} else {

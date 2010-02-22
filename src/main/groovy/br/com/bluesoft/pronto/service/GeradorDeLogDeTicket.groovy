@@ -56,7 +56,7 @@ class GeradorDeLogDeTicket {
 			str = DateUtil.toString((Date) valor);
 		}
 		
-		if (valor == null || valor.equals("null")) {
+		if (valor == null || valor.equals("null") || valor.equals("[]")) {
 			return "em branco";
 		} else {
 			return str;

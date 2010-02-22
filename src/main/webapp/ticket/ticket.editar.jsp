@@ -46,7 +46,7 @@
 		}
 
 		 var alterarPrioridadeDaTarefa = function(ui, event) {
-				var $tarefas = $('#tarefas li');
+				var $tarefas = $('#listaTarefas li');
 				var novaOrdem = new Array($tarefas.length);
 				var indice = 0;
 				$tarefas.each(function(i, el) {
@@ -61,11 +61,11 @@
 		      $("#comentario").markItUp(mySettings);
 		      $("#titulo").focus();
     		  $("#dialog").dialog({ autoOpen: false, height: 530, width: 600, modal: true });
-    		  $("#tarefas").sortable({
+    		  $("#listaTarefas").sortable({
     				placeholder: 'ui-state-highlight',
     				stop: alterarPrioridadeDaTarefa 
     		  });
-    		  $("#tarefas").disableSelection();
+    		  $("#listaTarefas").disableSelection();
 		 });
 
 		function adicionarScript() {
@@ -94,13 +94,6 @@
 				});
 			}
 		</script>
-		<style>
-			#tarefas { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-			#tarefas li { margin: 0 5px 5px 5px; padding: 2px; height: 1.5em; font-size: 12px}
-			html>body #tarefas li { height: 1.5em; line-height: 1.2em; }
-			.ui-state-highlight { height: 1.5em; line-height: 1.2em; }
-			.ui-state-default { background-image: none; background-color: #f8f8f8; color: #0066cc; }
-		</style>
 	</head>
 	<body>
 		
@@ -118,6 +111,9 @@
 		<div id="ticketTabs">
 			<ul>
 				<li><a href="#detalhes">Detalhes</a></li>
+				<c:if test="${!empty ticket.filhos}">
+					<li><a href="#tarefas">Tarefas (${fn:length(ticket.filhosProntos)} / ${fn:length(ticket.filhos)})</a></li>
+				</c:if>
 				<li><a href="#comentarios">Comentários (${fn:length(ticket.comentarios)})</a></li>
 				<li><a href="#anexos">Anexos (${fn:length(anexos)})</a></li>
 				<li><a href="#historico">Histórico (${fn:length(ticket.logs)})</a></li>
@@ -182,6 +178,7 @@
 				<form action="${raiz}tickets" method="post" id="formTicket">
 					<form:hidden path="ticket.tipoDeTicket.tipoDeTicketKey" />
 					<form:hidden path="ticket.prioridadeDoCliente"/>
+					
 					<c:if test="${ticket.ticketKey gt 0}">
 						<form:hidden path="ticket.ticketKey"/>
 						<c:if test="${ticket.script ne null}">
@@ -189,24 +186,12 @@
 						</c:if>	
 					</c:if>
 					
-					<c:if test="${!empty ticket.filhos}">
-						<h3>Tarefas</h3>
-						<ul style="width: 100%; font-size: 12px;" id="tarefas">
-							<c:forEach items="${ticket.filhos}" var="filho">
-								<c:set var="cssClass" value="${filho.dataDePronto eq null ? 'ui-state-default': 'ui-state-disabled'}"/>
-								<li class="${cssClass}" id="${filho.ticketKey}">
-									<span style="float: left;">
-										<b>${filho.ticketKey}</b>
-										<span class="titulo">${filho.titulo}</span>
-									</span>
-									<span style="float: right;">
-										${filho.kanbanStatus.descricao}
-										<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${filho.ticketKey});"/>
-										<a href="${raiz}tickets/${filho.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
-									</span>
-								</li>
-							</c:forEach>
-						</ul>
+					<c:if test="${ticket.pai ne null}">
+						<input type="hidden" name="paiKey" value="${ticket.pai.ticketKey}"/>
+						<a href="${raiz}tickets/${ticket.pai.ticketKey}">
+							<b>#${ticket.pai.ticketKey} - ${ticket.pai.titulo}</b>
+						</a>
+						<p>Estória</p>
 					</c:if>
 
 					<div id="divReporter">
@@ -251,15 +236,6 @@
 								</c:if>
 							</div>
 						</div>
-						
-						<c:if test="${ticket.pai ne null}">
-							<input type="hidden" name="paiKey" value="${ticket.pai.ticketKey}"/>
-							<c:if test="${ticket.ticketKey gt 0}">
-								<a href="${raiz}tickets/${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
-							</c:if>
-							<b>#${ticket.pai.ticketKey} - ${ticket.pai.titulo}</b>
-							<p>Estória</p>
-						</c:if>
 						
 						<div class="bloco">
 						
@@ -481,8 +457,29 @@
 					</div>
 				</form>	
 			</div>
+			<c:if test="${!empty ticket.filhos}">
+				<div id="tarefas">
+					<ul id="listaTarefas">
+						<c:forEach items="${ticket.filhosOrdenadosKanbanStatus}" var="filho">
+							<c:set var="cssClass" value="${filho.dataDePronto eq null ? 'ui-state-default': 'ui-state-disabled'}"/>
+							<li class="${cssClass}" id="${filho.ticketKey}">
+								<span style="float: left;">
+									<b>${filho.ticketKey}</b>
+									<span class="titulo">${filho.titulo}</span>
+								</span>
+								<span style="float: right;">
+									${filho.kanbanStatus.descricao}
+									<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${filho.ticketKey});"/>
+									<a href="${raiz}tickets/${filho.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+								</span>
+							</li>
+						</c:forEach>
+					</ul>
+					<br/>
+				</div>
+			</c:if>
 			<div id="comentarios">
-				<%@ include file="ticket.comentarios.jsp" %>>
+				<%@ include file="ticket.comentarios.jsp" %>
 			</div>
 			<div id="anexos">
 				<c:if test="${ticket.ticketKey gt 0}">
@@ -537,9 +534,6 @@
 				</ul>
 			</div>
 		</div>
-		
-			
-			
 			
 		</c:if>
 		

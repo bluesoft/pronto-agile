@@ -405,7 +405,19 @@ class Ticket {
 	}
 	
 	List<Ticket> getFilhos() {
-		return filhos;
+		filhos
+	}
+	
+	List<Ticket> getFilhosOrdenadosKanbanStatus() {
+		filhos.sort {
+			it.kanbanStatus.kanbanStatusKey 
+		}
+	}
+	
+	List<Ticket> getFilhosProntos() {
+		filhos.findAll {
+			it.done
+		}
 	}
 	
 	public void setDesenvolvedores(List<Usuario> desenvolvedores) {

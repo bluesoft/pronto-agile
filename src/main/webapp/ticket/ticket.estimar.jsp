@@ -320,17 +320,16 @@
 			</table>	
 		
 			<div align="center">
-				
 				<c:choose>
 					<c:when test="${sprint ne null}">
-						<c:url var="urlCancelar" value="${raiz}backlogs/sprints/${sprint.sprintKey}"/>
+						<button type="button" onclick="goTo('${raiz}backlogs/sprints/${sprint.sprintKey}')">Voltar</button>
 					</c:when>
 					<c:otherwise>
-						<c:url var="urlCancelar" value="${raiz}backlogs/${backlog.backlogKey}"/>
+						<button type="button" onclick="goTo('${raiz}backlogs/${backlog.backlogKey}')">Voltar</button>
 					</c:otherwise>
 				</c:choose>	
 				
-				<button type="button" onclick="goTo('${urlCancelar}')">Voltar</button>
+				
 			</div>
 		</form>
 		
