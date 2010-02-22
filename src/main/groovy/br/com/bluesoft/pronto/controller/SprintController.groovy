@@ -25,6 +25,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.util.List
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -48,6 +49,7 @@ import org.springframework.web.context.request.WebRequest;
 import br.com.bluesoft.pronto.ProntoException
 import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.Papel;
+import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
 import br.com.bluesoft.pronto.dao.SprintDao
 import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.model.Sprint
@@ -70,6 +72,7 @@ class SprintController {
 	@Autowired SessionFactory sessionFactory
 	@Autowired SprintDao sprintDao
 	@Autowired TicketDao ticketDao
+	@Autowired ConfiguracaoDao configuracaoDao
 	
 	@InitBinder
 	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
@@ -247,6 +250,7 @@ class SprintController {
 		List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey)
 		model.addAttribute("tickets", tickets)
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey))
+		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		return VIEW_ESTIMAR
 	}
 	

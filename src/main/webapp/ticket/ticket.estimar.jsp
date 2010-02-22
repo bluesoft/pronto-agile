@@ -21,7 +21,7 @@
 
 			function verDescricao(ticketKey) {
 				$.ajax({
-					url: '${raiz}/tickets/' + ticketKey + '/descricao',
+					url: '${raiz}tickets/' + ticketKey + '/descricao',
 					cache: false,
 					success: function (data) {
 						$("#dialog").dialog('option', 'title', '#' + ticketKey + ' - ' + $('#' + ticketKey + ' .titulo').text());
@@ -46,6 +46,9 @@
 					esforco += parseFloat($(el).text());
 				});
 				$('.esforco input[type=text]').each(function(i, el){
+					esforco += parseFloat($(el).val());
+				});
+				$('.esforco input:checked').each(function(i, el){
 					esforco += parseFloat($(el).val());
 				});
 
@@ -112,12 +115,21 @@
 					<th>Tipo</th>
 					<th>Cliente</th>
 					<th>Valor de Negócio</th>
-					<th>Esforço</th>
+					<th colspan="3">Esforço</th>
 					<th>Em Par</th>
 					<th>Branch</th>
 					<th>Status</th>
 					<th colspan="2"></th>
 				</tr>
+				<c:if test="${configuracoes['tipoDeEstimativa'] eq 'PMG'}">
+					<tr>
+						<th colspan="5"></th>
+						<th>P</th>
+						<th>M</th>
+						<th>G</th>
+						<th colspan="5"></th>
+					</tr>
+				</c:if>
 				<c:forEach items="${tickets}" var="t">
 					<c:set var="cor" value="${!cor}"/>
 					<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
@@ -139,23 +151,39 @@
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<td class="esforco">
+						
+						
 							<c:choose>
 								<c:when test="${usuarioLogado.equipe}">
 									<c:choose>
 										<c:when test="${empty t.filhos}">
-											<input type="text" size="5" name="esforco" value="${t.esforco}" onchange="recalcular();salvarEsforco(this);" class="required number"/>
+											<c:choose>
+												<c:when test="${configuracoes['tipoDeEstimativa'] eq 'PMG'}">
+													<td class="esforco"><input name="esforco${t.ticketKey}" type="radio" value="10" ${t.esforco eq 10 ? 'checked="checked"' : ''} onchange="recalcular();salvarEsforco(this);"/></td> 												
+													<td class="esforco"><input name="esforco${t.ticketKey}" type="radio" value="20" ${t.esforco eq 20 ? 'checked="checked"' : ''} onchange="recalcular();salvarEsforco(this);"/></td> 
+													<td class="esforco"><input name="esforco${t.ticketKey}" type="radio" value="30" ${t.esforco eq 30 ? 'checked="checked"' : ''} onchange="recalcular();salvarEsforco(this);"/></td>
+												</c:when>
+												<c:otherwise>
+													<input type="text" size="5" name="esforco" value="${t.esforco}" onchange="recalcular();salvarEsforco(this);" class="required number"/>	
+												</c:otherwise>
+											</c:choose>
 										</c:when>
 										<c:otherwise>
-											<input type="hidden"  name="esforco" value="${t.esforco}"/>
+											<td class="esforco" colspan="3">
+												<input type="hidden" name="esforco" value="${t.esforco}"/>
+											</td>
 										</c:otherwise>
 									</c:choose>
 								</c:when>
 								<c:otherwise>
-									<span>${t.esforco}</span>
+									<td class="esforco" colspan="3">
+										<span>${t.esforco}</span>
+									</td>
 								</c:otherwise>
 							</c:choose>
-						</td>
+						
+						
+						
 						<td>
 							<c:choose>
 								<c:when test="${usuarioLogado.equipe}">
@@ -198,7 +226,7 @@
 							<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
 						</td>
 						<td>
-							<a href="${raiz}/tickets/${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+							<a href="${raiz}tickets/${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 						</td>
 					</tr>
 					<c:forEach items="${t.filhos}" var="f">
@@ -220,16 +248,28 @@
 										</c:when>
 									</c:choose>
 								</td>
-								<td class="esforco">
-									<c:choose>
-										<c:when test="${usuarioLogado.equipe}">
-											<input type="text" size="5" name="esforco" value="${f.esforco}" onchange="recalcular();salvarEsforco(this);" class="required number"/>
-										</c:when>
-										<c:otherwise>
+								
+								<c:choose>
+									<c:when test="${usuarioLogado.equipe}">
+										<c:choose>
+											<c:when test="${configuracoes['tipoDeEstimativa'] eq 'PMG'}">
+												<td class="esforco"><input name="esforco${f.ticketKey}" type="radio" value="10" ${f.esforco eq 10 ? 'checked="checked"' : ''} onchange="recalcular();salvarEsforco(this);"/></td> 												
+												<td class="esforco"><input name="esforco${f.ticketKey}" type="radio" value="20" ${f.esforco eq 20 ? 'checked="checked"' : ''} onchange="recalcular();salvarEsforco(this);"/></td> 
+												<td class="esforco"><input name="esforco${f.ticketKey}" type="radio" value="30" ${f.esforco eq 30 ? 'checked="checked"' : ''} onchange="recalcular();salvarEsforco(this);"/></td>
+											</c:when>
+											<c:otherwise>
+												<input type="text" size="5" name="esforco" value="${f.esforco}" onchange="recalcular();salvarEsforco(this);" class="required number"/>	
+											</c:otherwise>
+										</c:choose>
+									</c:when>
+									<c:otherwise>
+										<td class="esforco" colspan="3">
 											<span>${f.esforco}</span>
-										</c:otherwise>
-									</c:choose>
-								</td>
+										</td>
+									</c:otherwise>
+								</c:choose>
+								
+								
 								<td>
 									<c:choose>
 										<c:when test="${usuarioLogado.equipe}">
@@ -258,7 +298,7 @@
 									<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${f.ticketKey});"/>
 								</td>
 								<td>
-									<a href="${raiz}/tickets/${f.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+									<a href="${raiz}tickets/${f.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 								</td>
 							</tr>
 						</c:if>
@@ -272,7 +312,7 @@
 					<th id="somaValorDeNegocio">
 						${sprint.valorDeNegocioTotal} ${backlog.valorDeNegocioTotal}
 					</th>
-					<th id="somaEsforco">
+					<th colspan="3" id="somaEsforco">
 						${sprint.esforcoTotal} ${backlog.esforcoTotal}
 					</th>
 					<th colspan="4"></th>
@@ -283,10 +323,10 @@
 				
 				<c:choose>
 					<c:when test="${sprint ne null}">
-						<c:url var="urlCancelar" value="${raiz}/backlogs/sprints/${sprint.sprintKey}"/>
+						<c:url var="urlCancelar" value="${raiz}backlogs/sprints/${sprint.sprintKey}"/>
 					</c:when>
 					<c:otherwise>
-						<c:url var="urlCancelar" value="${raiz}/backlogs/${backlog.backlogKey}"/>
+						<c:url var="urlCancelar" value="${raiz}backlogs/${backlog.backlogKey}"/>
 					</c:otherwise>
 				</c:choose>	
 				

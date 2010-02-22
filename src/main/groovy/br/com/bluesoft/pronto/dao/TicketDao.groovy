@@ -99,7 +99,9 @@ public class TicketDao extends DaoHibernate {
 
 	private void defineValores(final Ticket... tickets) {
 		
-		for (final Ticket ticket : tickets) {
+		for (Ticket ticket : tickets) {
+			
+			ticket = obter(ticket.ticketKey)
 
 			ticket.dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(new Timestamp(new Date().getTime()))
 
@@ -138,46 +140,51 @@ public class TicketDao extends DaoHibernate {
 			// Se o ticket pai estiver impedido ou na lixeira, o ticket filho deve permancer da mesma forma.
 			if (ticket.temPai()) {
 
-				final Ticket pai = ticket.getPai();
+				final Ticket pai = ticket.pai
 
 				if (pai.isLixo() || pai.isImpedido()) {
-					ticket.setBacklog(pai.getBacklog());
+					ticket.setBacklog(pai.getBacklog())
 				} else {
 					if (!ticket.isLixo() && !ticket.isImpedido()) {
-						ticket.setBacklog(pai.getBacklog());
+						ticket.setBacklog(pai.getBacklog())
 					}
 				}
 
-				ticket.setSprint(pai.getSprint());
-				ticket.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
+				ticket.setSprint(pai.getSprint())
+				ticket.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA))
 
 				if (ticket.isDone() && pai.isTodosOsFilhosProntos()) {
 					if (pai.getDataDePronto() == null) {
-						pai.setDataDePronto(new Date());
-						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.DONE));
-						super.getSession().update(pai);
+						pai.setDataDePronto(new Date())
+						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.DONE))
+						super.getSession().update(pai)
 					}
 				} else {
-					pai.setDataDePronto(null);
+					if (pai.isEmAndamento()) {
+						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.DOING))
+					} else {
+						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.TO_DO))
+					}
+					pai.setDataDePronto(null)
 				}
 			}
 
 			// Tarefa nao tem valor de Negocio
 			if (ticket.isTarefa()) {
-				ticket.setValorDeNegocio(0);
+				ticket.setValorDeNegocio(0)
 			}
 
 			// Grava sysdate na criação
 			if (ticket.getDataDeCriacao() == null) {
-				ticket.setDataDeCriacao(new Date());
+				ticket.setDataDeCriacao(new Date())
 			}
 
 			// Se o status for pronto tem que ter data de pronto.
 			if (ticket.getKanbanStatus().getKanbanStatusKey() == KanbanStatus.DONE && ticket.getDataDePronto() == null) {
-				ticket.setDataDePronto(new Date());
+				ticket.setDataDePronto(new Date())
 			}
 
-			getSession().saveOrUpdate(ticket);
+			getSession().saveOrUpdate(ticket)
 
 		}
 

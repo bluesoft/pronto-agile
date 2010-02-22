@@ -22,4 +22,4 @@ CREATE TABLE configuracoes (
 	valor varchar(100)	
 );
 
-insert into configuracoes values ('tipo_de_estimativa', 'PMG');
+insert into configuracoes values ('tipoDeEstimativa', 'PMG');

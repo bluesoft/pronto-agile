@@ -34,7 +34,7 @@
 				$('[name=execucaoKey]').each(function(i,el){ 
 					execucoes.push($(el).val()); 
 				}); 
-				$('#script').load('${raiz}/execucoes/gerarScript', {
+				$('#script').load('${raiz}execucoes/gerarScript', {
 					execucaoKey: execucoes,
 					bancoDeDadosKey: $('[name=bancoDeDadosKey]').val()
 				}, function() {

@@ -46,6 +46,7 @@ import br.com.bluesoft.pronto.dao.KanbanStatusDao
 import br.com.bluesoft.pronto.dao.SprintDao
 import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.dao.TipoDeTicketDao
+import br.com.bluesoft.pronto.dao.ConfiguracaoDao
 import br.com.bluesoft.pronto.dao.UsuarioDao
 import br.com.bluesoft.pronto.model.Anexo
 import br.com.bluesoft.pronto.model.Classificacao
@@ -84,6 +85,7 @@ class TicketController {
 	@Autowired KanbanStatusDao kanbanStatusDao
 	@Autowired TipoDeTicketDao tipoDeTicketDao
 	@Autowired BacklogDao backlogDao
+	@Autowired ConfiguracaoDao configuracaoDao
 	
 	@InitBinder
 	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
@@ -611,7 +613,8 @@ class TicketController {
 		}
 		
 		def equipe = usuarioDao.listarEquipe()
-		
+
+		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		model.addAttribute "clientes", clienteDao.listar()
 		model.addAttribute "testadores", equipe 
 		model.addAttribute "desenvolvedores", equipe

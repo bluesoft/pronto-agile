@@ -11,10 +11,10 @@
 			
 			<div class="group">
 				<div>
-					<select name="tipo_de_estimativa">
+					<select name="tipoDeEstimativa">
 						<c:forEach items="${tiposDeEstimativa}" var="tipo">
 							<c:choose>
-								<c:when test="${tipo.string eq mapa['tipo_de_estimativa']}">
+								<c:when test="${tipo.string eq mapa['tipoDeEstimativa']}">
 									<option selected="selected" value="${tipo}">${tipo.descricao}</option>
 								</c:when>
 								<c:otherwise>

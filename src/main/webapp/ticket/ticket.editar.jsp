@@ -314,14 +314,25 @@
 				<div>
 					<c:choose>
 						<c:when test="${usuarioLogado.equipe and empty ticket.filhos}">
-							<form:input path="ticket.esforco" cssClass="required number" size="5"/><br/>
+							<c:choose>
+								<c:when test="${configuracoes['tipoDeEstimativa'] eq 'PMG'}">
+									<form:select path="ticket.esforco" >
+										<form:option value="10">Pequeno</form:option>
+										<form:option value="20">Médio</form:option>
+										<form:option value="30">Grande</form:option>
+									</form:select>
+								</c:when>
+								<c:otherwise>
+									<form:input path="ticket.esforco" cssClass="required number" size="5"/>	
+								</c:otherwise>
+							</c:choose>
 						</c:when>
 						<c:otherwise>
 							<form:hidden path="ticket.esforco"/>
-							<b>${ticket.esforco gt 0 ? ticket.esforco : "-"}</b><br/>
+							<b>${ticket.esforco gt 0 ? ticket.esforco : "-"}</b>
 						</c:otherwise>
 					</c:choose>
-					<p>Esforço</p>
+					<br/><p>Esforço</p>
 				</div>
 				
 				<c:if test="${ticket.tarefa or empty ticket.filhos}">

@@ -25,6 +25,7 @@ import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.core.TipoDeTicket;
 import br.com.bluesoft.pronto.dao.BacklogDao;
 import br.com.bluesoft.pronto.dao.ClienteDao;
+import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
 import br.com.bluesoft.pronto.dao.KanbanStatusDao;
 import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
@@ -47,7 +48,7 @@ class BacklogController {
 	@Autowired KanbanStatusDao kanbanStatusDao
 	@Autowired TipoDeTicketDao tipoDeTicketDao
 	@Autowired BacklogDao backlogDao
-	
+	@Autowired ConfiguracaoDao configuracaoDao
 	
 	@RequestMapping(value='/{backlogKey}', method=GET)
 	String listarPorBacklog( Model model, @PathVariable  int backlogKey) {
@@ -156,6 +157,7 @@ class BacklogController {
 		List tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey)
 		model.addAttribute("tickets", tickets)
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey))
+		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		return VIEW_ESTIMAR
 	}
 		
