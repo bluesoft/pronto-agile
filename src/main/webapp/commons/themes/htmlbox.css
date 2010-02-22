@@ -2,10 +2,10 @@
 	border-color: #D7EBF9;
 	border-style: solid;
 	border-width: 4px;
-	background-color: #e9f4fc;
-	width: 99%;
+	background-color: white;
 	margin-bottom: 15px;
-	padding: 10px;
+	padding: 7px;
+	width: 99%;
 }
 
 div.htmlbox ul {
@@ -34,3 +34,4 @@ pre {
 	padding: 5px;
 	margin: 2px;
 }
+

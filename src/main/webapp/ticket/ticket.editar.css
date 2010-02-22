@@ -12,10 +12,45 @@
 
 .bloco div {
 	float: left;
-	margin-right: 150px;
-	
+	width: 250px;
+	position: relative;
 }
 
 .linha {
 	clear: both;
+}
+
+.person-comentario {
+	display: block;
+	float: left;
+	padding-right: 25px;
+	padding-bottom: 15px;
+}
+
+.comentario {
+	min-height: 75px;
+}
+
+.comentario-data {
+	font-size: 10px;
+	color: #5aa7d4;
+	float: right;
+}
+
+.comentario-html {
+	font-size: 13px;
+	line-height: normal;
+}
+
+#listaHistorico {
+	list-style-type: none;
+}
+
+#listaHistorico h4 {
+	margin-top: 12px;
+}
+
+#listaHistorico li {
+	margin-left: 25px;
+	color: #888888;
 }

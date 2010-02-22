@@ -113,54 +113,7 @@
 			</c:otherwise>
 		</c:choose>
 
-		<c:if test="${ticket.ticketKey gt 0}">
-			<!-- Operacoes -->
-			<c:if test="${ticket.pai ne null and ticket.ticketKey gt 0}">
-				<a href="${raiz}tickets/${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
-			</c:if>
-			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
-				<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="pronto.transformarEmDefeito('${ticket.ticketKey}')"></pronto:icons>
-			</c:if>
-			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
-				<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="pronto.transformarEmEstoria('${ticket.ticketKey}')"></pronto:icons>
-			</c:if>
-			<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 3) and usuarioLogado.productOwner and !ticket.tarefa}">
-					<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="pronto.moverParaProductBacklog('${ticket.ticketKey}')"></pronto:icons>
-			</c:if>
-			<c:if test="${ticket.backlog.backlogKey eq 2 and !ticket.tarefa}">
-					<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Ideias" onclick="pronto.moverParaIdeias('${ticket.ticketKey}')"></pronto:icons>
-			</c:if>
-			<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
-				<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo('${ticket.ticketKey}')"></pronto:icons>
-			</c:if>
-			<c:if test="${ticket.backlog.backlogKey eq 1 or (ticket.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or ticket.backlog.backlogKey eq 3}">
-				<pronto:icons name="impedimento.png" title="Mover para Impedimentos" onclick="pronto.impedir('${ticket.ticketKey}')"></pronto:icons>
-			</c:if>
-			<c:if test="${(ticket.backlog.backlogKey eq 2 and usuarioLogado.productOwner)}">
-				<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="pronto.moverParaSprintAtual('${ticket.ticketKey}')"></pronto:icons>
-			</c:if>
-			<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
-				<c:if test="${!ticket.tarefa or (ticket.tarefa && ticket.pai.backlog.backlogKey ne 4 && ticket.pai.backlog.backlogKey ne 5)}">
-					<pronto:icons name="restaurar.png" title="Restaurar" onclick="pronto.restaurar('${ticket.ticketKey}')"></pronto:icons>
-				</c:if>
-			</c:if>
-			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 1 or ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
-				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="pronto.incluirTarefa('${ticket.ticketKey}')"></pronto:icons>
-			</c:if>
-			<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 6}">
-				<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="pronto.incluirTarefa('${ticket.pai.ticketKey}')"></pronto:icons>
-			</c:if>
-			<c:choose>
-				<c:when test="${ticket.script eq null}">
-					<pronto:icons name="adicionar_script.png" title="Adicionar Script de Banco de Dados" onclick="adicionarScript()"/>
-				</c:when>
-				<c:otherwise>
-					<pronto:icons name="editar_script.png" title="Editar Script de Banco de Dados" onclick="editarScript()"/>
-				</c:otherwise>
-			</c:choose>
-			<!-- Fim das Operacoes -->
-			<br/><br/>
-		</c:if>
+		
 		
 		<div id="ticketTabs">
 			<ul>
@@ -168,10 +121,60 @@
 				<li><a href="#comentarios">Comentários (${fn:length(ticket.comentarios)})</a></li>
 				<li><a href="#anexos">Anexos (${fn:length(anexos)})</a></li>
 				<li><a href="#historico">Histórico (${fn:length(ticket.logs)})</a></li>
+				<div align="right">
+				<c:if test="${ticket.ticketKey gt 0}">
+					<!-- Operacoes -->
+					<c:if test="${ticket.pai ne null and ticket.ticketKey gt 0}">
+						<a href="${raiz}tickets/${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
+					</c:if>
+					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
+						<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="pronto.transformarEmDefeito('${ticket.ticketKey}')"></pronto:icons>
+					</c:if>
+					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
+						<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="pronto.transformarEmEstoria('${ticket.ticketKey}')"></pronto:icons>
+					</c:if>
+					<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 3) and usuarioLogado.productOwner and !ticket.tarefa}">
+							<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="pronto.moverParaProductBacklog('${ticket.ticketKey}')"></pronto:icons>
+					</c:if>
+					<c:if test="${ticket.backlog.backlogKey eq 2 and !ticket.tarefa}">
+							<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Ideias" onclick="pronto.moverParaIdeias('${ticket.ticketKey}')"></pronto:icons>
+					</c:if>
+					<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
+						<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo('${ticket.ticketKey}')"></pronto:icons>
+					</c:if>
+					<c:if test="${ticket.backlog.backlogKey eq 1 or (ticket.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or ticket.backlog.backlogKey eq 3}">
+						<pronto:icons name="impedimento.png" title="Mover para Impedimentos" onclick="pronto.impedir('${ticket.ticketKey}')"></pronto:icons>
+					</c:if>
+					<c:if test="${(ticket.backlog.backlogKey eq 2 and usuarioLogado.productOwner)}">
+						<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="pronto.moverParaSprintAtual('${ticket.ticketKey}')"></pronto:icons>
+					</c:if>
+					<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
+						<c:if test="${!ticket.tarefa or (ticket.tarefa && ticket.pai.backlog.backlogKey ne 4 && ticket.pai.backlog.backlogKey ne 5)}">
+							<pronto:icons name="restaurar.png" title="Restaurar" onclick="pronto.restaurar('${ticket.ticketKey}')"></pronto:icons>
+						</c:if>
+					</c:if>
+					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 1 or ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
+						<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="pronto.incluirTarefa('${ticket.ticketKey}')"></pronto:icons>
+					</c:if>
+					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 6}">
+						<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="pronto.incluirTarefa('${ticket.pai.ticketKey}')"></pronto:icons>
+					</c:if>
+					<c:choose>
+						<c:when test="${ticket.script eq null}">
+							<pronto:icons name="adicionar_script.png" title="Adicionar Script de Banco de Dados" onclick="adicionarScript()"/>
+						</c:when>
+						<c:otherwise>
+							<pronto:icons name="editar_script.png" title="Editar Script de Banco de Dados" onclick="editarScript()"/>
+						</c:otherwise>
+					</c:choose>
+					<!-- Fim das Operacoes -->
+					<br/><br/>
+				</c:if>
+				
+				</div>
 			</ul>
 			<div id="detalhes">
 				<c:if test="${ticket.ticketKey gt 0}">
-					<h3>Descrição</h3>
 					<div class="htmlbox">
 						${ticket.html}
 					</div>
@@ -216,9 +219,14 @@
 					</div>
 						
 					<div class="group">
-							
+						
+						<div>
+							<form:input path="ticket.titulo" size="70" id="titulo" cssClass="required"/>
+							<p>Título</p>
+						</div>							
+
 						<div class="bloco">
-							
+
 							<div id="divBacklog">
 								<form:hidden path="ticket.backlog.backlogKey"/>
 								<b>${ticket.backlog.descricao}</b>					
@@ -252,11 +260,6 @@
 							<b>#${ticket.pai.ticketKey} - ${ticket.pai.titulo}</b>
 							<p>Estória</p>
 						</c:if>
-						
-						<div>
-							<form:input path="ticket.titulo" size="70" id="titulo" cssClass="required"/>
-							<p>Título</p>
-						</div>
 						
 						<div class="bloco">
 						
@@ -479,30 +482,10 @@
 				</form>	
 			</div>
 			<div id="comentarios">
-				<c:if test="${!empty ticket.comentarios}">
-					<h3>Comentários</h3>
-					<c:forEach items="${ticket.comentarios}" var="comentario">
-						<div class="htmlbox" style="position: relative;">
-							<div align="right" style="size: 8px; color: #0066cc;"><i>Por ${comentario.usuario} em <fmt:formatDate value="${comentario.data}" type="both"/></i></div>
-							<img alt="Gravatar" align="left" title="Gravatar - Globally Recognized Avatars" src="http://www.gravatar.com/avatar/${comentario.usuario.emailMd5}?s=45" style="float: right; display: block; margin-top: 15px;"/>
-							<div style="margin-right: 62px">${comentario.html}</div>
-						</div>
-					</c:forEach>
-					<br/>
-				</c:if>
-				<h3>Incluir Comentário</h3>
-				<form action="${raiz}tickets/${ticket.ticketKey}/comentarios" method="post">
-					<div>
-						<textarea id="comentario" name="comentario"></textarea>
-					</div>
-					<div align="center">
-						<button type="submit">Incluir</button>
-					</div>
-				</form>
+				<%@ include file="ticket.comentarios.jsp" %>>
 			</div>
 			<div id="anexos">
 				<c:if test="${ticket.ticketKey gt 0}">
-				<h2>Anexos</h2>
 				<ul style="list-style-type: none;">
 					<c:forEach items="${anexos}" var="anexo">
 						<li>
@@ -534,7 +517,7 @@
 				</form>
 			</div>
 			<div id="historico">
-				<ul>
+				<ul id="listaHistorico">
 					<c:set var="dataGrupo" value="${null}"/>
 					<c:forEach items="${ticket.logs}" var="log">
 						<fmt:formatDate value="${log.data}" pattern="dd/MM/yyyy" var="dataAtual"/>
@@ -544,10 +527,10 @@
 						</c:if>
 						<c:choose>
 							<c:when test="${log.campo eq 'descrição' or log.campo eq 'descricao'}">
-								<li><fmt:formatDate value="${log.data}" pattern="HH:mm"/> - ${log.usuario} - Descrição Alterada <a href="${raiz}tickets/${ticket.ticketKey}/log/${log.ticketHistoryKey}">(ver)</a></li>
+								<li><fmt:formatDate value="${log.data}" pattern="HH:mm"/> - ${log.usuario} - descrição alterada <a href="${raiz}tickets/${ticket.ticketKey}/log/${log.ticketHistoryKey}">(ver)</a></li>
 							</c:when>
 							<c:otherwise>
-								<li><fmt:formatDate value="${log.data}" pattern="HH:mm"/> - ${log.descricaoSemData}</li>
+								<li>${log.descricaoSemData}</li>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
