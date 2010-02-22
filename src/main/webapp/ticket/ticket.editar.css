@@ -1,0 +1,21 @@
+.bloco {
+	clear: left;
+}
+
+.ui-widget-content p {
+	clear: none;
+}
+
+#divReporter {
+	float: right;	
+}
+
+.bloco div {
+	float: left;
+	margin-right: 150px;
+	
+}
+
+.linha {
+	clear: both;
+}

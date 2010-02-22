@@ -1,10 +1,11 @@
 * div.htmlbox {
-	background-color: #FAFAD2;
-	width: 100%;
-	margin: 5px;
+	border-color: #D7EBF9;
+	border-style: solid;
+	border-width: 4px;
+	background-color: #e9f4fc;
+	width: 99%;
+	margin-bottom: 15px;
 	padding: 10px;
-	border-width: 2px;
-	border-color: black;
 }
 
 div.htmlbox ul {

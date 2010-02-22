@@ -110,6 +110,21 @@ class TicketController {
 		return VIEW_BRANCHES
 	}
 	
+	@RequestMapping(value='/{ticketKey}/comentarios', method=[POST, PUT])
+	String incluirComentario(@PathVariable int ticketKey, String comentario){
+		
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
+		
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction()
+		def ticket = ticketDao.obter(ticketKey)
+		ticket.addComentario comentario, Seguranca.usuario
+		ticketDao.salvar ticket
+		tx.commit()
+		
+		return "redirect:/tickets/${ticketKey}#comentarios"
+		
+	}
+
 	@RequestMapping(method=[POST, PUT])
 	String salvar( Model model, Ticket ticket,  String comentario,  String[] desenvolvedor,  String[] testador,  Integer paiKey,  Integer clienteKey) throws SegurancaException {
 		
