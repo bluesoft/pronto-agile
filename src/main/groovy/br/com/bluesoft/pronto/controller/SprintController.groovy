@@ -173,7 +173,7 @@ class SprintController {
 			fis.read(bytes)
 			fis.close()
 		} else {
-			final InputStream resource = this.getClass().getResourceAsStream("/noImage.gif")
+			final InputStream resource = this.getClass().getResourceAsStream("/noimage.gif")
 			final int numberBytes = resource.available()
 			bytes = new byte[numberBytes]
 			resource.read(bytes)
