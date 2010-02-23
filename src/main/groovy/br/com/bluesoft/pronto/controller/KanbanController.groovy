@@ -86,6 +86,8 @@ public class KanbanController {
 
 		if (kanbanStatusKey == KanbanStatus.DOING) {
 			ticket.addDesenvolvedor Seguranca.usuario
+		} else if (kanbanStatusKey == KanbanStatus.TESTING) {
+			ticket.addTestador Seguranca.usuario
 		}
 
 		if (kanbanStatusKey == KanbanStatus.DONE) {

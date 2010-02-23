@@ -23,3 +23,10 @@ CREATE TABLE configuracoes (
 );
 
 insert into configuracoes values ('tipoDeEstimativa', 'PMG');
+
+alter table kanban_status add ordem integer;
+update kanban_status set ordem = kanban_status_key;
+alter table kanban_status add unique (ordem);
+
+alter table kanban_status add fixo integer default 0 not null;
+update kanban_status set fixo = 1 where kanban_status_key in (1, 2, 31, 100);

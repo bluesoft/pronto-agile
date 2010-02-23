@@ -35,7 +35,7 @@ import br.com.bluesoft.pronto.util.DateUtil
 
 @Entity
 @SequenceGenerator(name = "SEQ_TICKET_LOG", sequenceName = "SEQ_TICKET_LOG")
-class TicketLog {
+class TicketLog implements Comparable {
 	
 	public static final int INCLUSAO = 1
 	public static final int ALTERACAO = 2
@@ -149,4 +149,10 @@ class TicketLog {
 		return WikiFormatter.toHtml(valorNovo)
 	}
 	
+	int compareTo(def outro) {
+		if (this.data != null)
+			this.data.compareTo(outro.data)
+		else
+			return 1
+	}
 }

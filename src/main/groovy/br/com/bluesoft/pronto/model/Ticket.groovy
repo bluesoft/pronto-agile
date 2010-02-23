@@ -420,6 +420,12 @@ class Ticket {
 		}
 	}
 	
+	List<TicketLog> getLogs() {
+		logs.sort {
+			it.data
+		}
+	}
+	
 	public void setDesenvolvedores(List<Usuario> desenvolvedores) {
 		this.desenvolvedores = new LinkedList(desenvolvedores);
 	}

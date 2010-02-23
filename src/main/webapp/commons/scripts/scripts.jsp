@@ -36,5 +36,5 @@
 <c:url var="raiz" value="/"/>
 <script>
 	var pronto = pronto? pronto : {};
-	pronto.raiz = '${raiz}'; 
+	pronto.raiz = '${raiz}';
 </script>

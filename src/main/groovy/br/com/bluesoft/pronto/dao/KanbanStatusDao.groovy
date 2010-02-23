@@ -15,7 +15,7 @@ class KanbanStatusDao extends DaoHibernate {
 	}
 	
 	List<KanbanStatus> listar() {
-		return getSession().createCriteria(KanbanStatus.class).addOrder(Order.asc("kanbanStatusKey")).list()
+		return getSession().createCriteria(KanbanStatus.class).addOrder(Order.asc("ordem")).list()
 	}
 	
 }

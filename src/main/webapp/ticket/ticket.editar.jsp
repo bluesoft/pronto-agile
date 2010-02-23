@@ -386,7 +386,7 @@
 							
 							<div>
 								<fmt:formatDate var="dataDePronto" value="${ticket.dataDePronto}" pattern="dd/MM/yyyy"/>
-								<input type="text" value="${dataDePronto}" name="dataDePronto"/>
+								<input type="text" value="${dataDePronto}" name="dataDePronto" class="datePicker"/>
 								<p>Data de Pronto</p>
 							</div>
 						</div>
@@ -543,6 +543,7 @@
 		<script>
 			$(function(){
 				$('#ticketTabs').tabs();
+				$('.datePicker').datepicker();
 			});
 		</script>
 	</body>

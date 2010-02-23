@@ -3,19 +3,6 @@
 	<head>
 		<title>Cadastro de Sprints</title>
 		<%@ include file="/commons/scripts/scripts.jsp" %>
-
-		<script>
-			$(function(){
-				$('#formSprint').validate();
-			});
-
-			function salvar() {
-				if ($('#formSprint').validate().form()) {
-					$('#formSprint').submit();
-				}
-			}
-		</script>
-		
 	</head>
 	<body>
 
@@ -77,5 +64,20 @@
 				<button type="submit">Upload</button>
 			</form>
 		</c:if>
+		
+		<script>
+			$(function(){
+				$('#formSprint').validate();
+				$('.dateBr').datepicker();
+			});
+
+			function salvar() {
+				if ($('#formSprint').validate().form()) {
+					$('#formSprint').submit();
+				}
+			}
+
+			
+		</script>
 	</body>
 </html>
