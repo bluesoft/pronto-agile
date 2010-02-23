@@ -41,6 +41,7 @@ import br.com.bluesoft.pronto.core.Backlog
 import br.com.bluesoft.pronto.core.Papel
 import br.com.bluesoft.pronto.core.TipoDeTicket
 import br.com.bluesoft.pronto.dao.BacklogDao
+import br.com.bluesoft.pronto.dao.CategoriaDao;
 import br.com.bluesoft.pronto.dao.ClienteDao
 import br.com.bluesoft.pronto.dao.KanbanStatusDao
 import br.com.bluesoft.pronto.dao.SprintDao
@@ -76,7 +77,8 @@ class TicketController {
 	public static final String VIEW_BRANCHES = "/ticket/ticket.branches.jsp"
 	public static final String VIEW_ESTIMAR = "/ticket/ticket.estimar.jsp"
 	public static final String VIEW_EDITAR = "/ticket/ticket.editar.jsp"
-	
+
+	@Autowired CategoriaDao categoriaDao
 	@Autowired ClienteDao clienteDao
 	@Autowired SessionFactory sessionFactory
 	@Autowired TicketDao ticketDao
@@ -166,6 +168,10 @@ class TicketController {
 			
 			if (clienteKey != null) {
 				ticket.setCliente(clienteDao.obter(clienteKey))
+			} 
+			
+			if (ticket.categoria != null) {
+				ticket.setCategoria(categoriaDao.obter(ticket.categoria.categoriaKey))
 			}
 			
 			if (ticket.getTicketKey() == 0) {
@@ -561,6 +567,19 @@ class TicketController {
 		}
 	}
 	
+	@RequestMapping("/{ticketKey}/salvarCategoria")
+	@ResponseBody String salvarCategoria( HttpServletResponse response, @PathVariable int ticketKey,  int categoriaKey) throws SegurancaException {
+		try {
+			Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
+			Ticket ticket = ticketDao.obter(ticketKey)
+			ticket.setCategoria(categoriaDao.obter(categoriaKey))
+			ticketDao.salvar(ticket)
+			return "true"
+		} catch (e) {
+			return "false"  
+		}
+	}
+	
 	@RequestMapping("/{ticketKey}/transformarEmEstoria")
 	String transformarEmEstoria( Model model,  @PathVariable int ticketKey) {
 		
@@ -618,6 +637,7 @@ class TicketController {
 			model.addAttribute("sprints", sprintDao.listarSprintsEmAberto())
 			model.addAttribute("ticket", ticket)
 			model.addAttribute("anexos", listarAnexos(ticketKey))
+			
 		} else {
 			Ticket novoTicket = new Ticket()
 			novoTicket.setReporter(Seguranca.getUsuario())
@@ -629,6 +649,7 @@ class TicketController {
 		
 		def equipe = usuarioDao.listarEquipe()
 
+		model.addAttribute "categorias", categoriaDao.listar()
 		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		model.addAttribute "clientes", clienteDao.listar()
 		model.addAttribute "testadores", equipe 

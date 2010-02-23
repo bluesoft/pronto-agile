@@ -13,6 +13,42 @@
 					$(this).remove();
 				});
 			}
+
+			function salvarCategoria(option){
+
+				var $select = $(option).parents('select');
+				
+				var categoriaKey = $select.val();
+				var ticketKey = $select.attr('ticketKey');
+
+				var url = pronto.raiz + 'tickets/' + ticketKey + '/salvarCategoria';
+				$.post(url, {'ticketKey':ticketKey, 'categoriaKey' :categoriaKey});
+				
+				var $td = $select.parents('td');
+
+				var $selectedOption = $select.find('option:selected');
+				var clazz = $selectedOption.attr('categoriaClass');
+					
+				var $label = $('<span class="categoria ' + clazz + '"/>');
+				$label.text($selectedOption.text());
+				$td.append($label);
+
+				$select.hide();
+				$select.removeAttr('ticketKey');
+			}
+			
+			function trocarCategoria(td) {
+				var ticketKey = $(td).parents('tr').attr('id');
+				var $select = $('#trocaCategoria');
+				if (ticketKey != $select.attr('ticketKey')){ 
+					$select.attr('ticketKey', ticketKey);
+					$(td).append($select);
+					$select[0].selectedIndex = -1;
+					$select.show();
+					var $td = $select.parents('td');
+					$td.find('.categoria').remove();
+				}
+			}
 			
 			function recalcular() {
 
@@ -92,6 +128,7 @@
 		<table style="width: 100%">
 			<tr>
 				<th>#</th>
+				<th></th>
 				<th>Título</th>
 				<th>Tipo</th>
 				<th>Cliente</th>
@@ -105,7 +142,16 @@
 				<c:set var="cor" value="${!cor}"/>
 				<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
 					<td>${t.ticketKey}</td>
-					<td class="titulo">${t.titulo}</td>
+					<td ondblclick="trocarCategoria(this)" title="Dê um duplo clique para alterar a categoria">
+						<c:if test="${t.categoria ne null}">
+							<span class="categoria categoria-${t.categoria.descricaoDaCor}">
+								${t.categoria.descricao}
+							</span>
+						</c:if>
+					</td>
+					<td>
+						<span class="titulo">${t.titulo}</span>
+					</td>
 					<td>${t.tipoDeTicket.descricao}</td>
 					<td>${t.cliente}</td>
 					<td class="valorDeNegocio">${t.valorDeNegocio}</td>
@@ -156,7 +202,16 @@
 						<c:set var="cor" value="${!cor}"/>	 
 						<tr class="${cor ? 'odd' : 'even'}" id="${f.ticketKey}" pai="${t.ticketKey}">
 							<td>${f.ticketKey}</td>
-							<td class="titulo">${f.titulo}</td>
+							<td ondblclick="trocarCategoria(this)" title="Dê um duplo clique para alterar a categoria">
+								<c:if test="${f.categoria ne null}">
+									<span class="categoria categoria-${f.categoria.descricaoDaCor}">
+										${f.categoria.descricao}
+									</span>
+								</c:if>
+							</td>
+							<td>
+								<span class="titulo">${f.titulo}</span>
+							</td>
 							<td>${f.tipoDeTicket.descricao}</td>
 							<td>${f.cliente}</td>
 							<td style="color:gray;" class="valorDeNegocio"></td>
@@ -201,7 +256,16 @@
 					<c:set var="cor" value="${!cor}"/>	 
 					<tr class="${cor ? 'odd' : 'even'}" id="${s.ticketKey}" pai="${s.pai.ticketKey}">
 						<td>${s.ticketKey}</td>
-						<td class="titulo">${s.titulo}</td>
+						<td ondblclick="trocarCategoria(this)" title="Dê um duplo clique para alterar a categoria">
+							<c:if test="${s.categoria ne null}">
+								<span class="categoria categoria-${s.categoria.descricaoDaCor}">
+									${s.categoria.descricao}
+								</span>
+							</c:if>
+						</td>
+						<td>
+							<span class="titulo">${s.titulo}</span>
+						</td>
 						<td>${s.tipoDeTicket.descricao}</td>
 						<td>${s.cliente}</td>
 						<td style="color:gray;" class="valorDeNegocio">${s.valorDeNegocio}</td>
@@ -264,5 +328,14 @@
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>
+		
+		<div style="display: none; width: 500px;">
+			<select id="trocaCategoria">
+				<c:forEach items="${categorias}" var="c">
+					<option onclick="salvarCategoria(this);" value="${c.categoriaKey}" categoriaClass="categoria-${c.descricaoDaCor}">${c.descricao}</option>
+				</c:forEach>			
+			</select>
+		</div>
+		
 	</body>
 </html>

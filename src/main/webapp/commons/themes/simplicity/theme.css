@@ -1,26 +1,36 @@
 @import url(../cupertino/jquery-ui-1.7.2.custom.css);
+
 @import url(tools.css);
+
 @import url(typo.css);
+
 @import url(layout-navtop-subright.css);
+
 @import url(layout.css);
+
 @import url(tabs.css);
+
 @import url(../box.css);
+
 @import url(../forms.css);
+
 @import url(../messages.css);
+
 @import url(../search.css);
+
 @import url(../htmlbox.css);
 
 img.inativo {
-	background-color:#ffffff;
+	background-color: #ffffff;
 	opacity: 0.4;
-Ê   filter:alpha(opacity=40);
-	padding: 2px; 
+	Ê filter: alpha(opacity = 40);
+	padding: 2px;
 }
 
 img.ativo {
-	background-color:#ffffff;
+	background-color: #ffffff;
 	opacity: 1;
-Ê   filter:alpha(opacity=100);
+	Ê filter: alpha(opacity = 100);
 	padding: 2px;
 }
 
@@ -35,13 +45,58 @@ div.person {
 	border-color: #CCCCCC;
 	border-style: solid;
 	padding: 3px;
-	margin:3px;
+	margin: 3px;
 	float: left;
 }
 
-textarea.mono, .ui-widget textarea.mono, #comentario, #descricao {
+textarea.mono,.ui-widget textarea.mono,textarea.markItUpEditor {
 	font-size: 12px !important;
 	font-family: Monaco, Courier New, Courier, monospace !important;
 	width: 100%;
 	height: 400px;
+}
+
+.categoria {
+	font-size: 9pt;
+	font-weight: bolder;
+	-moz-background-clip: border;
+	-moz-background-origin: padding;
+	-moz-background-inline-policy: continuous;
+	padding: 1px;
+	margin-right: 2px;
+}
+
+.categoria-cinza {
+	color:white;
+	background-color:rgb(102, 102, 102);
+}
+
+.categoria-vermelho {
+	color:white;
+	background-color:rgb(197, 0, 0);
+}
+
+.categoria-azul {
+	color:white;
+	background-color:rgb(49, 133, 197);
+}
+
+.categoria-laranja {
+	color:white;
+	background-color:rgb(245, 92, 0);
+}
+
+.categoria-rosa {
+	color:white;
+	background-color:rgb(236, 97, 162);
+}
+
+.categoria-verde {
+	color:white;
+	background-color:rgb(44, 83, 34);
+}
+
+.categoria-preto {
+	color:white;
+	background-color:rgb(0, 0, 0);
 }

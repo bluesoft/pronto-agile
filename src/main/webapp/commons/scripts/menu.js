@@ -6,7 +6,7 @@
 	{
 		jsddm_canceltimer();
 		jsddm_close();
-		ddmenuitem = $(this).find('ul').eq(0).css('visibility', 'visible');
+		ddmenuitem = $(this).find('ul').eq(0).css('visibility', 'visible').css('zindex','99999');
 	}
 
 	function jsddm_close()

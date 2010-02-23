@@ -30,3 +30,15 @@ alter table kanban_status add unique (ordem);
 
 alter table kanban_status add fixo integer default 0 not null;
 update kanban_status set fixo = 1 where kanban_status_key in (1, 2, 31, 100);
+
+
+CREATE TABLE categoria (
+	categoria_key integer primary key,
+	descricao varchar(75),
+	cor varchar(60)
+);
+
+alter table ticket add categoria_key integer references categoria;
+CREATE INDEX idx_ticket_categoria ON TICKET USING btree (categoria_key);
+
+create sequence SEQ_CATEGORIA;

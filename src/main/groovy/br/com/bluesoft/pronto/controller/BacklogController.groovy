@@ -1,5 +1,6 @@
 package br.com.bluesoft.pronto.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -8,14 +9,16 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import br.com.bluesoft.pronto.model.Classificacao;
 import br.com.bluesoft.pronto.model.Sprint;
+import br.com.bluesoft.pronto.model.Categoria;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.model.TicketOrdem;
 import br.com.bluesoft.pronto.service.Seguranca;
@@ -27,6 +30,7 @@ import br.com.bluesoft.pronto.dao.BacklogDao;
 import br.com.bluesoft.pronto.dao.ClienteDao;
 import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
 import br.com.bluesoft.pronto.dao.KanbanStatusDao;
+import br.com.bluesoft.pronto.dao.CategoriaDao;
 import br.com.bluesoft.pronto.dao.SprintDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.dao.TipoDeTicketDao;
@@ -49,6 +53,12 @@ class BacklogController {
 	@Autowired TipoDeTicketDao tipoDeTicketDao
 	@Autowired BacklogDao backlogDao
 	@Autowired ConfiguracaoDao configuracaoDao
+	@Autowired CategoriaDao categoriaDao
+	
+	@ModelAttribute("categorias")
+	List<Categoria> getCategorias() {
+		categoriaDao.listar()
+	}
 	
 	@RequestMapping(value='/{backlogKey}', method=GET)
 	String listarPorBacklog( Model model, @PathVariable  int backlogKey) {
@@ -80,7 +90,7 @@ class BacklogController {
 		
 		Map<Integer, Integer> totaisPorTipoDeTicket = totaisPorTipoDeTicket(tickets)
 		model.addAttribute "descricaoTotal", montaDescricaoTotal(totaisPorTipoDeTicket)
-		
+
 		VIEW_LISTAR
 	}
 	
@@ -196,7 +206,5 @@ class BacklogController {
 		
 		return totais
 	}
-	
-	
 	
 }

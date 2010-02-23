@@ -366,6 +366,13 @@
 								<p>Planejado?</p>
 							</div>
 							
+							<div>
+									<form:select path="ticket.categoria.categoriaKey" items="${categorias}" itemLabel="descricao" itemValue="categoriaKey"/>
+									<br/>
+									<p>Categoria</p>
+							</div>
+							
+							
 							<c:if test="${empty ticket.filhos}">
 								<div>
 									<form:input path="ticket.branch" size="30"/><br/>

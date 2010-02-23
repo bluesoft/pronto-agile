@@ -98,7 +98,7 @@ pronto.confirm = function(message, yesCallback, noCallback, onOpen, onClose) {
 };
 
 pronto.buscar =  function (){
-	pronto.doPost(pronto.raiz + 'buscar/' + $('#busca').val(), [{name: 'kanbanStatusKey', value:1}]);
+	pronto.doGet(pronto.raiz + 'buscar/' + $('#busca').val(), [{name: 'kanbanStatusKey', value:1}]);
 };
 
 pronto.transformarEmEstoria = function(ticketKey, ajax){

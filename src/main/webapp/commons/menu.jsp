@@ -4,13 +4,16 @@
 	<ul id="jsddm">
 		<li><a href="#">Cadastros</a>
 		<ul>
-			<li><a href="${raiz}usuarios">Usuários</a></li>
+			<c:if test="${usuarioLogado.productOwner}">
+				<li><a href="${raiz}categorias">Categorias</a></li>
+			</c:if>
 			<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
 				<li><a href="${raiz}clientes">Clientes</a></li>
 			</c:if>
 			<c:if test="${usuarioLogado.administrador}">
 				<li><a href="${raiz}configuracoes">Configurações</a></li>
 			</c:if>
+			<li><a href="${raiz}usuarios">Usuários</a></li>
 		</ul>
 		</li>
 		

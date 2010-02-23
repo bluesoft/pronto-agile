@@ -136,6 +136,12 @@ class Ticket {
 	@Cascade(org.hibernate.annotations.CascadeType.LOCK)
 	Ticket pai
 	
+	@Auditable
+	@Label("categoria")
+	@ManyToOne
+	@JoinColumn(name = "categoria_key")
+	Categoria categoria
+	
 	@OneToMany(mappedBy = "pai", cascade = CascadeType.ALL)
 	@OrderBy("prioridade asc")
 	@Cascade(org.hibernate.annotations.CascadeType.LOCK)
