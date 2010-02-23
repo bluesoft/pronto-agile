@@ -40,7 +40,11 @@
 			}
 
 			$(function() {
-				$("#dialog").dialog({ autoOpen: false, height: 530, width: 600, modal: true });
+				$("#dialog").dialog({ 
+					autoOpen: false, 
+					height: $(document).height() - 50, 
+					width: $(document).width() - 50, 
+					modal: true });
 			});
 
 			function verDescricao(ticketKey) {

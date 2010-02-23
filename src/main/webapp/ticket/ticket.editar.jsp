@@ -60,7 +60,11 @@
 		      $("#descricao").markItUp(mySettings);
 		      $("#comentario").markItUp(mySettings);
 		      $("#titulo").focus();
-    		  $("#dialog").dialog({ autoOpen: false, height: 530, width: 600, modal: true });
+    		  $("#dialog").dialog({ 
+        		  autoOpen: false, 
+        		  height: $(document).height() - 50, 
+					width: $(document).width() - 50, 
+        		  modal: true });
     		  $("#listaTarefas").sortable({
     				placeholder: 'ui-state-highlight',
     				stop: alterarPrioridadeDaTarefa 
