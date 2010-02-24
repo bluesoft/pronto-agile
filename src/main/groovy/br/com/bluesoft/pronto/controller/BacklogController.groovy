@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -43,6 +44,7 @@ class BacklogController {
 	private static final String VIEW_LISTAR = "/ticket/ticket.listar.jsp"
 	private static final String VIEW_LISTAR_AGRUPADO = "/ticket/ticket.listarAgrupado.jsp"
 	private static final String VIEW_ESTIMAR = "/ticket/ticket.estimar.jsp"
+	private static final String VIEW_PRIORIZAR = "/ticket/ticket.priorizar.jsp"
 		
 	@Autowired SessionFactory sessionFactory
 	@Autowired ClienteDao clienteDao
@@ -169,6 +171,38 @@ class BacklogController {
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey))
 		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		return VIEW_ESTIMAR
+	}
+	
+	@RequestMapping(value="/{backlogKey}/priorizar", method=GET)
+	String priorizarBacklog( Model model, @PathVariable  int backlogKey) {
+		
+		Seguranca.validarPermissao(Papel.EQUIPE, Papel.PRODUCT_OWNER)
+
+		def mapa = [:]
+		
+		def tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey)
+		tickets.each {
+			if (mapa[it.valorDeNegocio] == null) {
+				mapa[it.valorDeNegocio] = [] as List
+			}
+			mapa[it.valorDeNegocio].add(it)
+		}
+		
+		//mapa.each { entry -> entry.value.sort { item -> item.prioridade } }
+
+		model.addAttribute("mapa", mapa)
+		model.addAttribute("valores", mapa.keySet())
+		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey))
+		return VIEW_PRIORIZAR
+		
+	}
+	
+	@RequestMapping(value="/{backlogKey}/priorizar", method=POST)
+	@ResponseBody String priorizarBacklog( Model model, @PathVariable  int backlogKey, Integer[] ticketKey, Integer valor) {
+		def tx = ticketDao.session.beginTransaction()
+		ticketDao.priorizar(ticketKey, valor)
+		tx.commit()
+		"true"
 	}
 		
 	String montaDescricaoTotal( Map<Integer, Integer> totaisPorTipoDeTicket) {

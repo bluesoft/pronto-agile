@@ -62,30 +62,6 @@ function recalcular() {
 	$('#somaEsforco').text(esforco);
 }
 
-$(function() {
-	$("#dialog").dialog( {
-		autoOpen : false,
-		height : $(document).height() - 50,
-		width : $(document).width() - 50,
-		modal : true
-	});
-
-	var $table = $('#ticketsTable'); 
-	$table.find('tbody tr').mouseenter(function(){
-		exibirOpcoes(this);
-	}).mouseleave(function(){
-		esconderOpcoes(this);
-	});
-});
-
-function exibirOpcoes(tr) {
-	$(tr).find('.opcao').show();
-}
-
-function esconderOpcoes(tr) {
-	$(tr).find('.opcao').hide();
-}
-
 function verDescricao(ticketKey) {
 	var titulo = $('#' + ticketKey + ' .titulo').text();
 	$.ajax( {
@@ -99,3 +75,34 @@ function verDescricao(ticketKey) {
 		}
 	});
 }
+
+function exibirOpcoes(tr) {
+	$(tr).find('.opcao').show();
+}
+
+function esconderOpcoes(tr) {
+	$(tr).find('.opcao').hide();
+}
+
+function criarDialog(){
+	$("#dialog").dialog( {
+		autoOpen : false,
+		height : $(document).height() - 50,
+		width : $(document).width() - 50,
+		modal : true
+	});
+}
+
+function criarEventoDeTrocarCategoria(){
+	var $table = $('#ticketsTable'); 
+	$table.find('tbody tr').mouseenter(function(){
+		exibirOpcoes(this);
+	}).mouseleave(function(){
+		esconderOpcoes(this);
+	});
+}
+
+$(function() {
+	criarDialog();
+	criarEventoDeTrocarCategoria();
+});

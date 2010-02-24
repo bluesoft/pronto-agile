@@ -68,6 +68,7 @@ class SprintController {
 	private static final String VIEW_LISTAR = "/sprint/sprint.listar.jsp"
 	private static final String VIEW_EDITAR = "/sprint/sprint.editar.jsp"
 	public static final String VIEW_ESTIMAR = "/ticket/ticket.estimar.jsp"
+	private static final String VIEW_PRIORIZAR = "/ticket/ticket.priorizar.jsp"
 
 	@Autowired SessionFactory sessionFactory
 	@Autowired SprintDao sprintDao
@@ -254,6 +255,7 @@ class SprintController {
 		return VIEW_ESTIMAR
 	}
 	
+
 	@RequestMapping(value="/{sprintKey}/adicionarTarefas", method=GET)
 	String listarTarefasParaAdicionarAoSprint( Model model, @PathVariable int sprintKey)  {
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)

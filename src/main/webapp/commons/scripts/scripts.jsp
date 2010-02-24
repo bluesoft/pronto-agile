@@ -3,6 +3,9 @@
 <c:url var="jqueryUrl" value="/commons/scripts/jquery-1.3.2.min.js"/>
 <script type="text/javascript" src="${jqueryUrl}"></script>
 
+<c:url var="hotKeys" value="/commons/scripts/jquery.hotkeys-0.7.9.js"/>
+<script type="text/javascript" src="${hotKeys}"></script>
+
 <c:url var="shortKeys" value="/commons/scripts/jquery.shortkeys.js"/>
 <script type="text/javascript" src="${shortKeys}"></script>
 

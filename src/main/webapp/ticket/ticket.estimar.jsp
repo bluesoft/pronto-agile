@@ -105,7 +105,14 @@
 				<h1>Sprint ${sprint.nome}</h1>	
 			</c:when>
 			<c:otherwise>
-				<h1>${backlog.descricao}</h1>
+				<h1>
+					${backlog.descricao}
+					<c:if test="${usuarioLogado.productOwner}">
+						<a href="${raiz}backlogs/${backlog.backlogKey}/priorizar">
+							<pronto:icons name="priorizar.png" title="Priorizar" />
+						</a>
+					</c:if>
+				</h1>
 			</c:otherwise>
 		</c:choose>
 

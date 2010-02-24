@@ -704,7 +704,6 @@ class TicketController {
 		}
 	}
 	
-	
 	@RequestMapping("/{ticketKey}/log/{ticketHistoryKey}")
 	String logDescricao( Model model, @PathVariable int ticketHistoryKey) {
 		model.addAttribute "log", sessionFactory.currentSession.get(TicketLog.class, ticketHistoryKey)

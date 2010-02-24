@@ -335,6 +335,7 @@ public class TicketDao extends DaoHibernate {
 		
 		final List<Comparator> comparators = new ArrayList<Comparator>();
 		comparators.add(new ReverseComparator(new BeanComparator("valorDeNegocio")));
+		comparators.add(new BeanComparator("prioridade"));
 		comparators.add(new ReverseComparator(new BeanComparator("esforco")));
 		comparators.add(new BeanComparator("ticketKey"));
 		final ComparatorChain comparatorChain = new ComparatorChain(comparators);
@@ -361,6 +362,7 @@ public class TicketDao extends DaoHibernate {
 
 		final List<Comparator> comparators = new ArrayList<Comparator>();
 		comparators.add(new ReverseComparator(new BeanComparator("valorDeNegocio")));
+		comparators.add(new BeanComparator("prioridade"));
 		comparators.add(new ReverseComparator(new BeanComparator("esforco")));
 		comparators.add(new BeanComparator("ticketKey"));
 		final ComparatorChain comparatorChain = new ComparatorChain(comparators);
@@ -423,7 +425,25 @@ public class TicketDao extends DaoHibernate {
 		}
 
 	}
+	
 
+	public void priorizar(final Integer[] tickets, int valor) {
+		final String sql = "update ticket set prioridade = :prioridade, valor_de_negocio = :valor where ticket_key =:ticketKey";
+		int prioridade = 0;
+		if (tickets != null) {
+			for (int i = 0; i < tickets.length; i++) {
+				if (tickets[i] != null) {
+					getSession().createSQLQuery(sql)
+						.setInteger("ticketKey", tickets[i])
+						.setInteger("prioridade", ++prioridade)
+						.setInteger('valor',valor)
+						.executeUpdate();
+				}
+			}
+		}
+	}
+	
+	
 	public void moverParaSprintAtual(final List<Ticket> ticketsParaMover, final Sprint sprintAtual) {
 		for (final Ticket ticket : ticketsParaMover) {
 			ticket.setSprint(sprintAtual);
