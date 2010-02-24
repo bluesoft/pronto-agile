@@ -9,10 +9,9 @@ function apagarLinha(ticketKey) {
 			});
 }
 
-function salvarCategoria(option) {
+function salvarCategoria(select) {
 
-	var $select = $(option).parents('select');
-
+	var $select = $(select);
 	var categoriaKey = $select.val();
 	var ticketKey = $select.attr('ticketKey');
 

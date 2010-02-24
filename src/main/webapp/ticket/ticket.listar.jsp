@@ -231,9 +231,9 @@
 		</div>
 		
 		<div style="display: none; width: 500px;">
-			<select id="trocaCategoria">
+			<select id="trocaCategoria" onchange="salvarCategoria(this);" >
 				<c:forEach items="${categorias}" var="c">
-					<option onclick="salvarCategoria(this);" value="${c.categoriaKey}" categoriaClass="categoria-${c.descricaoDaCor}">${c.descricao}</option>
+					<option value="${c.categoriaKey}" categoriaClass="categoria-${c.descricaoDaCor}">${c.descricao}</option>
 				</c:forEach>			
 			</select>
 		</div>
