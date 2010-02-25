@@ -45,7 +45,7 @@ var alterarPrioridadeDaTarefa = function(ui, event) {
 	$tarefas.each(function(i, el) {
 		novaOrdem[indice++] = el.id;
 	});
-	$.post(pronto.raiz + 'tickets/${ticket.ticketKey}/ordenar', {
+	$.post(pronto.raiz + 'tickets/' + ticketKey + '/ordenar', {
 		'ticketKey' : novaOrdem
 	});
 };
@@ -69,11 +69,11 @@ $(function() {
 });
 
 function adicionarScript() {
-	goTo(pronto.raiz + 'scripts/novo?ticketKey=${ticket.ticketKey}');
+	goTo(pronto.raiz + 'scripts/novo?ticketKey=' + ticketKey);
 }
 
 function editarScript() {
-	goTo(pronto.raiz + 'scripts/${ticket.script.scriptKey}');
+	goTo(pronto.raiz + 'scripts/' + scriptKey);
 }
 
 function excluirAnexo(ticketKey, anexo) {

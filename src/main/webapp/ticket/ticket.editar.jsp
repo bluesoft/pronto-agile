@@ -6,7 +6,6 @@
 		<script type="text/javascript" src="${raiz}ticket/ticket.editar.js"></script>
 	</head>
 	<body>
-		
 		<c:choose>
 			<c:when test="${ticket.ticketKey gt 0}">
 				<h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey} - ${ticket.titulo} (${ticket.kanbanStatus.descricao})</h1>
@@ -15,8 +14,6 @@
 				<h1>Incluir ${ticket.tipoDeTicket.descricao}</h1>
 			</c:otherwise>
 		</c:choose>
-		
-		
 		<div id="ticketTabs">
 			<ul>
 				<li><a href="#detalhes">Detalhes</a></li>
@@ -464,6 +461,10 @@
 				$('#ticketTabs').tabs();
 				$('.datePicker').datepicker();
 			});
+
+			//Variaveis Globais para usar no .js
+			var ticketKey = '${ticket.ticketKey}'; 
+			var scriptKey = '${ticket.script.scriptKey}'; 
 		</script>
 	</body>
 </html>
