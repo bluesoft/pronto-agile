@@ -23,8 +23,12 @@ class CategoriaController {
 	@RequestMapping(value='/{categoriaKey}', method=DELETE)
 	String excluir(Model model, @PathVariable int categoriaKey) {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
-		categoriaDao.excluir(new Categoria(categoriaKey: categoriaKey)) 
-		"redirect:/categorias?message=Categoria Excluída com Sucesso"
+		try {
+			categoriaDao.excluir(new Categoria(categoriaKey: categoriaKey))
+			"redirect:/categorias?message=Categoria Excluída com Sucesso"
+		} catch (e) {
+			"redirect:/categorias?erro=Esta Categoria está Vinculada há Alguns Tickets e Não pode ser Excluída"
+		}
 	}
 	
 	@RequestMapping(method=GET)
