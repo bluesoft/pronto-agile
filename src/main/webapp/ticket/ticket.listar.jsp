@@ -63,7 +63,7 @@
 		<table id="ticketsTable" style="width: 100%">
 			<thead>
 			<tr>
-				<th></th>
+				<th style="width: 30px;"></th>
 				<th>#</th>
 				<th>Título</th>
 				<th>Tipo</th>
@@ -247,6 +247,7 @@
 		
 		<div style="display: none; width: 500px;">
 			<select id="trocaCategoria" onchange="salvarCategoria(this);" >
+				<option value="0" class="nenhuma">Nenhuma</option>
 				<c:forEach items="${categorias}" var="c">
 					<option value="${c.categoriaKey}" categoriaClass="categoria-${c.descricaoDaCor}">${c.descricao}</option>
 				</c:forEach>			

@@ -100,3 +100,9 @@ textarea.mono,.ui-widget textarea.mono,textarea.markItUpEditor {
 	color:white;
 	background-color:rgb(0, 0, 0);
 }
+
+option.nenhuma {
+	text-align: center;
+	font-weight: bold;
+	font-style: italic;
+}

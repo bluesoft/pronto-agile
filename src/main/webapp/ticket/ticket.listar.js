@@ -1,5 +1,5 @@
 function recarregar(sprintKey) {
-	goTo('${raiz}backlogs/sprints/' + sprintKey);
+	goTo(pronto.raiz + 'backlogs/sprints/' + sprintKey);
 }
 
 function apagarLinha(ticketKey) {
@@ -21,14 +21,14 @@ function salvarCategoria(select) {
 		'categoriaKey' : categoriaKey
 	});
 
-	var $td = $select.parents('td');
-
-	var $selectedOption = $select.find('option:selected');
-	var clazz = $selectedOption.attr('categoriaClass');
-
-	var $label = $('<span class="categoria ' + clazz + '"/>');
-	$label.text($selectedOption.text());
-	$td.append($label);
+	if (categoriaKey > 0) {
+		var $td = $select.parents('td');
+		var $selectedOption = $select.find('option:selected');
+		var clazz = $selectedOption.attr('categoriaClass');
+		var $label = $('<span class="categoria ' + clazz + '"/>');
+		$label.text($selectedOption.text());
+		$td.append($label);
+	}
 
 	$select.hide();
 	$select.removeAttr('ticketKey');

@@ -168,10 +168,14 @@ class TicketController {
 			
 			if (clienteKey != null) {
 				ticket.setCliente(clienteDao.obter(clienteKey))
-			} 
+			} else {
+				ticket.cliente = null
+			}
 			
-			if (ticket.categoria != null) {
+			if (ticket.categoria != null && ticket.categoria.categoriaKey > 0) {
 				ticket.setCategoria(categoriaDao.obter(ticket.categoria.categoriaKey))
+			} else {
+				ticket.categoria = null
 			}
 			
 			if (ticket.getTicketKey() == 0) {
@@ -572,7 +576,7 @@ class TicketController {
 		try {
 			Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
 			Ticket ticket = ticketDao.obter(ticketKey)
-			ticket.setCategoria(categoriaDao.obter(categoriaKey))
+			ticket.setCategoria(categoriaKey > 0 ? categoriaDao.obter(categoriaKey) : null)
 			ticketDao.salvar(ticket)
 			return "true"
 		} catch (e) {
