@@ -49,22 +49,26 @@ public class TicketDao extends DaoHibernate {
 
 	public Ticket obterComDependecias(final Integer ticketKey) {
 
-		final StringBuilder hql = new StringBuilder();
-		hql.append("select distinct t from Ticket t ");
-		hql.append("left join fetch t.sprint ");
-		hql.append("left join fetch t.pai ");
-		hql.append("left join fetch t.tipoDeTicket ");
-		hql.append("left join fetch t.backlog ");
-		hql.append("left join fetch t.kanbanStatus ");
-		hql.append("left join fetch t.reporter ");
-		hql.append("left join fetch t.filhos ");
-		hql.append("left join t.desenvolvedores ");
-		hql.append("left join t.comentarios ");
-		hql.append("left join t.logs ");
-		hql.append("left join t.testadores ");
-		hql.append("where t.ticketKey = :ticketKey");
-
-		return (Ticket) getSession().createQuery(hql.toString()).setInteger("ticketKey", ticketKey).uniqueResult();
+		String hql = """ 
+			select distinct t from Ticket t 
+			left join fetch t.sprint 
+			left join fetch t.pai 
+			left join fetch t.tipoDeTicket 
+			left join fetch t.backlog 
+			left join fetch t.kanbanStatus 
+			left join fetch t.reporter 
+			left join fetch t.filhos 
+			left join t.desenvolvedores 
+			left join t.testadores 
+			left join t.comentarios 
+			left join t.logs 
+			where t.ticketKey = :ticketKey
+		"""
+			
+		return (Ticket) getSession()
+			.createQuery(hql)
+			.setInteger("ticketKey", ticketKey)
+			.uniqueResult();
 	}
 
 	public TicketDao() {
@@ -427,7 +431,7 @@ public class TicketDao extends DaoHibernate {
 	}
 	
 
-	public void priorizar(final Integer[] tickets, int valor) {
+	void priorizar(Integer[] tickets, int valor) {
 		final String sql = "update ticket set prioridade = :prioridade, valor_de_negocio = :valor where ticket_key =:ticketKey";
 		int prioridade = 0;
 		if (tickets != null) {
@@ -438,6 +442,21 @@ public class TicketDao extends DaoHibernate {
 						.setInteger("prioridade", ++prioridade)
 						.setInteger('valor',valor)
 						.executeUpdate();
+				}
+			}
+		}
+	}
+	
+	void priorizarTarefas(Integer[] tickets) {
+		final String sql = "update ticket set prioridade = :prioridade where ticket_key =:ticketKey";
+		int prioridade = 0;
+		if (tickets != null) {
+			for (int i = 0; i < tickets.length; i++) {
+				if (tickets[i] != null) {
+					getSession().createSQLQuery(sql)
+							.setInteger("ticketKey", tickets[i])
+							.setInteger("prioridade", ++prioridade)
+							.executeUpdate();
 				}
 			}
 		}

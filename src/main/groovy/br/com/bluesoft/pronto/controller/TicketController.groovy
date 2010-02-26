@@ -696,16 +696,9 @@ class TicketController {
 	}
 	
 	@RequestMapping(value="/{pai}/ordenar", method=POST)
-	void alterarOrdem(@PathVariable int pai,  int[] ticketKey) {
-		Ticket ticketPai = ticketDao.obterComDependecias(pai)
-		int prioridade = 0
-		for ( int filhoKey : ticketKey) {
-			Ticket ticketFilho = ticketPai.getFilhoPorKey(filhoKey)
-			if (ticketFilho != null) {
-				ticketFilho.setPrioridade(++prioridade)
-				ticketDao.salvar(ticketFilho)
-			}
-		}
+	@ResponseBody boolean alterarOrdem(@PathVariable int pai,  Integer[] ticketKey) {
+		ticketDao.priorizarTarefas(ticketKey)
+		return true
 	}
 	
 	@RequestMapping("/{ticketKey}/log/{ticketHistoryKey}")
