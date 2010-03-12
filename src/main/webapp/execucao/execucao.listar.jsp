@@ -113,7 +113,7 @@
 											</c:otherwise>
 										</c:choose>
 										#${e.script.ticket.ticketKey}
-										(${e.script.ticket.kanbanStatus.descricao})
+										(${e.script.ticket.kanbanStatus.descricao} [${e.script.ticket.branch}])
 									</c:if>
 								</td>
 								<td class="descricao">${e.status}</td>
