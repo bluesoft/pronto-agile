@@ -90,7 +90,11 @@ public class TicketDao extends DaoHibernate {
 		for (final Ticket ticket : tickets) {
 			if (ticket.getScript() != null && ticket.getScript().getScriptKey() == 0) {
 				ticket.setScript(null);
-			} 
+			}
+			
+			if(ticket.ticketKey == 0) {
+				ticket.prioridade = 999999
+			}
 			
 			if (ticket.ticketKey > 0) {
 				Ticket antigo = obter(ticket.ticketKey)
