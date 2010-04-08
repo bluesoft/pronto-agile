@@ -347,10 +347,7 @@
 							</div>
 						</c:if>
 						
-						
-						<c:if test="${ticket.tarefa}">
-							<form:hidden path="ticket.prioridade"/><br/>
-						</c:if>
+						<form:hidden path="ticket.prioridade"/><br/>
 
 						<div class="linha">						
 							<h3>Descrição</h3>
