@@ -34,7 +34,7 @@
 						</c:otherwise>
 					</c:choose>
 					<td style="width: ${width}%; height: 100%;">
-                              <div class="ui-widget ui-helper-clearfix kanban-area" align="center" style="min-height: 200px;">
+                              <div class="ui-widget ui-helper-clearfix kanban-area" align="center">
                                   <h4 class="ui-widget-header">${s.descricao} (${mapaDeQuantidades[s.kanbanStatusKey] != null ? mapaDeQuantidades[s.kanbanStatusKey] : 0}) </h4>
                                   <ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop" status="${s.kanbanStatusKey}">
                                       <c:forEach items="${mapaDeTickets[s.kanbanStatusKey]}" var="t">
