@@ -47,16 +47,23 @@
 					<table style="width: 100%" class="ticketsTable" valor="${entry.key}">
 							<thead>
 								<tr class="header">
+									<th style="width: 30px;"></th>
 									<th style="width: 40px">#</th>
 									<th style="width: 100%">Título</th>
 									<th style="width: 100px">Tipo</th>
 									<th style="width: 100px">Cliente</th>
 									<th style="width: 50px">Esforço</th>
+									<th title="Tempo de Vida em Dias">Vida</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${entry.value}" var="t">
 									<tr id="${t.ticketKey}" class="tr-ticket" ticketKey="${t.ticketKey}">
+										<td>
+											<c:if test="${t.categoria ne null}">
+												<span class="categoria categoria-${t.categoria.descricaoDaCor}">${t.categoria.descricao}</span>
+											</c:if>
+										</td>
 										<td>
 											<a href="${raiz}tickets/${t.ticketKey}">${t.ticketKey}</a>
 											<input type="hidden" name="ticketKey" value="${t.ticketKey}"/>
@@ -72,6 +79,7 @@
 										<td class="esforco" colspan="3">
 											<span>${t.esforco}</span>
 										</td>
+										<td>${t.tempoDeVidaEmDias}</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -99,15 +107,17 @@
 			<table style="width: 100%" class="ticketsTable" valor="">
 					<thead>
 						<tr class="header">
+							<th style="width: 30px;"></th>
 							<th style="width: 40px">#</th>
 							<th style="width: 100%">Título</th>
 							<th style="width: 100px">Tipo</th>
 							<th style="width: 100px">Cliente</th>
 							<th style="width: 50px">Esforço</th>
+							<th title="Tempo de Vida em Dias">Vida</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="vazio"><td colspan="5">&nbsp;</td></tr>
+						<tr class="vazio"><td colspan="7">&nbsp;</td></tr>
 					</tbody>
 			</table>
 			<br/>
