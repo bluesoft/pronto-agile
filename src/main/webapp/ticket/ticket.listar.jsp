@@ -71,7 +71,7 @@
 				<th>Valor</th>
 				<th>Esforço</th>
 				<th>Status</th>
-				<th title="Tempo de Vida em Dias">Vida</th>
+				<th title="Tempo de Vida em Dias">Dias</th>
 			</tr>
 			</thead>
 			<tbody>

@@ -43,7 +43,7 @@
 			
 			<c:forEach items="${mapa}" var="entry">
 
-					<h4 class="valor valor-${entry.key}" valor="${entry.key}">${entry.key}</h4>			
+					<h4 class="valor valor-${entry.key}" valor="${entry.key}">Valor de negócio: ${entry.key}</h4>			
 					<table style="width: 100%" class="ticketsTable" valor="${entry.key}">
 							<thead>
 								<tr class="header">
@@ -53,7 +53,7 @@
 									<th style="width: 100px">Tipo</th>
 									<th style="width: 100px">Cliente</th>
 									<th style="width: 50px">Esforço</th>
-									<th title="Tempo de Vida em Dias">Vida</th>
+									<th title="Tempo de Vida em Dias">Dias</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -76,7 +76,7 @@
 											${t.tipoDeTicket.descricao}
 										</td>
 										<td>${t.cliente}</td>
-										<td class="esforco" colspan="3">
+										<td class="esforco">
 											<span>${t.esforco}</span>
 										</td>
 										<td>${t.tempoDeVidaEmDias}</td>
@@ -113,7 +113,7 @@
 							<th style="width: 100px">Tipo</th>
 							<th style="width: 100px">Cliente</th>
 							<th style="width: 50px">Esforço</th>
-							<th title="Tempo de Vida em Dias">Vida</th>
+							<th title="Tempo de Vida em Dias">Dias</th>
 						</tr>
 					</thead>
 					<tbody>
