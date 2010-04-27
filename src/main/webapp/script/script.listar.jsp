@@ -40,11 +40,18 @@
 		
 		<c:set var="cor" value="${true}"/>
 		<table style="width: 100%">
+			<tr class="topHeader">
+				<th colspan="3"></th>
+				<th class="center" colspan="3">Ticket</th>
+				<th colspan="2"></th>
+			</tr>
 			<tr>
 				<th style="width: 40px;"></th>
 				<th>Descrição</th>
 				<th>Situação</th>
 				<th>#</th>
+				<th>Branch</th>
+				<th>Status</th>
 				<th style="width: 16px;"></th>
 				<th style="width: 16px;"></th>
 			</tr>
@@ -52,27 +59,12 @@
 				<c:set var="cor" value="${!cor}"/>
 				
 				<tr id="${s.scriptKey}" class="${cor ? 'odd' : 'even'}">
-					<td>${s.scriptKey}</td>
+					<td><a href=""${raiz}scripts/${s.scriptKey}">${s.scriptKey}</a></td>
 					<td class="descricao">${s.descricao}</td>
 					<td>${s.situacao}</td>
-					<td>
-						<c:if test="${s.ticket ne null}">
-							<c:choose>
-								<c:when test="${s.ticket.estoria}">
-									<pronto:icons name="estoria.png" title="Ir para Estória - ${s.ticket}" onclick="goTo('${raiz}tickets/${s.ticket.ticketKey}')"/>								
-								</c:when>
-								<c:when test="${s.ticket.tarefa}">
-									<pronto:icons name="tarefa.png" title="Ir para Tarefa - ${s.ticket}" onclick="goTo('${raiz}tickets/${s.ticket.ticketKey}')"/>
-								</c:when>
-								<c:otherwise>
-									<pronto:icons name="defeito.png" title="Ir para Defeito - ${s.ticket}" onclick="goTo('${raiz}tickets/${s.ticket.ticketKey}')"/>
-								</c:otherwise>
-							</c:choose>
-							#${s.ticket.ticketKey}
-							(${s.ticket.kanbanStatus.descricao} [${s.ticket.branch}])
-						</c:if>
-					</td>
-					
+					<td><a href="${raiz}tickets/${s.ticket.ticketKey}">${s.ticket.ticketKey}</a></td>
+					<td>${s.ticket.branch}</td>
+					<td>${s.ticket.kanbanStatus.descricao}</td>
 					<td>
 						<a href="${raiz}scripts/${s.scriptKey}"><pronto:icons name="editar_script.png" title="Editar" /></a>
 					</td>

@@ -78,11 +78,17 @@
 					<input type="hidden" name="bancoDeDadosKey" value="${b.bancoDeDadosKey}"/>
 					<h2>${b.nome}</h2>		
 					<table style="width: 100%">
+						<tr class="topHeader">
+							<th colspan="3">Script</th>
+							<th colspan="3">Ticket</th>
+							<th colspan="3">Execução</th>
+						</tr>
 						<tr>
-							<th style="width: 20px;"></th>
-							<th style="width: 40px;"></th>
+							<th colspan="2" style="width: 60px;"></th>
 							<th>Descrição</th>
-							<th>Ticket</th>
+							<th>#</th>
+							<th>Branch</th>
+							<th>Kanban</th>
 							<th>Status</th>
 							<th style="width: 16px;"></th>
 							<th style="width: 16px;"></th>
@@ -97,24 +103,18 @@
 										<input name="execucaoKey" type="checkbox" value="${e.execucaoKey}" />
 									</c:if>
 								</td>
-								<td>${e.execucaoKey}</td>
+								<td>${e.script.scriptKey}</td>
 								<td class="descricao">${e.script.descricao}</td>
 								<td>
 									<c:if test="${e.script.ticket ne null}">
-										<c:choose>
-											<c:when test="${e.script.ticket.estoria}">
-												<pronto:icons name="estoria.png" title="Ir para Estória - ${e.script.ticket}" onclick="goTo('${raiz}tickets/${e.script.ticket.ticketKey}')"/>								
-											</c:when>
-											<c:when test="${e.script.ticket.tarefa}">
-												<pronto:icons name="tarefa.png" title="Ir para Tarefa - ${e.script.ticket}" onclick="goTo('${raiz}tickets/${e.script.ticket.ticketKey}')"/>
-											</c:when>
-											<c:otherwise>
-												<pronto:icons name="defeito.png" title="Ir para Defeito - ${e.script.ticket}" onclick="goTo('${raiz}tickets/${e.script.ticket.ticketKey}')"/>
-											</c:otherwise>
-										</c:choose>
-										#${e.script.ticket.ticketKey}
-										(${e.script.ticket.kanbanStatus.descricao} [${e.script.ticket.branch}])
+										<a href="${raiz}tickets/${e.script.ticket.ticketKey}">${e.script.ticket.ticketKey}</a>	
 									</c:if>
+								</td>
+								<td>
+									${e.script.ticket.branch}								
+								</td>
+								<td>
+									${e.script.ticket.kanbanStatus.descricao}
 								</td>
 								<td class="descricao">${e.status}</td>
 								<td>

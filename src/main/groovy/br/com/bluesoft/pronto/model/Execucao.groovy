@@ -14,7 +14,7 @@ import javax.persistence.TemporalType
 
 @Entity
 @SequenceGenerator(name = "SEQ_EXECUCAO", sequenceName = "SEQ_EXECUCAO")
-class Execucao {
+class Execucao implements Comparable  {
 	
 	@Id
 	@GeneratedValue(generator = "SEQ_EXECUCAO")
@@ -45,6 +45,10 @@ class Execucao {
 	
 	String getStatus() {
 		isExecutado() ? "Executado em ${data} por ${usuario.username}" : "Não Executado"
+	}
+	
+	int compareTo(def outro) {
+		this.script.scriptKey.compareTo script.scriptKey
 	}
 	
 }

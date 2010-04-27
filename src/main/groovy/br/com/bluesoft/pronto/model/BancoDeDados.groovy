@@ -51,7 +51,13 @@ class BancoDeDados {
 	}
 	
 	List<Execucao> getExecucoesPendentes() {
-		execucoes.findAll { it.data == null } as List
+		this.getExecucoes().findAll { it.data == null } as LinkedList
+	}
+	
+	List<Execucao> getExecucoes() {
+		this.execucoes.sort { a, b -> 
+				a.script.scriptKey.compareTo b.script.scriptKey
+		}
 	}
 	
 }

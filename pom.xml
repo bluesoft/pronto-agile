@@ -90,14 +90,12 @@
 					<groupId>javax.transaction</groupId>
 				</exclusion>
 			</exclusions>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-commons-annotations</artifactId>
 			<version>${hibernate.commons.annotations.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -110,7 +108,6 @@
 					<groupId>javax.persistence</groupId>
 				</exclusion>
 			</exclusions>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -124,7 +121,6 @@
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 			<version>${cglib.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

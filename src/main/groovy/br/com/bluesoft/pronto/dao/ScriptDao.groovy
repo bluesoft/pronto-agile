@@ -43,6 +43,7 @@ public class ScriptDao extends DaoHibernate{
 			left join fetch t.backlog
 			left join fetch t.tipoDeTicket
 			left join fetch t.sprint
+			order by s.scriptKey
 		"""
 		
 		return getSession().createQuery(hql).list()
@@ -62,6 +63,7 @@ public class ScriptDao extends DaoHibernate{
 			left join fetch t.sprint
 			where e.data is null
 			and e is not empty
+			order by s.scriptKey
 		"""
 		
 		return getSession().createQuery(hql).list()
@@ -81,6 +83,7 @@ public class ScriptDao extends DaoHibernate{
 			left join fetch t.sprint
 			where e.data is not null
 			and e is not empty
+			order by s.scriptKey
 		"""
 		
 		return getSession().createQuery(hql).list()

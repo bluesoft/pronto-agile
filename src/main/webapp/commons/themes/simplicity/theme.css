@@ -106,3 +106,15 @@ option.nenhuma {
 	font-weight: bold;
 	font-style: italic;
 }
+
+.center {
+	text-align: center;
+}
+
+.topHeader th {
+	background-color: #f9f9f9;
+	color: black;
+	text-align: center; 
+}
+
+

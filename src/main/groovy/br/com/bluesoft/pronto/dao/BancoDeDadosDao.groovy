@@ -55,7 +55,7 @@ public class BancoDeDadosDao extends DaoHibernate {
 			left join fetch s.ticket t
 			left join fetch t.kanbanStatus
 			left join fetch t.backlog
-			order by b.nome 
+			order by b.nome, s.scriptKey 
 		"""
 		
 		return getSession().createQuery(hql).list()
@@ -71,7 +71,7 @@ public class BancoDeDadosDao extends DaoHibernate {
 			left join fetch t.kanbanStatus
 			left join fetch t.backlog
 			where e.data is null
-			order by b.nome 
+			order by b.nome, s.scriptKey 
 		"""
 		
 		return getSession().createQuery(hql).list()
