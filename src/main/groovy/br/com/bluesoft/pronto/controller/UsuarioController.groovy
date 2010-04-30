@@ -88,7 +88,7 @@ class UsuarioController {
 		def quantidade = usuarioDao.obterQuantidadeDeUsuariosCadastrados()
 		
 		if (quantidade == 1) {
-			model.addAttribute("mensagem", "Você não pode excluir todos os usuários do Pronto!.")
+			model.addAttribute("mensagem", "Você não pode excluir todos os usuários do Pronto!")
 			return "forward:/app/usuarios"
 		}
 		
@@ -96,9 +96,9 @@ class UsuarioController {
 		try {
 			sessionFactory.currentSession.delete(usuario)
 			sessionFactory.currentSession.flush()
-			model.addAttribute("mensagem", "Usuário excluido com suceso.")
+			model.addAttribute("mensagem", "Usuário excluído com sucesso.")
 		} catch (final Exception e) {
-			model.addAttribute("mensagem", "Este usuário não pode ser excluido porque existem tarefas vinculadas a ele.")
+			model.addAttribute("mensagem", "Este usuário não pode ser excluído porque existem tarefas vinculadas a ele.")
 		}
 		
 		return "redirect:/usuarios"
