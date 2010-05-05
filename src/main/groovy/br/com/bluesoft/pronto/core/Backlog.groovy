@@ -90,6 +90,7 @@ public class Backlog {
 				}
 			}
 		}
-		return total / quantidade
+		
+		return (quantidade > 0) ? (total / quantidade) : quantidade
 	}
 }
