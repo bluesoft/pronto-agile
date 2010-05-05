@@ -24,7 +24,7 @@
 							</span>
 						</td>
 						<td>${c.descricaoDaCor}</td>
-						<c:if test="${usuarioLogado.productOwner}">
+						<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
 							<td>
 								<pronto:icons name="editar.png" title="Editar Categoria" onclick="goTo('${raiz}categorias/${c.categoriaKey}')"/>
 							</td>
@@ -37,7 +37,7 @@
 			</tbody>
 		</table>	
 		
-		<c:if test="${usuarioLogado.productOwner}">
+		<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
 			<div align="center">
 				<button type="button" onclick="window.location.href='${raiz}categorias/novo'">Incluir Categoria</button>
 			</div>

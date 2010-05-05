@@ -107,7 +107,7 @@
 			<c:otherwise>
 				<h1>
 					${backlog.descricao}
-					<c:if test="${usuarioLogado.productOwner}">
+					<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
 						<a href="${raiz}backlogs/${backlog.backlogKey}/priorizar">
 							<pronto:icons name="priorizar.png" title="Priorizar" />
 						</a>
@@ -154,7 +154,7 @@
 						
 						<td class="valorDeNegocio">
 							<c:choose>
-								<c:when test="${usuarioLogado.productOwner}">
+								<c:when test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
 									<input type="text" size="5" name="valorDeNegocio" value="${t.valorDeNegocio}" onchange="recalcular();salvarValorDeNegocio(this);" class="required digits"/>
 								</c:when>
 								<c:otherwise>
@@ -254,7 +254,7 @@
 								
 								<td class="valorDeNegocio">
 									<c:choose>
-										<c:when test="${usuarioLogado.productOwner}">
+										<c:when test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
 											<input type="hidden" name="valorDeNegocio" value="0" />
 										</c:when>
 									</c:choose>

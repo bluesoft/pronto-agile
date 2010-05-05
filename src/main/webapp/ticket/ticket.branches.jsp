@@ -68,7 +68,7 @@
 					<td style="color: #006600">${t.branch}</td>
 					<td>${t.kanbanStatus.descricao}</td>
 					<td>
-					<c:if test="${usuarioLogado.equipe}">
+					<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">
 						<pronto:icons name="mover_para_o_branch_master.png" title="Mover para o Branch Master" onclick="moverParaBranchMaster(${t.ticketKey})"></pronto:icons>
 					</c:if>
 					</td>

@@ -4,10 +4,10 @@
 	<ul id="jsddm">
 		<li><a href="#">Cadastros</a>
 		<ul>
-			<c:if test="${usuarioLogado.productOwner}">
+			<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
 				<li><a href="${raiz}categorias">Categorias</a></li>
 			</c:if>
-			<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
+			<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
 				<li><a href="${raiz}clientes">Clientes</a></li>
 			</c:if>
 			<c:if test="${usuarioLogado.administrador}">
@@ -17,7 +17,7 @@
 		</ul>
 		</li>
 		
-		<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
+		<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
 			<li><a href="#">Backlogs</a>
 				<ul>
 					<li><a href="${raiz}backlogs/sprints/atual">Sprint Atual</a></li>
@@ -34,13 +34,13 @@
 			<li><a href="${raiz}clientes/backlog">Backlog</a></li>
 		</c:if>
 		
-		<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
+		<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
 			<li><a href="${raiz}sprints">Sprints</a></li>
 			<li><a href="${raiz}kanban">Kanban</a></li>
 			<li><a href="${raiz}burndown">Burndown</a></li>
 		</c:if>
 		
-		<c:if test="${usuarioLogado.equipe}">
+		<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">
 			<li><a href="#">Ferramentas</a>
 				<ul>
 					<li><a href="${raiz}tickets/branches">Branches</a></li>

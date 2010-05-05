@@ -129,22 +129,22 @@
 								<td class="esforco">${t.esforco}</td>
 								<td>${t.kanbanStatus.descricao}</td>
 								<td>
-									<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 3) and usuarioLogado.productOwner}">
+									<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 3) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
 										<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="pronto.moverParaProductBacklog(${t.ticketKey}, true)"></pronto:icons>
 									</c:if>
 								</td>
 								<td>
-									<c:if test="${t.backlog.backlogKey eq 2 and usuarioLogado.productOwner}">
+									<c:if test="${t.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
 											<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Ideias" onclick="pronto.moverParaIdeias(${t.ticketKey}, true)"></pronto:icons>
 									</c:if>
 								</td>
 								<td>
-									<c:if test="${t.backlog.backlogKey eq 1 or (t.backlog.backlogKey eq 2 and usuarioLogado.productOwner) or t.backlog.backlogKey eq 3}">
+									<c:if test="${t.backlog.backlogKey eq 1 or (t.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)) or t.backlog.backlogKey eq 3}">
 										<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${t.ticketKey}, true)"></pronto:icons>
 									</c:if>
 								</td>
 								<td>
-									<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2) and usuarioLogado.productOwner}">
+									<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
 										<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${t.ticketKey}, true)"></pronto:icons>
 									</c:if>
 								</td>
@@ -178,7 +178,7 @@
 				<c:when test="${backlog.backlogKey eq 1}">
 					&nbsp;&nbsp;<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=1')">Nova Ideia</button>&nbsp;&nbsp;
 				</c:when>
-				<c:when test="${backlog.backlogKey eq 2 and usuarioLogado.productOwner}">
+				<c:when test="${backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
 					&nbsp;&nbsp;<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2')">Nova Estória</button>&nbsp;&nbsp;
 					&nbsp;&nbsp;<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3')">Novo Defeito</button>&nbsp;&nbsp;
 				</c:when>
