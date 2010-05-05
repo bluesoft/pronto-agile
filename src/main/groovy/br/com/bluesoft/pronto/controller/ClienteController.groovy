@@ -48,28 +48,28 @@ public class ClienteController {
 	
 	@RequestMapping(method = GET)
 	String listar(Model model) {
-		Seguranca.validarPermissao Papel.ADMINISTRADOR, Papel.PRODUCT_OWNER
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		model.addAttribute "clientes", clienteDao.listar()
 		VIEW_LISTAR
 	}
 	
 	@RequestMapping(value = "/novo", method = GET)
 	String novo(final Model model)  {
-		Seguranca.validarPermissao Papel.ADMINISTRADOR, Papel.PRODUCT_OWNER
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		model.addAttribute "cliente", new Cliente()
 		VIEW_EDITAR
 	}
 	
 	@RequestMapping(value = "/{clienteKey}", method = GET)
 	String editar(final Model model, @PathVariable final Integer clienteKey) {
-		Seguranca.validarPermissao Papel.ADMINISTRADOR, Papel.PRODUCT_OWNER
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		model.addAttribute "cliente", clienteDao.obter(clienteKey)
 		VIEW_EDITAR
 	}
 	
 	@RequestMapping(value = "/{clienteKey}", method = DELETE)
 	String excluir(final Model model, @PathVariable int clienteKey) {
-		Seguranca.validarPermissao Papel.ADMINISTRADOR, Papel.PRODUCT_OWNER
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		
 		def cliente = clienteDao.obter(clienteKey)
 		try {
@@ -84,7 +84,7 @@ public class ClienteController {
 	
 	@RequestMapping(method = [ POST, PUT ])
 	String salvar(final Model model, final Cliente cliente) {
-		Seguranca.validarPermissao Papel.ADMINISTRADOR, Papel.PRODUCT_OWNER
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		clienteDao.salvar(cliente)
 		return "redirect:/clientes"
 	}
