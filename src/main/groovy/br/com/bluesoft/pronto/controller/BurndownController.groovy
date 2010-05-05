@@ -73,7 +73,7 @@ class BurndownController {
 			sprint = sprintDao.obter(sprintKey)
 		}
 		
-		if (sprint.getMapaEsforcoPorDia().keySet().size() < 31) {
+		if (sprint.getMapaEsforcoPorDia().keySet().size() <= 31) {
 			model.addAttribute("sprint", sprint)
 			return "/burndown/burndown.burndown.jsp"			
 		} else {
