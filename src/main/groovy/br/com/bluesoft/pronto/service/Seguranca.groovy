@@ -69,6 +69,9 @@ public class Seguranca {
 
 	public static void validarPermissao(final int... papeis) throws SegurancaException {
 
+		if(getUsuario.isAdministrador())
+			return
+		
 		boolean permitido = false;
 
 		for (final int papelKey : papeis) {
