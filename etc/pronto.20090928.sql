@@ -40,7 +40,9 @@ delete from papel where papel_key in (3,4,5,8);
 --O cliente do ticket agora deve apontar para um cliente da tabela cliente.
 --Por isso, antes de rodar o script abaixo cadastre os seus cliente na tabela cliente
 --com os mesmos nomes que você digitava no campo cliente dos tickets.
+--exemplo: update ticket set cliente = 'Bluesoft';
+--exemplo: insert into cliente values( nextval('seq_cliente'), 'Bluesoft');
+
 --o script abaixo vai buscar um cliente de mesmo nome e fazer a link entre as tabelas tarefa e cliente
 --depois apagará o campo cliente do ticket mantendo somente o cliente_key.
 update ticket set cliente_key = (select cliente_key from cliente c where c.nome = cliente);
-
