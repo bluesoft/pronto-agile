@@ -65,6 +65,7 @@ class RetrospectivaController {
 		retrospectivaDao.salvar retrospectiva
 		
 		model.addAttribute "retrospectiva", retrospectiva
+		model.addAttribute("sprint", retrospectiva.sprint)
 		model.addAttribute "tiposDeRetrospectiva", tipoRetrospectivaDao.listar()
 		model.addAttribute "tiposDeItem", tipoRetrospectivaItemDao.listarPorTipoDeRetrospectiva(retrospectiva.getTipoRetrospectiva().getTipoRetrospectivaKey())
 		"/retrospectiva/retrospectiva.ver.jsp"
