@@ -47,7 +47,7 @@
 					<c:if test="${ticket.backlog.backlogKey eq 1 or (ticket.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)) or ticket.backlog.backlogKey eq 3}">
 						<pronto:icons name="mover_para_impedimentos.png" title="Mover para Impedimentos" onclick="pronto.impedir('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
-					<c:if test="${(ticket.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner))}">
+					<c:if test="${ticket.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
 						<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="pronto.moverParaSprintAtual('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
 					<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
@@ -230,7 +230,7 @@
 							
 							<div id="divEsforco">
 								<c:choose>
-									<c:when test="${(usuarioLogado.equipe and empty ticket.filhos}">
+									<c:when test="${usuarioLogado.equipe and empty ticket.filhos}">
 										<c:choose>
 											<c:when test="${configuracoes['tipoDeEstimativa'] eq 'PMG'}">
 												<form:select path="ticket.esforco" >
