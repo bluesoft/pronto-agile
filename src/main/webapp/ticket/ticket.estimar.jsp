@@ -165,7 +165,7 @@
 						
 						
 							<c:choose>
-								<c:when test="${usuarioLogado.equipe}">
+								<c:when test="${usuarioLogado.administrador or usuarioLogado.equipe}">
 									<c:choose>
 										<c:when test="${empty t.filhos}">
 											<c:choose>
@@ -197,7 +197,7 @@
 						
 						<td>
 							<c:choose>
-								<c:when test="${usuarioLogado.equipe}">
+								<c:when test="${usuarioLogado.administrador or usuarioLogado.equipe}">
 									<c:choose>
 										<c:when test="${empty t.filhos}">
 											<select name="par" onchange="salvarPar(this);">
@@ -217,7 +217,7 @@
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${usuarioLogado.equipe}">
+								<c:when test="${usuarioLogado.administrador or usuarioLogado.equipe}">
 									<c:choose>
 										<c:when test="${empty t.filhos}">
 											<input type="text" name="branch" value="${t.branch}" size="12" onchange="salvarBranch(this);"/>
@@ -261,7 +261,7 @@
 								</td>
 								
 								<c:choose>
-									<c:when test="${usuarioLogado.equipe}">
+									<c:when test="${usuarioLogado.administrador or usuarioLogado.equipe}">
 										<c:choose>
 											<c:when test="${configuracoes['tipoDeEstimativa'] eq 'PMG'}">
 												<td class="esforco"><input name="esforco${f.ticketKey}" type="radio" value="10" ${f.esforco eq 10 ? 'checked="checked"' : ''} onchange="recalcular();salvarEsforco(this);"/></td> 												
@@ -283,7 +283,7 @@
 								
 								<td>
 									<c:choose>
-										<c:when test="${usuarioLogado.equipe}">
+										<c:when test="${usuarioLogado.administrador or usuarioLogado.equipe}">
 											<select name="par" onchange="salvarPar(this);">
 												<option value="true" ${f.par ? 'selected="selected"' : ''}>Par</option>
 												<option value="false" ${!f.par ? 'selected="selected"' : ''}>Solo</option>
@@ -296,7 +296,7 @@
 								</td>
 								<td>
 									<c:choose>
-										<c:when test="${usuarioLogado.equipe}">
+										<c:when test="${usuarioLogado.administrador or usuarioLogado.equipe}">
 											<input type="text" name="branch" value="${f.branch}" size="12" onchange="salvarBranch(this);"/>
 										</c:when>
 										<c:otherwise>

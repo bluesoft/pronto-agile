@@ -230,7 +230,7 @@
 							
 							<div id="divEsforco">
 								<c:choose>
-									<c:when test="${usuarioLogado.equipe and empty ticket.filhos}">
+									<c:when test="${(usuarioLogado.administrador or usuarioLogado.equipe) and empty ticket.filhos}">
 										<c:choose>
 											<c:when test="${configuracoes['tipoDeEstimativa'] eq 'PMG'}">
 												<form:select path="ticket.esforco" >
