@@ -214,7 +214,7 @@ public class Sprint {
 			}
 		}
 		
-		return (total / quantidade).setScale(2, RoundingMode.HALF_UP)
+		return (quantidade > 0) ? (total / quantidade).setScale(2, RoundingMode.HALF_UP) : quantidade
 	}
 	
 }
