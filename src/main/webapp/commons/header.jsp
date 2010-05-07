@@ -13,7 +13,7 @@
 </div> <!-- end branding -->
 
 <c:if test="${usuarioLogado ne null and (usuarioLogado.administrador or usuarioLogado.productOwner or usuarioLogado.scrumMaster or usuarioLogado.equipe)}">
-	<div align="right"">
+	<div align="right">
 		Busca <input type="text" name="busca" id="busca" accesskey="b"/>
 		<pronto:icons name="buscar.png" title="Buscar" onclick="pronto.buscar();"/>
 	</div>

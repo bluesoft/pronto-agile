@@ -59,7 +59,7 @@
 				<c:set var="cor" value="${!cor}"/>
 				
 				<tr id="${s.scriptKey}" class="${cor ? 'odd' : 'even'}">
-					<td><a href=""${raiz}scripts/${s.scriptKey}">${s.scriptKey}</a></td>
+					<td><a href="${raiz}scripts/${s.scriptKey}">${s.scriptKey}</a></td>
 					<td class="descricao">${s.descricao}</td>
 					<td>${s.situacao}</td>
 					<td><a href="${raiz}tickets/${s.ticket.ticketKey}">${s.ticket.ticketKey}</a></td>
