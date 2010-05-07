@@ -3,7 +3,6 @@
 SET client_encoding = 'UTF8';
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-COMMENT ON SCHEMA public IS 'Standard public schema';
 SET search_path = public, pg_catalog;
 SET default_tablespace = '';
 SET default_with_oids = false;
@@ -336,12 +335,9 @@ INSERT INTO tipo_de_ticket VALUES (3, 'Defeito');
 INSERT INTO tipo_de_ticket VALUES (5, 'Impedimento');
 INSERT INTO tipo_de_ticket VALUES (6, 'Tarefa');
 
-INSERT INTO usuario VALUES ('admin', 'ISMvKXpXpadDiUoOSoAfww==', 'Administrador do Pronto', 'adm@adm.com.br');
+INSERT INTO usuario VALUES ('admin', 'ISMvKXpXpadDiUoOSoAfww==', 'Administrador do Pronto', 'adm@adm.com.br', '644c2bd2b8320fb4599cecaa52dfec7d');
 
-INSERT INTO usuario_papel VALUES('admin',1);
-INSERT INTO usuario_papel VALUES('admin',2);
 INSERT INTO usuario_papel VALUES('admin',6);
-INSERT INTO usuario_papel VALUES('admin',9);
 
 INSERT INTO tipo_retrospectiva VALUES (1, 'Tradicional');
 INSERT INTO tipo_retrospectiva VALUES (2, '6 Chapéus');
@@ -523,8 +519,3 @@ CREATE INDEX idx_sprint_atual ON SPRINT USING btree (atual);
 CREATE INDEX idx_sprint_fechado ON SPRINT USING btree (fechado);
 CREATE INDEX idx_retrospectiva_item_retrospectiva ON RETROSPECTIVA_ITEM USING btree (RETROSPECTIVA_KEY);
 CREATE INDEX idx_ticket_categoria ON TICKET USING btree (categoria_key);
-
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
-GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO PUBLIC;
