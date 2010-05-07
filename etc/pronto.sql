@@ -100,6 +100,10 @@ CREATE SEQUENCE seq_cliente
 
     ALTER TABLE seq_cliente OWNER TO pronto;
 
+create sequence SEQ_CATEGORIA;
+	
+alter table seq_categoria OWNER to pronto;
+
 CREATE TABLE backlog (
     backlog_key integer NOT NULL,
     descricao character varying(255)
@@ -109,7 +113,9 @@ ALTER TABLE public.backlog OWNER TO pronto;
     
 CREATE TABLE kanban_status (
     kanban_status_key integer NOT NULL,
-    descricao character varying(255)
+    descricao character varying(255),
+    ordem integer,
+    fixo integer default 0 not null
 );
 
 ALTER TABLE public.kanban_status OWNER TO pronto;
@@ -154,7 +160,9 @@ CREATE TABLE ticket (
     prioridade integer,
     cliente_key integer,
     prioridade_do_cliente integer,
-    script_key integer
+    script_key integer,
+    data_da_ultima_alteracao timestamp without time zone,
+    categoria_key integer
 );
 
 ALTER TABLE public.ticket OWNER TO pronto;
@@ -193,7 +201,7 @@ CREATE TABLE ticket_log (
     valor_novo text,
     data timestamp without time zone,
     usuario character varying(255),
-    ticket_key integer
+    ticket_key integer NOT NULL
 );
 
 
@@ -289,16 +297,32 @@ CREATE TABLE tipo_retrospectiva (
 
 ALTER TABLE public.tipo_retrospectiva OWNER TO pronto;
 
+CREATE TABLE configuracoes (
+	chave varchar(50) primary key,
+	valor varchar(100)	
+);
+
+ALTER TABLE configuracoes OWNER TO pronto;
+
+CREATE TABLE categoria (
+	categoria_key integer primary key,
+	descricao varchar(75),
+	cor varchar(60)
+);
+
+ALTER TABLE categoria OWNER TO pronto;
+
 INSERT INTO backlog VALUES (1, 'Ideias');
 INSERT INTO backlog VALUES (5, 'Impedimentos');
 INSERT INTO backlog VALUES (4, 'Lixeira');
 INSERT INTO backlog VALUES (2, 'Product Backlog');
 INSERT INTO backlog VALUES (3, 'Sprint Backlog');
 
-INSERT INTO kanban_status VALUES (1, 'To Do');
-INSERT INTO kanban_status VALUES (2, 'Doing');
-INSERT INTO kanban_status VALUES (21, 'Testing');
-INSERT INTO kanban_status VALUES (100, 'Done');
+INSERT INTO kanban_status VALUES (1, 'To Do', 1, 1);
+INSERT INTO kanban_status VALUES (2, 'Doing', 2, 1);
+INSERT INTO kanban_status VALUES (21, 'To test', 21, 1);
+INSERT INTO kanban_status VALUES (31, 'Testing', 31, 1);
+INSERT INTO kanban_status VALUES (100, 'Done', 100, 1);
 
 INSERT INTO papel VALUES (1, 'Product Owner');
 INSERT INTO papel VALUES (2, 'Scrum Master');
@@ -331,6 +355,8 @@ INSERT INTO tipo_retrospectiva_item VALUES (5, 'Chapéu Amarelo - Acontecimentos 
 INSERT INTO tipo_retrospectiva_item VALUES (6, 'Chapéu Preto - Acontecimentos Negativos', 2);
 INSERT INTO tipo_retrospectiva_item VALUES (7, 'Chapéu Verde - Ideias', 2);
 INSERT INTO tipo_retrospectiva_item VALUES (8, 'Chapéu Vermelho - Sentimentos', 2);
+
+insert into configuracoes values ('tipoDeEstimativa', 'PMG');
 
 ALTER TABLE ONLY backlog
     ADD CONSTRAINT backlog_pkey PRIMARY KEY (backlog_key);
@@ -469,6 +495,11 @@ ALTER TABLE ONLY tipo_retrospectiva_item
 
 ALTER TABLE ONLY TICKET
     ADD CONSTRAINT FK_TICKET_SCRIPT FOREIGN KEY (SCRIPT_KEY) REFERENCES SCRIPT (SCRIPT_KEY);
+
+ALTER TABLE ONLY TICKET
+    ADD CONSTRAINT FK_TICKET_CATEGORIA FOREIGN KEY (CATEGORIA_KEY) REFERENCES CATEGORIA (CATEGORIA_KEY);
+
+alter table kanban_status add unique (ordem);
     
 CREATE INDEX idx_ticket_sprint ON ticket USING btree (sprint);    
 CREATE INDEX idx_ticket_tipo_de_ticket ON ticket USING btree (tipo_de_ticket_key);
@@ -480,6 +511,18 @@ CREATE INDEX idx_ticket_branch ON ticket USING btree (branch);
 CREATE INDEX idx_execucao_script ON execucao USING btree (script_key);
 CREATE INDEX idx_execucao_banco_de_dados ON execucao USING btree (banco_de_dados_key);
 CREATE INDEX idx_ticket_script ON TICKET USING btree (SCRIPT_KEY);
+
+CREATE INDEX idx_execucao_data ON EXECUCAO USING btree (data);
+CREATE INDEX idx_ticket_data_de_pronto ON TICKET USING btree (data_de_pronto);
+CREATE INDEX idx_ticket_pai ON TICKET USING btree (pai);
+CREATE INDEX idx_ticket_comentario_ticket ON TICKET_COMENTARIO USING btree (ticket_key);
+CREATE INDEX idx_ticket_comentario_data ON TICKET_COMENTARIO USING btree (data);
+CREATE INDEX idx_ticket_comentario_usuario ON TICKET_COMENTARIO USING btree (usuario_key);
+CREATE INDEX idx_ticket_log_ticket ON TICKET_LOG USING btree (ticket_key);
+CREATE INDEX idx_sprint_atual ON SPRINT USING btree (atual);
+CREATE INDEX idx_sprint_fechado ON SPRINT USING btree (fechado);
+CREATE INDEX idx_retrospectiva_item_retrospectiva ON RETROSPECTIVA_ITEM USING btree (RETROSPECTIVA_KEY);
+CREATE INDEX idx_ticket_categoria ON TICKET USING btree (categoria_key);
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
