@@ -22,6 +22,8 @@ CREATE TABLE configuracoes (
 	valor varchar(100)	
 );
 
+ALTER TABLE configuracoes OWNER TO pronto;
+
 insert into configuracoes values ('tipoDeEstimativa', 'PMG');
 
 alter table kanban_status add ordem integer;
@@ -38,7 +40,11 @@ CREATE TABLE categoria (
 	cor varchar(60)
 );
 
+ALTER TABLE categoria OWNER TO pronto;
+
 alter table ticket add categoria_key integer references categoria;
 CREATE INDEX idx_ticket_categoria ON TICKET USING btree (categoria_key);
 
 create sequence SEQ_CATEGORIA;
+	
+alter table seq_categoria OWNER to pronto;
