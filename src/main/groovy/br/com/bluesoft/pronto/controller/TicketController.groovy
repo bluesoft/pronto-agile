@@ -635,7 +635,7 @@ class TicketController {
 			Ticket ticket = ticketDao.obterComDependecias(ticketKey)
 			
 			if (ticket == null) {
-				model.addAttribute("mensagem", "O Ticket #" + ticketKey + " não existe.")
+				model.addAttribute("mensagem", "O ticket #" + ticketKey + " não existe.")
 				return "/branca.jsp"
 			}
 			model.addAttribute("sprints", sprintDao.listarSprintsEmAberto())

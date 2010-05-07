@@ -105,7 +105,7 @@ class BacklogController {
 			model.addAttribute "mensagem", "Por favor, crie um sprint."
 			return "forward:/app/sprints"
 		} else if (sprint == null) {
-			model.addAttribute "mensagem", "Por favor, informe qual é o Sprint atual."
+			model.addAttribute "mensagem", "Por favor, informe qual é o sprint atual."
 			return "forward:/app/sprints"
 		} else {
 			return "redirect:/backlogs/sprints/${sprint.sprintKey}";

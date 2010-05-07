@@ -39,7 +39,7 @@ class ConfiguracoesController {
 		
 		configuracaoDao.atualizarConfiguracoes(request.getParameterMap());
 		
-		"redirect:/configuracoes?mensagem=Configurações Salvas com Sucesso!";
+		"redirect:/configuracoes?mensagem=Configurações salvas com sucesso.";
 	}
 	
 }

@@ -74,7 +74,7 @@ class BancoDeDadosController {
 	String excluir(Model model, @PathVariable int bancoDeDadosKey) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		bancoDeDadosDao.excluir bancoDeDadosDao.obter(bancoDeDadosKey)
-		"redirect:/bancosDeDados"
+		"redirect:/bancosDeDados?mensagem=Banco de dados excluído com sucesso."
 	}
 
 }

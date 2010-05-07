@@ -25,9 +25,9 @@ class CategoriaController {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		try {
 			categoriaDao.excluir(new Categoria(categoriaKey: categoriaKey))
-			"redirect:/categorias?message=Categoria Excluída com Sucesso"
+			"redirect:/categorias?mensagem=Categoria excluída com sucesso."
 		} catch (e) {
-			"redirect:/categorias?erro=Esta Categoria está Vinculada há Alguns Tickets e Não pode ser Excluída"
+			"redirect:/categorias?erro=Esta categoria está vinculada há alguns tickets e não pode ser excluída."
 		}
 	}
 	
@@ -59,7 +59,7 @@ class CategoriaController {
 		def tx = categoriaDao.getSession().beginTransaction()
 		categoriaDao.salvar categoria
 		tx.commit()
-		"redirect:/categorias?message=Categoria Salva com Sucesso"
+		"redirect:/categorias?mensagem=Categoria salva com sucesso."
 	}
 	
 }

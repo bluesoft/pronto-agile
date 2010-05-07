@@ -74,9 +74,9 @@ public class ClienteController {
 		def cliente = clienteDao.obter(clienteKey)
 		try {
 			clienteDao.excluir(cliente)
-			model.addAttribute("mensagem", "Cliente excluido com suceso.")
+			model.addAttribute("mensagem", "Cliente excluído com sucesso.")
 		} catch (e) {
-			model.addAttribute("erro", "Este cliente não pode ser excluido porque existem tarefas e/ou usuários vinculados a ele.")
+			model.addAttribute("erro", "Este cliente não pode ser excluído porque existem tarefas e/ou usuários vinculados a ele.")
 		}
 		
 		return "redirect:/clientes"
@@ -86,7 +86,7 @@ public class ClienteController {
 	String salvar(final Model model, final Cliente cliente) {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		clienteDao.salvar(cliente)
-		return "redirect:/clientes"
+		return "redirect:/clientes?mensagem=Cliente salvo com sucesso."
 	}
 	
 	@RequestMapping(value = "/backlog", method = GET)
