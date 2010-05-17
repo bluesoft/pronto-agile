@@ -13,6 +13,7 @@
 				<%@ include file="/commons/sprintLinks.jsp" %>
 			</h1>
 		</div>
+		
 		<c:if test="${fn:length(sprints) gt 1}">
 			<div align="right">
 				Sprint: 
