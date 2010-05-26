@@ -151,8 +151,13 @@ class TicketController {
 			}
 
 			if (ticket.isDefeito()) {
+				if (ticket.getCausaDeDefeito() == null || ticket.getCausaDeDefeito().getCausaDeDefeitoKey() == 0) {
+					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de Mover para Done é preciso informar a Causa do Defeito";
+				}
 				ticket.setCausaDeDefeito(causaDeDefeitoDao.obter(ticket.getCausaDeDefeito().getCausaDeDefeitoKey()))
 			}
+			
+			ticket.setKanbanStatus(kanbanStatusDao.obter(ticket.getKanbanStatus().getKanbanStatusKey()))
 			
 			if (paiKey == null) {
 				
@@ -168,9 +173,7 @@ class TicketController {
 			} else {
 				Ticket pai = ticketDao.obter(paiKey)
 				copiarDadosDoPai(pai, ticket)
-			}
-			
-			ticket.setKanbanStatus(kanbanStatusDao.obter(ticket.getKanbanStatus().getKanbanStatusKey()))
+			}			
 			
 			if (clienteKey != null) {
 				ticket.setCliente(clienteDao.obter(clienteKey))

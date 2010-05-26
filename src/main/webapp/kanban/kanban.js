@@ -13,8 +13,21 @@ pronto.kanban = {
 		var kanbanStatusKey = drop.attr('status');
 		var ticketKey = ui.draggable.attr('id');
 		var data = {'kanbanStatusKey' : kanbanStatusKey, 'ticketKey' : ticketKey};
-		$.post(this.urlMover, data);
-		$item.appendTo(drop).fadeIn();
+		var url = this.urlMover;
+		$.ajax({
+			url: url, 
+			data: data,
+			dataType:'json',
+			success: function(resposta) {
+				if (resposta.sucesso == 'true') {
+					$item.appendTo(drop);			
+				} else {
+					pronto.erro(resposta.mensagem);
+				}
+				$item.fadeIn();
+			}
+		});
+		
 	},
 	
 	setDragAndDrop: function() {

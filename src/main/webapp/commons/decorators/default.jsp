@@ -6,6 +6,7 @@
         <link rel="stylesheet" type="text/css" media="print" href="<c:url value='/commons/themes/simplicity/print.css'/>" />
         <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/commons/themes/menu.css'/>" />
         <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/commons/scripts/markitup/skins/markitup/style.css'/>" />
+        <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/commons/scripts/gritter/jquery.gritter.css'/>" />
         <%@ include file="/commons/scripts/scripts.jsp"%>
         <decorator:head/>
     </head>

@@ -164,3 +164,18 @@ jQuery.fn.zebrar = function(){
     });
 };
 
+pronto.erro = function(mensagem){
+	$.gritter.add({
+		title: 'Erro',
+		text: mensagem,
+		image: pronto.raiz + 'commons/icons/erro_big.png'
+	});
+};
+
+pronto.alerta = function(mensagem){
+	$.gritter.add({
+		title: 'Atenção',
+		text: mensagem,
+		image: pronto.raiz + 'commons/icons/alerta_big.png'
+	});
+};

@@ -254,7 +254,7 @@
 							
 							<c:if test="${ticket.defeito}">
 								<div>
-										<form:select path="ticket.causaDeDefeito.causaDeDefeitoKey" cssClass="requiredCombo">
+										<form:select path="ticket.causaDeDefeito.causaDeDefeitoKey" cssClass="causaDoDefeito">
 											<form:option value="0" cssClass="nenhuma">-- Selecione uma causa --</form:option>
 											<form:options items="${causasDeDefeito}" itemLabel="descricao" itemValue="causaDeDefeitoKey"/>
 										</form:select>

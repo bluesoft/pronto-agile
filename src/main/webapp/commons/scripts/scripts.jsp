@@ -18,9 +18,6 @@
 <c:url var="markItUpSettingsUrl" value="/commons/scripts/markitup/set.js"/>
 <script type="text/javascript" src="${markItUpSettingsUrl}"></script>
 
-<c:url var="prontoJsUrl" value="/commons/scripts/pronto.js"/>
-<script type="text/javascript" src="${prontoJsUrl}"></script>
-
 <c:url var="jqueryValidator" value="/commons/scripts/jquery.validate.pack.js"/>
 <script type="text/javascript" src="${jqueryValidator}"></script>
 
@@ -36,8 +33,14 @@
 <c:url var="jqueryBlockUI" value="/commons/scripts/jquery.blockUI.js"/>
 <script type="text/javascript" src="${jqueryBlockUI}"></script>
 
+<c:url var="gritter" value="/commons/scripts/gritter/jquery.gritter.min.js"/>
+<script type="text/javascript" src="${gritter}"></script>
+
 <c:url var="raiz" value="/"/>
 <script>
 	var pronto = pronto? pronto : {};
 	pronto.raiz = '${raiz}';
 </script>
+
+<c:url var="prontoJsUrl" value="/commons/scripts/pronto.js"/>
+<script type="text/javascript" src="${prontoJsUrl}"></script>

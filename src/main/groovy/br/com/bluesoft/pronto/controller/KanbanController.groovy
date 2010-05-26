@@ -91,6 +91,15 @@ public class KanbanController {
 		}
 
 		if (kanbanStatusKey == KanbanStatus.DONE) {
+			
+			if (ticket.isDefeito() && ticket.causaDeDefeito == null) {
+				return """{
+							'sucesso':'false',
+							'mensagem':'Antes de Mover para Done é preciso definir a Causa do Defeito.'
+						  }
+				""" 
+			}
+			
 			ticket.setDataDePronto(new Date())
 		} else {
 			ticket.setDataDePronto(null)
@@ -98,6 +107,6 @@ public class KanbanController {
 		
 		ticketDao.salvar(ticket)
 		
-		"true"
+		return "{'sucesso':'true'}"
 	}
 }
