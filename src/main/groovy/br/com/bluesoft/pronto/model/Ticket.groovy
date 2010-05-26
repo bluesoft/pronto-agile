@@ -59,7 +59,6 @@ class Ticket {
 	@GeneratedValue(generator = "SEQ_TICKET")
 	int ticketKey
 	
-	
 	@Auditable
 	@Label("título")
 	String titulo
@@ -141,6 +140,12 @@ class Ticket {
 	@ManyToOne
 	@JoinColumn(name = "categoria_key")
 	Categoria categoria
+	
+	@Auditable
+	@Label("causa do defeito")
+	@ManyToOne
+	@JoinColumn(name = "causa_de_defeito_key")
+	CausaDeDefeito causaDeDefeito
 	
 	@OneToMany(mappedBy = "pai", cascade = CascadeType.ALL)
 	@OrderBy("prioridade asc")

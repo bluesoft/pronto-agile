@@ -74,7 +74,8 @@ class BurndownController {
 		}
 		
 		if (sprint.getMapaEsforcoPorDia().keySet().size() <= 31) {
-			model.addAttribute("sprint", sprint)
+			model.addAttribute "sprint", sprint
+			model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
 			return "/burndown/burndown.burndown.jsp"			
 		} else {
 			model.addAttribute("erro", 'Não é possível construir um burndown chart de um sprint com mais de 31 dias!')

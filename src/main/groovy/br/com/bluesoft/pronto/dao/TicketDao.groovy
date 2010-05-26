@@ -419,7 +419,7 @@ public class TicketDao extends DaoHibernate {
 		query.setInteger("clienteKey", clienteKey);
 		return query.list();
 	}
-
+	
 	public void alterarPrioridadeDoCliente(final int clienteKey, final Integer[] tickets) {
 
 		final String sql = "update ticket set prioridade_do_cliente = :prioridade where ticket_key =:ticketKey and cliente_key = :clienteKey";

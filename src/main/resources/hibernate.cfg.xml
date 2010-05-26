@@ -23,6 +23,7 @@
 
 		<!-- model classes -->
 		<mapping class="br.com.bluesoft.pronto.model.Categoria" />
+		<mapping class="br.com.bluesoft.pronto.model.CausaDeDefeito" />
 		<mapping class="br.com.bluesoft.pronto.model.Configuracao" />
 		<mapping class="br.com.bluesoft.pronto.model.Cliente" />
 		<mapping class="br.com.bluesoft.pronto.model.Sprint" />

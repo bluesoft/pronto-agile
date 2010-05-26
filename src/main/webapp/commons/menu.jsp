@@ -7,12 +7,19 @@
 			<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
 				<li><a href="${raiz}categorias">Categorias</a></li>
 			</c:if>
-			<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
+			
+			<c:if test="${usuarioLogado.equipe}">
+				<li><a href="${raiz}causasDeDefeito">Causas de Defeito</a></li>
+			</c:if>
+			
+			<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
 				<li><a href="${raiz}clientes">Clientes</a></li>
 			</c:if>
+			
 			<c:if test="${usuarioLogado.administrador}">
 				<li><a href="${raiz}configuracoes">Configurações</a></li>
 			</c:if>
+			
 			<li><a href="${raiz}usuarios">Usuários</a></li>
 		</ul>
 		</li>

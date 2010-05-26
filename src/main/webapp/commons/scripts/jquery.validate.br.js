@@ -37,6 +37,12 @@ $(function() {
 	}, "Por favor, forne&ccedil;a uma data v&aacute;lida.");
 
 	jQuery.validator.addClassRules("dateBr", {dateBr: true});
+	
+	jQuery.validator.addMethod("requiredCombo", function(value, element) { 
+		  return this.optional(element) || (value != null && value > 0); 
+	}, "Selecione um dos itens da lista.");
+
+	jQuery.validator.addClassRules("requiredCombo", {requiredCombo: true});
 		
 }); 
 

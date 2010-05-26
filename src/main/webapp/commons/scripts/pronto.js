@@ -155,5 +155,12 @@ pronto.moverTicket = function(ticketKey, url, ajax){
 	} else {
 		pronto.doGet(url);	
 	}
-}
+};
+
+jQuery.fn.zebrar = function(){
+    return this.each(function(){
+    	$(this).find('tbody tr:odd').addClass('odd');
+    	$(this).find('tbody tr:even').addClass('even');
+    });
+};
 
