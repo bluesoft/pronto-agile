@@ -20,6 +20,10 @@
 				<li><a href="${raiz}configuracoes">Configurações</a></li>
 			</c:if>
 			
+			<c:if test="${usuarioLogado.equipe}">
+				<li><a href="${raiz}motivosReprovacao">Motivos De Reprovação</a></li>
+			</c:if>
+			
 			<li><a href="${raiz}usuarios">Usuários</a></li>
 		</ul>
 		</li>

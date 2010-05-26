@@ -38,6 +38,7 @@ import org.springframework.web.context.request.WebRequest;
 import br.com.bluesoft.pronto.ProntoException
 import br.com.bluesoft.pronto.SegurancaException
 import br.com.bluesoft.pronto.core.Backlog
+import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.core.Papel
 import br.com.bluesoft.pronto.core.TipoDeTicket
 import br.com.bluesoft.pronto.dao.BacklogDao
@@ -150,11 +151,14 @@ class TicketController {
 				throw new ProntoException("Não é possível salvar uma estória, defeito ou tarefa sem descrição!")
 			}
 
-			if (ticket.isDefeito()) {
+			if (ticket.isDefeito() && ticket.kanbanStatus != null && ticket.kanbanStatus.kanbanStatusKey == KanbanStatus.DONE) {
 				if (ticket.getCausaDeDefeito() == null || ticket.getCausaDeDefeito().getCausaDeDefeitoKey() == 0) {
 					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de Mover para Done é preciso informar a Causa do Defeito";
+				} else {
+					ticket.setCausaDeDefeito(causaDeDefeitoDao.obter(ticket.getCausaDeDefeito().getCausaDeDefeitoKey()))
 				}
-				ticket.setCausaDeDefeito(causaDeDefeitoDao.obter(ticket.getCausaDeDefeito().getCausaDeDefeitoKey()))
+			} else {
+				ticket.setCausaDeDefeito(null)
 			}
 			
 			ticket.setKanbanStatus(kanbanStatusDao.obter(ticket.getKanbanStatus().getKanbanStatusKey()))

@@ -26,12 +26,14 @@
 		<mapping class="br.com.bluesoft.pronto.model.CausaDeDefeito" />
 		<mapping class="br.com.bluesoft.pronto.model.Configuracao" />
 		<mapping class="br.com.bluesoft.pronto.model.Cliente" />
+		<mapping class="br.com.bluesoft.pronto.model.MovimentoKanban" />
+		<mapping class="br.com.bluesoft.pronto.model.MotivoReprovacao" />
 		<mapping class="br.com.bluesoft.pronto.model.Sprint" />
 		<mapping class="br.com.bluesoft.pronto.model.Ticket" />
 		<mapping class="br.com.bluesoft.pronto.model.Usuario" />
 		<mapping class="br.com.bluesoft.pronto.model.TicketLog" />
 		<mapping class="br.com.bluesoft.pronto.model.TicketComentario" />
-		
+
 		<mapping class="br.com.bluesoft.pronto.model.Retrospectiva" />
 		<mapping class="br.com.bluesoft.pronto.model.RetrospectivaItem" />
 		

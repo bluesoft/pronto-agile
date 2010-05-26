@@ -114,6 +114,9 @@ class Ticket {
 	@JoinTable(name = "TICKET_TESTADOR", joinColumns =  @JoinColumn(name = "TICKET_KEY") , inverseJoinColumns =  @JoinColumn(name = "USUARIO_KEY") )
 	List<Usuario> testadores
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="ticket")
+	List<MovimentoKanban> movimentosDeKanban
+	
 	@Auditable
 	@Label("valor de negócio")
 	int valorDeNegocio

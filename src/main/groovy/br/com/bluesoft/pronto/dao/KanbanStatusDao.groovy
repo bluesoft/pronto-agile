@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository
 
 import br.com.bluesoft.pronto.core.KanbanStatus
 
+
 @Repository
 class KanbanStatusDao extends DaoHibernate {
 	

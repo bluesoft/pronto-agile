@@ -27,9 +27,9 @@ class CausaDeDefeitoController {
 		Seguranca.validarPermissao Papel.EQUIPE
 		try {
 			causaDeDefeitoDao.excluir(new CausaDeDefeito(causaDeDefeitoKey: causaDeDefeitoKey))
-			"redirect:/causasDeDefeito?message=CausaDeDefeito Excluída com Sucesso"
+			"redirect:/causasDeDefeito?message=Excluído com Sucesso"
 		} catch (e) {
-			"redirect:/causasDeDefeito?erro=Esta CausaDeDefeito está Vinculada há Alguns Tickets e Não pode ser Excluída"
+			"redirect:/causasDeDefeito?erro=Esta Causa está Vinculada há Alguns Tickets e Não pode ser Excluída"
 		}
 	}
 	
@@ -61,7 +61,7 @@ class CausaDeDefeitoController {
 		def tx = causaDeDefeitoDao.getSession().beginTransaction()
 		causaDeDefeitoDao.salvar causaDeDefeito
 		tx.commit()
-		"redirect:/causasDeDefeito?message=Causa De Defeito Salva com Sucesso"
+		"redirect:/causasDeDefeito?message=Salvo com Sucesso"
 	}
 	
 }
