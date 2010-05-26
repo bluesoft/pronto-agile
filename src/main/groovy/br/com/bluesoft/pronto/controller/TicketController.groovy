@@ -42,6 +42,7 @@ import br.com.bluesoft.pronto.core.Papel
 import br.com.bluesoft.pronto.core.TipoDeTicket
 import br.com.bluesoft.pronto.dao.BacklogDao
 import br.com.bluesoft.pronto.dao.CategoriaDao;
+import br.com.bluesoft.pronto.dao.CausaDeDefeitoDao;
 import br.com.bluesoft.pronto.dao.ClienteDao
 import br.com.bluesoft.pronto.dao.KanbanStatusDao
 import br.com.bluesoft.pronto.dao.SprintDao
@@ -88,6 +89,7 @@ class TicketController {
 	@Autowired TipoDeTicketDao tipoDeTicketDao
 	@Autowired BacklogDao backlogDao
 	@Autowired ConfiguracaoDao configuracaoDao
+	@Autowired CausaDeDefeitoDao causaDeDefeitoDao
 	
 	@InitBinder
 	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
@@ -146,6 +148,10 @@ class TicketController {
 			
 			if (ticket.getTitulo() == null || ticket.getTitulo().trim().length() <= 0) {
 				throw new ProntoException("Não é possível salvar uma estória, defeito ou tarefa sem descrição!")
+			}
+
+			if (ticket.isDefeito()) {
+				ticket.setCausaDeDefeito(causaDeDefeitoDao.obter(ticket.getCausaDeDefeito().getCausaDeDefeitoKey()))
 			}
 			
 			if (paiKey == null) {
@@ -659,6 +665,7 @@ class TicketController {
 		model.addAttribute "testadores", equipe 
 		model.addAttribute "desenvolvedores", equipe
 		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
+		model.addAttribute "causasDeDefeito", causaDeDefeitoDao.listar()
 
 		VIEW_EDITAR
 	}

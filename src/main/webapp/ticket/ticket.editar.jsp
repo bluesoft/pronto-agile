@@ -252,6 +252,17 @@
 								<br/><p>Esforço</p>
 							</div>
 							
+							<c:if test="${ticket.defeito}">
+								<div>
+										<form:select path="ticket.causaDeDefeito.causaDeDefeitoKey" cssClass="requiredCombo">
+											<form:option value="0" cssClass="nenhuma">-- Selecione uma causa --</form:option>
+											<form:options items="${causasDeDefeito}" itemLabel="descricao" itemValue="causaDeDefeitoKey"/>
+										</form:select>
+										<br/>
+										<p>Causa do Defeito</p>
+								</div>
+							</c:if>
+							
 							<div>
 								<form:select path="ticket.par">
 									<form:option value="true">Sim</form:option>
@@ -366,7 +377,7 @@
 								<button type="button" onclick="pronto.doGet('${raiz}backlogs/${ticket.backlog.backlogKey}')">Cancelar</button>
 							</c:otherwise>
 						</c:choose>
-						<button type="submit">Salvar</button>
+						<button type="button" onclick="salvar()">Salvar</button>
 					</div>
 				</form>	
 			</div>

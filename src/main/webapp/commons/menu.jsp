@@ -7,6 +7,9 @@
 			<c:if test="${usuarioLogado.productOwner}">
 				<li><a href="${raiz}categorias">Categorias</a></li>
 			</c:if>
+			<c:if test="${usuarioLogado.equipe}">
+				<li><a href="${raiz}causasDeDefeito">Causas de Defeito</a></li>
+			</c:if>
 			<c:if test="${usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
 				<li><a href="${raiz}clientes">Clientes</a></li>
 			</c:if>

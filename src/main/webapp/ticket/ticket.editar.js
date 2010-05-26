@@ -100,3 +100,7 @@ function verDescricao(ticketKey) {
 		}
 	});
 }
+
+function salvar() {
+	$('#formTicket').submit();
+}
