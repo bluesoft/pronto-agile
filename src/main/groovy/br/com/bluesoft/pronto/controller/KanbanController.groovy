@@ -79,7 +79,7 @@ public class KanbanController {
 		
 		def ordens = new JSONObject();
 		statusList.each {
-			mapaDeStatus.put it.kanbanStatusKey, it.ordem	
+			ordens.put it.kanbanStatusKey as String, it.ordem as String	
 		}
 		model.addAttribute "ordens", ordens
 		
