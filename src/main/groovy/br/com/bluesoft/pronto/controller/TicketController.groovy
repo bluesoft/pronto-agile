@@ -14,6 +14,9 @@ import java.util.TreeSet
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+
+import net.sf.json.JSONObject;
+
 import org.apache.commons.fileupload.FileItem
 import org.apache.commons.fileupload.FileItemFactory
 import org.apache.commons.fileupload.disk.DiskFileItemFactory
@@ -46,6 +49,8 @@ import br.com.bluesoft.pronto.dao.CategoriaDao;
 import br.com.bluesoft.pronto.dao.CausaDeDefeitoDao;
 import br.com.bluesoft.pronto.dao.ClienteDao
 import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.MotivoReprovacaoDao
+import br.com.bluesoft.pronto.dao.MovimentoKanbanDao
 import br.com.bluesoft.pronto.dao.SprintDao
 import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.dao.TipoDeTicketDao
@@ -64,7 +69,7 @@ import br.com.bluesoft.pronto.util.ControllerUtil
 import br.com.bluesoft.pronto.util.DateUtil
 import br.com.bluesoft.pronto.util.StringUtil
 import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer;
-
+import br.com.bluesoft.pronto.service.MovimentadorDeTicket
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.Multimap
 
@@ -91,6 +96,9 @@ class TicketController {
 	@Autowired BacklogDao backlogDao
 	@Autowired ConfiguracaoDao configuracaoDao
 	@Autowired CausaDeDefeitoDao causaDeDefeitoDao
+	@Autowired MotivoReprovacaoDao motivoReprovacaoDao
+	@Autowired MovimentoKanbanDao movimentoKanbanDao
+	@Autowired MovimentadorDeTicket movimentadorDeTicket
 	
 	@InitBinder
 	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
@@ -131,7 +139,7 @@ class TicketController {
 	}
 
 	@RequestMapping(method=[POST, PUT])
-	String salvar( Model model, Ticket ticket,  String comentario,  String[] desenvolvedor,  String[] testador,  Integer paiKey,  Integer clienteKey) throws SegurancaException {
+	String salvar( Model model, Ticket ticket,  String comentario,  String[] desenvolvedor,  String[] testador,  Integer paiKey,  Integer clienteKey, Integer motivoReprovacaoKey) throws SegurancaException {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
@@ -203,6 +211,12 @@ class TicketController {
 			definirTestadores(ticket, testador)
 			
 			ticketDao.salvar(ticket)
+
+			if (motivoReprovacaoKey != null && motivoReprovacaoKey > 0) {
+				movimentadorDeTicket.movimentar ticket, ticket.kanbanStatus.kanbanStatusKey, motivoReprovacaoKey
+			} else {
+				movimentadorDeTicket.movimentar ticket, ticket.kanbanStatus.kanbanStatusKey
+			}
 			
 			tx.commit()
 			
@@ -654,6 +668,16 @@ class TicketController {
 			model.addAttribute("sprints", sprintDao.listarSprintsEmAberto())
 			model.addAttribute("ticket", ticket)
 			model.addAttribute("anexos", listarAnexos(ticketKey))
+			model.addAttribute "motivosReprovacao", motivoReprovacaoDao.listar()
+			model.addAttribute "movimentos", movimentoKanbanDao.listarMovimentosDoTicket(ticketKey)		
+			def statusList = kanbanStatusDao.listar()
+			model.addAttribute "kanbanStatus", statusList
+			def ordens = new JSONObject();
+			statusList.each {
+				ordens.put it.kanbanStatusKey as String, it.ordem as String	
+			}
+			model.addAttribute "ordens", ordens
+
 			
 		} else {
 			Ticket novoTicket = new Ticket()
@@ -671,7 +695,6 @@ class TicketController {
 		model.addAttribute "clientes", clienteDao.listar()
 		model.addAttribute "testadores", equipe 
 		model.addAttribute "desenvolvedores", equipe
-		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
 		model.addAttribute "causasDeDefeito", causaDeDefeitoDao.listar()
 
 		VIEW_EDITAR

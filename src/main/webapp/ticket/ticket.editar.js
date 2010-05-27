@@ -104,3 +104,22 @@ function verDescricao(ticketKey) {
 function salvar() {
 	$('#formTicket').submit();
 }
+
+function alterarStatuDoKanban() {
+	var kanbanStatusAnterior = $("#kanbanStatusAnterior").val();
+	var kanbanStatusKey = $("#kanbanStatusKey").val();
+	var $motivoReprovacaoCombo = $("#motivoReprovacaoKey");
+	var $motivoReprovacaoDiv = $("#motivoReprovacaoDiv");
+	
+	if (parseInt(ordens[kanbanStatusAnterior]) > parseInt(ordens[kanbanStatusKey])) {
+		$motivoReprovacaoCombo.addClass('requiredCombo');
+		$motivoReprovacaoDiv.show();
+	} else {
+		$motivoReprovacaoCombo.removeClass('requiredCombo');
+		$motivoReprovacaoDiv.hide();
+	}
+}
+
+$(function(){
+	$("#motivoReprovacaoDiv").hide();
+});

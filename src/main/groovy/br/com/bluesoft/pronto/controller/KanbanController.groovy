@@ -68,16 +68,16 @@ public class KanbanController {
 			return LoginController.VIEW_BEM_VINDO
 		}
 		
-		def statusList = kanbanStatusDao.listar()
 		model.addAttribute "sprint", sprint
-		model.addAttribute "status", statusList
 		model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
 		
 		def mapaDeTickets = sprint.ticketsParaOKanbanPorEtapa
 		model.addAttribute 'mapaDeTickets', mapaDeTickets
 		model.addAttribute 'mapaDeQuantidades', this.getMapaDeQuantidades(mapaDeTickets)
 		model.addAttribute 'motivos', motivoReprovacaoDao.listar()
-		
+
+		def statusList = kanbanStatusDao.listar()
+		model.addAttribute "status", statusList
 		def ordens = new JSONObject();
 		statusList.each {
 			ordens.put it.kanbanStatusKey as String, it.ordem as String	

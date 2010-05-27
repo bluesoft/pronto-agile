@@ -11,4 +11,8 @@ public class MovimentoKanbanDao extends DaoHibernate {
 		super(MovimentoKanban.class)
 	}
 	
+	List<MovimentoKanban> listarMovimentosDoTicket(int ticketKey){
+		buscar "from MovimentoKanban mk inner join fetch mk.kanbanStatus where mk.ticket.ticketKey = ? order by mk.data", ticketKey
+	}
+	
 }

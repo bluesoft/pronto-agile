@@ -4,8 +4,12 @@
 		<title><c:choose><c:when test="${ticket.ticketKey gt 0}">${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}</c:when><c:otherwise>Incluir ${ticket.tipoDeTicket.descricao}</c:otherwise></c:choose></title>
 		<link rel="stylesheet" type="text/css" media="all" href="${raiz}ticket/ticket.editar.css" />
 		<script type="text/javascript" src="${raiz}ticket/ticket.editar.js"></script>
+		<script>
+			var ordens = eval(${ordens});
+		</script>
 	</head>
 	<body>
+		
 		<c:choose>
 			<c:when test="${ticket.ticketKey gt 0}">
 				<h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey} - ${ticket.titulo} (${ticket.kanbanStatus.descricao})</h1>
@@ -14,17 +18,29 @@
 				<h1>Incluir ${ticket.tipoDeTicket.descricao}</h1>
 			</c:otherwise>
 		</c:choose>
+		
+		<c:if test="${ticket.ticketKey gt 0}">
+		<div id="progressBar" align="right">
+			<c:forEach items="${kanbanStatus}" var="status">
+				<div class="kanbanStep ui-corner-all ${status.kanbanStatusKey eq ticket.kanbanStatus.kanbanStatusKey ? 'ui-state-active' : 'ui-state-disabled'}">
+					${status.descricao}
+				</div>
+			</c:forEach>
+		</div>
+		</c:if>
+		
 		<div id="ticketTabs">
 			<ul>
 				<li><a href="#detalhes">Detalhes</a></li>
 				<c:if test="${!empty ticket.filhos}">
 					<li><a href="#tarefas">Tarefas (${fn:length(ticket.filhosProntos)} / ${fn:length(ticket.filhos)})</a></li>
 				</c:if>
-				<li><a href="#comentarios">Comentários (${fn:length(ticket.comentarios)})</a></li>
-				<li><a href="#anexos">Anexos (${fn:length(anexos)})</a></li>
-				<li><a href="#historico">Histórico (${fn:length(ticket.logs)})</a></li>
-				<div align="right">
 				<c:if test="${ticket.ticketKey gt 0}">
+					<li><a href="#comentarios">Comentários (${fn:length(ticket.comentarios)})</a></li>
+					<li><a href="#anexos">Anexos (${fn:length(anexos)})</a></li>
+					<li><a href="#historico">Histórico (${fn:length(ticket.logs)})</a></li>
+					<li><a href="#movimentos">Kanban (${fn:length(movimentos)})</a></li>
+					<div align="right">
 					<!-- Operacoes -->
 					<c:if test="${ticket.pai ne null and ticket.ticketKey gt 0}">
 						<a href="${raiz}tickets/${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
@@ -183,6 +199,22 @@
 								</c:choose>
 								<p>Solicitador</p>
 							</div>
+							
+							<c:if test="${!ticket.tarefa}">
+								<div id="divValorDeNegocio">
+									<c:choose>
+										<c:when test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
+											<form:input path="ticket.valorDeNegocio" cssClass="required digits" size="4" maxlength="4"/><br/>
+										</c:when>
+										<c:otherwise>
+											<form:hidden path="ticket.valorDeNegocio"/>
+											${ticket.valorDeNegocio gt 0 ? ticket.valorDeNegocio : "-"}<br/>
+										</c:otherwise>
+									</c:choose>
+									<p>Valor de Negócio</p>
+								</div>
+							</c:if>
+							
 						</div>
 
 						<div class="bloco">
@@ -213,20 +245,6 @@
 						
 						
 						<div class="bloco">
-							<c:if test="${!ticket.tarefa}">
-								<div id="divValorDeNegocio">
-									<c:choose>
-										<c:when test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
-											<form:input path="ticket.valorDeNegocio" cssClass="required digits" size="4" maxlength="4"/><br/>
-										</c:when>
-										<c:otherwise>
-											<form:hidden path="ticket.valorDeNegocio"/>
-											${ticket.valorDeNegocio gt 0 ? ticket.valorDeNegocio : "-"}<br/>
-										</c:otherwise>
-									</c:choose>
-									<p>Valor de Negócio</p>
-								</div>
-							</c:if>
 							
 							<div id="divEsforco">
 								<c:choose>
@@ -252,17 +270,6 @@
 								<br/><p>Esforço</p>
 							</div>
 							
-							<c:if test="${ticket.defeito}">
-								<div>
-										<form:select path="ticket.causaDeDefeito.causaDeDefeitoKey" cssClass="causaDoDefeito">
-											<form:option value="0" cssClass="nenhuma">-- Selecione uma causa --</form:option>
-											<form:options items="${causasDeDefeito}" itemLabel="descricao" itemValue="causaDeDefeitoKey"/>
-										</form:select>
-										<br/>
-										<p>Causa do Defeito</p>
-								</div>
-							</c:if>
-							
 							<div>
 								<form:select path="ticket.par">
 									<form:option value="true">Sim</form:option>
@@ -271,6 +278,19 @@
 								<br/>
 								<p>Em Par?</p>
 							</div>
+							
+							<c:if test="${ticket.defeito}">
+								<div>
+										<form:select path="ticket.causaDeDefeito.causaDeDefeitoKey" cssClass="causaDoDefeito">
+											<form:option value="0" cssClass="nenhuma">Selecione uma causa</form:option>
+											<form:options items="${causasDeDefeito}" itemLabel="descricao" itemValue="causaDeDefeitoKey"/>
+										</form:select>
+										<br/>
+										<p>Causa do Defeito</p>
+								</div>
+							</c:if>
+							
+							
 						</div>
 						
 						<div class="bloco">
@@ -304,11 +324,23 @@
 						
 						<div class="bloco">
 							<div>
-								<form:select path="ticket.kanbanStatus.kanbanStatusKey">
+								<input type="hidden" id="kanbanStatusAnterior" name="kanbanStatusAnterior" value="${ticket.kanbanStatus.kanbanStatusKey}">
+								<form:select path="ticket.kanbanStatus.kanbanStatusKey" onchange="alterarStatuDoKanban()" id="kanbanStatusKey">
 									<form:options items="${kanbanStatus}" itemLabel="descricao" itemValue="kanbanStatusKey"/>
 								</form:select>
 								<br/>
 								<p>Kanban Status</p>
+							</div>
+							
+							<div id="motivoReprovacaoDiv">
+								<select name="motivoReprovacaoKey" id="motivoReprovacaoKey">
+									<option class="nenhuma" selected="selected" value="-1">Selecione um Motivo</option>
+									<c:forEach items="${motivosReprovacao}" var="motivo">
+										<option value="${motivo.motivoReprovacaoKey}">${motivo.descricao}</option>
+									</c:forEach>
+								</select>
+								<br/>
+								<p>Motivo de Reprovação</p>
 							</div>
 							
 							<div>
@@ -317,7 +349,6 @@
 								<p>Data de Pronto</p>
 							</div>
 						</div>
-						
 						
 						<c:if test="${ticket.tarefa or empty ticket.filhos}">
 							<div class="linha">
@@ -402,6 +433,8 @@
 					<br/>
 				</div>
 			</c:if>
+			
+			<c:if test="${ticket.ticketKey gt 0}">
 			<div id="comentarios">
 				<%@ include file="ticket.comentarios.jsp" %>
 			</div>
@@ -437,6 +470,7 @@
 					<button type="submit">Upload</button>
 				</form>
 			</div>
+			
 			<div id="historico">
 				<ul id="listaHistorico">
 					<c:set var="dataGrupo" value="${null}"/>
@@ -457,9 +491,25 @@
 					</c:forEach>
 				</ul>
 			</div>
+		
+			<div id="movimentos">
+				<ul id="listaMovimentos">
+					<c:set var="dataGrupo" value="${null}"/>
+					<c:forEach items="${movimentos}" var="movimento">
+						<fmt:formatDate value="${movimento.data}" pattern="dd/MM/yyyy" var="dataAtual"/>
+						<c:if test="${dataGrupo eq null or dataGrupo ne dataAtual}">
+							<h4><fmt:formatDate value="${movimento.data}" pattern="dd/MM/yyyy"/></h4>
+							<fmt:formatDate value="${movimento.data}" pattern="dd/MM/yyyy" var="dataGrupo"/>
+						</c:if>
+						<li>${movimento.descricao}</li>
+					</c:forEach>
+				</ul>
+			
+			</div>
 		</div>
 			
 		</c:if>
+	</c:if>
 		
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>

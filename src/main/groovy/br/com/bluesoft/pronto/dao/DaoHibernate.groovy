@@ -43,5 +43,13 @@ class DaoHibernate {
 		}
 		getSession().flush()
 	}
+	
+	List buscar(String hql, Object... parameters) {
+		def query = getSession().createQuery(hql)
+		parameters?.eachWithIndex { parameter, index ->
+			query.setParameter index, parameter
+		}
+		query.list()
+	}
 
 }

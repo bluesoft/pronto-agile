@@ -39,7 +39,7 @@ $(function() {
 	jQuery.validator.addClassRules("dateBr", {dateBr: true});
 	
 	jQuery.validator.addMethod("requiredCombo", function(value, element) { 
-		  return this.optional(element) || (value != null && value > 0); 
+		  return this.optional(element) || (value != null && parseInt(value) > 0); 
 	}, "Selecione um dos itens da lista.");
 
 	jQuery.validator.addClassRules("requiredCombo", {requiredCombo: true});

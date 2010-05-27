@@ -36,4 +36,11 @@ class MovimentoKanban {
 	@JoinColumn(name = "kanban_status_key")
 	KanbanStatus kanbanStatus
 	
+	String getDescricao() {
+		if (motivoReprovacao)
+			"${usuario.username} voltou para ${kanbanStatus.descricao} em ${data} por ${motivoReprovacao.descricao}"
+		else
+			"${usuario.username} moveu para ${kanbanStatus.descricao} em ${data}"			
+	}
+	
 }

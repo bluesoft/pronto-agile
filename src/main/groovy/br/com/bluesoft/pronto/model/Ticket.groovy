@@ -297,12 +297,20 @@ class Ticket {
 	}
 	
 	void addDesenvolvedor(final Usuario usuario) {
-		if (!desenvolvedores) desenvolvedores = []
-		desenvolvedores.add(usuario)
+		if (!desenvolvedores) desenvolvedores = [];
+		desenvolvedores.each {
+			if (it.username.equals(usuario.username))
+				return
+		}
+        desenvolvedores.add(usuario)
 	}
 	
 	void addTestador(final Usuario usuario) {
-		if (!testadores) testadores = []
+		if (!testadores) testadores = [];
+		testadores.each {
+			if (it.username.equals(usuario.username))
+				return
+		}
 		testadores.add(usuario)
 	}
 	

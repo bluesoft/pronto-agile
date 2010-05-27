@@ -18,6 +18,7 @@ before "prepara spec", { before() }
 it "deve adicionar o usuário atual como um desenvolvedor", {
 	movimentadorDeTicket.movimentar(ticket, KanbanStatus.DOING);
 	ticket.desenvolvedores.size().shouldBe(1)
+	ticket.desenvolvedores[0].shouldBe Seguranca.usuario
 }
 
 it "deve alterar o status do ticket", {
@@ -31,6 +32,7 @@ before "prepara spec", { before() }
 it "deve adicionar o usuário atual como um testador", {
 	movimentadorDeTicket.movimentar(ticket, KanbanStatus.TESTING);
 	ticket.testadores.size().shouldBe(1)
+	ticket.testadores[0].shouldBe Seguranca.usuario
 }
 
 it "deve alterar o status do ticket", {

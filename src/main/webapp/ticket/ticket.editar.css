@@ -55,6 +55,19 @@
 	color: #888888;
 }
 
+#listaMovimentos {
+	list-style-type: none;
+}
+
+#listaMovimentos h4 {
+	margin-top: 12px;
+}
+
+#listaMovimentos li {
+	margin-left: 25px;
+	color: #888888;
+}
+
 #listaTarefas {
 	list-style-type: none;
 	margin: 0;
@@ -83,4 +96,18 @@ html>body #listaTarefas li {
 	background-image: none;
 	background-color: #f8f8f8;
 	color: #0066cc;
+}
+
+#progressBar {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.kanbanStep {
+	display: inline;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 100%;
 }
