@@ -1,10 +1,13 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 	<head>
-		<meta http-equiv=refresh content="60" />
+		<meta http-equiv=refresh content="120" />
 		<title>Kanban</title>
 		<link rel="stylesheet" type="text/css" media="all" href="${raiz}kanban/kanban.css" />
 		<script type="text/javascript" src="${raiz}kanban/kanban.js"></script>
+		<script>
+			var ordens = eval(${ordens});
+		</script>
 	</head>
 	<body>
 		<div align="left">
@@ -50,5 +53,13 @@
 			</tr>
 		</table>
 		<div align="center">* Clique duas vezes sobre o cartão para abrí-lo.</div>
+		<div id="motivo">
+			<select id="motivoReprovacaoKey" onchange="pronto.kanban.alterarMotivo(this)">
+				<option value="-1">=== Selecione um Motivo ===</option>
+				<c:forEach items="${motivos}" var="motivo">
+					<option value="${motivo.motivoReprovacaoKey}">${motivo.descricao}</option>				
+				</c:forEach>
+			</select>
+		</div>
 	</body>
 </html>

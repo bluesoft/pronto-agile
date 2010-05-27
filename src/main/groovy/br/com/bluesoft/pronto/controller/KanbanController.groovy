@@ -75,7 +75,8 @@ public class KanbanController {
 		
 		def mapaDeTickets = sprint.ticketsParaOKanbanPorEtapa
 		model.addAttribute 'mapaDeTickets', mapaDeTickets
-		model.addAttribute 'mapaDeQuantidades', this.getMapaDeQuantidades(mapaDeTickets);
+		model.addAttribute 'mapaDeQuantidades', this.getMapaDeQuantidades(mapaDeTickets)
+		model.addAttribute 'motivos', motivoReprovacaoDao.listar()
 		
 		def ordens = new JSONObject();
 		statusList.each {
