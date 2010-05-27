@@ -12,7 +12,7 @@
 		
 		<c:choose>
 			<c:when test="${ticket.ticketKey gt 0}">
-				<h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey} - ${ticket.titulo} (${ticket.kanbanStatus.descricao})</h1>
+				<h1>${ticket.tipoDeTicket.descricao} #${ticket.ticketKey} - ${ticket.titulo}</h1>
 			</c:when>
 			<c:otherwise>
 				<h1>Incluir ${ticket.tipoDeTicket.descricao}</h1>
@@ -128,7 +128,7 @@
 					<div class="group">
 						
 						<div>
-							<form:input path="ticket.titulo" size="70" id="titulo" cssClass="required"/>
+							<form:input path="ticket.titulo" size="85" id="titulo" cssClass="required"/>
 							<p>Título</p>
 						</div>							
 
