@@ -297,10 +297,12 @@ class Ticket {
 	}
 	
 	void addDesenvolvedor(final Usuario usuario) {
+		if (!desenvolvedores) desenvolvedores = []
 		desenvolvedores.add(usuario)
 	}
 	
 	void addTestador(final Usuario usuario) {
+		if (!testadores) testadores = []
 		testadores.add(usuario)
 	}
 	

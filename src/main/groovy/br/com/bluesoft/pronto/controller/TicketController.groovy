@@ -151,8 +151,8 @@ class TicketController {
 				throw new ProntoException("Não é possível salvar uma estória, defeito ou tarefa sem descrição!")
 			}
 
-			if (ticket.isDefeito() && ticket.kanbanStatus != null && ticket.kanbanStatus.kanbanStatusKey == KanbanStatus.DONE) {
-				if (ticket.getCausaDeDefeito() == null || ticket.getCausaDeDefeito().getCausaDeDefeitoKey() == 0) {
+			if (ticket.isDefeito()) {
+				if (ticket.kanbanStatus.kanbanStatusKey == KanbanStatus.DONE && (ticket.getCausaDeDefeito() == null || ticket.getCausaDeDefeito().getCausaDeDefeitoKey() == 0)) {
 					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de Mover para Done é preciso informar a Causa do Defeito";
 				} else {
 					ticket.setCausaDeDefeito(causaDeDefeitoDao.obter(ticket.getCausaDeDefeito().getCausaDeDefeitoKey()))

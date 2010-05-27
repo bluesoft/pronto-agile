@@ -1,0 +1,108 @@
+package br.com.bluesoft.pronto.service
+
+import br.com.bluesoft.pronto.ProntoException
+import br.com.bluesoft.pronto.core.KanbanStatus
+import br.com.bluesoft.pronto.core.TipoDeTicket
+import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.MovimentoKanbanDao;
+import br.com.bluesoft.pronto.dao.MotivoReprovacaoDao;
+import br.com.bluesoft.pronto.dao.TicketDao;
+import br.com.bluesoft.pronto.model.MotivoReprovacao;
+import br.com.bluesoft.pronto.model.CausaDeDefeito
+import br.com.bluesoft.pronto.model.Ticket
+import br.com.bluesoft.pronto.model.Usuario
+
+description "Ao mover um ticket para doing"
+before "prepara spec", { before() }
+
+it "deve adicionar o usuário atual como um desenvolvedor", {
+	movimentadorDeTicket.movimentar(ticket, KanbanStatus.DOING);
+	ticket.desenvolvedores.size().shouldBe(1)
+}
+
+it "deve alterar o status do ticket", {
+	movimentadorDeTicket.movimentar(ticket, KanbanStatus.DOING);
+	ticket.kanbanStatus.kanbanStatusKey.shouldBe KanbanStatus.DOING
+}
+
+description "Ao mover um ticket para testing"
+before "prepara spec", { before() }
+
+it "deve adicionar o usuário atual como um testador", {
+	movimentadorDeTicket.movimentar(ticket, KanbanStatus.TESTING);
+	ticket.testadores.size().shouldBe(1)
+}
+
+it "deve alterar o status do ticket", {
+	movimentadorDeTicket.movimentar(ticket, KanbanStatus.TESTING);
+	ticket.kanbanStatus.kanbanStatusKey.shouldBe KanbanStatus.TESTING
+}
+
+
+description "Ao mover um ticket para done"
+before "prepara spec", { 
+	before()
+	ticket.tipoDeTicket = new TipoDeTicket(tipoDeTicketKey:TipoDeTicket.DEFEITO)
+}
+it "se for um defeito e não houver causa deve lançar exception", {
+	ensureThrows(ProntoException) {
+		movimentadorDeTicket.movimentar(ticket, KanbanStatus.DONE);
+	}
+}
+it "se for um defeito e houver causa deve altera o status", {
+	ticket.causaDeDefeito = new CausaDeDefeito()
+	movimentadorDeTicket.movimentar ticket, KanbanStatus.DONE
+	ticket.kanbanStatus.kanbanStatusKey.shouldBe KanbanStatus.DONE
+}
+
+description "Deve Gerar Movimento De Kanban"
+before "prepara spec", { 
+	before()
+	movimento = movimentadorDeTicket.movimentar(ticket, KanbanStatus.DOING);
+}
+
+it "deve retornar o novo movimento", {
+	ensure(movimento) { isNotNull }
+}
+
+it "deve vincular movimento ao ticket", {
+	movimento.ticket.shouldBe ticket
+}
+
+it "o status do movimento deve ser igual ao do ticket", {
+	movimento.kanbanStatus.kanbanStatusKey.shouldBe ticket.kanbanStatus.kanbanStatusKey
+}
+
+it "deve vincular o usuário", {
+	movimento.usuario.shouldBe Seguranca.usuario
+}
+
+it "deve definir a Data", {
+	ensure(movimento.data) { isNotNull } 
+}
+
+description "Deve definir motivo de reprovação"
+before "prepara spec", { before() }
+
+it "deve vincular motivo se informado", {
+	def motivoReprovacaoKey = 888
+	movimento = movimentadorDeTicket.movimentar(ticket, KanbanStatus.DOING, motivoReprovacaoKey)
+	ensure(movimento.motivoReprovacao) { isNotNull }
+	movimento.motivoReprovacao.motivoReprovacaoKey = motivoReprovacaoKey 
+}
+
+it "não deve vincular motivo se não for informado", {
+	movimento = movimentadorDeTicket.movimentar(ticket, KanbanStatus.DOING)
+	ensure(movimento.motivoReprovacao) { isNull } 
+}
+
+
+void before() {
+	movimentadorDeTicket = new MovimentadorDeTicket()
+	movimentadorDeTicket.kanbanStatusDao = new KanbanStatusDao() { Object obter(int key) { new KanbanStatus(kanbanStatusKey:key) } }
+	movimentadorDeTicket.ticketDao = new TicketDao() { void salvar(Ticket... tickets) {} }
+	movimentadorDeTicket.motivoReprovacaoDao = new MotivoReprovacaoDao() { Object obter(int key){ new MotivoReprovacao(motivoReprovacaoKey:key)} }
+	movimentadorDeTicket.movimentoKanbanDao = new MovimentoKanbanDao(){ void salvar(Object... o){} } 
+	Seguranca.setUsuario new Usuario(username:'Carolina')
+	ticket = new Ticket()
+}

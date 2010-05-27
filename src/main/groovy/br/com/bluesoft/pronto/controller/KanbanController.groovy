@@ -3,23 +3,29 @@ package br.com.bluesoft.pronto.controller
 import java.util.Date
 import java.util.Map.Entry;
 
+import net.sf.json.JSONObject;
+
 import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseBody
 
 import br.com.bluesoft.pronto.SegurancaException
 import br.com.bluesoft.pronto.core.KanbanStatus
 import br.com.bluesoft.pronto.core.Papel
 import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.MotivoReprovacaoDao
+import br.com.bluesoft.pronto.dao.MovimentoKanbanDao
 import br.com.bluesoft.pronto.dao.SprintDao
 import br.com.bluesoft.pronto.dao.TicketDao
+import br.com.bluesoft.pronto.model.MovimentoKanban;
 import br.com.bluesoft.pronto.model.Sprint
 import br.com.bluesoft.pronto.model.Ticket
 import br.com.bluesoft.pronto.service.Seguranca
+import br.com.bluesoft.pronto.service.MovimentadorDeTicket;
 import static org.springframework.web.bind.annotation.RequestMethod.*
 
 @Controller
@@ -36,6 +42,11 @@ public class KanbanController {
 	
 	@Autowired KanbanStatusDao kanbanStatusDao
 	
+	@Autowired MotivoReprovacaoDao motivoReprovacaoDao
+	
+	@Autowired MovimentoKanbanDao movimentoKanbanDao
+		
+	@Autowired MovimentadorDeTicket movimentadorDeTicket
 	
 	@RequestMapping(value= '/{sprintKey}', method = GET)
 	String index(final Model model, @PathVariable int sprintKey) {
@@ -57,13 +68,20 @@ public class KanbanController {
 			return LoginController.VIEW_BEM_VINDO
 		}
 		
+		def statusList = kanbanStatusDao.listar()
 		model.addAttribute "sprint", sprint
-		model.addAttribute "status", kanbanStatusDao.listar()
+		model.addAttribute "status", statusList
 		model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
 		
 		def mapaDeTickets = sprint.ticketsParaOKanbanPorEtapa
 		model.addAttribute 'mapaDeTickets', mapaDeTickets
 		model.addAttribute 'mapaDeQuantidades', this.getMapaDeQuantidades(mapaDeTickets);
+		
+		def ordens = new JSONObject();
+		statusList.each {
+			mapaDeStatus.put it.kanbanStatusKey, it.ordem	
+		}
+		model.addAttribute "ordens", ordens
 		
 		VIEW_KANBAN
 	}
@@ -77,36 +95,20 @@ public class KanbanController {
 	}
 	
 	@RequestMapping("/mover")
-	@ResponseBody String mover(final Model model, final int ticketKey, final int kanbanStatusKey) throws SegurancaException {
+	@ResponseBody String mover(Model model, int ticketKey, int kanbanStatusKey, Integer motivoReprovacaoKey) throws SegurancaException {
 		
 		Seguranca.validarPermissao(Papel.EQUIPE)
-		
-		def ticket = (Ticket) sessionFactory.currentSession.get(Ticket.class, ticketKey)
-		ticket.kanbanStatus = sessionFactory.currentSession.get(KanbanStatus.class, kanbanStatusKey)
-
-		if (kanbanStatusKey == KanbanStatus.DOING) {
-			ticket.addDesenvolvedor Seguranca.usuario
-		} else if (kanbanStatusKey == KanbanStatus.TESTING) {
-			ticket.addTestador Seguranca.usuario
-		}
-
-		if (kanbanStatusKey == KanbanStatus.DONE) {
-			
-			if (ticket.isDefeito() && ticket.causaDeDefeito == null) {
-				return """{
-							'sucesso':'false',
-							'mensagem':'Antes de Mover para Done é preciso definir a Causa do Defeito.'
-						  }
-				""" 
+		def ticket = ticketDao.obter(ticketKey)
+		try {
+			movimentadorDeTicket.movimentar ticket, kanbanStatusKey, motivoReprovacaoKey
+			return "{'sucesso':'true'}"
+		} catch(e) {
+			return """{
+				'sucesso':'false',
+				'mensagem':'${e.message}'
 			}
-			
-			ticket.setDataDePronto(new Date())
-		} else {
-			ticket.setDataDePronto(null)
+			"""	
 		}
-		
-		ticketDao.salvar(ticket)
-		
-		return "{'sucesso':'true'}"
 	}
+	
 }

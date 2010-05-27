@@ -27,7 +27,19 @@
 				<configuration>
 					<encoding>ISO-8859-1</encoding>
 				</configuration>
-			</plugin>
+			</plugin>			
+			<plugin>
+				<groupId>org.easyb</groupId>
+				<artifactId>maven-easyb-plugin</artifactId>
+				<version>0.9</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>			
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
@@ -232,6 +244,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>		
+			<groupId>org.easyb</groupId>
+			<artifactId>easyb</artifactId>
+			<version>${easyb.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>opensymphony</groupId>
@@ -374,6 +391,7 @@
 	<properties>
 		<bliki.version>3.0.13</bliki.version>
 		<cglib.version>2.1_3</cglib.version>
+		<easyb.version>0.9.7</easyb.version>
 		<hibernate.annotations.version>3.2.1.ga</hibernate.annotations.version>
 		<hibernate.commons.annotations.version>3.0.0.ga</hibernate.commons.annotations.version>
 		<hibernate.version>3.2.5.ga</hibernate.version>

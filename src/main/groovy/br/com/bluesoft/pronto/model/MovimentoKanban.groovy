@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.SequenceGenerator
 
+import br.com.bluesoft.pronto.core.KanbanStatus;
+
 @Entity
 @SequenceGenerator(name = "SEQ_MOVIMENTO_KANBAN", sequenceName = "SEQ_MOVIMENTO_KANBAN")
 class MovimentoKanban {
@@ -29,5 +31,9 @@ class MovimentoKanban {
 	@ManyToOne
 	@JoinColumn(name = "username")
 	Usuario usuario
+	
+	@ManyToOne
+	@JoinColumn(name = "kanban_status_key")
+	KanbanStatus kanbanStatus
 	
 }
