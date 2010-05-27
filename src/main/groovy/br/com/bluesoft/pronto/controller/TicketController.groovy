@@ -143,9 +143,11 @@ class TicketController {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
+		boolean isNovo = ticket.ticketKey > 0
+		
 		try {
 			
-			if (ticket.ticketKey > 0) {
+			if (!isNovo) {
 				def dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(ticketDao.obterDataDaUltimaAlteracaoDoTicket(ticket.ticketKey))
 				if (dataDaUltimaAlteracao!= null && ticket.dataDaUltimaAlteracao < dataDaUltimaAlteracao) {
 					def erro = 'Não foi possivel alterar o Ticket porque ele já foi alterado depois que você começou a editá-lo!' 
@@ -212,10 +214,12 @@ class TicketController {
 			
 			ticketDao.salvar(ticket)
 
-			if (motivoReprovacaoKey != null && motivoReprovacaoKey > 0) {
-				movimentadorDeTicket.movimentar ticket, ticket.kanbanStatus.kanbanStatusKey, motivoReprovacaoKey
-			} else {
-				movimentadorDeTicket.movimentar ticket, ticket.kanbanStatus.kanbanStatusKey
+			if (!isNovo) {
+				if (motivoReprovacaoKey != null && motivoReprovacaoKey > 0) {
+					movimentadorDeTicket.movimentar ticket, ticket.kanbanStatus.kanbanStatusKey, motivoReprovacaoKey
+				} else {
+					movimentadorDeTicket.movimentar ticket, ticket.kanbanStatus.kanbanStatusKey
+				}
 			}
 			
 			tx.commit()

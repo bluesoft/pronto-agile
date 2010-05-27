@@ -38,9 +38,9 @@ class MovimentoKanban {
 	
 	String getDescricao() {
 		if (motivoReprovacao)
-			"${usuario.username} voltou para ${kanbanStatus.descricao} em ${data} por ${motivoReprovacao.descricao}"
+			"${usuario.username} voltou para ${kanbanStatus.descricao} pelo motivo ${motivoReprovacao.descricao}"
 		else
-			"${usuario.username} moveu para ${kanbanStatus.descricao} em ${data}"			
+			"${usuario.username} moveu para ${kanbanStatus.descricao}"			
 	}
 	
 }

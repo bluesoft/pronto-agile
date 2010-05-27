@@ -69,8 +69,6 @@ class Ticket {
 	@JoinColumn(name = "BACKLOG_KEY")
 	Backlog backlog
 	
-	@Auditable
-	@Label("status do kanban")
 	@ManyToOne
 	@JoinColumn(name = "KANBAN_STATUS_KEY")
 	KanbanStatus kanbanStatus
