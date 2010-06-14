@@ -7,6 +7,16 @@
 	background: #eee;
 }
 
+.quantidade {
+	font-size: 10px;
+	color: gray;
+	float: right;
+}
+
+.kanban-header {
+	padding: 2px;
+}
+
 .kanbanColumn li {
 	float: left;
 	width: 96px;
@@ -55,6 +65,20 @@
 	color: #3977a6;
 	border-width: 1px;
 	border-style: solid;
+}
+
+.ticket-icon {
+	float: right;
+}
+
+.impedido {
+	background-color: #ffd673;
+	border-color: #ffb640;
+	color: #a66600;
+	border-width: 1px;
+	border-style: solid;
+	opacity:0.6;
+	filter:alpha(opacity=60)
 }
 
 .kanban-area {

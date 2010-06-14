@@ -159,12 +159,13 @@ public class Sprint {
 		final List<Ticket> ticketsParaOKanban = new ArrayList<Ticket>()
 		if (tickets != null) {
 			for (final Ticket ticket : tickets) {
-				if (!ticket.temFilhos() && !ticket.isImpedido() && !ticket.isLixo()) {
+				if (!ticket.temFilhos() && !ticket.isLixo()) {
 					ticketsParaOKanban.add(ticket)
 				}
 			}
 		}
 
+		
 		final List<Comparator> comparators = new ArrayList<Comparator>()
 
 		final BeanComparator comparatorPrioridade = new BeanComparator("prioridade")

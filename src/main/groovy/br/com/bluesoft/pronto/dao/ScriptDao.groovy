@@ -52,7 +52,8 @@ public class ScriptDao extends DaoHibernate{
 	List<Script> listarPendentesComDependencias() {
 		String hql = """
 			select distinct s from Script s 
-			left join fetch s.execucoes e 
+			left join fetch s.execucoes e
+			left join s.execucoes x 
 			left join fetch s.ticket t 
 			left join fetch t.cliente as c 
 			left join fetch e.bancoDeDados b 
@@ -61,11 +62,11 @@ public class ScriptDao extends DaoHibernate{
 			left join fetch t.backlog
 			left join fetch t.tipoDeTicket
 			left join fetch t.sprint
-			where e.data is null
-			and e is not empty
+			where x.data is null
+			and x is not empty
 			order by s.scriptKey
 		"""
-		
+		//tem que cruzar as execucoes por dentro e por fora (e,x) senão não dá pra exibir quantas faltam.
 		return getSession().createQuery(hql).list()
 	}
 	

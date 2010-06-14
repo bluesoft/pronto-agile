@@ -478,5 +478,17 @@ public class TicketDao extends DaoHibernate {
 		query.setInteger 'ticketKey', ticketKey
 		return query.uniqueResult()
 	}
+	
+	public Map<Integer,Integer> listarKanbanStatusDosTicketsDoSprint(int sprintKey){
+		def query = session.createQuery('select t.ticketKey, t.kanbanStatus.kanbanStatusKey from Ticket t where t.sprint.sprintKey = :sprintKey');
+		query.setInteger 'sprintKey', sprintKey
+		def mapa = [:]
+		def list = query.list()
+		list.each {
+			mapa[it[0] as Integer] = it[1] as Integer
+		}
+		return mapa
+	}
 
+	
 }

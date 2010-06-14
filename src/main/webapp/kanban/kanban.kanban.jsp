@@ -39,11 +39,35 @@
 					</c:choose>
 					<td style="width: ${width}%; height: 100%;">
                               <div class="ui-widget ui-helper-clearfix kanban-area" align="center">
-                                  <h4 class="ui-widget-header">${s.descricao} (${mapaDeQuantidades[s.kanbanStatusKey] != null ? mapaDeQuantidades[s.kanbanStatusKey] : 0}) </h4>
-                                  <ul class="kanbanColumn ui-helper-reset ui-helper-clearfix drop" status="${s.kanbanStatusKey}">
+                                  <h4 class="kanban-header ui-widget-header">
+                                  	<span class="quantidade">${mapaDeQuantidades[s.kanbanStatusKey] != null ? mapaDeQuantidades[s.kanbanStatusKey] : 0}</span>
+                                  	${s.descricao}
+                                  </h4>
+                                  <ul id="kanban-${s.kanbanStatusKey}" class="kanbanColumn ui-helper-reset ui-helper-clearfix drop" status="${s.kanbanStatusKey}">
                                       <c:forEach items="${mapaDeTickets[s.kanbanStatusKey]}" var="t">
-                                              <li id="${t.ticketKey}" class="ticket ui-corner-tr ${t.tipoDeTicket.tipoDeTicketKey eq 3 ? 'bug' : (t.tipoDeTicket.tipoDeTicketKey eq 6 ? 'task' : 'story')}" ondblclick="pronto.kanban.openTicket(${t.ticketKey});" title="${t.titulo}">
-                                                  <p><span class="ticketKey">#${t.ticketKey}</span><br>${t.tituloResumido}</p>
+											<c:choose>
+												<c:when test="${t.impedido}">
+													<c:set var="tipo" value="impedido"/>
+												</c:when>
+												<c:when test="${t.tipoDeTicket.tipoDeTicketKey eq 3}">
+													<c:set var="tipo" value="bug"/>
+												</c:when>
+												<c:when test="${t.tipoDeTicket.tipoDeTicketKey eq 6}">
+													<c:set var="tipo" value="task"/>
+												</c:when>
+												<c:otherwise>
+													<c:set var="tipo" value="story"/>
+												</c:otherwise>
+											</c:choose>
+                                              <li id="${t.ticketKey}" kanbanStatus="${t.kanbanStatus.kanbanStatusKey}" class="ticket ui-corner-tr ${tipo}" ondblclick="pronto.kanban.openTicket(${t.ticketKey});" title="${t.titulo}">
+                                                  <p><span class="ticketKey">
+                                                  	<c:if test="${t.impedido}">
+														<pronto:icons name="impedimento.png" title="Impedido" clazz="ticket-icon"/>                                                  
+                                                  	</c:if>
+                                                  	#${t.ticketKey}
+                                                  </span>
+                                                  <br>${t.tituloResumido}</p>
+                                                  
                                               </li>
                                       </c:forEach>
                                   </ul>

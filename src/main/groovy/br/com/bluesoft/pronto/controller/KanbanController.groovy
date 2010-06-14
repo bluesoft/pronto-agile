@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 
+import br.com.bluesoft.pronto.ProntoException;
 import br.com.bluesoft.pronto.SegurancaException
 import br.com.bluesoft.pronto.core.KanbanStatus
 import br.com.bluesoft.pronto.core.Papel
@@ -35,22 +36,21 @@ public class KanbanController {
 	private static final String VIEW_KANBAN = "/kanban/kanban.kanban.jsp"
 	
 	@Autowired SessionFactory sessionFactory
-	
 	@Autowired SprintDao sprintDao
-	
 	@Autowired TicketDao ticketDao
-	
 	@Autowired KanbanStatusDao kanbanStatusDao
-	
 	@Autowired MotivoReprovacaoDao motivoReprovacaoDao
-	
 	@Autowired MovimentoKanbanDao movimentoKanbanDao
-		
 	@Autowired MovimentadorDeTicket movimentadorDeTicket
 	
 	@RequestMapping(value= '/{sprintKey}', method = GET)
 	String index(final Model model, @PathVariable int sprintKey) {
 		index model, new Sprint(sprintKey: sprintKey)
+	}
+	
+	@RequestMapping(value= '/atualizar/{sprintKey}', method = GET)
+	@ResponseBody Map<Integer,Integer> atualizar(final Model model, @PathVariable int sprintKey) {
+		return ticketDao.listarKanbanStatusDosTicketsDoSprint(sprintKey)
 	}
 	
 	@RequestMapping(method = GET)
@@ -103,10 +103,17 @@ public class KanbanController {
 		try {
 			movimentadorDeTicket.movimentar ticket, kanbanStatusKey, motivoReprovacaoKey
 			return "{'sucesso':'true'}"
-		} catch(e) {
+		} catch(ProntoException e) {
 			return """{
 				'sucesso':'false',
 				'mensagem':'${e.message}'
+			}
+			"""	
+		} catch(Exception e) {
+			e.printStackTrace()
+			return """{
+				'sucesso':'false',
+				'mensagem':'Ocorreu um erro desconhecido!'
 			}
 			"""	
 		}

@@ -6,13 +6,15 @@ pronto.kanban = {
 		
 	startup: function(){
 		this.urlMover = pronto.raiz + 'kanban/mover';
+		this.urlAtualizar = pronto.raiz + 'kanban/atualizar/';
 		this.setDragAndDrop();
 		this.criarDialogDeMotivoDeReprovacao();
+		var umMinuto = 1000 * 60;
+		setInterval(this.atualizar, umMinuto);
 	},
-
+	
 	mover: function(event, ui, drop) {
 		var $item = ui.draggable;
-		$item.fadeOut();
 		var kanbanStatusAntigo = $item.parents('.kanbanColumn').attr('status');
 		var kanbanStatusKey = drop.attr('status');
 		var ticketKey = ui.draggable.attr('id');
@@ -26,7 +28,33 @@ pronto.kanban = {
 		}
 	},
 	
+	calcularQuantidadeDeTicketsPorColuna: function() {
+		$('.kanban-area').each(function(){
+			var $this = $(this);
+			var quantidade = $this.find('.ticket').length;
+			$this.find('h4 span.quantidade').text(quantidade);
+		});
+	},
+	
+	atualizar: function() {
+		var sprintKey = $('#sprintKey').val();
+		$.getJSON(pronto.kanban.urlAtualizar+sprintKey, function(data){
+			for (item in data) {
+				var $item = $('#'+item);
+				if ($item.length > 0 && parseInt($item.attr('kanbanStatus')) != parseInt(data[item])) {
+					$item.fadeOut();
+					var novoStatus = data[item];
+					var $novaColuna = $('#kanban-'+novoStatus); 
+					$item.appendTo($novaColuna);
+					$item.fadeIn();
+					pronto.kanban.calcularQuantidadeDeTicketsPorColuna();
+				}
+			}
+		});
+	},
+	
 	salvarMovimentacao: function($item, drop, data) {
+		$item.fadeOut();
 		var url = this.urlMover;
 		$.ajax({
 			url: url, 
@@ -34,7 +62,9 @@ pronto.kanban = {
 			dataType:'json',
 			success: function(resposta) {
 				if (resposta.sucesso == 'true') {
-					$item.appendTo(drop);			
+					$item.appendTo(drop);
+					$item.attr('kanbanStatus', drop.attr('status'));
+					pronto.kanban.calcularQuantidadeDeTicketsPorColuna();
 				} else {
 					pronto.erro(resposta.mensagem);
 				}
