@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+	<!-- Default set of monitored resources -->
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+	<Resource name="pronto" auth="Container" type="javax.sql.DataSource"
+		driverClassName="org.postgresql.Driver" url="jdbc:postgresql://localhost/pronto"
+		username="pronto" password="pronto" maxActive="20" maxIdle="10"
+		maxWait="-1" />
+
+</Context>

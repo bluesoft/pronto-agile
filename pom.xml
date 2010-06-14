@@ -27,7 +27,7 @@
 				<configuration>
 					<encoding>ISO-8859-1</encoding>
 				</configuration>
-			</plugin>			
+			</plugin>
 			<plugin>
 				<groupId>org.easyb</groupId>
 				<artifactId>maven-easyb-plugin</artifactId>
@@ -39,7 +39,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
@@ -88,6 +88,7 @@
 	</build>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
@@ -135,7 +136,9 @@
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
+			<!--			
 			<scope>provided</scope>
+			-->
 		</dependency>
 
 		<dependency>
@@ -244,7 +247,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>		
+		<dependency>
 			<groupId>org.easyb</groupId>
 			<artifactId>easyb</artifactId>
 			<version>${easyb.version}</version>
@@ -276,17 +279,27 @@
 			<version>2.4</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>2.0</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.1.2</version>
+			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+
 
 		<!-- Wiki API -->
 

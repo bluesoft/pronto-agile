@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/main/groovy"/>
 	<classpathentry kind="src" path="src/test/groovy"/>
 	<classpathentry exported="true" kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER">
