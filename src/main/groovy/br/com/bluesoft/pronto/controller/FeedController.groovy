@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.bluesoft.pronto.dao.MovimentoKanbanDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
 
 import com.sun.syndication.feed.synd.SyndContent;
@@ -31,10 +32,13 @@ class FeedController {
 	@Autowired
 	TicketDao ticketDao
 	
+	@Autowired
+	MovimentoKanbanDao movimentoKanbanDao
+	
 	@RequestMapping(value= '/tickets', method = GET)
 	public void tickets(HttpServletResponse response) {
 		
-		def tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(2);
+		def movimentos = movimentoKanbanDao.listarUltimosMovimentos()
 		
 		response.setContentType("text/xml");
 		
@@ -50,17 +54,16 @@ class FeedController {
 		SyndEntry entry;
 		SyndContent description;
 		
-		tickets.each { 
+		movimentos.each { 
 			entry = new SyndEntryImpl();
-			entry.setTitle(it.ticketKey as String);
-			entry.setLink("http://www.bluesoft.com.br/pronto/tickets/" + it.ticketKey);
-			entry.setAuthor('Bruno Lui')
-			
+			entry.setTitle(it.ticket.ticketKey as String);
+			entry.setLink("http://www.bluesoft.com.br/pronto/tickets/" + it.ticket.ticketKey);
+			entry.setAuthor(it.usuario.username)
 			
 			entry.setPublishedDate(DATE_PARSER.parse("2004-06-08"));
 			description = new SyndContentImpl();
 			description.setType("text/plain");
-			description.setValue(it.titulo);
+			description.setValue(it.descricao);
 			entry.setDescription(description);
 			entries.add(entry);
 			
