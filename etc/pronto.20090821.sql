@@ -1,1 +1,0 @@
-alter table ticket add prioridade integer;
