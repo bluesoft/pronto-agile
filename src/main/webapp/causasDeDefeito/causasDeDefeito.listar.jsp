@@ -22,7 +22,7 @@
 								${c.descricao}
 							</span>
 						</td>
-						<c:if test="${usuarioLogado.equipe}">
+						<c:if test="${usuarioLogado.equipe or usuarioLogado.administrador}">
 							<td>
 								<pronto:icons name="editar.png" title="Editar" onclick="goTo('${raiz}causasDeDefeito/${c.causaDeDefeitoKey}')"/>
 							</td>
@@ -35,7 +35,7 @@
 			</tbody>
 		</table>	
 		
-		<c:if test="${usuarioLogado.equipe}">
+		<c:if test="${usuarioLogado.equipe  or usuarioLogado.administrador}">
 			<div align="center">
 				<button type="button" onclick="window.location.href='${raiz}causasDeDefeito/novo'">Incluir Causa de Defeito</button>
 			</div>
