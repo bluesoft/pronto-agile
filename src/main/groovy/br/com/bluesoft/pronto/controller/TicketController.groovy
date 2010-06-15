@@ -366,7 +366,14 @@ class TicketController {
 		switch (ticket.getTipoDeTicket().getTipoDeTicketKey()) {
 			case TipoDeTicket.ESTORIA:
 			case TipoDeTicket.DEFEITO:
-				backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG)
+				if (ticket.getSprint() != null) {
+					backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.SPRINT_BACKLOG)
+					if (ticket.getSprint().isFechado()) {
+						ticket.setSprint(sprintDao.getSprintAtual())
+					}
+				} else {
+					backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG)
+				}
 				break
 			case TipoDeTicket.IDEIA:
 				backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS)
@@ -377,11 +384,6 @@ class TicketController {
 		}
 		
 		ticket.setBacklog(backlog)
-		
-		if (!ticket.isTarefa() && ticket.getSprint() != null && ticket.getSprint().isFechado()) {
-			ticket.setSprint(null)
-		}
-		
 		ticketDao.salvar(ticket)
 		
 		if (ticket.getFilhos() != null) {

@@ -49,10 +49,16 @@ class BuscarController {
 	
 	@Autowired KanbanStatusDao kanbanStatusDao
 	
-	@RequestMapping("/{query}")
-	String buscar( Model model, @PathVariable String query,  Integer kanbanStatusKey,  Integer clienteKey,  String ordem,  String classificacao) {
+	@RequestMapping("/")
+	String buscarRest(Model model, String query,  Integer kanbanStatusKey,  Integer clienteKey,  String ordem,  String classificacao) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
+		
+		if (query == null || query.length() < 2) {
+			model.addAttribute("erro", 'Informe uma palavra para efetuar a busca')
+			return "/buscar/buscar.resultado.jsp"
+		} 
+		
 		
 		if (NumberUtils.toInt(query) > 0) {
 			return "redirect:/tickets/${query}"
@@ -82,6 +88,6 @@ class BuscarController {
 		model.addAttribute("classificacao", ticketClassificacao)
 		
 		"/buscar/buscar.resultado.jsp"
-		
 	}
+	
 }

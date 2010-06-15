@@ -1,5 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="buscarUrl" value="/buscar"/>
+<c:url var="buscarUrl" value="/buscar/"/>
 <html>
 	<head>
 		<title>Busca</title>
@@ -27,8 +27,7 @@
 
 		function recarregar() {
 			var parametros = $('#formBuscaAvancada').serializeArray();
-			var query = $('#query').val();
-			pronto.doPost('${buscarUrl}/' + query, parametros);
+			pronto.doPost('${buscarUrl}', parametros);
 		}
 
 		$(function(){
@@ -48,7 +47,7 @@
 		<form id="formBuscaAvancada">
 			<div align="right">
 				Busca:
-					<input type="text" name="query" value="${query}" id="query"/>
+					<input id="query" type="text" name="query" value="${query}"/>
 				Cliente: 
 				<select name="clienteKey" onchange="recarregar()" id="clienteKey">
 					<option value="-1">Todos</option>

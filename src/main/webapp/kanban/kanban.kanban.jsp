@@ -1,7 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 	<head>
-		<meta http-equiv=refresh content="120" />
 		<title>Kanban</title>
 		<link rel="stylesheet" type="text/css" media="all" href="${raiz}kanban/kanban.css" />
 		<script type="text/javascript" src="${raiz}kanban/kanban.js"></script>
