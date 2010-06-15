@@ -1,6 +1,0 @@
-alter table ticket add script_key integer;
-
-ALTER TABLE ONLY TICKET
-    ADD CONSTRAINT FK_TICKET_SCRIPT FOREIGN KEY (SCRIPT_KEY) REFERENCES SCRIPT (SCRIPT_KEY);
-    
-CREATE INDEX idx_ticket_script ON TICKET USING btree (SCRIPT_KEY);    

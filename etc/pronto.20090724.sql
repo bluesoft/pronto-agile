@@ -1,1 +1,0 @@
-alter table usuario add email_md5 character varying(170);

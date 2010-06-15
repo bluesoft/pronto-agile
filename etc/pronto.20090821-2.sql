@@ -1,1 +1,0 @@
-INSERT INTO papel VALUES (6, 'Administrador');
