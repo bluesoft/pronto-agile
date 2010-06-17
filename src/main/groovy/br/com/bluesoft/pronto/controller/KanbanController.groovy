@@ -99,7 +99,7 @@ public class KanbanController {
 	@ResponseBody String mover(Model model, int ticketKey, int kanbanStatusKey, Integer motivoReprovacaoKey) throws SegurancaException {
 		
 		Seguranca.validarPermissao(Papel.EQUIPE)
-		def ticket = ticketDao.obter(ticketKey)
+		def ticket = ticketDao.obterComUsuariosEnvolvidos(ticketKey)
 		try {
 			movimentadorDeTicket.movimentar ticket, kanbanStatusKey, motivoReprovacaoKey
 			return "{'sucesso':'true'}"

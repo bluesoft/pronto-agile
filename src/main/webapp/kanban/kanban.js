@@ -9,8 +9,8 @@ pronto.kanban = {
 		this.urlAtualizar = pronto.raiz + 'kanban/atualizar/';
 		this.setDragAndDrop();
 		this.criarDialogDeMotivoDeReprovacao();
-		var umMinuto = 1000 * 60;
-		setInterval(this.atualizar, umMinuto);
+		var meioMinuto = 1000 * 30;
+		setInterval(this.atualizar, meioMinuto);
 	},
 	
 	mover: function(event, ui, drop) {
@@ -46,6 +46,7 @@ pronto.kanban = {
 					var novoStatus = data[item];
 					var $novaColuna = $('#kanban-'+novoStatus); 
 					$item.appendTo($novaColuna);
+					$item.attr('kanbanStatus', novoStatus);
 					$item.fadeIn();
 					pronto.kanban.calcularQuantidadeDeTicketsPorColuna();
 				}

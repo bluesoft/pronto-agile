@@ -104,13 +104,13 @@ class Ticket {
 	@Label("desenvolvedores")
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "TICKET_DESENVOLVEDOR", joinColumns =  @JoinColumn(name = "TICKET_KEY") , inverseJoinColumns =  @JoinColumn(name = "USUARIO_KEY") )
-	List<Usuario> desenvolvedores
+	Set<Usuario> desenvolvedores
 	
 	@Auditable
 	@Label("testadores")
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "TICKET_TESTADOR", joinColumns =  @JoinColumn(name = "TICKET_KEY") , inverseJoinColumns =  @JoinColumn(name = "USUARIO_KEY") )
-	List<Usuario> testadores
+	Set<Usuario> testadores
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="ticket")
 	List<MovimentoKanban> movimentosDeKanban
@@ -295,7 +295,7 @@ class Ticket {
 	}
 	
 	void addDesenvolvedor(final Usuario usuario) {
-		if (!desenvolvedores) desenvolvedores = [];
+		if (!desenvolvedores) desenvolvedores = [] as HashSet;
 		desenvolvedores.each {
 			if (it.username.equals(usuario.username))
 				return
@@ -304,7 +304,7 @@ class Ticket {
 	}
 	
 	void addTestador(final Usuario usuario) {
-		if (!testadores) testadores = [];
+		if (!testadores) testadores = [] as HashSet;
 		testadores.each {
 			if (it.username.equals(usuario.username))
 				return

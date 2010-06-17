@@ -46,6 +46,28 @@ public class TicketDao extends DaoHibernate {
 
 		return (Ticket) getSession().createQuery(hql.toString()).setInteger("ticketKey", ticketKey).uniqueResult();
 	}
+	
+	@Override
+	public Ticket obterComUsuariosEnvolvidos(final Integer ticketKey) {
+
+		String hql = """ 
+			select distinct t from Ticket t 
+			left join fetch t.sprint 
+			left join fetch t.pai 
+			left join fetch t.tipoDeTicket 
+			left join fetch t.backlog 
+			left join fetch t.kanbanStatus 
+			left join fetch t.reporter 
+			left join t.desenvolvedores 
+			left join t.testadores 
+			where t.ticketKey = :ticketKey
+		"""
+			
+		return (Ticket) getSession()
+			.createQuery(hql)
+			.setInteger("ticketKey", ticketKey)
+			.uniqueResult();
+	}
 
 	public Ticket obterComDependecias(final Integer ticketKey) {
 
