@@ -68,7 +68,7 @@
 					</c:if>
 					<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
 						<c:if test="${!ticket.tarefa or (ticket.tarefa && ticket.pai.backlog.backlogKey ne 4 && ticket.pai.backlog.backlogKey ne 5)}">
-							<pronto:icons name="restaurar.png" title="Restaurar" onclick="pronto.restaurar('${ticket.ticketKey}')"></pronto:icons>
+							<pronto:icons name="restaurar.png" title="${ticket.backlog.backlogKey eq 4 ? 'Restaurar' : 'Desimpedir'} ${ticket.tipoDeTicket.descricao}" onclick="pronto.restaurar('${ticket.ticketKey}')"></pronto:icons>
 						</c:if>
 					</c:if>
 					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 1 or ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
