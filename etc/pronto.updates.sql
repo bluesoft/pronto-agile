@@ -28,7 +28,7 @@ CREATE SEQUENCE seq_retrospectiva_item
     NO MINVALUE
     CACHE 1;
 
-    ALTER TABLE seq_retrospectiva OWNER TO pronto;
+    ALTER TABLE seq_retrospectiva_item OWNER TO pronto;
 
 
 CREATE TABLE tipo_retrospectiva_item (
@@ -56,13 +56,17 @@ ALTER TABLE ONLY retrospectiva
     
 ALTER TABLE ONLY retrospectiva
     ADD CONSTRAINT fk_retrospectiva_sprint FOREIGN KEY (sprint_key) REFERENCES sprint(sprint_key);
+
+ALTER TABLE public.retrospectiva OWNER TO pronto;
     
 CREATE TABLE retrospectiva_item (
     retrospectiva_item_key integer NOT NULL,
     retrospectiva_key integer NOT NULL,
     tipo_retrospectiva_item_key integer NOT NULL,
     descricao character varying(255) NOT NULL 
-);   
+);
+
+ALTER TABLE public.retrospectiva_item OWNER TO pronto;
 
 ALTER TABLE ONLY retrospectiva_item
     ADD CONSTRAINT retrospectiva_item_pkey PRIMARY KEY (retrospectiva_item_key);    
@@ -313,19 +317,29 @@ CREATE TABLE causa_de_defeito (
 	descricao varchar(75)
 );
 
+ALTER TABLE causa_de_defeito OWNER TO pronto;
+
 alter table ticket add causa_de_defeito_key integer references causa_de_defeito;
 CREATE INDEX idx_ticket_causa_de_defeito ON TICKET USING btree (causa_de_defeito_key);
 
 create sequence SEQ_CAUSA_DE_DEFEITO;
 
+	ALTER TABLE seq_causa_de_defeito OWNER TO pronto;
+
 create sequence SEQ_MOTIVO_REPROVACAO;
+
+	ALTER TABLE seq_motivo_reprovacao OWNER TO pronto;
 
 CREATE TABLE MOTIVO_REPROVACAO (
 	MOTIVO_REPROVACAO_key integer primary key,
 	descricao varchar(75)
 );
 
+ALTER TABLE motivo_reprovacao OWNER TO pronto;
+
 create sequence SEQ_MOVIMENTO_KANBAN;
+
+	ALTER TABLE seq_movimento_kanban OWNER TO pronto;
 
 CREATE TABLE movimento_kanban (
 	movimento_kanban_key integer primary key,
@@ -335,6 +349,8 @@ CREATE TABLE movimento_kanban (
 	data timestamp without time zone  not null,
 	username character varying(100) references usuario not null 	
 );
+
+ALTER TABLE movimento_kanban OWNER TO pronto;
 
 CREATE INDEX idx_movimento_kanban_ticket ON movimento_kanban USING btree (ticket_key);
 CREATE INDEX idx_movimento_kanban_kanban_status ON movimento_kanban USING btree (kanban_status_key);

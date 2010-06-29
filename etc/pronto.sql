@@ -89,7 +89,7 @@ CREATE SEQUENCE seq_retrospectiva_item
     NO MINVALUE
     CACHE 1;
 
-    ALTER TABLE seq_retrospectiva OWNER TO pronto;
+    ALTER TABLE seq_retrospectiva_item OWNER TO pronto;
 
 CREATE SEQUENCE seq_cliente
     INCREMENT BY 1
@@ -101,7 +101,7 @@ CREATE SEQUENCE seq_cliente
 
 create sequence SEQ_CATEGORIA;
 	
-alter table seq_categoria OWNER to pronto;
+    alter table seq_categoria OWNER to pronto;
 
 CREATE TABLE backlog (
     backlog_key integer NOT NULL,
