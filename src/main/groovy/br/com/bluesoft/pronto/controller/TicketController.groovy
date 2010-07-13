@@ -607,7 +607,8 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/salvarCategoria")
 	@ResponseBody String salvarCategoria( HttpServletResponse response, @PathVariable int ticketKey,  int categoriaKey) throws SegurancaException {
 		try {
-			Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
+			Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
+
 			Ticket ticket = ticketDao.obter(ticketKey)
 			ticket.setCategoria(categoriaKey > 0 ? categoriaDao.obter(categoriaKey) : null)
 			ticketDao.salvar(ticket)
