@@ -57,7 +57,7 @@
 					<c:if test="${ticket.backlog.backlogKey eq 2 and !ticket.tarefa}">
 							<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Ideias" onclick="pronto.moverParaIdeias('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
-					<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
+					<c:if test="${(ticket.backlog.backlogKey ne 4) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
 						<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
 					<c:if test="${ticket.backlog.backlogKey eq 1 or (ticket.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)) or ticket.backlog.backlogKey eq 3}">
