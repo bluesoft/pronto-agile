@@ -306,10 +306,9 @@ public class TicketDao extends DaoHibernate {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" where t.sprint.sprintKey = :sprintKey");
-		builder.append(" and t.backlog.backlogKey = :backlogKey");
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
 
-		return getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).setInteger("backlogKey", Backlog.SPRINT_BACKLOG).list();
+		return getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).list();
 	}
 
 	public List<Ticket> listarNaoConcluidosPorSprint(final int sprintKey) {
