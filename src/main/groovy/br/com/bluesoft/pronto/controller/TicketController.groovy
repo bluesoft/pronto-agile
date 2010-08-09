@@ -274,6 +274,7 @@ class TicketController {
 		
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.LIXEIRA))
+		ticket.sprint = null
 		ticketDao.salvar(ticket)
 		return "redirect:/tickets/${ticketKey}"
 	}
