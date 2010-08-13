@@ -230,7 +230,9 @@ class TicketController {
 			if (configuracaoDao.isZenDeskAtivo()) {
 				if (ticket.isDone()) {
 					def zenDeskTicketKey = ticketDao.obterNumeroDoTicketNoZenDesk(ticket.ticketKey)
-					zenDeskService.incluirComentarioPublico(zenDeskTicketKey,'Este ticket foi concluído no Pronto!')
+					if (zenDeskTicketKey) {
+						zenDeskService.incluirComentarioPublico(zenDeskTicketKey,'Este ticket foi concluído no Pronto!')
+					}
 				}
 			}
 			
@@ -351,7 +353,9 @@ class TicketController {
 		
 		if (configuracaoDao.isZenDeskAtivo()) {
 			def zenDeskTicketKey = ticketDao.obterNumeroDoTicketNoZenDesk(ticket.ticketKey)
-			zenDeskService.incluirComentarioPublico(zenDeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
+			if (zenDeskTicketKey) {
+				zenDeskService.incluirComentarioPublico(zenDeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
+			}
 		}
 		
 		return "redirect:/tickets/${ticket.ticketKey}"

@@ -501,7 +501,7 @@ public class TicketDao extends DaoHibernate {
 	}
 	
 	public Map<Integer,Integer> listarKanbanStatusDosTicketsDoSprint(int sprintKey){
-		def query = session.createQuery('select t.ticket_key, t.kanbanStatus.kanbanStatusKey from Ticket t where t.sprint.sprintKey = :sprintKey');
+		def query = session.createQuery('select t.ticketKey, t.kanbanStatus.kanbanStatusKey from Ticket t where t.sprint.sprintKey = :sprintKey');
 		query.setInteger 'sprintKey', sprintKey
 		def mapa = [:]
 		def list = query.list()
