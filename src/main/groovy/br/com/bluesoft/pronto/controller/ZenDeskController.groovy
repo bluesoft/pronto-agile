@@ -37,7 +37,7 @@ class ZendeskController {
 	String tickets(Model model, @PathVariable int zendeskTicketKey) {
 		
 		if (!configuracaoDao.isZendeskAtivo()) {
-			model.addAttribute 'mensagem', 'A integração do pronto com Zendesk está desabilitada!'
+			model.addAttribute 'mensagem', 'A integração do Pronto com o Zendesk está desabilitada!'
 			return "/branca.jsp"
 		}
 		
