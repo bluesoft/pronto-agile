@@ -1,0 +1,25 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../main/config/ehcache.xsd">
+
+	<diskStore path="java.io.tmpdir" />
+
+	<defaultCache maxElementsInMemory="100" eternal="false"
+		timeToIdleSeconds="60" timeToLiveSeconds="120" overflowToDisk="false" />
+
+	<!-- 18000 segundos => 5 horas -->
+	<cache name="zenDeskOrganizations" maxElementsInMemory="20"
+		eternal="false" timeToIdleSeconds="18000" timeToLiveSeconds="18000"
+		overflowToDisk="false">
+	</cache>
+	
+	<cache name="zenDeskUsers" maxElementsInMemory="20"
+		eternal="false" timeToIdleSeconds="18000" timeToLiveSeconds="18000"
+		overflowToDisk="false">
+	</cache>
+	
+	<cache name="zenDeskTickets" maxElementsInMemory="40"
+		eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="300"
+		overflowToDisk="false">
+	</cache>
+
+</ehcache>

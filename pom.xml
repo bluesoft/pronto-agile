@@ -112,9 +112,6 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-commons-annotations</artifactId>
 			<version>${hibernate.commons.annotations.version}</version>
-			<!--
-			<scope>provided</scope>
-			-->
 		</dependency>
 
 		<dependency>
@@ -127,27 +124,18 @@
 					<groupId>javax.persistence</groupId>
 				</exclusion>
 			</exclusions>
-			<!--
-			<scope>provided</scope>
-			-->
 		</dependency>
 
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
-			<!--			
-			<scope>provided</scope>
-			-->
 		</dependency>
 
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 			<version>${cglib.version}</version>
-			<!--			
-			<scope>provided</scope>
-			-->
 		</dependency>
 
 		<dependency>
@@ -169,9 +157,10 @@
 		</dependency>
 
 		<dependency>
-			<artifactId>json-lib</artifactId>
 			<groupId>net.sf.json-lib</groupId>
-			<version>0.9</version>
+			<artifactId>json-lib</artifactId>
+			<version>2.3</version>
+			<classifier>jdk15</classifier>
 		</dependency>
 
 		<dependency>
@@ -376,6 +365,18 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.codehaus.groovy.modules.http-builder</groupId>
+			<artifactId>http-builder</artifactId>
+			<version>${http-builder.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
 			<groupId>rome</groupId>
 			<artifactId>rome</artifactId>
 			<version>1.0</version>
@@ -385,6 +386,19 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-lgpl</artifactId>
 			<version>1.4.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>${ehcache.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
@@ -411,15 +425,18 @@
 		<bliki.version>3.0.13</bliki.version>
 		<cglib.version>2.1_3</cglib.version>
 		<easyb.version>0.9.7</easyb.version>
+		<ehcache.version>2.2.0</ehcache.version>
 		<hibernate.annotations.version>3.2.1.ga</hibernate.annotations.version>
 		<hibernate.commons.annotations.version>3.0.0.ga</hibernate.commons.annotations.version>
 		<hibernate.version>3.2.5.ga</hibernate.version>
 		<javamail.version>1.4</javamail.version>
+		<mockito.version>1.8.5</mockito.version>
 		<jsp.version>2.0</jsp.version>
 		<sitemesh.version>2.2.1</sitemesh.version>
 		<slf4j.version>1.5.10</slf4j.version>
 		<spring.version>3.0.1.RELEASE</spring.version>
 		<servlet.version>2.4</servlet.version>
+		<http-builder.version>0.5.0-RC2</http-builder.version>
 	</properties>
 
 </project>

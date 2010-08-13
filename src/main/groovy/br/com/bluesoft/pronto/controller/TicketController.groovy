@@ -65,6 +65,7 @@ import br.com.bluesoft.pronto.model.TicketOrdem
 import br.com.bluesoft.pronto.model.Usuario
 import br.com.bluesoft.pronto.service.Config
 import br.com.bluesoft.pronto.service.Seguranca
+import br.com.bluesoft.pronto.service.ZenDeskService;
 import br.com.bluesoft.pronto.util.ControllerUtil
 import br.com.bluesoft.pronto.util.DateUtil
 import br.com.bluesoft.pronto.util.StringUtil
@@ -99,7 +100,9 @@ class TicketController {
 	@Autowired MotivoReprovacaoDao motivoReprovacaoDao
 	@Autowired MovimentoKanbanDao movimentoKanbanDao
 	@Autowired MovimentadorDeTicket movimentadorDeTicket
-	
+	@Autowired ZenDeskService zenDeskService
+
+		
 	@InitBinder
 	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
 		def defaultBindingInitializer = new DefaultBindingInitializer()
@@ -668,6 +671,13 @@ class TicketController {
 		
 		if (ticketKey != null) {
 			Ticket ticket = ticketDao.obterComDependecias(ticketKey)
+			
+			if (configuracaoDao.isZenDeskAtivo()) {
+				def zenDeskTicketKey = ticketDao.obterNumeroDoTicketNoZenDesk(ticket.ticketKey)
+				model.addAttribute "zenDeskTicketKey", zenDeskTicketKey
+				model.addAttribute "zenDeskUrl", configuracaoDao.getZenDeskUrl()
+				model.addAttribute "zenDeskTicket", zenDeskService.obterTicket(zenDeskTicketKey)
+			}
 			
 			if (ticket == null) {
 				model.addAttribute("mensagem", "O ticket #" + ticketKey + " não existe.")

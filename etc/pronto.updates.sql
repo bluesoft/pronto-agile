@@ -357,3 +357,13 @@ CREATE INDEX idx_movimento_kanban_kanban_status ON movimento_kanban USING btree 
 CREATE INDEX idx_movimento_kanban_motivo_reprovacao ON movimento_kanban USING btree (motivo_reprovacao_key);
 CREATE INDEX idx_movimento_kanban_motivo_data ON movimento_kanban USING btree (data);
 CREATE INDEX idx_movimento_kanban_motivo_usuario ON movimento_kanban USING btree (username);
+
+-- 2010 08 11
+
+create table integracao_zen_desk (
+	ticket_key integer references ticket not null,
+	zen_desk_ticket_key integer not null
+);
+alter table integracao_zen_desk add primary key (ticket_key, zen_desk_ticket_key);
+CREATE INDEX idx_integracao_zen_desk_pronto ON integracao_zen_desk USING btree (ticket_key);
+CREATE INDEX idx_integracao_zen_desk_zen_desk ON integracao_zen_desk USING btree (zen_desk_ticket_key);

@@ -36,7 +36,6 @@ class ConfiguracoesController {
 		
 		Seguranca.validarPermissao Papel.ADMINISTRADOR
 		
-		
 		configuracaoDao.atualizarConfiguracoes(request.getParameterMap());
 		
 		"redirect:/configuracoes?mensagem=Configurações salvas com sucesso.";

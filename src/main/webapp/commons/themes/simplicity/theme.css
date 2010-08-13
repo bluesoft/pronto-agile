@@ -117,4 +117,8 @@ option.nenhuma {
 	text-align: center; 
 }
 
-
+.group {
+	padding: 20px;
+	background-color: #f5f5f5;
+	border-width: 1px;
+}

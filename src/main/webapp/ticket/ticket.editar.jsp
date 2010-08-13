@@ -38,6 +38,9 @@
 				<c:if test="${ticket.ticketKey gt 0}">
 					<li><a href="#comentarios">Comentários (${fn:length(ticket.comentarios)})</a></li>
 					<li><a href="#anexos">Anexos (${fn:length(anexos)})</a></li>
+					<c:if test="${zenDeskTicket ne null}">
+						<li><a href="#zenDesk">Zendesk (${fn:length(zenDeskTicket.comments)})</a></li>
+					</c:if>
 					<li><a href="#historico">Histórico (${fn:length(ticket.logs)})</a></li>
 					<li><a href="#movimentos">Kanban (${fn:length(movimentos)})</a></li>
 					<div align="right">
@@ -124,7 +127,18 @@
 						</div>
 						<form:hidden path="ticket.reporter.username"/><br/>
 					</div>
-						
+					
+					<c:if test="${zenDeskTicketKey ne null}">
+						<div id="divZenDesk" style="clear: both;">
+							<div align="center" class="person">
+								<pronto:icons name="zendesk.png" title="Abrir Ticket no ZenDesk" onclick="openWindow('${zenDeskUrl}/tickets/${zenDeskTicketKey}')"/>
+								<div class="person_name">#${zenDeskTicketKey}</div>
+								<div>Zendesk</div>
+							</div>
+							<br/>
+						</div>
+					</c:if>
+					
 					<div class="group">
 						
 						<div>
@@ -216,7 +230,7 @@
 							</c:if>
 							
 						</div>
-
+						
 						<div class="bloco">
 							
 							<c:if test="${ticket.ticketKey gt 0}">
@@ -438,6 +452,13 @@
 			<div id="comentarios">
 				<%@ include file="ticket.comentarios.jsp" %>
 			</div>
+			
+			<c:if test="${zenDeskTicket ne null}">
+				<div id="zenDesk">
+					<%@ include file="ticket.zendesk.jsp" %>
+				</div>
+			</c:if>
+			
 			<div id="anexos">
 				<c:if test="${ticket.ticketKey gt 0}">
 				<ul style="list-style-type: none;">

@@ -54,6 +54,7 @@ $(function() {
 	$('#formTicket').validate();
 	$("#descricao").markItUp(mySettings);
 	$("#comentario").markItUp(mySettings);
+	$("#comentarioZenDesk").markItUp({onShiftEnter:	{keepDefault:false, replaceWith:'\n\n'},markupSet: []});
 	$("#titulo").focus();
 	$("#dialog").dialog( {
 		autoOpen : false,
