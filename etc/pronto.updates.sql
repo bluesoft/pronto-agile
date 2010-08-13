@@ -360,10 +360,10 @@ CREATE INDEX idx_movimento_kanban_motivo_usuario ON movimento_kanban USING btree
 
 -- 2010 08 11
 
-create table integracao_zen_desk (
+create table integracao_zendesk (
 	ticket_key integer references ticket not null,
-	zen_desk_ticket_key integer not null
+	zendesk_ticket_key integer not null
 );
-alter table integracao_zen_desk add primary key (ticket_key, zen_desk_ticket_key);
-CREATE INDEX idx_integracao_zen_desk_pronto ON integracao_zen_desk USING btree (ticket_key);
-CREATE INDEX idx_integracao_zen_desk_zen_desk ON integracao_zen_desk USING btree (zen_desk_ticket_key);
+alter table integracao_zendesk add primary key (ticket_key, zendesk_ticket_key);
+CREATE INDEX idx_integracao_zendesk_pronto ON integracao_zendesk USING btree (ticket_key);
+CREATE INDEX idx_integracao_zendesk_zendesk ON integracao_zendesk USING btree (zendesk_ticket_key);

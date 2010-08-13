@@ -1,23 +1,23 @@
  <%@ include file="/commons/taglibs.jsp"%>
 <html>
 	<head>
-		<title>Incluir Ticket do Zen Desk</title>
+		<title>Incluir Ticket do Zendesk</title>
 		<%@ include file="/commons/scripts/scripts.jsp" %>
 	</head>
 	<body>
-		<form action="${raiz}zendesk/tickets" method="post" id="formZenDesk">
+		<form action="${raiz}zendesk/tickets" method="post" id="formZendesk">
 			<ul class="info">
-				<h1>Incluir Ticket do Zen Desk</h1>
+				<h1>Incluir Ticket do Zendesk</h1>
 			</ul>
 			
-			<h2>Ticket #${zenDeskTicket.nice_id} do Zendesk: ${zenDeskTicket.subject}</h2>
+			<h2>Ticket #${zendeskTicket.nice_id} do Zendesk: ${zendeskTicket.subject}</h2>
 			<div class="group">
-				<input type="hidden" name="zenDeskTicketKey" value="${zenDeskTicket.nice_id}">
+				<input type="hidden" name="zendeskTicketKey" value="${zendeskTicket.nice_id}">
 				<div>
-					<p><b>Cliente</b>: ${zenDeskCliente.name}<br/>
-					<b>Solicitador</b>: ${zenDeskSolicitador.name}</p>
+					<p><b>Cliente</b>: ${zendeskCliente.name}<br/>
+					<b>Solicitador</b>: ${zendeskSolicitador.name}</p>
 				</div>
-				${zenDeskTicket.html}
+				${zendeskTicket.html}
 			</div>
 			
 			<h2>Dados para Inclusão no Pronto</h2>
@@ -40,7 +40,7 @@
 					<b>
 						<select name="clienteKey" id="clienteKey">
 							<c:forEach var="c" items="${clientes}">
-								<option ${zenDeskCliente.name eq c.nome ? 'selected="selected"' : ''}   value="${c.clienteKey}">${c.nome}</option>
+								<option ${zendeskCliente.name eq c.nome ? 'selected="selected"' : ''}   value="${c.clienteKey}">${c.nome}</option>
 							</c:forEach>							
 						</select>
 					</b>

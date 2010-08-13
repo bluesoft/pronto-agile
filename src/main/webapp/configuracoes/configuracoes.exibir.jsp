@@ -29,29 +29,29 @@
 				
 			</div>
 
-			<h4>ZenDesk</h4>			
-			<div class="group" id="zenDesk">
+			<h4>Zendesk</h4>			
+			<div class="group" id="zendesk">
 				<div>
-					<select name="zenDesk.ativo" id="zenDeskAtivo" onchange="toogleZenDesk()">
-						<option ${mapa['zenDesk.ativo'] eq 'true' ? 'selected' : ''}  value="true">Sim</option>
-						<option ${mapa['zenDesk.ativo'] ne 'true' ? 'selected' : ''} value="false">Não</option>
+					<select name="zendesk.ativo" id="zendeskAtivo" onchange="toogleZendesk()">
+						<option ${mapa['zendesk.ativo'] eq 'true' ? 'selected' : ''}  value="true">Sim</option>
+						<option ${mapa['zendesk.ativo'] ne 'true' ? 'selected' : ''} value="false">Não</option>
 					</select>
-					<p>Integrar com <a href="http://www.zendesk.com">ZenDesk</a>?</p>
+					<p>Integrar com <a href="http://www.zendesk.com">Zendesk</a>?</p>
 				</div>
 			
-				<div id="zenDeskOptions">
+				<div id="zendeskOptions">
 					<div>
-						<input type="text" name="zenDesk.url" class="url" size="40" value="${mapa['zenDesk.url']}"/>
-						<p>URL do ZenDesk</p>
+						<input type="text" name="zendesk.url" class="url" size="40" value="${mapa['zendesk.url']}"/>
+						<p>URL do Zendesk</p>
 					</div>
 					
 					<div>
-						<input type="text" name="zenDesk.username" value="${mapa['zenDesk.username']}"/>
-						<p>User Name</p>
+						<input type="text" name="zendesk.username" value="${mapa['zendesk.username']}"/>
+						<p>Usuário</p>
 					</div>
 					
 					<div>
-						<input type="password" name="zenDesk.password" value="${mapa['zenDesk.password']}"/>
+						<input type="password" name="zendesk.password" value="${mapa['zendesk.password']}"/>
 						<p>Senha</p>
 					</div>
 					
@@ -66,19 +66,19 @@
 
 	<script>
 		$(function(){
-			toogleZenDesk();
+			toogleZendesk();
 		})
 	
 		function salvar() {
 			$("#formConfiguracoes").submit();
 		}
-		function toogleZenDesk() {
-			if ($('#zenDeskAtivo').val() == 'true') {
-				$('#zenDeskOptions input').removeAttr('disabled');
-				$('#zenDeskOptions input').removeClass('required');
+		function toogleZendesk() {
+			if ($('#zendeskAtivo').val() == 'true') {
+				$('#zendeskOptions input').removeAttr('disabled');
+				$('#zendeskOptions input').removeClass('required');
 			} else {
-				$('#zenDeskOptions input').attr('disabled','disabled').val('');
-				$('#zenDeskOptions input').addClass('required');
+				$('#zendeskOptions input').attr('disabled','disabled').val('');
+				$('#zendeskOptions input').addClass('required');
 			}
 		}
 		</script>	

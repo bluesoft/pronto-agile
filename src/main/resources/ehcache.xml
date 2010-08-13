@@ -10,16 +10,16 @@
 		overflowToDisk="false" />
 
 	<!-- 18000 segundos => 5 horas -->
-	<cache name="zenDeskOrganizations" maxElementsInMemory="20"
+	<cache name="zendeskOrganizations" maxElementsInMemory="20"
 		eternal="false" timeToIdleSeconds="18000" timeToLiveSeconds="18000"
 		overflowToDisk="false">
 	</cache>
 
-	<cache name="zenDeskUsers" maxElementsInMemory="20" eternal="false"
+	<cache name="zendeskUsers" maxElementsInMemory="20" eternal="false"
 		timeToIdleSeconds="18000" timeToLiveSeconds="18000" overflowToDisk="false">
 	</cache>
 
-	<cache name="zenDeskTickets" maxElementsInMemory="40" eternal="false"
+	<cache name="zendeskTickets" maxElementsInMemory="40" eternal="false"
 		timeToIdleSeconds="300" timeToLiveSeconds="300" overflowToDisk="false">
 	</cache>
 
