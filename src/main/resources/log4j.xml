@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="INFO" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p [%t] %c{1}.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+	<logger name="net.sf.ehcache">
+		<level value="WARN" />
+	</logger>
+
+	<!--
+		Suppress success logging from InteractiveAuthenticationSuccessEvent
+	-->
+	<logger name="org.acegisecurity">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="programd">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.apache">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.hibernate">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.springframework">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.appfuse">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.appfuse.util">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.appfuse.webapp.filter">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.appfuse.webapp.listener.UserCounterListener">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="br.com.bluesoft">
+		<level value="INFO" />
+	</logger>
+
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</log4j:configuration>

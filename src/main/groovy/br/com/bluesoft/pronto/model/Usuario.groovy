@@ -26,6 +26,7 @@ import java.util.HashSet
 import java.util.Map
 import java.util.Set
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.JoinColumn
@@ -33,9 +34,15 @@ import javax.persistence.JoinTable
 import javax.persistence.ManyToMany
 import javax.persistence.ManyToOne
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import br.com.bluesoft.pronto.core.Papel
 
+
 @Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 class Usuario implements Comparable<Usuario>, Serializable {
 	
 	@Id

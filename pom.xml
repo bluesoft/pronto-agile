@@ -91,7 +91,7 @@
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate</artifactId>
+			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
 			<exclusions>
 				<exclusion>
@@ -103,15 +103,6 @@
 					<groupId>javax.transaction</groupId>
 				</exclusion>
 			</exclusions>
-			<!--  
-			<scope>provided</scope>
-			-->
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-commons-annotations</artifactId>
-			<version>${hibernate.commons.annotations.version}</version>
 		</dependency>
 
 		<dependency>
@@ -124,18 +115,6 @@
 					<groupId>javax.persistence</groupId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>${cglib.version}</version>
 		</dependency>
 
 		<dependency>
@@ -159,7 +138,7 @@
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
-			<version>2.3</version>
+			<version>${jsonlib.version}</version>
 			<classifier>jdk15</classifier>
 		</dependency>
 
@@ -232,7 +211,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.7</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -272,7 +251,7 @@
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>2.0</version>
+			<version>${jsp.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -311,6 +290,7 @@
 			<artifactId>validation-api</artifactId>
 			<version>1.0.0.GA</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -323,20 +303,23 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
+			<version>${log4j.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>javax.mail</groupId>
@@ -361,7 +344,7 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>1.7.0</version>
+			<version>${groovy.version}</version>
 		</dependency>
 
 		<dependency>
@@ -379,13 +362,13 @@
 		<dependency>
 			<groupId>rome</groupId>
 			<artifactId>rome</artifactId>
-			<version>1.0</version>
+			<version>${rome.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-lgpl</artifactId>
-			<version>1.4.3</version>
+			<version>${jackson.version}</version>
 		</dependency>
 
 		<dependency>
@@ -423,18 +406,23 @@
 
 	<properties>
 		<bliki.version>3.0.13</bliki.version>
-		<cglib.version>2.1_3</cglib.version>
+		<cglib.version>2.2</cglib.version>
 		<easyb.version>0.9.7</easyb.version>
 		<ehcache.version>2.2.0</ehcache.version>
-		<hibernate.annotations.version>3.2.1.ga</hibernate.annotations.version>
-		<hibernate.commons.annotations.version>3.0.0.ga</hibernate.commons.annotations.version>
-		<hibernate.version>3.2.5.ga</hibernate.version>
+		<hibernate.annotations.version>3.5.4-Final</hibernate.annotations.version>
+		<hibernate.version>3.5.4-Final</hibernate.version>
+		<log4j.version>1.2.15</log4j.version>
+		<jackson.version>1.4.3</jackson.version>
 		<javamail.version>1.4</javamail.version>
 		<mockito.version>1.8.5</mockito.version>
 		<jsp.version>2.0</jsp.version>
+		<junit.version>4.7</junit.version>
+		<jsonlib.version>2.3</jsonlib.version>
+		<groovy.version>1.7.4</groovy.version>
+		<rome.version>1.0</rome.version>
 		<sitemesh.version>2.2.1</sitemesh.version>
 		<slf4j.version>1.5.10</slf4j.version>
-		<spring.version>3.0.1.RELEASE</spring.version>
+		<spring.version>3.0.2.RELEASE</spring.version>
 		<servlet.version>2.4</servlet.version>
 		<http-builder.version>0.5.0-RC2</http-builder.version>
 	</properties>

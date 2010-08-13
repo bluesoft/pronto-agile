@@ -10,35 +10,14 @@
 				<h1>Incluir Ticket do Zen Desk</h1>
 			</ul>
 			
-			<h2>Ticket #${zenDeskTicket.nice_id} do Zen Desk</h2>
+			<h2>Ticket #${zenDeskTicket.nice_id} do Zendesk: ${zenDeskTicket.subject}</h2>
 			<div class="group">
 				<input type="hidden" name="zenDeskTicketKey" value="${zenDeskTicket.nice_id}">
-				
 				<div>
-					<b>${zenDeskTicket.subject}</b>
-					<p>Título</p>
+					<p><b>Cliente</b>: ${zenDeskCliente.name}<br/>
+					<b>Solicitador</b>: ${zenDeskSolicitador.name}</p>
 				</div>
-				
-				<div>
-					<b>${zenDeskTicket.description}</b>
-					<p>Descrição</p>
-				</div>
-				
-				<div>
-					<b>${zenDeskCliente.name}</b>
-					<p>Cliente</p>
-				</div>
-				
-				<div>
-					<b>${zenDeskSolicitador.name}</b>
-					<p>Solicitador</p>
-				</div>
-				
-				<div>
-					<b>${zenDeskTicket.current_tags}</b>
-					<p>Tags</p>
-				</div>
-				
+				${zenDeskTicket.html}
 			</div>
 			
 			<h2>Dados para Inclusão no Pronto</h2>

@@ -9,9 +9,16 @@
 		<property name="hibernate.jdbc.fetch_size">20</property>
 		<property name="hibernate.jdbc.batch_size">20</property>
 		<property name="hibernate.show_sql">false</property>
-		
+
 		<property name="hibernate.connection.autocommit">false</property>
-		<property name="connection.autocommit">false</property> 
+		<property name="connection.autocommit">false</property>
+
+		<!-- cache -->
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</property>
+		<property name="hibernate.cache.use_query_cache">true</property>
+		<property name="hibernate.cache.use_structured_entries">false</property>
+		<property name="javax.persistence.sharedCache.mode">ENABLE_SELECTIVE</property>
 
 		<!-- core classes -->
 		<mapping class="br.com.bluesoft.pronto.core.Backlog" />
@@ -19,7 +26,7 @@
 		<mapping class="br.com.bluesoft.pronto.core.Papel" />
 		<mapping class="br.com.bluesoft.pronto.core.TipoDeTicket" />
 		<mapping class="br.com.bluesoft.pronto.core.TipoRetrospectivaItem" />
-		<mapping class="br.com.bluesoft.pronto.core.TipoRetrospectiva"  />
+		<mapping class="br.com.bluesoft.pronto.core.TipoRetrospectiva" />
 
 		<!-- model classes -->
 		<mapping class="br.com.bluesoft.pronto.model.Categoria" />
@@ -36,7 +43,7 @@
 
 		<mapping class="br.com.bluesoft.pronto.model.Retrospectiva" />
 		<mapping class="br.com.bluesoft.pronto.model.RetrospectivaItem" />
-		
+
 		<mapping class="br.com.bluesoft.pronto.model.BancoDeDados" />
 		<mapping class="br.com.bluesoft.pronto.model.Script" />
 		<mapping class="br.com.bluesoft.pronto.model.Execucao" />

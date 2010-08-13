@@ -27,6 +27,7 @@ import java.util.List
 import java.util.Map
 import java.util.Set
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
@@ -37,11 +38,15 @@ import javax.persistence.Transient
 import org.apache.commons.beanutils.BeanComparator
 import org.apache.commons.collections.comparators.ComparatorChain
 import org.apache.commons.collections.comparators.ReverseComparator
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import br.com.bluesoft.pronto.util.DateUtil
 
 @Entity
 @SequenceGenerator(name = "SEQ_SPRINT", sequenceName = "SEQ_SPRINT")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Sprint {
 
 	@Id

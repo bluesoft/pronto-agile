@@ -20,11 +20,17 @@
 
 package br.com.bluesoft.pronto.core;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
+@Cacheable
 @org.hibernate.annotations.Entity(mutable = false)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "eternal")
 class TipoDeTicket {
 	
 	public static final int IDEIA = 1

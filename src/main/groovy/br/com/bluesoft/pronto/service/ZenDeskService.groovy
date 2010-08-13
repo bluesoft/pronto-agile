@@ -8,9 +8,12 @@ import groovyx.net.http.RESTClient;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
+import org.springframework.web.util.JavaScriptUtils;
 
 import br.com.bluesoft.pronto.core.Backlog;
 import br.com.bluesoft.pronto.core.KanbanStatus;
@@ -65,13 +68,14 @@ class ZenDeskService {
 			return ticket.value
 		} else {
 			ticket = getRESTClient().get( path : "/tickets/${zenDeskTicketKey}.json" ).data
-			cache.put new Element(zenDeskTicketKey, ticket)
+			ticket.html = String.valueOf(ticket.description).replaceAll("(\r\n)|(\n\n)","<br/>")
 			ticket.status = mapStatus[ticket.status_id as String]
 			ticket.tipo = mapTipo[ticket.ticket_type_id  as String]
 			ticket.comments.each {
 				it.author = this.obterUsuario(it.author_id)
+				it.html = String.valueOf(it.value).replaceAll("(\r\n)|(\n\n)","<br/>")
 			}
-			
+			cache.put new Element(zenDeskTicketKey, ticket)
 			return ticket
 		}
 	}
@@ -121,8 +125,17 @@ class ZenDeskService {
 		return ticket
 	}
 	
+	def incluirComentarioPublico(int zenDeskTicketKey, String comentario) {
+		this.incluirComentario zenDeskTicketKey, comentario, true
+	}
+	
 	def incluirComentarioPrivado(int zenDeskTicketKey, String comentario) {
-		def comment  = ['comment':['is_public':'false', 'value':comentario]]
+		this.incluirComentario zenDeskTicketKey, comentario, false
+	}
+	
+	private def incluirComentario(int zenDeskTicketKey, String comentario, boolean publico) {
+		comentario = HtmlUtils.htmlEscape(comentario)
+		def comment  = ['comment':['is_public':'${publico}', 'value':comentario]]
 		def resp = getRESTClient().put(path:"/tickets/${zenDeskTicketKey}.json",  contentType: TEXT, requestContentType: JSON,	body:comment)
 		CacheManager.getInstance().getCache("zenDeskTickets").removeQuiet(zenDeskTicketKey)
 	}

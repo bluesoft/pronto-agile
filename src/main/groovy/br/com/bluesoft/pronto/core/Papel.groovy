@@ -22,10 +22,17 @@ package br.com.bluesoft.pronto.core
 
 import java.io.Serializable;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity
 import javax.persistence.Id
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
+@Cacheable
+@org.hibernate.annotations.Entity(mutable = false)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "eternal")
 class Papel implements Serializable{
 	
 	public static final int ADMINISTRADOR = 6
@@ -65,5 +72,4 @@ class Papel implements Serializable{
 	String toString() {
 		return descricao
 	}
-	
 }

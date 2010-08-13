@@ -227,6 +227,13 @@ class TicketController {
 			
 			tx.commit()
 			
+			if (configuracaoDao.isZenDeskAtivo()) {
+				if (ticket.isDone()) {
+					def zenDeskTicketKey = ticketDao.obterNumeroDoTicketNoZenDesk(ticket.ticketKey)
+					zenDeskService.incluirComentarioPublico(zenDeskTicketKey,'Este ticket foi concluído no Pronto!')
+				}
+			}
+			
 			return "redirect:/tickets/${ticket.ticketKey}"
 		} catch ( Exception e) {
 			e.printStackTrace()
@@ -341,6 +348,12 @@ class TicketController {
 		ticket.setSprint(sprintDao.getSprintAtual())
 		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG))
 		ticketDao.salvar(ticket)
+		
+		if (configuracaoDao.isZenDeskAtivo()) {
+			def zenDeskTicketKey = ticketDao.obterNumeroDoTicketNoZenDesk(ticket.ticketKey)
+			zenDeskService.incluirComentarioPublico(zenDeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
+		}
+		
 		return "redirect:/tickets/${ticket.ticketKey}"
 		
 	}
@@ -674,9 +687,11 @@ class TicketController {
 			
 			if (configuracaoDao.isZenDeskAtivo()) {
 				def zenDeskTicketKey = ticketDao.obterNumeroDoTicketNoZenDesk(ticket.ticketKey)
-				model.addAttribute "zenDeskTicketKey", zenDeskTicketKey
-				model.addAttribute "zenDeskUrl", configuracaoDao.getZenDeskUrl()
-				model.addAttribute "zenDeskTicket", zenDeskService.obterTicket(zenDeskTicketKey)
+				if (zenDeskTicketKey) {
+					model.addAttribute "zenDeskTicketKey", zenDeskTicketKey
+					model.addAttribute "zenDeskUrl", configuracaoDao.getZenDeskUrl()
+					model.addAttribute "zenDeskTicket", zenDeskService.obterTicket(zenDeskTicketKey)
+				}
 			}
 			
 			if (ticket == null) {

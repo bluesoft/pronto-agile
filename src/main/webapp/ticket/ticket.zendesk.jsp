@@ -5,7 +5,7 @@
 
 	<div class="person-comentario">		
 		<div class="person">
-			<pronto:icons name="zendesk.png" title="Zendesk" onclick="openWindow('${zenDeskUrl}/tickets/${zenDeskTicketKey}')"/>
+			<pronto:icons name="zendesk.png" title="Zendesk" onclick="openWindow('${zenDeskUrl}/tickets/${zenDeskTicketKey}')" clazz="gravatar50"/>
 			<div class="person_name">Zendesk</div>
 		</div>
 	</div>
@@ -36,7 +36,8 @@
 			
 			
 			<div class="comentario-html">
-				${comentario.value}
+				${comentario.html}
+				
 				<br/>
 				<ul style="list-style-type: none;">
 					<c:forEach items="${comentario.attachments}" var="anexo">

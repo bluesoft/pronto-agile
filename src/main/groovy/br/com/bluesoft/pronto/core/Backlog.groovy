@@ -2,15 +2,22 @@ package br.com.bluesoft.pronto.core
 
 import java.util.List
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.OneToMany
 import javax.persistence.Transient
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import br.com.bluesoft.pronto.model.Ticket
 
+
 @Entity
+@Cacheable
 @org.hibernate.annotations.Entity(mutable = false)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "eternal")
 public class Backlog {
 
 	public static final int IDEIAS = 1
