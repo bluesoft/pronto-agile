@@ -290,7 +290,7 @@
 			<artifactId>validation-api</artifactId>
 			<version>1.0.0.GA</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -303,19 +303,19 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -367,6 +367,12 @@
 
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-lgpl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-lgpl</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
@@ -412,7 +418,7 @@
 		<hibernate.annotations.version>3.5.4-Final</hibernate.annotations.version>
 		<hibernate.version>3.5.4-Final</hibernate.version>
 		<log4j.version>1.2.15</log4j.version>
-		<jackson.version>1.4.3</jackson.version>
+		<jackson.version>1.5.5</jackson.version>
 		<javamail.version>1.4</javamail.version>
 		<mockito.version>1.8.5</mockito.version>
 		<jsp.version>2.0</jsp.version>
