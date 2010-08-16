@@ -231,7 +231,7 @@ class TicketController {
 				if (ticket.isDone()) {
 					def zenDeskTicketKey = ticketDao.obterNumeroDoTicketNoZenDesk(ticket.ticketKey)
 					if (zenDeskTicketKey) {
-						zenDeskService.incluirComentarioPublico(zenDeskTicketKey,'Este ticket foi concluído no Pronto!')
+						zenDeskService.incluirComentarioPublico(zenDeskTicketKey,'Este ticket já foi desenvolvido em breve estará no ar!')
 					}
 				}
 			}

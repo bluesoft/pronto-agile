@@ -135,7 +135,7 @@ class ZenDeskService {
 	
 	private def incluirComentario(int zenDeskTicketKey, String comentario, boolean publico) {
 		comentario = HtmlUtils.htmlEscape(comentario)
-		def comment  = ['comment':['is_public':'${publico}', 'value':comentario]]
+		def comment  = ['comment':['is_public':"${publico}", 'value':comentario]]
 		def resp = getRESTClient().put(path:"/tickets/${zenDeskTicketKey}.json",  contentType: TEXT, requestContentType: JSON,	body:comment)
 		CacheManager.getInstance().getCache("zenDeskTickets").removeQuiet(zenDeskTicketKey)
 	}
