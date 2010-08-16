@@ -65,7 +65,7 @@ import br.com.bluesoft.pronto.model.TicketOrdem
 import br.com.bluesoft.pronto.model.Usuario
 import br.com.bluesoft.pronto.service.Config
 import br.com.bluesoft.pronto.service.Seguranca
-import br.com.bluesoft.pronto.service.ZenDeskService;
+import br.com.bluesoft.pronto.service.ZendeskService;
 import br.com.bluesoft.pronto.util.ControllerUtil
 import br.com.bluesoft.pronto.util.DateUtil
 import br.com.bluesoft.pronto.util.StringUtil
@@ -100,7 +100,7 @@ class TicketController {
 	@Autowired MotivoReprovacaoDao motivoReprovacaoDao
 	@Autowired MovimentoKanbanDao movimentoKanbanDao
 	@Autowired MovimentadorDeTicket movimentadorDeTicket
-	@Autowired ZenDeskService zenDeskService
+	@Autowired ZendeskService zendeskService
 
 		
 	@InitBinder
@@ -227,7 +227,7 @@ class TicketController {
 			
 			tx.commit()
 			
-			if (configuracaoDao.isZenDeskAtivo()) {
+			if (configuracaoDao.isZendeskAtivo()) {
 				if (ticket.isDone()) {
 					def zenDeskTicketKey = ticketDao.obterNumeroDoTicketNoZenDesk(ticket.ticketKey)
 					if (zenDeskTicketKey) {
@@ -351,10 +351,10 @@ class TicketController {
 		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG))
 		ticketDao.salvar(ticket)
 		
-		if (configuracaoDao.isZenDeskAtivo()) {
-			def zenDeskTicketKey = ticketDao.obterNumeroDoTicketNoZenDesk(ticket.ticketKey)
-			if (zenDeskTicketKey) {
-				zenDeskService.incluirComentarioPublico(zenDeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
+		if (configuracaoDao.isZendeskAtivo()) {
+			def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(ticket.ticketKey)
+			if (zendeskTicketKey) {
+				zendeskService.incluirComentarioPublico(zendeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
 			}
 		}
 		
@@ -689,12 +689,12 @@ class TicketController {
 		if (ticketKey != null) {
 			Ticket ticket = ticketDao.obterComDependecias(ticketKey)
 			
-			if (configuracaoDao.isZenDeskAtivo()) {
-				def zenDeskTicketKey = ticketDao.obterNumeroDoTicketNoZenDesk(ticket.ticketKey)
-				if (zenDeskTicketKey) {
-					model.addAttribute "zenDeskTicketKey", zenDeskTicketKey
-					model.addAttribute "zenDeskUrl", configuracaoDao.getZenDeskUrl()
-					model.addAttribute "zenDeskTicket", zenDeskService.obterTicket(zenDeskTicketKey)
+			if (configuracaoDao.isZendeskAtivo()) {
+				def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(ticket.ticketKey)
+				if (zendeskTicketKey) {
+					model.addAttribute "zendeskTicketKey", zendeskTicketKey
+					model.addAttribute "zendeskUrl", configuracaoDao.getZendeskUrl()
+					model.addAttribute "zendeskTicket", zendeskService.obterTicket(zendeskTicketKey)
 				}
 			}
 			

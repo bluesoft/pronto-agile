@@ -51,20 +51,20 @@ class ConfiguracaoDao {
 		tx.commit()
 	}
 	
-	boolean isZenDeskAtivo() {
-		return String.valueOf(this.getMapa()['zenDesk.ativo']).equals('true')
+	boolean isZendeskAtivo() {
+		return String.valueOf(this.getMapa()['zendesk.ativo']).equals('true')
 	}
 	
-	String getZenDeskUserName() {
-		return String.valueOf(this.getMapa()['zenDesk.username'])
+	String getZendeskUserName() {
+		return String.valueOf(this.getMapa()['zendesk.username'])
 	}
 	
-	String getZenDeskPassword() {
-		return String.valueOf(this.getMapa()['zenDesk.password'])
+	String getZendeskPassword() {
+		return String.valueOf(this.getMapa()['zendesk.password'])
 	}
 	
-	String getZenDeskUrl() {
-		return String.valueOf(this.getMapa()['zenDesk.url'])
+	String getZendeskUrl() {
+		return String.valueOf(this.getMapa()['zendesk.url'])
 	}
 	
 }

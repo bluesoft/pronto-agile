@@ -38,8 +38,8 @@
 				<c:if test="${ticket.ticketKey gt 0}">
 					<li><a href="#comentarios">Comentários (${fn:length(ticket.comentarios)})</a></li>
 					<li><a href="#anexos">Anexos (${fn:length(anexos)})</a></li>
-					<c:if test="${zenDeskTicket ne null}">
-						<li><a href="#zenDesk">Zendesk (${fn:length(zenDeskTicket.comments)})</a></li>
+					<c:if test="${zendeskTicket ne null}">
+						<li><a href="#zendesk">Zendesk (${fn:length(zendeskTicket.comments)})</a></li>
 					</c:if>
 					<li><a href="#historico">Histórico (${fn:length(ticket.logs)})</a></li>
 					<li><a href="#movimentos">Kanban (${fn:length(movimentos)})</a></li>
@@ -128,11 +128,11 @@
 						<form:hidden path="ticket.reporter.username"/><br/>
 					</div>
 					
-					<c:if test="${zenDeskTicketKey ne null}">
-						<div id="divZenDesk" style="clear: both;">
+					<c:if test="${zendeskTicketKey ne null}">
+						<div id="divZendesk" style="clear: both;">
 							<div align="center" class="person">
-								<pronto:icons name="zendesk.png" title="Abrir Ticket no ZenDesk" onclick="openWindow('${zenDeskUrl}/tickets/${zenDeskTicketKey}')"/>
-								<div class="person_name">#${zenDeskTicketKey}</div>
+								<pronto:icons name="zendesk.png" title="Abrir Ticket no Zendesk" onclick="openWindow('${zendeskUrl}/tickets/${zendeskTicketKey}')"/>
+								<div class="person_name">#${zendeskTicketKey}</div>
 								<div>Zendesk</div>
 							</div>
 							<br/>
@@ -453,8 +453,8 @@
 				<%@ include file="ticket.comentarios.jsp" %>
 			</div>
 			
-			<c:if test="${zenDeskTicket ne null}">
-				<div id="zenDesk">
+			<c:if test="${zendeskTicket ne null}">
+				<div id="zendesk">
 					<%@ include file="ticket.zendesk.jsp" %>
 				</div>
 			</c:if>

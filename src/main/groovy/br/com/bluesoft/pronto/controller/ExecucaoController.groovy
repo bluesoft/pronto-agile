@@ -85,7 +85,8 @@ class ExecucaoController {
 	}
 	
 	@RequestMapping(value="/gerarScript", method=POST)
-	@ResponseBody String gerarScript( Model model,  Integer bancoDeDadosKey,  Integer[] execucaoKey)  {
+	@ResponseBody
+	String gerarScript( Model model,  Integer bancoDeDadosKey,  Integer[] execucaoKey)  {
 		
 		Seguranca.validarPermissao Papel.EQUIPE
 		
@@ -102,9 +103,6 @@ class ExecucaoController {
 		model.addAttribute 'execucaoKey', execucaoKey
 		model.addAttribute 'bancoDeDadosKey', bancoDeDadosKey
 		return script
-		
-		VIEW_EXECUCAO
-		
 	}
 	
 	@RequestMapping(method = [ POST, PUT ])

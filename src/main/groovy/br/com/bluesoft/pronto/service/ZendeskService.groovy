@@ -31,7 +31,7 @@ import static groovyx.net.http.Method.*;
 
 
 @Service
-class ZenDeskService {
+class ZendeskService {
 	
 	def mapStatus = ['0':'Novo','1':'Aberto','2':'Pendente','3':'Resolvido','4':'Fechado'] 
 	def mapTipo = ['0':'Indefinido','1':'Pergunta','2':'Incidente','3':'Problema','4':'Tarefa']
@@ -55,19 +55,19 @@ class ZenDeskService {
 	TicketDao ticketDao
 	
 	public RESTClient getRESTClient() {
-		RESTClient rest = new RESTClient(configuracaoDao.getZenDeskUrl())
-		rest.auth.basic configuracaoDao.getZenDeskUserName(), configuracaoDao.getZenDeskPassword()
+		RESTClient rest = new RESTClient(configuracaoDao.getZendeskUrl())
+		rest.auth.basic configuracaoDao.getZendeskUserName(), configuracaoDao.getZendeskPassword()
 		return rest
 	}
 	
 	
-	def obterTicket(int zenDeskTicketKey){
-		def cache = CacheManager.getInstance().getCache("zenDeskTickets")
-		def ticket = cache.get(zenDeskTicketKey)
+	def obterTicket(int zendeskTicketKey){
+		def cache = CacheManager.getInstance().getCache("zendeskTickets")
+		def ticket = cache.get(zendeskTicketKey)
 		if (ticket) {
 			return ticket.value
 		} else {
-			ticket = getRESTClient().get( path : "/tickets/${zenDeskTicketKey}.json" ).data
+			ticket = getRESTClient().get( path : "/tickets/${zendeskTicketKey}.json" ).data
 			ticket.html = String.valueOf(ticket.description).replaceAll("(\r\n)|(\n\n)","<br/>")
 			ticket.status = mapStatus[ticket.status_id as String]
 			ticket.tipo = mapTipo[ticket.ticket_type_id  as String]
@@ -75,13 +75,13 @@ class ZenDeskService {
 				it.author = this.obterUsuario(it.author_id)
 				it.html = String.valueOf(it.value).replaceAll("(\r\n)|(\n\n)","<br/>")
 			}
-			cache.put new Element(zenDeskTicketKey, ticket)
+			cache.put new Element(zendeskTicketKey, ticket)
 			return ticket
 		}
 	}
 	
 	def obterCliente(int clienteKey){
-		def cache = CacheManager.getInstance().getCache("zenDeskOrganizations")
+		def cache = CacheManager.getInstance().getCache("zendeskOrganizations")
 		def cliente = cache.get(clienteKey) 
 		if (cliente) {
 			return cliente.value
@@ -93,7 +93,7 @@ class ZenDeskService {
 	}
 	
 	def obterUsuario(int usuarioKey){
-		def cache = CacheManager.getInstance().getCache("zenDeskUsers")
+		def cache = CacheManager.getInstance().getCache("zendeskUsers")
 		def usuario = cache.get(usuarioKey)
 		if (usuario) {
 			return usuario.value
@@ -105,10 +105,10 @@ class ZenDeskService {
 		}
 	}
 	
-	def criarNovoTicketNoPronto(int zenDeskTicketKey, int tipoDeTicketKey, int clienteKey) {
+	def criarNovoTicketNoPronto(int zendeskTicketKey, int tipoDeTicketKey, int clienteKey) {
 		
-		def zenDeskTicket = obterTicket(zenDeskTicketKey)
-		def zenDeskSolicitador = obterUsuario(zenDeskTicket.requester_id)
+		def zendeskTicket = obterTicket(zendeskTicketKey)
+		def zendeskSolicitador = obterUsuario(zendeskTicket.requester_id)
 		
 		def ticket = new Ticket()
 		ticket.sprint = null 
@@ -116,24 +116,24 @@ class ZenDeskService {
 		ticket.kanbanStatus = kanbanStatusDao.obter(KanbanStatus.TO_DO)
 		ticket.tipoDeTicket = tipoDeTicketDao.obter(tipoDeTicketKey)
 		ticket.backlog = tipoDeTicketKey == TipoDeTicket.DEFEITO ? backlogDao.obter(Backlog.PRODUCT_BACKLOG) : backlogDao.obter(Backlog.IDEIAS)
-		ticket.titulo = zenDeskTicket.subject
-		ticket.descricao = zenDeskTicket.description
-		ticket.solicitador = zenDeskSolicitador.name
+		ticket.titulo = zendeskTicket.subject
+		ticket.descricao = zendeskTicket.description
+		ticket.solicitador = zendeskSolicitador.name
 		ticket.reporter = Seguranca.getUsuario()
 		ticketDao.salvar ticket
-		ticketDao.relacionarComZenDesk ticket.ticketKey, zenDeskTicket.nice_id
+		ticketDao.relacionarComZendesk ticket.ticketKey, zendeskTicket.nice_id
 		return ticket
 	}
 	
-	def incluirComentarioPublico(int zenDeskTicketKey, String comentario) {
-		this.incluirComentario zenDeskTicketKey, comentario, true
+	def incluirComentarioPublico(int zendeskTicketKey, String comentario) {
+		this.incluirComentario zendeskTicketKey, comentario, true
 	}
 	
-	def incluirComentarioPrivado(int zenDeskTicketKey, String comentario) {
-		this.incluirComentario zenDeskTicketKey, comentario, false
+	def incluirComentarioPrivado(int zendeskTicketKey, String comentario) {
+		this.incluirComentario zendeskTicketKey, comentario, false
 	}
 	
-	private def incluirComentario(int zenDeskTicketKey, String comentario, boolean publico) {
+	private def incluirComentario(int zendeskTicketKey, String comentario, boolean publico) {
 		comentario = HtmlUtils.htmlEscape(comentario)
 		def comment  = ['comment':['is_public':"${publico}", 'value':comentario]]
 		def resp = getRESTClient().put(path:"/tickets/${zenDeskTicketKey}.json",  contentType: TEXT, requestContentType: JSON,	body:comment)

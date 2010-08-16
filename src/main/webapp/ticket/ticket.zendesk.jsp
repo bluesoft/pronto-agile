@@ -1,27 +1,27 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <div class="htmlbox comentario" style="position: relative;">
 
-	<div class="comentario-data">${zenDeskTicket.created_at}</div>
+	<div class="comentario-data">${zendeskTicket.created_at}</div>
 
 	<div class="person-comentario">		
 		<div class="person">
-			<pronto:icons name="zendesk.png" title="Zendesk" onclick="openWindow('${zenDeskUrl}/tickets/${zenDeskTicketKey}')" clazz="gravatar50"/>
+			<pronto:icons name="zendesk.png" title="Zendesk" onclick="openWindow('${zendeskUrl}/tickets/${zendeskTicketKey}')" clazz="gravatar50"/>
 			<div class="person_name">Zendesk</div>
 		</div>
 	</div>
 	
 	<div class="comentario-html">
-		<h3>Ticket <a href="${zenDeskUrl}/tickets/${zenDeskTicketKey}" target="_blank">#${zenDeskTicket.nice_id}</a> do Zendesk</h3>
-		<b>Status:</b> ${zenDeskTicket.status}<br/>
-		<b>Tipo:</b> ${zenDeskTicket.tipo}<br/>
+		<h3>Ticket <a href="${zendeskUrl}/tickets/${zendeskTicketKey}" target="_blank">#${zendeskTicket.nice_id}</a> do Zendesk</h3>
+		<b>Status:</b> ${zendeskTicket.status}<br/>
+		<b>Tipo:</b> ${zendeskTicket.tipo}<br/>
 		
 		
 	</div>
 
 </div>
 
-<c:if test="${!empty zenDeskTicket.comments}">
-	<c:forEach items="${zenDeskTicket.comments}" var="comentario">
+<c:if test="${!empty zendeskTicket.comments}">
+	<c:forEach items="${zendeskTicket.comments}" var="comentario">
 		<div class="htmlbox comentario" style="position: relative;">
 			
 			<div class="comentario-data">${comentario.created_at}</div>
@@ -58,9 +58,9 @@
 </c:if>
 
 <h3>Incluir comentário privado no Zendesk</h3>
-<form action="${raiz}/zendesk/tickets/${zenDeskTicket.nice_id	}/comentarios" method="post">
+<form action="${raiz}/zendesk/tickets/${zendeskTicket.nice_id	}/comentarios" method="post">
 	<div>
-		<textarea id="comentarioZenDesk" name="comentarioZenDesk"></textarea>
+		<textarea id="comentarioZendesk" name="comentarioZendesk"></textarea>
 	</div>
 	<div align="center">
 		<button type="submit">Incluir</button>
