@@ -55,10 +55,10 @@
 						<option value="${c.clienteKey}" ${clienteKey eq c.clienteKey ? 'selected' : ''}>${c.nome}</option>
 					</c:forEach>
 				</select>
-				Status: 
+				Status:
 				<select name="kanbanStatusKey" onchange="recarregar()" id="kanbanStatusKey">
-					<option value="-1">Pendentes</option>
-					<option value="0">Todos</option>
+					<option value="0" ${kanbanStatusKey eq 0 ? 'selected' : ''}>Todos</option>
+					<option value="-1" ${kanbanStatusKey eq -1 ? 'selected' : ''}>Pendentes</option>
 					<c:forEach var="k" items="${kanbanStatus}">
 						<option value="${k.kanbanStatusKey}" ${kanbanStatusKey eq k.kanbanStatusKey ? 'selected' : ''}>${k.descricao}</option>
 					</c:forEach>
