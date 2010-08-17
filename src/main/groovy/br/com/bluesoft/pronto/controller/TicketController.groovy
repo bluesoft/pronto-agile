@@ -457,7 +457,7 @@ class TicketController {
 		Ticket ticket = ticketDao.obter(ticketKey)
 		String novaDescricao = ticket.getDescricao()
 		for ( String nomeDoArquivo : nomesDosArquivos) {
-			if (FileUtil.ehImagem(FileUtil.getFileExtesion(nomeDoArquivo))) {
+			if (FileUtil.ehImagem(FileUtil.getFileExtension(nomeDoArquivo))) {
 				novaDescricao += "\r\n\r\n[[Image:" + ticketKey + "/" + nomeDoArquivo + "]]"
 			}
 		}

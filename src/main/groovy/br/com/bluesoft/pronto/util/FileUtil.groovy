@@ -79,7 +79,7 @@ class FileUtil {
 	}
 	
 	static boolean ehImagem(String extensao) {
-		extensao = StringUtils.lowerCase(extensao)
+		extensao = extensao.toLowerCase()
 		return extensao != null && (extensao.equals("png") || extensao.equals("jpg") || extensao.equals("jpeg") || extensao.equals("gif"))
 	}
 	
