@@ -19,7 +19,7 @@
 	<!-- ENCODING -->
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<filter-class>br.com.bluesoft.pronto.web.servlet.SetCharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>ISO-8859-1</param-value>

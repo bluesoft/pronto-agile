@@ -111,12 +111,16 @@ class RetrospectivaController {
 	
 	@RequestMapping(value = '/{retrospectivaKey}', method=[POST, PUT])
 	@ResponseBody String salvarItem( HttpServletResponse response, @PathVariable int retrospectivaKey,  int tipoRetrospectivaItemKey,  String descricao) {
-		RetrospectivaItem item = new RetrospectivaItem()
-		item.setRetrospectiva(retrospectivaDao.obter(retrospectivaKey))
-		item.setTipoRetrospectivaItem(tipoRetrospectivaItemDao.obter(tipoRetrospectivaItemKey))
-		item.setDescricao(descricao)
-		retrospectivaItemDao.salvar(item)
-		item.getRetrospectivaItemKey().toString()
+		try {
+			RetrospectivaItem item = new RetrospectivaItem()
+			item.setRetrospectiva(retrospectivaDao.obter(retrospectivaKey))
+			item.setTipoRetrospectivaItem(tipoRetrospectivaItemDao.obter(tipoRetrospectivaItemKey))
+			item.setDescricao(descricao)
+			retrospectivaItemDao.salvar(item)
+			item.getRetrospectivaItemKey().toString()
+		} catch(e) {
+			return "false";
+		}
 	}
 	
 	@RequestMapping(value="itens/{retrospectivaItemKey}", method=DELETE)
