@@ -121,7 +121,7 @@
 
 					<div id="divReporter">
 						<div align="center" class="person">
-							<img alt="Gravatar" align="bottom" title="ticket.reporter.nome" src="http://www.gravatar.com/avatar/${ticket.reporter.emailMd5}?s=80" />
+							<img alt="Gravatar" align="bottom" title="${ticket.reporter.nome}" src="http://www.gravatar.com/avatar/${ticket.reporter.emailMd5}?s=80" />
 							<div class="person_name">${ticket.reporter.username}</div>
 							<div>Reporter</div>
 						</div>

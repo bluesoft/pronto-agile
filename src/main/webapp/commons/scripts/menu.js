@@ -25,6 +25,4 @@ $(function(){
           submenuHoverIntent:0 //if you use jquery.hoverIntent.js set this to time in milliseconds; 0= false;
       });
 	
-	$("button").button();
-	
 });
