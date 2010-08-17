@@ -82,7 +82,7 @@ INSERT INTO tipo_retrospectiva_item VALUES (3, 'Chapéu Azul - Objetivos', 2);
 INSERT INTO tipo_retrospectiva_item VALUES (4, 'Chapéu Branco - Fatos e Informações', 2);
 INSERT INTO tipo_retrospectiva_item VALUES (5, 'Chapéu Amarelo - Acontecimentos Positivos', 2);
 INSERT INTO tipo_retrospectiva_item VALUES (6, 'Chapéu Preto - Acontecimentos Negativos', 2);
-INSERT INTO tipo_retrospectiva_item VALUES (7, 'Chapéu Verde - Idéias', 2);
+INSERT INTO tipo_retrospectiva_item VALUES (7, 'Chapéu Verde - Ideias', 2);
 INSERT INTO tipo_retrospectiva_item VALUES (8, 'Chapéu Vermelho - Sentimentos', 2);    
 
 -- 2009 09 21
@@ -370,3 +370,6 @@ CREATE INDEX idx_integracao_zendesk_zendesk ON integracao_zendesk USING btree (z
 
 -- 2010 08 17
 alter table retrospectiva add descricao text;
+
+update tipo_retrospectiva_item set descricao = 'Chapéu Verde - Idéias' where tipo_retrospectiva_item_key = 7;
+update tipo_de_ticket set descricao = 'Idéia' where tipo_de_ticket_key = 1;
