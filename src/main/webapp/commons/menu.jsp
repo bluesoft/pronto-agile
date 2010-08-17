@@ -1,5 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
 
+<c:if test="${usuarioLogado ne null}">
 <div id="prontoMenu">
 <table class="rootVoices" cellspacing='0' cellpadding='0' border='0'>
 	<tr>
@@ -58,3 +59,4 @@
 		<a img="execucoes.png" href="${raiz}execucoes/pendentes">Execuções de Scripts</a>
 	</c:if>
 </div>
+</c:if>

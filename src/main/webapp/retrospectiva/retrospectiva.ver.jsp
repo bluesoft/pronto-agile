@@ -156,6 +156,11 @@
 				</c:forEach>
 			</ul>
 		
+			<h4>Descrição</h4>
+			<div>
+				<textarea id="descricao" name="descricao"></textarea>
+			</div>
+		
 			<h4>Incluir anexo</h4>						
 			<form action="${raiz}retrospectivas/${retrospectiva.retrospectivaKey}/upload" method="post" enctype="multipart/form-data">
 				<input type="file" name="arquivo">
