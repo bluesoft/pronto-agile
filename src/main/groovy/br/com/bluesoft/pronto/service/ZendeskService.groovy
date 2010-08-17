@@ -26,6 +26,7 @@ import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.dao.TipoDeTicketDao;
 import br.com.bluesoft.pronto.model.Ticket;
 import br.com.bluesoft.pronto.util.MD5Util;
+import br.com.bluesoft.pronto.util.StringUtil;
 import static groovyx.net.http.ContentType.*;
 import static groovyx.net.http.Method.*;
 
@@ -134,9 +135,9 @@ class ZendeskService {
 	}
 	
 	private def incluirComentario(int zendeskTicketKey, String comentario, boolean publico) {
-		comentario = HtmlUtils.htmlEscape(comentario)
-		def comment  = ['comment':['is_public':"${publico}", 'value':comentario]]
-		def resp = getRESTClient().put(path:"/tickets/${zenDeskTicketKey}.json",  contentType: TEXT, requestContentType: JSON,	body:comment)
-		CacheManager.getInstance().getCache("zenDeskTickets").removeQuiet(zenDeskTicketKey)
+		comentario = StringUtil.retiraAcentuacao(comentario)
+		def comment  = ['comment':['is_public': publico, 'value':comentario]]
+		def resp = getRESTClient().put(path:"/tickets/${zendeskTicketKey}.json",  contentType: TEXT, requestContentType: JSON,	body:comment)
+		CacheManager.getInstance().getCache("zendeskTickets").removeQuiet(zendeskTicketKey)
 	}
 }

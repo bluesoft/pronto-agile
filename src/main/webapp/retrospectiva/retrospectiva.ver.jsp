@@ -3,7 +3,7 @@
 	<head>
 		<title>Retrospectiva do Sprint ${retrospectiva.sprint.nome}</title>
 		<link rel="stylesheet" type="text/css" media="all" href="${raiz}retrospectiva/retrospectiva.css" />
-		<script>
+		<script type="text/javascript">
 
 			var $listaAtual = null; 
 			var $descricao = null;
@@ -28,7 +28,6 @@
 			}
 			
 			function salvar($lista){
-
 				var retrospectivaKey = $('#retrospectivaKey').val();
 				var tipo = $lista.attr('tipo');
 
@@ -36,35 +35,37 @@
 				var descricao = $descricao.val();
 				$descricao.val('');
 				
-				var data = {
-						'retrospectivaKey': retrospectivaKey,
+				var dados = {
 						'tipoRetrospectivaItemKey': tipo,
 						'descricao': descricao
 				};
 
 				var callback = function(key){
-					var $li = $('<li class="ui-state-default" style="display:none" id="'+key+'">'+ descricao +'</li>');
-					var $icon = $('#excluirModelo').clone();
-					$li.append($icon);
-					$icon.click(function(){
-						excluir($(this).parents('li').attr('id'));
-					});
-
-					if ($lista.find('li:last').length > 0) {
-						$lista.find('li:last').before($li);
+					if (key == 'false') {
+						alert('Ocorreu um erro ao tentar salvar o item.');
 					} else {
-						$lista.append($li);
+						var $li = $('<li class="ui-state-default" style="display:none" id="'+key+'">'+ descricao +'</li>');
+						var $icon = $('#excluirModelo').clone();
+						$li.append($icon);
+						$icon.click(function(){
+							excluir($(this).parents('li').attr('id'));
+						});
+	
+						if ($lista.find('li:last').length > 0) {
+							$lista.find('li:last').before($li);
+						} else {
+							$lista.append($li);
+						}
+	
+						$li.fadeIn('slow');
 					}
-
-					$li.fadeIn('slow');
 				}; 	
 				
 				$.ajax({
 					type:'post',
 					url: '${raiz}retrospectivas/${retrospectiva.retrospectivaKey}',
-					'data': data,
+					data: dados,
 					success: callback,
-					contentType: 'application/x-www-form-urlencoded; charset=ISO-8859-1',
 					async: false
 				});
 			}

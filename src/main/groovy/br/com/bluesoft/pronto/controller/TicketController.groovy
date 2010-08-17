@@ -228,11 +228,11 @@ class TicketController {
 			
 			tx.commit()
 			
-			if (configuracaoDao.isZendeskAtivo()) {
-				if (ticket.isDone()) {
-					def zenDeskTicketKey = ticketDao.obterNumeroDoTicketNoZenDesk(ticket.ticketKey)
-					if (zenDeskTicketKey) {
-						zenDeskService.incluirComentarioPublico(zenDeskTicketKey,'Este ticket já foi desenvolvido em breve estará no ar!')
+			if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
+				if (ticket.getTicketKey() != null && ticket.isDone()) {
+					def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
+					if (zendeskTicketKey) {
+						zendeskService.incluirComentarioPublico(zendeskTicketKey,'Este ticket já foi desenvolvido em breve estará no ar!')
 					}
 				}
 			}
@@ -352,8 +352,8 @@ class TicketController {
 		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG))
 		ticketDao.salvar(ticket)
 		
-		if (configuracaoDao.isZendeskAtivo()) {
-			def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(ticket.ticketKey)
+		if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
+			def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
 			if (zendeskTicketKey) {
 				zendeskService.incluirComentarioPublico(zendeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
 			}
@@ -609,8 +609,8 @@ class TicketController {
 		if (ticketKey != null) {
 			Ticket ticket = ticketDao.obterComDependecias(ticketKey)
 			
-			if (configuracaoDao.isZendeskAtivo()) {
-				def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(ticket.ticketKey)
+			if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
+				def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
 				if (zendeskTicketKey) {
 					model.addAttribute "zendeskTicketKey", zendeskTicketKey
 					model.addAttribute "zendeskUrl", configuracaoDao.getZendeskUrl()

@@ -99,7 +99,7 @@ pronto.confirm = function(message, yesCallback, noCallback, onOpen, onClose) {
 
 pronto.buscar =  function (){
 	var query = $('#busca').val();
-	pronto.doPost(pronto.raiz + 'buscar/', [{name: 'kanbanStatusKey', value:0}, {name:'query', value:query}]);
+	pronto.doPost(pronto.raiz + 'buscar/', [{name: 'kanbanStatusKey', value:-1}, {name:'query', value:query}]);
 };
 
 pronto.transformarEmEstoria = function(ticketKey, ajax){

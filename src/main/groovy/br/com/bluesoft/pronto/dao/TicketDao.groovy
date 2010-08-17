@@ -525,12 +525,11 @@ public class TicketDao extends DaoHibernate {
 		query.executeUpdate()
 	}
 	
-	def obterNumeroDoTicketNoZendesk(ticketKey) {
+	public Integer obterNumeroDoTicketNoZendesk(Integer ticketKey) {
 		def sql = 'select zendesk_ticket_key from integracao_zendesk izd where izd.ticket_key = :ticketKey'
 		def query = session.createSQLQuery(sql)
 		query.setInteger 'ticketKey', ticketKey
 		return query.uniqueResult() as Integer
 	}
-
 	
 }

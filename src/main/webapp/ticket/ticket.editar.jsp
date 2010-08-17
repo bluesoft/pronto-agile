@@ -48,7 +48,7 @@
 					<c:if test="${ticket.pai ne null and ticket.ticketKey gt 0}">
 						<a href="${raiz}tickets/${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
 					</c:if>
-					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
+					<c:if test="${(ticket.tipoDeTicket.tipoDeTicketKey eq 1) or (ticket.tipoDeTicket.tipoDeTicketKey eq 2)}">
 						<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="pronto.transformarEmDefeito('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
 					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
@@ -121,7 +121,7 @@
 
 					<div id="divReporter">
 						<div align="center" class="person">
-							<img alt="Gravatar" align="bottom" title="ticket.reporter.nome" src="http://www.gravatar.com/avatar/${ticket.reporter.emailMd5}?s=80" />
+							<img alt="Gravatar" align="bottom" title="${ticket.reporter.nome}" src="http://www.gravatar.com/avatar/${ticket.reporter.emailMd5}?s=80" />
 							<div class="person_name">${ticket.reporter.username}</div>
 							<div>Reporter</div>
 						</div>
