@@ -84,6 +84,14 @@ class RetrospectivaController {
 		return ver(model, retrospectiva)
 	}
 	
+	@RequestMapping("/{retrospectivaKey}/descricao")
+	String descricao( Model model, @PathVariable int retrospectivaKey, String descricao) {
+		Retrospectiva retrospectiva = retrospectivaDao.obter(retrospectivaKey)
+		retrospectiva.descricao = descricao
+		retrospectivaDao.salvar retrospectiva
+		return ver(model, retrospectiva)
+	}
+	
 	String ver(Model model, Retrospectiva retrospectiva){
 		model.addAttribute("anexos", FileUtil.listarAnexos("retrospectivas/${retrospectiva.retrospectivaKey}/"))
 		model.addAttribute "retrospectiva", retrospectiva

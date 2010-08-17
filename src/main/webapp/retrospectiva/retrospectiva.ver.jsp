@@ -14,6 +14,7 @@
 						salvar($(this).parents('ul'));
 					 }
 				});
+				$('#descricao').markItUp(mySettings);;
 			});
 
 			function excluir(key){
@@ -105,6 +106,14 @@
 			</select>
 		</form>
 		
+		<c:if test="${retrospectiva.html ne null and fn:length(fn:trim(retrospectiva.html)) gt 0}">
+			<div style="clear: both;">
+				<div class="htmlbox">
+					${retrospectiva.html}
+				</div>
+			</div>
+		</c:if>
+		
 		<div style="display: none">
 			<pronto:icons name="excluir.png" title="excluir item" id="excluirModelo" clazz="icon"/>
 		</div>
@@ -127,6 +136,17 @@
 				</li>
 			</ul>	
 		</c:forEach>
+		
+		<div id="divDescricao" style="clear: both;">
+			<br/><br/>
+			<h2>Descrição</h2>
+			<div>
+				<form action="${raiz}retrospectivas/${retrospectiva.retrospectivaKey}/descricao" method="post" >
+				<textarea id="descricao" name="descricao">${retrospectiva.descricao}</textarea>
+				<button type="submit">Salvar Descrição</button>
+				</form>
+			</div>
+		</div>
 		
 		<div id="anexos" style="clear: both;">
 			<br/><br/>
@@ -156,17 +176,11 @@
 				</c:forEach>
 			</ul>
 		
-			<h4>Descrição</h4>
-			<div>
-				<textarea id="descricao" name="descricao"></textarea>
-			</div>
-		
 			<h4>Incluir anexo</h4>						
 			<form action="${raiz}retrospectivas/${retrospectiva.retrospectivaKey}/upload" method="post" enctype="multipart/form-data">
 				<input type="file" name="arquivo">
 				<button type="submit">Upload</button>
 			</form>
 		</div>
-		
 	</body>
 </html>

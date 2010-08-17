@@ -35,6 +35,7 @@ import org.hibernate.annotations.SortType
 
 import br.com.bluesoft.pronto.annotations.Auditable;
 import br.com.bluesoft.pronto.core.TipoRetrospectiva
+import br.com.bluesoft.pronto.service.WikiFormatter;
 
 import com.google.common.base.Predicate
 import com.google.common.collect.Iterables
@@ -65,5 +66,7 @@ class Retrospectiva {
 		itens.find { it.retrospectivaItemKey == retrospectivaItemKey }
 	}
 	
-	
+	String getHtml() {
+		return WikiFormatter.toHtml(descricao)
+	}
 }

@@ -9,7 +9,7 @@
 <script src="http://www.google.com/jsapi"></script>
 <script>
  	google.load("jquery", "1.4.2");
- 	google.load("jqueryui", "1.8.2");
+ 	google.load("jqueryui", "1.8.4");
 </script>
 
 <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.pack.js"></script>
@@ -46,8 +46,6 @@
 
 <c:url var="menuJsUrl" value="/commons/scripts/menu.js"/>
 <script type="text/javascript" src="${menuJsUrl}"></script>
-
-
 
 <c:url var="prontoJsUrl" value="/commons/scripts/pronto.js"/>
 <script type="text/javascript" src="${prontoJsUrl}"></script>

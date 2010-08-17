@@ -1,6 +1,5 @@
 $(function(){
 	$("#prontoMenu").buildMenu({
-          //template:"yourMenuVoiceTemplate",
           additionalData:"",
           menuSelector:".menuContainer",
           menuWidth:150,
@@ -25,5 +24,7 @@ $(function(){
           hoverIntent:0, //if you use jquery.hoverIntent.js set this to time in milliseconds; 0= false;
           submenuHoverIntent:0 //if you use jquery.hoverIntent.js set this to time in milliseconds; 0= false;
       });
+	
+	$("button").button();
+	
 });
-
