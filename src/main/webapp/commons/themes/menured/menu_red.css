@@ -25,7 +25,7 @@ body{
 }
 
 .rootVoices td.rootVoice.selected{
-	background: orangered url("bgnd_sel_4.png");
+	background: #0070A3 url("bgnd_sel_4.png");
 	padding:8px;
 	color:#ffffff;
 	cursor: pointer;
