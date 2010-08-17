@@ -67,6 +67,7 @@
 	<script>
 		$(function(){
 			toogleZendesk();
+			$('#formConfiguracoes').validate();
 		})
 	
 		function salvar() {
@@ -75,10 +76,10 @@
 		function toogleZendesk() {
 			if ($('#zendeskAtivo').val() == 'true') {
 				$('#zendeskOptions input').removeAttr('disabled');
-				$('#zendeskOptions input').removeClass('required');
+				$('#zendeskOptions input').addClass('required');
 			} else {
 				$('#zendeskOptions input').attr('disabled','disabled').val('');
-				$('#zendeskOptions input').addClass('required');
+				$('#zendeskOptions input').removeClass('required');
 			}
 		}
 		</script>	

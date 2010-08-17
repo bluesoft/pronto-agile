@@ -71,6 +71,15 @@
 			function trocarTipo(){
 				$('#formAlterar').submit();				
 			}
+
+			function excluirAnexo(retrospectivaKey, anexo) {
+				if (confirm('Tem certeza que deseja excluir este anexo?')) {
+					pronto.doDelete(pronto.raiz + 'retrospectivas/' + retrospectivaKey + '/anexos/', [ {
+						name : 'file',
+						value : anexo
+					} ]);
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -118,5 +127,41 @@
 				</li>
 			</ul>	
 		</c:forEach>
+		
+		<div id="anexos" style="clear: both;">
+			<br/><br/>
+			<h2>Anexos</h2>
+			<ul style="list-style-type: none;">
+				<c:forEach items="${anexos}" var="anexo">
+					<li>
+						<c:choose>
+							<c:when test="${anexo.imagem}">
+								<pronto:icons name="imagem.gif" title="Imagem ${anexo.extensao}"/>
+							</c:when>
+							<c:when test="${anexo.planilha}">
+								<pronto:icons name="excel.png" title="Planílha ${anexo.extensao}"/>
+							</c:when>
+							<c:when test="${anexo.extensao eq 'pdf'}">
+								<pronto:icons name="pdf.png" title="Arquivo PDF"/>
+							</c:when>
+							<c:otherwise>
+								<pronto:icons name="anexo.png" title="${anexo.extensao}"/>
+							</c:otherwise>
+						</c:choose>
+						
+						${anexo.nomeParaExibicao}
+						<pronto:icons name="download.gif" title="Baixar Anexo" onclick="goTo('${raiz}retrospectivas/${retrospectiva.retrospectivaKey}/anexos?file=${anexo}')"/>
+						<pronto:icons name="excluir.png" title="Excluir Anexo" onclick="excluirAnexo(${retrospectiva.retrospectivaKey},'${anexo}');"/>
+					</li>
+				</c:forEach>
+			</ul>
+		
+			<h4>Incluir anexo</h4>						
+			<form action="${raiz}retrospectivas/${retrospectiva.retrospectivaKey}/upload" method="post" enctype="multipart/form-data">
+				<input type="file" name="arquivo">
+				<button type="submit">Upload</button>
+			</form>
+		</div>
+		
 	</body>
 </html>

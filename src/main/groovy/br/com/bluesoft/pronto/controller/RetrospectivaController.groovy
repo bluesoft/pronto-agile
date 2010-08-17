@@ -1,4 +1,6 @@
 /*
+
+import java.util.List;
  * Copyright 2009 Pronto Agile Project Management.
  *
  * This file is part of Pronto.
@@ -20,11 +22,17 @@
 
 package br.com.bluesoft.pronto.controller
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,9 +43,13 @@ import br.com.bluesoft.pronto.dao.RetrospectivaItemDao
 import br.com.bluesoft.pronto.dao.SprintDao
 import br.com.bluesoft.pronto.dao.TipoRetrospectivaDao
 import br.com.bluesoft.pronto.dao.TipoRetrospectivaItemDao
+import br.com.bluesoft.pronto.model.Anexo;
 import br.com.bluesoft.pronto.model.Retrospectiva
 import br.com.bluesoft.pronto.model.RetrospectivaItem
+import br.com.bluesoft.pronto.service.Config;
 import br.com.bluesoft.pronto.util.ControllerUtil
+import br.com.bluesoft.pronto.util.FileUtil;
+import br.com.bluesoft.pronto.util.StringUtil;
 import static org.springframework.web.bind.annotation.RequestMethod.*
 
 @Controller
@@ -54,6 +66,12 @@ class RetrospectivaController {
 	
 	@Autowired SprintDao sprintDao
 	
+	@RequestMapping(value="/{retrospectivaKey}", method=GET)
+	String ver( Model model, @PathVariable int retrospectivaKey) {
+		Retrospectiva retrospectiva = retrospectivaDao.obter(retrospectivaKey)
+		return ver(model, retrospectiva)
+	}
+	
 	@RequestMapping("/sprints/{sprintKey}")
 	String retrospectiva( Model model, @PathVariable int sprintKey) {
 		Retrospectiva retrospectiva = retrospectivaDao.obterRetrospectivaDoSprint(sprintKey)
@@ -63,7 +81,11 @@ class RetrospectivaController {
 			retrospectiva.setSprint sprintDao.obter(sprintKey)
 		}
 		retrospectivaDao.salvar retrospectiva
-		
+		return ver(model, retrospectiva)
+	}
+	
+	String ver(Model model, Retrospectiva retrospectiva){
+		model.addAttribute("anexos", FileUtil.listarAnexos("retrospectivas/${retrospectiva.retrospectivaKey}/"))
 		model.addAttribute "retrospectiva", retrospectiva
 		model.addAttribute("sprint", retrospectiva.sprint)
 		model.addAttribute "tiposDeRetrospectiva", tipoRetrospectivaDao.listar()
@@ -97,4 +119,44 @@ class RetrospectivaController {
 		true.toString()
 	}
 	
+	@RequestMapping(value = '/{retrospectivaKey}/anexos', method = GET)
+	void download( HttpServletResponse response,  String file,  @PathVariable int retrospectivaKey)  {
+		FileUtil.setFileForDownload("retrospectivas/${retrospectivaKey}/${file}", response)
+	}
+	
+	@RequestMapping("/{retrospectivaKey}/upload")
+	String upload( Model model,  HttpServletRequest request, @PathVariable int retrospectivaKey) throws Exception {
+		
+		FileItemFactory factory = new DiskFileItemFactory()
+		ServletFileUpload upload = new ServletFileUpload(factory)
+		
+		List<FileItem> items = upload.parseRequest(request)
+		String folderPath = Config.getImagesFolder() + "retrospectivas/${retrospectivaKey}/"
+		File dir = new File(folderPath)
+		dir.mkdirs()
+		
+		List<String> nomesDosArquivos = new ArrayList<String>()
+
+		for ( FileItem fileItem : items) {
+			String nomeDoArquivo = StringUtil.retiraAcentuacao(fileItem.getName().toLowerCase().replace(' ', '_')).replaceAll("[^A-Za-z0-9._\\-]", "")
+			
+			if (FileUtil.ehUmNomeDeArquivoValido(nomeDoArquivo)) {
+				fileItem.write(new File(folderPath + nomeDoArquivo))
+				nomesDosArquivos.add(nomeDoArquivo)
+			} else {
+				model.addAttribute("erro", "Não é possível anexar o arquivo '" + nomeDoArquivo + "' pois este não possui uma extensão.")
+			}
+		}
+		
+		return "redirect:/retrospectivas/${retrospectivaKey}"
+	}
+	
+	@RequestMapping(value = "/{retrospectivaKey}/anexos", method=DELETE)
+	String excluirAnexo(@PathVariable int retrospectivaKey, String file)  {
+		File arquivo = new File(Config.getImagesFolder() + "retrospectivas/${retrospectivaKey}/${file}")
+		if (arquivo.exists()) {
+			arquivo.delete()
+		}
+		return "redirect:/retrospectivas/${retrospectivaKey}"
+	}
 }

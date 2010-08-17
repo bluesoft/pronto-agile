@@ -85,7 +85,7 @@ class BacklogController {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		List tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey)
+		def tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey)
 		model.addAttribute "tickets", tickets
 		model.addAttribute "sprint", sprintDao.obter(sprintKey)
 		model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
@@ -134,8 +134,7 @@ class BacklogController {
 			ticketClassificacao = Classificacao.valueOf(classificacao)
 		}
 		
-		List tickets = null
-		tickets = ticketDao.buscar(null, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao)
+		def tickets = ticketDao.buscar(null, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao)
 		
 		Multimap<String, Ticket> ticketsAgrupados = ArrayListMultimap.create()
 		for ( Ticket ticket : tickets) {

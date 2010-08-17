@@ -68,6 +68,7 @@ import br.com.bluesoft.pronto.service.Seguranca
 import br.com.bluesoft.pronto.service.ZendeskService;
 import br.com.bluesoft.pronto.util.ControllerUtil
 import br.com.bluesoft.pronto.util.DateUtil
+import br.com.bluesoft.pronto.util.FileUtil;
 import br.com.bluesoft.pronto.util.StringUtil
 import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer;
 import br.com.bluesoft.pronto.service.MovimentadorDeTicket
@@ -435,7 +436,7 @@ class TicketController {
 		for ( FileItem fileItem : items) {
 			String nomeDoArquivo = StringUtil.retiraAcentuacao(fileItem.getName().toLowerCase().replace(' ', '_')).replaceAll("[^A-Za-z0-9._\\-]", "")
 			
-			if (ehUmNomeDeArquivoValido(nomeDoArquivo)) {
+			if (FileUtil.ehUmNomeDeArquivoValido(nomeDoArquivo)) {
 				fileItem.write(new File(ticketDir + nomeDoArquivo))
 				
 				nomesDosArquivos.add(nomeDoArquivo)
@@ -452,54 +453,16 @@ class TicketController {
 		return "redirect:/tickets/${ticketKey}"
 	}
 	
-	boolean ehUmNomeDeArquivoValido( String nomeDoArquivo) {
-		if (nomeDoArquivo.lastIndexOf('.') > 0) {
-			return true
-		}
-		return false
-	}
-	
 	void insereImagensNaDescricao( int ticketKey,  List<String> nomesDosArquivos) {
 		Ticket ticket = ticketDao.obter(ticketKey)
-		
 		String novaDescricao = ticket.getDescricao()
-		
 		for ( String nomeDoArquivo : nomesDosArquivos) {
-			if (ehImagem(getExtensao(nomeDoArquivo))) {
+			if (FileUtil.ehImagem(FileUtil.getFileExtesion(nomeDoArquivo))) {
 				novaDescricao += "\r\n\r\n[[Image:" + ticketKey + "/" + nomeDoArquivo + "]]"
 			}
 		}
-		
 		ticket.setDescricao(novaDescricao)
 		ticketDao.salvar(ticket)
-	}
-	
-	boolean ehImagem(String extensao) {
-		extensao = StringUtils.lowerCase(extensao)
-		return extensao != null && (extensao.equals("png") || extensao.equals("jpg") || extensao.equals("jpeg") || extensao.equals("gif"))
-	}
-	
-	String getExtensao( String nomeDoArquivo) {
-		String extensao = null
-		if (ehUmNomeDeArquivoValido(nomeDoArquivo)) {
-			extensao = nomeDoArquivo.substring(nomeDoArquivo.lastIndexOf('.') + 1, nomeDoArquivo.length())
-		}
-		return extensao
-	}
-	
-	List<Anexo> listarAnexos( int ticketKey) {
-		File folder = new File(Config.getImagesFolder() + ticketKey)
-		if (folder.exists()) {
-			List<Anexo> anexos = new ArrayList<Anexo>()
-			String[] files = folder.list()
-			Arrays.sort(files)
-			for ( String file : files) {
-				anexos.add(new Anexo(file))
-			}
-			return anexos
-		} else {
-			return null
-		}
 	}
 	
 	
@@ -511,51 +474,8 @@ class TicketController {
 	}
 	
 	@RequestMapping(value = '/{ticketKey}/anexos', method = GET)
-	String download( HttpServletResponse response,  String file,  @PathVariable int ticketKey)  {
-		
-		File arquivo = null
-		
-		try {
-			arquivo = new File(Config.getImagesFolder() + ticketKey + "/" + file)
-			if (!arquivo.exists()) throw new FileNotFoundException()
-		} catch(e) {
-			arquivo = new File(this.getClass().getResource("/noimage.gif").getFile())
-		}
-		
-		FileInputStream fis = new FileInputStream(arquivo)
-		int numberBytes = fis.available()
-		byte[] bytes = new byte[numberBytes]
-		fis.read(bytes)
-		fis.close()
-		
-		String extensao = getExtensao(file)
-		
-		String mime = null
-		if (extensao == null) {
-			mime = "text/plain"
-		} else if (extensao.equalsIgnoreCase("png")) {
-			mime = "images/png"
-		} else if (extensao.equalsIgnoreCase("jpg") || extensao.equalsIgnoreCase("jpeg")) {
-			mime = "images/jpeg"
-		} else if (extensao.equalsIgnoreCase("gif")) {
-			mime = "images/gif"
-		} else if (extensao.equalsIgnoreCase("pdf")) {
-			mime = "application/pdf"
-		} else if (extensao.equalsIgnoreCase("xls") || extensao.equalsIgnoreCase("xlsx")) {
-			mime = "application/vnd.ms-excel"
-		} else if (extensao.equalsIgnoreCase("csv")) {
-			mime = "text/csv"
-		} else if (extensao.equalsIgnoreCase("txt")) {
-			mime = "text/plain"
-		} else if (extensao.equalsIgnoreCase("doc") || extensao.equalsIgnoreCase("docx")) {
-			mime = "application/ms-word"
-		}
-		
-		response.addHeader("content-disposition", "attachment filename=" + file)
-		response.setContentType(mime)
-		response.setContentLength(bytes.length)
-		FileCopyUtils.copy(bytes, response.getOutputStream())
-		return null
+	void download( HttpServletResponse response,  String file,  @PathVariable int ticketKey)  {
+		FileUtil.setFileForDownload(ticketKey + "/" + file, response)
 	}
 	
 	@RequestMapping(value = "/{ticketKey}/anexos", method=DELETE)
@@ -672,7 +592,7 @@ class TicketController {
 	String verDescricao( Model model, @PathVariable int ticketKey) throws Exception {
 		Ticket ticket = ticketDao.obter(ticketKey)
 		model.addAttribute("ticket", ticket)
-		model.addAttribute("anexos", listarAnexos(ticketKey))
+		model.addAttribute("anexos", FileUtil.listarAnexos(String.valueOf(ticketKey)))
 		return "/ticket/ticket.preview.jsp"
 	}
 	
@@ -704,7 +624,7 @@ class TicketController {
 			}
 			model.addAttribute("sprints", sprintDao.listarSprintsEmAberto())
 			model.addAttribute("ticket", ticket)
-			model.addAttribute("anexos", listarAnexos(ticketKey))
+			model.addAttribute("anexos", FileUtil.listarAnexos(String.valueOf(ticketKey)))
 			model.addAttribute "motivosReprovacao", motivoReprovacaoDao.listar()
 			model.addAttribute "movimentos", movimentoKanbanDao.listarMovimentosDoTicket(ticketKey)		
 			def statusList = kanbanStatusDao.listar()
