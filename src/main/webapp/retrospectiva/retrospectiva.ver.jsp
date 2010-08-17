@@ -143,7 +143,7 @@
 			<div>
 				<form action="${raiz}retrospectivas/${retrospectiva.retrospectivaKey}/descricao" method="post" >
 				<textarea id="descricao" name="descricao">${retrospectiva.descricao}</textarea>
-				<button type="submit">Salvar Descrição</button>
+				<button type="submit">Salvar</button>
 				</form>
 			</div>
 		</div>
