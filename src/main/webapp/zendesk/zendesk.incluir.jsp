@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Incluir Ticket do Zendesk</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 	</head>
 	<body>
 		<form action="${raiz}zendesk/tickets" method="post" id="formZendesk">
@@ -58,13 +57,13 @@
 		<script>
 			
 			function definirComoIdeia(){
-				$('#tipoDeTicketKey').val('3');
+				$('#tipoDeTicketKey').val('1');
 				$('#ideia').removeClass('inativo').addClass('ativo');;
 				$('#defeito').removeClass('ativo').addClass('inativo');;
 			}
 
 			function definirComoDefeito() {
-				$('#tipoDeTicketKey').val('1');
+				$('#tipoDeTicketKey').val('3');
 				$('#defeito').removeClass('inativo').addClass('ativo');;
 				$('#ideia').removeClass('ativo').addClass('inativo');;
 			}

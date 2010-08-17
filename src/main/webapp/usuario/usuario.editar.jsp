@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Cadastro de Usuários</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 		<script>
 			$(function() {
 				$('#formUsuario').validate();

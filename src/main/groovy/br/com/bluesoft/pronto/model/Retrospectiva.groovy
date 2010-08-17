@@ -33,6 +33,7 @@ import javax.persistence.SequenceGenerator
 import org.hibernate.annotations.Sort
 import org.hibernate.annotations.SortType
 
+import br.com.bluesoft.pronto.annotations.Auditable;
 import br.com.bluesoft.pronto.core.TipoRetrospectiva
 
 import com.google.common.base.Predicate
@@ -57,6 +58,8 @@ class Retrospectiva {
 	@ManyToOne
 	@JoinColumn(name = "TIPO_RETROSPECTIVA_KEY")
 	TipoRetrospectiva tipoRetrospectiva
+	
+	String descricao
 	
 	RetrospectivaItem getItemPorKey(int retrospectivaItemKey) {
 		itens.find { it.retrospectivaItemKey == retrospectivaItemKey }

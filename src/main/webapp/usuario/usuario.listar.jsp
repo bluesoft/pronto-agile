@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Usuários</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 	</head>
 	<body>
 		<h1>Usuários</h1>

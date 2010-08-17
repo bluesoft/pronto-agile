@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Sprints</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 		<script>
 			function fechar(sprintKey) {
 				var msg = "Tem certeza que desejar fechar o Sprint? As estórias ou defeitos em aberto serão movidas para o Sprint Atual.";

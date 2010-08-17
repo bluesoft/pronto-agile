@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Cadastro de Categorias</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 		<script>
 			$(function() {
 				$('#formCategoria').validate();

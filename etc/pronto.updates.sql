@@ -367,3 +367,6 @@ create table integracao_zendesk (
 alter table integracao_zendesk add primary key (ticket_key, zendesk_ticket_key);
 CREATE INDEX idx_integracao_zendesk_pronto ON integracao_zendesk USING btree (ticket_key);
 CREATE INDEX idx_integracao_zendesk_zendesk ON integracao_zendesk USING btree (zendesk_ticket_key);
+
+-- 2010 08 17
+alter table retrospectiva add descricao text;

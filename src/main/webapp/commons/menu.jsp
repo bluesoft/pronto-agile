@@ -1,68 +1,60 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:if test="${usuarioLogado ne null}">
-	<c:url var="raiz" value="/"/>
-	<ul id="jsddm">
-		<li><a href="#">Cadastros</a>
-		<ul>
-			<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
-				<li><a href="${raiz}categorias">Categorias</a></li>
-			</c:if>
-			
-			<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">
-				<li><a href="${raiz}causasDeDefeito">Causas de Defeito</a></li>
-			</c:if>
-			
-			<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
-				<li><a href="${raiz}clientes">Clientes</a></li>
-			</c:if>
-			
-			<c:if test="${usuarioLogado.administrador}">
-				<li><a href="${raiz}configuracoes">Configurações</a></li>
-			</c:if>
-			
-			<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">
-				<li><a href="${raiz}motivosReprovacao">Motivos De Reprovação</a></li>
-			</c:if>
-			
-			<li><a href="${raiz}usuarios">Usuários</a></li>
-		</ul>
-		</li>
-		
+
+<div id="prontoMenu">
+<table class="rootVoices" cellspacing='0' cellpadding='0' border='0'>
+	<tr>
+	    <td class="rootVoice {menu: 'menuCadastros'}" >Cadastros</td>
+	    <td class="rootVoice {menu: 'menuBacklogs'}" >Backlogs</td>
 		<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
-			<li><a href="#">Backlogs</a>
-				<ul>
-					<li><a href="${raiz}backlogs/sprints/atual">Sprint Atual</a></li>
-					<li><a href="${raiz}backlogs/2">Product Backlog</a></li>
-					<li><a href="${raiz}backlogs/1">Ideias</a></li>
-					<li><a href="${raiz}backlogs/5">Impedimentos</a></li>
-					<li><a href="${raiz}backlogs/4">Lixeira</a></li>
-					<li><a href="${raiz}backlogs/clientes">Pendentes</a></li>
-				</ul>
-			</li>
+			<td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}sprints');">Sprints</td>
+	   		<td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}kanban');">Kanban</td>
+	   		<td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}burndown');">Burndown</td>
 		</c:if>
-		
+	    <td class="rootVoice {menu: 'menuFerramentas'}" >Ferramentas</td>
+	    <td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}logout');">Sair</td>
+	</tr>
+</table>
+</div>
+
+<div id="menuCadastros" class="mbmenu">
+    <c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
+		<a img="categorias.png" href="${raiz}categorias">Categorias</a>
+	</c:if>
+	<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">
+		<a img="defeito.png" href="${raiz}causasDeDefeito">Causas de Defeito</a>
+	</c:if>
+	<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
+		<a img="clientes.png" href="${raiz}clientes">Clientes</a>
+	</c:if>
+	<c:if test="${usuarioLogado.administrador}">
+		<a img="configuracoes.png" href="${raiz}configuracoes">Configurações</a>
+	</c:if>
+	<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">
+		<li><a img="reprovacao.png" href="${raiz}motivosReprovacao">Motivos De Reprovação</a></li>
+	</c:if>
+	<a img="usuarios.png" href="${raiz}usuarios">Usuários</a>
+    <a rel="separator"></a>
+</div>
+
+<div id="menuBacklogs" class="mbmenu">
+	<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
+		<a href="${raiz}backlogs/sprints/atual" img="sprint_atual.png">Sprint Atual</a>
+		<a href="${raiz}backlogs/2" img="estorias.gif">Product Backlog</a>
+		<a href="${raiz}backlogs/1" img="ideias.png">Ideias</a>
+		<a href="${raiz}backlogs/5" img="impedimentos.png">Impedimentos</a>
+		<a href="${raiz}backlogs/4" img="lixeira.png">Lixeira</a>
+		<a href="${raiz}backlogs/clientes" img="pendentes.png">Pendentes</a>
 		<c:if test="${usuarioLogado.clientePapel}">
-			<li><a href="${raiz}clientes/backlog">Backlog</a></li>
+			<li><a href="${raiz}clientes/backlog" img="estorias.gif">Cliente</a></li>
 		</c:if>
-		
-		<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
-			<li><a href="${raiz}sprints">Sprints</a></li>
-			<li><a href="${raiz}kanban">Kanban</a></li>
-			<li><a href="${raiz}burndown">Burndown</a></li>
-		</c:if>
-		
-		<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">
-			<li><a href="#">Ferramentas</a>
-				<ul>
-					<li><a href="${raiz}tickets/branches">Branches</a></li>
-					<li><a href="${raiz}bancosDeDados">Bancos de Dados</a></li>
-					<li><a href="${raiz}scripts">Scripts</a></li>
-					<li><a href="${raiz}execucoes/pendentes">Execuções de Scripts</a></li>
-				</ul>
-			</li>
-		</c:if>
-		
-		<li><a href="${raiz}logout">Sair</a></li>
-	</ul>
-	<div class="clear"></div>
-</c:if>
+	</c:if>
+</div>
+
+<div id="menuFerramentas" class="mbmenu">
+	<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">
+		<a img="branches.png" href="${raiz}tickets/branches">Branches</a>
+		<a img="banco_de_dados.png" href="${raiz}bancosDeDados">Bancos de Dados</a>
+		<a img="script.png" href="${raiz}scripts">Scripts</a>
+		<a img="execucoes.png" href="${raiz}execucoes/pendentes">Execuções de Scripts</a>
+	</c:if>
+</div>

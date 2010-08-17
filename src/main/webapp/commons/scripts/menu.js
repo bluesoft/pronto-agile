@@ -1,40 +1,29 @@
-	var timeout = 500;
-	var closetimer = 0;
-	var ddmenuitem = 0;
+$(function(){
+	$("#prontoMenu").buildMenu({
+          //template:"yourMenuVoiceTemplate",
+          additionalData:"",
+          menuSelector:".menuContainer",
+          menuWidth:150,
+          openOnRight:false,
+          containment:"window",
+          iconPath:pronto.raiz+"commons/icons/",
+          hasImages:true,
+          fadeInTime:100,
+          fadeOutTime:200,
+          menuTop:0,
+          menuLeft:0,
+          submenuTop:0,
+          submenuLeft:4,
+          opacity:1,
+          shadow:false,
+          shadowColor:"black",
+          shadowOpacity:.2,
+          openOnClick:true,
+          closeOnMouseOut:false,
+          closeAfter:500,
+          minZindex:"auto",
+          hoverIntent:0, //if you use jquery.hoverIntent.js set this to time in milliseconds; 0= false;
+          submenuHoverIntent:0 //if you use jquery.hoverIntent.js set this to time in milliseconds; 0= false;
+      });
+});
 
-	function jsddm_open()
-	{
-		jsddm_canceltimer();
-		jsddm_close();
-		ddmenuitem = $(this).find('ul').eq(0).css('visibility', 'visible').css('zindex','99999');
-	}
-
-	function jsddm_close()
-	{
-		if (ddmenuitem)
-			ddmenuitem.css('visibility', 'hidden');
-	}
-
-	function jsddm_timer()
-	{
-		closetimer = window.setTimeout(jsddm_close, timeout);
-	}
-
-	function jsddm_canceltimer()
-	{
-		if (closetimer)
-		{
-			window.clearTimeout(closetimer);
-			closetimer = null;
-		}
-	}
-
-	$(document).ready( function()
-	{
-		var $jsddmLis = $('#jsddm > li'); 
-		$jsddmLis.bind('mouseover', jsddm_open);
-		$jsddmLis.bind('mouseout', jsddm_timer);
-	});
-
-	document.onclick = jsddm_close;
-	

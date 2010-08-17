@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Cadastro de Clientes</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 		<script>
 			$(function() {
 				$('#formCliente').validate();

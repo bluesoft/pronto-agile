@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Categorias</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 	</head>
 	<body>
 		<h1>Categorias</h1>

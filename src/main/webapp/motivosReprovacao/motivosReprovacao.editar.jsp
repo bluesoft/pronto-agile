@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Cadastro de Motivos de Reprovação</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 		<script>
 			$(function() {
 				$('#formMotivoReprovacao').validate();

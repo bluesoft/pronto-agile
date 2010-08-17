@@ -3,7 +3,6 @@
 <html>
 	<head>
 		<title>Backlog</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 		<script>
 			function verDescricao(ticketKey) {
 				$.ajax({

@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Causas de Defeito</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 	</head>
 	<body>
 		<h1>Causas de Defeito</h1>

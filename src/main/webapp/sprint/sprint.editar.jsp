@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Cadastro de Sprints</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 	</head>
 	<body>
 

@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Cadastro de Causas de Defeito</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 		<script>
 			$(function() {
 				$('#formCausaDeDefeito').validate();

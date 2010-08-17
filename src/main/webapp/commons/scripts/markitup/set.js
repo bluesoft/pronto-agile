@@ -1,13 +1,3 @@
-// -------------------------------------------------------------------
-// markItUp!
-// -------------------------------------------------------------------
-// Copyright (C) 2008 Jay Salvat
-// http://markitup.jaysalvat.com/
-// -------------------------------------------------------------------
-// Mediawiki Wiki tags example
-// -------------------------------------------------------------------
-// Feel free to add more tags
-// -------------------------------------------------------------------
 mySettings = {
 	previewParserPath:	'../wiki/parse.action', // path to your Wiki parser
 	onShiftEnter:		{keepDefault:false, replaceWith:'\n\n'},

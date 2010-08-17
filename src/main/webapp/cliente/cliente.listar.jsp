@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Clientes</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 	</head>
 	<body>
 		<h1>Clientes</h1>

@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Motivos de Reprovação</title>
-		<%@ include file="/commons/scripts/scripts.jsp" %>
 	</head>
 	<body>
 		<h1>Motivos de Reprovação</h1>
