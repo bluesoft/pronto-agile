@@ -3,7 +3,7 @@
 	<head>
 		<title>Retrospectiva do Sprint ${retrospectiva.sprint.nome}</title>
 		<link rel="stylesheet" type="text/css" media="all" href="${raiz}retrospectiva/retrospectiva.css" />
-		<script>
+		<script type="text/javascript" charset="UTF-8">
 
 			var $listaAtual = null; 
 			var $descricao = null;
@@ -36,8 +36,7 @@
 				var descricao = $descricao.val();
 				$descricao.val('');
 				
-				var data = {
-						'retrospectivaKey': retrospectivaKey,
+				var dados = {
 						'tipoRetrospectivaItemKey': tipo,
 						'descricao': descricao
 				};
@@ -60,11 +59,11 @@
 				}; 	
 				
 				$.ajax({
+					contentType: 'text/x-www-form-urlencoded; charset=ISO-8859-1',
 					type:'post',
 					url: '${raiz}retrospectivas/${retrospectiva.retrospectivaKey}',
-					'data': data,
+					data: dados,
 					success: callback,
-					contentType: 'application/x-www-form-urlencoded;charset=ISO-8859-1',
 					async: false
 				});
 			}

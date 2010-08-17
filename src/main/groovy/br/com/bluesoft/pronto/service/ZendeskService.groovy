@@ -136,7 +136,7 @@ class ZendeskService {
 	
 	private def incluirComentario(int zendeskTicketKey, String comentario, boolean publico) {
 		comentario = StringUtil.retiraAcentuacao(comentario)
-		def comment  = ['comment':['is_public':"${publico}", 'value':comentario]]
+		def comment  = ['comment':['is_public': publico, 'value':comentario]]
 		def resp = getRESTClient().put(path:"/tickets/${zendeskTicketKey}.json",  contentType: TEXT, requestContentType: JSON,	body:comment)
 		CacheManager.getInstance().getCache("zendeskTickets").removeQuiet(zendeskTicketKey)
 	}
