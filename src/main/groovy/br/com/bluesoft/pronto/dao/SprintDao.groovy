@@ -111,6 +111,8 @@ public class SprintDao extends DaoHibernate{
 			left join fetch s.tickets t 
 			left join fetch t.filhos f 
 			left join fetch t.backlog
+			left join fetch t.cliente
+			left join fetch t.script
 			left join fetch t.tipoDeTicket
 			left join fetch t.kanbanStatus
 			where s.atual = true
