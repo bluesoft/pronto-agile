@@ -21,12 +21,16 @@
 			<h3>${mensagem}</h3>
 			<div class="group">
 				<div>
-					<input type="text" name="username" id="username" value="${username}">
-					<p>Username</p>
+					<p>
+						Username<br>
+						<input type="text" name="username" id="username" value="${username}">
+					</p>
 				</div>
 				<div>
-					<input type="password" name="password" id="password">
-					<p>Senha</p>
+					<p>
+						Senha<br>
+						<input type="password" name="password" id="password">
+					</p>
 				</div>
 			</div>
 			<div align="center">
