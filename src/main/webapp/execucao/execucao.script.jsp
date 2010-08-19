@@ -8,14 +8,14 @@
 		<textarea id="script" class="mono"></textarea>
 
 		<br/>
-		<form action="${raiz}execucoes" method="POST">
+		<form id="formExecucoes" action="${raiz}execucoes" method="POST">
 			
 			<input type="hidden" name="bancoDeDadosKey" value="${bancoDeDadosKey}"/>
 
 			<c:forEach items="${execucaoKey}" var="key">
 				<input type="hidden" name="execucaoKey" value="${key}"/>
-			</c:forEach>		
-
+			</c:forEach>	
+			
 			<div align="center">
 				<button type="button" onclick="voltar()">Voltar</button>
 				<button type="submit">Confirmar</button>
@@ -32,13 +32,13 @@
 				$.blockUI({ message: '<h1>Gerando Script...</h1>' });
 				var execucoes = new Array(); 
 				$('[name=execucaoKey]').each(function(i,el){ 
-					execucoes.push($(el).val()); 
+					execucoes.push($(el).val());
 				}); 
-				$('#script').load('${raiz}execucoes/gerarScript', {
-					execucaoKey: execucoes,
-					bancoDeDadosKey: $('[name=bancoDeDadosKey]').val()
-				}, function() {
-					$.unblockUI();
+
+				console.log(execucoes.toString());
+				$('#script').load("${raiz}execucoes/gerarScript", $('#formExecucoes').serializeArray(),
+					function() {
+						$.unblockUI();
 				});
 			});	
 		</script>
