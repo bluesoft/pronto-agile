@@ -4,9 +4,11 @@ import javax.annotation.PostConstruct;
 
 import groovyx.net.http.HTTPBuilder;
 import groovyx.net.http.RESTClient;
+import groovyx.net.http.ResponseParseException;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONUtils;
 
@@ -68,16 +70,21 @@ class ZendeskService {
 		if (ticket) {
 			return ticket.value
 		} else {
-			ticket = getRESTClient().get( path : "/tickets/${zendeskTicketKey}.json" ).data
-			ticket.html = String.valueOf(ticket.description).replaceAll("(\r\n)|(\n\n)","<br/>")
-			ticket.status = mapStatus[ticket.status_id as String]
-			ticket.tipo = mapTipo[ticket.ticket_type_id  as String]
-			ticket.comments.each {
-				it.author = this.obterUsuario(it.author_id)
-				it.html = String.valueOf(it.value).replaceAll("(\r\n)|(\n\n)","<br/>")
+			try {
+				def resp = getRESTClient().get( path : "/tickets/${zendeskTicketKey}.json" )
+				ticket = resp.data
+				ticket.html = String.valueOf(ticket.description).replaceAll("(\r\n)|(\n\n)","<br/>")
+				ticket.status = mapStatus[ticket.status_id as String]
+				ticket.tipo = mapTipo[ticket.ticket_type_id  as String]
+				ticket.comments.each {
+					it.author = this.obterUsuario(it.author_id)
+					it.html = String.valueOf(it.value).replaceAll("(\r\n)|(\n\n)","<br/>")
+				}
+				cache.put new Element(zendeskTicketKey, ticket)
+				return ticket
+			} catch (ResponseParseException e) {
+				return null
 			}
-			cache.put new Element(zendeskTicketKey, ticket)
-			return ticket
 		}
 	}
 	
