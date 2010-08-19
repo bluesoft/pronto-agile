@@ -1,13 +1,10 @@
-body{
-  font-family:"Lucida Sans Unicode","Lucida Grande",Helvetica,Arial,sans-serif;
-  font-size:14px;
-  color:gray;
-}
 .mbmenu{
   display:none;
+  color:gray;
+  font-size:14px;
 }
 .rootVoices{
-  background-color:#EDEDED;
+  margin-bottom: 5px;
   padding:5px;
   padding-bottom:0;
 }

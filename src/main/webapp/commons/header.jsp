@@ -8,15 +8,18 @@
 		});
 	});
 </script>
-<div id="branding">
+<span id="branding">
 	<h1><a href="<c:url value="/kanban"/>"><pronto:images name="pronto_logo.png" title="Pronto!" /></a></h1>
-</div> <!-- end branding -->
+</span>
 
 <c:if test="${usuarioLogado ne null and (usuarioLogado.administrador or usuarioLogado.productOwner or usuarioLogado.scrumMaster or usuarioLogado.equipe)}">
-	<div align="right">
+	<span id="search">
 		Busca <input type="text" name="busca" id="busca" accesskey="b"/>
 		<pronto:icons name="buscar.png" title="Buscar" onclick="pronto.buscar();"/>
+	</span>
+	<jsp:include page="/commons/menu.jsp"/>
+	<div id="menuSeparator">
+		<hr/>
 	</div>
+	<jsp:include page="/commons/menuRapido.jsp"/>
 </c:if>
-	
-<hr />

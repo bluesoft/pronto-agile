@@ -1,7 +1,7 @@
 <%@ include file="/commons/taglibs.jsp"%>
 
 <c:if test="${usuarioLogado ne null}">
-<div id="prontoMenu">
+<span id="prontoMenu">
 <table class="rootVoices" cellspacing='0' cellpadding='0' border='0'>
 	<tr>
 	    <td class="rootVoice {menu: 'menuCadastros'}" >Cadastros</td>
@@ -15,7 +15,7 @@
 	    <td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}logout');">Sair</td>
 	</tr>
 </table>
-</div>
+</span>
 
 <div id="menuCadastros" class="mbmenu">
     <c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">

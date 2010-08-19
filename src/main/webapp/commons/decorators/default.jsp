@@ -11,9 +11,8 @@
 	        <div id="header" class="clearfix">
 	            <jsp:include page="/commons/header.jsp"/>
 	        </div>
-			<jsp:include page="/commons/menuRapido.jsp"/>
+	        
 	        <div id="content" class="clearfix">
-
 	            <c:if test="${mensagem ne null || param.mensagem ne null}">
 	            	<br>
 					<div class="ui-widget"> 
@@ -33,14 +32,6 @@
 						</div>
 					</div>
 	            </c:if>
-	            
-	             <div id="nav">
-	                <div class="wrapper">
-	                    <h2 class="accessibility">Navigation</h2>
-	                    <jsp:include page="/commons/menu.jsp"/>
-	                </div>
-	                <hr />
-	            </div><!-- end nav -->
 	            
 	            <div id="main">
 	                <h1><decorator:getProperty property="page.heading"/></h1>
