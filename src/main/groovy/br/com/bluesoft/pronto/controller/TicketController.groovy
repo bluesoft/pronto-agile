@@ -86,7 +86,7 @@ class TicketController {
 	public static final String VIEW_BRANCHES = "/ticket/ticket.branches.jsp"
 	public static final String VIEW_ESTIMAR = "/ticket/ticket.estimar.jsp"
 	public static final String VIEW_EDITAR = "/ticket/ticket.editar.jsp"
-
+	
 	@Autowired CategoriaDao categoriaDao
 	@Autowired ClienteDao clienteDao
 	@Autowired SessionFactory sessionFactory
@@ -102,8 +102,8 @@ class TicketController {
 	@Autowired MovimentoKanbanDao movimentoKanbanDao
 	@Autowired MovimentadorDeTicket movimentadorDeTicket
 	@Autowired ZendeskService zendeskService
-
-		
+	
+	
 	@InitBinder
 	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
 		def defaultBindingInitializer = new DefaultBindingInitializer()
@@ -141,7 +141,7 @@ class TicketController {
 		return "redirect:/tickets/${ticketKey}#comentarios"
 		
 	}
-
+	
 	@RequestMapping(method=[POST, PUT])
 	String salvar( Model model, Ticket ticket,  String comentario,  String[] desenvolvedor,  String[] testador,  Integer paiKey,  Integer clienteKey, Integer motivoReprovacaoKey) throws SegurancaException {
 		
@@ -158,13 +158,13 @@ class TicketController {
 					return "redirect:/tickets/${ticket.ticketKey}?erro=${erro}";
 				}
 			}
-
+			
 			Transaction tx = sessionFactory.getCurrentSession().beginTransaction()
 			
 			if (ticket.getTitulo() == null || ticket.getTitulo().trim().length() <= 0) {
 				throw new ProntoException("Não é possível salvar uma estória, defeito ou tarefa sem descrição!")
 			}
-
+			
 			if (ticket.isDefeito()) {
 				if (ticket.kanbanStatus.kanbanStatusKey == KanbanStatus.DONE && (ticket.getCausaDeDefeito() == null || ticket.getCausaDeDefeito().getCausaDeDefeitoKey() == 0)) {
 					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de Mover para Done é preciso informar a Causa do Defeito";
@@ -217,7 +217,7 @@ class TicketController {
 			definirTestadores(ticket, testador)
 			
 			ticketDao.salvar(ticket)
-
+			
 			if (!isNovo) {
 				if (motivoReprovacaoKey != null && motivoReprovacaoKey > 0) {
 					movimentadorDeTicket.movimentar ticket, ticket.kanbanStatus.kanbanStatusKey, motivoReprovacaoKey
@@ -430,9 +430,9 @@ class TicketController {
 		dir.mkdirs()
 		
 		List<String> nomesDosArquivos = new ArrayList<String>()
-
+		
 		Ticket ticket = ticketDao.obter(ticketKey)
-
+		
 		for ( FileItem fileItem : items) {
 			String nomeDoArquivo = StringUtil.retiraAcentuacao(fileItem.getName().toLowerCase().replace(' ', '_')).replaceAll("[^A-Za-z0-9._\\-]", "")
 			
@@ -447,9 +447,9 @@ class TicketController {
 		}
 		
 		this.insereImagensNaDescricao(ticketKey, nomesDosArquivos)
-
+		
 		ticketDao.salvar ticket
-
+		
 		return "redirect:/tickets/${ticketKey}"
 	}
 	
@@ -549,7 +549,7 @@ class TicketController {
 	@ResponseBody String salvarCategoria( HttpServletResponse response, @PathVariable int ticketKey,  int categoriaKey) throws SegurancaException {
 		try {
 			Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
-
+			
 			Ticket ticket = ticketDao.obter(ticketKey)
 			ticket.setCategoria(categoriaKey > 0 ? categoriaDao.obter(categoriaKey) : null)
 			ticketDao.salvar(ticket)
@@ -609,6 +609,11 @@ class TicketController {
 		if (ticketKey != null) {
 			Ticket ticket = ticketDao.obterComDependecias(ticketKey)
 			
+			if (ticket == null) {
+				model.addAttribute("mensagem", "O ticket #" + ticketKey + " não existe.")
+				return "/branca.jsp"
+			}
+			
 			if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
 				def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
 				if (zendeskTicketKey) {
@@ -618,10 +623,6 @@ class TicketController {
 				}
 			}
 			
-			if (ticket == null) {
-				model.addAttribute("mensagem", "O ticket #" + ticketKey + " não existe.")
-				return "/branca.jsp"
-			}
 			model.addAttribute("sprints", sprintDao.listarSprintsEmAberto())
 			model.addAttribute("ticket", ticket)
 			model.addAttribute("anexos", FileUtil.listarAnexos(String.valueOf(ticketKey)))
@@ -634,7 +635,7 @@ class TicketController {
 				ordens.put it.kanbanStatusKey as String, it.ordem as String	
 			}
 			model.addAttribute "ordens", ordens
-
+			
 			
 		} else {
 			Ticket novoTicket = new Ticket()
@@ -646,14 +647,14 @@ class TicketController {
 		}
 		
 		def equipe = usuarioDao.listarEquipe()
-
+		
 		model.addAttribute "categorias", categoriaDao.listar()
 		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		model.addAttribute "clientes", clienteDao.listar()
 		model.addAttribute "testadores", equipe 
 		model.addAttribute "desenvolvedores", equipe
 		model.addAttribute "causasDeDefeito", causaDeDefeitoDao.listar()
-
+		
 		VIEW_EDITAR
 	}
 	
