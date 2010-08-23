@@ -232,7 +232,7 @@ class TicketController {
 				if (ticket.getTicketKey() != null && ticket.isDone()) {
 					def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
 					if (zendeskTicketKey) {
-						zendeskService.incluirComentarioPublico(zendeskTicketKey,'Este ticket já foi desenvolvido em breve estará no ar!')
+						zendeskService.incluirComentarioPublico(zendeskTicketKey,'Este ticket já foi desenvolvido e em breve estará no ar!')
 					}
 				}
 			}
