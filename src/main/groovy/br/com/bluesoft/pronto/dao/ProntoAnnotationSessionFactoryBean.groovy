@@ -1,8 +1,8 @@
-package br.com.bluesoft.pronto.dao;
+package br.com.bluesoft.pronto.dao
 
-import org.hibernate.HibernateException;
-import org.hibernate.cfg.AnnotationConfiguration;
-import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
+import org.hibernate.HibernateException
+import org.hibernate.cfg.AnnotationConfiguration
+import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean
 
 public class ProntoAnnotationSessionFactoryBean extends AnnotationSessionFactoryBean {
 
