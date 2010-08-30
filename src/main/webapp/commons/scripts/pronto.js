@@ -143,7 +143,7 @@ pronto.incluirTarefa = function(ticketKey, ajax){
 };
 
 pronto.desacoplarTarefa = function(ticketKey, ajax){
-	var url = (pronto.raiz + 'tickets/' + ticketKey + '/desacoplarTarefa');
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/desacoplar');
 	pronto.doGet(url);
 };
 

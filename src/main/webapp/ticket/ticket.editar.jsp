@@ -81,7 +81,7 @@
 						<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="pronto.incluirTarefa('${ticket.pai.ticketKey}')"></pronto:icons>
 					</c:if>
 					<c:if test="${ticket.tarefa}">
-						<pronto:icons name="desacoplar_tarefa.png" title="Incluir Tarefa" onclick="pronto.desacoplarTarefa('${ticket.ticketKey}')"></pronto:icons>
+						<pronto:icons name="desacoplar_tarefa.png" title="Desacoplar Tarefa da Estória" onclick="pronto.desacoplarTarefa('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
 					
 					<c:choose>
