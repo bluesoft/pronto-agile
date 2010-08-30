@@ -142,6 +142,11 @@ pronto.incluirTarefa = function(ticketKey, ajax){
 	pronto.moverTicket(ticketKey, url, ajax);
 };
 
+pronto.desacoplarTarefa = function(ticketKey, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/desacoplarTarefa');
+	pronto.doGet(url);
+};
+
 pronto.moverParaSprintAtual = function(ticketKey, ajax){
 	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaSprintAtual');
 	pronto.moverTicket(ticketKey, url, ajax);

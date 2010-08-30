@@ -363,6 +363,23 @@ class TicketController {
 		
 	}
 	
+	@RequestMapping("/{ticketKey}/desacoplar")
+	String desacoplar( Model model,  @PathVariable int ticketKey,  HttpServletResponse response) throws ProntoException {
+		
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
+		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
+		
+		if (ticket.isTarefa()) {
+			ticket.setPai(null)
+			ticket.setTipoDeTicket(tipoDeTicketDao.obter(TipoDeTicket.ESTORIA))
+			ticketDao.salvar(ticket)
+			return "redirect:/tickets/${ticket.ticketKey}"
+		} else {
+			def erro = 'Apenas tarefas podem ser desacopladas';
+			return "redirect:/tickets/${ticket.ticketKey}?erro=${erro}"
+		}
+	}
+	
 	@RequestMapping("/{ticketKey}/moverParaIdeias")
 	String moverParaIdeias( Model model, @PathVariable int ticketKey,  HttpServletResponse response) throws SegurancaException {
 		

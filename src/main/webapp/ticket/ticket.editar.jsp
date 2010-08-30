@@ -80,6 +80,10 @@
 					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 6}">
 						<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="pronto.incluirTarefa('${ticket.pai.ticketKey}')"></pronto:icons>
 					</c:if>
+					<c:if test="${ticket.tarefa}">
+						<pronto:icons name="desacoplar_tarefa.png" title="Incluir Tarefa" onclick="pronto.desacoplarTarefa('${ticket.ticketKey}')"></pronto:icons>
+					</c:if>
+					
 					<c:choose>
 						<c:when test="${ticket.script eq null}">
 							<pronto:icons name="adicionar_script.png" title="Adicionar Script de Banco de Dados" onclick="adicionarScript()"/>
