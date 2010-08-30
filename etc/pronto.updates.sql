@@ -370,6 +370,3 @@ CREATE INDEX idx_integracao_zendesk_zendesk ON integracao_zendesk USING btree (z
 
 -- 2010 08 17
 alter table retrospectiva add descricao text;
-
-update tipo_retrospectiva_item set descricao = 'Chapéu Verde - Idéias' where tipo_retrospectiva_item_key = 7;
-update tipo_de_ticket set descricao = 'Idéia' where tipo_de_ticket_key = 1;

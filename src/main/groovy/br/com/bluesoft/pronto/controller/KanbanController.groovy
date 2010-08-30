@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -12,6 +13,8 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
+
+import com.google.common.collect.Maps;
 
 import br.com.bluesoft.pronto.ProntoException;
 import br.com.bluesoft.pronto.SegurancaException
@@ -49,8 +52,13 @@ public class KanbanController {
 	}
 	
 	@RequestMapping(value= '/atualizar/{sprintKey}', method = GET)
-	@ResponseBody Map<Integer,Integer> atualizar(final Model model, @PathVariable int sprintKey) {
-		return ticketDao.listarKanbanStatusDosTicketsDoSprint(sprintKey)
+	@ResponseBody Map<Integer,Integer> atualizar(final Model model, @PathVariable String sprintKey) {
+		Integer springKeyInt = NumberUtils.toInt(sprintKey)
+		if (springKeyInt > 0) {
+			return ticketDao.listarKanbanStatusDosTicketsDoSprint(springKeyInt)
+		} else {
+			return Maps.newHashMap()
+		}
 	}
 	
 	@RequestMapping(method = GET)

@@ -16,7 +16,7 @@ div#page {
 
 /* HEADER */
 div#header {
-	margin: 0 0 5em 0;
+	margin: 0px;
 	padding: 6px 0 2px 10px;
 	text-align: left;
 }
@@ -26,7 +26,7 @@ div#switchLocale {
 	right: 10px;
 }
 
-div#branding {
+span#branding {
 	float: left;
 	width: 50%;
 	margin: 0;
@@ -34,12 +34,31 @@ div#branding {
 	text-align: left;
 }
 
-div#search {
+span#search {
 	float: right;
-	width: 49%;
 	margin: 0;
 	padding: 40px 40px 0 0;
 	text-align: right;
+}
+
+span#prontoMenu {
+	float: left;
+	width: 96%;
+	margin: 0px 0px 0px 20px;
+	padding: 0;
+	text-align: left;
+}
+
+div#menuSeparator {
+	float: left;
+	width: 96%;
+	margin: 0px 20px;
+}
+
+span#menuRapido {
+	float: right;
+	margin: 0px 20px 0px 0px;
+	padding: 0px 20px 0px 0px;
 }
 
 /* END HEADER */ /* CONTENT */

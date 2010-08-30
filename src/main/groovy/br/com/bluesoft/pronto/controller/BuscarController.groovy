@@ -54,16 +54,17 @@ class BuscarController {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		if (query == null || query.length() < 2) {
-			model.addAttribute("erro", 'Informe uma palavra para efetuar a busca')
-			return "/buscar/buscar.resultado.jsp"
-		} 
-		
-		
-		if (NumberUtils.toInt(query) > 0) {
-			return "redirect:/tickets/${query}"
+		if (query != null) {
+			if (NumberUtils.toInt(query) > 0) {
+				return "redirect:/tickets/${query}"
+			}
+			
+			if(query.length() < 2) {
+				model.addAttribute("erro", 'Informe uma palavra para efetuar a busca')
+				return "/buscar/buscar.resultado.jsp"
+			}
 		}
-		
+
 		TicketOrdem ticketOrdem = TicketOrdem.TITULO
 		
 		if (ordem != null && ordem.length() > 0) {
