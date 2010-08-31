@@ -1,20 +1,18 @@
 package br.com.bluesoft.pronto.controller;
 
 import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
+import net.sf.json.JSONNull;
 import org.springframework.ui.Model;
-
 import br.com.bluesoft.pronto.dao.ClienteDao;
 import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.service.ZendeskService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import groovyx.net.http.HTTPBuilder;
 import groovyx.net.http.RESTClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import static org.springframework.web.bind.annotation.RequestMethod.*
 
 @Controller
@@ -47,12 +45,16 @@ class ZendeskController {
 		}
 		
 		def zendeskTicket = zendeskService.obterTicket(zendeskTicketKey)
-		def zendeskCliente = zendeskService.obterCliente(zendeskTicket.organization_id)
-		def zendeskSolicitador = zendeskService.obterUsuario(zendeskTicket.requester_id)
-		
 		model.addAttribute 'zendeskTicket', zendeskTicket
-		model.addAttribute 'zendeskCliente', zendeskCliente
+
+		def zendeskSolicitador = zendeskService.obterUsuario(zendeskTicket.requester_id)
 		model.addAttribute 'zendeskSolicitador', zendeskSolicitador
+		
+		if (!(zendeskTicket.organization_id instanceof JSONNull)) {
+			def zendeskCliente = zendeskService.obterCliente(zendeskTicket.organization_id)
+			model.addAttribute 'zendeskCliente', zendeskCliente
+		}
+		
 		model.addAttribute 'clientes', clienteDao.listar()
 		
 		return '/zendesk/zendesk.incluir.jsp'
