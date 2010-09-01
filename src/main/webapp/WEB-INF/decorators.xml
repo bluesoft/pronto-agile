@@ -3,6 +3,7 @@
     	<pattern>/burndown/burndown.fullscreen.jsp</pattern>
     	<pattern>/tickets/**/descricao*</pattern>
     	<pattern>/execucoes/gerarScript</pattern>
+    	<pattern>/burndown/data/*</pattern>
     </excludes> 
     <decorator name="default" page="default.jsp">
         <pattern>/*</pattern>

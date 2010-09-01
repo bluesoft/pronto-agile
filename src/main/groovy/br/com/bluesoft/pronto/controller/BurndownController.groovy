@@ -121,66 +121,74 @@ class BurndownController {
 		final JSONObject raiz = new JSONObject()
 		
 		final JSONObject title = new JSONObject()
-		title.set("text", "Sprint " + sprint.getNome())
+		title.put("text", "Sprint " + sprint.getNome())
 		raiz.put("title", title)
 		
 		final JSONArray elements = new JSONArray()
 		
 		final JSONObject element1 = new JSONObject()
-		element1.set("type", "area")
-		element1.set("width", "2")
-		element1.set("colour", "#FF0000")
+		element1.put("type", "area")
+		element1.put("width", "2")
+		element1.put("colour", "#FF0000")
 		
-		element1.set("fill", "#E01B49")
-		element1.set("fill-alpha", "0.4")
+		element1.put("fill", "#E01B49")
+		element1.put("fill-alpha", "0.4")
 		
 		final JSONObject dotStyle = new JSONObject()
-		dotStyle.set("type", "hollow-dot")
-		element1.set("dotStyle", dotStyle)
+		dotStyle.put("type", "hollow-dot")
+		element1.put("dotStyle", dotStyle)
 		
-		element1.set("text", "Ideal")
-		element1.set("values", new JSONArray(idealValues))
-		elements.put(element1)
+		element1.put("text", "Ideal")
+		
+		def idealValuesArry = new JSONArray()
+		idealValuesArry.addAll(idealValues)
+		element1.put("values", idealValuesArry)
+		
+		elements.add(element1)
 		
 		final JSONObject element2 = new JSONObject()
-		element2.set("type", "area")
-		element2.set("width", "2")
-		element2.set("colour", "#00666cc")
+		element2.put("type", "area")
+		element2.put("width", "2")
+		element2.put("colour", "#00666cc")
 		
-		element2.set("fill", "#0066cc")
-		element2.set("fill-alpha", "0.4")
+		element2.put("fill", "#0066cc")
+		element2.put("fill-alpha", "0.4")
 		
-		element2.set("text", "Realizado")
-		element2.set("values", new JSONArray(burnValues))
-		elements.put(element2)
+		element2.put("text", "Realizado")
+
+		def burnValuesArray = new JSONArray()
+		burnValuesArray.addAll(burnValues)
+		element2.put("values", burnValuesArray)
+		
+		elements.add(element2)
 		
 		raiz.put("elements", elements)
 		
 		final JSONObject x_axis = new JSONObject()
 		final JSONArray xLabelArray = new JSONArray()
-		xLabelArray.put("início")
+		xLabelArray.add("início")
 		for (final String data : mapaEsforcoPorDia.keySet()) {
-			xLabelArray.put(data)
+			xLabelArray.add(data)
 		}
 		
 		final JSONObject x_labels = new JSONObject()
 		x_labels.put("labels", xLabelArray)
-		if (xLabelArray.length() > 7) {
+		if (xLabelArray.size() > 7) {
 			x_labels.put("rotate", 270)
 		}
 		
-		x_axis.set("stroke", 1)
+		x_axis.put("stroke", 1)
 		
-		x_axis.set("labels", x_labels)
-		x_axis.set("tick_height", 10)
+		x_axis.put("labels", x_labels)
+		x_axis.put("tick_height", 10)
 		raiz.put("x_axis", x_axis)
 		
 		final JSONObject y_axis = new JSONObject()
-		y_axis.set("stroke", 1)
-		y_axis.set("steps", esforcoTotal / 8)
-		y_axis.set("max", esforcoTotal)
-		y_axis.set("offset", 2)
-		y_axis.set("tick_length", 5)
+		y_axis.put("stroke", 1)
+		y_axis.put("steps", esforcoTotal / 8)
+		y_axis.put("max", esforcoTotal)
+		y_axis.put("offset", 2)
+		y_axis.put("tick_length", 5)
 		raiz.put("y_axis", y_axis)
 		
 		raiz.put("bg_colour", "#FFFFFF")
