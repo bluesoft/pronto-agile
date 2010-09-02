@@ -30,10 +30,10 @@ import br.com.bluesoft.pronto.util.DateUtil
 
 @Repository
 public class TicketDao extends DaoHibernate {
-
+	
 	@Override
 	public Ticket obter(final Integer ticketKey) {
-
+		
 		final StringBuilder hql = new StringBuilder();
 		hql.append("select distinct t from Ticket t ");
 		hql.append("left join fetch t.sprint ");
@@ -43,13 +43,13 @@ public class TicketDao extends DaoHibernate {
 		hql.append("left join fetch t.kanbanStatus ");
 		hql.append("left join fetch t.reporter ");
 		hql.append("where t.ticketKey = :ticketKey");
-
+		
 		return (Ticket) getSession().createQuery(hql.toString()).setInteger("ticketKey", ticketKey).uniqueResult();
 	}
 	
 	@Override
 	public Ticket obterComUsuariosEnvolvidos(final Integer ticketKey) {
-
+		
 		String hql = """ 
 			select distinct t from Ticket t 
 			left join fetch t.sprint 
@@ -62,15 +62,15 @@ public class TicketDao extends DaoHibernate {
 			left join t.testadores 
 			where t.ticketKey = :ticketKey
 		"""
-			
+		
 		return (Ticket) getSession()
-			.createQuery(hql)
-			.setInteger("ticketKey", ticketKey)
-			.uniqueResult();
+		.createQuery(hql)
+		.setInteger("ticketKey", ticketKey)
+		.uniqueResult();
 	}
-
+	
 	public Ticket obterComDependecias(final Integer ticketKey) {
-
+		
 		String hql = """ 
 			select distinct t from Ticket t 
 			left join fetch t.sprint 
@@ -86,17 +86,17 @@ public class TicketDao extends DaoHibernate {
 			left join t.logs 
 			where t.ticketKey = :ticketKey
 		"""
-			
+		
 		return (Ticket) getSession()
-			.createQuery(hql)
-			.setInteger("ticketKey", ticketKey)
-			.uniqueResult();
+		.createQuery(hql)
+		.setInteger("ticketKey", ticketKey)
+		.uniqueResult();
 	}
-
+	
 	public TicketDao() {
 		super(Ticket.class);
 	}
-
+	
 	@Override
 	public void salvar(final Ticket... tickets) {
 		prepararParaSalvar(tickets)
@@ -126,27 +126,27 @@ public class TicketDao extends DaoHibernate {
 		}
 		session.clear()
 	}
-
+	
 	private void defineValores(final Ticket... tickets) {
 		
 		for (Ticket ticket : tickets) {
 			
 			ticket = obter(ticket.ticketKey)
-
+			
 			ticket.dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(new Timestamp(new Date().getTime()))
-
+			
 			if (ticket.getReporter() == null) {
 				ticket.setReporter(Seguranca.getUsuario());
 			}
-
+			
 			if (ticket.getScript() != null && ticket.getScript().getScriptKey() == 0) {
 				ticket.setScript(null);
 			}
-
+			
 			// Se um ticket tiver filhos, atualizar os dados dos filhos que devem ser sempre iguais aos do pai.
 			if (ticket.temFilhos()) {
 				ticket.setEsforco(ticket.getSomaDoEsforcoDosFilhos());
-
+				
 				for (Ticket filho : ticket.getFilhos()) {
 					if (!filho.isImpedido() && !filho.isLixo()) {
 						filho.setBacklog(ticket.getBacklog());
@@ -156,7 +156,7 @@ public class TicketDao extends DaoHibernate {
 					filho.setSprint(ticket.getSprint());
 					filho.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA));
 				}
-
+				
 				if (ticket.isTodosOsFilhosProntos()) {
 					if (ticket.getDataDePronto() == null) {
 						ticket.setDataDePronto(new Date());
@@ -164,14 +164,13 @@ public class TicketDao extends DaoHibernate {
 				} else {
 					ticket.setDataDePronto(null);
 				}
-
 			}
-
+			
 			// Se o ticket pai estiver impedido ou na lixeira, o ticket filho deve permancer da mesma forma.
 			if (ticket.temPai()) {
-
+				
 				final Ticket pai = ticket.pai
-
+				
 				if (pai.isLixo() || pai.isImpedido()) {
 					ticket.setBacklog(pai.getBacklog())
 				} else {
@@ -179,10 +178,10 @@ public class TicketDao extends DaoHibernate {
 						ticket.setBacklog(pai.getBacklog())
 					}
 				}
-
+				
 				ticket.setSprint(pai.getSprint())
 				ticket.setTipoDeTicket((TipoDeTicket) getSession().get(TipoDeTicket.class, TipoDeTicket.TAREFA))
-
+				
 				if (ticket.isDone() && pai.isTodosOsFilhosProntos()) {
 					if (pai.getDataDePronto() == null) {
 						pai.setDataDePronto(new Date())
@@ -198,30 +197,28 @@ public class TicketDao extends DaoHibernate {
 					pai.setDataDePronto(null)
 				}
 			}
-
+			
 			// Tarefa nao tem valor de Negocio
 			if (ticket.isTarefa()) {
 				ticket.setValorDeNegocio(0)
 			}
-
+			
 			// Grava sysdate na criação
 			if (ticket.getDataDeCriacao() == null) {
 				ticket.setDataDeCriacao(new Date())
 			}
-
+			
 			// Se o status for pronto tem que ter data de pronto.
 			if (ticket.getKanbanStatus().getKanbanStatusKey() == KanbanStatus.DONE && ticket.getDataDePronto() == null) {
 				ticket.setDataDePronto(new Date())
 			}
-
+			
 			getSession().saveOrUpdate(ticket)
-
 		}
-
 	}
-
-	public List<Ticket> buscar(String busca, final Integer kanbanStatusKey, final Integer clienteKey, final TicketOrdem ordem, final Classificacao classificacao) {
-
+	
+	public List<Ticket> buscar(String busca, final Integer kanbanStatusKey, final Integer clienteKey, final TicketOrdem ordem, final Classificacao classificacao, String sprintNome) {
+		
 		final StringBuilder hql = new StringBuilder();
 		hql.append(" select distinct t from Ticket t   ");
 		hql.append(" left join fetch t.sprint          ");
@@ -231,8 +228,12 @@ public class TicketDao extends DaoHibernate {
 		hql.append(" left join fetch t.kanbanStatus as kanbanStatus ");
 		hql.append(" left join fetch t.filhos          ");
 		hql.append(" left join fetch t.cliente as cliente  ");
-		hql.append(" where upper(t.titulo) like :query ");
-
+		hql.append(" where 1=1 ");
+		
+		if (busca!=null) {
+			hql.append(" and upper(t.titulo) like :query ");
+		}
+		
 		if (kanbanStatusKey != null) {
 			if (kanbanStatusKey == -1) {
 				hql.append(" and t.dataDePronto is null ");
@@ -240,28 +241,39 @@ public class TicketDao extends DaoHibernate {
 				hql.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
 			}
 		}
-
+		
 		if (clienteKey != null && clienteKey > 0) {
 			hql.append(" and t.cliente.clienteKey = :clienteKey ");
 		}
-
+		
+		if (sprintNome != null && sprintNome.length() > 0) {
+			hql.append(" and upper(t.sprint.nome) like :sprintNome ");
+		}
+		
 		hql.append(buildOrdem(ordem, classificacao));
+		
+		
+		final Query query = getSession().createQuery(hql.toString())
 
-		busca = busca == null ? "" : busca;
-
-		final Query query = getSession().createQuery(hql.toString()).setString("query", '%' + busca.toUpperCase() + '%');
-
+		if (busca!=null) {
+			query.setString("query", '%' + busca.toUpperCase() + '%')
+		}
+		
 		if (kanbanStatusKey != null && kanbanStatusKey > 0) {
-			query.setInteger("kanbanStatusKey", kanbanStatusKey);
+			query.setInteger("kanbanStatusKey", kanbanStatusKey)
 		}
-
+		
 		if (clienteKey != null && clienteKey > 0) {
-			query.setInteger("clienteKey", clienteKey);
+			query.setInteger("clienteKey", clienteKey)
 		}
-
+		
+		if (sprintNome != null && sprintNome.length() > 0) {
+			query.setString("sprintNome", '%' + sprintNome.toUpperCase() + '%')
+		}
+		
 		return query.list();
 	}
-
+	
 	private String buildOrdem(final TicketOrdem ordem, final Classificacao classificacao) {
 		String hqlOrdem = null;
 		if (ordem != null) {
@@ -300,56 +312,55 @@ public class TicketDao extends DaoHibernate {
 		final String hqlClassificacao = classificacao == null || classificacao == Classificacao.ASCENDENTE ? " asc" : " desc";
 		return " order by " + hqlOrdem + hqlClassificacao;
 	}
-
+	
 	public List<Ticket> listarPorSprint(final int sprintKey) {
-
+		
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" where t.sprint.sprintKey = :sprintKey");
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
-
+		
 		return getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).list();
 	}
-
+	
 	public List<Ticket> listarNaoConcluidosPorSprint(final int sprintKey) {
-
+		
 		final List<Ticket> ticketsDoSprint = listarPorSprint(sprintKey);
 		final List<Ticket> ticketsNaoConcluidos = new ArrayList<Ticket>();
-
+		
 		for (final Ticket ticket : ticketsDoSprint) {
 			if (ticket.getKanbanStatus().getKanbanStatusKey() != KanbanStatus.DONE) {
 				ticketsNaoConcluidos.add(ticket);
 			}
 		}
-
+		
 		return ticketsNaoConcluidos;
 	}
-
+	
 	public List<Ticket> listarPorBacklog(final int backlogKey) {
-
+		
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
-
+		
 		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).list();
-
 	}
-
+	
 	public List<Usuario> listarDesenvolvedoresDoTicket(final int ticketKey) {
 		final String hql = "select t.desenvolvedores from Ticket t where t.ticketKey = :ticketKey";
 		return getSession().createQuery(hql).setInteger("ticketKey", ticketKey).list();
 	}
-
+	
 	public List<Usuario> listarTestadoresDoTicket(final int ticketKey) {
 		final String hql = "select t.testadores from Ticket t where t.ticketKey = :ticketKey";
 		return getSession().createQuery(hql).setInteger("ticketKey", ticketKey).list();
 	}
-
+	
 	public List<Ticket> listarEstoriasEDefeitosDoProductBacklog() {
 		return listarEstoriasEDefeitosPorBacklog(Backlog.PRODUCT_BACKLOG);
 	}
-
+	
 	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
@@ -359,7 +370,7 @@ public class TicketDao extends DaoHibernate {
 		builder.append(" left join fetch t.tipoDeTicket ");
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
-
+		
 		final List<Ticket> lista = getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA ]).list();
 		
 		final List<Comparator> comparators = new ArrayList<Comparator>();
@@ -368,15 +379,15 @@ public class TicketDao extends DaoHibernate {
 		comparators.add(new ReverseComparator(new BeanComparator("esforco")));
 		comparators.add(new BeanComparator("ticketKey"));
 		final ComparatorChain comparatorChain = new ComparatorChain(comparators);
-
+		
 		Collections.sort(lista, comparatorChain);
-
+		
 		return lista;
 	}
-
+	
 	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey) {
 		final StringBuilder builder = new StringBuilder();
-
+		
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" left join fetch t.filhos f ");
 		builder.append(" left join fetch t.sprint ");
@@ -386,21 +397,21 @@ public class TicketDao extends DaoHibernate {
 		builder.append(" left join fetch t.reporter ");
 		builder.append(" where t.sprint.sprintKey = :sprintKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
-
+		
 		final List<Ticket> lista = getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO ]).list();
-
+		
 		final List<Comparator> comparators = new ArrayList<Comparator>();
 		comparators.add(new ReverseComparator(new BeanComparator("valorDeNegocio")));
 		comparators.add(new BeanComparator("prioridade"));
 		comparators.add(new ReverseComparator(new BeanComparator("esforco")));
 		comparators.add(new BeanComparator("ticketKey"));
 		final ComparatorChain comparatorChain = new ComparatorChain(comparators);
-
+		
 		Collections.sort(lista, comparatorChain);
-
+		
 		return lista;
 	}
-
+	
 	public List<Ticket> listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(final int backlogKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
@@ -416,7 +427,7 @@ public class TicketDao extends DaoHibernate {
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
 		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setInteger("tipoTarefa", TipoDeTicket.TAREFA).list();
 	}
-
+	
 	public List<Ticket> listarTicketsQueNaoEstaoNoBranchMaster() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
@@ -425,9 +436,8 @@ public class TicketDao extends DaoHibernate {
 		builder.append(" where t.filhos is empty  and t.branch is not null and t.branch != 'master' and t.branch != ''");
 		builder.append(" order by t.branch, t.titulo");
 		return getSession().createQuery(builder.toString()).list();
-
 	}
-
+	
 	public List<Ticket> listarPorCliente(final int clienteKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
@@ -442,7 +452,7 @@ public class TicketDao extends DaoHibernate {
 	}
 	
 	public void alterarPrioridadeDoCliente(final int clienteKey, final Integer[] tickets) {
-
+		
 		final String sql = "update ticket set prioridade_do_cliente = :prioridade where ticket_key =:ticketKey and cliente_key = :clienteKey";
 		int prioridade = 0;
 		if (tickets != null) {
@@ -452,10 +462,9 @@ public class TicketDao extends DaoHibernate {
 				}
 			}
 		}
-
 	}
 	
-
+	
 	void priorizar(Integer[] tickets, int valor) {
 		final String sql = "update ticket set prioridade = :prioridade, valor_de_negocio = :valor where ticket_key =:ticketKey";
 		int prioridade = 0;
@@ -463,10 +472,10 @@ public class TicketDao extends DaoHibernate {
 			for (int i = 0; i < tickets.length; i++) {
 				if (tickets[i] != null) {
 					getSession().createSQLQuery(sql)
-						.setInteger("ticketKey", tickets[i])
-						.setInteger("prioridade", ++prioridade)
-						.setInteger('valor',valor)
-						.executeUpdate();
+							.setInteger("ticketKey", tickets[i])
+							.setInteger("prioridade", ++prioridade)
+							.setInteger('valor',valor)
+							.executeUpdate();
 				}
 			}
 		}
@@ -531,5 +540,4 @@ public class TicketDao extends DaoHibernate {
 		query.setInteger 'ticketKey', ticketKey
 		return query.uniqueResult() as Integer
 	}
-	
 }

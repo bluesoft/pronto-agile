@@ -50,7 +50,7 @@ class BuscarController {
 	@Autowired KanbanStatusDao kanbanStatusDao
 	
 	@RequestMapping("/")
-	String buscarRest(Model model, String query,  Integer kanbanStatusKey,  Integer clienteKey,  String ordem,  String classificacao) {
+	String buscarRest(Model model, String query,  Integer kanbanStatusKey,  Integer clienteKey,  String ordem,  String classificacao, String sprintNome) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
@@ -59,14 +59,14 @@ class BuscarController {
 				return "redirect:/tickets/${query}"
 			}
 			
-			if(query.length() < 2) {
+			if(query.length() < 2 && sprintNome.length() < 2) {
 				model.addAttribute("erro", 'Informe uma palavra para efetuar a busca')
 				return "/buscar/buscar.resultado.jsp"
 			}
 		}
 
 		TicketOrdem ticketOrdem = TicketOrdem.TITULO
-		
+
 		if (ordem != null && ordem.length() > 0) {
 			ticketOrdem = TicketOrdem.valueOf(ordem)
 		}
@@ -76,7 +76,7 @@ class BuscarController {
 			ticketClassificacao = Classificacao.valueOf(classificacao)
 		}
 		
-		def tickets = ticketDao.buscar(query, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao)
+		def tickets = ticketDao.buscar(query, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao, sprintNome)
 		model.addAttribute("tickets", tickets)
 		model.addAttribute("query", query)
 		model.addAttribute("kanbanStatusKey", kanbanStatusKey)
@@ -85,6 +85,7 @@ class BuscarController {
 		model.addAttribute("clientes", clienteDao.listar())
 		model.addAttribute("ordens", TicketOrdem.values())
 		model.addAttribute("ordem", ticketOrdem)
+		model.addAttribute("sprintNome", sprintNome)
 		model.addAttribute("classificacoes", Classificacao.values())
 		model.addAttribute("classificacao", ticketClassificacao)
 		
