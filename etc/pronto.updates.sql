@@ -310,6 +310,7 @@ create sequence SEQ_CATEGORIA;
 	
 alter table seq_categoria OWNER to pronto;
 
+-- Até aqui já está no script principal
 -- 2010 05 26
 
 CREATE TABLE causa_de_defeito (
@@ -370,3 +371,6 @@ CREATE INDEX idx_integracao_zendesk_zendesk ON integracao_zendesk USING btree (z
 
 -- 2010 08 17
 alter table retrospectiva add descricao text;
+
+-- 2010 09 02
+alter table ticket add ticket_origem_key integer references ticket;
