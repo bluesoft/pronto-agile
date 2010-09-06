@@ -139,7 +139,7 @@ class TicketController {
 		ticketDao.salvar ticket
 		tx.commit()
 		
-		jabberMessageService.send comentario, ticket.getEnvolvidos()
+		jabberMessageService.enviarComentario ticketKey, comentario, ticket.getEnvolvidos()
 		
 		return "redirect:/tickets/${ticketKey}#comentarios"
 		
@@ -150,7 +150,7 @@ class TicketController {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		boolean isNovo = ticket.ticketKey > 0
+		boolean isNovo = ticket.ticketKey <= 0
 		
 		try {
 			
@@ -216,6 +216,7 @@ class TicketController {
 				ticket.addComentario(comentario, Seguranca.getUsuario())
 			}
 			
+			ticket.setReporter(usuarioDao.obter(ticket.getReporter().getUsername()))
 			definirDesenvolvedores(ticket, desenvolvedor)
 			definirTestadores(ticket, testador)
 			
@@ -229,6 +230,7 @@ class TicketController {
 				}
 			}
 			
+			ticketDao.salvar(ticket)
 			tx.commit()
 			
 			if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
@@ -248,13 +250,11 @@ class TicketController {
 	}
 	
 	void definirDesenvolvedores( Ticket ticket,  String[] desenvolvedor) throws SegurancaException {
-		
 		Set<Usuario> desenvolvedoresAntigos = new TreeSet<Usuario>(ticketDao.listarDesenvolvedoresDoTicket(ticket.getTicketKey()))
-		
 		if (desenvolvedor != null && desenvolvedor.length > 0) {
 			ticket.setDesenvolvedores(new TreeSet<Usuario>())
 			for ( String username : desenvolvedor) {
-				ticket.addDesenvolvedor((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username))
+				ticket.addDesenvolvedor(usuarioDao.obter(username))
 			}
 		}
 		
@@ -266,9 +266,7 @@ class TicketController {
 	}
 	
 	void definirTestadores( Ticket ticket,  String[] testador) throws SegurancaException {
-		
 		Set<Usuario> testadoresAntigos = new TreeSet<Usuario>(ticketDao.listarTestadoresDoTicket(ticket.getTicketKey()))
-		
 		if (testador != null && testador.length > 0) {
 			ticket.setTestadores(new TreeSet<Usuario>())
 			for ( String username : testador) {

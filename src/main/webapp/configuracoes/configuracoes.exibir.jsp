@@ -10,7 +10,13 @@
 			
 			<h4>Geral</h4>
 			<div class="group">
+			
 				<div>
+					<div>
+						<input type="text" name="pronto.url" class="required url" size="40" value="${mapa['pronto.url']}"/>
+						<p>URL do Pronto</p>
+					</div>
+				
 					<select name="tipoDeEstimativa">
 						<c:forEach items="${tiposDeEstimativa}" var="tipo">
 							<c:choose>

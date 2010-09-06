@@ -21,23 +21,16 @@ class ConfiguracoesController {
 	
 	@RequestMapping(method=GET)
 	String exibir(Model model) {
-		
 		Seguranca.validarPermissao Papel.ADMINISTRADOR
-		
 		model.addAttribute('tiposDeEstimativa', TipoEstimativa.values())
 		model.addAttribute('mapa', configuracaoDao.getMapa())
 		"/configuracoes/configuracoes.exibir.jsp";
 	}
 	
-	
-	
 	@RequestMapping(value="/salvar", method=POST)
 	String salvar(HttpServletRequest request) {
-		
 		Seguranca.validarPermissao Papel.ADMINISTRADOR
-		
 		configuracaoDao.atualizarConfiguracoes(request.getParameterMap());
-		
 		"redirect:/configuracoes?mensagem=Configurações salvas com sucesso.";
 	}
 	

@@ -52,6 +52,10 @@ class ConfiguracaoDao {
 		tx.commit()
 	}
 	
+	String getProntoUrl() {
+		return String.valueOf(this.getMapa()['pronto.url'])
+	}
+	
 	boolean isZendeskAtivo() {
 		return String.valueOf(this.getMapa()['zendesk.ativo']).equals('true')
 	}
@@ -66,6 +70,10 @@ class ConfiguracaoDao {
 	
 	String getZendeskUrl() {
 		return String.valueOf(this.getMapa()['zendesk.url'])
+	}
+	
+	boolean isJabberAtivo() {
+		return String.valueOf(this.getMapa()['zendesk.ativo']).equals('true')
 	}
 	
 	String getJabberUserName() {
