@@ -374,3 +374,6 @@ alter table retrospectiva add descricao text;
 
 -- 2010 09 02
 alter table ticket add ticket_origem_key integer references ticket;
+
+-- 2010 09 06
+alter table sprint add meta  character varying(255);

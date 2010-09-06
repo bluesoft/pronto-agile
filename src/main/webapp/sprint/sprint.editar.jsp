@@ -22,17 +22,23 @@
 					</c:if>
 				
 				<div>
-					<form:input path="sprint.nome" cssClass="required"/>
+					<form:input path="sprint.nome" cssClass="required" />
 					<p>Nome</p>
 				</div>
+				
+				<div>
+					<form:input path="sprint.meta" maxlength="255" size="80"/>
+					<p>Meta</p>
+				</div>
+				
 				<div>
 					<fmt:formatDate var="dataInicial" value="${sprint.dataInicial}"/>
-					<input type="text" name="dataInicial" class="required dateBr" value="${dataInicial}"/>
+					<input type="text" name="dataInicial" class="required dateBr" value="${dataInicial}" size="12"/>
 					<p>Data Inicial</p>
 				</div>
 				<div>
 					<fmt:formatDate var="dataFinal" value="${sprint.dataFinal}"/>
-					<input type="text" name="dataFinal" class="required dateBr" value="${dataFinal}"/>
+					<input type="text" name="dataFinal" class="required dateBr" value="${dataFinal}" size="12"/>
 					<p>Data Final</p>
 				</div>
 				<div>

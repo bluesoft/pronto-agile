@@ -54,6 +54,8 @@ public class Sprint {
 	int sprintKey
 
 	String nome
+	
+	String meta
 
 	Date dataInicial
 

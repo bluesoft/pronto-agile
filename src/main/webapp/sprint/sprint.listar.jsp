@@ -69,7 +69,7 @@
 							</c:otherwise>
 						</c:choose>
 					</td>
-					<td>${s.nome}</td>
+					<td><a onclick="goTo('${raiz}sprints/${s.sprintKey}')" href="#" title="Clique para editar">${s.nome}</a></td>
 					<td><fmt:formatDate value="${s.dataInicial}"/> à <fmt:formatDate value="${s.dataFinal}"/></td>
 					<td>${s.esforcoTotal}</td>
 					<td>${s.valorDeNegocioTotal}</td>
