@@ -121,6 +121,24 @@ function alterarStatuDoKanban() {
 	}
 }
 
+function buscarTicketDeOrigem(ticketKey) {
+	openWindow(pronto.raiz+"tickets/"+ticketKey+"/selecionarOrigem", 'selecaoDeOrigem');
+}
+
+function definirOrigem(ticketKey, ticketOrigemKey) {
+	$("#descricaoOrigem").text("");
+	$("<b>Origem: <a style='cursor:pointer' onclick='abrirTicket("+ticketOrigemKey+")'>#"+ticketOrigemKey+"</a></b>").appendTo("#descricaoOrigem");
+	$("<img src='"+iconsFolder+"/excluir.png' title='Excluir esta origem' onclick='excluirTicketDeOrigem("+ticketKey+");'/>").appendTo("#descricaoOrigem");
+}
+
+function abrirTicket(ticketKey) {
+	openWindow(pronto.raiz+"tickets/"+ticketKey, 'ticketKeyOrigem');
+}
+
+function excluirTicketDeOrigem(ticketKey) {
+	pronto.doPost(pronto.raiz+"tickets/"+ticketKey+"/excluirTicketDeOrigem");
+}
+
 $(function(){
 	$("#motivoReprovacaoDiv").hide();
 });

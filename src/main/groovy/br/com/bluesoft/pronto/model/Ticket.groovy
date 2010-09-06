@@ -180,6 +180,10 @@ class Ticket {
 	@JoinColumn(name = "script_key")
 	Script script
 	
+	@OneToOne
+	@JoinColumn(name = "ticket_origem_key")
+	Ticket ticketOrigem
+	
 	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
 	final List<TicketLog> logs
 	
@@ -463,5 +467,8 @@ class Ticket {
 	public void setTestadores(List<Usuario> testadores) {
 		this.testadores = new LinkedList(testadores);
 	}
-	
+
+	public void setTicketOrigem(Ticket ticketOrigem) {
+		this.ticketOrigem = ticketOrigem;
+	}	
 }

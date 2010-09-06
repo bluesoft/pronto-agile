@@ -1,4 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
+<c:url var="iconsFolder" value="/commons/icons"/>
 <html>
 	<head>
 		<title><c:choose><c:when test="${ticket.ticketKey gt 0}">${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}</c:when><c:otherwise>Incluir ${ticket.tipoDeTicket.descricao}</c:otherwise></c:choose></title>
@@ -330,6 +331,19 @@
 									<p>Categoria</p>
 							</div>
 							
+							<c:if test="${ticket.defeito}">
+								<div>
+									<span>Incluir origem do defeito &nbsp;
+									<pronto:icons name="buscar.png" title="Buscar ticket de origem para esta defeito" onclick="buscarTicketDeOrigem(${ticket.ticketKey});"/>
+									</span>
+									<p id="descricaoOrigem">
+										<c:if test="${!empty ticket.ticketOrigem}">
+											<b>Origem: <a style="cursor:pointer" onclick="abrirTicket(${ticket.ticketOrigem.ticketKey})">#${ticket.ticketOrigem.ticketKey}</a></b>
+											<pronto:icons name="excluir.png" title="Excluir esta origem" onclick="excluirTicketDeOrigem(${ticket.ticketKey});"/>
+										</c:if>
+									</p>
+								</div>
+							</c:if>
 							
 							<c:if test="${empty ticket.filhos}">
 								<div>
@@ -540,9 +554,12 @@
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>
 		<script>
+			var iconsFolder;
 			$(function(){
 				$('#ticketTabs').tabs();
 				$('.datePicker').datepicker();
+
+				iconsFolder = "${iconsFolder}";
 			});
 
 			//Variaveis Globais para usar no .js
