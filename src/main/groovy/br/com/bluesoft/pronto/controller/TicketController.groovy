@@ -64,6 +64,7 @@ import br.com.bluesoft.pronto.model.TicketLog
 import br.com.bluesoft.pronto.model.TicketOrdem
 import br.com.bluesoft.pronto.model.Usuario
 import br.com.bluesoft.pronto.service.Config
+import br.com.bluesoft.pronto.service.JabberMessageService;
 import br.com.bluesoft.pronto.service.Seguranca
 import br.com.bluesoft.pronto.service.ZendeskService;
 import br.com.bluesoft.pronto.util.ControllerUtil
@@ -102,7 +103,7 @@ class TicketController {
 	@Autowired MovimentoKanbanDao movimentoKanbanDao
 	@Autowired MovimentadorDeTicket movimentadorDeTicket
 	@Autowired ZendeskService zendeskService
-	
+	@Autowired JabberMessageService jabberMessageService 
 	
 	@InitBinder
 	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
@@ -137,6 +138,8 @@ class TicketController {
 		ticket.addComentario comentario, Seguranca.usuario
 		ticketDao.salvar ticket
 		tx.commit()
+		
+		jabberMessageService.send comentario, ticket.getEnvolvidos()
 		
 		return "redirect:/tickets/${ticketKey}#comentarios"
 		

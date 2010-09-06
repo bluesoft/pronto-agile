@@ -21,4 +21,33 @@ class TicketTest {
 		assertEquals 50, t.getTempoDeVidaEmDias()
 	}
 	
+	
+	@Test
+	void getEnvolvidosDeveRetornarOReporter() {
+		def reporter = new Usuario(username:'andrefaria')
+		def ticket = new Ticket(reporter:reporter)
+		assertTrue ticket.envolvidos.contains(reporter)
+	}
+	
+	@Test
+	void getEnvolvidosDeveRetornarOsDesenvolvedores() {
+		def usuario = new Usuario(username:'andrefaria')
+		def ticket = new Ticket(desenvolvedores:[usuario])
+		assertTrue ticket.envolvidos.contains(usuario)
+	}
+	
+	@Test
+	void getEnvolvidosDeveRetornarOsTestadores() {
+		def usuario = new Usuario(username:'andrefaria')
+		def ticket = new Ticket(testadores:[usuario])
+		assertTrue ticket.envolvidos.contains(usuario)
+	}
+	
+	@Test
+	void getEnvolvidosNaoDeveRepetirOMesmoUsuario() {
+		def usuario = new Usuario(username:'andrefaria')
+		def ticket = new Ticket(testadores:[usuario], desenvolvedores:[usuario], reporter:usuario)
+		assertTrue ticket.envolvidos.contains(usuario)
+		assertEquals 1, ticket.envolvidos.size()
+	}
 }

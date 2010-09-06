@@ -3,6 +3,11 @@
 	<head>
 		<title>Cadastro de Usuários</title>
 		<script>
+
+			jQuery.validator.addMethod("username", function(value, element) { 
+			  return this.optional(element) || /[a-z|A-Z|-|_]/.test(value); 
+			}, "Por favor use apenas letras, números, _ ou -.");
+		
 			$(function() {
 				$('#formUsuario').validate();
 				onChangePapeis();
@@ -60,8 +65,12 @@
 					<p>Nome</p>
 				</div>
 				<div>
-					<form:input path="usuario.email" cssClass="email required"/>
+					<form:input path="usuario.email" cssClass="email required" size="40"/>
 					<p>E-mail</p>
+				</div>
+				<div>
+					<form:input path="usuario.jabberUsername" size="40"/>
+					<p title="ex: andrefaria@chat.bluesoft.com.br">Jabber username</p>
 				</div>
 				<c:if test="${usuario.username ne null}">
 					<div>

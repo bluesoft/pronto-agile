@@ -300,7 +300,7 @@ class Ticket {
 			if (it.username.equals(usuario.username))
 				return
 		}
-        desenvolvedores.add(usuario)
+		desenvolvedores.add(usuario)
 	}
 	
 	void addTestador(final Usuario usuario) {
@@ -394,11 +394,9 @@ class Ticket {
 			} else {
 				return false
 			}
-			
 		} else {
 			return !isDone() && !isToDo()
 		}
-		
 	}
 	
 	Ticket getFilhoPorKey(final int filhoKey) {
@@ -431,21 +429,15 @@ class Ticket {
 	}
 	
 	List<Ticket> getFilhosOrdenadosKanbanStatus() {
-		filhos.sort {
-			it.kanbanStatus.kanbanStatusKey 
-		}
+		filhos.sort { it.kanbanStatus.kanbanStatusKey  }
 	}
 	
 	List<Ticket> getFilhosProntos() {
-		filhos.findAll {
-			it.done
-		}
+		filhos.findAll { it.done }
 	}
 	
 	List<TicketLog> getLogs() {
-		logs.sort {
-			it.data
-		}
+		logs.sort { it.data }
 	}
 	
 	public void setDesenvolvedores(List<Usuario> desenvolvedores) {
@@ -464,4 +456,15 @@ class Ticket {
 		this.testadores = new LinkedList(testadores);
 	}
 	
+	def getEnvolvidos() {
+		def envolvidos = [] as Set
+		envolvidos << this.reporter
+		if (this.getDesenvolvedores()) {
+			envolvidos.addAll this.getDesenvolvedores()
+		}
+		if (this.getTestadores()) {
+			envolvidos.addAll this.getTestadores()
+		}
+		return envolvidos
+	}
 }

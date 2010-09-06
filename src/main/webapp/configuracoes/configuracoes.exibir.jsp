@@ -44,35 +44,58 @@
 						<input type="text" name="zendesk.url" class="url" size="40" value="${mapa['zendesk.url']}"/>
 						<p>URL do Zendesk</p>
 					</div>
-					
 					<div>
 						<input type="text" name="zendesk.username" value="${mapa['zendesk.username']}"/>
 						<p>Usuário</p>
 					</div>
-					
 					<div>
 						<input type="password" name="zendesk.password" value="${mapa['zendesk.password']}"/>
 						<p>Senha</p>
 					</div>
-					
 				</div>
-				
+			</div>
+			
+			<h4>Jabber</h4>			
+			<div class="group" id="jabber">
+				<div>
+					<select name="jabber.ativo" id="jabberAtivo" onchange="toogleJabber()">
+						<option ${mapa['jabber.ativo'] eq 'true' ? 'selected' : ''}  value="true">Sim</option>
+						<option ${mapa['jabber.ativo'] ne 'true' ? 'selected' : ''} value="false">Não</option>
+					</select>
+					<p>Integrar com <a href="http://pt.wikipedia.org/wiki/Extensible_Messaging_and_Presence_Protocol">Jabber/XMPP</a>?</p>
+				</div>
+			
+				<div id="jabberOptions">
+					<div>
+						<input type="text" name="jabber.url" size="40" value="${mapa['jabber.url']}"/>
+						<p>URL do Jabber</p>
+					</div>
+					<div>
+						<input type="text" name="jabber.username" value="${mapa['jabber.username']}"/>
+						<p>Usuário</p>
+					</div>
+					<div>
+						<input type="password" name="jabber.password" value="${mapa['jabber.password']}"/>
+						<p>Senha</p>
+					</div>
+				</div>
 			</div>
 			
 			<button type="button" onclick="salvar()">Salvar</button>
-			
 		</form>
 		
 
 	<script>
 		$(function(){
 			toogleZendesk();
+			toogleJabber();
 			$('#formConfiguracoes').validate();
 		})
 	
 		function salvar() {
 			$("#formConfiguracoes").submit();
 		}
+
 		function toogleZendesk() {
 			if ($('#zendeskAtivo').val() == 'true') {
 				$('#zendeskOptions input').removeAttr('disabled');
@@ -80,6 +103,16 @@
 			} else {
 				$('#zendeskOptions input').attr('disabled','disabled').val('');
 				$('#zendeskOptions input').removeClass('required');
+			}
+		}
+
+		function toogleJabber() {
+			if ($('#jabberAtivo').val() == 'true') {
+				$('#jabberOptions input').removeAttr('disabled');
+				$('#jabberOptions input').addClass('required');
+			} else {
+				$('#jabberOptions input').attr('disabled','disabled').val('');
+				$('#jabberOptions input').removeClass('required');
 			}
 		}
 		</script>	
