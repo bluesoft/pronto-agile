@@ -21,7 +21,6 @@
 				}
 			}		
 
-
 			function temOPapelCliente() {
 				var $papel = $('#papel');
 				var papeis = new String($papel.val()).split(',');
