@@ -106,6 +106,12 @@ function salvar() {
 	$('#formTicket').submit();
 }
 
+function alterarStatuDoKanbanPara(statusKey) {
+	$("#kanbanStatusKey").val(statusKey);
+	alterarStatuDoKanban();
+	$('#formTicket').submit();
+}
+
 function alterarStatuDoKanban() {
 	var kanbanStatusAnterior = $("#kanbanStatusAnterior").val();
 	var kanbanStatusKey = $("#kanbanStatusKey").val();

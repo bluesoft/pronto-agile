@@ -83,7 +83,27 @@ class SprintController {
 	
 	@RequestMapping(method = GET)
 	String listar(final Model model) {
+		"redirect:/sprints/pendentes"
+	}
+	
+	@RequestMapping(value="todos", method = GET)
+	String listarTodos(final Model model) {
 		model.addAttribute("sprints", sprintDao.listar())
+		model.addAttribute("status", "todos")
+		return VIEW_LISTAR
+	}
+	
+	@RequestMapping(value="pendentes", method = GET)
+	String listarPendentes(final Model model) {
+		model.addAttribute("sprints", sprintDao.listarSprintsEmAberto())
+		model.addAttribute("status", "pendentes")
+		return VIEW_LISTAR
+	}
+	
+	@RequestMapping(value="fechados", method = GET)
+	String listarFechados(final Model model) {
+		model.addAttribute("sprints", sprintDao.listarSprintsFechados())
+		model.addAttribute("status", "fechados")
 		return VIEW_LISTAR
 	}
 	

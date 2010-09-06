@@ -47,6 +47,14 @@ public class SprintDao extends DaoHibernate{
 		preencheTotaisDeEsforcoEValorDeNegocioDosSprints(sprints)
 		return sprints
 	}
+	
+	public List<Sprint> listarSprintsFechados() {
+		final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sprint.class)
+		criteria.add(Restrictions.eq("fechado", true))
+		final List<Sprint> sprints = criteria.list()
+		preencheTotaisDeEsforcoEValorDeNegocioDosSprints(sprints)
+		return sprints
+	}
 
 	private void preencheTotaisDeEsforcoEValorDeNegocioDosSprints(final Collection<Sprint> sprints) {
 		final String sql = "select sprint, sum(t.valor_de_negocio) as valor_de_negocio_total, sum(t.esforco) as esforco_total from ticket t where t.sprint is not null and t.pai is null group by sprint"

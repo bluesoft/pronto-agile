@@ -111,4 +111,5 @@ html>body #listaTarefas li {
 	padding-left: 10px;
 	padding-right: 10px;
 	width: 100%;
+	cursor: pointer !important;
 }

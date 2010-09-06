@@ -22,7 +22,8 @@
 		<c:if test="${ticket.ticketKey gt 0}">
 		<div id="progressBar" align="right">
 			<c:forEach items="${kanbanStatus}" var="status">
-				<div class="kanbanStep ui-corner-all ${status.kanbanStatusKey eq ticket.kanbanStatus.kanbanStatusKey ? 'ui-state-active' : 'ui-state-disabled'}">
+				<c:set var="progressClass" value="${status.kanbanStatusKey eq ticket.kanbanStatus.kanbanStatusKey ? 'ui-state-active' : 'ui-state-disabled'}"/>
+				<div title="Clique para mover para '${status.descricao}'" onclick="alterarStatuDoKanbanPara(${status.kanbanStatusKey})"  class="kanbanStep ui-corner-all ${progressClass}">
 					${status.descricao}
 				</div>
 			</c:forEach>
