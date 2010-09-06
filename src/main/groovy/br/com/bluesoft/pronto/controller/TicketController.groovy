@@ -157,7 +157,7 @@ class TicketController {
 			if (!isNovo) {
 				def dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(ticketDao.obterDataDaUltimaAlteracaoDoTicket(ticket.ticketKey))
 				if (dataDaUltimaAlteracao!= null && ticket.dataDaUltimaAlteracao < dataDaUltimaAlteracao) {
-					def erro = 'Não foi possivel alterar o Ticket porque ele já foi alterado depois que você começou a editá-lo!' 
+					def erro = 'Não foi possível alterar o ticket porque já ocorreram alterações depois que você começou a editá-lo!' 
 					return "redirect:/tickets/${ticket.ticketKey}?erro=${erro}";
 				}
 			}
@@ -170,7 +170,7 @@ class TicketController {
 			
 			if (ticket.isDefeito()) {
 				if (ticket.kanbanStatus.kanbanStatusKey == KanbanStatus.DONE && (ticket.getCausaDeDefeito() == null || ticket.getCausaDeDefeito().getCausaDeDefeitoKey() == 0)) {
-					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de Mover para Done é preciso informar a Causa do Defeito";
+					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de mover para a etapa Done é preciso informar a causa do defeito.";
 				} else {
 					ticket.setCausaDeDefeito(causaDeDefeitoDao.obter(ticket.getCausaDeDefeito().getCausaDeDefeitoKey()))
 				}
@@ -348,7 +348,7 @@ class TicketController {
 		
 		int backlogDeOrigem = ticket.getBacklog().getBacklogKey()
 		if (backlogDeOrigem != Backlog.PRODUCT_BACKLOG) {
-			throw new ProntoException("Para que uma Estória ou Bug seja movida para o Sprint Atual é preciso que ela esteja no Product Backlog.")
+			throw new ProntoException("Para que uma Estória ou Defeito seja movida para o Sprint atual é preciso que ela esteja no Product Backlog.")
 		}
 		
 		ticket.setSprint(sprintDao.getSprintAtual())
