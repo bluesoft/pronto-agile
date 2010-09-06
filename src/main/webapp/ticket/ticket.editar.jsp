@@ -333,13 +333,13 @@
 							
 							<c:if test="${ticket.defeito}">
 								<div>
-									<span>Incluir origem do defeito &nbsp;
-									<pronto:icons name="buscar.png" title="Buscar ticket de origem para esta defeito" onclick="buscarTicketDeOrigem(${ticket.ticketKey});"/>
+									<span>Associar ticket de origem&nbsp;
+									<pronto:icons name="buscar.png" title="Associar ticket que originou este defeito" onclick="buscarTicketDeOrigem(${ticket.ticketKey});"/>
 									</span>
 									<p id="descricaoOrigem">
 										<c:if test="${!empty ticket.ticketOrigem}">
 											<b>Origem: <a style="cursor:pointer" onclick="abrirTicket(${ticket.ticketOrigem.ticketKey})">#${ticket.ticketOrigem.ticketKey}</a></b>
-											<pronto:icons name="excluir.png" title="Excluir esta origem" onclick="excluirTicketDeOrigem(${ticket.ticketKey});"/>
+											<pronto:icons name="excluir.png" title="Desassociar ticket que originou este defeito" onclick="excluirTicketDeOrigem(${ticket.ticketKey});"/>
 										</c:if>
 									</p>
 								</div>
