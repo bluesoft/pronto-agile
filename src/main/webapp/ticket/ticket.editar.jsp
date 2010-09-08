@@ -333,21 +333,21 @@
 							
 							<c:if test="${ticket.defeito}">
 								<div>
-								<c:choose>
-									<c:when test="${!empty ticket.ticketOrigem}">
-										<span>Ticket de origem associado  &nbsp;</span>
-											<p id="descricaoOrigem">
-												<b>Origem: <a style="cursor:pointer" onclick="abrirTicket(${ticket.ticketOrigem.ticketKey})">#${ticket.ticketOrigem.ticketKey}</a></b>
-												<pronto:icons name="excluir.png" title="Excluir esta origem" onclick="excluirTicketDeOrigem(${ticket.ticketKey});"/>
-											</p>
-									</c:when>
-									<c:otherwise>
-										<span id="spanTicketOrigem">Associar ticket de origem &nbsp;
-											<pronto:icons name="buscar.png" id="iconBuscarOrigem" title="Buscar ticket de origem para esta defeito" onclick="buscarTicketDeOrigem(${ticket.ticketKey});"/>
-										</span>
-										<p id="descricaoOrigem"> </p>
-									</c:otherwise>
-								</c:choose>
+									<c:choose>
+										<c:when test="${!empty ticket.ticketOrigem}">
+											<span>Ticket de origem associado  &nbsp;</span>
+												<p id="descricaoOrigem">
+													<b>Origem: <a style="cursor:pointer" onclick="abrirTicket(${ticket.ticketOrigem.ticketKey})">#${ticket.ticketOrigem.ticketKey}</a></b>
+													<pronto:icons name="excluir.png" title="Excluir esta origem" onclick="excluirTicketDeOrigem(${ticket.ticketKey});"/>
+												</p>
+										</c:when>
+										<c:otherwise>
+											<span id="spanTicketOrigem">Associar ticket de origem &nbsp;
+												<pronto:icons name="buscar.png" id="iconBuscarOrigem" title="Buscar ticket de origem para esta defeito" onclick="buscarTicketDeOrigem(${ticket.ticketKey});"/>
+											</span>
+											<p id="descricaoOrigem"> </p>
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</c:if>
 							
