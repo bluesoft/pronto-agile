@@ -126,7 +126,9 @@ function buscarTicketDeOrigem(ticketKey) {
 }
 
 function definirOrigem(ticketKey, ticketOrigemKey) {
+	$("#iconBuscarOrigem").hide();
 	$("#descricaoOrigem").text("");
+	$("#spanTicketOrigem").text("Ticket de origem associado");
 	$("<b>Origem: <a style='cursor:pointer' onclick='abrirTicket("+ticketOrigemKey+")'>#"+ticketOrigemKey+"</a></b>").appendTo("#descricaoOrigem");
 	$("<img src='"+iconsFolder+"/excluir.png' title='Excluir esta origem' onclick='excluirTicketDeOrigem("+ticketKey+");'/>").appendTo("#descricaoOrigem");
 }

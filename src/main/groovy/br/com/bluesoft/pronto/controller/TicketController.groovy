@@ -733,13 +733,13 @@ class TicketController {
 		if (query != null) {
 			
 			if (NumberUtils.toInt(query) > 0) {
-				Ticket ticket = ticketDao.obter(NumberUtils.toInt(query))
+				Ticket ticket = ticketDao.obterPorStatus(NumberUtils.toInt(query), KanbanStatus.DONE)
 				if (ticket != null) {
 					model.addAttribute("tickets", Lists.newArrayList(ticket))
 				}
 				
 			} else {
-				def tickets = ticketDao.buscar(query, null, null, null, null)
+				def tickets = ticketDao.buscar(query, KanbanStatus.DONE, null, null, null)
 				model.addAttribute("tickets", tickets)
 			}
 		}
