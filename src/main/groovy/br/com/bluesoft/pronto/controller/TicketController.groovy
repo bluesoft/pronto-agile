@@ -730,7 +730,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/buscarTicketDeOrigem")
 	String buscarTicketDeOrigem(Model model, @PathVariable int ticketKey, String query) {
 
-		if (query != null) {
+		if (query != null && query != "") {
 			if (NumberUtils.toInt(query) > 0) {
 				Ticket ticket = ticketDao.obterPorStatus(NumberUtils.toInt(query), KanbanStatus.DONE)
 				if (ticket != null) {
@@ -740,6 +740,8 @@ class TicketController {
 				def tickets = ticketDao.buscar(query, KanbanStatus.DONE, null, null, null)
 				model.addAttribute("tickets", tickets)
 			}
+		} else {
+		model.addAttribute("mensagem", "Digite o número do ticket ou sua descrição.")
 		}
 		model.addAttribute("ticketKey", ticketKey)
 		return "/ticket/ticket.selecionarOrigem.jsp"

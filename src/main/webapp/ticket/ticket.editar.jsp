@@ -335,15 +335,15 @@
 								<div>
 									<c:choose>
 										<c:when test="${!empty ticket.ticketOrigem}">
-											<span>Ticket de origem associado  &nbsp;</span>
+											<span>Ticket de origem de defeito associado&nbsp;</span>
 												<p id="descricaoOrigem">
 													<b>Origem: <a style="cursor:pointer" onclick="abrirTicket(${ticket.ticketOrigem.ticketKey})">#${ticket.ticketOrigem.ticketKey}</a></b>
-													<pronto:icons name="excluir.png" title="Excluir esta origem" onclick="excluirTicketDeOrigem(${ticket.ticketKey});"/>
+													<pronto:icons name="excluir.png" title="Clique aqui para desassociar este ticket de origem de defeito" onclick="excluirTicketDeOrigem(${ticket.ticketKey});"/>
 												</p>
 										</c:when>
 										<c:otherwise>
-											<span id="spanTicketOrigem">Associar ticket de origem &nbsp;
-												<pronto:icons name="buscar.png" id="iconBuscarOrigem" title="Buscar ticket de origem para esta defeito" onclick="buscarTicketDeOrigem(${ticket.ticketKey});"/>
+											<span id="spanTicketOrigem">Associar origem de defeito&nbsp;
+												<pronto:icons name="buscar.png" id="iconBuscarOrigem" title="Associar ticket que originou este defeito" onclick="buscarTicketDeOrigem(${ticket.ticketKey});"/>
 											</span>
 											<p id="descricaoOrigem"> </p>
 										</c:otherwise>

@@ -73,44 +73,51 @@
 			</div>
 		</form>
 		
-		<table style="width: 100%">
-			<tr>
-				<th></th>
-				<th>#</th>
-				<th>Título</th>
-				<th>Tipo</th>
-				<th>Cliente</th>
-				<th>Backlog</th>
-				<th>Valor de Negócio</th>
-				<th>Esforço</th>
-				<th>Status</th>
-				<th colspan="2">&nbsp;</th>
-			</tr>
-			<c:set var="cor" value="${true}"/>
-			<c:forEach items="${tickets}" var="t">
-				<c:set var="cor" value="${!cor}"/>
-				<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
-					<td><input type="radio" name="ticketOrigemKey" onclick="salvarComoOrigem(${t.ticketKey})"></td>
-					<td>${t.ticketKey}</td>
-					<td class="titulo">${t.titulo}</td>
-					<td>${t.tipoDeTicket.descricao}</td>
-					<td>${t.cliente}</td>
-					<td>${t.backlog.descricao}</td>
-					<td>${t.valorDeNegocio}</td>
-					<td>${t.esforco}</td>
-					<td>${t.kanbanStatus.descricao}</td>
-					<td>
-						<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
-					</td>
-					<td>
-						<a href="${raiz}tickets/${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
-					</td>
-				</tr>
-			</c:forEach>
-			<tr>
-				<th colspan="11"><i>* ${fn:length(tickets)} resultado(s) encontrado(s)</i></th>
-			</tr>
-		</table>	
+		<c:choose>
+			<c:when test="${!empty mensagem}">
+				${mensagem}
+			</c:when>
+			<c:otherwise>
+				<table style="width: 100%">
+					<tr>
+						<th></th>
+						<th>#</th>
+						<th>Título</th>
+						<th>Tipo</th>
+						<th>Cliente</th>
+						<th>Backlog</th>
+						<th>Valor de Negócio</th>
+						<th>Esforço</th>
+						<th>Status</th>
+						<th colspan="2">&nbsp;</th>
+					</tr>
+					<c:set var="cor" value="${true}"/>
+					<c:forEach items="${tickets}" var="t">
+						<c:set var="cor" value="${!cor}"/>
+						<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
+							<td><input type="radio" name="ticketOrigemKey" onclick="salvarComoOrigem(${t.ticketKey})"></td>
+							<td>${t.ticketKey}</td>
+							<td class="titulo">${t.titulo}</td>
+							<td>${t.tipoDeTicket.descricao}</td>
+							<td>${t.cliente}</td>
+							<td>${t.backlog.descricao}</td>
+							<td>${t.valorDeNegocio}</td>
+							<td>${t.esforco}</td>
+							<td>${t.kanbanStatus.descricao}</td>
+							<td>
+								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
+							</td>
+							<td>
+								<a href="${raiz}tickets/${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+							</td>
+						</tr>
+					</c:forEach>
+					<tr>
+						<th colspan="11"><i>* ${fn:length(tickets)} resultado(s) encontrado(s)</i></th>
+					</tr>
+				</table>	
+			</c:otherwise>
+		</c:choose>
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>
