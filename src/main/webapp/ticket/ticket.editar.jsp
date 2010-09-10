@@ -344,7 +344,7 @@
 										</c:when>
 										<c:otherwise>
 											<span id="spanTicketOrigem">Associar origem de defeito&nbsp;
-												<pronto:icons name="buscar.png" id="iconBuscarOrigem" title="Associar ticket que originou este defeito" onclick="buscarTicketDeOrigem(${ticket.ticketKey});"/>
+												<pronto:icons name="buscar.png" id="iconBuscarOrigem" title="Clique aqui associar ticket que originou este defeito" onclick="buscarTicketDeOrigem(${ticket.ticketKey});"/>
 											</span>
 											<p id="descricaoOrigem"> </p>
 										</c:otherwise>

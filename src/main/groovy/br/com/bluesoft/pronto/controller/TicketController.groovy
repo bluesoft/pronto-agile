@@ -738,8 +738,13 @@ class TicketController {
 					model.addAttribute("tickets", Lists.newArrayList(ticket))
 				}
 			} else {
-				def tickets = ticketDao.buscar(query, KanbanStatus.DONE, null, null, null)
+			
+				TicketOrdem ticketOrdem = TicketOrdem.TITULO
+				Classificacao ticketClassificacao = Classificacao.ASCENDENTE
+				
+				def tickets = ticketDao.buscar(query, KanbanStatus.DONE, null, ticketOrdem, ticketClassificacao, null)
 				model.addAttribute("tickets", tickets)
+				
 			}
 		} else {
 		model.addAttribute("mensagem", "Digite o número do ticket ou sua descrição.")
