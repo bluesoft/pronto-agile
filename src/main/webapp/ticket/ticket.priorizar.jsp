@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<title>Estimar ${backlog.descricao}${sprint.nome}</title>
+		<title>Priorizar ${backlog.descricao}${sprint.nome}</title>
 		<script type="text/javascript" src="${raiz}ticket/ticket.priorizar.js"></script>
 		<style type="text/css">
 			.ticketsTable tr {
