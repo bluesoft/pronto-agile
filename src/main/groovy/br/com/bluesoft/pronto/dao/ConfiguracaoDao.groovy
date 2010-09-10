@@ -2,6 +2,8 @@ package br.com.bluesoft.pronto.dao;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,6 @@ class ConfiguracaoDao {
 	}
 
 	private Map cache = null;
-	
 	
 	Map getMapa() {
 		if (cache == null) {
@@ -51,6 +52,10 @@ class ConfiguracaoDao {
 		tx.commit()
 	}
 	
+	String getProntoUrl() {
+		return String.valueOf(this.getMapa()['pronto.url'])
+	}
+	
 	boolean isZendeskAtivo() {
 		return String.valueOf(this.getMapa()['zendesk.ativo']).equals('true')
 	}
@@ -65,6 +70,22 @@ class ConfiguracaoDao {
 	
 	String getZendeskUrl() {
 		return String.valueOf(this.getMapa()['zendesk.url'])
+	}
+	
+	boolean isJabberAtivo() {
+		return String.valueOf(this.getMapa()['zendesk.ativo']).equals('true')
+	}
+	
+	String getJabberUserName() {
+		return String.valueOf(this.getMapa()['jabber.username'])
+	}
+	
+	String getJabberPassword() {
+		return String.valueOf(this.getMapa()['jabber.password'])
+	}
+	
+	String getJabberUrl() {
+		return String.valueOf(this.getMapa()['jabber.url'])
 	}
 	
 }

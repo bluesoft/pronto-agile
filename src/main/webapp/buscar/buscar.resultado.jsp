@@ -44,10 +44,16 @@
 	<body>
 		<h1>Resultado da Busca</h1>
 		
+		<div align="center">
 		<form id="formBuscaAvancada">
-			<div align="right">
+			<div style="float: right;">
+				<pronto:icons name="buscar_grande.png" title="Refinar Busca" onclick="recarregar();"/>
+			</div>
+			<div>
 				Busca:
 					<input id="query" type="text" name="query" value="${query}"/>
+				Sprint:
+					<input id="sprintNome" type="text" name="sprintNome" value="${sprintNome}"/>
 				Cliente: 
 				<select name="clienteKey" onchange="recarregar()" id="clienteKey">
 					<option value="-1">Todos</option>
@@ -63,6 +69,8 @@
 						<option value="${k.kanbanStatusKey}" ${kanbanStatusKey eq k.kanbanStatusKey ? 'selected' : ''}>${k.descricao}</option>
 					</c:forEach>
 				</select>
+			</div>
+			<div>
 				Ordem: 
 				<select name="ordem" onchange="recarregar()" id="ordem">
 					<c:forEach var="o" items="${ordens}">
@@ -75,10 +83,9 @@
 						<option value="${c}" ${c eq classificacao ? 'selected' : ''}>${c.descricao}</option>
 					</c:forEach>
 				</select>
-				
-				<pronto:icons name="buscar.png" title="Refinar Busca" onclick="recarregar();"/>
 			</div>
 		</form>
+		</div>
 		
 		
 		<table style="width: 100%">
@@ -87,8 +94,8 @@
 				<th>Título</th>
 				<th>Tipo</th>
 				<th>Cliente</th>
-				<th>Backlog</th>
-				<th>Valor de Negócio</th>
+				<th>Backlog/Sprint</th>
+				<th title="Valor de Negócio">VN</th>
 				<th>Esforço</th>
 				<th>Status</th>
 				<th colspan="2">&nbsp;</th>
@@ -101,7 +108,7 @@
 					<td class="titulo">${t.titulo}</td>
 					<td>${t.tipoDeTicket.descricao}</td>
 					<td>${t.cliente}</td>
-					<td>${t.backlog.descricao}</td>
+					<td>${t.backlog.descricao} <c:if test="${t.sprint ne null}">(${t.sprint.nome})</c:if></td>
 					<td>${t.valorDeNegocio}</td>
 					<td>${t.esforco}</td>
 					<td>${t.kanbanStatus.descricao}</td>

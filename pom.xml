@@ -292,12 +292,12 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.0.2.GA</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
 			<version>1.3.1</version>
-    	</dependency>
+		</dependency>
 
 		<!-- Logging -->
 		<dependency>
@@ -392,8 +392,53 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-xmlrpc</artifactId>
+			<version>${groovy-xmlrpc.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jivesoftware</groupId>
+			<artifactId>smack</artifactId>
+			<version>${smackx.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jivesoftware</groupId>
+			<artifactId>smackx</artifactId>
+			<version>${smackx.version}</version>
+		</dependency>
+
+
 	</dependencies>
 
+
+	<properties>
+		<bliki.version>3.0.13</bliki.version>
+		<cglib.version>2.2</cglib.version>
+		<easyb.version>0.9.7</easyb.version>
+		<ehcache.version>2.2.0</ehcache.version>
+		<hibernate.annotations.version>3.5.4-Final</hibernate.annotations.version>
+		<hibernate.version>3.5.4-Final</hibernate.version>
+		<log4j.version>1.2.15</log4j.version>
+		<jackson.version>1.5.5</jackson.version>
+		<javamail.version>1.4</javamail.version>
+		<mockito.version>1.8.5</mockito.version>
+		<jsp.version>2.0</jsp.version>
+		<junit.version>4.7</junit.version>
+		<jsonlib.version>2.3</jsonlib.version>
+		<groovy.version>1.7.4</groovy.version>
+		<groovy-xmlrpc.version>0.7</groovy-xmlrpc.version>
+		<rome.version>1.0</rome.version>
+		<sitemesh.version>2.2.1</sitemesh.version>
+		<slf4j.version>1.5.10</slf4j.version>
+		<smack.version>3.1.0</smack.version>
+		<smackx.version>3.1.0</smackx.version>
+		<spring.version>3.0.2.RELEASE</spring.version>
+		<servlet.version>2.4</servlet.version>
+		<http-builder.version>0.5.0-RC2</http-builder.version>
+	</properties>
 
 	<repositories>
 		<repository>
@@ -411,28 +456,5 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
-
-	<properties>
-		<bliki.version>3.0.13</bliki.version>
-		<cglib.version>2.2</cglib.version>
-		<easyb.version>0.9.7</easyb.version>
-		<ehcache.version>2.2.0</ehcache.version>
-		<hibernate.annotations.version>3.5.4-Final</hibernate.annotations.version>
-		<hibernate.version>3.5.4-Final</hibernate.version>
-		<log4j.version>1.2.15</log4j.version>
-		<jackson.version>1.5.5</jackson.version>
-		<javamail.version>1.4</javamail.version>
-		<mockito.version>1.8.5</mockito.version>
-		<jsp.version>2.0</jsp.version>
-		<junit.version>4.7</junit.version>
-		<jsonlib.version>2.3</jsonlib.version>
-		<groovy.version>1.7.4</groovy.version>
-		<rome.version>1.0</rome.version>
-		<sitemesh.version>2.2.1</sitemesh.version>
-		<slf4j.version>1.5.10</slf4j.version>
-		<spring.version>3.0.2.RELEASE</spring.version>
-		<servlet.version>2.4</servlet.version>
-		<http-builder.version>0.5.0-RC2</http-builder.version>
-	</properties>
 
 </project>

@@ -56,6 +56,8 @@ class Usuario implements Comparable<Usuario>, Serializable {
 	
 	String emailMd5
 	
+	String jabberUsername
+	
 	@ManyToOne
 	@JoinColumn(name = "CLIENTE_KEY")
 	Cliente cliente
@@ -141,6 +143,10 @@ class Usuario implements Comparable<Usuario>, Serializable {
 			}
 		}
 		return false
+	}
+	
+	boolean hasJabber() {
+		return this.jabberUsername != null && this.jabberUsername.length() > 0 
 	}
 	
 }

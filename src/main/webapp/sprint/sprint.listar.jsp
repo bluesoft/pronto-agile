@@ -16,10 +16,26 @@
 					goTo('${raiz}sprints/'+sprintKey+'/reabrir');
 				}
 			}		
+
+			function recarregar(comboDeStatus) {
+				goTo(pronto.raiz + 'sprints/' + $(comboDeStatus).val());
+			}
+			
 		</script>
 	</head>
 	<body>
 		<h1>Sprints</h1>
+		
+		<div align="right">
+			Exibir: 
+			<select name="status" id="status" onchange="recarregar(this)">
+				<option ${status eq 'pendentes' ? 'selected="selected"' : ''} value="pendentes">Pendentes</option>
+				<option ${status eq 'fechados' ? 'selected="selected"' : ''} value="fechados">Fechados</option>
+				<option ${status eq 'todos' ? 'selected="selected"' : ''} value="todos">Todos</option>
+			</select>
+		</div>
+		
+		
 		<table style="width: 100%">
 			<thead>
 			<tr>
@@ -53,7 +69,7 @@
 							</c:otherwise>
 						</c:choose>
 					</td>
-					<td>${s.nome}</td>
+					<td><a onclick="goTo('${raiz}sprints/${s.sprintKey}')" href="#" title="Clique para editar">${s.nome}</a></td>
 					<td><fmt:formatDate value="${s.dataInicial}"/> à <fmt:formatDate value="${s.dataFinal}"/></td>
 					<td>${s.esforcoTotal}</td>
 					<td>${s.valorDeNegocioTotal}</td>

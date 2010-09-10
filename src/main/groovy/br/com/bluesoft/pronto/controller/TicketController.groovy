@@ -65,6 +65,7 @@ import br.com.bluesoft.pronto.model.TicketLog
 import br.com.bluesoft.pronto.model.TicketOrdem
 import br.com.bluesoft.pronto.model.Usuario
 import br.com.bluesoft.pronto.service.Config
+import br.com.bluesoft.pronto.service.JabberMessageService;
 import br.com.bluesoft.pronto.service.Seguranca
 import br.com.bluesoft.pronto.service.ZendeskService;
 import br.com.bluesoft.pronto.util.ControllerUtil
@@ -104,7 +105,7 @@ class TicketController {
 	@Autowired MovimentoKanbanDao movimentoKanbanDao
 	@Autowired MovimentadorDeTicket movimentadorDeTicket
 	@Autowired ZendeskService zendeskService
-	
+	@Autowired JabberMessageService jabberMessageService 
 	
 	@InitBinder
 	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
@@ -140,6 +141,8 @@ class TicketController {
 		ticketDao.salvar ticket
 		tx.commit()
 		
+		jabberMessageService.enviarComentario ticketKey, comentario, ticket.getEnvolvidos()
+		
 		return "redirect:/tickets/${ticketKey}#comentarios"
 		
 	}
@@ -149,14 +152,14 @@ class TicketController {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		boolean isNovo = ticket.ticketKey > 0
+		boolean isNovo = ticket.ticketKey <= 0
 		
 		try {
 			
 			if (!isNovo) {
 				def dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(ticketDao.obterDataDaUltimaAlteracaoDoTicket(ticket.ticketKey))
 				if (dataDaUltimaAlteracao!= null && ticket.dataDaUltimaAlteracao < dataDaUltimaAlteracao) {
-					def erro = 'Não foi possivel alterar o Ticket porque ele já foi alterado depois que você começou a editá-lo!' 
+					def erro = 'Não foi possível alterar o ticket porque já ocorreram alterações depois que você começou a editá-lo!' 
 					return "redirect:/tickets/${ticket.ticketKey}?erro=${erro}";
 				}
 			}
@@ -169,7 +172,7 @@ class TicketController {
 			
 			if (ticket.isDefeito()) {
 				if (ticket.kanbanStatus.kanbanStatusKey == KanbanStatus.DONE && (ticket.getCausaDeDefeito() == null || ticket.getCausaDeDefeito().getCausaDeDefeitoKey() == 0)) {
-					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de Mover para Done é preciso informar a Causa do Defeito";
+					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de mover para a etapa Done é preciso informar a causa do defeito.";
 				} else {
 					ticket.setCausaDeDefeito(causaDeDefeitoDao.obter(ticket.getCausaDeDefeito().getCausaDeDefeitoKey()))
 				}
@@ -215,6 +218,7 @@ class TicketController {
 				ticket.addComentario(comentario, Seguranca.getUsuario())
 			}
 			
+			ticket.setReporter(usuarioDao.obter(ticket.getReporter().getUsername()))
 			definirDesenvolvedores(ticket, desenvolvedor)
 			definirTestadores(ticket, testador)
 			
@@ -228,6 +232,7 @@ class TicketController {
 				}
 			}
 			
+			ticketDao.salvar(ticket)
 			tx.commit()
 			
 			if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
@@ -247,13 +252,11 @@ class TicketController {
 	}
 	
 	void definirDesenvolvedores( Ticket ticket,  String[] desenvolvedor) throws SegurancaException {
-		
 		Set<Usuario> desenvolvedoresAntigos = new TreeSet<Usuario>(ticketDao.listarDesenvolvedoresDoTicket(ticket.getTicketKey()))
-		
 		if (desenvolvedor != null && desenvolvedor.length > 0) {
 			ticket.setDesenvolvedores(new TreeSet<Usuario>())
 			for ( String username : desenvolvedor) {
-				ticket.addDesenvolvedor((Usuario) sessionFactory.getCurrentSession().get(Usuario.class, username))
+				ticket.addDesenvolvedor(usuarioDao.obter(username))
 			}
 		}
 		
@@ -265,9 +268,7 @@ class TicketController {
 	}
 	
 	void definirTestadores( Ticket ticket,  String[] testador) throws SegurancaException {
-		
 		Set<Usuario> testadoresAntigos = new TreeSet<Usuario>(ticketDao.listarTestadoresDoTicket(ticket.getTicketKey()))
-		
 		if (testador != null && testador.length > 0) {
 			ticket.setTestadores(new TreeSet<Usuario>())
 			for ( String username : testador) {
@@ -347,7 +348,7 @@ class TicketController {
 		
 		int backlogDeOrigem = ticket.getBacklog().getBacklogKey()
 		if (backlogDeOrigem != Backlog.PRODUCT_BACKLOG) {
-			throw new ProntoException("Para que uma Estória ou Bug seja movida para o Sprint Atual é preciso que ela esteja no Product Backlog.")
+			throw new ProntoException("Para que uma Estória ou Defeito seja movida para o Sprint atual é preciso que ela esteja no Product Backlog.")
 		}
 		
 		ticket.setSprint(sprintDao.getSprintAtual())

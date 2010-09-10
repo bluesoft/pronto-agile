@@ -183,13 +183,11 @@ p label {
 
 input.text, input.number, input.url, input.email, input.password, input.file,
 textarea.textarea, select.select{
-    font-size: 1.2em;
     border-top: 1px solid #7c7c7c;
     border-left: 1px solid #c3c3c3;
     border-right: 1px solid #c3c3c3;
     border-bottom: 1px solid #ddd;
     background: #fff url(../images/fieldbg.gif) repeat-x top;
-    color: #333;
 }
 
 input.text, input.number, input.url, input.email, input.password, input.file{

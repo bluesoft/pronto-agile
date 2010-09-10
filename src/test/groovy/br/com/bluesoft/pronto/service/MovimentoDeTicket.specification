@@ -9,8 +9,10 @@ import br.com.bluesoft.pronto.dao.MotivoReprovacaoDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
 import br.com.bluesoft.pronto.model.MotivoReprovacao;
 import br.com.bluesoft.pronto.model.CausaDeDefeito
+import br.com.bluesoft.pronto.model.MovimentoKanban;
 import br.com.bluesoft.pronto.model.Ticket
 import br.com.bluesoft.pronto.model.Usuario
+import br.com.bluesoft.pronto.service.JabberMessageService;
 
 description "Ao mover um ticket para doing"
 before "prepara spec", { before() }
@@ -104,7 +106,8 @@ void before() {
 	movimentadorDeTicket.kanbanStatusDao = new KanbanStatusDao() { Object obter(int key) { new KanbanStatus(kanbanStatusKey:key) } }
 	movimentadorDeTicket.ticketDao = new TicketDao() { void salvar(Ticket... tickets) {} }
 	movimentadorDeTicket.motivoReprovacaoDao = new MotivoReprovacaoDao() { Object obter(int key){ new MotivoReprovacao(motivoReprovacaoKey:key)} }
-	movimentadorDeTicket.movimentoKanbanDao = new MovimentoKanbanDao(){ void salvar(Object... o){} } 
+	movimentadorDeTicket.movimentoKanbanDao = new MovimentoKanbanDao(){ void salvar(Object... o){} }
+	movimentadorDeTicket.jabberMessageService = new JabberMessageService(){ boolean notificarMovimentacao(MovimentoKanban movimento){} }
 	Seguranca.setUsuario new Usuario(username:'Carolina')
 	ticket = new Ticket()
 }

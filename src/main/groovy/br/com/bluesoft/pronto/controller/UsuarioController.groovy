@@ -117,7 +117,7 @@ class UsuarioController {
 		}
 		
 		if (usuario.isClientePapel()) {
-			usuario.cliente  =clienteDao.obter(clienteKey)
+			usuario.cliente  = clienteDao.obter(clienteKey)
 		}
 		
 		if (password != null) {
