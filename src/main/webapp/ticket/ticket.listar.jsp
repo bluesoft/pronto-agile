@@ -79,7 +79,7 @@
 					<c:set var="cor" value="${!cor}"/>
 					<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
 						
-						<td ondblclick="trocarCategoria(this)" title="Dê um duplo clique para alterar a categoria">
+						<td ondblclick="trocarCategoria(this)" title="Dê um duplo clique para alterar a categoria" categoriaKey="${t.categoria ne null ? t.categoria.categoriaKey : 0}">
 							<c:if test="${t.categoria ne null}">
 								<span class="categoria categoria-${t.categoria.descricaoDaCor}">
 									${t.categoria.descricao}
@@ -129,7 +129,7 @@
 						<c:if test="${f.backlog.backlogKey eq t.backlog.backlogKey}">
 							<c:set var="cor" value="${!cor}"/>	 
 							<tr class="${cor ? 'odd' : 'even'}" id="${f.ticketKey}" pai="${t.ticketKey}">
-								<td ondblclick="trocarCategoria(this)" title="Dê um duplo clique para alterar a categoria">
+								<td ondblclick="trocarCategoria(this)" title="Dê um duplo clique para alterar a categoria" categoriaKey="${f.categoria ne null ? f.categoria.categoriaKey : 0}">
 									<c:if test="${f.categoria ne null}">
 										<span class="categoria categoria-${f.categoria.descricaoDaCor}">
 											${f.categoria.descricao}
@@ -175,7 +175,7 @@
 			<!-- Tarefas Soltas -->
 			<c:forEach items="${tarefasSoltas}" var="s">
 					<c:set var="cor" value="${!cor}"/>	 
-					<tr class="${cor ? 'odd' : 'even'}" id="${s.ticketKey}" pai="${s.pai.ticketKey}">
+					<tr class="${cor ? 'odd' : 'even'}" id="${s.ticketKey}" pai="${s.pai.ticketKey}" categoriaKey="${s.categoria ne null ? s.categoria.categoriaKey : 0}">
 						<td ondblclick="trocarCategoria(this)" title="Dê um duplo clique para alterar a categoria">
 							<c:if test="${s.categoria ne null}">
 								<span class="categoria categoria-${s.categoria.descricaoDaCor}">

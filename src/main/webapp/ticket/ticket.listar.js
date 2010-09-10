@@ -14,6 +14,7 @@ function salvarCategoria(select) {
 	var $select = $(select);
 	var categoriaKey = $select.val();
 	var ticketKey = $select.attr('ticketKey');
+	var $td = $select.parents('td');
 
 	var url = pronto.raiz + 'tickets/' + ticketKey + '/salvarCategoria';
 	$.post(url, {
@@ -22,7 +23,6 @@ function salvarCategoria(select) {
 	});
 
 	if (categoriaKey > 0) {
-		var $td = $select.parents('td');
 		var $selectedOption = $select.find('option:selected');
 		var clazz = $selectedOption.attr('categoriaClass');
 		var $label = $('<span class="categoria ' + clazz + '"/>');
@@ -30,6 +30,7 @@ function salvarCategoria(select) {
 		$td.append($label);
 	}
 
+	$td.attr('categoriaKey', categoriaKey);
 	$select.hide();
 	$select.removeAttr('ticketKey');
 }
@@ -37,10 +38,13 @@ function salvarCategoria(select) {
 function trocarCategoria(td) {
 	var ticketKey = $(td).parents('tr').attr('id');
 	var $select = $('#trocaCategoria');
+	
 	if (ticketKey != $select.attr('ticketKey')) {
+		var $categoriaAtual = $(td).attr('categoriaKey');
+		$select.val($categoriaAtual);
+		
 		$select.attr('ticketKey', ticketKey);
 		$(td).append($select);
-		$select[0].selectedIndex = -1;
 		$select.show();
 		var $td = $select.parents('td');
 		$td.find('.categoria').remove();
