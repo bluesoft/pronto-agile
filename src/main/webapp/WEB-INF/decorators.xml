@@ -4,6 +4,8 @@
     	<pattern>/tickets/**/descricao*</pattern>
     	<pattern>/execucoes/gerarScript</pattern>
     	<pattern>/burndown/data/*</pattern>
+    	<pattern>/tickets/**/selecionarOrigem</pattern>
+    	<pattern>/tickets/**/buscarTicketDeOrigem</pattern>
     </excludes> 
     <decorator name="default" page="default.jsp">
         <pattern>/*</pattern>

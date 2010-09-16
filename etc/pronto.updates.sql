@@ -365,6 +365,7 @@ create table integracao_zendesk (
 	ticket_key integer references ticket not null,
 	zendesk_ticket_key integer not null
 );
+
 alter table integracao_zendesk add primary key (ticket_key, zendesk_ticket_key);
 CREATE INDEX idx_integracao_zendesk_pronto ON integracao_zendesk USING btree (ticket_key);
 CREATE INDEX idx_integracao_zendesk_zendesk ON integracao_zendesk USING btree (zendesk_ticket_key);
@@ -378,3 +379,9 @@ alter table ticket add ticket_origem_key integer references ticket;
 -- 2010 09 06
 alter table sprint add meta  character varying(255);
 alter table usuario add jabber_username  character varying(255);
+
+--2010 09 09
+alter table integracao_zendesk add constraint UK_INTEGRACAO_ZENDESK unique (ticket_key, zendesk_ticket_key);
+
+--2010 09 10
+ALTER TABLE integracao_zendesk OWNER TO pronto;

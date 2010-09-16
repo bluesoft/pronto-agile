@@ -48,6 +48,23 @@ public class TicketDao extends DaoHibernate {
 	}
 	
 	@Override
+	public Ticket obterPorStatus(final Integer ticketKey, final Integer kanbanStatusKey) {
+
+		final StringBuilder hql = new StringBuilder();
+		hql.append("select distinct t from Ticket t ");
+		hql.append("left join fetch t.sprint ");
+		hql.append("left join fetch t.pai ");
+		hql.append("left join fetch t.tipoDeTicket ");
+		hql.append("left join fetch t.backlog ");
+		hql.append("left join fetch t.kanbanStatus ");
+		hql.append("left join fetch t.reporter ");
+		hql.append("where t.ticketKey = :ticketKey ");
+		hql.append("and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey");
+
+		return (Ticket) getSession().createQuery(hql.toString()).setInteger("ticketKey", ticketKey).setInteger("kanbanStatusKey", kanbanStatusKey).uniqueResult();
+	}
+	
+	@Override
 	public Ticket obterComUsuariosEnvolvidos(final Integer ticketKey) {
 		
 		String hql = """ 

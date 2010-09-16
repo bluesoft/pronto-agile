@@ -71,6 +71,7 @@ class ZendeskController {
 		}
 		
 		def ticket = zendeskService.criarNovoTicketNoPronto(zendeskTicketKey, tipoDeTicketKey, clienteKey)
+		zendeskService.incluirComentarioPrivado zendeskTicketKey, 'Ticket integrado com o Pronto.\r\n\r\nPara visualizá-lo acesse: ' + configuracaoDao.getProntoUrl() + 'tickets/' + ticket.ticketKey
 		
 		return "redirect:/tickets/${ticket.ticketKey}"
 		

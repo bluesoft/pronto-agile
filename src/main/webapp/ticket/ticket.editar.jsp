@@ -1,4 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
+<c:url var="iconsFolder" value="/commons/icons"/>
 <html>
 	<head>
 		<title><c:choose><c:when test="${ticket.ticketKey gt 0}">${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}</c:when><c:otherwise>Incluir ${ticket.tipoDeTicket.descricao}</c:otherwise></c:choose></title>
@@ -331,6 +332,25 @@
 									<p>Categoria</p>
 							</div>
 							
+							<c:if test="${ticket.defeito}">
+								<div>
+									<c:choose>
+										<c:when test="${!empty ticket.ticketOrigem}">
+											<span>Ticket de origem de defeito associado&nbsp;</span>
+												<p id="descricaoOrigem">
+													<b>Origem: <a style="cursor:pointer" onclick="abrirTicket(${ticket.ticketOrigem.ticketKey})">#${ticket.ticketOrigem.ticketKey}</a></b>
+													<pronto:icons name="excluir.png" title="Clique aqui para desassociar este ticket de origem de defeito" onclick="excluirTicketDeOrigem(${ticket.ticketKey});"/>
+												</p>
+										</c:when>
+										<c:otherwise>
+											<span id="spanTicketOrigem">Associar origem de defeito&nbsp;
+												<pronto:icons name="buscar.png" id="iconBuscarOrigem" title="Clique aqui para associar o ticket que originou este defeito" onclick="buscarTicketDeOrigem(${ticket.ticketKey});"/>
+											</span>
+											<p id="descricaoOrigem"> </p>
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</c:if>
 							
 							<c:if test="${empty ticket.filhos}">
 								<div>
@@ -541,9 +561,12 @@
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>
 		<script>
+			var iconsFolder;
 			$(function(){
 				$('#ticketTabs').tabs();
 				$('.datePicker').datepicker();
+
+				iconsFolder = "${iconsFolder}";
 			});
 
 			//Variaveis Globais para usar no .js

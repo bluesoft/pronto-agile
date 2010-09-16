@@ -127,6 +127,26 @@ function alterarStatuDoKanban() {
 	}
 }
 
+function buscarTicketDeOrigem(ticketKey) {
+	openWindow(pronto.raiz+"tickets/"+ticketKey+"/selecionarOrigem", 'selecaoDeOrigem');
+}
+
+function definirOrigem(ticketKey, ticketOrigemKey) {
+	$("#iconBuscarOrigem").hide();
+	$("#descricaoOrigem").text("");
+	$("#spanTicketOrigem").text("Ticket de origem de defeito associado");
+	$("<b>Origem: <a style='cursor:pointer' onclick='abrirTicket("+ticketOrigemKey+")'>#"+ticketOrigemKey+"</a></b>").appendTo("#descricaoOrigem");
+	$("<img src='"+iconsFolder+"/excluir.png' title='Clique aqui para desassociar este ticket de origem de defeito' onclick='excluirTicketDeOrigem("+ticketKey+");'/>").appendTo("#descricaoOrigem");
+}
+
+function abrirTicket(ticketKey) {
+	openWindow(pronto.raiz+"tickets/"+ticketKey, 'ticketKeyOrigem');
+}
+
+function excluirTicketDeOrigem(ticketKey) {
+	pronto.doPost(pronto.raiz+"tickets/"+ticketKey+"/excluirTicketDeOrigem");
+}
+
 $(function(){
 	$("#motivoReprovacaoDiv").hide();
 });

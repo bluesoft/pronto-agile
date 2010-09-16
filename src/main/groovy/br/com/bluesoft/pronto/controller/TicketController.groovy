@@ -23,6 +23,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory
 import org.apache.commons.fileupload.servlet.ServletFileUpload
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang.math.NumberUtils;
 import org.hibernate.SessionFactory
 import org.hibernate.Transaction
 import org.hibernate.criterion.Restrictions
@@ -74,6 +75,7 @@ import br.com.bluesoft.pronto.util.StringUtil
 import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer;
 import br.com.bluesoft.pronto.service.MovimentadorDeTicket
 import com.google.common.collect.ArrayListMultimap
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap
 
 import static org.springframework.web.bind.annotation.RequestMethod.*
@@ -720,5 +722,58 @@ class TicketController {
 	String logDescricao( Model model, @PathVariable int ticketHistoryKey) {
 		model.addAttribute "log", sessionFactory.currentSession.get(TicketLog.class, ticketHistoryKey)
 		return "/ticket/ticket.logDescricao.jsp"
+	}
+	
+	@RequestMapping("/{ticketKey}/selecionarOrigem")
+	String selecionarOrigem(Model model, @PathVariable int ticketKey) {
+		model.addAttribute("ticketKey", ticketKey)
+		return "/ticket/ticket.selecionarOrigem.jsp"
+	}
+	
+	@RequestMapping("/{ticketKey}/buscarTicketDeOrigem")
+	String buscarTicketDeOrigem(Model model, @PathVariable int ticketKey, String query) {
+
+		if (query != null && query != "") {
+			if (NumberUtils.toInt(query) > 0) {
+				Ticket ticket = ticketDao.obterPorStatus(NumberUtils.toInt(query), KanbanStatus.DONE)
+				if (ticket != null) {
+					model.addAttribute("tickets", Lists.newArrayList(ticket))
+				}
+			} else {
+			
+				TicketOrdem ticketOrdem = TicketOrdem.TITULO
+				Classificacao ticketClassificacao = Classificacao.ASCENDENTE
+				
+				def tickets = ticketDao.buscar(query, KanbanStatus.DONE, null, ticketOrdem, ticketClassificacao, null)
+				model.addAttribute("tickets", tickets)
+				
+			}
+		} else {
+		model.addAttribute("mensagem", "Digite o número do ticket ou sua descrição.")
+		}
+		model.addAttribute("ticketKey", ticketKey)
+		return "/ticket/ticket.selecionarOrigem.jsp"
+	}
+	
+	@RequestMapping("/{ticketKey}/salvarOrigem")
+	@ResponseBody String salvarOrigem(Model model, @PathVariable int ticketKey, int ticketOrigemKey) {
+		try {
+			Ticket ticket = ticketDao.obter(ticketKey)
+			ticket.setTicketOrigem ticketDao.obter(ticketOrigemKey)
+			ticketDao.salvar ticket
+			return "true"
+		} catch (e) {
+			return "false"
+		}
+	}
+	
+	@RequestMapping("/{ticketKey}/excluirTicketDeOrigem")
+	String excluirTicketDeOrigem(Model model, @PathVariable int ticketKey) {
+
+		Ticket ticket = ticketDao.obter(ticketKey)
+		ticket.setTicketOrigem(null)
+		ticketDao.salvar ticket
+		
+		return "redirect:/tickets/${ticketKey}" 
 	}
 }
