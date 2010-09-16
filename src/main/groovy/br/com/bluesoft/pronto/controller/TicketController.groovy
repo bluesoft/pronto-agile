@@ -146,7 +146,7 @@ class TicketController {
 	}
 	
 	@RequestMapping(method=[POST, PUT])
-	String salvar( Model model, Ticket ticket,  String comentario,  String[] desenvolvedor,  String[] testador,  Integer paiKey,  Integer clienteKey, Integer motivoReprovacaoKey) throws SegurancaException {
+	String salvar( Model model, Ticket ticket,  String comentario,  String[] desenvolvedor,  String[] testador,  Integer paiKey,  Integer clienteKey, Integer motivoReprovacaoKey, Integer kanbanStatusAnterior) throws SegurancaException {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
@@ -223,10 +223,12 @@ class TicketController {
 			ticketDao.salvar(ticket)
 			
 			if (!isNovo) {
-				if (motivoReprovacaoKey != null && motivoReprovacaoKey > 0) {
-					movimentadorDeTicket.movimentar ticket, ticket.kanbanStatus.kanbanStatusKey, motivoReprovacaoKey
-				} else {
-					movimentadorDeTicket.movimentar ticket, ticket.kanbanStatus.kanbanStatusKey
+				if (kanbanStatusAnterior != null && !kanbanStatusAnterior.equals(ticket.getKanbanStatus().getKanbanStatusKey())) {
+					if (motivoReprovacaoKey != null && motivoReprovacaoKey > 0) {
+						movimentadorDeTicket.movimentar ticket, ticket.kanbanStatus.kanbanStatusKey, motivoReprovacaoKey
+					} else {
+						movimentadorDeTicket.movimentar ticket, ticket.kanbanStatus.kanbanStatusKey
+					}
 				}
 			}
 			
