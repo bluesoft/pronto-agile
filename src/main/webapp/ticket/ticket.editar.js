@@ -147,6 +147,24 @@ function excluirTicketDeOrigem(ticketKey) {
 	pronto.doPost(pronto.raiz+"tickets/"+ticketKey+"/excluirTicketDeOrigem");
 }
 
+function escolherSprintParaMover(ticketKey) {
+
+	if ($('#selecionarSprint').find('option').length == 1){
+		pronto.moverParaSprintAtual(ticketKey,true);
+	} else {
+		var $div = $("#dialogSelecionarSprint");
+		$div.find('button').button();
+		var $dialog = $div.dialog();
+		$dialog.dialog('open');
+	}	
+}
+
+function moverParaSprint(ticket, sprint){
+	var url = (pronto.raiz + 'tickets/' + ticket + '/moverParaSprint/' + sprint);
+	pronto.moverTicket(ticketKey, url, false);	
+}
+
 $(function(){
 	$("#motivoReprovacaoDiv").hide();
 });
+

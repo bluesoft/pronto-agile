@@ -68,8 +68,8 @@
 					<c:if test="${ticket.backlog.backlogKey eq 1 or (ticket.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)) or ticket.backlog.backlogKey eq 3}">
 						<pronto:icons name="mover_para_impedimentos.png" title="Mover para Impedimentos" onclick="pronto.impedir('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
-					<c:if test="${ticket.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-						<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="pronto.moverParaSprintAtual('${ticket.ticketKey}')"></pronto:icons>
+					<c:if test="${ticket.backlog.backlogKey eq 1 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
+						<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para Sprint" onclick="escolherSprintParaMover('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
 					<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
 						<c:if test="${!ticket.tarefa or (ticket.tarefa && ticket.pai.backlog.backlogKey ne 4 && ticket.pai.backlog.backlogKey ne 5)}">
@@ -560,6 +560,18 @@
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>
+		
+		<div title="Escolha um Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
+			<select id="selecionarSprint">
+				<c:forEach items="${sprints}" var="s">
+					<option ${s.atual ? 'selected':''} value="${s.sprintKey}">${s.nome} ${s.atual ? '(Atual)' : ''}</option>
+				</c:forEach>			
+			</select>
+			<br/><br/>
+			<button onclick="$('#dialogSelecionarSprint').dialog('close');">Cancelar</button>
+			<button onclick="moverParaSprint('${ticket.ticketKey}', $('#selecionarSprint').val())">Mover</button>
+		</div>
+		
 		<script>
 			var iconsFolder;
 			$(function(){

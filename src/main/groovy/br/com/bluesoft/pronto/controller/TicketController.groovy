@@ -344,7 +344,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/moverParaSprintAtual")
 	String moverParaOSprintAtual( Model model,  @PathVariable int ticketKey,  HttpServletResponse response) throws ProntoException {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR)
 		
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		
@@ -363,6 +363,26 @@ class TicketController {
 				zendeskService.incluirComentarioPublico(zendeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
 			}
 		}
+		
+		return "redirect:/tickets/${ticket.ticketKey}"
+		
+	}
+	
+	@RequestMapping("/{ticketKey}/moverParaSprint/{sprintKey}")
+	String moverParaSprint( Model model,  @PathVariable int ticketKey, @PathVariable int sprintKey,  HttpServletResponse response) throws ProntoException {
+		
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR)
+		
+		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
+		
+		int backlogDeOrigem = ticket.getBacklog().getBacklogKey()
+		if (backlogDeOrigem != Backlog.SPRINT_BACKLOG && backlogDeOrigem != Backlog.PRODUCT_BACKLOG) {
+			throw new ProntoException("Para que uma Estória ou Defeito seja movida para um Sprint é preciso que ela esteja no Product Backlog ou que já esteja em algum outro Sprint.")
+		}
+		
+		ticket.setSprint(sprintDao.obter(sprintKey))
+		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG))
+		ticketDao.salvar(ticket)
 		
 		return "redirect:/tickets/${ticket.ticketKey}"
 		
