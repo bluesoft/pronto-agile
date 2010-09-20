@@ -50,14 +50,22 @@
 		</c:choose>
 		
 		
-		<c:if test="${fn:length(sprints) gt 1}">
-			<div align="right">
+		<div align="right">
+			<c:if test="${fn:length(sprints) gt 1}">
 				Sprint: 
 				<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
 					<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
 				</form:select>
-			</div>
-		</c:if>
+			</c:if>
+			
+			Categorias: 
+			<select name="categoriaKey" id="categoriaKey" onchange="recarregarCategoria(this.value)">
+				<option value="0" selected="selected">Todas</option>
+				<c:forEach items="${categorias}" var="categoria">
+					<option value="${categoria.categoriaKey}">${categoria.descricao}</option>
+				</c:forEach>
+		</select>
+		</div>
 		
 		<c:set var="cor" value="${true}"/>
 		<table id="ticketsTable" style="width: 100%">
@@ -215,18 +223,20 @@
 					</tr>
 				</c:forEach>
 			</tbody>
-			<tfoot>
-				<tr>
-					<th colspan="5">Total</th>
-					<th id="somaValorDeNegocio">${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
-					<th id="somaEsforco">${sprint.esforcoTotal}${backlog.esforcoTotal}</th>
-					<th></th>
-					<th id="tempoDeVidaMedio">${sprint.tempoDeVidaMedioEmDias}${backlog.tempoDeVidaMedioEmDias}</th>
-				</tr>
-				<tr>
-					<td colspan="9"><i>* ${descricaoTotal}</i></td>
-				</tr>
-			</tfoot>
+			<c:if test="${param.categoriaKey eq null}">
+				<tfoot>
+					<tr>
+						<th colspan="5">Total</th>
+						<th id="somaValorDeNegocio">${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
+						<th id="somaEsforco">${sprint.esforcoTotal}${backlog.esforcoTotal}</th>
+						<th></th>
+						<th id="tempoDeVidaMedio">${sprint.tempoDeVidaMedioEmDias}${backlog.tempoDeVidaMedioEmDias}</th>
+					</tr>
+					<tr>
+						<td colspan="9"><i>* ${descricaoTotal}</i></td>
+					</tr>
+				</tfoot>
+			</c:if>
 		</table>	
 		
 		<div align="center">
@@ -254,5 +264,13 @@
 			</select>
 		</div>
 		
+		<script type="text/javascript">
+			$(function(){
+				var categoria = "${param.categoriaKey}";
+				if (categoria.length > 0) {
+					$('#categoriaKey').val(categoria);	
+				}
+			});
+		</script>
 	</body>
 </html>

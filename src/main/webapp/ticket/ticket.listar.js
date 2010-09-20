@@ -2,6 +2,14 @@ function recarregar(sprintKey) {
 	goTo(pronto.raiz + 'backlogs/sprints/' + sprintKey);
 }
 
+function recarregarCategoria(categoriaKey) {
+	var url = location.href;
+	if (url.indexOf('?') > 0) {
+		url = url.substring(0, url.indexOf('?'))
+	} 
+	pronto.doGet(url + '?categoriaKey='+categoriaKey);
+}
+
 function apagarLinha(ticketKey) {
 	$('#' + ticketKey).add('tr[pai=' + ticketKey + ']').fadeOut('slow',
 			function() {

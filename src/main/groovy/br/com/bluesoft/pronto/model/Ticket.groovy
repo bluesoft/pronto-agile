@@ -131,24 +131,24 @@ class Ticket {
 	@Label("planejado?")
 	boolean planejado
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "pai")
 	@Cascade(org.hibernate.annotations.CascadeType.LOCK)
 	Ticket pai
 	
 	@Auditable
 	@Label("categoria")
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "categoria_key")
 	Categoria categoria
 	
 	@Auditable
 	@Label("causa do defeito")
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "causa_de_defeito_key")
 	CausaDeDefeito causaDeDefeito
 	
-	@OneToMany(mappedBy = "pai", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "pai", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	@OrderBy("prioridade asc")
 	@Cascade(org.hibernate.annotations.CascadeType.LOCK)
 	List<Ticket> filhos
@@ -172,7 +172,7 @@ class Ticket {
 	Integer prioridadeDoCliente
 	
 	@Auditable
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "sprint")
 	Sprint sprint
 	
@@ -180,7 +180,7 @@ class Ticket {
 	@JoinColumn(name = "script_key")
 	Script script
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "ticket_origem_key")
 	Ticket ticketOrigem
 	
@@ -475,4 +475,5 @@ class Ticket {
 		}
 		return envolvidos
 	}
+	
 }

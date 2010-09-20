@@ -63,11 +63,11 @@ class BacklogController {
 	}
 	
 	@RequestMapping(value='/{backlogKey}', method=GET)
-	String listarPorBacklog( Model model, @PathVariable  int backlogKey) {
+	String listarPorBacklog( Model model, @PathVariable  int backlogKey, Integer categoriaKey) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		def tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey)
+		def tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey, categoriaKey)
 		def tarefasSoltas = ticketDao.listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(backlogKey)
 		
 		model.addAttribute "tickets", tickets
@@ -81,11 +81,11 @@ class BacklogController {
 	}
 	
 	@RequestMapping(value="/sprints/{sprintKey}", method=GET)
-	String listarPorSprint( Model model,  @PathVariable int sprintKey) {
+	String listarPorSprint( Model model,  @PathVariable int sprintKey, Integer categoriaKey) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		def tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey)
+		def tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey, categoriaKey)
 		model.addAttribute "tickets", tickets
 		model.addAttribute "sprint", sprintDao.obter(sprintKey)
 		model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()

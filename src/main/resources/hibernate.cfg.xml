@@ -9,7 +9,6 @@
 		<property name="hibernate.jdbc.fetch_size">20</property>
 		<property name="hibernate.jdbc.batch_size">20</property>
 		<property name="hibernate.show_sql">false</property>
-
 		<property name="hibernate.connection.autocommit">false</property>
 		<property name="connection.autocommit">false</property>
 

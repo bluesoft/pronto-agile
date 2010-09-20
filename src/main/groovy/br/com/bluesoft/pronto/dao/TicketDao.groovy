@@ -378,7 +378,7 @@ public class TicketDao extends DaoHibernate {
 		return listarEstoriasEDefeitosPorBacklog(Backlog.PRODUCT_BACKLOG);
 	}
 	
-	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey) {
+	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey, Integer categoriaKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" left join fetch t.filhos f ");
@@ -387,8 +387,19 @@ public class TicketDao extends DaoHibernate {
 		builder.append(" left join fetch t.tipoDeTicket ");
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
+		if (categoriaKey && categoriaKey > 0) {
+			builder.append(" and t.categoria.categoriaKey = :categoriaKey ");
+		}
 		
-		final List<Ticket> lista = getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA ]).list();
+		def query = getSession().createQuery(builder.toString())
+		query.setInteger("backlogKey", backlogKey)
+		query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA ])
+		if (categoriaKey && categoriaKey > 0) {
+			query.setInteger 'categoriaKey', categoriaKey
+		}
+		
+		final List<Ticket> lista = query.list();
+		
 		
 		final List<Comparator> comparators = new ArrayList<Comparator>();
 		comparators.add(new ReverseComparator(new BeanComparator("valorDeNegocio")));
@@ -402,7 +413,7 @@ public class TicketDao extends DaoHibernate {
 		return lista;
 	}
 	
-	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey) {
+	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey, final Integer categoriaKey) {
 		final StringBuilder builder = new StringBuilder();
 		
 		builder.append(" select distinct t from Ticket t");
@@ -414,8 +425,18 @@ public class TicketDao extends DaoHibernate {
 		builder.append(" left join fetch t.reporter ");
 		builder.append(" where t.sprint.sprintKey = :sprintKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
+		if (categoriaKey && categoriaKey > 0) {
+			builder.append(" and t.categoria.categoriaKey = :categoriaKey ");
+		}
 		
-		final List<Ticket> lista = getSession().createQuery(builder.toString()).setInteger("sprintKey", sprintKey).setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO ]).list();
+		def query = getSession().createQuery(builder.toString())
+		query.setInteger("sprintKey", sprintKey)
+		query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO ])
+		if (categoriaKey && categoriaKey > 0) {
+			query.setInteger 'categoriaKey', categoriaKey
+		}
+		
+		final List<Ticket> lista = query.list();
 		
 		final List<Comparator> comparators = new ArrayList<Comparator>();
 		comparators.add(new ReverseComparator(new BeanComparator("valorDeNegocio")));
@@ -433,6 +454,7 @@ public class TicketDao extends DaoHibernate {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" left join fetch t.filhos f ");
+		builder.append(" left join fetch t.pai ");
 		builder.append(" left join fetch t.sprint ");
 		builder.append(" left join fetch t.tipoDeTicket ");
 		builder.append(" left join fetch t.backlog ");
@@ -442,7 +464,10 @@ public class TicketDao extends DaoHibernate {
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey = :tipoTarefa");
 		builder.append(" and t.pai.backlog.backlogKey != t.backlog.backlogKey");
 		builder.append(" order by t.valorDeNegocio desc, t.esforco desc");
-		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).setInteger("tipoTarefa", TipoDeTicket.TAREFA).list();
+		def query = getSession().createQuery(builder.toString())
+		query.setInteger("backlogKey", backlogKey)
+		query.setInteger("tipoTarefa", TipoDeTicket.TAREFA)
+		return query.list();
 	}
 	
 	public List<Ticket> listarTicketsQueNaoEstaoNoBranchMaster() {
