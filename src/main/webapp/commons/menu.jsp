@@ -7,11 +7,11 @@
 	    <td class="rootVoice {menu: 'menuCadastros'}" >Cadastros</td>
 	    <td class="rootVoice {menu: 'menuBacklogs'}" >Backlogs</td>
 		<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
-			<td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}sprints');">Sprints</td>
 	   		<td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}kanban');">Kanban</td>
-	   		<td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}burndown');">Burndown</td>
+			<td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}sprints');">Sprints</td>
 		</c:if>
 	    <td class="rootVoice {menu: 'menuFerramentas'}" >Ferramentas</td>
+	    <td class="rootVoice {menu: 'menuRelatorios'}">Relatórios</td>
 	    <td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}logout');">Sair</td>
 	</tr>
 </table>
@@ -59,4 +59,10 @@
 		<a img="execucoes.png" href="${raiz}execucoes/pendentes">Execuções de Scripts</a>
 	</c:if>
 </div>
+
+<div id="menuRelatorios" class="mbmenu">
+	<a img="burndown_chart.png" href="${raiz}burndown">Burndown Chart</a>
+	<a img="defeito.png" href="${raiz}relatorios/defeitos">Gráfico de Defeitos</a>
+</div>
+
 </c:if>

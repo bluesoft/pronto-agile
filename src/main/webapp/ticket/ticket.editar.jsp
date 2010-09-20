@@ -324,13 +324,24 @@
 							</div>
 							
 							<div>
-									<form:select path="ticket.categoria.categoriaKey">
-										<form:option value="0" cssClass="nenhuma">Nenhuma</form:option>
-										<form:options items="${categorias}" itemLabel="descricao" itemValue="categoriaKey"/>
-									</form:select>
-									<br/>
-									<p>Categoria</p>
+								<form:select path="ticket.categoria.categoriaKey">
+									<form:option value="0" cssClass="nenhuma">Nenhuma</form:option>
+									<form:options items="${categorias}" itemLabel="descricao" itemValue="categoriaKey"/>
+								</form:select>
+								<br/>
+								<p>Categoria</p>
 							</div>
+							
+							<div>
+								<form:select path="ticket.modulo.moduloKey">
+									<form:option value="0" cssClass="nenhuma">Nenhum</form:option>
+									<form:options items="${modulos}" itemLabel="descricao" itemValue="moduloKey"/>
+								</form:select>
+								<br/>
+								<p>Módulo</p>
+							</div>
+						</div>
+						<div class="bloco">
 							
 							<c:if test="${ticket.defeito}">
 								<div>

@@ -143,6 +143,12 @@ class Ticket {
 	Categoria categoria
 	
 	@Auditable
+	@Label("modulo")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "modulo_key")
+	Modulo modulo
+	
+	@Auditable
 	@Label("causa do defeito")
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "causa_de_defeito_key")

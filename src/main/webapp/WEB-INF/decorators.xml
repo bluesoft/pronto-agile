@@ -6,6 +6,9 @@
     	<pattern>/burndown/data/*</pattern>
     	<pattern>/tickets/**/selecionarOrigem</pattern>
     	<pattern>/tickets/**/buscarTicketDeOrigem</pattern>
+    	<pattern>/**/*.json</pattern>
+    	<pattern>/**/*.xml</pattern>
+    	<pattern>/relatorios/defeitos/gerar</pattern>
     </excludes> 
     <decorator name="default" page="default.jsp">
         <pattern>/*</pattern>

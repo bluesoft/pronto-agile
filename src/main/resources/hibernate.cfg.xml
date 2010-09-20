@@ -32,6 +32,7 @@
 		<mapping class="br.com.bluesoft.pronto.model.CausaDeDefeito" />
 		<mapping class="br.com.bluesoft.pronto.model.Configuracao" />
 		<mapping class="br.com.bluesoft.pronto.model.Cliente" />
+		<mapping class="br.com.bluesoft.pronto.model.Modulo" />
 		<mapping class="br.com.bluesoft.pronto.model.MovimentoKanban" />
 		<mapping class="br.com.bluesoft.pronto.model.MotivoReprovacao" />
 		<mapping class="br.com.bluesoft.pronto.model.Sprint" />

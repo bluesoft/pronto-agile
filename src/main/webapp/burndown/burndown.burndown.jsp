@@ -1,5 +1,5 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<c:url var="chart" value="/open-flash-chart.swf"/>
+<c:url var="chart" value="/commons/charts/open-flash-chart.swf"/>
 <c:url var="data" value="/burndown/data/${sprint.sprintKey}"/>
 <html>
 	<head>

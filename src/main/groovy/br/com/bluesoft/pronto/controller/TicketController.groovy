@@ -50,6 +50,7 @@ import br.com.bluesoft.pronto.dao.CategoriaDao;
 import br.com.bluesoft.pronto.dao.CausaDeDefeitoDao;
 import br.com.bluesoft.pronto.dao.ClienteDao
 import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.ModuloDao;
 import br.com.bluesoft.pronto.dao.MotivoReprovacaoDao
 import br.com.bluesoft.pronto.dao.MovimentoKanbanDao
 import br.com.bluesoft.pronto.dao.SprintDao
@@ -91,6 +92,7 @@ class TicketController {
 	public static final String VIEW_EDITAR = "/ticket/ticket.editar.jsp"
 	
 	@Autowired CategoriaDao categoriaDao
+	@Autowired ModuloDao moduloDao
 	@Autowired ClienteDao clienteDao
 	@Autowired SessionFactory sessionFactory
 	@Autowired TicketDao ticketDao
@@ -208,6 +210,12 @@ class TicketController {
 				ticket.setCategoria(categoriaDao.obter(ticket.categoria.categoriaKey))
 			} else {
 				ticket.categoria = null
+			}
+			
+			if (ticket.modulo != null && ticket.modulo.moduloKey > 0) {
+				ticket.setModulo(moduloDao.obter(ticket.modulo.moduloKey))
+			} else {
+				ticket.modulo = null
 			}
 			
 			if (ticket.getTicketKey() == 0) {
@@ -691,6 +699,7 @@ class TicketController {
 		def equipe = usuarioDao.listarEquipe()
 		
 		model.addAttribute "categorias", categoriaDao.listar()
+		model.addAttribute "modulos", moduloDao.listar()
 		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		model.addAttribute "clientes", clienteDao.listar()
 		model.addAttribute "testadores", equipe 

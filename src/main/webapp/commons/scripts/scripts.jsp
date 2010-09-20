@@ -49,3 +49,6 @@
 
 <c:url var="prontoJsUrl" value="/commons/scripts/pronto.js"/>
 <script type="text/javascript" src="${prontoJsUrl}"></script>
+
+<c:url var="fusionCharts" value="/commons/scripts/FusionCharts.js"/>
+<script type="text/javascript" src="${fusionCharts}"></script>

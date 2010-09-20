@@ -385,3 +385,16 @@ alter table integracao_zendesk add constraint UK_INTEGRACAO_ZENDESK unique (tick
 
 --2010 09 10
 ALTER TABLE integracao_zendesk OWNER TO pronto;
+
+--2010 09 20
+CREATE TABLE modulo (
+	modulo_key integer primary key,
+	descricao varchar(75)
+);
+
+ALTER TABLE modulo OWNER TO pronto;
+
+alter table ticket add modulo_key integer references modulo;
+CREATE INDEX idx_ticket_modulo ON TICKET USING btree (modulo_key);
+
+create sequence SEQ_MODULO;
