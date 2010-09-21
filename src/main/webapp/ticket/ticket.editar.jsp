@@ -68,7 +68,7 @@
 					<c:if test="${ticket.backlog.backlogKey eq 1 or (ticket.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)) or ticket.backlog.backlogKey eq 3}">
 						<pronto:icons name="mover_para_impedimentos.png" title="Mover para Impedimentos" onclick="pronto.impedir('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
-					<c:if test="${ticket.backlog.backlogKey eq 1 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
+					<c:if test="${ticket.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
 						<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para Sprint" onclick="escolherSprintParaMover('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
 					<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
