@@ -52,3 +52,9 @@
 
 <c:url var="fusionCharts" value="/commons/scripts/FusionCharts.js"/>
 <script type="text/javascript" src="${fusionCharts}"></script>
+
+<script>
+$(function(){
+	$.ajaxSetup({ traditional: true });
+});
+</script>
