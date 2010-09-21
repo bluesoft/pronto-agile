@@ -150,7 +150,7 @@ function excluirTicketDeOrigem(ticketKey) {
 function escolherSprintParaMover(ticketKey) {
 
 	if ($('#selecionarSprint').find('option').length == 1){
-		pronto.moverParaSprintAtual(ticketKey,true);
+		pronto.moverParaSprintAtual(ticketKey,false);
 	} else {
 		var $div = $("#dialogSelecionarSprint");
 		$div.find('button').button();
