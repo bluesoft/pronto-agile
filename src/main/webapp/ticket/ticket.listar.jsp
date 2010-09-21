@@ -116,7 +116,7 @@
 									<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${t.ticketKey},true)"></pronto:icons>
 								</c:if>
 								<c:if test="${(t.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner))}">
-									<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="moverParaSprintpronto.moverParaSprintAtual(${t.ticketKey},true)"></pronto:icons>
+									<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="pronto.moverParaSprintAtual(${t.ticketKey},true)"></pronto:icons>
 								</c:if>
 								<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
 									<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${t.ticketKey},true)"></pronto:icons>
