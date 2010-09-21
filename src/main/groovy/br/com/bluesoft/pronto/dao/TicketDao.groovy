@@ -377,7 +377,11 @@ public class TicketDao extends DaoHibernate {
 	public List<Ticket> listarEstoriasEDefeitosDoProductBacklog() {
 		return listarEstoriasEDefeitosPorBacklog(Backlog.PRODUCT_BACKLOG);
 	}
-	
+
+	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey) {
+		return listarEstoriasEDefeitosPorBacklog(backlogKey, null);
+	}
+		
 	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey, Integer categoriaKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
@@ -411,6 +415,10 @@ public class TicketDao extends DaoHibernate {
 		Collections.sort(lista, comparatorChain);
 		
 		return lista;
+	}
+
+	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey) {
+		return listarEstoriasEDefeitosPorSprint(sprintKey, null)
 	}
 	
 	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey, final Integer categoriaKey) {
