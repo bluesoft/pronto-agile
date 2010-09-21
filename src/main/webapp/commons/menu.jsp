@@ -30,6 +30,9 @@
 	<c:if test="${usuarioLogado.administrador}">
 		<a img="configuracoes.png" href="${raiz}configuracoes">Configurações</a>
 	</c:if>
+	<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
+		<li><a img="modulos.png" href="${raiz}modulos">Módulos</a></li>
+	</c:if>
 	<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">
 		<li><a img="reprovacao.png" href="${raiz}motivosReprovacao">Motivos De Reprovação</a></li>
 	</c:if>
