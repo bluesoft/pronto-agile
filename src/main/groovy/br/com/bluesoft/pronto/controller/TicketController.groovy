@@ -354,26 +354,9 @@ class TicketController {
 		
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR)
 		
-		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
+		Sprint sprintAtual = sprintDao.getSprintAtual()
 		
-		int backlogDeOrigem = ticket.getBacklog().getBacklogKey()
-		if (backlogDeOrigem != Backlog.PRODUCT_BACKLOG) {
-			throw new ProntoException("Para que uma Estória ou Defeito seja movida para o Sprint atual é preciso que ela esteja no Product Backlog.")
-		}
-		
-		ticket.setSprint(sprintDao.getSprintAtual())
-		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG))
-		ticketDao.salvar(ticket)
-		
-		if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
-			def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
-			if (zendeskTicketKey) {
-				zendeskService.incluirComentarioPublico(zendeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
-			}
-		}
-		
-		return "redirect:/tickets/${ticket.ticketKey}"
-		
+		return moverParaSprint(model, ticketKey, sprintAtual.getSprintKey(), response)
 	}
 	
 	@RequestMapping("/{ticketKey}/moverParaSprint/{sprintKey}")
@@ -391,6 +374,13 @@ class TicketController {
 		ticket.setSprint(sprintDao.obter(sprintKey))
 		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG))
 		ticketDao.salvar(ticket)
+
+		if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
+			def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
+			if (zendeskTicketKey) {
+				zendeskService.incluirComentarioPublico(zendeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
+			}
+		}
 		
 		return "redirect:/tickets/${ticket.ticketKey}"
 		
