@@ -63,16 +63,17 @@ class BacklogController {
 	}
 	
 	@RequestMapping(value='/{backlogKey}', method=GET)
-	String listarPorBacklog( Model model, @PathVariable  int backlogKey, Integer categoriaKey) {
+	String listarPorBacklog( Model model, @PathVariable  int backlogKey, Integer categoriaKey, Integer kanbanStatusKey) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		def tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey, categoriaKey)
+		def tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey, categoriaKey, kanbanStatusKey)
 		def tarefasSoltas = ticketDao.listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(backlogKey)
 		
 		model.addAttribute "tickets", tickets
 		model.addAttribute "tarefasSoltas", tarefasSoltas
 		model.addAttribute "backlog", backlogDao.obter(backlogKey)
+		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
 		
 		def totaisPorTipoDeTicket = totaisPorTipoDeTicket(tickets, tarefasSoltas)
 		model.addAttribute "descricaoTotal", montaDescricaoTotal(totaisPorTipoDeTicket)
@@ -81,14 +82,15 @@ class BacklogController {
 	}
 	
 	@RequestMapping(value="/sprints/{sprintKey}", method=GET)
-	String listarPorSprint( Model model,  @PathVariable int sprintKey, Integer categoriaKey) {
+	String listarPorSprint( Model model,  @PathVariable int sprintKey, Integer categoriaKey, Integer kanbanStatusKey) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		def tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey, categoriaKey)
+		def tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey, categoriaKey, kanbanStatusKey)
 		model.addAttribute "tickets", tickets
 		model.addAttribute "sprint", sprintDao.obter(sprintKey)
 		model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
+		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
 		
 		Map<Integer, Integer> totaisPorTipoDeTicket = totaisPorTipoDeTicket(tickets)
 		model.addAttribute "descricaoTotal", montaDescricaoTotal(totaisPorTipoDeTicket)

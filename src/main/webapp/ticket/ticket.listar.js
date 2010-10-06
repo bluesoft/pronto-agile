@@ -2,12 +2,14 @@ function recarregar(sprintKey) {
 	goTo(pronto.raiz + 'backlogs/sprints/' + sprintKey);
 }
 
-function recarregarCategoria(categoriaKey) {
+function recarregarFiltros() {
 	var url = location.href;
 	if (url.indexOf('?') > 0) {
-		url = url.substring(0, url.indexOf('?'))
+		url = url.substring(0, url.indexOf('?'));
 	} 
-	pronto.doGet(url + '?categoriaKey='+categoriaKey);
+	var categoriaKey = $('#categoriaKey').val();
+	var kanbanStatusKey = $('#kanbanStatusKey').val();
+	pronto.doGet(url + '?categoriaKey='+categoriaKey+'&kanbanStatusKey='+kanbanStatusKey);
 }
 
 function apagarLinha(ticketKey) {

@@ -19,7 +19,7 @@
 
 .kanbanColumn li {
 	float: left;
-	width: 96px;
+	width: 100px;
 	padding: 0.4em;
 	margin: 0 0.4em 0.4em 0;
 	text-align: center;
@@ -36,11 +36,26 @@
 }
 
 .ticket {
-	height: 70px;
-	font-family: "Lucida Grande", Trebuchet MS, verdana, arial, helvetica,
-		sans-serif;
+	height: 100px;
+	font-family: "Lucida Grande", Trebuchet MS, verdana, arial, helvetica, sans-serif;
 	font-size: 10px;
 	cursor: crosshair;
+}
+
+.ticketKey {
+	font-weight: bolder;
+	font-size: 12px;
+}
+
+.avatares {
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+	padding: 2px;
+}
+
+.avatares img {
+	border: solid white 1px;
+	
 }
 
 .bug {
@@ -85,7 +100,3 @@
 	height: 100%;
 }
 
-.ticketKey {
-	font-weight: bolder;
-	font-size: 11px;
-}

@@ -11,10 +11,13 @@
 		<div id="topo">
 			Tipo de Gráfico:
 			<select id="tipo">
-				<option value="categoria">Por Categoria</option>
-				<option value="cliente">Por Cliente</option>
-				<option value="modulo">Por Módulo</option>
-				<option value="sprint">Por Sprint</option>
+				<option value="semana" chart="FCF_Line">Por Semana</option>
+				<option value="mes" chart="FCF_Line">Por Mês</option>
+				<option value="ano" chart="FCF_Line">Por Ano</option>
+				<option value="categoria" chart="FCF_Bar2D">Por Categoria</option>
+				<option value="cliente" chart="FCF_Bar2D">Por Cliente</option>
+				<option value="modulo" chart="FCF_Bar2D">Por Módulo</option>
+				<option value="sprint" chart="FCF_Bar2D">Por Sprint</option>
 			</select>
 			
 			<fmt:formatDate var="strDataInicial" value="${dataInicial}"/>
@@ -34,7 +37,8 @@
 				var tipo = $("#tipo").val();
 				var parametros = "?dataInicial=" + di + "&dataFinal=" + df +"&tipo=" + tipo;
 				var url = encodeURIComponent("${raiz}relatorios/defeitos/gerar.xml" + parametros);
-				var chart = new FusionCharts("${raiz}/commons/charts/FCF_Bar2D.swf", "chart", "920", "500");
+				var chartType = $('#tipo').find('option:selected').attr('chart');
+				var chart = new FusionCharts("${raiz}/commons/charts/"+chartType+".swf", "chart", "920", "500");
 				chart.setDataURL(url);
 				chart.render("chartdiv");	
 			}

@@ -65,8 +65,15 @@
                                                   	</c:if>
                                                   	#${t.ticketKey}
                                                   </span>
-                                                  <br>${t.tituloResumido}</p>
-                                                  
+                                                  <br/>${t.tituloResumido}<br/>
+													<span class="avatares">
+	                                                  <c:forEach items="${t.desenvolvedores}" var="u" varStatus="s">
+	                                                  	<c:if test="${s.index < 3}">
+															<img alt="${u.username}" id="dev_img_${u.username}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=25" style="padding: 1px;"/>
+														</c:if>
+													 </c:forEach>
+												 	</span>                                                  
+                                                  </p>
                                               </li>
                                       </c:forEach>
                                   </ul>

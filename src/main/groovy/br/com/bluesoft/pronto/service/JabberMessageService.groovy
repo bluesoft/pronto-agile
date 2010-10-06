@@ -51,7 +51,7 @@ class JabberMessageService {
 		if (configuracaoDao.isJabberAtivo()) {
 			def url = configuracaoDao.getProntoUrl() + "tickets/${movimento.ticket.ticketKey}"
 			def msg = "${Seguranca.usuario} moveu o ticket #${movimento.ticket.ticketKey} para ${movimento.kanbanStatus.descricao} - ${url}"
-			return this.enviarMensagem(msg, movimento.getTicket().getEnvolvidos())
+			return this.enviarMensagem(msg, movimento.getTicket().getEnvolvidosComReporter() - Seguranca.getUsuario())
 		}
 		return false
 	}

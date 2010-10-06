@@ -65,6 +65,61 @@ class RelatorioDeDefeitosDao  {
 		return query.list()
 	}
 	
+	def listarDefeitosPorSemana(Date dataInicial, Date dataFinal) {
+		def sql = """
+			select semana, count(*), anomessemana from (
+				select to_char(data_de_criacao,'w-MM/yyyy') as semana, to_number(to_char(data_de_criacao,'yyyyMMw'),'9999999') as anomessemana 
+				from ticket t
+				where t.tipo_de_ticket_key = 3
+				and data_de_criacao between :di and :df
+			) semanas 
+			group by semana, anomessemana
+			order by anomessemana asc	
+		"""
+		
+		def query = sessionFactory.currentSession.createSQLQuery(sql)
+		query.setDate 'di', dataInicial
+		query.setDate 'df', dataFinal
+		return query.list()
+	}
+	
+	def listarDefeitosPorMes(Date dataInicial, Date dataFinal) {
+		def sql = """
+			select mes, count(*), anomes from (
+				select to_char(data_de_criacao,'MM/yyyy') as mes, to_number(to_char(data_de_criacao,'yyyyMM'),'999999') as anomes 
+				from ticket t
+				where t.tipo_de_ticket_key = 3
+				and data_de_criacao between :di and :df
+			) meses
+			group by mes, anomes
+			order by anomes asc
+		"""
+		
+		def query = sessionFactory.currentSession.createSQLQuery(sql)
+		query.setDate 'di', dataInicial
+		query.setDate 'df', dataFinal
+		return query.list()
+	}
+
+	def listarDefeitosPorAno(Date dataInicial, Date dataFinal) {
+		def sql = """
+			select ano, count(*) from (
+				select to_number(to_char(data_de_criacao,'yyyy'),'9999') as ano
+				from ticket t
+				where t.tipo_de_ticket_key = 3
+				and data_de_criacao between :di and :df
+			) anos
+			group by ano
+			order by ano asc
+		"""
+		
+		def query = sessionFactory.currentSession.createSQLQuery(sql)
+		query.setDate 'di', dataInicial
+		query.setDate 'df', dataFinal
+		return query.list()
+	}
+
+		
 	def listarDefeitosPorCliente(Date dataInicial, Date dataFinal) {
 		def sql = """
 			select c.nome, count(*)

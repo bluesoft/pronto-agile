@@ -472,13 +472,18 @@ class Ticket {
 	
 	def getEnvolvidos() {
 		def envolvidos = [] as Set
-		envolvidos << this.reporter
 		if (this.getDesenvolvedores()) {
 			envolvidos.addAll this.getDesenvolvedores()
 		}
 		if (this.getTestadores()) {
 			envolvidos.addAll this.getTestadores()
 		}
+		return envolvidos
+	}
+	
+	def getEnvolvidosComReporter() {
+		def envolvidos = getEnvolvidos()
+		envolvidos << this.reporter
 		return envolvidos
 	}
 	

@@ -378,7 +378,7 @@ public class TicketDao extends DaoHibernate {
 		return listarEstoriasEDefeitosPorBacklog(Backlog.PRODUCT_BACKLOG);
 	}
 	
-	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey, Integer categoriaKey) {
+	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey, Integer categoriaKey, Integer kanbanStatusKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" left join fetch t.filhos f ");
@@ -391,11 +391,26 @@ public class TicketDao extends DaoHibernate {
 			builder.append(" and t.categoria.categoriaKey = :categoriaKey ");
 		}
 		
+		if (kanbanStatusKey && kanbanStatusKey != 0) {
+			if (kanbanStatusKey && kanbanStatusKey > 0) {
+				builder.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
+			} else {
+				builder.append(" and t.kanbanStatus.kanbanStatusKey != :kanbanStatusKey ");
+			}
+		}
+		
 		def query = getSession().createQuery(builder.toString())
 		query.setInteger("backlogKey", backlogKey)
 		query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA ])
 		if (categoriaKey && categoriaKey > 0) {
 			query.setInteger 'categoriaKey', categoriaKey
+		}
+		if (kanbanStatusKey && kanbanStatusKey != 0) {
+			if (kanbanStatusKey > 0) {
+				query.setInteger 'kanbanStatusKey', kanbanStatusKey
+			} else {
+				query.setInteger 'kanbanStatusKey', KanbanStatus.DONE
+			}
 		}
 		
 		final List<Ticket> lista = query.list();
@@ -413,7 +428,7 @@ public class TicketDao extends DaoHibernate {
 		return lista;
 	}
 	
-	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey, final Integer categoriaKey) {
+	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey, final Integer categoriaKey, Integer kanbanStatusKey) {
 		final StringBuilder builder = new StringBuilder();
 		
 		builder.append(" select distinct t from Ticket t");
@@ -428,12 +443,25 @@ public class TicketDao extends DaoHibernate {
 		if (categoriaKey && categoriaKey > 0) {
 			builder.append(" and t.categoria.categoriaKey = :categoriaKey ");
 		}
-		
+		if (kanbanStatusKey && kanbanStatusKey != 0) {
+			if (kanbanStatusKey && kanbanStatusKey > 0) {
+				builder.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
+			} else {
+				builder.append(" and t.kanbanStatus.kanbanStatusKey != :kanbanStatusKey ");
+			}
+		}
 		def query = getSession().createQuery(builder.toString())
 		query.setInteger("sprintKey", sprintKey)
 		query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO ])
 		if (categoriaKey && categoriaKey > 0) {
 			query.setInteger 'categoriaKey', categoriaKey
+		}
+		if (kanbanStatusKey && kanbanStatusKey != 0) {
+			if (kanbanStatusKey > 0) {
+				query.setInteger 'kanbanStatusKey', kanbanStatusKey
+			} else {
+				query.setInteger 'kanbanStatusKey', KanbanStatus.DONE
+			}
 		}
 		
 		final List<Ticket> lista = query.list();

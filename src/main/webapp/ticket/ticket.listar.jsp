@@ -59,12 +59,21 @@
 			</c:if>
 			
 			Categorias: 
-			<select name="categoriaKey" id="categoriaKey" onchange="recarregarCategoria(this.value)">
+			<select name="categoriaKey" id="categoriaKey" onchange="recarregarFiltros()">
 				<option value="0" selected="selected">Todas</option>
 				<c:forEach items="${categorias}" var="categoria">
 					<option value="${categoria.categoriaKey}">${categoria.descricao}</option>
 				</c:forEach>
-		</select>
+			</select>
+			
+			Status: 
+			<select name="kanbanStatusKey" id="kanbanStatusKey" onchange="recarregarFiltros()">
+				<option value="0" selected="selected">Todos</option>
+				<option value="-1" selected="selected">Pendentes</option>
+				<c:forEach items="${kanbanStatus}" var="item">
+					<option value="${item.kanbanStatusKey}">${item.descricao}</option>
+				</c:forEach>
+			</select>
 		</div>
 		
 		<c:set var="cor" value="${true}"/>
@@ -267,8 +276,12 @@
 		<script type="text/javascript">
 			$(function(){
 				var categoria = "${param.categoriaKey}";
+				var kanbanStatusKey = "${param.kanbanStatusKey}";
 				if (categoria.length > 0) {
 					$('#categoriaKey').val(categoria);	
+				}
+				if (kanbanStatusKey.length > 0) {
+					$('#kanbanStatusKey').val(kanbanStatusKey);	
 				}
 			});
 		</script>

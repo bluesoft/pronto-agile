@@ -18,7 +18,7 @@ import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer
 class RelatorioDeDefeitosController {
 	
 	final static String VIEW = "/relatorios/defeitos/index.jsp"
-	final static int MAXIMO_DE_GRUPOS = 10
+	final static int MAXIMO_DE_GRUPOS = 12
 		
 	@Autowired
 	RelatorioDeDefeitosDao relatorioDeDefeitosDao
@@ -43,20 +43,36 @@ class RelatorioDeDefeitosController {
 		switch(tipo){
 			case "sprint":
 				dados = relatorioDeDefeitosDao.listarDefeitosPorSprint(dataInicial,dataFinal)
+				dados = getJSON(sintetizar(dados))
 				break;
 			case "categoria":
 				dados = relatorioDeDefeitosDao.listarDefeitosPorCategoria(dataInicial,dataFinal)
+				dados = getJSON(sintetizar(dados))
 				break;
 			case "modulo":
 				dados = relatorioDeDefeitosDao.listarDefeitosPorModulo(dataInicial,dataFinal)
+				dados = getJSON(sintetizar(dados))
 				break;
-			default:
+			case "semana":
+				dados = relatorioDeDefeitosDao.listarDefeitosPorSemana(dataInicial,dataFinal)
+				dados = getJSON(dados)
+				break;
+			case "mes":
+				dados = relatorioDeDefeitosDao.listarDefeitosPorMes(dataInicial,dataFinal)
+				dados = getJSON(dados)
+				break;
+			case "ano":
+				dados = relatorioDeDefeitosDao.listarDefeitosPorAno(dataInicial,dataFinal)
+				dados = getJSON(dados)
+				break;
+			case "cliente":
 				dados = relatorioDeDefeitosDao.listarDefeitosPorCliente(dataInicial,dataFinal)
+				dados = getJSON(sintetizar(dados))
 				break;
 		}
 		
 		response.setContentType("text/xml")
-		response.writer.write getJSON(sintetizar(dados))
+		response.writer.write dados
 	}
 	
 	def getJSON(def defeitos){
