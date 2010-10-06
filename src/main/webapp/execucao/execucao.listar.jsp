@@ -9,7 +9,8 @@
 			function reload() {
 				var bancoDeDadosKey = $('#bancoDeDadosKey').val();
 				var pendentes = $('#pendentes').val();
-
+				var kanbanStatusKey = $('#kanbanStatusKey').val();
+				
 				var url = pronto.raiz + 'execucoes';
 				if (parseInt(bancoDeDadosKey) > 0){
 					url += '/' + bancoDeDadosKey;
@@ -17,6 +18,10 @@
 
 				if (pendentes == 'true') {
 					url += "/pendentes";
+				}
+
+				if (kanbanStatusKey) {
+					url += "?kanbanStatusKey="+kanbanStatusKey;
 				}
 
 				pronto.doGet(url);
@@ -67,6 +72,13 @@
 				<select name="pendentes" id="pendentes" onchange="reload()">
 					<option value="true"  ${pendentes ? 'selected="selected"' : ''}>Pendentes</option>
 					<option value="false" ${!pendentes ? 'selected="selected"' : ''}>Todos</option>
+				</select>
+				Status:
+				<select name="kanbanStatusKey" id="kanbanStatusKey" onchange="reload()">
+					<option value="0">Todos</option>
+					<c:forEach items="${kanbanStatus}" var="item">
+						<option value="${item.kanbanStatusKey}"  ${item.kanbanStatusKey eq kanbanStatusKey ? 'selected="selected"' : ''}>${item.descricao}</option>
+					</c:forEach>
 				</select>
 			</form>
 		</div>

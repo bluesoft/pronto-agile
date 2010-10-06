@@ -32,6 +32,10 @@ public class ScriptDao extends DaoHibernate{
 
 	
 	List<Script> listarComDependencias() {
+		return listarComDependencias(null)
+	}
+	
+	List<Script> listarComDependencias(Integer kanbanStatusKey) {
 		String hql = """
 			select distinct s from Script s 
 			left join fetch s.execucoes e 
@@ -43,13 +47,21 @@ public class ScriptDao extends DaoHibernate{
 			left join fetch t.backlog
 			left join fetch t.tipoDeTicket
 			left join fetch t.sprint
-			order by s.scriptKey
+			where 1=1
 		"""
+		if (kanbanStatusKey && kanbanStatusKey > 0) {
+			hql += "and (k.kanbanStatusKey is null or k.kanbanStatusKey = ${kanbanStatusKey}) "
+		}
 		
+		hql += "order by s.scriptKey"
 		return getSession().createQuery(hql).list()
 	}
 	
 	List<Script> listarPendentesComDependencias() {
+		return listarPendentesComDependencias(null)
+	}
+	
+	List<Script> listarPendentesComDependencias(Integer kanbanStatusKey) {
 		String hql = """
 			select distinct s from Script s 
 			left join fetch s.execucoes e
@@ -64,13 +76,21 @@ public class ScriptDao extends DaoHibernate{
 			left join fetch t.sprint
 			where x.data is null
 			and x is not empty
-			order by s.scriptKey
 		"""
+		if (kanbanStatusKey && kanbanStatusKey > 0) {
+			hql += "and (k.kanbanStatusKey is null or k.kanbanStatusKey = ${kanbanStatusKey}) "
+		}
+		hql += "order by s.scriptKey"
+		
 		//tem que cruzar as execucoes por dentro e por fora (e,x) senão não dá pra exibir quantas faltam.
 		return getSession().createQuery(hql).list()
 	}
 	
-	List<Script> listarExecutadosComDependencias() {
+	List<Script> listarExecutadosComDependencias() { 
+		return listarExecutadosComDependencias(null) 
+	}
+	
+	List<Script> listarExecutadosComDependencias(Integer kanbanStatusKey) {
 		String hql = """
 			select distinct s from Script s 
 			left join fetch s.execucoes e 
@@ -84,9 +104,11 @@ public class ScriptDao extends DaoHibernate{
 			left join fetch t.sprint
 			where e.data is not null
 			and e is not empty
-			order by s.scriptKey
 		"""
-		
+		if (kanbanStatusKey && kanbanStatusKey > 0) {
+			hql += "and (k.kanbanStatusKey is null or k.kanbanStatusKey = ${kanbanStatusKey}) "
+		}
+		hql += "order by s.scriptKey"
 		return getSession().createQuery(hql).list()
 	}
 }

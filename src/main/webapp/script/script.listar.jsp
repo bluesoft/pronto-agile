@@ -35,6 +35,13 @@
 					<option value="2" ${situacao eq 2 ? 'selected="selected"' : ''}>Executados</option>
 					<option value="0" ${situacao eq 0 ? 'selected="selected"' : ''}>Todos</option>
 				</select>
+				Status:
+				<select name="kanbanStatusKey" onchange="reload()">
+					<option value="0">Todos</option>
+					<c:forEach items="${kanbanStatus}" var="item">
+						<option value="${item.kanbanStatusKey}"  ${item.kanbanStatusKey eq kanbanStatusKey ? 'selected="selected"' : ''}>${item.descricao}</option>
+					</c:forEach>
+				</select>
 			</form>
 		</div>
 		

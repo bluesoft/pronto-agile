@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.util.JavaScriptUtils
 
 import br.com.bluesoft.pronto.dao.BancoDeDadosDao
+import br.com.bluesoft.pronto.dao.KanbanStatusDao;
 import br.com.bluesoft.pronto.dao.ScriptDao
 import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.model.BancoDeDados
@@ -31,32 +32,33 @@ class ScriptController {
 	private static final String VIEW_EDITAR = "/script/script.editar.jsp"
 	
 	@Autowired private ScriptDao scriptDao
-	
-	@Autowired private BancoDeDadosDao bancoDeDadosDao
-	
 	@Autowired private TicketDao ticketDao
+	@Autowired private BancoDeDadosDao bancoDeDadosDao
+	@Autowired private KanbanStatusDao kanbanStatusDao
 	
 	static final TODOS = 0
 	static final PENDENTES = 1
 	static final EXECUTADOS = 2
 	
 	@RequestMapping(method = GET)
-	String listar( Model model,  Integer situacao) {
+	String listar( Model model,  Integer situacao, Integer kanbanStatusKey) {
 		
 		def scripts = null
 
 		switch (situacao) {
 			case EXECUTADOS:
-				scripts = scriptDao.listarExecutadosComDependencias()
+				scripts = scriptDao.listarExecutadosComDependencias(kanbanStatusKey)
 			break;
 			case TODOS:
-				scripts = scriptDao.listarComDependencias()
+				scripts = scriptDao.listarComDependencias(kanbanStatusKey)
 			break;
 			default:
-				scripts = scriptDao.listarPendentesComDependencias()	
+				scripts = scriptDao.listarPendentesComDependencias(kanbanStatusKey)	
 			break;
 		}
 
+		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
+		model.addAttribute "kanbanStatusKey", kanbanStatusKey
 		model.addAttribute "situacao", situacao
 		model.addAttribute "scripts", scripts
 		

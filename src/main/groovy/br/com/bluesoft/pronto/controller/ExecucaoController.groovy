@@ -16,6 +16,7 @@ import br.com.bluesoft.pronto.SegurancaException
 import br.com.bluesoft.pronto.core.Papel
 import br.com.bluesoft.pronto.dao.BancoDeDadosDao
 import br.com.bluesoft.pronto.dao.ExecucaoDao
+import br.com.bluesoft.pronto.dao.KanbanStatusDao;
 import br.com.bluesoft.pronto.model.BancoDeDados
 import br.com.bluesoft.pronto.model.Execucao
 import br.com.bluesoft.pronto.service.Seguranca
@@ -31,45 +32,47 @@ class ExecucaoController {
 	private static final String VIEW_EXECUCAO = "/execucao/execucao.script.jsp"
 	
 	@Autowired BancoDeDadosDao bancoDeDadosDao
-	
 	@Autowired ExecucaoDao execucaoDao
+	@Autowired private KanbanStatusDao kanbanStatusDao
 	
 	@RequestMapping(method = GET)
-	String listarTodos(Model model) {
-		listar model, null, false
+	String listarTodos(Model model, Integer kanbanStatusKey) {
+		listar model, null, false, kanbanStatusKey
 	}
 
 	@RequestMapping(value="/pendentes", method = GET)
-	String listarPendentes(Model model) {
-		listar model, null, true
+	String listarPendentes(Model model, Integer kanbanStatusKey) {
+		listar model, null, true, kanbanStatusKey
 	}
 
 	@RequestMapping(value= '/{bancoDeDadosKey}/pendentes', method = GET)
-	String listarPendentesBancoDeDados( Model model,  @PathVariable Integer bancoDeDadosKey) {
-		listar model, bancoDeDadosKey, true
+	String listarPendentesBancoDeDados( Model model,  @PathVariable Integer bancoDeDadosKey, Integer kanbanStatusKey) {
+		listar model, bancoDeDadosKey, true, kanbanStatusKey
 	}
 	
 	@RequestMapping(value= '/{bancoDeDadosKey}', method = GET)
-	String listarPorBancoDeDados( Model model,  @PathVariable Integer bancoDeDadosKey) {
-		listar model, bancoDeDadosKey, false
+	String listarPorBancoDeDados( Model model,  @PathVariable Integer bancoDeDadosKey, Integer kanbanStatusKey) {
+		listar model, bancoDeDadosKey, false, kanbanStatusKey
 	}
 		
-	private String listar( Model model,  Integer bancoDeDadosKey,  Boolean pendentes) {
+	private String listar( Model model,  Integer bancoDeDadosKey,  Boolean pendentes, Integer kanbanStatusKey) {
 		
 		Seguranca.validarPermissao Papel.EQUIPE
 		
 		def bancosComExecucoes = []
 		
 		if (bancoDeDadosKey != null) {
-			bancosComExecucoes.add(pendentes ? bancoDeDadosDao.obterComExecucoesPendentes(bancoDeDadosKey) : bancoDeDadosDao.obterComExecucoes(bancoDeDadosKey))
+			bancosComExecucoes.add(pendentes ? bancoDeDadosDao.obterComExecucoesPendentes(bancoDeDadosKey,kanbanStatusKey) : bancoDeDadosDao.obterComExecucoes(bancoDeDadosKey,kanbanStatusKey))
 		} else {
-			bancosComExecucoes.addAll(pendentes ? bancoDeDadosDao.listarComExecucoesPendentes() : bancoDeDadosDao.listarComExecucoes())
+			bancosComExecucoes.addAll(pendentes ? bancoDeDadosDao.listarComExecucoesPendentes(kanbanStatusKey) : bancoDeDadosDao.listarComExecucoes(kanbanStatusKey))
 		}
 		
 		model.addAttribute "bancosComExecucoes", bancosComExecucoes
 		model.addAttribute "bancos", bancoDeDadosDao.listar()
 		model.addAttribute "pendentes", pendentes == null ? true : pendentes
 		model.addAttribute "bancoDeDadosKey", bancoDeDadosKey
+		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
+		model.addAttribute "kanbanStatusKey", kanbanStatusKey
 		
 		VIEW_LISTAR
 	}
