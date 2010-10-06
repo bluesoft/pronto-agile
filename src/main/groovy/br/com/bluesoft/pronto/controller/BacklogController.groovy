@@ -45,7 +45,7 @@ class BacklogController {
 	private static final String VIEW_LISTAR_AGRUPADO = "/ticket/ticket.listarAgrupado.jsp"
 	private static final String VIEW_ESTIMAR = "/ticket/ticket.estimar.jsp"
 	private static final String VIEW_PRIORIZAR = "/ticket/ticket.priorizar.jsp"
-		
+	
 	@Autowired SessionFactory sessionFactory
 	@Autowired ClienteDao clienteDao
 	@Autowired TicketDao ticketDao
@@ -94,7 +94,7 @@ class BacklogController {
 		
 		Map<Integer, Integer> totaisPorTipoDeTicket = totaisPorTipoDeTicket(tickets)
 		model.addAttribute "descricaoTotal", montaDescricaoTotal(totaisPorTipoDeTicket)
-
+		
 		VIEW_LISTAR
 	}
 	
@@ -117,11 +117,10 @@ class BacklogController {
 	@RequestMapping("/clientes")
 	String listarTicketsPendentesPorCliente( Model model) {
 		return listarTicketsPendentesPorCliente(model, null, -1, null, null)
-		
 	}
 	
 	@RequestMapping("/clientes/{clienteKey}")
-	String listarTicketsPendentesPorCliente( Model model, @PathVariable Integer clienteKey, Integer kanbanStatusKey,    String ordem,  String classificacao) {
+	String listarTicketsPendentesPorCliente( Model model, @PathVariable Integer clienteKey, Integer kanbanStatusKey, String ordem,  String classificacao) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
@@ -136,7 +135,7 @@ class BacklogController {
 			ticketClassificacao = Classificacao.valueOf(classificacao)
 		}
 		
-		def tickets = ticketDao.buscar(null, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao)
+		def tickets = ticketDao.buscar(null, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao, null)
 		
 		Multimap<String, Ticket> ticketsAgrupados = ArrayListMultimap.create()
 		for ( Ticket ticket : tickets) {
@@ -178,7 +177,7 @@ class BacklogController {
 	String priorizarBacklog( Model model, @PathVariable  int backlogKey) {
 		
 		Seguranca.validarPermissao(Papel.EQUIPE, Papel.PRODUCT_OWNER)
-
+		
 		def mapa = [:]
 		
 		def tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey)
@@ -190,7 +189,7 @@ class BacklogController {
 		}
 		
 		//mapa.each { entry -> entry.value.sort { item -> item.prioridade } }
-
+		
 		model.addAttribute("mapa", mapa)
 		model.addAttribute("valores", mapa.keySet())
 		model.addAttribute("backlog", sessionFactory.getCurrentSession().get(Backlog.class, backlogKey))
@@ -199,13 +198,13 @@ class BacklogController {
 	}
 	
 	@RequestMapping(value="/{backlogKey}/priorizar", method=POST)
-	@ResponseBody String priorizarBacklog( Model model, @PathVariable  int backlogKey, Integer[] ticketKey, Integer valor) {
+	@ResponseBody String priorizarBacklog( Model model, @PathVariable int backlogKey, Integer[] ticketKey, Integer valor) {
 		def tx = ticketDao.session.beginTransaction()
 		ticketDao.priorizar(ticketKey, valor)
 		tx.commit()
 		"true"
 	}
-		
+	
 	String montaDescricaoTotal( Map<Integer, Integer> totaisPorTipoDeTicket) {
 		Integer totalDeDefeitos = totaisPorTipoDeTicket.get(TipoDeTicket.DEFEITO)
 		Integer totalDeEstorias = totaisPorTipoDeTicket.get(TipoDeTicket.ESTORIA)
