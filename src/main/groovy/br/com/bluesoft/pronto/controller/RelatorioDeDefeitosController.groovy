@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import com.google.common.collect.ImmutableMap;
+
 import br.com.bluesoft.pronto.dao.RelatorioDeDefeitosDao;
 import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer 
 
@@ -17,9 +19,10 @@ import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer
 @RequestMapping("/relatorios/defeitos")
 class RelatorioDeDefeitosController {
 	
-	final static String VIEW = "/relatorios/defeitos/index.jsp"
 	final static int MAXIMO_DE_GRUPOS = 12
-		
+	final static String VIEW = "/relatorios/defeitos/index.jsp"
+	final static cores = ['AFD8F8','F6BD0F','8BBA00','FF8E46','008E8E','D64646','8E468E','588526','B3AA00','008ED6','9D080D','A186BE']
+	
 	@Autowired
 	RelatorioDeDefeitosDao relatorioDeDefeitosDao
 	
@@ -78,9 +81,14 @@ class RelatorioDeDefeitosController {
 	def getJSON(def defeitos){
 		def writer = new StringWriter()
 		def builder = new groovy.xml.MarkupBuilder(writer)
-		builder.'graph'(yAxisName:'Quantidade de Defeitos',caption:'Defeitos') {
-			defeitos.each { defeito ->
-				'set'(name:defeito[0],value:defeito[1]){}
+		int showNameFactor = (defeitos.size() / 12) as Integer
+		showNameFactor = showNameFactor == 0 ? 1 : showNameFactor
+		int showValues = defeitos.size() > 30 ? 0 : 1
+		builder.'graph'(yAxisName:'Quantidade de Defeitos',caption:'Defeitos', rotateNames:'1',showValues:showValues) {
+			defeitos.eachWithIndex { defeito, index  ->
+				String color = defeitos.size() < 50  ? (index < 12 ? cores[index] : cores[index % 12]) : cores[0]
+				int showName = index % showNameFactor == 0 ? 1 : 0
+				'set'(name:defeito[0],value:defeito[1],color:color,showName:showName){}
 			}
 		}
 		writer.toString()
@@ -96,13 +104,12 @@ class RelatorioDeDefeitosController {
 					sinteze[index] = defeitos[index]
 				} else {
 					outros += defeitos[index][1]
-				} 
+				}
 			}
 			sinteze[MAXIMO_DE_GRUPOS] = ['Outros', outros]
 			return sinteze
 		} else {
 			return defeitos
 		}
-		
 	}
 }
