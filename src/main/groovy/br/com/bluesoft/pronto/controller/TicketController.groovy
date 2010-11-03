@@ -375,9 +375,9 @@ class TicketController {
 		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG))
 		ticketDao.salvar(ticket)
 
-		if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
+		if (ticket.ticketKey > 0 && !ticket.isDone() && configuracaoDao.isZendeskAtivo()) {
 			def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
-			if (zendeskTicketKey && !ticket.isDone()) {
+			if (zendeskTicketKey) {
 				zendeskService.incluirComentarioPublico(zendeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
 			}
 		}
