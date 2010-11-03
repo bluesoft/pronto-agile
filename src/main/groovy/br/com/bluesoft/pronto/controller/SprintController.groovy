@@ -267,7 +267,9 @@ class SprintController {
 	
 	@RequestMapping(value="/{sprintKey}/estimar", method=GET)
 	String estimarSprint( Model model,  @PathVariable int sprintKey) {
+		
 		Seguranca.validarPermissao Papel.EQUIPE, Papel.PRODUCT_OWNER
+		
 		List<Ticket> tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey)
 		model.addAttribute("tickets", tickets)
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey))
@@ -278,7 +280,9 @@ class SprintController {
 
 	@RequestMapping(value="/{sprintKey}/adicionarTarefas", method=GET)
 	String listarTarefasParaAdicionarAoSprint( Model model, @PathVariable int sprintKey)  {
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
+		
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR)
+		
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey))
 		model.addAttribute("tickets", ticketDao.listarEstoriasEDefeitosDoProductBacklog())
 		return "/ticket/ticket.adicionarAoSprint.jsp"
@@ -286,6 +290,9 @@ class SprintController {
 	
 	@RequestMapping(value="/{sprintKey}/adicionarTarefas", method=POST)
 	String adicionarAoSprint( Model model, @PathVariable int sprintKey,  int[] ticketKey) {
+		
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR)
+		
 		Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey)
 		for ( int key : ticketKey) {
 			Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, key)
