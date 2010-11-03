@@ -377,7 +377,7 @@ class TicketController {
 
 		if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
 			def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
-			if (zendeskTicketKey) {
+			if (zendeskTicketKey && !ticket.isDone()) {
 				zendeskService.incluirComentarioPublico(zendeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
 			}
 		}
