@@ -53,7 +53,7 @@
 					<c:if test="${(ticket.tipoDeTicket.tipoDeTicketKey eq 1) or (ticket.tipoDeTicket.tipoDeTicketKey eq 2)}">
 						<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="pronto.transformarEmDefeito('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
-					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
+					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
 						<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="pronto.transformarEmEstoria('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
 					<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 3) and (usuarioLogado.administrador or usuarioLogado.productOwner) and !ticket.tarefa}">
