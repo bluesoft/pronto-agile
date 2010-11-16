@@ -1,6 +1,6 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:url var="chart" value="/commons/charts/open-flash-chart.swf"/>
-<c:url var="data" value="/burndown/data/${sprint.sprintKey}"/>
+<c:url var="data" value="/burndown/data/${sprint.sprintKey}?considerarFimDeSemana=${considerarFimDeSemana}"/>
 <html>
 	<head>
 		<title>Burndown Chart</title>
@@ -11,8 +11,10 @@
 		  {"data-file":"${data}"}
 		  );
 
-		function recarregar(sprintKey) {
-			goTo(pronto.raiz + 'burndown/' + sprintKey);
+		function recarregar() {
+			var sprintKey = $("#sprintKey").val();
+			var considerarFimDeSemana = $('#considerarFimDeSemana').val();
+			goTo(pronto.raiz + 'burndown/' + sprintKey + '?considerarFimDeSemana='+considerarFimDeSemana);
 		}
 		  
 		</script>
@@ -26,9 +28,14 @@
 		<c:if test="${fn:length(sprints) gt 1}">
 			<div align="right">
 				Sprint: 
-				<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
+				<form:select path="sprint.sprintKey" onchange="recarregar()" id="sprintKey">
 					<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
 				</form:select>
+				Considerar Finais de Semana: 
+				<select name="considerarFimDeSemana" onchange="recarregar()"  id="considerarFimDeSemana">
+					<option ${considerarFimDeSemana eq true ? 'selected' : ''} value="true">Sim</option>
+					<option ${considerarFimDeSemana eq false ? 'selected' : ''} value="false">Não</option>
+				</select>
 			</div>
 		</c:if>
 		

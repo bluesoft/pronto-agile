@@ -51,12 +51,12 @@ class BurndownController {
 	SprintDao sprintDao
 	
 	@RequestMapping(value='/{sprintKey}', method=GET)
-	String burndownDoSprint(final Model model, @PathVariable int sprintKey) throws SegurancaException {
-		return burndown(model, sprintKey)
+	String burndownDoSprint(final Model model, @PathVariable int sprintKey, Boolean considerarFimDeSemana) throws SegurancaException {
+		return burndown(model, sprintKey, considerarFimDeSemana)
 	}
 	
 	@RequestMapping(method=GET)
-	String burndown(final Model model, final Integer sprintKey) throws SegurancaException {
+	String burndown(final Model model, final Integer sprintKey, Boolean considerarFimDeSemana) throws SegurancaException {
 		
 		Seguranca.validarPermissao(Papel.EQUIPE, Papel.PRODUCT_OWNER, Papel.SCRUM_MASTER)
 
@@ -72,7 +72,8 @@ class BurndownController {
 		} else {
 			sprint = sprintDao.obter(sprintKey)
 		}
-		
+
+		model.addAttribute "considerarFimDeSemana", considerarFimDeSemana
 		if (sprint.getMapaEsforcoPorDia().keySet().size() <= 31) {
 			model.addAttribute "sprint", sprint
 			model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
@@ -85,7 +86,9 @@ class BurndownController {
 	}
 	
 	@RequestMapping(value='/data/{sprintKey}',method=GET)
-	@ResponseBody String data(final HttpServletResponse response, @PathVariable final Integer sprintKey) throws Exception {
+	@ResponseBody String data(final HttpServletResponse response, @PathVariable final Integer sprintKey, Boolean considerarFimDeSemana) throws Exception {
+		
+		considerarFimDeSemana = considerarFimDeSemana == null ? false :  considerarFimDeSemana
 		
 		final Sprint sprint
 		if (sprintKey == null) {
@@ -95,7 +98,7 @@ class BurndownController {
 		}
 		
 		final double esforcoTotal = sprint.getEsforcoTotal()
-		final Map<String, Double> mapaEsforcoPorDia = sprint.getMapaEsforcoPorDia()
+		final Map<String, Double> mapaEsforcoPorDia = sprint.getMapaEsforcoPorDia(considerarFimDeSemana)
 		final int quantidadeDeDias = mapaEsforcoPorDia.keySet().size()
 		if (quantidadeDeDias > 31) {
 			return null

@@ -93,15 +93,22 @@ public class Sprint {
 	}
 
 	Map<String, Double> getMapaEsforcoPorDia() {
+		getMapaEsforcoPorDia(false)
+	}
+	
+	Map<String, Double> getMapaEsforcoPorDia(boolean considerarFimDeSemana) {
 		final Map<String, Double> mapa = new LinkedHashMap<String, Double>()
 
-		final List<Date> dias = getDias()
+		final List<Date> dias = considerarFimDeSemana ? getDias() : getDiasSemFinalDeSemana()
 		for (final Date date : dias) {
 			final String data = DateUtil.toStringMesAno(date)
 			if (mapa.get(data) == null) {
 				mapa.put(data, 0d)
 			}
 		}
+		
+		def dataInicial = considerarFimDeSemana ? this.dataInicial : this.getDataInicialSemFinalDeSemana()
+		def dataFinal = considerarFimDeSemana ? this.dataFinal : this.getDataFinalSemFinalDeSemana()
 
 		if (tickets != null) {
 			for (final Ticket ticket : tickets) {
@@ -112,7 +119,6 @@ public class Sprint {
 
 				if ((ticket.isDefeito() || ticket.isEstoriaSemTarefa() || ticket.isTarefa()) && ticket.isSprintBacklog()) {
 					final String data
-
 					if (ticket.getDataDePronto().before(dataInicial)) {
 						data = DateUtil.toStringMesAno(dataInicial)
 					} else if (ticket.getDataDePronto().after(dataFinal)) {
@@ -120,7 +126,6 @@ public class Sprint {
 					} else {
 						data = DateUtil.toStringMesAno(ticket.getDataDePronto())
 					}
-
 					mapa.put(data, mapa.get(data) + ticket.getEsforco())
 				}
 			}
@@ -160,6 +165,45 @@ public class Sprint {
 		dias.add(dataFinal)
 		return dias
 
+	}
+	
+	private def getDataInicialSemFinalDeSemana() {
+		def dataInicial = getDataInicial()
+		if (dataInicial.getDay() == 6) {
+			inicial = dataInicial - 1
+		} else if (dataInicial == 0) {
+			dataInicial=dataInicial+1
+		}
+		return dataInicial
+	}
+	
+	private def getDataFinalSemFinalDeSemana(){
+		if (dataFinal.getDay() == 6) {
+			dataFinal = dataFinal-1
+		} else if (dataFinal.getDay() == 0) {
+			dataFinal = dataFinal+1
+		}
+		return dataFinal
+	}
+	
+	List<Date> getDiasSemFinalDeSemana() {
+		
+		final List<Date> dias = new LinkedList<Date>()
+		def dataInicial = getDataInicialSemFinalDeSemana()
+		def dataFinal   = getDataFinalSemFinalDeSemana()
+		
+		Date atual = dataInicial
+		while (atual.before(dataFinal)) {
+			if (atual.getDay() == 0 || atual.getDay() == 6) {
+				atual = DateUtil.add(atual, 1)
+				continue
+			}
+			dias.add(atual)
+			atual = DateUtil.add(atual, 1)
+		}
+		dias.add(dataFinal)
+		return dias
+		
 	}
 
 	List<Ticket> getTicketsParaOKanban() {
