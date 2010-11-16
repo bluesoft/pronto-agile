@@ -62,6 +62,26 @@ class BacklogController {
 		categoriaDao.listar()
 	}
 	
+	@RequestMapping(value='/productBacklog', method=GET)
+	String productBacklog(final Model model) {
+		"forward:/app/backlogs/" + Backlog.PRODUCT_BACKLOG
+	}
+
+	@RequestMapping(value='/ideias', method=GET)
+	String ideias(final Model model) {
+		"forward:/app/backlogs/" + Backlog.IDEIAS
+	}
+
+	@RequestMapping(value='/impedimentos', method=GET)
+	String impedimentos(final Model model) {
+		"forward:/app/backlogs/" + Backlog.IMPEDIMENTOS
+	}
+
+	@RequestMapping(value='/lixeira', method=GET)
+	String lixeira(final Model model) {
+		"forward:/app/backlogs/" + Backlog.LIXEIRA
+	}
+	
 	@RequestMapping(value='/{backlogKey}', method=GET)
 	String listarPorBacklog( Model model, @PathVariable  int backlogKey, Integer categoriaKey, Integer kanbanStatusKey) {
 		

@@ -93,7 +93,10 @@ class ExecucaoController {
 		
 		Seguranca.validarPermissao Papel.EQUIPE
 		
+		def bancoDeDados = bancoDeDadosDao.obter(bancoDeDadosKey)
+		
 		String script = ''
+		script += "/*" + (org.apache.commons.lang.StringUtils.center(" Cliente: " + bancoDeDados.nome + " ", 80, ' ')) + "*/" + "\n"
 		
 		List<Execucao> execucoes = execucaoDao.listarPorKeys(execucaoKey as List)
 		for (Execucao execucao : execucoes) {

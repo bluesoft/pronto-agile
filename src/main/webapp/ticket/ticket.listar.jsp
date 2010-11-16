@@ -24,10 +24,12 @@
 					<c:if test="${(usuarioLogado.administrador or usuarioLogado.equipe or usuarioLogado.productOwner)}">
 						<a href="${raiz}sprints/${sprint.sprintKey}/estimar"><pronto:icons name="estimar.png" title="Estimar Sprint" /></a>
 					</c:if>
-					
-					<a href="${raiz}sprints/${sprint.sprintKey}/adicionarTarefas">
-						<pronto:icons name="adicionar.png" title="Adicionar Estórias ou Defeitos do Product Backlog ao Sprint" />
-					</a>
+
+					<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
+						<a href="${raiz}sprints/${sprint.sprintKey}/adicionarTarefas">
+							<pronto:icons name="adicionar.png" title="Adicionar Estórias ou Defeitos do Product Backlog ao Sprint" />
+						</a>
+					</c:if>
 					
 					<%@ include file="/commons/sprintLinks.jsp" %>
 					

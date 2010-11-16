@@ -375,7 +375,7 @@ class TicketController {
 		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG))
 		ticketDao.salvar(ticket)
 
-		if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
+		if (ticket.ticketKey > 0 && !ticket.isDone() && configuracaoDao.isZendeskAtivo()) {
 			def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
 			if (zendeskTicketKey) {
 				zendeskService.incluirComentarioPublico(zendeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
@@ -602,7 +602,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/transformarEmEstoria")
 	String transformarEmEstoria( Model model,  @PathVariable int ticketKey) {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR
 		
 		Ticket ticket = ticketDao.obter(ticketKey)
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().createCriteria(TipoDeTicket.class).add(Restrictions.eq("tipoDeTicketKey", TipoDeTicket.ESTORIA)).uniqueResult())

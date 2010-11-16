@@ -43,10 +43,10 @@
 <div id="menuBacklogs" class="mbmenu">
 	<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
 		<a href="${raiz}backlogs/sprints/atual" img="sprint_atual.png">Sprint Atual</a>
-		<a href="${raiz}backlogs/2" img="estorias.gif">Product Backlog</a>
-		<a href="${raiz}backlogs/1" img="ideias.png">Ideias</a>
-		<a href="${raiz}backlogs/5" img="impedimentos.png">Impedimentos</a>
-		<a href="${raiz}backlogs/4" img="lixeira.png">Lixeira</a>
+		<a href="${raiz}backlogs/productBacklog" img="estorias.gif">Product Backlog</a>
+		<a href="${raiz}backlogs/ideias" img="ideias.png">Ideias</a>
+		<a href="${raiz}backlogs/impedimentos" img="impedimentos.png">Impedimentos</a>
+		<a href="${raiz}backlogs/lixeira" img="lixeira.png">Lixeira</a>
 		<a href="${raiz}backlogs/clientes" img="pendentes.png">Pendentes</a>
 		<c:if test="${usuarioLogado.clientePapel}">
 			<li><a href="${raiz}clientes/backlog" img="estorias.gif">Cliente</a></li>
