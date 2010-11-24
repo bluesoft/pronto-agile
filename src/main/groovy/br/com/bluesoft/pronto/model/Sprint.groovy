@@ -101,7 +101,7 @@ public class Sprint {
 
 		final List<Date> dias = considerarFimDeSemana ? getDias() : getDiasSemFinalDeSemana()
 		for (final Date date : dias) {
-			final String data = DateUtil.toStringMesAno(date)
+			final String data = DateUtil.toString(date)
 			if (mapa.get(data) == null) {
 				mapa.put(data, 0d)
 			}
@@ -120,11 +120,11 @@ public class Sprint {
 				if ((ticket.isDefeito() || ticket.isEstoriaSemTarefa() || ticket.isTarefa()) && ticket.isSprintBacklog()) {
 					final String data
 					if (ticket.getDataDePronto().before(dataInicial)) {
-						data = DateUtil.toStringMesAno(dataInicial)
+						data = DateUtil.toString(dataInicial)
 					} else if (ticket.getDataDePronto().after(dataFinal)) {
-						data = DateUtil.toStringMesAno(dataFinal)
+						data = DateUtil.toString(dataFinal)
 					} else {
-						data = DateUtil.toStringMesAno(ticket.getDataDePronto())
+						data = DateUtil.toString(ticket.getDataDePronto())
 					}
 					mapa.put(data, mapa.get(data) + ticket.getEsforco())
 				}

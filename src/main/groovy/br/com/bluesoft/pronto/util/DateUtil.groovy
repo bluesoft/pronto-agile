@@ -8,7 +8,7 @@ import java.util.Date
 public class DateUtil {
 
 	private static final String PADRAO_COMPLETO = "dd/MM/yyyy"
-	private static final String PADRAO_MES_ANO = "dd/MM"
+	private static final String PADRAO_DIA_MES = "dd/MM"
 	private static final String PADRAO_HORA = "HH:mm"
 
 	public static String toString(final Date date) {
@@ -32,7 +32,7 @@ public class DateUtil {
 	}
 
 	public static String toStringMesAno(final Date date) {
-		return new SimpleDateFormat(PADRAO_MES_ANO).format(date)
+		return new SimpleDateFormat(PADRAO_DIA_MES).format(date)
 	}
 
 	public static String toStringHora(final Date date) {

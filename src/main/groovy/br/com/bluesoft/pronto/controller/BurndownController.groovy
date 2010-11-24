@@ -41,6 +41,7 @@ import br.com.bluesoft.pronto.core.Papel
 import br.com.bluesoft.pronto.dao.SprintDao
 import br.com.bluesoft.pronto.model.Sprint
 import br.com.bluesoft.pronto.service.Seguranca
+import br.com.bluesoft.pronto.util.DateUtil;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @Controller
@@ -105,10 +106,12 @@ class BurndownController {
 		}
 		
 		double burnNumber = esforcoTotal
+		double esforcoRealizado = 0
 		final List<Double> burnValues = new LinkedList<Double>()
 		burnValues.add(burnNumber)
 		for (final Double esforco : mapaEsforcoPorDia.values()) {
 			burnNumber = new BigDecimal(burnNumber - esforco).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()
+			esforcoRealizado += esforco
 			burnValues.add(burnNumber)
 		}
 		
@@ -117,11 +120,34 @@ class BurndownController {
 		final List<Double> idealValues = new LinkedList<Double>()
 		idealValues.add(burnNumber)
 		for (int i = 0; i < mapaEsforcoPorDia.values().size(); i++) {
-			burnNumber = new BigDecimal(burnNumber - media).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()
+			def atual = burnNumber - media
+			burnNumber = new BigDecimal(atual > 0 ? atual : 0).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()
 			idealValues.add(burnNumber)
 		}
 		
+		final int diasAteAgora = 0
+		final def hoje = new Date()
+		mapaEsforcoPorDia.each { k, v -> 
+			if (DateUtil.toDate(k) <= hoje) {
+				diasAteAgora++
+			}
+		}
+		
+		 
+		burnNumber = esforcoTotal
+		
+		final List<Double> previsaoValues = new LinkedList<Double>()
+		if (diasAteAgora > 0) {
+			final double mediaRealizado = esforcoRealizado / diasAteAgora
+			previsaoValues.add(burnNumber)
+			for (int i = 0; i < mapaEsforcoPorDia.values().size(); i++) {
+				burnNumber = new BigDecimal(burnNumber - mediaRealizado).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()
+				previsaoValues.add(burnNumber)
+			}
+		}
+		
 		final JSONObject raiz = new JSONObject()
+		raiz.put('rotateNames', '1');
 		
 		final JSONObject title = new JSONObject()
 		title.put("text", "Sprint " + sprint.getNome())
@@ -130,31 +156,26 @@ class BurndownController {
 		final JSONArray elements = new JSONArray()
 		
 		final JSONObject element1 = new JSONObject()
-		element1.put("type", "area")
+		element1.put("type", "line")
 		element1.put("width", "2")
 		element1.put("colour", "#FF0000")
-		
 		element1.put("fill", "#E01B49")
 		element1.put("fill-alpha", "0.4")
 		
 		final JSONObject dotStyle = new JSONObject()
 		dotStyle.put("type", "hollow-dot")
 		element1.put("dotStyle", dotStyle)
-		
 		element1.put("text", "Ideal")
 		
 		def idealValuesArry = new JSONArray()
 		idealValuesArry.addAll(idealValues)
 		element1.put("values", idealValuesArry)
 		
-		elements.add(element1)
-		
 		final JSONObject element2 = new JSONObject()
 		element2.put("type", "area")
 		element2.put("width", "2")
-		element2.put("colour", "#00666cc")
-		
-		element2.put("fill", "#0066cc")
+		element2.put("colour", "#008000")
+		element2.put("fill", "#008000")
 		element2.put("fill-alpha", "0.4")
 		
 		element2.put("text", "Realizado")
@@ -162,8 +183,25 @@ class BurndownController {
 		def burnValuesArray = new JSONArray()
 		burnValuesArray.addAll(burnValues)
 		element2.put("values", burnValuesArray)
-		
+
+		elements.add(element1)
 		elements.add(element2)
+		
+		if (diasAteAgora > 0) {
+			final JSONObject element3 = new JSONObject()
+			element3.put("type", "line")
+			element3.put("width", "2")
+			element3.put("colour", "#0066cc")
+			element3.put("fill", "#0066cc")
+			element3.put("fill-alpha", "0.4")
+			element3.put("text", "Previsão")
+	
+			def previsaoValuesArray = new JSONArray()
+			previsaoValuesArray.addAll(previsaoValues)
+			element3.put("values", previsaoValuesArray)
+			
+			elements.add(element3)
+		}
 		
 		raiz.put("elements", elements)
 		
