@@ -466,7 +466,7 @@
 				<div id="tarefas">
 					<ul id="listaTarefas">
 						<c:forEach items="${ticket.filhosOrdenadosKanbanStatus}" var="filho">
-							<c:set var="cssClass" value="${filho.dataDePronto eq null ? 'ui-state-default': 'ui-state-disabled'}"/>
+							<c:set var="cssClass" value="${filho.dataDePronto ne null or filho.backlog.backlogKey eq 4 ? 'ui-state-disabled': 'ui-state-default'}"/>
 							<li class="${cssClass}" id="${filho.ticketKey}">
 								<span style="float: left;">
 									<b>${filho.ticketKey}</b>
