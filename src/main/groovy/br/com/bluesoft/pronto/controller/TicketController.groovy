@@ -174,7 +174,7 @@ class TicketController {
 			
 			if (ticket.isDefeito()) {
 				if (ticket.kanbanStatus.kanbanStatusKey == KanbanStatus.DONE && (ticket.getCausaDeDefeito() == null || ticket.getCausaDeDefeito().getCausaDeDefeitoKey() == 0)) {
-					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de mover para a etapa Done é preciso informar a causa do defeito.";
+					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de mover para a última etapa é necessário informar a causa do defeito.";
 				} else {
 					ticket.setCausaDeDefeito(causaDeDefeitoDao.obter(ticket.getCausaDeDefeito().getCausaDeDefeitoKey()))
 				}
