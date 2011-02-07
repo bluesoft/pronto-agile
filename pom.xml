@@ -447,7 +447,7 @@
 		</repository>
 		<repository>
 			<id>org.jboss.repository.maven</id>
-			<url>http://repository.jboss.org/maven2</url>
+			<url>http://repository.jboss.org/nexus</url>
 		</repository>
 		<repository>
 			<id>maven2-repository.dev.java.net</id>
