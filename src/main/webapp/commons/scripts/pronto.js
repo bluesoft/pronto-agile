@@ -147,8 +147,8 @@ pronto.desacoplarTarefa = function(ticketKey, ajax){
 	pronto.doGet(url);
 };
 
-pronto.moverParaSprint = function(ticket, sprint, ajax){
-	var url = (pronto.raiz + 'tickets/' + ticket + '/moverParaSprint/' + sprint);
+pronto.moverParaSprint = function(ticketKey, sprint, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaSprint/' + sprint);
 	pronto.moverTicket(ticketKey, url, ajax);
 }
 
@@ -163,6 +163,8 @@ pronto.moverTicket = function(ticketKey, url, ajax){
 		$('#'+ticketKey).fadeOut('slow', function(){
 			$(this).remove();
 		});
+		$('#dialogSelecionarSprint').dialog('close');
+		
 	} else {
 		pronto.doGet(url);	
 	}

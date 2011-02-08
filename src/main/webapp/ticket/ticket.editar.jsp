@@ -580,7 +580,7 @@
 			</select>
 			<br/><br/>
 			<button onclick="$('#dialogSelecionarSprint').dialog('close');">Cancelar</button>
-			<button onclick="moverParaSprint('${ticket.ticketKey}', $('#selecionarSprint').val())">Mover</button>
+			<button onclick="pronto.moverParaSprint('${ticket.ticketKey}', $('#selecionarSprint').val(), false)">Mover</button>
 		</div>
 		
 		<script>

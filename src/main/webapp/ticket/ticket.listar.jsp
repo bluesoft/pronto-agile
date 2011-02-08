@@ -266,18 +266,19 @@
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>
 
+		<c:if test="${fn:length(sprintsEmAberto) gt 1}">
 		<div title="Escolha um Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
 			<select id="selecionarSprint">
-				<c:forEach items="${sprints}" var="s">
+				<c:forEach items="${sprintsEmAberto}" var="s">
 					<option ${s.atual ? 'selected':''} value="${s.sprintKey}">${s.nome} ${s.atual ? '(Atual)' : ''}</option>
 				</c:forEach>			
 			</select>
 			<input type="hidden" id="ticketKey" value="" />
 			<br/><br/>
 			<button onclick="$('#dialogSelecionarSprint').dialog('close');">Cancelar</button>
-			<button onclick="alert($('#ticketKey').val()); alert($('#selecionarSprint').val());">Testar</button>
-			<%-- <button onclick="pronto.moverParaSprint($('#ticketKey').val(), $('#selecionarSprint').val(), true)">Mover</button> --%>
+			<button onclick="pronto.moverParaSprint($('#ticketKey').val(), $('#selecionarSprint').val(), true)">Mover</button>
 		</div>
+		</c:if>
 		
 		<div style="display: none; width: 500px;">
 			<select id="trocaCategoria" onchange="salvarCategoria(this);" >

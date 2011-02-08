@@ -94,7 +94,7 @@ class BacklogController {
 		model.addAttribute "tarefasSoltas", tarefasSoltas
 		model.addAttribute "backlog", backlogDao.obter(backlogKey)
 		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
-		model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
+		model.addAttribute "sprintsEmAberto", sprintDao.listarSprintsEmAberto()
 		
 		def totaisPorTipoDeTicket = totaisPorTipoDeTicket(tickets, tarefasSoltas)
 		model.addAttribute "descricaoTotal", montaDescricaoTotal(totaisPorTipoDeTicket)
