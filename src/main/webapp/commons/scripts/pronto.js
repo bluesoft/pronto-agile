@@ -147,6 +147,11 @@ pronto.desacoplarTarefa = function(ticketKey, ajax){
 	pronto.doGet(url);
 };
 
+pronto.moverParaSprint = function(ticket, sprint, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticket + '/moverParaSprint/' + sprint);
+	pronto.moverTicket(ticketKey, url, ajax);
+}
+
 pronto.moverParaSprintAtual = function(ticketKey, ajax){
 	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaSprintAtual');
 	pronto.moverTicket(ticketKey, url, ajax);

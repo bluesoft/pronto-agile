@@ -85,10 +85,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*
 @RequestMapping("/tickets")
 class TicketController {
 	
-	public static final String VIEW_LISTAR = "/ticket/ticket.listar.jsp"
-	public static final String VIEW_LISTAR_AGRUPADO = "/ticket/ticket.listarAgrupado.jsp"
 	public static final String VIEW_BRANCHES = "/ticket/ticket.branches.jsp"
-	public static final String VIEW_ESTIMAR = "/ticket/ticket.estimar.jsp"
 	public static final String VIEW_EDITAR = "/ticket/ticket.editar.jsp"
 	
 	@Autowired CategoriaDao categoriaDao

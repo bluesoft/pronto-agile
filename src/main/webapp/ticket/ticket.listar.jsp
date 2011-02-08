@@ -127,7 +127,7 @@
 									<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${t.ticketKey},true)"></pronto:icons>
 								</c:if>
 								<c:if test="${(t.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner))}">
-									<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para o Sprint Atual" onclick="pronto.moverParaSprintAtual(${t.ticketKey},true)"></pronto:icons>
+									<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para um Sprint" onclick="escolherSprintParaMover(${t.ticketKey})"></pronto:icons>
 								</c:if>
 								<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
 									<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${t.ticketKey},true)"></pronto:icons>
@@ -264,6 +264,19 @@
 		
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>
+		</div>
+
+		<div title="Escolha um Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
+			<select id="selecionarSprint">
+				<c:forEach items="${sprints}" var="s">
+					<option ${s.atual ? 'selected':''} value="${s.sprintKey}">${s.nome} ${s.atual ? '(Atual)' : ''}</option>
+				</c:forEach>			
+			</select>
+			<input type="hidden" id="ticketKey" value="" />
+			<br/><br/>
+			<button onclick="$('#dialogSelecionarSprint').dialog('close');">Cancelar</button>
+			<button onclick="alert($('#ticketKey').val()); alert($('#selecionarSprint').val());">Testar</button>
+			<%-- <button onclick="pronto.moverParaSprint($('#ticketKey').val(), $('#selecionarSprint').val(), true)">Mover</button> --%>
 		</div>
 		
 		<div style="display: none; width: 500px;">

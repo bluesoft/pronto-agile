@@ -159,11 +159,6 @@ function escolherSprintParaMover(ticketKey) {
 	}	
 }
 
-function moverParaSprint(ticket, sprint){
-	var url = (pronto.raiz + 'tickets/' + ticket + '/moverParaSprint/' + sprint);
-	pronto.moverTicket(ticketKey, url, false);	
-}
-
 $(function(){
 	$("#motivoReprovacaoDiv").hide();
 });

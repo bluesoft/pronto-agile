@@ -116,6 +116,21 @@ function criarEventoDeTrocarCategoria(){
 	});
 }
 
+function escolherSprintParaMover(ticketKey) {
+
+	if ($('#selecionarSprint').find('option').length == 1){
+		pronto.moverParaSprintAtual(ticketKey, true);
+	} else {
+		var $div = $("#dialogSelecionarSprint");
+		$div.find('button').button();
+		
+		$("#ticketKey").val(ticketKey);
+		
+		var $dialog = $div.dialog();
+		$dialog.dialog('open');
+	}	
+}
+
 $(function() {
 	criarDialog();
 	criarEventoDeTrocarCategoria();
