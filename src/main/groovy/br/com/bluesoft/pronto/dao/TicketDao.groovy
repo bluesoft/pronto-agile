@@ -234,7 +234,7 @@ public class TicketDao extends DaoHibernate {
 		}
 	}
 	
-	public List<Ticket> buscar(String busca, final Integer kanbanStatusKey, final Integer clienteKey, final TicketOrdem ordem, final Classificacao classificacao, String sprintNome) {
+	public List<Ticket> buscar(String busca, final Integer kanbanStatusKey, final Integer clienteKey, final TicketOrdem ordem, final Classificacao classificacao, String sprintNome, final Boolean ignorarLixeira) {
 		
 		final StringBuilder hql = new StringBuilder();
 		hql.append(" select distinct t from Ticket t   ");
@@ -267,6 +267,10 @@ public class TicketDao extends DaoHibernate {
 			hql.append(" and upper(t.sprint.nome) like :sprintNome ");
 		}
 		
+		if (ignorarLixeira != null && ignorarLixeira) {
+			hql.append(" and b.backlogKey <> :backlogKey ");
+		}
+		
 		hql.append(buildOrdem(ordem, classificacao));
 		
 		
@@ -286,6 +290,10 @@ public class TicketDao extends DaoHibernate {
 		
 		if (sprintNome != null && sprintNome.length() > 0) {
 			query.setString("sprintNome", '%' + sprintNome.toUpperCase() + '%')
+		}
+		
+		if (ignorarLixeira != null && ignorarLixeira) {
+			query.setInteger("backlogKey", Backlog.LIXEIRA)
 		}
 		
 		return query.list();

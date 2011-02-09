@@ -83,6 +83,12 @@
 						<option value="${c}" ${c eq classificacao ? 'selected' : ''}>${c.descricao}</option>
 					</c:forEach>
 				</select>
+				
+				Ignorar lixeira: 
+				<select name="ignorarLixeira" onchange="recarregar()" id="ignorarLixeira">
+					<option value="true" ${ignorarLixeira eq true ? 'selected' : ''}>Sim</option>
+					<option value="false" ${ignorarLixeira eq false ? 'selected' : ''}>Não</option>
+				</select>
 			</div>
 		</form>
 		</div>

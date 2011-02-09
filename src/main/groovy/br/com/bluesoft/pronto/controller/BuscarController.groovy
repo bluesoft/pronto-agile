@@ -50,7 +50,7 @@ class BuscarController {
 	@Autowired KanbanStatusDao kanbanStatusDao
 	
 	@RequestMapping("/")
-	String buscarRest(Model model, String query,  Integer kanbanStatusKey,  Integer clienteKey,  String ordem,  String classificacao, String sprintNome) {
+	String buscarRest(Model model, String query,  Integer kanbanStatusKey,  Integer clienteKey,  String ordem,  String classificacao, String sprintNome, Boolean ignorarLixeira) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
@@ -76,7 +76,7 @@ class BuscarController {
 			ticketClassificacao = Classificacao.valueOf(classificacao)
 		}
 		
-		def tickets = ticketDao.buscar(query, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao, sprintNome)
+		def tickets = ticketDao.buscar(query, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao, sprintNome, ignorarLixeira)
 		model.addAttribute("tickets", tickets)
 		model.addAttribute("query", query)
 		model.addAttribute("kanbanStatusKey", kanbanStatusKey)
@@ -88,6 +88,7 @@ class BuscarController {
 		model.addAttribute("sprintNome", sprintNome)
 		model.addAttribute("classificacoes", Classificacao.values())
 		model.addAttribute("classificacao", ticketClassificacao)
+		model.addAttribute("ignorarLixeira", ignorarLixeira)
 		
 		"/buscar/buscar.resultado.jsp"
 	}
