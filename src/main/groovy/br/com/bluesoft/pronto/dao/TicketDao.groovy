@@ -604,6 +604,19 @@ public class TicketDao extends DaoHibernate {
 		return query.uniqueResult() as Integer
 	}
 	
+	void inserirTicketKeyIntegradoComZendesk(int ticketKey, int zendeskTicketKey){
+		def query = session.createSQLQuery(' INSERT INTO integracao_zendesk( ticket_key, zendesk_ticket_key ) VALUES (:ticketKey, :zendeskTicketKey) ')
+		query.setInteger('ticketKey', ticketKey)
+		query.setInteger('zendeskTicketKey', zendeskTicketKey)
+		query.executeUpdate()
+	}
+	
+	void excluirVinculoComZendesk(int ticketKey){
+		def query = session.createSQLQuery('DELETE FROM integracao_zendesk WHERE ticket_key = :ticketKey')
+		query.setInteger('ticketKey', ticketKey)
+		query.executeUpdate()
+	}
+	
 	void relacionarComZendesk(ticketKey, zendeskTicketKey) {
 		def sql = 'insert into integracao_zendesk (ticket_key, zendesk_ticket_key) values (:ticketKey, :zendeskTicketKey)'
 		def query = session.createSQLQuery(sql)

@@ -398,6 +398,23 @@
 								<input type="text" value="${dataDePronto}" name="dataDePronto" class="datePicker"/>
 								<p>Data de Pronto</p>
 							</div>
+							
+							<div>
+								<c:choose>
+									<c:when test="${empty zendeskTicketKey}">
+										<span>Zendesk:&nbsp;
+											<pronto:icons name="adicionar.png" title="Vincular esta tarefa com uma tarefa do Zendesk" onclick="adicionarVinculoComZendesk()"/>
+										</span>
+										<p>&nbsp;</p>
+									</c:when>
+									<c:otherwise>
+										<span>Zendesk: <b>${zendeskTicketKey}</b> vinculado&nbsp; 
+											<pronto:icons name="excluir.png" title="Desvincular esta tarefa com a tarefa do Zendesk" onclick="excluirVinculoComZendesk(${ticket.ticketKey})"/>
+										</span>
+										<p>&nbsp;</p>
+									</c:otherwise>
+								</c:choose>
+							</div>
 						</div>
 						
 						<c:if test="${ticket.tarefa or empty ticket.filhos}">
@@ -570,6 +587,11 @@
 		
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>
+		</div>
+		
+		<div title="Número do ticket do Zendesk" id="dialogVincularAoZendesk" style="display: none; width: 500px;">
+			<input id="zendeskTicketKeyVincular" size="10" maxlength="15"><br/><br/>
+			<button onclick="confirmarVinculo(${ticket.ticketKey})">Confirmar</button>
 		</div>
 		
 		<div title="Escolha um Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">

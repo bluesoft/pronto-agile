@@ -159,6 +159,49 @@ function escolherSprintParaMover(ticketKey) {
 	}	
 }
 
+function adicionarVinculoComZendesk(){
+	$("#dialogVincularAoZendesk").dialog( {
+		height : 200,
+		width : 300,
+		modal : true
+	});
+}
+
+function confirmarVinculo(ticketKey){
+	var zendeskTicketKeyVincular = $('#zendeskTicketKeyVincular').val();
+	if(zendeskTicketKeyVincular == "" || zendeskTicketKeyVincular == null){
+		alert("Informe o número do ticket do Zendesk");
+	}else{
+		$.ajax( {
+			url : pronto.raiz + 'tickets/' + ticketKey + '/vincularTicketAoZendesk?zendeskTicketKey=' +zendeskTicketKeyVincular,
+			cache : false,
+			success : function(retorno) {
+				var data = eval('(' + retorno + ')');
+				if (data.isSucces == "true") {
+					$("#dialogVincularAoZendesk").dialog('close');
+					salvar();
+				} else {
+					pronto.erro(data.mensagem);
+				}
+			}
+		});
+	}
+}
+
+function excluirVinculoComZendesk(ticketKey){
+	$.ajax( {
+		url : pronto.raiz + 'tickets/' + ticketKey + '/excluirVinculoComZendesk',
+		cache : false,
+		success : function(data) {
+			if (data == "true") {
+				salvar();
+			} else {
+				pronto.erro("Ocorreu um erro ao excluir o vinculo com o ticket que fazia referencia com o Zendesk.");
+			}
+		}
+	});
+}
+
 $(function(){
 	$("#motivoReprovacaoDiv").hide();
 });

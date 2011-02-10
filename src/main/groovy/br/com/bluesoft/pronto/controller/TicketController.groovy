@@ -1,5 +1,6 @@
 package br.com.bluesoft.pronto.controller
 
+import java.text.MessageFormat;
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException;
@@ -251,6 +252,7 @@ class TicketController {
 				}
 			}
 			
+			model.addAttribute "zendeskTicketKey", ticketDao.obterNumeroDoTicketNoZendesk(ticket.ticketKey)
 			return "redirect:/tickets/${ticket.ticketKey}"
 		} catch ( Exception e) {
 			e.printStackTrace()
@@ -672,7 +674,7 @@ class TicketController {
 				ordens.put it.kanbanStatusKey as String, it.ordem as String	
 			}
 			model.addAttribute "ordens", ordens
-			
+			model.addAttribute "zendeskTicketKey", ticketDao.obterNumeroDoTicketNoZendesk(ticket.ticketKey)
 			
 		} else {
 			Ticket novoTicket = new Ticket()
@@ -777,6 +779,37 @@ class TicketController {
 			Ticket ticket = ticketDao.obter(ticketKey)
 			ticket.setTicketOrigem ticketDao.obter(ticketOrigemKey)
 			ticketDao.salvar ticket
+			return "true"
+		} catch (e) {
+			return "false"
+		}
+	}
+	
+	@RequestMapping("/{ticketKey}/vincularTicketAoZendesk")
+	@ResponseBody String vincularTicketAoZendesk(Model model, @PathVariable int ticketKey, int zendeskTicketKey) {
+		JSONObject json = new JSONObject()
+		try {
+			Integer ticket = ticketDao.obterTicketKeyIntegradoComZendesk(zendeskTicketKey)
+			if(ticket == null){
+				ticketDao.inserirTicketKeyIntegradoComZendesk ticketKey, zendeskTicketKey
+			}else{
+				throw new ProntoException(MessageFormat.format("Não foi possível vincular este ticket ao Zendesk porque o ticket {0} já esta vinculado.", ticket));
+			}
+			json.put "isSucces", "true"
+			return json
+		} catch (e) {
+			json.put "isSucces", "false"
+			json.put "mensagem", e.getMessage()
+
+			return json
+		}
+	}
+	
+	@RequestMapping("/{ticketKey}/excluirVinculoComZendesk")
+	@ResponseBody String excluirVinculoComZendesk(Model model, @PathVariable int ticketKey) {
+		try {
+			ticketDao.excluirVinculoComZendesk ticketKey
+			 
 			return "true"
 		} catch (e) {
 			return "false"
