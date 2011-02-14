@@ -84,10 +84,10 @@
 					</c:forEach>
 				</select>
 				
-				Ignorar lixeira: 
+				Exibir tickets da lixeira: 
 				<select name="ignorarLixeira" onchange="recarregar()" id="ignorarLixeira">
-					<option value="true" ${ignorarLixeira eq true ? 'selected' : ''}>Sim</option>
-					<option value="false" ${ignorarLixeira eq false ? 'selected' : ''}>Não</option>
+					<option value="false" ${ignorarLixeira eq false ? 'selected' : ''}>Sim</option>
+					<option value="true" ${ignorarLixeira eq true ? 'selected' : ''}>Não</option>
 				</select>
 			</div>
 		</form>
@@ -110,7 +110,7 @@
 			<c:forEach items="${tickets}" var="t">
 				<c:set var="cor" value="${!cor}"/>
 				<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
-					<td>${t.ticketKey}</td>
+					<td><a href="${raiz}tickets/${t.ticketKey}">${t.ticketKey}</a></td>
 					<td class="titulo">${t.titulo}</td>
 					<td>${t.tipoDeTicket.descricao}</td>
 					<td>${t.cliente}</td>
