@@ -169,7 +169,7 @@ class BacklogController {
 			ticketClassificacao = Classificacao.valueOf(classificacao)
 		}
 		
-		def tickets = ticketDao.buscar(null, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao, null)
+		def tickets = ticketDao.buscar(null, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao, null, true)
 		
 		Multimap<String, Ticket> ticketsAgrupados = ArrayListMultimap.create()
 		for ( Ticket ticket : tickets) {
