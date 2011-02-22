@@ -63,18 +63,25 @@
 			Categorias: 
 			<select name="categoriaKey" id="categoriaKey" onchange="recarregarFiltros()">
 				<option value="0" selected="selected">Todas</option>
-				<c:forEach items="${categorias}" var="categoria">
-					<option value="${categoria.categoriaKey}">${categoria.descricao}</option>
-				</c:forEach>
+				<optgroup label="---">
+					<c:forEach items="${categorias}" var="categoria">
+						<option value="${categoria.categoriaKey}">${categoria.descricao}</option>
+					</c:forEach>
+				</optgroup>
+				<optgroup label="---"></optgroup>
+				<option value="-1">Sem categoria</option>
 			</select>
 			
 			Status: 
 			<select name="kanbanStatusKey" id="kanbanStatusKey" onchange="recarregarFiltros()">
 				<option value="0" selected="selected">Todos</option>
+				<optgroup label="---">
+					<c:forEach items="${kanbanStatus}" var="item">
+						<option value="${item.kanbanStatusKey}">${item.descricao}</option>
+					</c:forEach>
+				</optgroup>
+				<optgroup label="---"></optgroup>
 				<option value="-1" selected="selected">Pendentes</option>
-				<c:forEach items="${kanbanStatus}" var="item">
-					<option value="${item.kanbanStatusKey}">${item.descricao}</option>
-				</c:forEach>
 			</select>
 		</div>
 		
@@ -234,7 +241,7 @@
 					</tr>
 				</c:forEach>
 			</tbody>
-			<c:if test="${param.categoriaKey eq null}">
+			<c:if test="${param.categoriaKey eq null or param.categoriaKey eq 0}">
 				<tfoot>
 					<tr>
 						<th colspan="5">Total</th>

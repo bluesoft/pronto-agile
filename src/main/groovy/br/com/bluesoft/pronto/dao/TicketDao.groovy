@@ -399,12 +399,17 @@ public class TicketDao extends DaoHibernate {
 		builder.append(" left join fetch t.tipoDeTicket ");
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
-		if (categoriaKey && categoriaKey > 0) {
-			builder.append(" and t.categoria.categoriaKey = :categoriaKey ");
+		
+		if (categoriaKey && categoriaKey != 0) {
+			if(categoriaKey < 0) {
+				builder.append(" and t.categoria.categoriaKey is null ");
+			} else {
+				builder.append(" and t.categoria.categoriaKey = :categoriaKey ");
+			}
 		}
 		
 		if (kanbanStatusKey && kanbanStatusKey != 0) {
-			if (kanbanStatusKey && kanbanStatusKey > 0) {
+			if (kanbanStatusKey > 0) {
 				builder.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
 			} else {
 				builder.append(" and t.kanbanStatus.kanbanStatusKey != :kanbanStatusKey ");
@@ -414,9 +419,11 @@ public class TicketDao extends DaoHibernate {
 		def query = getSession().createQuery(builder.toString())
 		query.setInteger("backlogKey", backlogKey)
 		query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA ])
+		
 		if (categoriaKey && categoriaKey > 0) {
 			query.setInteger 'categoriaKey', categoriaKey
 		}
+		
 		if (kanbanStatusKey && kanbanStatusKey != 0) {
 			if (kanbanStatusKey > 0) {
 				query.setInteger 'kanbanStatusKey', kanbanStatusKey
@@ -456,9 +463,15 @@ public class TicketDao extends DaoHibernate {
 		builder.append(" left join fetch t.reporter ");
 		builder.append(" where t.sprint.sprintKey = :sprintKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
-		if (categoriaKey && categoriaKey > 0) {
-			builder.append(" and t.categoria.categoriaKey = :categoriaKey ");
+		
+		if (categoriaKey && categoriaKey != 0) {
+			if(categoriaKey < 0) {
+				builder.append(" and t.categoria.categoriaKey is null ");
+			} else {
+				builder.append(" and t.categoria.categoriaKey = :categoriaKey ");
+			}
 		}
+		
 		if (kanbanStatusKey && kanbanStatusKey != 0) {
 			if (kanbanStatusKey && kanbanStatusKey > 0) {
 				builder.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
@@ -466,12 +479,15 @@ public class TicketDao extends DaoHibernate {
 				builder.append(" and t.kanbanStatus.kanbanStatusKey != :kanbanStatusKey ");
 			}
 		}
+		
 		def query = getSession().createQuery(builder.toString())
 		query.setInteger("sprintKey", sprintKey)
 		query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO ])
+		
 		if (categoriaKey && categoriaKey > 0) {
 			query.setInteger 'categoriaKey', categoriaKey
 		}
+		
 		if (kanbanStatusKey && kanbanStatusKey != 0) {
 			if (kanbanStatusKey > 0) {
 				query.setInteger 'kanbanStatusKey', kanbanStatusKey
