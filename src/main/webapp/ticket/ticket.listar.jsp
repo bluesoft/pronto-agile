@@ -81,7 +81,7 @@
 					</c:forEach>
 				</optgroup>
 				<optgroup label="---"></optgroup>
-				<option value="-1" selected="selected">Pendentes</option>
+				<option value="-1">Pendentes</option>
 			</select>
 		</div>
 		
