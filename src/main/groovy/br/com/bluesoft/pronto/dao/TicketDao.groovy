@@ -387,16 +387,16 @@ public class TicketDao extends DaoHibernate {
 	}
 
 	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey) {
-		return listarEstoriasEDefeitosPorBacklog(backlogKey, null, null);
+		return listarEstoriasEDefeitosPorBacklog(backlogKey, null, null, null);
 	}
 		
-	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey, Integer categoriaKey, Integer kanbanStatusKey) {
+	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey, final Integer categoriaKey, final Integer tipoDeTicketKey, final Integer kanbanStatusKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
+		builder.append(" inner join fetch t.kanbanStatus ");
+		builder.append(" inner join fetch t.tipoDeTicket ");
 		builder.append(" left join fetch t.filhos f ");
 		builder.append(" left join fetch t.pai p");
-		builder.append(" left join fetch t.kanbanStatus ");
-		builder.append(" left join fetch t.tipoDeTicket ");
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
 		
@@ -418,10 +418,15 @@ public class TicketDao extends DaoHibernate {
 		
 		def query = getSession().createQuery(builder.toString())
 		query.setInteger("backlogKey", backlogKey)
-		query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA ])
 		
 		if (categoriaKey && categoriaKey > 0) {
 			query.setInteger 'categoriaKey', categoriaKey
+		}
+
+		if(tipoDeTicketKey && tipoDeTicketKey != 0) {
+			query.setParameterList("tipos", [ tipoDeTicketKey ])
+		} else {
+			query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA ])
 		}
 		
 		if (kanbanStatusKey && kanbanStatusKey != 0) {
@@ -448,21 +453,22 @@ public class TicketDao extends DaoHibernate {
 	}
 
 	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey) {
-		return listarEstoriasEDefeitosPorSprint(sprintKey, null, null)
+		return listarEstoriasEDefeitosPorSprint(sprintKey, null, null, null)
 	}
 	
-	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey, final Integer categoriaKey, Integer kanbanStatusKey) {
+	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey, final Integer categoriaKey, final Integer tipoDeTicketKey, final Integer kanbanStatusKey) {
 		final StringBuilder builder = new StringBuilder();
 		
-		builder.append(" select distinct t from Ticket t");
+		builder.append(" select distinct t from Ticket t ");
+		builder.append(" inner join fetch t.sprint s ");
+		builder.append(" inner join fetch t.tipoDeTicket ");
+		builder.append(" inner join fetch t.backlog ");
+		builder.append(" inner join fetch t.kanbanStatus ");
+		builder.append(" inner join fetch t.reporter ");
 		builder.append(" left join fetch t.filhos f ");
-		builder.append(" left join fetch t.sprint ");
-		builder.append(" left join fetch t.tipoDeTicket ");
-		builder.append(" left join fetch t.backlog ");
-		builder.append(" left join fetch t.kanbanStatus ");
-		builder.append(" left join fetch t.reporter ");
-		builder.append(" where t.sprint.sprintKey = :sprintKey");
-		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos)");
+		builder.append(" left join fetch f.sprint fs ");
+		builder.append(" where s.sprintKey = :sprintKey ");
+		builder.append(" and t.tipoDeTicket.tipoDeTicketKey in (:tipos) ");
 		
 		if (categoriaKey && categoriaKey != 0) {
 			if(categoriaKey < 0) {
@@ -482,10 +488,15 @@ public class TicketDao extends DaoHibernate {
 		
 		def query = getSession().createQuery(builder.toString())
 		query.setInteger("sprintKey", sprintKey)
-		query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO ])
 		
 		if (categoriaKey && categoriaKey > 0) {
 			query.setInteger 'categoriaKey', categoriaKey
+		}
+
+		if(tipoDeTicketKey && tipoDeTicketKey != 0) {
+			query.setParameterList("tipos", [ tipoDeTicketKey ])
+		} else {
+			query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO ])
 		}
 		
 		if (kanbanStatusKey && kanbanStatusKey != 0) {
@@ -513,13 +524,13 @@ public class TicketDao extends DaoHibernate {
 	public List<Ticket> listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(final int backlogKey) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
+		builder.append(" inner join fetch t.sprint ");
+		builder.append(" inner join fetch t.tipoDeTicket ");
+		builder.append(" inner join fetch t.backlog ");
+		builder.append(" inner join fetch t.kanbanStatus ");
+		builder.append(" inner join fetch t.reporter ");
 		builder.append(" left join fetch t.filhos f ");
 		builder.append(" left join fetch t.pai ");
-		builder.append(" left join fetch t.sprint ");
-		builder.append(" left join fetch t.tipoDeTicket ");
-		builder.append(" left join fetch t.backlog ");
-		builder.append(" left join fetch t.kanbanStatus ");
-		builder.append(" left join fetch t.reporter ");
 		builder.append(" where t.backlog.backlogKey = :backlogKey");
 		builder.append(" and t.tipoDeTicket.tipoDeTicketKey = :tipoTarefa");
 		builder.append(" and t.pai.backlog.backlogKey != t.backlog.backlogKey");

@@ -60,7 +60,7 @@
 				</form:select>
 			</c:if>
 			
-			Categorias: 
+			Categoria:
 			<select name="categoriaKey" id="categoriaKey" onchange="recarregarFiltros()">
 				<option value="0" selected="selected">Todas</option>
 				<optgroup label="---">
@@ -70,6 +70,16 @@
 				</optgroup>
 				<optgroup label="---"></optgroup>
 				<option value="-1">Sem categoria</option>
+			</select>
+
+			Tipo:
+			<select name="ticketDeTicketKey" id="tipoDeTicketKey" onchange="recarregarFiltros()">
+				<option value="0" selected="selected">Todos</option>
+				<optgroup label="---">
+					<c:forEach items="${tiposDeTicket}" var="tipoDeTicket">
+						<option value="${tipoDeTicket.tipoDeTicketKey}">${tipoDeTicket.descricao}</option>
+					</c:forEach>
+				</optgroup>
 			</select>
 			
 			Status: 
@@ -241,20 +251,18 @@
 					</tr>
 				</c:forEach>
 			</tbody>
-			<c:if test="${param.categoriaKey eq null or param.categoriaKey eq 0}">
-				<tfoot>
-					<tr>
-						<th colspan="5">Total</th>
-						<th id="somaValorDeNegocio">${sprint.valorDeNegocioTotal}${backlog.valorDeNegocioTotal}</th>
-						<th id="somaEsforco">${sprint.esforcoTotal}${backlog.esforcoTotal}</th>
-						<th></th>
-						<th id="tempoDeVidaMedio">${sprint.tempoDeVidaMedioEmDias}${backlog.tempoDeVidaMedioEmDias}</th>
-					</tr>
-					<tr>
-						<td colspan="9"><i>* ${descricaoTotal}</i></td>
-					</tr>
-				</tfoot>
-			</c:if>
+			<tfoot>
+				<tr>
+					<th colspan="5">Total</th>
+					<th id="somaValorDeNegocio">${valorDeNegocioTotal}</th>
+					<th id="somaEsforco">${esforcoTotal}</th>
+					<th></th>
+					<th id="tempoDeVidaMedio">${tempoDeVidaMedioEmDias}</th>
+				</tr>
+				<tr>
+					<td colspan="9"><i>* ${descricaoTotal}</i></td>
+				</tr>
+			</tfoot>
 		</table>	
 		
 		<div align="center">
@@ -299,10 +307,17 @@
 		<script type="text/javascript">
 			$(function(){
 				var categoria = "${param.categoriaKey}";
+				var tipoDeTicket = "${param.tipoDeTicketKey}";
 				var kanbanStatusKey = "${param.kanbanStatusKey}";
+				
 				if (categoria.length > 0) {
 					$('#categoriaKey').val(categoria);	
 				}
+				
+				if (tipoDeTicket.length > 0) {
+					$('#tipoDeTicketKey').val(tipoDeTicket);	
+				}
+				
 				if (kanbanStatusKey.length > 0) {
 					$('#kanbanStatusKey').val(kanbanStatusKey);	
 				}

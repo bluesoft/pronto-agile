@@ -4,12 +4,16 @@ function recarregar(sprintKey) {
 
 function recarregarFiltros() {
 	var url = location.href;
+	
 	if (url.indexOf('?') > 0) {
 		url = url.substring(0, url.indexOf('?'));
 	} 
+	
 	var categoriaKey = $('#categoriaKey').val();
+	var tipoDeTicketKey = $('#tipoDeTicketKey').val();
 	var kanbanStatusKey = $('#kanbanStatusKey').val();
-	pronto.doGet(url + '?categoriaKey='+categoriaKey+'&kanbanStatusKey='+kanbanStatusKey);
+	
+	pronto.doGet(url + '?categoriaKey='+categoriaKey+'&tipoDeTicketKey='+tipoDeTicketKey+'&kanbanStatusKey='+kanbanStatusKey);
 }
 
 function apagarLinha(ticketKey) {

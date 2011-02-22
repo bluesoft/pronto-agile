@@ -62,6 +62,11 @@ class BacklogController {
 		categoriaDao.listar()
 	}
 	
+	@ModelAttribute("tiposDeTicket")
+	List<TipoDeTicket> getTiposDeTicket() {
+		tipoDeTicketDao.listarTiposParaConsulta()
+	}
+	
 	@RequestMapping(value='/productBacklog', method=GET)
 	String productBacklog(final Model model) {
 		"forward:/app/backlogs/" + Backlog.PRODUCT_BACKLOG
@@ -83,11 +88,11 @@ class BacklogController {
 	}
 	
 	@RequestMapping(value='/{backlogKey}', method=GET)
-	String listarPorBacklog( Model model, @PathVariable  int backlogKey, Integer categoriaKey, Integer kanbanStatusKey) {
+	String listarPorBacklog( Model model, @PathVariable int backlogKey, Integer categoriaKey, Integer tipoDeTicketKey, Integer kanbanStatusKey) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		def tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey, categoriaKey, kanbanStatusKey)
+		def tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey, categoriaKey, tipoDeTicketKey, kanbanStatusKey)
 		def tarefasSoltas = ticketDao.listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(backlogKey)
 		
 		model.addAttribute "tickets", tickets
@@ -96,6 +101,10 @@ class BacklogController {
 		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
 		model.addAttribute "sprintsEmAberto", sprintDao.listarSprintsEmAberto()
 		
+		model.addAttribute "valorDeNegocioTotal", getValorDeNegocioTotal(tickets)
+		model.addAttribute "esforcoTotal", getEsforcoTotal(tickets)
+		model.addAttribute "tempoDeVidaMedioEmDias", getTempoDeVidaMedioEmDias(tickets)
+		
 		def totaisPorTipoDeTicket = totaisPorTipoDeTicket(tickets, tarefasSoltas)
 		model.addAttribute "descricaoTotal", montaDescricaoTotal(totaisPorTipoDeTicket)
 		
@@ -103,15 +112,19 @@ class BacklogController {
 	}
 	
 	@RequestMapping(value="/sprints/{sprintKey}", method=GET)
-	String listarPorSprint( Model model,  @PathVariable int sprintKey, Integer categoriaKey, Integer kanbanStatusKey) {
+	String listarPorSprint( Model model,  @PathVariable int sprintKey, Integer categoriaKey, Integer tipoDeTicketKey, Integer kanbanStatusKey) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		def tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey, categoriaKey, kanbanStatusKey)
+		def tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey, categoriaKey, tipoDeTicketKey, kanbanStatusKey)
 		model.addAttribute "tickets", tickets
 		model.addAttribute "sprint", sprintDao.obter(sprintKey)
 		model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
 		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
+		
+		model.addAttribute "valorDeNegocioTotal", getValorDeNegocioTotal(tickets)
+		model.addAttribute "esforcoTotal", getEsforcoTotal(tickets)
+		model.addAttribute "tempoDeVidaMedioEmDias", getTempoDeVidaMedioEmDias(tickets)
 		
 		Map<Integer, Integer> totaisPorTipoDeTicket = totaisPorTipoDeTicket(tickets)
 		model.addAttribute "descricaoTotal", montaDescricaoTotal(totaisPorTipoDeTicket)
@@ -261,5 +274,43 @@ class BacklogController {
 		
 		return totais
 	}
-	
+
+	int getValorDeNegocioTotal( List tickets) {
+		int total = 0
+		if (tickets != null) {
+			for (final Ticket ticket : tickets) {
+				if (!ticket.isTarefa()) {
+					total += ticket.getValorDeNegocio()
+				}
+			}
+		}
+		return total
+	}
+
+	double getEsforcoTotal( List tickets) {
+		double total = 0
+		if (tickets != null) {
+			for (final Ticket ticket : tickets) {
+				if (!ticket.isTarefa()) {
+					total += ticket.getEsforco()
+				}
+			}
+		}
+		return total
+	}
+
+	Integer getTempoDeVidaMedioEmDias( List tickets) {
+		int total = 0
+		int quantidade = 0
+		if (tickets != null) {
+			for (final Ticket ticket : tickets) {
+				if (!ticket.isTarefa()) {
+					quantidade++
+					total += ticket.getTempoDeVidaEmDias()
+				}
+			}
+		}
+		
+		return (quantidade > 0) ? (total / quantidade) : quantidade
+	}
 }

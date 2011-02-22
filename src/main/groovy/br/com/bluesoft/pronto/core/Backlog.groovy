@@ -59,45 +59,4 @@ public class Backlog {
 		return tickets
 	}
 	
-	@Transient
-	double getEsforcoTotal() {
-		double total = 0
-		if (tickets != null) {
-			for (final Ticket ticket : tickets) {
-				if (ticket.isDefeito() || ticket.isEstoria() || ticket.isIdeia()) {
-					total += ticket.getEsforco()
-				}
-			}
-		}
-		return total
-	}
-	
-	@Transient
-	int getValorDeNegocioTotal() {
-		int total = 0
-		if (tickets != null) {
-			for (final Ticket ticket : tickets) {
-				if (ticket.isDefeito() || ticket.isEstoria() || ticket.isIdeia()) {
-					total += ticket.getValorDeNegocio()
-				}
-			}
-		}
-		return total
-	}
-	
-	@Transient
-	Integer getTempoDeVidaMedioEmDias() {
-		int total = 0
-		int quantidade = 0
-		if (tickets != null) {
-			for (final Ticket ticket : tickets) {
-				if (ticket.isDefeito() || ticket.isEstoria() || ticket.isIdeia()) {
-					quantidade++
-					total += ticket.getTempoDeVidaEmDias()
-				}
-			}
-		}
-		
-		return (quantidade > 0) ? (total / quantidade) : quantidade
-	}
 }

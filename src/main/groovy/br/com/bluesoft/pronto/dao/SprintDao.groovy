@@ -27,7 +27,6 @@ public class SprintDao extends DaoHibernate{
 	@Override
 	public Sprint obter(final Integer key) {
 		final Sprint sprint = super.obter(key)
-		preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint)
 		return sprint
 	}
 
@@ -35,8 +34,10 @@ public class SprintDao extends DaoHibernate{
 	public List<Sprint> listar() {
 		final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sprint.class)
 		criteria.addOrder(Order.desc("atual")).addOrder(Order.desc("dataFinal"))
+		
 		final List<Sprint> sprints = criteria.list()
 		preencheTotaisDeEsforcoEValorDeNegocioDosSprints(sprints)
+		
 		return sprints
 	}
 
@@ -52,64 +53,64 @@ public class SprintDao extends DaoHibernate{
 		final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sprint.class)
 		criteria.add(Restrictions.eq("fechado", fechado))
 		criteria.addOrder(Order.desc("atual")).addOrder(Order.asc("nome"))
+		
 		final List<Sprint> sprints = criteria.list()
 		preencheTotaisDeEsforcoEValorDeNegocioDosSprints(sprints)
+		
 		return sprints
 	}
 	
 	private void preencheTotaisDeEsforcoEValorDeNegocioDosSprints(final Collection<Sprint> sprints) {
-		final String sql = "select sprint, sum(t.valor_de_negocio) as valor_de_negocio_total, sum(t.esforco) as esforco_total from ticket t where t.sprint is not null and t.pai is null group by sprint"
+		final String sql = """
+			select s.sprint_key, a.valor_de_negocio_total,
+				   coalesce(b.esforco_tarefas,0) + coalesce(c.esforco_estorias,0) as esforco_total
+			from sprint s
+			left join
+			( select sprint, sum(valor_de_negocio) as valor_de_negocio_total
+			  from ticket
+			  where pai is null
+			  group by sprint
+			) a on s.sprint_key = a.sprint
+			left join
+			( select sprint, sum(esforco) as esforco_tarefas
+			  from ticket
+			  where pai is not null
+			  group by sprint
+			) b on s.sprint_key = b.sprint
+			left join
+			( select t.sprint, sum(t.esforco) as esforco_estorias
+			  from ticket t
+			  where t.pai is null
+			  and t.ticket_key not in
+			  ( select pai from ticket where sprint = t.sprint and pai is not null )
+			  group by t.sprint
+			) c on s.sprint_key = c.sprint		
+		"""
+		
 		final SQLQuery query = getSession().createSQLQuery(sql)
-		query.addScalar("sprint", Hibernate.INTEGER)
+		query.addScalar("sprint_key", Hibernate.INTEGER)
 		query.addScalar("valor_de_negocio_total", Hibernate.INTEGER)
 		query.addScalar("esforco_total", Hibernate.DOUBLE)
 		final List<Object[]> list = query.list()
+		
 		for (final Object[] o : list) {
 			final Integer sprintKey = (Integer) o[0]
 			final int valorDeNegocioTotal = (Integer) o[1]
 			final double esforcoTotal = (Double) o[2]
+		
 			for (final Sprint s : sprints) {
 				if (s.getSprintKey() == sprintKey) {
 					s.setEsforcoTotal(esforcoTotal)
 					s.setValorDeNegocioTotal(valorDeNegocioTotal)
 				}
-
 			}
 		}
-	}
-
-	private void preencheTotaisDeEsforcoEValorDeNegocioDoSprint(final Sprint sprint) {
-		final String sql = """  select sprint, sum(t.valor_de_negocio) as valor_de_negocio_total, 
-								sum(t.esforco) as esforco_total from ticket t 
-								where t.sprint = :sprint and t.pai is null group by sprint """
-		
-		final SQLQuery query = getSession().createSQLQuery(sql)
-		query.setInteger("sprint", sprint.getSprintKey())
-		query.addScalar("sprint", Hibernate.INTEGER)
-		query.addScalar("valor_de_negocio_total", Hibernate.INTEGER)
-		query.addScalar("esforco_total", Hibernate.DOUBLE)
-		final Object[] o = (Object[]) query.uniqueResult()
-
-		int valorDeNegocioTotal = 0
-		double esforcoTotal = 0d
-
-		if (o != null) {
-			valorDeNegocioTotal = (Integer) o[1]
-			esforcoTotal = (Double) o[2]
-		}
-
-		sprint.setEsforcoTotal(esforcoTotal)
-		sprint.setValorDeNegocioTotal(valorDeNegocioTotal)
-
 	}
 
 	public Sprint getSprintAtual() {
 		final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sprint.class)
 		criteria.add(Restrictions.eq("atual", true))
 		final Sprint sprint = (Sprint) criteria.uniqueResult()
-		if (sprint != null && sprint.getQuantidadeDeTickets() > 0) {
-			preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint)
-		}
 		return sprint
 	}
 
@@ -127,9 +128,6 @@ public class SprintDao extends DaoHibernate{
 			where s.atual = true
 		"""
 		final Sprint sprint = (Sprint) getSession().createQuery(hql).uniqueResult()
-		if (sprint != null && sprint.getQuantidadeDeTickets() > 0) {
-			preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint)
-		}
 		return sprint
 	}
 
@@ -146,7 +144,6 @@ public class SprintDao extends DaoHibernate{
 		""" 
 		
 		final Sprint sprint = (Sprint) getSession().createQuery(hql).setInteger("sprintKey", sprintKey).uniqueResult()
-		preencheTotaisDeEsforcoEValorDeNegocioDoSprint(sprint)
 		return sprint
 	}
 }

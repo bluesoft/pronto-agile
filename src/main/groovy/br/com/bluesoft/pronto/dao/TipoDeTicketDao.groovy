@@ -20,6 +20,8 @@
 
 package br.com.bluesoft.pronto.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import br.com.bluesoft.pronto.core.TipoDeTicket;
@@ -31,4 +33,13 @@ public class TipoDeTicketDao extends DaoHibernate {
 		super(TipoDeTicket.class);
 	}
 
+	List<TipoDeTicket> listarTiposParaConsulta() {
+		
+		String hql = "from TipoDeTicket as t where t.tipoDeTicketKey in (:tipos) order by t.descricao"
+		
+		def query = getSession().createQuery(hql.toString())
+		query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO ])
+		
+		query.list()
+	}
 }

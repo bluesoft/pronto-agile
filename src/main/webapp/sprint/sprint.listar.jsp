@@ -42,8 +42,8 @@
 				<th style="width: 18px"></th>
 				<th>Nome</th>
 				<th>Período</th>
-				<th>Esforço</th>
 				<th>Valor de Negócio</th>
+				<th>Esforço</th>
 				<th style="width: 88px" colspan="7"></th>
 			</tr>
 			</thead>
@@ -71,8 +71,8 @@
 					</td>
 					<td><a onclick="goTo('${raiz}sprints/${s.sprintKey}')" href="#" title="Clique para editar">${s.nome}</a></td>
 					<td><fmt:formatDate value="${s.dataInicial}"/> à <fmt:formatDate value="${s.dataFinal}"/></td>
-					<td>${s.esforcoTotal}</td>
 					<td>${s.valorDeNegocioTotal}</td>
+					<td>${s.esforcoTotal}</td>
 					<td><pronto:icons name="editar_sprint.png" title="Editar Sprint" onclick="goTo('${raiz}sprints/${s.sprintKey}')"/></td>
 					<td>
 						<c:if test="${!s.atual}">

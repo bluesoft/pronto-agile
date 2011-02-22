@@ -253,20 +253,4 @@ public class Sprint {
 		return mapaPorEtapa
 	}
 	
-	@Transient
-	Integer getTempoDeVidaMedioEmDias() {
-		
-		def quantidade = 0
-		def total = 0
-		
-		for (Ticket t: tickets) {
-			if (!t.isTarefa()) {
-				quantidade++
-				total += t.getTempoDeVidaEmDias()
-			}
-		}
-		
-		return (quantidade > 0) ? (total / quantidade).setScale(2, RoundingMode.HALF_UP) : quantidade
-	}
-	
 }
