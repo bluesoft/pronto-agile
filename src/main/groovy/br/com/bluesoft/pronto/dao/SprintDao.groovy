@@ -33,7 +33,7 @@ public class SprintDao extends DaoHibernate{
 	@Override
 	public List<Sprint> listar() {
 		final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sprint.class)
-		criteria.addOrder(Order.desc("atual")).addOrder(Order.desc("dataFinal"))
+		criteria.addOrder(Order.desc("atual")).addOrder(Order.asc("nome"))
 		
 		final List<Sprint> sprints = criteria.list()
 		preencheTotaisDeEsforcoEValorDeNegocioDosSprints(sprints)
@@ -62,8 +62,8 @@ public class SprintDao extends DaoHibernate{
 	
 	private void preencheTotaisDeEsforcoEValorDeNegocioDosSprints(final Collection<Sprint> sprints) {
 		final String sql = """
-			select s.sprint_key, a.valor_de_negocio_total,
-				   coalesce(b.esforco_tarefas,0) + coalesce(c.esforco_estorias,0) as esforco_total
+			select s.sprint_key, coalesce(a.valor_de_negocio_total,0) as valor_de_negocio_total,
+			       coalesce(b.esforco_tarefas,0) + coalesce(c.esforco_estorias,0) as esforco_total
 			from sprint s
 			left join
 			( select sprint, sum(valor_de_negocio) as valor_de_negocio_total
@@ -84,7 +84,7 @@ public class SprintDao extends DaoHibernate{
 			  and t.ticket_key not in
 			  ( select pai from ticket where sprint = t.sprint and pai is not null )
 			  group by t.sprint
-			) c on s.sprint_key = c.sprint		
+			) c on s.sprint_key = c.sprint
 		"""
 		
 		final SQLQuery query = getSession().createSQLQuery(sql)
