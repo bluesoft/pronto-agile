@@ -38,7 +38,7 @@ public class TipoDeTicketDao extends DaoHibernate {
 		String hql = "from TipoDeTicket as t where t.tipoDeTicketKey in (:tipos) order by t.descricao"
 		
 		def query = getSession().createQuery(hql.toString())
-		query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO ])
+		query.setParameterList("tipos", [ TipoDeTicket.DEFEITO, TipoDeTicket.ESTORIA, TipoDeTicket.IDEIA ])
 		
 		query.list()
 	}
