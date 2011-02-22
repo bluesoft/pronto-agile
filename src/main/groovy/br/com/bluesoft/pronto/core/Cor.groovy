@@ -2,13 +2,13 @@ package br.com.bluesoft.pronto.core
 
 public enum Cor {
 	
-	VERMELHO("Vermelho"), 
-	LARANJA("Laranja"), 
 	AZUL("Azul"), 
-	VERDE("Verde"), 
-	ROSA("Rosa"), 
+	CINZA("Cinza"),
+	LARANJA("Laranja"), 
 	PRETO("Preto"), 
-	CINZA("Cinza")
+	ROSA("Rosa"), 
+	VERDE("Verde"), 
+	VERMELHO("Vermelho") 
 	
 	private String descricao;
 	
