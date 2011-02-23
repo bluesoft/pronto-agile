@@ -210,7 +210,7 @@ class BacklogController {
 	@RequestMapping(value="/{backlogKey}/priorizar", method=GET)
 	String priorizarBacklog( Model model, @PathVariable  int backlogKey) {
 		
-		Seguranca.validarPermissao(Papel.EQUIPE, Papel.PRODUCT_OWNER)
+		Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
 		
 		def mapa = [:]
 		
@@ -221,8 +221,6 @@ class BacklogController {
 			}
 			mapa[it.valorDeNegocio].add(it)
 		}
-		
-		//mapa.each { entry -> entry.value.sort { item -> item.prioridade } }
 		
 		model.addAttribute("mapa", mapa)
 		model.addAttribute("valores", mapa.keySet())

@@ -40,7 +40,14 @@ function onStopSorting(event, ui) {
 		
 		$table.find('.vazio').remove();
 		
-		var url = pronto.raiz + 'backlogs/' + backlogKey + "/priorizar";
+		var url = pronto.raiz;
+		
+		if(backlogKey > 0) {
+			url += 'backlogs/' + backlogKey + '/priorizar';
+		} else {
+			url += 'sprints/' + sprintKey + '/priorizar';
+		}
+		
 		$.post(url, {ticketKey: tickets, valor: valor});
 		
 		var from = $(this);
@@ -73,7 +80,7 @@ function exibirDialogDeCriarGrupo(){
 
 function criarGrupo(valor){
 	if ($('h4.valor-'+valor).length > 0){
-		alert('Este Grupo Já Existe!');
+		alert('Este grupo já existe!');
 	} else {
 		var $novoGrupo = $('#modelo').clone();
 		$novoGrupo.find('table').attr('valor', valor);

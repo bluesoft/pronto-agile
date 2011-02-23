@@ -44,6 +44,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 import br.com.bluesoft.pronto.ProntoException
@@ -276,12 +277,42 @@ class SprintController {
 		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		return VIEW_ESTIMAR
 	}
+
+	@RequestMapping(value="/{sprintKey}/priorizar", method=GET)
+	String priorizarSprint( Model model, @PathVariable  int sprintKey) {
+		
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR
+		
+		def mapa = [:]
+		
+		def tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey)
+		tickets.each {
+			if (mapa[it.valorDeNegocio] == null) {
+				mapa[it.valorDeNegocio] = [] as List
+			}
+			mapa[it.valorDeNegocio].add(it)
+		}
+		
+		model.addAttribute("mapa", mapa)
+		model.addAttribute("valores", mapa.keySet())
+		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey))
+		return VIEW_PRIORIZAR
+		
+	}
+	
+	@RequestMapping(value="/{sprintKey}/priorizar", method=POST)
+	@ResponseBody String priorizarSprint( Model model, @PathVariable int sprintKey, Integer[] ticketKey, Integer valor) {
+		def tx = ticketDao.session.beginTransaction()
+		ticketDao.priorizar(ticketKey, valor)
+		tx.commit()
+		"true"
+	}
 	
 
 	@RequestMapping(value="/{sprintKey}/adicionarTarefas", method=GET)
 	String listarTarefasParaAdicionarAoSprint( Model model, @PathVariable int sprintKey)  {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR
 		
 		model.addAttribute("sprint", sessionFactory.getCurrentSession().get(Sprint.class, sprintKey))
 		model.addAttribute("tickets", ticketDao.listarEstoriasEDefeitosDoProductBacklog())
@@ -291,7 +322,7 @@ class SprintController {
 	@RequestMapping(value="/{sprintKey}/adicionarTarefas", method=POST)
 	String adicionarAoSprint( Model model, @PathVariable int sprintKey,  int[] ticketKey) {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR
 		
 		Sprint sprint = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey)
 		for ( int key : ticketKey) {

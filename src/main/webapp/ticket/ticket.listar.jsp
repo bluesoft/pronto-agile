@@ -31,6 +31,12 @@
 						</a>
 					</c:if>
 					
+					<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
+						<a href="${raiz}sprints/${sprint.sprintKey}/priorizar">
+							<pronto:icons name="priorizar.png" title="Priorizar" />
+						</a>
+					</c:if>
+					
 					<%@ include file="/commons/sprintLinks.jsp" %>
 					
 				</h1>	

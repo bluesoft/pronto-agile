@@ -33,8 +33,16 @@
 	<body>
 	
 		<h1>
-			Priorizar <a href="${raiz}backlogs/${backlog.backlogKey}">${backlog.descricao}</a>
-			<a href="${raiz}backlogs/${backlog.backlogKey}/estimar"><pronto:icons name="estimar.png" title="Estimar Backlog" /></a>  
+			Priorizar
+			<c:choose>
+				<c:when test="${backlog ne null}">
+					<a href="${raiz}backlogs/${backlog.backlogKey}">${backlog.descricao}</a>
+					<a href="${raiz}backlogs/${backlog.backlogKey}/estimar"><pronto:icons name="estimar.png" title="Estimar Backlog" /></a>  
+				</c:when>
+				<c:otherwise>
+					<a href="${raiz}backlogs/sprints/${sprint.sprintKey}">Sprint ${sprint.nome}</a>
+				</c:otherwise>
+			</c:choose>
 			<pronto:icons name="adicionar.png" title="Adicionar Grupo de Valor e Negócio [Shift+A]" onclick="exibirDialogDeCriarGrupo();"/>
 		</h1>
 
@@ -89,7 +97,14 @@
 			
 		
 			<div align="center" id="buttons">
-				<button type="button" onclick="goTo('${raiz}backlogs/${backlog.backlogKey}')">Voltar</button>
+				<c:choose>
+					<c:when test="${backlog ne null}">
+						<button type="button" onclick="goTo('${raiz}backlogs/${backlog.backlogKey}')">Voltar</button>  
+					</c:when>
+					<c:otherwise>
+						<button type="button" onclick="goTo('${raiz}backlogs/sprints/${sprint.sprintKey}')">Voltar</button>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</form>
 		
@@ -124,7 +139,8 @@
 		</div>
 		
 		<script>
-			var backlogKey = '${backlog.backlogKey}'; 
+			var backlogKey = '${backlog.backlogKey}';
+			var sprintKey = '${sprint.sprintKey}';
 		</script>
 		
 	</body>
