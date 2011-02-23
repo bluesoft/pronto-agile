@@ -164,7 +164,7 @@
 							</div>
 							
 							<div id="divSprint">
-								<c:if test="${ticket.sprint ne null}">
+								<c:if test="${ticket.sprint.sprintKey gt 0}">
 									<c:choose>
 										<c:when test="${!ticket.tarefa and !ticket.sprint.fechado}">
 											<form:select path="ticket.sprint.sprintKey">
