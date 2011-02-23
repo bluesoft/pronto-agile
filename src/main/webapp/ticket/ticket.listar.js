@@ -121,8 +121,8 @@ function criarEventoDeTrocarCategoria(){
 }
 
 function escolherSprintParaMover(ticketKey) {
-
-	if ($('#selecionarSprint').find('option').length == 1){
+	
+	if ($('#selecionarSprint').length == 0){
 		pronto.moverParaSprintAtual(ticketKey, true);
 	} else {
 		var $div = $("#dialogSelecionarSprint");
