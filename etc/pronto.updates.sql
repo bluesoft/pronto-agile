@@ -398,3 +398,10 @@ alter table ticket add modulo_key integer references modulo;
 CREATE INDEX idx_ticket_modulo ON TICKET USING btree (modulo_key);
 
 create sequence SEQ_MODULO;
+
+--2011 02 23
+alter table backlog add slug varchar(50);
+update backlog set slug = 'ideias' where backlog_key = 1;
+update backlog set slug = 'productBacklog' where backlog_key = 2;
+update backlog set slug = 'lixeira' where backlog_key = 4;
+update backlog set slug = 'impedimentos' where backlog_key = 5;

@@ -27,7 +27,6 @@ public class Backlog {
 	public static final int IMPEDIMENTOS = 5
 
 	Backlog() {
-
 	}
 
 	Backlog(final int backlogKey) {
@@ -43,6 +42,8 @@ public class Backlog {
 	int backlogKey
 
 	String descricao
+	
+	String slug
 
 	@OneToMany(mappedBy = "backlog")
 	List<Ticket> tickets

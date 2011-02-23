@@ -156,22 +156,27 @@
 
 							<div id="divBacklog">
 								<form:hidden path="ticket.backlog.backlogKey"/>
-								<b>${ticket.backlog.descricao}</b>					
+								<b>${ticket.backlog.descricao}</b>
+								<c:if test="${ticket.backlog.backlogKey ne 3}">
+									<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="openWindow('${raiz}backlogs/${ticket.backlog.slug}')"/>
+								</c:if>				
 								<p>Backlog</p>
 							</div>
 							
 							<div id="divSprint">
-								<c:if test="${ticket.backlog.backlogKey eq 3}">
+								<c:if test="${ticket.sprint ne null}">
 									<c:choose>
-										<c:when test="${!ticket.tarefa and !(ticket.sprint ne null and ticket.sprint.fechado)}">
+										<c:when test="${!ticket.tarefa and !ticket.sprint.fechado}">
 											<form:select path="ticket.sprint.sprintKey">
 												<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
 											</form:select>
+											<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="openWindow('${raiz}backlogs/sprints/${ticket.sprint.sprintKey}')"/>
 											<p>Sprint</p>
 										</c:when>
 										<c:otherwise>
 											<form:hidden path="ticket.sprint.sprintKey"/>
 											<b>${ticket.sprint.nome}</b>
+											<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="openWindow('${raiz}backlogs/sprints/${ticket.sprint.sprintKey}')"/>
 											<p>Sprint</p>
 										</c:otherwise>
 									</c:choose>
