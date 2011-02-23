@@ -321,10 +321,10 @@
 				<tr>
 					<th colspan="4">Total</th>
 					<th id="somaValorDeNegocio">
-						${sprint.valorDeNegocioTotal} ${backlog.valorDeNegocioTotal}
+						${sprint.valorDeNegocioTotal}
 					</th>
 					<th colspan="3" id="somaEsforco">
-						${sprint.esforcoTotal} ${backlog.esforcoTotal}
+						${sprint.esforcoTotal}
 					</th>
 					<th colspan="4"></th>
 				</tr>
