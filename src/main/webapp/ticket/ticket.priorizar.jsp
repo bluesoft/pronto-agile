@@ -61,6 +61,7 @@
 									<th style="width: 100px">Tipo</th>
 									<th style="width: 100px">Cliente</th>
 									<th style="width: 50px">Esforço</th>
+									<th style="width: 120px">Status</th>
 									<th title="Tempo de Vida em Dias">Dias</th>
 								</tr>
 							</thead>
@@ -87,6 +88,7 @@
 										<td class="esforco">
 											<span>${t.esforco}</span>
 										</td>
+										<td nowrap="nowrap">${t.kanbanStatus.descricao}</td>
 										<td>${t.tempoDeVidaEmDias}</td>
 									</tr>
 								</c:forEach>
@@ -128,11 +130,12 @@
 							<th style="width: 100px">Tipo</th>
 							<th style="width: 100px">Cliente</th>
 							<th style="width: 50px">Esforço</th>
+							<th style="width: 120px">Status</th>
 							<th title="Tempo de Vida em Dias">Dias</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="vazio"><td colspan="7">&nbsp;</td></tr>
+						<tr class="vazio"><td colspan="8">&nbsp;</td></tr>
 					</tbody>
 			</table>
 			<br/>
