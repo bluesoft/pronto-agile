@@ -56,6 +56,7 @@ public class LoginFilter implements Filter {
 		set.add(".*\\.css");
 		set.add(".*\\.html");
 		set.add(".*\\.js");
+		set.add(".*/openServices/.*")
 		freeResources = Collections.unmodifiableSet(set);
 	}
 
