@@ -67,14 +67,14 @@ public class KanbanController {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
 		if (sprint == null || sprint.sprintKey == 0) {
-			sprint = sprintDao.getSprintAtualComTickets()
-		} else {
-			sprint = sprintDao.obterSprintComTicket(sprint.getSprintKey())
+			sprint = sprintDao.getSprintAtual()
 		}
 		
 		if (sprint == null) {
 			return LoginController.VIEW_BEM_VINDO
 		}
+
+		sprint = sprintDao.obterSprintComTicket(sprint.getSprintKey())
 		
 		model.addAttribute "sprint", sprint
 		model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()

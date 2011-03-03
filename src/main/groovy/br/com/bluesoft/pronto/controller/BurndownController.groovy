@@ -87,16 +87,17 @@ class BurndownController {
 	}
 	
 	@RequestMapping(value='/data/{sprintKey}',method=GET)
-	@ResponseBody String data(final HttpServletResponse response, @PathVariable final Integer sprintKey, Boolean considerarFimDeSemana) throws Exception {
+	@ResponseBody String data(final HttpServletResponse response, @PathVariable Integer sprintKey, Boolean considerarFimDeSemana) throws Exception {
 		
 		considerarFimDeSemana = considerarFimDeSemana == null ? false :  considerarFimDeSemana
 		
 		final Sprint sprint
 		if (sprintKey == null) {
-			sprint = sprintDao.getSprintAtualComTickets()
-		} else {
-			sprint = sprintDao.obterSprintComTicket(sprintKey)
+			sprint = sprintDao.getSprintAtual()
+			sprintKey = sprint.getSprintKey()
 		}
+
+		sprint = sprintDao.obterSprintComTicket(sprintKey)
 		
 		final double esforcoTotal = sprint.getEsforcoTotal()
 		final Map<String, Double> mapaEsforcoPorDia = sprint.getMapaEsforcoPorDia(considerarFimDeSemana)

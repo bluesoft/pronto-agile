@@ -114,23 +114,6 @@ public class SprintDao extends DaoHibernate{
 		return sprint
 	}
 
-	public Sprint getSprintAtualComTickets() {
-		final String hql = """
-			select distinct s 
-			from Sprint s 
-			left join fetch s.tickets t 
-			left join fetch t.filhos f 
-			left join fetch t.backlog
-			left join fetch t.cliente
-			left join fetch t.script
-			left join fetch t.tipoDeTicket
-			left join fetch t.kanbanStatus
-			where s.atual = true
-		"""
-		final Sprint sprint = (Sprint) getSession().createQuery(hql).uniqueResult()
-		return sprint
-	}
-
 	public Sprint obterSprintComTicket(final Integer sprintKey) {
 		final String hql = """
 			select distinct s 

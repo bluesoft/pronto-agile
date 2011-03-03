@@ -219,14 +219,14 @@ public class Sprint {
 		
 		final List<Comparator> comparators = new ArrayList<Comparator>()
 
-		final BeanComparator comparatorPrioridade = new BeanComparator("prioridade")
 		final ReverseComparator comparatorValorDeNegocio = new ReverseComparator(new BeanComparator("valorDeNegocio"))
+		final BeanComparator comparatorPrioridade = new BeanComparator("prioridade")
 		final ReverseComparator comparatorEsforco = new ReverseComparator(new BeanComparator("esforco"))
 		final BeanComparator comparatorDataDeCriacao = new BeanComparator("dataDeCriacao")
 		final BeanComparator comparatorKey = new BeanComparator("ticketKey")
 
-		comparators.add(comparatorPrioridade)
 		comparators.add(comparatorValorDeNegocio)
+		comparators.add(comparatorPrioridade)
 		comparators.add(comparatorEsforco)
 		comparators.add(comparatorDataDeCriacao)
 		comparators.add(comparatorKey)
