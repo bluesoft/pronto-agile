@@ -410,6 +410,12 @@
 			<version>${smackx.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-core</artifactId>
+			<version>${spock.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
@@ -435,6 +441,7 @@
 		<slf4j.version>1.5.10</slf4j.version>
 		<smack.version>3.1.0</smack.version>
 		<smackx.version>3.1.0</smackx.version>
+		<spock.version>0.4-groovy-1.7</spock.version>
 		<spring.version>3.0.2.RELEASE</spring.version>
 		<servlet.version>2.4</servlet.version>
 		<http-builder.version>0.5.0-RC2</http-builder.version>

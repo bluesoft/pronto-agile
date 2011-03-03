@@ -1,3 +1,6 @@
 target/
 .DS_Store
 etc/temp.sql
+.settings
+.classpath
+.project
