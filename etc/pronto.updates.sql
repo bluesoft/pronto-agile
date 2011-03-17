@@ -405,3 +405,10 @@ update backlog set slug = 'ideias' where backlog_key = 1;
 update backlog set slug = 'productBacklog' where backlog_key = 2;
 update backlog set slug = 'lixeira' where backlog_key = 4;
 update backlog set slug = 'impedimentos' where backlog_key = 5;
+
+--2011 03 17
+alter table script add total_de_execucoes integer;
+alter table script add execucoes_pendentes integer;
+
+update script s set total_de_execucoes = ( select count(*) from execucao where script_key = s.script_key);
+update script s set execucoes_pendentes = ( select count(*) from execucao where script_key = s.script_key and data is null);

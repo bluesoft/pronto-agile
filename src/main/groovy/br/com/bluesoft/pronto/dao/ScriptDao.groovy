@@ -38,11 +38,8 @@ public class ScriptDao extends DaoHibernate{
 	List<Script> listarComDependencias(Integer kanbanStatusKey) {
 		String hql = """
 			select distinct s from Script s 
-			left join fetch s.execucoes e 
 			left join fetch s.ticket t 
 			left join fetch t.cliente as c 
-			left join fetch e.bancoDeDados b 
-			left join fetch e.usuario b 
 			left join fetch t.kanbanStatus k
 			left join fetch t.backlog
 			left join fetch t.tipoDeTicket
@@ -64,18 +61,13 @@ public class ScriptDao extends DaoHibernate{
 	List<Script> listarPendentesComDependencias(Integer kanbanStatusKey) {
 		String hql = """
 			select distinct s from Script s 
-			left join fetch s.execucoes e
-			left join s.execucoes x 
 			left join fetch s.ticket t 
 			left join fetch t.cliente as c 
-			left join fetch e.bancoDeDados b 
-			left join fetch e.usuario b 
 			left join fetch t.kanbanStatus k
 			left join fetch t.backlog
 			left join fetch t.tipoDeTicket
 			left join fetch t.sprint
-			where x.data is null
-			and x is not empty
+			where s.execucoesPendentes > 0
 		"""
 		if (kanbanStatusKey && kanbanStatusKey > 0) {
 			hql += "and (k.kanbanStatusKey is null or k.kanbanStatusKey = ${kanbanStatusKey}) "
@@ -86,24 +78,20 @@ public class ScriptDao extends DaoHibernate{
 		return getSession().createQuery(hql).list()
 	}
 	
-	List<Script> listarExecutadosComDependencias() { 
-		return listarExecutadosComDependencias(null) 
+	List<Script> listarExecutadosComDependencias() {
+		return listarExecutadosComDependencias(null)
 	}
 	
 	List<Script> listarExecutadosComDependencias(Integer kanbanStatusKey) {
 		String hql = """
-			select distinct s from Script s 
-			left join fetch s.execucoes e 
+			select distinct s from Script s  
 			left join fetch s.ticket t 
 			left join fetch t.cliente as c 
-			left join fetch e.bancoDeDados b 
-			left join fetch e.usuario b 
 			left join fetch t.kanbanStatus k
 			left join fetch t.backlog
 			left join fetch t.tipoDeTicket
 			left join fetch t.sprint
-			where e.data is not null
-			and e is not empty
+			where s.execucoesPendentes = 0
 		"""
 		if (kanbanStatusKey && kanbanStatusKey > 0) {
 			hql += "and (k.kanbanStatusKey is null or k.kanbanStatusKey = ${kanbanStatusKey}) "

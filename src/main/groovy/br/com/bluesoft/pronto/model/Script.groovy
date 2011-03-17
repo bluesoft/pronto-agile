@@ -44,6 +44,10 @@ class Script {
 	
 	String script
 	
+	int totalDeExecucoes
+	
+	int execucoesPendentes
+	
 	@OneToOne(mappedBy = "script")
 	Ticket ticket
 	
@@ -115,32 +119,19 @@ class Script {
 	}
 	
 	boolean isTudoExecutado() {
-		if (execucoes != null) {
-			for (final Execucao execucao : execucoes) {
-				if (!execucao.isExecutado()) {
-					return false
-				}
-			}
-		}
-		return true
+		return execucoesPendentes == 0
 	}
 	
 	String getSituacao() {
-		if (execucoes != null) {
-			int totalDeExecucoes = execucoes.size()
-			int execucoesExecutadas = 0
-			for (final Execucao execucao : execucoes) {
-				if (execucao.isExecutado()) {
-					execucoesExecutadas++
-				}
-			}
-			if (totalDeExecucoes == execucoesExecutadas) {
-				return "Tudo Executado"
-			} else {
-				return MessageFormat.format("{0} de {1} executados", execucoesExecutadas, totalDeExecucoes)
-			}
+		if (totalDeExecucoes == 0) {
+			return "Não há Execuções"
 		}
-		return "Não há Execuções"
+		
+		if (isTudoExecutado()) {
+			return "Tudo Executado"
+		} else {
+			return MessageFormat.format("{0} de {1} executados", totalDeExecucoes - execucoesPendentes, totalDeExecucoes)
+		}
 	}
 	
 }

@@ -38,9 +38,11 @@
 				Status:
 				<select name="kanbanStatusKey" onchange="reload()">
 					<option value="0">Todos</option>
+					<optgroup label="---">
 					<c:forEach items="${kanbanStatus}" var="item">
 						<option value="${item.kanbanStatusKey}"  ${item.kanbanStatusKey eq kanbanStatusKey ? 'selected="selected"' : ''}>${item.descricao}</option>
 					</c:forEach>
+					</optgroup>
 				</select>
 			</form>
 		</div>
