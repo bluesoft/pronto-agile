@@ -21,6 +21,7 @@ import br.com.bluesoft.pronto.dao.KanbanStatusDao;
 import br.com.bluesoft.pronto.dao.ScriptDao
 import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.model.BancoDeDados
+import br.com.bluesoft.pronto.model.Execucao;
 import br.com.bluesoft.pronto.model.Script
 import br.com.bluesoft.pronto.model.Ticket
 
@@ -107,18 +108,27 @@ class ScriptController {
 					}
 				}
 				
-								
 			} else {
 				scriptDao.removerExecucoesDoScript(scriptOriginal)
 			}
 			
+			atualizaTotalDeExecucoes(scriptOriginal)
+			
+			int quantidadeDeExecucoesPendentes = getQuantidadeDeExecucoesPendentes(scriptOriginal)
+			atualizaExecucoesPendentes(scriptOriginal, quantidadeDeExecucoesPendentes)
+			
 			scriptDao.salvar(scriptOriginal)
+			
 		} else {
 			if (bancoDeDadosKey != null) {
 				bancoDeDadosKey.each() {
 					script.adicionarExecucaoParaOBanco(bancoDeDadosDao.obter(it))
 				}
 			}
+			
+			atualizaTotalDeExecucoes(script)
+			atualizaExecucoesPendentes(script, script.execucoes.size())
+			
 			scriptDao.salvar(script)
 
 			if (ticketKey != null) {
@@ -129,6 +139,27 @@ class ScriptController {
 		}
 		
 		"redirect:/scripts"
+	}
+
+	private atualizaTotalDeExecucoes(Script script) {
+		script.setTotalDeExecucoes script.execucoes == null ? 0 : script.execucoes.size()
+	}
+	
+	private atualizaExecucoesPendentes(Script script, int execucoesPendentes) {
+		script.setExecucoesPendentes execucoesPendentes
+	}
+	
+	private getQuantidadeDeExecucoesPendentes(Script script) {
+		
+		int quantidadeDeExecucoesPendentes = 0
+		
+		for (Execucao execucao : script.execucoes) {
+			if(execucao.isPendente()) {
+				quantidadeDeExecucoesPendentes++
+			}
+		}
+		
+		return quantidadeDeExecucoesPendentes
 	}
 	
 	@RequestMapping(value = "/{scriptKey}", method = DELETE)
