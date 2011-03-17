@@ -24,7 +24,7 @@ class Execucao implements Comparable  {
 	@JoinColumn(name = "BANCO_DE_DADOS_KEY")
 	BancoDeDados bancoDeDados
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "SCRIPT_KEY")
 	Script script
 	

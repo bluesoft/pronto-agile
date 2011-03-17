@@ -51,7 +51,7 @@ class Script {
 	@OneToOne(mappedBy = "script")
 	Ticket ticket
 	
-	@OneToMany(mappedBy = "script", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "script", cascade = CascadeType.ALL, orphanRemoval = true)
 	Set<Execucao> execucoes
 	
 	Set<BancoDeDados> getBancosDeDados() {

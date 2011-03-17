@@ -15,19 +15,13 @@ public class ScriptDao extends DaoHibernate{
 	}
 
 	void removerExecucoesDoScript(Script script) {
-		
-		if (script.execucoes != null) {
-			for (final Execucao execucao : script.execucoes) {
-				removerExecucao(execucao)
-			}
-		}
-		
+		script.execucoes.clear()
 	}
 
 	void removerExecucao(Execucao execucao) {
 		final Script script = execucao.script
-		script.removerExecucao(execucao)
-		getSession().delete(execucao)
+		script.removerExecucao execucao
+		getSession().delete execucao
 	}
 
 	

@@ -8,6 +8,8 @@ import java.util.List
 
 import javax.servlet.http.HttpServletResponse
 
+import org.hibernate.Transaction
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -36,6 +38,7 @@ class ScriptController {
 	@Autowired private TicketDao ticketDao
 	@Autowired private BancoDeDadosDao bancoDeDadosDao
 	@Autowired private KanbanStatusDao kanbanStatusDao
+	@Autowired private SessionFactory sessionFactory
 	
 	static final TODOS = 0
 	static final PENDENTES = 1
@@ -84,6 +87,7 @@ class ScriptController {
 	@RequestMapping(method = [ POST, PUT ])
 	String salvar( Model model,  Script script,  Integer[] bancoDeDadosKey,  Integer ticketKey) {
 		
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction()
 		if (script.scriptKey > 0) {
 			
 			Script scriptOriginal = scriptDao.obter(script.scriptKey)
@@ -138,6 +142,7 @@ class ScriptController {
 			}
 		}
 		
+		tx.commit()
 		"redirect:/scripts"
 	}
 
