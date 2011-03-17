@@ -121,6 +121,7 @@ class ExecucaoController {
 		execucoes.each() { Execucao it ->
 			it.usuario = Seguranca.usuario
 			it.data = agora
+			it.script.execucoesPendentes--
 			execucaoDao.salvar it
 		}
 		
