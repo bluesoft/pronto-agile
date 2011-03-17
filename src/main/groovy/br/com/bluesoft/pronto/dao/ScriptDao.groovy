@@ -16,8 +16,8 @@ public class ScriptDao extends DaoHibernate{
 
 	void removerExecucoesDoScript(Script script) {
 		
-		if (script.getExecucoes() != null) {
-			for (final Execucao execucao : script.getExecucoes()) {
+		if (script.execucoes != null) {
+			for (final Execucao execucao : script.execucoes) {
 				removerExecucao(execucao)
 			}
 		}
@@ -25,7 +25,7 @@ public class ScriptDao extends DaoHibernate{
 	}
 
 	void removerExecucao(Execucao execucao) {
-		final Script script = execucao.getScript()
+		final Script script = execucao.script
 		script.removerExecucao(execucao)
 		getSession().delete(execucao)
 	}
@@ -98,5 +98,26 @@ public class ScriptDao extends DaoHibernate{
 		}
 		hql += "order by s.scriptKey"
 		return getSession().createQuery(hql).list()
+	}
+	
+	void atualizaTotalDeExecucoes(Script script) {
+		script.setTotalDeExecucoes script.execucoes == null ? 0 : script.execucoes.size()
+	}
+	
+	void atualizaExecucoesPendentes(Script script, int execucoesPendentes) {
+		script.setExecucoesPendentes execucoesPendentes
+	}
+	
+	int getQuantidadeDeExecucoesPendentes(Script script) {
+		
+		int quantidadeDeExecucoesPendentes = 0
+		
+		for (Execucao execucao : script.execucoes) {
+			if(execucao.isPendente()) {
+				quantidadeDeExecucoesPendentes++
+			}
+		}
+		
+		return quantidadeDeExecucoesPendentes
 	}
 }

@@ -112,10 +112,10 @@ class ScriptController {
 				scriptDao.removerExecucoesDoScript(scriptOriginal)
 			}
 			
-			atualizaTotalDeExecucoes(scriptOriginal)
+			scriptDao.atualizaTotalDeExecucoes(scriptOriginal)
 			
-			int quantidadeDeExecucoesPendentes = getQuantidadeDeExecucoesPendentes(scriptOriginal)
-			atualizaExecucoesPendentes(scriptOriginal, quantidadeDeExecucoesPendentes)
+			int quantidadeDeExecucoesPendentes = scriptDao.getQuantidadeDeExecucoesPendentes(scriptOriginal)
+			scriptDao.atualizaExecucoesPendentes(scriptOriginal, quantidadeDeExecucoesPendentes)
 			
 			scriptDao.salvar(scriptOriginal)
 			
@@ -126,8 +126,8 @@ class ScriptController {
 				}
 			}
 			
-			atualizaTotalDeExecucoes(script)
-			atualizaExecucoesPendentes(script, script.execucoes.size())
+			scriptDao.atualizaTotalDeExecucoes(script)
+			scriptDao.atualizaExecucoesPendentes(script, script.execucoes.size())
 			
 			scriptDao.salvar(script)
 
@@ -141,27 +141,6 @@ class ScriptController {
 		"redirect:/scripts"
 	}
 
-	private atualizaTotalDeExecucoes(Script script) {
-		script.setTotalDeExecucoes script.execucoes == null ? 0 : script.execucoes.size()
-	}
-	
-	private atualizaExecucoesPendentes(Script script, int execucoesPendentes) {
-		script.setExecucoesPendentes execucoesPendentes
-	}
-	
-	private getQuantidadeDeExecucoesPendentes(Script script) {
-		
-		int quantidadeDeExecucoesPendentes = 0
-		
-		for (Execucao execucao : script.execucoes) {
-			if(execucao.isPendente()) {
-				quantidadeDeExecucoesPendentes++
-			}
-		}
-		
-		return quantidadeDeExecucoesPendentes
-	}
-	
 	@RequestMapping(value = "/{scriptKey}", method = DELETE)
 	String excluir( Model model, @PathVariable  int scriptKey) {
 		Script script = scriptDao.obter(scriptKey)
