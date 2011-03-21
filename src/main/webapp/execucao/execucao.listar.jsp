@@ -110,7 +110,7 @@
 							<th colspan="3">Execução</th>
 						</tr>
 						<tr>
-							<th style="width: 60px;"><input name="selecionarTodos" type="checkbox" value="" onchange="selecionarTodosPorBancoDeDados('${b.bancoDeDadosKey}')" /></th>
+							<th colspan="2"><input name="selecionarTodos" type="checkbox" value="" onchange="selecionarTodosPorBancoDeDados('${b.bancoDeDadosKey}')" /></th>
 							<th>Descrição</th>
 							<th>#</th>
 							<th>Branch</th>
@@ -156,7 +156,7 @@
 					<c:if test="${!empty b.execucoesPendentes}">
 						<div align="center">
 							<input type="hidden" name="kanbanStatusKey" value="" />
-							<button type="button" style="width: 200px;" onclick="enviar('${b.bancoDeDadosKey}')">Gerar Script do Banco ${b.nome}</button>
+							<button type="button" style="width: 250px;" onclick="enviar('${b.bancoDeDadosKey}')">Gerar Script do Banco ${b.nome}</button>
 						</div>
 					</c:if>
 					
