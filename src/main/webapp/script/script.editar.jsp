@@ -91,19 +91,29 @@
 						<c:set var="checked" value="false"/>
 						<c:set var="pendente" value="false"/>
 						<c:set var="executado" value="false"/>
-						<c:forEach var="e" items="${script.execucoes}">
-							<c:if test="${e.bancoDeDados.bancoDeDadosKey eq b.bancoDeDadosKey}">
-								<c:set var="checked" value="true"/>
-								<c:set var="pendente" value="${e.pendente}"/>
-								<c:set var="executado" value="${e.executado}"/>
-							</c:if>
-						</c:forEach>
+						<c:set var="execucaoKey" value=""/>
 						<li>
+							<c:forEach var="e" items="${script.execucoes}">
+								<c:if test="${e.bancoDeDados.bancoDeDadosKey eq b.bancoDeDadosKey}">
+									<c:set var="checked" value="true"/>
+									<c:set var="pendente" value="${e.pendente}"/>
+									<c:set var="executado" value="${e.executado}"/>
+									<c:set var="execucaoKey" value="${e.execucaoKey}"/>
+								</c:if>
+							</c:forEach>
+								
 							<input type="checkbox" name="bancoDeDadosKey" value="${b.bancoDeDadosKey}"  ${checked ? 'checked="checked"' : ''} onchange="bancos()"/> 
-							${b.nome} 
-							${pendente ? '<span class="pendente">(Pendente)</span>' : ''}
-							${executado ? '<span class="executado">(Executado)</span>' : ''}
-						</li> 
+							${b.nome}
+							<c:if test="${pendente}">
+								<span class="pendente">(Pendente)</span>
+								<pronto:icons name="executar_script.png" title="Marcar como executado" onclick="goTo('${raiz}execucoes/executar/${execucaoKey}')"/>
+							</c:if>
+
+							<c:if test="${executado}">
+								<span class="executado">(Executado)</span>
+								<pronto:icons name="estornar_execucao.png" title="Estornar execução" onclick="goTo('${raiz}execucoes/estornarExecucao/${execucaoKey}')"/>
+							</c:if>
+						</li>
 					</c:forEach>
 				</ul>
 				

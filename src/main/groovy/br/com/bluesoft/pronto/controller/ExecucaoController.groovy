@@ -79,7 +79,7 @@ class ExecucaoController {
 	
 	
 	
-	@RequestMapping(value="/gerar", method=POST)
+	@RequestMapping(value="/gerar", method = POST)
 	String gerar( Model model,  Integer bancoDeDadosKey,  Integer[] execucaoKey)  {
 		Seguranca.validarPermissao Papel.EQUIPE
 		model.addAttribute 'execucaoKey', execucaoKey
@@ -87,7 +87,7 @@ class ExecucaoController {
 		VIEW_EXECUCAO
 	}
 	
-	@RequestMapping(value="/gerarScript", method=POST)
+	@RequestMapping(value="/gerarScript", method = POST)
 	@ResponseBody
 	String gerarScript( Model model,  Integer bancoDeDadosKey,  Integer[] execucaoKey)  {
 		
@@ -130,4 +130,34 @@ class ExecucaoController {
 		"redirect:/execucoes/${bancoDeDadosKey}/pendentes"
 	}
 	
+	@RequestMapping(value= '/executar/{execucaoKey}', method = GET)
+	String executar( Model model, @PathVariable Integer execucaoKey) {
+		
+		Seguranca.validarPermissao Papel.EQUIPE
+		
+		def agora = new Date()
+		Execucao execucao = execucaoDao.obter(execucaoKey)
+
+		execucao.usuario = Seguranca.usuario
+		execucao.data = agora
+		execucao.script.execucoesPendentes--
+		execucaoDao.salvar execucao
+		
+		"redirect:/scripts/${execucao.script.scriptKey}"
+	}
+
+	@RequestMapping(value= '/estornarExecucao/{execucaoKey}', method = GET)
+	String estornarExecucao( Model model, @PathVariable Integer execucaoKey) {
+		
+		Seguranca.validarPermissao Papel.EQUIPE
+		
+		Execucao execucao = execucaoDao.obter(execucaoKey)
+
+		execucao.usuario = null
+		execucao.data = null
+		execucao.script.execucoesPendentes++
+		execucaoDao.salvar execucao
+		
+		"redirect:/scripts/${execucao.script.scriptKey}"
+	}
 }
