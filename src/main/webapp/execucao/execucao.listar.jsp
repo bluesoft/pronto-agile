@@ -28,17 +28,23 @@
 				
 			}
 
-			 function verScript(scriptKey) {
-					$.ajax({
-						url: '${raiz}scripts/' + scriptKey + '/json',
-						cache: false,
-						dataType: 'json',
-						success: function (script) {
-							$("#dialog").dialog('option', 'title', script.descricao);
-							$("#dialogDescricao").html(new String(script.script).replace(/\n/g,'<br/>'));
-							$("#dialog").dialog('open');
-						}
-					});
+			function verScript(scriptKey) {
+				$.ajax({
+					url: '${raiz}scripts/' + scriptKey + '/json',
+					cache: false,
+					dataType: 'json',
+					success: function (script) {
+						$("#dialog").dialog('option', 'title', script.descricao);
+						$("#dialogDescricao").html(new String(script.script).replace(/\n/g,'<br/>'));
+						$("#dialog").dialog('open');
+					}
+				});
+			}
+
+			function selecionarTodosPorBancoDeDados(bancoDeDadosKey) {
+				$("form[name='"+bancoDeDadosKey+"'] input:checkbox").each(function() {
+			        this.checked = !this.checked;
+			    });
 			}
 
 			$(function(){
@@ -46,7 +52,8 @@
 					autoOpen: false, 
 					height: $(document).height() - 50, 
 					width: $(document).width() - 50, 
-					modal: true });
+					modal: true
+				});
 			});
 				
 		</script>
@@ -86,7 +93,7 @@
 		<c:forEach items="${bancosComExecucoes}" var="b">
 			<c:set var="execucoes" value="${pendentes ? b.execucoesPendentes : b.execucoes}"/>
 			<c:if test="${!empty execucoes}">
-				<form action="${raiz}execucoes/gerar" method="post">
+				<form action="${raiz}execucoes/gerar" method="post" name="${b.bancoDeDadosKey}">
 					<input type="hidden" name="bancoDeDadosKey" value="${b.bancoDeDadosKey}"/>
 					<h2>${b.nome}</h2>		
 					<table style="width: 100%">
@@ -96,7 +103,7 @@
 							<th colspan="3">Execução</th>
 						</tr>
 						<tr>
-							<th colspan="2" style="width: 60px;"></th>
+							<th style="width: 60px;"><input name="selecionarTodos" type="checkbox" value="" onchange="selecionarTodosPorBancoDeDados('${b.bancoDeDadosKey}')" /></th>
 							<th>Descrição</th>
 							<th>#</th>
 							<th>Branch</th>
