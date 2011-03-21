@@ -11,6 +11,7 @@
 		<form id="formExecucoes" action="${raiz}execucoes" method="POST">
 			
 			<input type="hidden" name="bancoDeDadosKey" value="${bancoDeDadosKey}"/>
+			<input type="hidden" name="kanbanStatusKey" value="${kanbanStatusKey}"/>
 
 			<c:forEach items="${execucaoKey}" var="key">
 				<input type="hidden" name="execucaoKey" value="${key}"/>

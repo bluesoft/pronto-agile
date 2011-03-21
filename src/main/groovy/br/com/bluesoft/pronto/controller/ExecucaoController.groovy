@@ -36,12 +36,12 @@ class ExecucaoController {
 	@Autowired private KanbanStatusDao kanbanStatusDao
 	
 	@RequestMapping(method = GET)
-	String listarTodos(Model model, Integer kanbanStatusKey) {
+	String listarTodos( Model model, Integer kanbanStatusKey) {
 		listar model, null, false, kanbanStatusKey
 	}
 
 	@RequestMapping(value="/pendentes", method = GET)
-	String listarPendentes(Model model, Integer kanbanStatusKey) {
+	String listarPendentes( Model model, Integer kanbanStatusKey) {
 		listar model, null, true, kanbanStatusKey
 	}
 
@@ -80,10 +80,11 @@ class ExecucaoController {
 	
 	
 	@RequestMapping(value="/gerar", method = POST)
-	String gerar( Model model,  Integer bancoDeDadosKey,  Integer[] execucaoKey)  {
+	String gerar( Model model, Integer bancoDeDadosKey, Integer[] execucaoKey, Integer kanbanStatusKey)  {
 		Seguranca.validarPermissao Papel.EQUIPE
 		model.addAttribute 'execucaoKey', execucaoKey
 		model.addAttribute 'bancoDeDadosKey', bancoDeDadosKey
+		model.addAttribute 'kanbanStatusKey', kanbanStatusKey
 		VIEW_EXECUCAO
 	}
 	
@@ -112,7 +113,7 @@ class ExecucaoController {
 	}
 	
 	@RequestMapping(method = [ POST, PUT ])
-	String confirmar( Model model,  Integer bancoDeDadosKey,  Integer[] execucaoKey) {
+	String confirmar( Model model, Integer bancoDeDadosKey, Integer[] execucaoKey, Integer kanbanStatusKey) {
 		
 		Seguranca.validarPermissao Papel.EQUIPE
 		
@@ -125,7 +126,7 @@ class ExecucaoController {
 			execucaoDao.salvar it
 		}
 		
-		model.addAttribute "execucaoKey", execucaoKey
+		model.addAttribute "kanbanStatusKey", kanbanStatusKey
 		
 		"redirect:/execucoes/${bancoDeDadosKey}/pendentes"
 	}

@@ -47,6 +47,11 @@
 			    });
 			}
 
+			function enviar(bancoDeDadosKey) {
+				$("form[name='"+bancoDeDadosKey+"'] input[name='kanbanStatusKey']").val($("#kanbanStatusKey").val());
+				$("form[name='"+bancoDeDadosKey+"']").submit();
+			}
+
 			$(function(){
 				$("#dialog").dialog({ 
 					autoOpen: false, 
@@ -83,9 +88,11 @@
 				Status:
 				<select name="kanbanStatusKey" id="kanbanStatusKey" onchange="reload()">
 					<option value="0">Todos</option>
+					<optgroup label="---">
 					<c:forEach items="${kanbanStatus}" var="item">
 						<option value="${item.kanbanStatusKey}"  ${item.kanbanStatusKey eq kanbanStatusKey ? 'selected="selected"' : ''}>${item.descricao}</option>
 					</c:forEach>
+					</optgroup>
 				</select>
 			</form>
 		</div>
@@ -148,7 +155,8 @@
 					
 					<c:if test="${!empty b.execucoesPendentes}">
 						<div align="center">
-							<button type="submit" style="width: 200px;">Gerar Script do Banco ${b.nome}</button>
+							<input type="hidden" name="kanbanStatusKey" value="" />
+							<button type="button" style="width: 200px;" onclick="enviar('${b.bancoDeDadosKey}')">Gerar Script do Banco ${b.nome}</button>
 						</div>
 					</c:if>
 					
