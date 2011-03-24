@@ -18,6 +18,7 @@
 			</c:forEach>	
 			
 			<div align="center" class="buttons">
+				<br />
 				<button type="button" onclick="voltar()">Voltar</button>
 				<button type="submit">Confirmar</button>
 			</div>
