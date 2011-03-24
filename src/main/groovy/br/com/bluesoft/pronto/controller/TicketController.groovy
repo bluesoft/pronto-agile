@@ -592,7 +592,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/transformarEmEstoria")
 	String transformarEmEstoria( Model model,  @PathVariable int ticketKey) {
 		
-		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
 		
 		Ticket ticket = ticketDao.obter(ticketKey)
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().createCriteria(TipoDeTicket.class).add(Restrictions.eq("tipoDeTicketKey", TipoDeTicket.ESTORIA)).uniqueResult())
