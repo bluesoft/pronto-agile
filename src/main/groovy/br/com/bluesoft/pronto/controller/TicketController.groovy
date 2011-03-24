@@ -379,6 +379,20 @@ class TicketController {
 		return "redirect:/tickets/${ticket.ticketKey}"
 		
 	}
+
+	@RequestMapping("/{ticketKey}/moverParaFuturo")
+	String moverParaFuturo( Model model,  @PathVariable int ticketKey, HttpServletResponse response) throws ProntoException {
+		
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR
+		
+		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
+		
+		ticket.setBacklog(backlogDao.obter(Backlog.FUTURO))
+		
+		ticket.setSprint(null)
+		ticketDao.salvar(ticket)
+		return "redirect:/tickets/${ticketKey}"
+	}
 	
 	@RequestMapping("/{ticketKey}/desacoplar")
 	String desacoplar( Model model,  @PathVariable int ticketKey,  HttpServletResponse response) throws ProntoException {

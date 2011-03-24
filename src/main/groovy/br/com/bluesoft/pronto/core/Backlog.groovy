@@ -25,6 +25,7 @@ public class Backlog {
 	public static final int SPRINT_BACKLOG = 3
 	public static final int LIXEIRA = 4
 	public static final int IMPEDIMENTOS = 5
+	public static final int FUTURO = 6
 
 	Backlog() {
 	}

@@ -122,6 +122,11 @@ pronto.moverParaInbox = function(ticketKey, ajax){
 	pronto.moverTicket(ticketKey, url, ajax);
 };
 
+pronto.moverParaFuturo = function(ticketKey, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaFuturo');
+	pronto.moverTicket(ticketKey, url, ajax);
+};
+
 pronto.jogarNoLixo = function(ticketKey, ajax){
 	var url = (pronto.raiz + 'tickets/' + ticketKey + '/jogarNoLixo');
 	pronto.moverTicket(ticketKey, url, ajax);

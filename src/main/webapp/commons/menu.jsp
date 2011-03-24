@@ -42,6 +42,7 @@
 		<a href="${raiz}backlogs/sprints/atual" img="sprint_atual.png">Sprint Atual</a>
 		<a href="${raiz}backlogs/inbox" img="inbox.png">Inbox</a>
 		<a href="${raiz}backlogs/productBacklog" img="estorias.gif">Product Backlog</a>
+		<a href="${raiz}backlogs/futuro" img="futuro.png">Futuro</a>
 		<a href="${raiz}backlogs/impedimentos" img="impedimentos.png">Impedimentos</a>
 		<a href="${raiz}backlogs/lixeira" img="lixeira.png">Lixeira</a>
 		<a href="${raiz}backlogs/clientes" img="pendentes.png">Pendentes</a>

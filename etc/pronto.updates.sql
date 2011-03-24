@@ -105,6 +105,7 @@ update script s set execucoes_pendentes = ( select count(*) from execucao where 
 --2011 03 24
 update backlog set descricao = 'Inbox', slug = 'inbox' where backlog_key = 1;
 
---2011 03 24
 update ticket set tipo_de_ticket_key = 2 where tipo_de_ticket_key = 1;
 delete from tipo_de_ticket where tipo_de_ticket_key = 1;
+
+insert into backlog (backlog_key, descricao, slug) values (6, 'Futuro', 'futuro');

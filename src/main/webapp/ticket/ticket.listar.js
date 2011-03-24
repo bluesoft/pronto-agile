@@ -65,21 +65,6 @@ function trocarCategoria(td) {
 	}
 }
 
-function recalcular() {
-
-	var valorDeNegocio = 0;
-	$('.valorDeNegocio').each(function(i, el) {
-		valorDeNegocio += parseFloat($(el).text());
-	});
-	$('#somaValorDeNegocio').text(valorDeNegocio);
-
-	var esforco = 0;
-	$('.esforco').each(function(i, el) {
-		esforco += parseFloat($(el).text());
-	});
-	$('#somaEsforco').text(esforco);
-}
-
 function verDescricao(ticketKey) {
 	var titulo = $('#' + ticketKey + ' .titulo').text();
 	$.ajax( {
