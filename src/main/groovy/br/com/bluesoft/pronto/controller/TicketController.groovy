@@ -338,11 +338,6 @@ class TicketController {
 		
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG))
 		
-		// caso não seja uma ideia mantém o tipo original
-		if (ticket.getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.IDEIA) {
-			ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.ESTORIA))
-		}
-		
 		ticket.setSprint(null)
 		ticketDao.salvar(ticket)
 		return "redirect:/tickets/${ticketKey}"
@@ -409,7 +404,6 @@ class TicketController {
 		
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.INBOX))
-		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IDEIA))
 		ticket.setSprint(null)
 		ticketDao.salvar(ticket)
 		
@@ -433,11 +427,8 @@ class TicketController {
 						ticket.setSprint(sprintDao.getSprintAtual())
 					}
 				} else {
-					backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG)
+					backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.INBOX)
 				}
-				break
-			case TipoDeTicket.IDEIA:
-				backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.INBOX)
 				break
 			case TipoDeTicket.TAREFA:
 				backlog = ticket.getPai().getBacklog()

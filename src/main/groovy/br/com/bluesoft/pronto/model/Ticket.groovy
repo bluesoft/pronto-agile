@@ -46,7 +46,7 @@ class Ticket {
 	public Ticket() {
 		// Inicializando campos para binding do Spring.
 		tipoDeTicket = new TipoDeTicket(TipoDeTicket.ESTORIA)
-		backlog = new Backlog(Backlog.PRODUCT_BACKLOG)
+		backlog = new Backlog(Backlog.INBOX)
 		reporter = new Usuario()
 		sprint = new Sprint()
 		kanbanStatus = new KanbanStatus(KanbanStatus.TO_DO)
@@ -344,10 +344,6 @@ class Ticket {
 	
 	boolean isToDo() {
 		return kanbanStatus != null && kanbanStatus.getKanbanStatusKey() == KanbanStatus.TO_DO
-	}
-	
-	boolean isIdeia() {
-		return getTipoDeTicket() != null && getTipoDeTicket().getTipoDeTicketKey() == TipoDeTicket.IDEIA
 	}
 	
 	boolean temFilhos() {

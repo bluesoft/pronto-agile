@@ -426,7 +426,7 @@ public class TicketDao extends DaoHibernate {
 		if(tipoDeTicketKey && tipoDeTicketKey != 0) {
 			query.setParameterList("tipos", [ tipoDeTicketKey ])
 		} else {
-			query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO, TipoDeTicket.IDEIA ])
+			query.setParameterList("tipos", [ TipoDeTicket.ESTORIA, TipoDeTicket.DEFEITO ])
 		}
 		
 		if (kanbanStatusKey && kanbanStatusKey != 0) {

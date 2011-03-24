@@ -135,7 +135,7 @@
 								</td>
 								<td>
 									<c:if test="${t.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-											<pronto:icons name="mover_para_ideias.png" title="Mover para a Caixa de Entrada" onclick="pronto.moverParaInbox(${t.ticketKey}, true)"></pronto:icons>
+											<pronto:icons name="mover_para_inbox.png" title="Mover para a Caixa de Entrada" onclick="pronto.moverParaInbox(${t.ticketKey}, true)"></pronto:icons>
 									</c:if>
 								</td>
 								<td>
@@ -145,7 +145,7 @@
 								</td>
 								<td>
 									<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-										<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${t.ticketKey}, true)"></pronto:icons>
+										<pronto:icons name="mover_para_lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${t.ticketKey}, true)"></pronto:icons>
 									</c:if>
 								</td>
 								<td>
@@ -174,15 +174,8 @@
 			</tr>
 		</table>
 		<div align="center">
-			<c:choose>
-				<c:when test="${backlog.backlogKey eq 1}">
-					&nbsp;&nbsp;<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=1')">Nova Ideia</button>&nbsp;&nbsp;
-				</c:when>
-				<c:when test="${backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-					&nbsp;&nbsp;<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2')">Nova Estória</button>&nbsp;&nbsp;
-					&nbsp;&nbsp;<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3')">Novo Defeito</button>&nbsp;&nbsp;
-				</c:when>
-			</c:choose>
+			<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2')">Nova Estória</button>&nbsp;&nbsp;
+			<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3')">Novo Defeito</button>&nbsp;&nbsp;
 		</div>
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>

@@ -33,7 +33,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "eternal")
 class TipoDeTicket {
 	
-	public static final int IDEIA = 1
 	public static final int ESTORIA = 2
 	public static final int DEFEITO = 3
 	public static final int TAREFA = 6

@@ -123,7 +123,7 @@ class ZendeskService {
 		ticket.cliente = clienteDao.obter(clienteKey)
 		ticket.kanbanStatus = kanbanStatusDao.obter(KanbanStatus.TO_DO)
 		ticket.tipoDeTicket = tipoDeTicketDao.obter(tipoDeTicketKey)
-		ticket.backlog = tipoDeTicketKey == TipoDeTicket.DEFEITO ? backlogDao.obter(Backlog.PRODUCT_BACKLOG) : backlogDao.obter(Backlog.INBOX)
+		ticket.backlog = backlogDao.obter(Backlog.INBOX)
 		ticket.titulo = zendeskTicket.subject
 		ticket.descricao = zendeskTicket.description
 		ticket.solicitador = zendeskSolicitador.name

@@ -56,20 +56,20 @@
 					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
 						<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="pronto.transformarEmEstoria('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
+					<c:if test="${ticket.backlog.backlogKey eq 2 and !ticket.tarefa}">
+							<pronto:icons name="mover_para_inbox.png" title="Mover para a Caixa de Entrada" onclick="pronto.moverParaInbox('${ticket.ticketKey}')"></pronto:icons>
+					</c:if>
 					<c:if test="${(ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 3) and (usuarioLogado.administrador or usuarioLogado.productOwner) and !ticket.tarefa}">
 							<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="pronto.moverParaProductBacklog('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
-					<c:if test="${ticket.backlog.backlogKey eq 2 and !ticket.tarefa}">
-							<pronto:icons name="mover_para_ideias.png" title="Mover para a Caixa de Entrada" onclick="pronto.moverParaInbox('${ticket.ticketKey}')"></pronto:icons>
-					</c:if>
-					<c:if test="${(ticket.backlog.backlogKey ne 4) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-						<pronto:icons name="lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo('${ticket.ticketKey}')"></pronto:icons>
+					<c:if test="${ticket.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
+						<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para um Sprint" onclick="escolherSprintParaMover('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
 					<c:if test="${ticket.backlog.backlogKey eq 1 or (ticket.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)) or ticket.backlog.backlogKey eq 3}">
 						<pronto:icons name="mover_para_impedimentos.png" title="Mover para Impedimentos" onclick="pronto.impedir('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
-					<c:if test="${ticket.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-						<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para um Sprint" onclick="escolherSprintParaMover('${ticket.ticketKey}')"></pronto:icons>
+					<c:if test="${(ticket.backlog.backlogKey ne 4) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
+						<pronto:icons name="mover_para_lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
 					<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
 						<c:if test="${!ticket.tarefa or (ticket.tarefa && ticket.pai.backlog.backlogKey ne 4 && ticket.pai.backlog.backlogKey ne 5)}">
@@ -303,22 +303,7 @@
 								<br/>
 								<p>Em Par?</p>
 							</div>
-							
-							<c:if test="${ticket.defeito}">
-								<div>
-										<form:select path="ticket.causaDeDefeito.causaDeDefeitoKey" cssClass="causaDoDefeito">
-											<form:option value="0" cssClass="nenhuma">Selecione uma causa</form:option>
-											<form:options items="${causasDeDefeito}" itemLabel="descricao" itemValue="causaDeDefeitoKey"/>
-										</form:select>
-										<br/>
-										<p>Causa do Defeito</p>
-								</div>
-							</c:if>
-							
-							
-						</div>
-						
-						<div class="bloco">
+
 							<div>
 								<form:select path="ticket.planejado">
 									<form:option value="true">Sim</form:option>
@@ -327,6 +312,11 @@
 								<br/>
 								<p>Planejado?</p>
 							</div>
+							
+						</div>
+						
+						<div class="bloco">
+							
 							
 							<div>
 								<form:select path="ticket.categoria.categoriaKey">
@@ -345,10 +335,26 @@
 								<br/>
 								<p>Módulo</p>
 							</div>
+
+							<c:if test="${empty ticket.filhos}">
+								<div>
+									<form:input path="ticket.branch" size="30"/><br/>
+									<p>Branch</p>
+								</div>
+							</c:if>
 						</div>
 						<div class="bloco">
-							
+
 							<c:if test="${ticket.defeito}">
+								<div>
+										<form:select path="ticket.causaDeDefeito.causaDeDefeitoKey" cssClass="causaDoDefeito">
+											<form:option value="0" cssClass="nenhuma">Selecione uma causa</form:option>
+											<form:options items="${causasDeDefeito}" itemLabel="descricao" itemValue="causaDeDefeitoKey"/>
+										</form:select>
+										<br/>
+										<p>Causa do Defeito</p>
+								</div>
+
 								<div>
 									<c:choose>
 										<c:when test="${!empty ticket.ticketOrigem}">
@@ -367,14 +373,24 @@
 									</c:choose>
 								</div>
 							</c:if>
-							
-							<c:if test="${empty ticket.filhos}">
-								<div>
-									<form:input path="ticket.branch" size="30"/><br/>
-									<p>Branch</p>
-								</div>
-							</c:if>
-							
+
+							<div>
+								<c:choose>
+									<c:when test="${empty zendeskTicketKey}">
+										<span>Zendesk:&nbsp;
+											<pronto:icons name="adicionar.png" title="Vincular esta tarefa com uma tarefa do Zendesk" onclick="adicionarVinculoComZendesk()"/>
+										</span>
+										<p>&nbsp;</p>
+									</c:when>
+									<c:otherwise>
+										<span>Zendesk: <b>${zendeskTicketKey}</b> vinculado&nbsp; 
+											<pronto:icons name="excluir.png" title="Desvincular esta tarefa com a tarefa do Zendesk" onclick="excluirVinculoComZendesk(${ticket.ticketKey})"/>
+										</span>
+										<p>&nbsp;</p>
+									</c:otherwise>
+								</c:choose>
+							</div>
+
 						</div>
 						
 						<div class="bloco">
@@ -404,22 +420,6 @@
 								<p>Data de Pronto</p>
 							</div>
 							
-							<div>
-								<c:choose>
-									<c:when test="${empty zendeskTicketKey}">
-										<span>Zendesk:&nbsp;
-											<pronto:icons name="adicionar.png" title="Vincular esta tarefa com uma tarefa do Zendesk" onclick="adicionarVinculoComZendesk()"/>
-										</span>
-										<p>&nbsp;</p>
-									</c:when>
-									<c:otherwise>
-										<span>Zendesk: <b>${zendeskTicketKey}</b> vinculado&nbsp; 
-											<pronto:icons name="excluir.png" title="Desvincular esta tarefa com a tarefa do Zendesk" onclick="excluirVinculoComZendesk(${ticket.ticketKey})"/>
-										</span>
-										<p>&nbsp;</p>
-									</c:otherwise>
-								</c:choose>
-							</div>
 						</div>
 						
 						<c:if test="${ticket.tarefa or empty ticket.filhos}">

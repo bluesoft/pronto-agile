@@ -27,9 +27,6 @@
 	<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner}">
 		<a img="clientes.png" href="${raiz}clientes">Clientes</a>
 	</c:if>
-	<c:if test="${usuarioLogado.administrador}">
-		<a img="configuracoes.png" href="${raiz}configuracoes">Configurações</a>
-	</c:if>
 	<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
 		<li><a img="modulos.png" href="${raiz}modulos">Módulos</a></li>
 	</c:if>
@@ -60,6 +57,9 @@
 		<a img="banco_de_dados.png" href="${raiz}bancosDeDados">Bancos de Dados</a>
 		<a img="script.png" href="${raiz}scripts">Scripts</a>
 		<a img="execucoes.png" href="${raiz}execucoes/pendentes">Execuções de Scripts</a>
+	</c:if>
+	<c:if test="${usuarioLogado.administrador}">
+		<a img="configuracoes.png" href="${raiz}configuracoes">Configurações</a>
 	</c:if>
 </div>
 

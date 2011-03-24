@@ -241,13 +241,11 @@ class BacklogController {
 		Integer totalDeDefeitos = totaisPorTipoDeTicket.get(TipoDeTicket.DEFEITO)
 		Integer totalDeEstorias = totaisPorTipoDeTicket.get(TipoDeTicket.ESTORIA)
 		Integer totalDeTarefas = totaisPorTipoDeTicket.get(TipoDeTicket.TAREFA)
-		Integer totalDeIdeias = totaisPorTipoDeTicket.get(TipoDeTicket.IDEIA)
 		
 		StringBuilder descricaoTotal = new StringBuilder()
 		descricaoTotal.append(totalDeDefeitos > 0 ? totalDeDefeitos + " defeito(s), " : "nenhum defeito, ")
 		descricaoTotal.append(totalDeEstorias > 0 ? totalDeEstorias + " estória(s), " : "nenhuma estória, ")
 		descricaoTotal.append(totalDeTarefas > 0 ? totalDeTarefas + " tarefa(s), " : "nenhuma tarefa, ")
-		descricaoTotal.append(totalDeIdeias > 0 ? totalDeIdeias + " ideia(s)" : "nenhuma ideia")
 		
 		return descricaoTotal.toString()
 	}
@@ -257,7 +255,6 @@ class BacklogController {
 		totais.put(TipoDeTicket.DEFEITO, 0)
 		totais.put(TipoDeTicket.ESTORIA, 0)
 		totais.put(TipoDeTicket.TAREFA, 0)
-		totais.put(TipoDeTicket.IDEIA, 0)
 		
 		for ( List tickets : listas) {
 			for ( Ticket ticket : tickets) {

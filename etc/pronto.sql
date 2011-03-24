@@ -335,7 +335,7 @@ INSERT INTO tipo_de_ticket VALUES (3, 'Defeito');
 INSERT INTO tipo_de_ticket VALUES (5, 'Impedimento');
 INSERT INTO tipo_de_ticket VALUES (6, 'Tarefa');
 
-INSERT INTO usuario VALUES ('admin', 'ISMvKXpXpadDiUoOSoAfww==', 'Administrador do Pronto', 'adm@adm.com.br', '644c2bd2b8320fb4599cecaa52dfec7d');
+INSERT INTO usuario (username, "password", nome, email) VALUES ('admin', 'ISMvKXpXpadDiUoOSoAfww==', 'Administrador do Pronto', 'adm@adm.com.br');
 
 INSERT INTO usuario_papel VALUES('admin',6);
 
