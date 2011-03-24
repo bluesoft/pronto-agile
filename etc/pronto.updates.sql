@@ -86,6 +86,8 @@ CREATE INDEX idx_ticket_modulo ON TICKET USING btree (modulo_key);
 
 create sequence SEQ_MODULO;
 
+	ALTER TABLE SEQ_MODULO OWNER TO pronto;
+
 --2011 02 23
 alter table backlog add slug varchar(50);
 update backlog set slug = 'ideias' where backlog_key = 1;
