@@ -332,7 +332,7 @@ class TicketController {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		
 		int backlogDeOrigem = ticket.getBacklog().getBacklogKey()
-		if (backlogDeOrigem == Backlog.IDEIAS) {
+		if (backlogDeOrigem == Backlog.INBOX) {
 			Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
 		}
 		
@@ -402,13 +402,13 @@ class TicketController {
 		}
 	}
 	
-	@RequestMapping("/{ticketKey}/moverParaIdeias")
-	String moverParaIdeias( Model model, @PathVariable int ticketKey,  HttpServletResponse response) throws SegurancaException {
+	@RequestMapping("/{ticketKey}/moverParaInbox")
+	String moverParaInbox( Model model, @PathVariable int ticketKey,  HttpServletResponse response) throws SegurancaException {
 		
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
 		
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
-		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS))
+		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.INBOX))
 		ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, TipoDeTicket.IDEIA))
 		ticket.setSprint(null)
 		ticketDao.salvar(ticket)
@@ -437,7 +437,7 @@ class TicketController {
 				}
 				break
 			case TipoDeTicket.IDEIA:
-				backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IDEIAS)
+				backlog = (Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.INBOX)
 				break
 			case TipoDeTicket.TAREFA:
 				backlog = ticket.getPai().getBacklog()

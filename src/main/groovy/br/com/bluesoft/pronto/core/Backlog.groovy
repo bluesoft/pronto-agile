@@ -20,7 +20,7 @@ import br.com.bluesoft.pronto.model.Ticket
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "eternal")
 public class Backlog {
 
-	public static final int IDEIAS = 1
+	public static final int INBOX = 1
 	public static final int PRODUCT_BACKLOG = 2
 	public static final int SPRINT_BACKLOG = 3
 	public static final int LIXEIRA = 4

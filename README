@@ -5,24 +5,24 @@
  is written in portuguese, volunteers to translate it into english 
  are very welcome.
 ---------------------------------------------------------------------
- Pronto é um projeto para gestãoo de projetos ágeis. 
+ Pronto é um projeto para gestão de projetos ágeis. 
  As principais funcionalidades do projeto são:
  * Kanban.
  * Gestão de estórias de usuário.
- * Gestão de de tarefas por estãria.
- * Gestão de de defeitos.
+ * Gestão de tarefas por estãria.
+ * Gestão de defeitos.
  * Estimativa e Priorização de Estórias de usuário.
- * Registros do resultados das reuniões de retrospectiva. 
+ * Registros dos resultados das reuniões de retrospectiva. 
  * Gestão de Sprints.
  * Burndown Charts.
  * Gestão de Product Backlog.
- * Gestão de Ideias (Backlog de Ideias).
+ * Gestão de Ideias (Caixa de Entrada).
  * Gestão de Impedimentos.
  * Gestão de Branches e Integração de código.
 ---------------------------------------------------------------------
  Mudanças de Banco de Dados
 ---------------------------------------------------------------------
- Todas as mudanças de banco de dados são armazenas no diretorio /etc/
- em arquivos .sql contendo em seu nome a data da alteração no formato
- ano mes dia (ex: 20091230).
+ O script de inicialização do projeto em etc/pronto.sql e as
+ alterações seguintes estão no arquivo etc/pronto.updates.sql com sua
+ data específica de mudança.
 ---------------------------------------------------------------------

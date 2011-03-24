@@ -135,7 +135,7 @@
 								</td>
 								<td>
 									<c:if test="${t.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-											<pronto:icons name="mover_para_ideias.png" title="Mover para o Backlog de Ideias" onclick="pronto.moverParaIdeias(${t.ticketKey}, true)"></pronto:icons>
+											<pronto:icons name="mover_para_ideias.png" title="Mover para a Caixa de Entrada" onclick="pronto.moverParaInbox(${t.ticketKey}, true)"></pronto:icons>
 									</c:if>
 								</td>
 								<td>

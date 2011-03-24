@@ -117,8 +117,8 @@ pronto.moverParaProductBacklog = function(ticketKey, ajax){
 	pronto.moverTicket(ticketKey, url, ajax);
 };
 
-pronto.moverParaIdeias = function(ticketKey, ajax){
-	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaIdeias');
+pronto.moverParaInbox = function(ticketKey, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaInbox');
 	pronto.moverTicket(ticketKey, url, ajax);
 };
 

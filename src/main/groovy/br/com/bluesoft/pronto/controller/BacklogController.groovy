@@ -72,9 +72,9 @@ class BacklogController {
 		"forward:/app/backlogs/" + Backlog.PRODUCT_BACKLOG
 	}
 
-	@RequestMapping(value='/ideias', method=GET)
-	String ideias(final Model model) {
-		"forward:/app/backlogs/" + Backlog.IDEIAS
+	@RequestMapping(value='/inbox', method=GET)
+	String inbox(final Model model) {
+		"forward:/app/backlogs/" + Backlog.INBOX
 	}
 
 	@RequestMapping(value='/impedimentos', method=GET)

@@ -412,3 +412,6 @@ alter table script add execucoes_pendentes integer;
 
 update script s set total_de_execucoes = ( select count(*) from execucao where script_key = s.script_key);
 update script s set execucoes_pendentes = ( select count(*) from execucao where script_key = s.script_key and data is null);
+
+--2011 03 24
+update backlog set descricao = 'Inbox', slug = 'inbox' where backlog_key = 1;
