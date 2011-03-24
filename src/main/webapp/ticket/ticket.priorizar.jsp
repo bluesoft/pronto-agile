@@ -98,7 +98,7 @@
 			</c:forEach>	
 			
 		
-			<div align="center" id="buttons">
+			<div align="center" class="buttons" id="buttons">
 				<c:choose>
 					<c:when test="${backlog ne null}">
 						<button type="button" onclick="goTo('${raiz}backlogs/${backlog.backlogKey}')">Voltar</button>  

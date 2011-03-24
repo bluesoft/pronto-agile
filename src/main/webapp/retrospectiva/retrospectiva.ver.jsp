@@ -144,7 +144,10 @@
 			<div>
 				<form action="${raiz}retrospectivas/${retrospectiva.retrospectivaKey}/descricao" method="post" >
 				<textarea id="descricao" name="descricao">${retrospectiva.descricao}</textarea>
-				<button type="submit">Salvar</button>
+				
+				<div align="center" class="buttons">
+					<button type="submit">Salvar</button>
+				</div>
 				</form>
 			</div>
 		</div>
@@ -180,7 +183,10 @@
 			<h4>Incluir anexo</h4>						
 			<form action="${raiz}retrospectivas/${retrospectiva.retrospectivaKey}/upload" method="post" enctype="multipart/form-data">
 				<input type="file" name="arquivo">
-				<button type="submit">Upload</button>
+				<div class="buttons">
+					<br />
+					<button type="submit">Upload</button>
+				</div>
 			</form>
 		</div>
 	</body>

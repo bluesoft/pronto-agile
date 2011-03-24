@@ -39,7 +39,7 @@
 					<input type="password" name="password" id="password" class="required">
 					<p>Nova Senha</p>
 				</div>
-				<div align="center">
+				<div align="center" class="buttons">
 					<button type="button" onclick="window.location.href='${raiz}usuarios'">Cancelar</button>
 					<button type="button" onclick="salvar()">Confirmar</button><br/>
 				</div>

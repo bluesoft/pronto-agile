@@ -271,10 +271,12 @@
 			</tfoot>
 		</table>	
 		
-		<div align="center">
-			<button type="button" onclick="pronto.doGet('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2')">Nova Estória</button>&nbsp;&nbsp;
-			<button type="button" onclick="pronto.doGet('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3')">Novo Defeito</button>
-		</div>
+		<c:if test="${backlog ne null and backlog.backlogKey eq 1}">
+			<div align="center" class="buttons">
+				<button type="button" onclick="pronto.doGet('${raiz}tickets/novo?tipoDeTicketKey=2')">Nova Estória</button>&nbsp;&nbsp;
+				<button type="button" onclick="pronto.doGet('${raiz}tickets/novo?tipoDeTicketKey=3')">Novo Defeito</button>
+			</div>
+		</c:if>
 		
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>

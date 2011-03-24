@@ -173,10 +173,6 @@
 				<th colspan="15" style="font-weight: bold;">Total: ${quantidadeTotal}</th>
 			</tr>
 		</table>
-		<div align="center">
-			<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=2')">Nova Estória</button>&nbsp;&nbsp;
-			<button type="button" onclick="goTo('${raiz}tickets/novo?backlogKey=${backlog.backlogKey}&tipoDeTicketKey=3')">Novo Defeito</button>&nbsp;&nbsp;
-		</div>
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>

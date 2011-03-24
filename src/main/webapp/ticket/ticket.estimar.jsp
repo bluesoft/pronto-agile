@@ -330,7 +330,7 @@
 				</tr>
 			</table>	
 		
-			<div align="center">
+			<div align="center" class="buttons">
 				<c:choose>
 					<c:when test="${sprint ne null}">
 						<button type="button" onclick="goTo('${raiz}backlogs/sprints/${sprint.sprintKey}')">Voltar</button>

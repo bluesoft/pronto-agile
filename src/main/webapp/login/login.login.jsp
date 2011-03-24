@@ -33,8 +33,9 @@
 					</p>
 				</div>
 			</div>
-			<div align="center">
-				<button type="submit" >Login</button>
+			<div align="center" class="buttons">
+				<br/>
+				<button type="submit">Entrar <pronto:icons name="entrar.png" title="Entrar" /></button>
 			</div>
 		</form>	
 	</body>

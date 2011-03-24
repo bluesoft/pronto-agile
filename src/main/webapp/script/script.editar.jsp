@@ -116,13 +116,14 @@
 						</li>
 					</c:forEach>
 				</ul>
-				
-				<div align="center">
-					<button type="button" onclick="voltar()">Cancelar</button>
-					<button type="button" onclick="salvar()">Salvar</button><br/>
-				</div>
-				
 			</div>
+				
+			<div align="center" class="buttons">
+				<br />
+				<button type="button" onclick="voltar()">Cancelar</button>
+				<button type="button" onclick="salvar()">Salvar</button><br/>
+			</div>
+				
 		</form>		
 	</body>
 </html>

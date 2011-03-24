@@ -471,9 +471,10 @@
 						</div>
 						
 					</div>
-					<div align="center">
+					<div align="center" class="buttons">
+						<br />
 						<c:choose>
-							<c:when test="${ticket.sprint ne null}">
+							<c:when test="${ticket.sprint ne null and ticket.sprint.sprintKey gt 0}">
 								<button type="button" onclick="pronto.doGet('${raiz}backlogs/sprints/${ticket.sprint.sprintKey}')">Cancelar</button>
 							</c:when>
 							<c:otherwise>
@@ -546,7 +547,10 @@
 				<h4>Incluir anexo</h4>						
 				<form action="${raiz}tickets/${ticket.ticketKey}/upload" method="post" enctype="multipart/form-data">
 					<input type="file" name="arquivo">
-					<button type="submit">Upload</button>
+					<div class="buttons">
+						<br />
+						<button type="submit">Upload</button>
+					</div>
 				</form>
 			</div>
 			

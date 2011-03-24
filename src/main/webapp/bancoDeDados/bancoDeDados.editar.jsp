@@ -29,11 +29,12 @@
 					<form:input path="bancoDeDados.nome"/>
 					<p>Descrição</p>
 				</div>
+			</div>
 				
-				<div align="center">
-					<button type="button" onclick="voltar()">Cancelar</button>
-					<button type="button" onclick="salvar()">Salvar</button><br/>
-				</div>
+			<div align="center" class="buttons">
+				<br />
+				<button type="button" onclick="voltar()">Cancelar</button>
+				<button type="button" onclick="salvar()">Salvar</button><br/>
 			</div>
 		</form>		
 		

@@ -94,7 +94,7 @@
 			</c:forEach>
 			</tbody>
 		</table>	
-		<div align="center">
+		<div align="center" class="buttons">
 			<button type="button" onclick="window.location.href='${raiz}sprints/novo'">Incluir Sprint</button>
 		</div>
 	</body>

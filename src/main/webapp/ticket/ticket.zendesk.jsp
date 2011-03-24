@@ -62,7 +62,7 @@
 	<div>
 		<textarea id="comentarioZendesk" name="comentarioZendesk"></textarea>
 	</div>
-	<div align="center">
+	<div align="center" class="buttons">
 		<button type="submit">Incluir</button>
 	</div>
 </form>

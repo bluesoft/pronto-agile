@@ -58,7 +58,7 @@
 					<th id="somaEsforco"></th>
 				</tr>
 			</table>	
-			<div align="center">
+			<div align="center" class="buttons">
 				<button type="button" onclick="goTo('${raiz}backlogs/sprints/${sprint.sprintKey}')">Cancelar</button>
 				<button type="button" onclick="enviar()">Adicionar</button>
 			</div>

@@ -24,8 +24,10 @@
 			Data Inicial: <input type="text" id="dataInicial" class="required dateBr" value="${strDataInicial}" size="12"/>
 			<fmt:formatDate var="strDataFinal" value="${dataFinal}"/>
 			Data Final: <input type="text" id="dataFinal" class="required dateBr" value="${strDataFinal}" size="12"/>
+			
+			&nbsp; &nbsp;
+			
 			<button type="button" onclick="gerar()">Gerar</button>
-		
 		</div>
 		
 		<div id="chartdiv" align="center" style="height: 510px;">

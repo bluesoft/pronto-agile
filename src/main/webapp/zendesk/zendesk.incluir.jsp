@@ -51,7 +51,7 @@
 				</div>
 			</div>
 
-			<div align="center">
+			<div align="center" class="buttons">
 				<br/>
 				<button type="submit" onclick="incluir()">Incluir ticket</button>
 			</div>			

@@ -52,7 +52,7 @@
 			</tbody>
 		</table>	
 		<c:if test="${usuarioLogado.administrador}">
-			<div align="center">
+			<div align="center" class="buttons">
 				<button type="button" onclick="window.location.href='${raiz}usuarios/novo'">Incluir Usuário</button>
 			</div>
 		</c:if>

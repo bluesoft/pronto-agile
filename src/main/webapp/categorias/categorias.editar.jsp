@@ -34,11 +34,12 @@
 					</form:select>
 					<p>Cor</p>
 				</div>
-				
-				<div align="center">
-					<button type="button" onclick="window.location.href='${raiz}categorias'">Cancelar</button>
-					<button type="submit">Salvar</button><br/>
-				</div>
+			</div>
+
+			<div align="center" class="buttons">
+				<br/>
+				<button type="button" onclick="window.location.href='${raiz}categorias'">Cancelar</button>
+				<button type="submit">Salvar</button><br/>
 			</div>
 		</form>		
 	</body>

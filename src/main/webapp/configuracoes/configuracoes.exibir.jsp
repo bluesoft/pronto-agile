@@ -87,9 +87,11 @@
 				</div>
 			</div>
 			
-			<button type="button" onclick="salvar()">Salvar</button>
+			<div align="center" class="buttons">
+				<br />
+				<button type="button" onclick="salvar()">Salvar</button>
+			</div>
 		</form>
-		
 
 	<script>
 		$(function(){

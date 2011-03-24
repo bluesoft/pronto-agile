@@ -54,19 +54,25 @@
 					<p>Fechado?</p>
 				</div>
 				
-				<div align="center">
-					<button type="button" onclick="window.location.href='${raiz}sprints'">Cancelar</button>
-					<button type="button" onclick="salvar()">Salvar</button><br/>
-				</div>
+			</div>
+
+			<div align="center" class="buttons">
+				<br/>
+				<button type="button" onclick="window.location.href='${raiz}sprints'">Cancelar</button>
+				<button type="button" onclick="salvar()">Salvar</button><br/>
 			</div>
 		</form>		
 
 		<c:if test="${sprint.sprintKey gt 0}">
+			<br /><br /><br />
 			<h2>Logo do Sprint</h2>
 			<h4>Definir imagem</h4>
 			<form action="${raiz}sprints/${sprint.sprintKey}/upload" method="post" enctype="multipart/form-data">
 				<input type="file" name="arquivo">
-				<button type="submit">Upload</button>
+				<div class="buttons">
+					<br />
+					<button type="submit">Upload</button>
+				</div>
 			</form>
 		</c:if>
 		

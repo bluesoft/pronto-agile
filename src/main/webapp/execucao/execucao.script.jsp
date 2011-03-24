@@ -17,7 +17,7 @@
 				<input type="hidden" name="execucaoKey" value="${key}"/>
 			</c:forEach>	
 			
-			<div align="center">
+			<div align="center" class="buttons">
 				<button type="button" onclick="voltar()">Voltar</button>
 				<button type="submit">Confirmar</button>
 			</div>

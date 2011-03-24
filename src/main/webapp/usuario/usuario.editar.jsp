@@ -101,11 +101,12 @@
 					</select>
 					<p>Cliente</p>
 				</div>
+			</div>
 				
-				<div align="center">
-					<button type="button" onclick="window.location.href='${raiz}usuarios'">Cancelar</button>
-					<button type="button" onclick="salvar()">Salvar</button><br/>
-				</div>
+			<div align="center" class="buttons">
+				<br/>
+				<button type="button" onclick="window.location.href='${raiz}usuarios'">Cancelar</button>
+				<button type="button" onclick="salvar()">Salvar</button><br/>
 			</div>
 		</form>		
 	</body>

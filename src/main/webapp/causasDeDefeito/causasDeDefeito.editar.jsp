@@ -28,11 +28,12 @@
 					<form:input path="causaDeDefeito.descricao" id="descricao" cssClass="required" size="35" maxlength="35"/>
 					<p>Nome</p>
 				</div>
+			</div>
 				
-				<div align="center">
-					<button type="button" onclick="window.location.href='${raiz}causasDeDefeito'">Cancelar</button>
-					<button type="submit">Salvar</button><br/>
-				</div>
+			<div align="center" class="buttons">
+				<br />
+				<button type="button" onclick="window.location.href='${raiz}causasDeDefeito'">Cancelar</button>
+				<button type="submit">Salvar</button><br/>
 			</div>
 		</form>		
 	</body>

@@ -33,7 +33,7 @@
 		</table>	
 		
 		<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
-			<div align="center">
+			<div align="center" class="buttons">
 				<button type="button" onclick="window.location.href='${raiz}modulos/novo'">Incluir Módulo</button>
 			</div>
 		</c:if>

@@ -628,11 +628,11 @@ class TicketController {
 	
 	@RequestMapping(value = "/{ticketKey}", method = GET)
 	String editar( Model model, @PathVariable  Integer ticketKey) throws SegurancaException {
-		return editar(model, ticketKey, null, null)
+		return editar(model, ticketKey, null)
 	}
 	
 	@RequestMapping("/novo")
-	String editar( Model model,  Integer ticketKey,  Integer tipoDeTicketKey,  Integer backlogKey) throws SegurancaException {
+	String editar( Model model,  Integer ticketKey,  Integer tipoDeTicketKey) throws SegurancaException {
 		
 		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
 		
@@ -671,7 +671,7 @@ class TicketController {
 			Ticket novoTicket = new Ticket()
 			novoTicket.setReporter(Seguranca.getUsuario())
 			novoTicket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().get(TipoDeTicket.class, tipoDeTicketKey))
-			novoTicket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, backlogKey))
+			novoTicket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.INBOX))
 			model.addAttribute("ticket", novoTicket)
 			model.addAttribute("tipoDeTicketKey", tipoDeTicketKey)
 		}

@@ -84,7 +84,7 @@
 			</c:forEach>
 		</table>	
 		
-		<div align="center">
+		<div align="center" class="buttons">
 			<button onclick="incluir()">Incluir Script</button>
 		</div>
 		

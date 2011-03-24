@@ -26,7 +26,7 @@
 				${log.valorNovoHtml}
 			</div>
 
-			<div align="center">
+			<div align="center" class="buttons">
 				<button type="button" onclick="goTo('${raiz}tickets/${log.ticket.ticketKey}');">Voltar</button>
 			</div>
 	</body>

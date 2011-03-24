@@ -154,7 +154,7 @@
 					</table>
 					
 					<c:if test="${!empty b.execucoesPendentes}">
-						<div align="center">
+						<div align="center" class="buttons">
 							<input type="hidden" name="kanbanStatusKey" value="" />
 							<button type="button" style="width: 250px;" onclick="enviar('${b.bancoDeDadosKey}')">Gerar Script do Banco ${b.nome}</button>
 						</div>

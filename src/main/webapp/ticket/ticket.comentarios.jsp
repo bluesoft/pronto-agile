@@ -22,7 +22,7 @@
 	<div>
 		<textarea id="comentario" name="comentario"></textarea>
 	</div>
-	<div align="center">
+	<div align="center" class="buttons">
 		<button type="submit">Incluir</button>
 	</div>
 </form>
