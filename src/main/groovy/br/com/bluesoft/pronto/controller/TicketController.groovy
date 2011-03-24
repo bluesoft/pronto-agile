@@ -295,7 +295,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/jogarNoLixo")
 	String jogarNoLixo( Model model, @PathVariable int ticketKey,  HttpServletResponse response) throws SegurancaException {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
 		
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.LIXEIRA))
@@ -307,7 +307,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/moverParaImpedimentos")
 	String moverParaImpedimentos( Model model, @PathVariable  int ticketKey,  HttpServletResponse response) throws SegurancaException {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
 		
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS))
@@ -318,7 +318,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/moverParaBranchMaster")
 	void moverParaBranchMaster( Model model,  @PathVariable int ticketKey,  HttpServletResponse response) throws SegurancaException {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
 		
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		ticket.setBranch(Ticket.BRANCH_MASTER)
@@ -346,7 +346,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/moverParaSprintAtual")
 	String moverParaOSprintAtual( Model model,  @PathVariable int ticketKey,  HttpServletResponse response) throws ProntoException {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR
 		
 		Sprint sprintAtual = sprintDao.getSprintAtual()
 		
@@ -356,7 +356,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/moverParaSprint/{sprintKey}")
 	String moverParaSprint( Model model,  @PathVariable int ticketKey, @PathVariable int sprintKey,  HttpServletResponse response) throws ProntoException {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR
 		
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		
@@ -383,7 +383,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/desacoplar")
 	String desacoplar( Model model,  @PathVariable int ticketKey,  HttpServletResponse response) throws ProntoException {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		
 		if (ticket.isTarefa()) {
@@ -400,7 +400,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/moverParaInbox")
 	String moverParaInbox( Model model, @PathVariable int ticketKey,  HttpServletResponse response) throws SegurancaException {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.INBOX))
@@ -413,7 +413,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/restaurar")
 	String restaurar( Model model, @PathVariable  int ticketKey,  HttpServletResponse response) throws SegurancaException {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
 		
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		
@@ -526,7 +526,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/salvarValorDeNegocio")
 	@ResponseBody String salvarValorDeNegocio( HttpServletResponse response, @PathVariable int ticketKey,  int valorDeNegocio) throws SegurancaException {
 		try {
-			Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
+			Seguranca.validarPermissao Papel.PRODUCT_OWNER
 			Ticket ticket = ticketDao.obter(ticketKey)
 			ticket.setValorDeNegocio(valorDeNegocio)
 			ticketDao.salvar(ticket)
@@ -539,7 +539,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/salvarBranch")
 	@ResponseBody String salvarBranch( HttpServletResponse response, @PathVariable int ticketKey,  String branch) throws SegurancaException {
 		try {
-			Seguranca.validarPermissao(Papel.EQUIPE)
+			Seguranca.validarPermissao Papel.EQUIPE
 			Ticket ticket = ticketDao.obter(ticketKey)
 			ticket.setBranch(branch)
 			ticketDao.salvar(ticket)
@@ -552,7 +552,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/salvarEsforco")
 	@ResponseBody String salvarEsforco( HttpServletResponse response, @PathVariable int ticketKey,  double esforco) throws SegurancaException {
 		try {
-			Seguranca.validarPermissao(Papel.EQUIPE)
+			Seguranca.validarPermissao Papel.EQUIPE
 			Ticket ticket = ticketDao.obter(ticketKey)
 			ticket.setEsforco(esforco)
 			ticketDao.salvar(ticket)
@@ -565,7 +565,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/salvarPar")
 	@ResponseBody String salvarPar( HttpServletResponse response, @PathVariable int ticketKey,  boolean par) throws SegurancaException {
 		try {
-			Seguranca.validarPermissao(Papel.EQUIPE)
+			Seguranca.validarPermissao Papel.EQUIPE
 			Ticket ticket = ticketDao.obter(ticketKey)
 			ticket.setPar(par)
 			ticketDao.salvar(ticket)
@@ -605,7 +605,7 @@ class TicketController {
 	@RequestMapping("/{ticketKey}/transformarEmDefeito")
 	String transformarEmDefeito( Model model, @PathVariable int ticketKey)  {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
 		
 		Ticket ticket = ticketDao.obter(ticketKey)
 		
@@ -634,7 +634,7 @@ class TicketController {
 	@RequestMapping("/novo")
 	String editar( Model model,  Integer ticketKey,  Integer tipoDeTicketKey) throws SegurancaException {
 		
-		Seguranca.validarPermissao(Papel.PRODUCT_OWNER, Papel.EQUIPE)
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
 		
 		if (ticketKey != null) {
 			Ticket ticket = ticketDao.obterComDependecias(ticketKey)
