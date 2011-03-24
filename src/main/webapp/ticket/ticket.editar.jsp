@@ -50,10 +50,10 @@
 					<c:if test="${ticket.pai ne null and ticket.ticketKey gt 0}">
 						<a href="${raiz}tickets/${ticket.pai.ticketKey}"><pronto:icons name="estoria.png" title="Ir para Estória" /></a>
 					</c:if>
-					<c:if test="${(ticket.tipoDeTicket.tipoDeTicketKey eq 1) or (ticket.tipoDeTicket.tipoDeTicketKey eq 2)}">
+					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
 						<pronto:icons name="transformar_em_bug.png" title="Transformar em Defeito" onclick="pronto.transformarEmDefeito('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
-					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3 and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
+					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 3}">
 						<pronto:icons name="transformar_em_estoria.png" title="Transformar em Estória" onclick="pronto.transformarEmEstoria('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
 					<c:if test="${ticket.backlog.backlogKey eq 2 and !ticket.tarefa}">
@@ -76,7 +76,7 @@
 							<pronto:icons name="restaurar.png" title="${ticket.backlog.backlogKey eq 4 ? 'Restaurar' : 'Desimpedir'} ${ticket.tipoDeTicket.descricao}" onclick="pronto.restaurar('${ticket.ticketKey}')"></pronto:icons>
 						</c:if>
 					</c:if>
-					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 1 or ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
+					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 2}">
 						<pronto:icons name="nova_tarefa.png" title="Incluir Tarefa" onclick="pronto.incluirTarefa('${ticket.ticketKey}')"></pronto:icons>
 					</c:if>
 					<c:if test="${ticket.tipoDeTicket.tipoDeTicketKey eq 6}">
