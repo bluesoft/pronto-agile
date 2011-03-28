@@ -105,25 +105,21 @@ public class KanbanController {
 	
 	@RequestMapping("/mover")
 	@ResponseBody String mover(Model model, int ticketKey, int kanbanStatusKey, Integer motivoReprovacaoKey) throws SegurancaException {
-		
-		Seguranca.validarPermissao(Papel.EQUIPE)
-		def ticket = ticketDao.obterComUsuariosEnvolvidos(ticketKey)
+	
+		String mensagem = ""
+			
 		try {
+			Seguranca.validarPermissao(Papel.EQUIPE)
+			def ticket = ticketDao.obterComUsuariosEnvolvidos(ticketKey)
 			movimentadorDeTicket.movimentar ticket, kanbanStatusKey, motivoReprovacaoKey
-			return "{'sucesso':'true'}"
+			mensagem = "true"
 		} catch(ProntoException e) {
-			return """{
-				'sucesso':'false',
-				'mensagem':'${e.message}'
-			}
-			"""	
+			mensagem = "${e.message}"	
 		} catch(Exception e) {
 			e.printStackTrace()
-			return """{
-				'sucesso':'false',
-				'mensagem':'Ocorreu um erro desconhecido!'
-			}
-			"""	
+			mensagem = "Ocorreu um erro desconhecido!"
+		} finally {
+			return mensagem;
 		}
 	}
 	

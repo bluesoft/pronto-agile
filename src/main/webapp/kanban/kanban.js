@@ -59,15 +59,15 @@ pronto.kanban = {
 		var url = this.urlMover;
 		$.ajax({
 			url: url, 
+			cache: false,
 			data: data,
-			dataType:'json',
 			success: function(resposta) {
-				if (resposta.sucesso == 'true') {
+				if (resposta == 'true') {
 					$item.appendTo(drop);
 					$item.attr('kanbanStatus', drop.attr('status'));
 					pronto.kanban.calcularQuantidadeDeTicketsPorColuna();
 				} else {
-					pronto.erro(resposta.mensagem);
+					pronto.erro(resposta);
 				}
 				$item.fadeIn();
 			}
