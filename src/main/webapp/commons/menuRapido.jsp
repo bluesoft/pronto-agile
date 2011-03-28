@@ -6,9 +6,7 @@
 <c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner or usuarioLogado.equipe or usuarioLogado.scrumMaster}">
 	<span id="menuRapido" align="right">
 		<a href="${editarTicketUrl}?tipoDeTicketKey=3"><pronto:icons name="novo_defeito.png" title="Incluir Defeito"/></a>
-		<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
-			<a href="${editarTicketUrl}?tipoDeTicketKey=2"><pronto:icons name="nova_estoria.png" title="Incluir Estória"/></a>
-		</c:if>
+		<a href="${editarTicketUrl}?tipoDeTicketKey=2"><pronto:icons name="nova_estoria.png" title="Incluir Estória"/></a>
 		<a href="${sprintAtualUrl}"><pronto:icons name="sprint_atual.png" title="Lista de Estória e Defeitos do Sprint Atual"/></a>
 		<a href="${kanbanUrl}"><pronto:icons name="kanban.png" title="Kanban do Sprint Atual"/></a>
 	</span>
