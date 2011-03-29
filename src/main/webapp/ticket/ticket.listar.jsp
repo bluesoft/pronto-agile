@@ -137,27 +137,30 @@
 							<span class="titulo">${t.titulo}</span>
 							<span class="opcao" style="display: none;">
 								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
-								<a href="${raiz}tickets/${t.ticketKey}">
-									<pronto:icons name="editar.png" title="Editar" />
-								</a>
-								<c:if test="${(t.backlog.backlogKey eq 2 or t.backlog.backlogKey eq 6) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-										<pronto:icons name="mover_para_inbox.png" title="Mover para o Inbox" onclick="pronto.moverParaInbox(${t.ticketKey},true)"></pronto:icons>
+								<a href="${raiz}tickets/${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+								
+								<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
+									<c:if test="${t.backlog.backlogKey eq 2 or t.backlog.backlogKey eq 6}">
+											<pronto:icons name="mover_para_inbox.png" title="Mover para o Inbox" onclick="pronto.moverParaInbox(${t.ticketKey},true)"></pronto:icons>
+									</c:if>
+									<c:if test="${t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2 or t.backlog.backlogKey eq 6}">
+										<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para um Sprint" onclick="escolherSprintParaMover(${t.ticketKey})"></pronto:icons>
+									</c:if>
+									<c:if test="${t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 3 or t.backlog.backlogKey eq 6}">
+										<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="pronto.moverParaProductBacklog(${t.ticketKey},true)"></pronto:icons>
+									</c:if>
+									<c:if test="${t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2}">
+										<pronto:icons name="mover_para_futuro.png" title="Mover para Futuro" onclick="pronto.moverParaFuturo(${t.ticketKey},true)"></pronto:icons>
+									</c:if>
+									<c:if test="${t.backlog.backlogKey ne 4 and t.backlog.backlogKey ne 5}">
+										<pronto:icons name="mover_para_lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${t.ticketKey},true)"></pronto:icons>
+									</c:if>
 								</c:if>
-								<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 3 or t.backlog.backlogKey eq 6) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-									<pronto:icons name="mover_para_pb.png" title="Mover para o Product Backlog" onclick="pronto.moverParaProductBacklog(${t.ticketKey},true)"></pronto:icons>
+								
+								<c:if test="${t.backlog.backlogKey ne 4 and t.backlog.backlogKey ne 5}">
+									<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${t.ticketKey},true)"></pronto:icons>	
 								</c:if>
-								<c:if test="${(t.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner))}">
-									<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para um Sprint" onclick="escolherSprintParaMover(${t.ticketKey})"></pronto:icons>
-								</c:if>
-								<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2 or t.backlog.backlogKey eq 3) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-									<pronto:icons name="mover_para_futuro.png" title="Mover para Futuro" onclick="pronto.moverParaFuturo(${t.ticketKey},true)"></pronto:icons>
-								</c:if>
-								<c:if test="${t.backlog.backlogKey eq 1 or (t.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)) or t.backlog.backlogKey eq 3 or t.backlog.backlogKey eq 6}">
-									<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${t.ticketKey},true)"></pronto:icons>
-								</c:if>
-								<c:if test="${(t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2 or t.backlog.backlogKey eq 6) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-									<pronto:icons name="mover_para_lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${t.ticketKey},true)"></pronto:icons>
-								</c:if>
+
 								<c:if test="${t.backlog.backlogKey eq 4 or t.backlog.backlogKey eq 5}">
 									<pronto:icons name="restaurar.png" title="Restaurar para o Inbox" onclick="pronto.restaurar(${t.ticketKey},true)"></pronto:icons>
 								</c:if>
@@ -189,19 +192,24 @@
 								<td>
 									<span class="titulo">${f.titulo}</span>
 									<span class="opcao" style="display: none">
-										<c:if test="${f.backlog.backlogKey eq 1 or (f.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)) or f.backlog.backlogKey eq 3}">
+										<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${f.ticketKey});"/>
+										<a href="${raiz}tickets/${f.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+
+										<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
+											<c:if test="${f.backlog.backlogKey ne 4 and f.backlog.backlogKey ne 5}">
+												<pronto:icons name="mover_para_lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${f.ticketKey},true)"></pronto:icons>
+											</c:if>
+										</c:if>
+										
+										<c:if test="${f.backlog.backlogKey ne 4 and f.backlog.backlogKey ne 5}">
 											<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${f.ticketKey},true)"></pronto:icons>
 										</c:if>
-										<c:if test="${(f.backlog.backlogKey eq 1 or f.backlog.backlogKey eq 2) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-											<pronto:icons name="mover_para_lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${f.ticketKey},true)"></pronto:icons>
-										</c:if>
+										
 										<c:if test="${f.backlog.backlogKey eq 4 or f.backlog.backlogKey eq 5}">
 											<c:if test="${f.pai.backlog.backlogKey ne 4 and f.pai.backlog.backlogKey ne 5}">
 												<pronto:icons name="restaurar.png" title="Restaurar para o Inbox" onclick="pronto.restaurar(${f.ticketKey},true)"></pronto:icons>
 											</c:if>
 										</c:if>
-										<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${f.ticketKey});"/>
-										<a href="${raiz}tickets/${f.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 									</span>
 								</td>
 								<td>${f.tipoDeTicket.descricao}</td>
@@ -236,19 +244,24 @@
 						<td>
 							<span class="titulo">${s.titulo}</span>
 							<span class="opcao" style="display: none;">
-								<c:if test="${s.backlog.backlogKey eq 1 or (s.backlog.backlogKey eq 2 and (usuarioLogado.administrador or usuarioLogado.productOwner)) or s.backlog.backlogKey eq 3}">
-									<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${f.ticketKey},true)" />
+								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${s.ticketKey});"/>
+								<a href="${raiz}tickets/${s.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
+
+								<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
+									<c:if test="${s.backlog.backlogKey ne 4 and s.backlog.backlogKey ne 5}">
+										<pronto:icons name="mover_para_lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${s.ticketKey},true)" />
+									</c:if>
 								</c:if>
-								<c:if test="${(s.backlog.backlogKey eq 1 or s.backlog.backlogKey eq 2) and (usuarioLogado.administrador or usuarioLogado.productOwner)}">
-									<pronto:icons name="mover_para_lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${f.ticketKey},true)" />
+								
+								<c:if test="${s.backlog.backlogKey ne 4 and s.backlog.backlogKey ne 5}">
+									<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${s.ticketKey},true)" />
 								</c:if>
+								
 								<c:if test="${s.backlog.backlogKey eq 4 or s.backlog.backlogKey eq 5}">
 									<c:if test="${s.pai.backlog.backlogKey ne 4 and s.pai.backlog.backlogKey ne 5}">
 										<pronto:icons name="restaurar.png" title="Restaurar para o Inbox" onclick="pronto.restaurar(${s.ticketKey},true)" />
 									</c:if>
 								</c:if>
-								<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${s.ticketKey});"/>
-								<a href="${raiz}tickets/${s.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
 							</span>
 						</td>
 						<td>${s.tipoDeTicket.descricao}</td>

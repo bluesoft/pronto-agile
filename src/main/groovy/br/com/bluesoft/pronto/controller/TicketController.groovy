@@ -361,8 +361,15 @@ class TicketController {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 		
 		int backlogDeOrigem = ticket.getBacklog().getBacklogKey()
-		if (backlogDeOrigem != Backlog.SPRINT_BACKLOG && backlogDeOrigem != Backlog.PRODUCT_BACKLOG) {
-			throw new ProntoException("Para que uma Estória ou Defeito seja movida para um Sprint é preciso que ela esteja no Product Backlog ou que já esteja em algum outro Sprint.")
+
+		switch(backlogDeOrigem) {
+			case Backlog.INBOX:
+			case Backlog.PRODUCT_BACKLOG:
+			case Backlog.FUTURO:
+				break
+			default:
+				throw new ProntoException("Não é possível mover uma estória para um sprint se a mesma estiver impedida ou na lixera.")
+				break
 		}
 		
 		ticket.setSprint(sprintDao.obter(sprintKey))
