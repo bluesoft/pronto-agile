@@ -73,7 +73,7 @@ class ConfiguracaoDao {
 	}
 	
 	boolean isJabberAtivo() {
-		return String.valueOf(this.getMapa()['zendesk.ativo']).equals('true')
+		return String.valueOf(this.getMapa()['jabber.ativo']).equals('true')
 	}
 	
 	String getJabberUserName() {

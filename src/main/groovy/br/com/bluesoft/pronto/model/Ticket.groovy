@@ -468,19 +468,31 @@ class Ticket {
 	
 	def getEnvolvidos() {
 		def envolvidos = [] as Set
-		if (this.getDesenvolvedores()) {
-			envolvidos.addAll this.getDesenvolvedores()
-		}
-		if (this.getTestadores()) {
-			envolvidos.addAll this.getTestadores()
-		}
-		return envolvidos
-	}
-	
-	def getEnvolvidosComReporter() {
-		def envolvidos = getEnvolvidos()
+		
 		envolvidos << this.reporter
-		return envolvidos
+		
+		if (this.desenvolvedores) {
+			envolvidos.addAll this.desenvolvedores
+		}
+		
+		if (this.testadores) {
+			envolvidos.addAll this.testadores
+		}
+		
+		if (this.comentaristas) {
+			envolvidos.addAll this.comentaristas
+		}
+		
+		return envolvidos - Seguranca.usuario
 	}
 	
+	def getComentaristas() {
+		def comentaristas = [] as Set
+	
+		this.getComentarios().each { TicketComentario comentario ->
+			comentaristas.add comentario.usuario
+		}
+
+		return comentaristas
+	}
 }
