@@ -69,6 +69,10 @@
 					<p>E-mail</p>
 				</div>
 				<div>
+					<form:input path="usuario.telefone" maxlength="20" />
+					<p>Telefone</p>
+				</div>
+				<div>
 					<form:input path="usuario.jabberUsername" size="40"/>
 					<p title="ex: andrefaria@chat.bluesoft.com.br">Jabber username</p>
 				</div>

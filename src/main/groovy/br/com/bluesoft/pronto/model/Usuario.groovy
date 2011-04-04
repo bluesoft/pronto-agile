@@ -56,6 +56,8 @@ class Usuario implements Comparable<Usuario>, Serializable {
 	
 	String emailMd5
 	
+	String telefone
+	
 	String jabberUsername
 	
 	@ManyToOne

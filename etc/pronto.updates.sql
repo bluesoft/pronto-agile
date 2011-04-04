@@ -109,3 +109,6 @@ update ticket set tipo_de_ticket_key = 2 where tipo_de_ticket_key = 1;
 delete from tipo_de_ticket where tipo_de_ticket_key = 1;
 
 insert into backlog (backlog_key, descricao, slug) values (6, 'Futuro', 'futuro');
+
+--2011 04 04
+alter table usuario add telefone varchar(20);
