@@ -519,3 +519,4 @@ CREATE INDEX idx_sprint_atual ON SPRINT USING btree (atual);
 CREATE INDEX idx_sprint_fechado ON SPRINT USING btree (fechado);
 CREATE INDEX idx_retrospectiva_item_retrospectiva ON RETROSPECTIVA_ITEM USING btree (RETROSPECTIVA_KEY);
 CREATE INDEX idx_ticket_categoria ON TICKET USING btree (categoria_key);
+CREATE INDEX idx_ticket_prioridade  ON ticket  USING btree (prioridade);
