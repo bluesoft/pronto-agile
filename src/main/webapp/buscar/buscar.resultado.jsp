@@ -53,9 +53,13 @@
 			.divFormBusca {
 				width: 80%;
 				margin: auto;
+				padding: 5px;
+				margin-bottom: 20px;
+				background-color: #f0f0f0;
 			}
 			.iconeBusca {
 				margin-left: 10px;
+				float: right;
 			}
 		</style>
 	</head>
@@ -102,11 +106,20 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="iconeBusca opcao">
+				<div class="iconeBusca">
 					<pronto:icons name="buscar_grande.png" title="Refinar Busca" onclick="recarregar();"/>
 				</div>
 			</div>
 			<div class="linha">
+				<div class="opcao">
+					Tipo de Ticket:<br/>
+					<select name="tipoDeTicketKey"  id="tipoDeTicketKey">
+						<option value="0" ${filtro.tipoDeTicketKey eq 0 ? 'selected' : ''}>Todos</option>
+						<c:forEach var="m" items="${tiposDeTicket}">
+							<option value="${m.tipoDeTicketKey}" ${filtro.tipoDeTicketKey eq m.tipoDeTicketKey ? 'selected' : ''}>${m.descricao}</option>
+						</c:forEach>
+					</select>
+				</div>
 				<div class="opcao">
 					Módulo:<br/>
 					<select name="moduloKey"  id="moduloKey">
@@ -135,10 +148,10 @@
 					</select>
 				</div>
 				<div class="opcao">
-					Exibir tickets da lixeira: <br/>
+					<span title="Excluir Tickets que estão na Lixeira do Resultado da Busca?">Lixeira:</span> <br/>
 					<select name="ignorarLixeira"  id="ignorarLixeira">
-						<option value="false" ${filtro.ignorarLixeira eq false ? 'selected' : ''}>Sim</option>
-						<option value="true" ${filtro.ignorarLixeira eq true ? 'selected' : ''}>Não</option>
+						<option value="false" ${filtro.ignorarLixeira eq false ? 'selected' : ''}>Considerar</option>
+						<option value="true" ${filtro.ignorarLixeira eq true ? 'selected' : ''}>Ignorar</option>
 					</select>
 				</div>
 			</div>
@@ -174,6 +187,9 @@
 					</select>
 				</div>
 			</div>
+			<br/>
+			<br/>
+			<br/>
 		</form>
 		</div>
 		
@@ -182,12 +198,16 @@
 			<tr>
 				<th>#</th>
 				<th>Título</th>
+				<th>Categoria</th>
 				<th>Tipo</th>
 				<th>Cliente</th>
-				<th>Backlog/Sprint</th>
+				<th>Criação</th>
+				<th>Backlog</th>
+				<th>Reporter</th>
 				<th title="Valor de Negócio">VN</th>
 				<th>Esforço</th>
 				<th>Status</th>
+				<th title="Data de Pronto">Pronto</th>
 				<th colspan="2">&nbsp;</th>
 			</tr>
 			<c:set var="cor" value="${true}"/>
@@ -195,13 +215,32 @@
 				<c:set var="cor" value="${!cor}"/>
 				<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
 					<td><a href="${raiz}tickets/${t.ticketKey}">${t.ticketKey}</a></td>
-					<td class="titulo">${t.titulo}</td>
+					<td>
+						<span class="categoria categoria-${t.categoria.descricaoDaCor}">
+							${t.categoria.descricao}
+						</span>
+					</td>
+					<td class="titulo" title="${t.titulo}">
+						${t.tituloResumido}
+					</td>
 					<td>${t.tipoDeTicket.descricao}</td>
 					<td>${t.cliente}</td>
-					<td>${t.backlog.descricao} <c:if test="${t.sprint ne null}">(${t.sprint.nome})</c:if></td>
+					<td><fmt:formatDate value="${t.dataDeCriacao}" dateStyle="short"/></td>
+					<td>
+						<c:choose>
+							<c:when test="${t.sprint ne null}">
+								Sprint ${t.sprint.nome}
+							</c:when>
+							<c:otherwise>
+								${t.backlog.descricao}
+							</c:otherwise>
+						</c:choose>
+					</td>
+					<td title="${t.reporter.nome}">${t.reporter.username}</td>
 					<td>${t.valorDeNegocio}</td>
 					<td>${t.esforco}</td>
-					<td>${t.kanbanStatus.descricao}</td>
+					<td>${t.kanbanStatus.descricao}</td>	
+					<td><fmt:formatDate value="${t.dataDePronto}" dateStyle="short"/></td>
 					<td>
 						<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
 					</td>
@@ -211,7 +250,7 @@
 				</tr>
 			</c:forEach>
 			<tr>
-				<th colspan="10"><i>* ${fn:length(tickets)} resultado(s) encontrado(s)</i></th>
+				<th colspan="14"><i>* ${fn:length(tickets)} resultado(s) encontrado(s)</i></th>
 			</tr>
 		</table>	
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">

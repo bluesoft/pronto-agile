@@ -288,7 +288,7 @@ public class TicketDao extends DaoHibernate {
 			hql.append(" and mod.moduloKey = :moduloKey ");
 		}
 		
-		if (filtro.reporter && filtro.reporter.length > 0) {
+		if (filtro.reporter && filtro.reporter.length() > 0) {
 			hql.append(" and r.username = :reporter ");
 		}
 		

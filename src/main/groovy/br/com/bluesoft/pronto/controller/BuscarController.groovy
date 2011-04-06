@@ -74,7 +74,7 @@ class BuscarController {
 		
 		if (filtro.query != null) {
 			if (NumberUtils.toInt(filtro.query) > 0) {
-				return "redirect:/tickets/${query}"
+				return "redirect:/tickets/${filtro.query}"
 			} 
 		} 
 		

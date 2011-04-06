@@ -8,10 +8,10 @@ class TicketFilter {
 	String query
 	Integer kanbanStatusKey
 	Integer clienteKey
+	String reporter
 	String sprintNome
 	Boolean ignorarLixeira
 	Integer tipoDeTicketKey
-	Integer reporter
 	Integer backlogKey
 	Integer categoriaKey
 	Integer moduloKey

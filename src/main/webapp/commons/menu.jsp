@@ -49,6 +49,7 @@
 		<c:if test="${usuarioLogado.clientePapel}">
 			<li><a href="${raiz}clientes/backlog" img="estorias.gif">Cliente</a></li>
 		</c:if>
+		<a href="${raiz}buscar" img="buscar.png">Buscar Tickets</a>
 	</c:if>
 </div>
 
