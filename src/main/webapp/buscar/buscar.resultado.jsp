@@ -72,7 +72,7 @@
 				</div>
 				<div class="opcao">
 					Backlog:<br/>
-					<select name="backlogKey" onchange="recarregar()" id="backlogKey">
+					<select name="backlogKey"  id="backlogKey">
 						<option value="0" ${filtro.backlogKey eq 0 ? 'selected' : ''}>Todos</option>
 						<c:forEach var="m" items="${backlogs}">
 							<option value="${m.backlogKey}" ${filtro.backlogKey eq m.backlogKey ? 'selected' : ''}>${m.descricao}</option>
@@ -85,7 +85,7 @@
 				</div>
 				<div class="opcao">
 					Status:<br/>
-					<select name="kanbanStatusKey" onchange="recarregar()" id="kanbanStatusKey">
+					<select name="kanbanStatusKey"  id="kanbanStatusKey">
 						<option value="0" ${filtro.kanbanStatusKey eq 0 ? 'selected' : ''}>Todos</option>
 						<option value="-1" ${filtro.kanbanStatusKey eq -1 ? 'selected' : ''}>Pendentes</option>
 						<c:forEach var="k" items="${kanbanStatus}">
@@ -95,7 +95,7 @@
 				</div>
 				<div class="opcao">
 					Cliente: <br/>
-					<select name="clienteKey" onchange="recarregar()" id="clienteKey">
+					<select name="clienteKey"  id="clienteKey">
 						<option value="-1">Todos</option>
 						<c:forEach var="c" items="${clientes}">
 							<option value="${c.clienteKey}" ${clienteKey eq c.clienteKey ? 'selected' : ''}>${c.nome}</option>
@@ -109,7 +109,7 @@
 			<div class="linha">
 				<div class="opcao">
 					Módulo:<br/>
-					<select name="moduloKey" onchange="recarregar()" id="moduloKey">
+					<select name="moduloKey"  id="moduloKey">
 						<option value="0" ${filtro.moduloKey eq 0 ? 'selected' : ''}>Todos</option>
 						<c:forEach var="m" items="${modulos}">
 							<option value="${m.moduloKey}" ${filtro.moduloKey eq m.moduloKey ? 'selected' : ''}>${m.descricao}</option>
@@ -118,7 +118,7 @@
 				</div>
 				<div class="opcao">
 					Categoria:<br/>
-					<select name="categoriaKey" onchange="recarregar()" id="categoriaKey">
+					<select name="categoriaKey"  id="categoriaKey">
 						<option value="0" ${filtro.categoriaKey eq 0 ? 'selected' : ''}>Todos</option>
 						<c:forEach var="m" items="${categorias}">
 							<option value="${m.categoriaKey}" ${filtro.categoriaKey eq m.categoriaKey ? 'selected' : ''}>${m.descricao}</option>
@@ -127,7 +127,7 @@
 				</div>
 				<div class="opcao">
 					Reporter:<br/>
-					<select name="reporter" onchange="recarregar()" id="reporter">
+					<select name="reporter"  id="reporter">
 						<option value="" ${filtro.reporter eq null ? 'selected' : ''}>Todos</option>
 						<c:forEach var="m" items="${usuarios}">
 							<option value="${m.username}" ${filtro.reporter eq m.username ? 'selected' : ''}>${m.nome}</option>
@@ -136,7 +136,7 @@
 				</div>
 				<div class="opcao">
 					Exibir tickets da lixeira: <br/>
-					<select name="ignorarLixeira" onchange="recarregar()" id="ignorarLixeira">
+					<select name="ignorarLixeira"  id="ignorarLixeira">
 						<option value="false" ${filtro.ignorarLixeira eq false ? 'selected' : ''}>Sim</option>
 						<option value="true" ${filtro.ignorarLixeira eq true ? 'selected' : ''}>Não</option>
 					</select>
@@ -159,7 +159,7 @@
 				</div>	
 				<div class="opcao">
 					Ordem: <br/>
-					<select name="ordem" onchange="recarregar()" id="ordem">
+					<select name="ordem" id="ordem">
 						<c:forEach var="o" items="${ordens}">
 							<option value="${o}" ${o eq filtro.ordem ? 'selected' : ''}>${o.descricao}</option>
 						</c:forEach>
@@ -167,7 +167,7 @@
 				</div>
 				<div class="opcao">
 					Classificação: <br/>
-					<select name="classificacao" onchange="recarregar()" id="classificacao">
+					<select name="classificacao"  id="classificacao">
 						<c:forEach var="c" items="${classificacoes}">
 							<option value="${c}" ${c eq filtro.classificacao ? 'selected' : ''}>${c.descricao}</option>
 						</c:forEach>
