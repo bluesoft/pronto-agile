@@ -65,4 +65,9 @@ public class UsuarioDao extends DaoHibernate {
 	public List<Usuario> listar() {
 		return getSession().createCriteria(Usuario.class).addOrder(Order.asc("username")).list();
 	}
+	
+	@Override
+	public List<Usuario> listarOrdenadoPorNome() {
+		return getSession().createCriteria(Usuario.class).addOrder(Order.asc("nome")).list();
+	}
 }

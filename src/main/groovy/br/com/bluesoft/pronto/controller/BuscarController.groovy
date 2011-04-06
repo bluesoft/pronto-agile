@@ -20,24 +20,32 @@
 
 package br.com.bluesoft.pronto.controller
 
-import java.util.List
+import java.text.SimpleDateFormat
 
 import org.apache.commons.lang.math.NumberUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.propertyeditors.CustomDateEditor
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.WebDataBinder
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.context.request.WebRequest
 
-import br.com.bluesoft.pronto.SegurancaException
 import br.com.bluesoft.pronto.core.Papel
+import br.com.bluesoft.pronto.dao.BacklogDao
+import br.com.bluesoft.pronto.dao.CategoriaDao
 import br.com.bluesoft.pronto.dao.ClienteDao
 import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.ModuloDao
 import br.com.bluesoft.pronto.dao.TicketDao
+import br.com.bluesoft.pronto.dao.TipoDeTicketDao
+import br.com.bluesoft.pronto.dao.UsuarioDao
 import br.com.bluesoft.pronto.model.Classificacao
-import br.com.bluesoft.pronto.model.Ticket
 import br.com.bluesoft.pronto.model.TicketOrdem
 import br.com.bluesoft.pronto.service.Seguranca
+import br.com.bluesoft.pronto.to.TicketFilter
+import br.com.bluesoft.pronto.web.binding.SqlDateEditor
 
 @Controller
 @RequestMapping("/buscar")
@@ -47,50 +55,53 @@ class BuscarController {
 	
 	@Autowired ClienteDao clienteDao
 	
+	@Autowired UsuarioDao usuarioDao
+	
 	@Autowired KanbanStatusDao kanbanStatusDao
 	
+	@Autowired BacklogDao backlogDao
+	
+	@Autowired CategoriaDao categoriaDao
+	
+	@Autowired ModuloDao moduloDao
+	
+	@Autowired TipoDeTicketDao tipoDeTicketDao
+	
 	@RequestMapping("/")
-	String buscarRest(Model model, String query,  Integer kanbanStatusKey,  Integer clienteKey,  String ordem,  String classificacao, String sprintNome, Boolean ignorarLixeira) {
+	String buscarRest(Model model, TicketFilter filtro) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		if (query != null) {
-			if (NumberUtils.toInt(query) > 0) {
+		if (filtro.query != null) {
+			if (NumberUtils.toInt(filtro.query) > 0) {
 				return "redirect:/tickets/${query}"
-			}
-			
-			if(query.length() < 2 && sprintNome.length() < 2) {
-				model.addAttribute("erro", 'Informe uma palavra para efetuar a busca')
-				return "/buscar/buscar.resultado.jsp"
-			}
-		}
-
-		TicketOrdem ticketOrdem = TicketOrdem.TITULO
-
-		if (ordem != null && ordem.length() > 0) {
-			ticketOrdem = TicketOrdem.valueOf(ordem)
-		}
+			} 
+		} 
 		
-		Classificacao ticketClassificacao = Classificacao.ASCENDENTE
-		if (classificacao != null && classificacao.length() > 0) {
-			ticketClassificacao = Classificacao.valueOf(classificacao)
+		if (filtro.temCriterios()) {
+			def tickets = ticketDao.buscar(filtro)
+			model.addAttribute("tickets", tickets)
 		}
-		
-		def tickets = ticketDao.buscar(query, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao, sprintNome, ignorarLixeira)
-		model.addAttribute("tickets", tickets)
-		model.addAttribute("query", query)
-		model.addAttribute("kanbanStatusKey", kanbanStatusKey)
-		model.addAttribute("clienteKey", clienteKey)
+		model.addAttribute("classificacoes", Classificacao.values())
+		model.addAttribute("ordens", TicketOrdem.values())
 		model.addAttribute("kanbanStatus", kanbanStatusDao.listar())
 		model.addAttribute("clientes", clienteDao.listar())
-		model.addAttribute("ordens", TicketOrdem.values())
-		model.addAttribute("ordem", ticketOrdem)
-		model.addAttribute("sprintNome", sprintNome)
-		model.addAttribute("classificacoes", Classificacao.values())
-		model.addAttribute("classificacao", ticketClassificacao)
-		model.addAttribute("ignorarLixeira", ignorarLixeira)
+		model.addAttribute("usuarios", usuarioDao.listarOrdenadoPorNome())
+		model.addAttribute("categorias", categoriaDao.listar())
+		model.addAttribute("modulos", moduloDao.listar())
+		model.addAttribute("backlogs", backlogDao.listar())
+		model.addAttribute("tiposDeTicket", tipoDeTicketDao.listar())
+		model.addAttribute("filtro", filtro)
 		
 		"/buscar/buscar.resultado.jsp"
+	}
+	
+	@InitBinder
+	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, true));
+		binder.registerCustomEditor(java.sql.Date.class, new SqlDateEditor(dateFormat, true));
 	}
 	
 }

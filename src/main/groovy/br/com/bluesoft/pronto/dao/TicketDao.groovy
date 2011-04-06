@@ -26,6 +26,7 @@ import br.com.bluesoft.pronto.model.TicketOrdem;
 import br.com.bluesoft.pronto.model.Usuario;
 import br.com.bluesoft.pronto.service.GeradorDeLogDeTicket;
 import br.com.bluesoft.pronto.service.Seguranca;
+import br.com.bluesoft.pronto.to.TicketFilter;
 import br.com.bluesoft.pronto.util.DateUtil
 
 @Repository
@@ -234,12 +235,14 @@ public class TicketDao extends DaoHibernate {
 		}
 	}
 	
-	public List<Ticket> buscar(String busca, final Integer kanbanStatusKey, final Integer clienteKey, final TicketOrdem ordem, final Classificacao classificacao, String sprintNome, final Boolean ignorarLixeira) {
+	public List<Ticket> buscar(TicketFilter filtro) {
 		
 		final StringBuilder hql = new StringBuilder();
 		hql.append(" select distinct t from Ticket t   ");
 		hql.append(" left join fetch t.sprint          ");
-		hql.append(" left join fetch t.reporter        ");
+		hql.append(" left join fetch t.reporter r      ");
+		hql.append(" left join fetch t.categoria cat   ");
+		hql.append(" left join fetch t.modulo mod ");
 		hql.append(" left join fetch t.tipoDeTicket as tipoDeTicket ");
 		hql.append(" left join fetch t.backlog as b    ");
 		hql.append(" left join fetch t.kanbanStatus as kanbanStatus ");
@@ -247,53 +250,121 @@ public class TicketDao extends DaoHibernate {
 		hql.append(" left join fetch t.cliente as cliente  ");
 		hql.append(" where 1=1 ");
 		
-		if (busca!=null) {
+		if (filtro.query!=null) {
 			hql.append(" and upper(t.titulo) like :query ");
 		}
 		
-		if (kanbanStatusKey != null) {
-			if (kanbanStatusKey == -1) {
+		if (filtro.kanbanStatusKey != null) {
+			if (filtro.kanbanStatusKey == -1) {
 				hql.append(" and t.dataDePronto is null ");
-			} else if (kanbanStatusKey > 0) {
+			} else if (filtro.kanbanStatusKey > 0) {
 				hql.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
 			}
 		}
 		
-		if (clienteKey != null && clienteKey > 0) {
+		if (filtro.clienteKey != null && filtro.clienteKey > 0) {
 			hql.append(" and t.cliente.clienteKey = :clienteKey ");
 		}
 		
-		if (sprintNome != null && sprintNome.length() > 0) {
+		if (filtro.sprintNome != null && filtro.sprintNome.length() > 0) {
 			hql.append(" and upper(t.sprint.nome) like :sprintNome ");
 		}
 		
-		if (ignorarLixeira != null && ignorarLixeira) {
+		if (filtro.backlogKey && filtro.backlogKey > 0) {
+			hql.append(" and b.backlogKey = :backlogKey ");
+		} else  if (filtro.ignorarLixeira != null && filtro.ignorarLixeira) {
 			hql.append(" and b.backlogKey <> :backlogKey ");
 		}
 		
-		hql.append(buildOrdem(ordem, classificacao));
+		if (filtro.tipoDeTicketKey && filtro.tipoDeTicketKey > 0) {
+			hql.append(" and tipoDeTicket.tipoDeTicketKey = :tipoDeTicketKey ");
+		}
+		
+		if (filtro.categoriaKey && filtro.categoriaKey > 0) {
+			hql.append(" and cat.categoriaKey = :categoriaKey ");
+		}
+		
+		if (filtro.moduloKey && filtro.moduloKey > 0) {
+			hql.append(" and mod.moduloKey = :moduloKey ");
+		}
+		
+		if (filtro.reporter && filtro.reporter.length > 0) {
+			hql.append(" and r.username = :reporter ");
+		}
+		
+		if (filtro.dataInicialCriacao) {
+			hql.append(" and t.dataDeCriacao >= :dataInicialCriacao ");
+		}
+		
+		if (filtro.dataFinalCriacao) {
+			hql.append(" and t.dataDeCriacao <= :dataFinalCriacao ");
+		}
+		
+		if (filtro.dataInicialPronto) {
+			hql.append(" and t.dataDePronto >= :dataInicialPronto ");
+		}
+		
+		if (filtro.dataFinalPronto) {
+			hql.append(" and t.dataDePronto <= :dataFinalPronto ");
+		}
+		
+		hql.append(buildOrdem(filtro.ordem, filtro.classificacao));
 		
 		
 		final Query query = getSession().createQuery(hql.toString())
-
-		if (busca!=null) {
-			query.setString("query", '%' + busca.toUpperCase() + '%')
+		
+		if (filtro.query!=null) {
+			query.setString("query", '%' + filtro.query.toUpperCase() + '%')
 		}
 		
-		if (kanbanStatusKey != null && kanbanStatusKey > 0) {
-			query.setInteger("kanbanStatusKey", kanbanStatusKey)
+		if (filtro.kanbanStatusKey != null && filtro.kanbanStatusKey > 0) {
+			query.setInteger("kanbanStatusKey", filtro.kanbanStatusKey)
 		}
 		
-		if (clienteKey != null && clienteKey > 0) {
-			query.setInteger("clienteKey", clienteKey)
+		if (filtro.clienteKey != null && filtro.clienteKey > 0) {
+			query.setInteger("clienteKey", filtro.clienteKey)
 		}
 		
-		if (sprintNome != null && sprintNome.length() > 0) {
-			query.setString("sprintNome", '%' + sprintNome.toUpperCase() + '%')
+		if (filtro.sprintNome != null && filtro.sprintNome.length() > 0) {
+			query.setString("sprintNome", '%' + filtro.sprintNome.toUpperCase() + '%')
 		}
 		
-		if (ignorarLixeira != null && ignorarLixeira) {
+		if (filtro.backlogKey) {
+			query.setInteger("backlogKey", filtro.backlogKey)
+		} else if (filtro.ignorarLixeira != null && filtro.ignorarLixeira) {
 			query.setInteger("backlogKey", Backlog.LIXEIRA)
+		}
+		
+		if (filtro.tipoDeTicketKey) {
+			query.setInteger("tipoDeTicketKey", filtro.tipoDeTicketKey)
+		}
+		
+		if (filtro.categoriaKey) {
+			query.setInteger("categoriaKey", filtro.categoriaKey)
+		}
+		
+		if (filtro.moduloKey) {
+			query.setInteger("moduloKey", filtro.moduloKey)
+		}
+		
+		if (filtro.reporter) {
+			query.setString("reporter", filtro.reporter)
+		}
+		
+		if (filtro.dataInicialCriacao) {
+			query.setDate("dataInicialCriacao", filtro.dataInicialCriacao)
+		}
+		
+		if (filtro.dataFinalCriacao) {
+			query.setDate("dataFinalCriacao", filtro.dataFinalCriacao)
+		}
+		
+		if (filtro.dataInicialPronto) {
+			query.setDate("dataInicialPronto", filtro.dataInicialPronto)
+		}
+		
+		if (filtro.dataFinalPronto) {
+			query.setDate("dataFinalPronto", filtro.dataFinalPronto)
 		}
 		
 		return query.list();
