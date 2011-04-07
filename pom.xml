@@ -10,6 +10,7 @@
 	<url>http://pronto.bluesoft.com.br</url>
 
 	<build>
+		<directory>${directory}</directory>
 		<plugins>
 			<!-- Java Compile Plugin -->
 			<plugin>
@@ -419,7 +420,6 @@
 
 	</dependencies>
 
-
 	<properties>
 		<bliki.version>3.0.13</bliki.version>
 		<cglib.version>2.2</cglib.version>
@@ -445,6 +445,7 @@
 		<spring.version>3.0.2.RELEASE</spring.version>
 		<servlet.version>2.4</servlet.version>
 		<http-builder.version>0.5.0-RC2</http-builder.version>
+		<directory>target</directory>
 	</properties>
 
 	<repositories>
