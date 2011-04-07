@@ -57,10 +57,10 @@ class GeradorDeLogDeTicketTest {
 		def dataDoAniversarioDeAndreFaria = DateUtil.toDate('16/06/1986')
 		
 		def velho = new Ticket()
-		velho.dataDeCriacao = null
+		velho.dataDePronto = null
 		
 		def novo = new Ticket()
-		novo.dataDeCriacao = dataDoAniversarioDeAndreFaria 
+		novo.dataDePronto = dataDoAniversarioDeAndreFaria 
 		
 		def logs = gerador.gerarLogs(velho, novo);
 		
