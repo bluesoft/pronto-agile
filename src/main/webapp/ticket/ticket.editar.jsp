@@ -495,6 +495,13 @@
 							</div>
 						</div>
 						
+						<div class="linha">						
+							<h3 title="As Notas de Release, são úteis para informar para o usuários o que fizemos.">Notas para Release</h3>
+							<div>
+								<form:textarea path="ticket.notasParaRelease" id="notasParaRelease" cssStyle="width:690px; height:300px;"/>
+							</div>
+						</div>
+						
 					</div>
 					<div align="center" class="buttons">
 						<br />

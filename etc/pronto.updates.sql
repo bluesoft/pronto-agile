@@ -112,3 +112,6 @@ insert into backlog (backlog_key, descricao, slug) values (6, 'Futuro', 'futuro'
 
 --2011 04 04
 alter table usuario add telefone varchar(20);
+
+--2011 04 08
+alter table ticket add notas_para_release text;

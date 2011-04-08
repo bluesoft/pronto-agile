@@ -84,6 +84,10 @@ class Ticket {
 	String descricao
 	
 	@Auditable
+	@Label("Notas para Release")
+	String notasParaRelease
+	
+	@Auditable
 	@ManyToOne
 	@JoinColumn(name = "REPORTER_KEY")
 	Usuario reporter
