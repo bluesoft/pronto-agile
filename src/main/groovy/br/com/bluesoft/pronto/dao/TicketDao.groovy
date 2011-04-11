@@ -1,32 +1,30 @@
 package br.com.bluesoft.pronto.dao;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp
+import java.util.ArrayList
+import java.util.Collections
+import java.util.Comparator
+import java.util.Date
+import java.util.List
 
-import org.apache.commons.beanutils.BeanComparator;
-import org.apache.commons.collections.comparators.ComparatorChain;
-import org.apache.commons.collections.comparators.ReverseComparator;
-import org.hibernate.LockMode;
-import org.hibernate.Query;
-import org.hibernate.Transaction;
-import org.springframework.stereotype.Repository;
+import org.apache.commons.beanutils.BeanComparator
+import org.apache.commons.collections.comparators.ComparatorChain
+import org.apache.commons.collections.comparators.ReverseComparator
+import org.hibernate.Query
+import org.springframework.stereotype.Repository
 
-import br.com.bluesoft.pronto.core.Backlog;
-import br.com.bluesoft.pronto.core.KanbanStatus;
-import br.com.bluesoft.pronto.core.TipoDeTicket;
-import br.com.bluesoft.pronto.model.Classificacao;
-import br.com.bluesoft.pronto.model.Script;
-import br.com.bluesoft.pronto.model.Sprint;
-import br.com.bluesoft.pronto.model.Ticket;
-import br.com.bluesoft.pronto.model.TicketOrdem;
-import br.com.bluesoft.pronto.model.Usuario;
-import br.com.bluesoft.pronto.service.GeradorDeLogDeTicket;
-import br.com.bluesoft.pronto.service.Seguranca;
-import br.com.bluesoft.pronto.to.TicketFilter;
+import br.com.bluesoft.pronto.core.Backlog
+import br.com.bluesoft.pronto.core.KanbanStatus
+import br.com.bluesoft.pronto.core.TipoDeTicket
+import br.com.bluesoft.pronto.model.Classificacao
+import br.com.bluesoft.pronto.model.Sprint
+import br.com.bluesoft.pronto.model.Ticket
+import br.com.bluesoft.pronto.model.TicketOrdem
+import br.com.bluesoft.pronto.model.Usuario
+import br.com.bluesoft.pronto.service.GeradorDeLogDeTicket
+import br.com.bluesoft.pronto.service.Seguranca
+import br.com.bluesoft.pronto.to.ReleaseNote
+import br.com.bluesoft.pronto.to.TicketFilter
 import br.com.bluesoft.pronto.util.DateUtil
 
 @Repository
@@ -736,5 +734,15 @@ public class TicketDao extends DaoHibernate {
 		def query = session.createSQLQuery(sql)
 		query.setInteger 'ticketKey', ticketKey
 		return query.uniqueResult() as Integer
+	}
+	
+	public listarNotasDeRelease(Date dataInicial, Date dataFinal) {
+		def sql = 'select ticket_key, titulo, data_de_pronto, notas_para_release from ticket t where t.data_de_pronto between :dataInicial and :dataFinal and notas_para_release is not null and char_length(notas_para_release) > 0'
+		def query = session.createSQLQuery(sql)
+		query.setDate 'dataInicial', dataInicial
+		query.setDate 'dataFinal', dataFinal
+		return query.list().collect { 
+			new ReleaseNote(ticketKey:it[0] as Integer, titulo:it[1], dataDePronto: DateUtil.toDate(it[2]), notas:it[3])	
+		}
 	}
 }

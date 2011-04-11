@@ -30,6 +30,10 @@ public class DateUtil {
 			return null
 		}
 	}
+	
+	public static Date toDate(Timestamp time) {
+		return time ? new java.sql.Date(time.getTime()) : null
+	}
 
 	public static String toStringMesAno(final Date date) {
 		return new SimpleDateFormat(PADRAO_DIA_MES).format(date)

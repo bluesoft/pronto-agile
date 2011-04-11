@@ -68,6 +68,7 @@
 <div id="menuRelatorios" class="mbmenu">
 	<a img="burndown_chart.png" href="${raiz}burndown">Burndown Chart</a>
 	<a img="defeito.png" href="${raiz}relatorios/defeitos">Gráfico de Defeitos</a>
+	<a img="nota.gif" href="${raiz}relatorios/releaseNotes">Notas de Release</a>
 </div>
 
 </c:if>
