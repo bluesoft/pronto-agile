@@ -28,7 +28,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.WebDataBinder
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.context.request.WebRequest
 
@@ -38,6 +38,7 @@ import br.com.bluesoft.pronto.dao.CategoriaDao
 import br.com.bluesoft.pronto.dao.ClienteDao
 import br.com.bluesoft.pronto.dao.KanbanStatusDao
 import br.com.bluesoft.pronto.dao.ModuloDao
+import br.com.bluesoft.pronto.dao.ProjetoDao
 import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.dao.TipoDeTicketDao
 import br.com.bluesoft.pronto.dao.UsuarioDao
@@ -52,20 +53,14 @@ import br.com.bluesoft.pronto.web.binding.SqlDateEditor
 class BuscarController {
 	
 	@Autowired TicketDao ticketDao
-	
 	@Autowired ClienteDao clienteDao
-	
 	@Autowired UsuarioDao usuarioDao
-	
 	@Autowired KanbanStatusDao kanbanStatusDao
-	
 	@Autowired BacklogDao backlogDao
-	
 	@Autowired CategoriaDao categoriaDao
-	
 	@Autowired ModuloDao moduloDao
-	
 	@Autowired TipoDeTicketDao tipoDeTicketDao
+	@Autowired ProjetoDao projetoDao
 	
 	@RequestMapping("/")
 	String buscarRest(Model model, TicketFilter filtro) {
@@ -91,6 +86,7 @@ class BuscarController {
 		model.addAttribute("modulos", moduloDao.listar())
 		model.addAttribute("backlogs", backlogDao.listar())
 		model.addAttribute("tiposDeTicket", tipoDeTicketDao.listar())
+		model.addAttribute("projetos", projetoDao.listar())
 		model.addAttribute("filtro", filtro)
 		
 		"/buscar/buscar.resultado.jsp"

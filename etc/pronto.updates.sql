@@ -115,3 +115,14 @@ alter table usuario add telefone varchar(20);
 
 --2011 04 08
 alter table ticket add notas_para_release text;
+
+--2011 04 13
+CREATE TABLE projeto (
+	projeto_key integer primary key,
+	nome varchar(75)
+);
+
+ALTER TABLE projeto OWNER TO pronto;
+alter table ticket add projeto_key integer references projeto;
+CREATE INDEX idx_ticket_projeto ON TICKET USING btree (projeto_key);
+create sequence SEQ_PROJETO;

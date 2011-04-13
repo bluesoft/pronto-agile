@@ -240,6 +240,7 @@ public class TicketDao extends DaoHibernate {
 		hql.append(" left join fetch t.sprint          ");
 		hql.append(" left join fetch t.reporter r      ");
 		hql.append(" left join fetch t.categoria cat   ");
+		hql.append(" left join fetch t.projeto projeto ");
 		hql.append(" left join fetch t.modulo mod ");
 		hql.append(" left join fetch t.tipoDeTicket as tipoDeTicket ");
 		hql.append(" left join fetch t.backlog as b    ");
@@ -280,6 +281,10 @@ public class TicketDao extends DaoHibernate {
 		
 		if (filtro.categoriaKey && filtro.categoriaKey > 0) {
 			hql.append(" and cat.categoriaKey = :categoriaKey ");
+		}
+		
+		if (filtro.projetoKey && filtro.projetoKey > 0) {
+			hql.append(" and projeto.projetoKey = :projetoKey ");
 		}
 		
 		if (filtro.moduloKey && filtro.moduloKey > 0) {
@@ -339,6 +344,10 @@ public class TicketDao extends DaoHibernate {
 		
 		if (filtro.categoriaKey) {
 			query.setInteger("categoriaKey", filtro.categoriaKey)
+		}
+		
+		if (filtro.projetoKey) {
+			query.setInteger("projetoKey", filtro.projetoKey)
 		}
 		
 		if (filtro.moduloKey) {

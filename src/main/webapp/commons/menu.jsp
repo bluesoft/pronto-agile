@@ -28,6 +28,7 @@
 		<a img="clientes.png" href="${raiz}clientes">Clientes</a>
 	</c:if>
 	<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
+		<li><a img="projetos.png" href="${raiz}projetos">Projetos</a></li>
 		<li><a img="modulos.png" href="${raiz}modulos">Módulos</a></li>
 	</c:if>
 	<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">

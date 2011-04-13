@@ -1,9 +1,9 @@
 package br.com.bluesoft.pronto.model
 
-import java.sql.Timestamp;
+import java.sql.Timestamp
 import java.util.ArrayList
 import java.util.Date
-import java.util.LinkedList;
+import java.util.LinkedList
 import java.util.List
 import java.util.Set
 
@@ -20,19 +20,17 @@ import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.OrderBy
 import javax.persistence.SequenceGenerator
-import javax.persistence.Transient;
+import javax.persistence.Transient
 
 import org.hibernate.annotations.Cascade
-import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.bluesoft.pronto.annotations.Auditable;
+import br.com.bluesoft.pronto.annotations.Auditable
 import br.com.bluesoft.pronto.annotations.Label
 import br.com.bluesoft.pronto.core.Backlog
 import br.com.bluesoft.pronto.core.KanbanStatus
 import br.com.bluesoft.pronto.core.TipoDeTicket
 import br.com.bluesoft.pronto.service.Seguranca
 import br.com.bluesoft.pronto.service.WikiFormatter
-import br.com.bluesoft.pronto.util.DateUtil;
 
 import com.google.common.collect.HashMultiset
 import com.google.common.collect.Multiset
@@ -53,6 +51,7 @@ class Ticket {
 		comentarios = new ArrayList<TicketComentario>()
 		logs = new ArrayList<TicketLog>()
 		script = new Script()
+		projeto = new Projeto()
 	}
 	
 	@Id
@@ -91,6 +90,11 @@ class Ticket {
 	@ManyToOne
 	@JoinColumn(name = "REPORTER_KEY")
 	Usuario reporter
+	
+	@Auditable
+	@ManyToOne
+	@JoinColumn(name = "PROJETO_KEY")
+	Projeto projeto
 	
 	@Auditable
 	@Label("cliente")

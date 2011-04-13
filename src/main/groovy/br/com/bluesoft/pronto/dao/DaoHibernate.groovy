@@ -25,6 +25,10 @@ class DaoHibernate {
 	Object obter(def key) {
 		return getSession().get(clazz, key)
 	}
+	
+	Object proxy(def key) {
+		return getSession().load(clazz, key)
+	}
 
 	List listar() {
 		return this.getSession().createCriteria(clazz).list()

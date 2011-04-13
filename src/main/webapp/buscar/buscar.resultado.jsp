@@ -121,6 +121,15 @@
 					</select>
 				</div>
 				<div class="opcao">
+					Projeto:<br/>
+					<select name="projetoKey"  id="projetoKey">
+						<option value="0" ${filtro.projetoKey eq 0 ? 'selected' : ''}>Todos</option>
+						<c:forEach var="m" items="${projetos}">
+							<option value="${m.projetoKey}" ${filtro.projetoKey eq m.projetoKey ? 'selected' : ''}>${m.nome}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="opcao">
 					Módulo:<br/>
 					<select name="moduloKey"  id="moduloKey">
 						<option value="0" ${filtro.moduloKey eq 0 ? 'selected' : ''}>Todos</option>

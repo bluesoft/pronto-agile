@@ -353,6 +353,15 @@
 							</div>
 							
 							<div>
+								<form:select path="ticket.projeto.projetoKey">
+									<form:option value="0" cssClass="nenhuma">Nenhum</form:option>
+									<form:options items="${projetos}" itemLabel="nome" itemValue="projetoKey"/>
+								</form:select>
+								<br/>
+								<p>Projeto</p>
+							</div>
+							
+							<div>
 								<form:select path="ticket.modulo.moduloKey">
 									<form:option value="0" cssClass="nenhuma">Nenhum</form:option>
 									<form:options items="${modulos}" itemLabel="descricao" itemValue="moduloKey"/>

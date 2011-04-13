@@ -14,6 +14,7 @@ class TicketFilter {
 	Integer tipoDeTicketKey
 	Integer backlogKey
 	Integer categoriaKey
+	Integer projetoKey
 	Integer moduloKey
 
 	Date dataInicialPronto
@@ -43,6 +44,7 @@ class TicketFilter {
 		(tipoDeTicketKey != null && tipoDeTicketKey > 0) ||
 		(backlogKey != null && backlogKey > 0) ||
 		(categoriaKey != null && categoriaKey > 0) ||
+		(projetoKey != null && projetoKey > 0) ||
 		(moduloKey != null && moduloKey > 0) ||
 		dataInicialPronto           != null ||
 		dataFinalPronto             != null ||

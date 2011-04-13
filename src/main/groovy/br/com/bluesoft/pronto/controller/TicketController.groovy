@@ -1,65 +1,58 @@
 package br.com.bluesoft.pronto.controller
 
-import java.text.MessageFormat;
+import static org.springframework.web.bind.annotation.RequestMethod.*
+
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileNotFoundException;
+import java.text.MessageFormat
 import java.util.ArrayList
-import java.util.Arrays
-import java.util.Collections
-import java.util.HashMap
 import java.util.List
-import java.util.Map
 import java.util.Set
 import java.util.TreeSet
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-import net.sf.json.JSONObject;
+import net.sf.json.JSONObject
 
 import org.apache.commons.fileupload.FileItem
 import org.apache.commons.fileupload.FileItemFactory
 import org.apache.commons.fileupload.disk.DiskFileItemFactory
 import org.apache.commons.fileupload.servlet.ServletFileUpload
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang.math.NumberUtils
 import org.hibernate.SessionFactory
 import org.hibernate.Transaction
 import org.hibernate.criterion.Restrictions
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.util.FileCopyUtils
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.WebDataBinder
+import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.context.request.WebRequest
 
 import br.com.bluesoft.pronto.ProntoException
 import br.com.bluesoft.pronto.SegurancaException
 import br.com.bluesoft.pronto.core.Backlog
-import br.com.bluesoft.pronto.core.KanbanStatus;
+import br.com.bluesoft.pronto.core.KanbanStatus
 import br.com.bluesoft.pronto.core.Papel
 import br.com.bluesoft.pronto.core.TipoDeTicket
 import br.com.bluesoft.pronto.dao.BacklogDao
-import br.com.bluesoft.pronto.dao.CategoriaDao;
-import br.com.bluesoft.pronto.dao.CausaDeDefeitoDao;
+import br.com.bluesoft.pronto.dao.CategoriaDao
+import br.com.bluesoft.pronto.dao.CausaDeDefeitoDao
 import br.com.bluesoft.pronto.dao.ClienteDao
+import br.com.bluesoft.pronto.dao.ConfiguracaoDao
 import br.com.bluesoft.pronto.dao.KanbanStatusDao
-import br.com.bluesoft.pronto.dao.ModuloDao;
+import br.com.bluesoft.pronto.dao.ModuloDao
 import br.com.bluesoft.pronto.dao.MotivoReprovacaoDao
 import br.com.bluesoft.pronto.dao.MovimentoKanbanDao
+import br.com.bluesoft.pronto.dao.ProjetoDao
 import br.com.bluesoft.pronto.dao.SprintDao
 import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.dao.TipoDeTicketDao
-import br.com.bluesoft.pronto.dao.ConfiguracaoDao
 import br.com.bluesoft.pronto.dao.UsuarioDao
-import br.com.bluesoft.pronto.model.Anexo
 import br.com.bluesoft.pronto.model.Classificacao
 import br.com.bluesoft.pronto.model.Sprint
 import br.com.bluesoft.pronto.model.Ticket
@@ -67,20 +60,16 @@ import br.com.bluesoft.pronto.model.TicketLog
 import br.com.bluesoft.pronto.model.TicketOrdem
 import br.com.bluesoft.pronto.model.Usuario
 import br.com.bluesoft.pronto.service.Config
-import br.com.bluesoft.pronto.service.JabberMessageService;
-import br.com.bluesoft.pronto.service.Seguranca
-import br.com.bluesoft.pronto.service.ZendeskService;
-import br.com.bluesoft.pronto.util.ControllerUtil
-import br.com.bluesoft.pronto.util.DateUtil
-import br.com.bluesoft.pronto.util.FileUtil;
-import br.com.bluesoft.pronto.util.StringUtil
-import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer;
+import br.com.bluesoft.pronto.service.JabberMessageService
 import br.com.bluesoft.pronto.service.MovimentadorDeTicket
-import com.google.common.collect.ArrayListMultimap
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap
+import br.com.bluesoft.pronto.service.Seguranca
+import br.com.bluesoft.pronto.service.ZendeskService
+import br.com.bluesoft.pronto.util.DateUtil
+import br.com.bluesoft.pronto.util.FileUtil
+import br.com.bluesoft.pronto.util.StringUtil
+import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer
 
-import static org.springframework.web.bind.annotation.RequestMethod.*
+import com.google.common.collect.Lists
 
 @Controller
 @RequestMapping("/tickets")
@@ -106,7 +95,8 @@ class TicketController {
 	@Autowired MovimentadorDeTicket movimentadorDeTicket
 	@Autowired ZendeskService zendeskService
 	@Autowired JabberMessageService jabberMessageService 
-	
+	@Autowired ProjetoDao projetoDao
+		
 	@InitBinder
 	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
 		def defaultBindingInitializer = new DefaultBindingInitializer()
@@ -202,6 +192,12 @@ class TicketController {
 				ticket.setCliente(clienteDao.obter(clienteKey))
 			} else {
 				ticket.cliente = null
+			}
+			
+			if (ticket.projeto != null && ticket.projeto.projetoKey > 0) {
+				ticket.setProjeto(projetoDao.obter(ticket.projeto.projetoKey))
+			} else {
+				ticket.projeto = null
 			}
 			
 			if (ticket.categoria != null && ticket.categoria.categoriaKey > 0) {
@@ -703,6 +699,7 @@ class TicketController {
 		model.addAttribute "modulos", moduloDao.listar()
 		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		model.addAttribute "clientes", clienteDao.listar()
+		model.addAttribute "projetos", projetoDao.listar()		
 		model.addAttribute "testadores", equipe 
 		model.addAttribute "desenvolvedores", equipe
 		model.addAttribute "causasDeDefeito", causaDeDefeitoDao.listar()
@@ -739,6 +736,7 @@ class TicketController {
 		filho.setBacklog(pai.getBacklog())
 		filho.setSprint(pai.getSprint())
 		filho.setCliente(pai.getCliente())
+		filho.setProjeto(pai.getProjeto())
 		filho.setSolicitador(pai.getSolicitador())
 	}
 	

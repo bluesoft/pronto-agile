@@ -16,7 +16,7 @@
 		<param-value>pt_BR</param-value>
 	</context-param>
 
-	<!-- ENCODING -->
+	<!-- ENCODING 
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
 		<filter-class>br.com.bluesoft.pronto.web.servlet.SetCharacterEncodingFilter</filter-class>
@@ -33,6 +33,7 @@
 		<filter-name>characterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	-->
 
 	<!-- REST FILTER (PUT AND DELETE) _method attribute -->
 	<filter>
