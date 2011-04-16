@@ -102,7 +102,7 @@
 					<select name="clienteKey"  id="clienteKey">
 						<option value="-1">Todos</option>
 						<c:forEach var="c" items="${clientes}">
-							<option value="${c.clienteKey}" ${clienteKey eq c.clienteKey ? 'selected' : ''}>${c.nome}</option>
+							<option value="${c.clienteKey}" ${filtro.clienteKey eq c.clienteKey ? 'selected' : ''}>${c.nome}</option>
 						</c:forEach>
 					</select>
 				</div>
