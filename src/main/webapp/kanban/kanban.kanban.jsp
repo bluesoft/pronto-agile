@@ -11,7 +11,7 @@
 	<body>
 		<div align="left">
 			<h1>
-				Kanban do Sprint ${sprint.nome}
+				Kanban do Sprint ${sprint.nome} do Projeto ${sprint.projeto.nome}
 				<%@ include file="/commons/sprintLinks.jsp" %>
 			</h1>
 		</div>
@@ -20,7 +20,9 @@
 			<div align="right">
 				Sprint: 
 				<form:select path="sprint.sprintKey" onchange="pronto.kanban.recarregar(this.value)">
-					<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
+					<c:forEach items="${sprints}" var="s">
+						<option ${sprint.sprintKey eq s.sprintKey ? 'selected="selected"' : ''} value="${s.sprintKey}">${s.projeto.nome}/${s.nome}</option>
+					</c:forEach>
 				</form:select>
 			</div>
 		</c:if>

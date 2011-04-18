@@ -677,7 +677,8 @@ class TicketController {
 			model.addAttribute "motivosReprovacao", motivoReprovacaoDao.listar()
 			model.addAttribute "movimentos", movimentoKanbanDao.listarMovimentosDoTicket(ticketKey)		
 			def ordens = new JSONObject();
-			def statusList = kanbanStatusDao.listarPorProjeto(ticket.projetoKey)
+			def statusList = kanbanStatusDao.listarPorProjeto(ticket.projeto.projetoKey)
+			model.addAttribute "kanbanStatus", statusList
 			statusList.each {
 				if (ticket.projeto.projetoKey == it.projeto.projetoKey) {
 					ordens.put it.kanbanStatusKey as String, it.ordem as String
@@ -721,11 +722,11 @@ class TicketController {
 		copiarDadosDoPai(pai, tarefa)
 		tarefa.setPrioridade(9999)
 		
-		model.addAttribute("ticket", tarefa)
-		model.addAttribute("tipoDeTicketKey", TipoDeTicket.TAREFA)
-		model.addAttribute("kanbanStatus", kanbanStatusDao.listar())
-		model.addAttribute("testadores", usuarioDao.listarEquipe())
-		model.addAttribute("desenvolvedores", usuarioDao.listarEquipe())
+		model.addAttribute "ticket", tarefa
+		model.addAttribute "tipoDeTicketKey", TipoDeTicket.TAREFA
+		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
+		model.addAttribute "testadores", usuarioDao.listarEquipe()
+		model.addAttribute "desenvolvedores", usuarioDao.listarEquipe()
 		
 		return VIEW_EDITAR
 	}

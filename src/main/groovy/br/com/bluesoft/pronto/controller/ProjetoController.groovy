@@ -102,13 +102,33 @@ class ProjetoController {
 		kanbanStatus.projeto = projetoDao.proxy(projetoKey)
 		kanbanStatus.ordem = 99
 		kanbanStatusDao.salvar(kanbanStatus)
-		return "true"
+		return kanbanStatus.kanbanStatusKey
 	}
 	
 	@RequestMapping(method=POST)
 	@ResponseBody
 	String excluirEtapa(int kanbanStatusKey){
 		kanbanStatusDao.excluir(kanbanStatusDao.obter(kanbanStatusKey))
+		return "true"
+	}
+	
+	@RequestMapping(method=POST)
+	@ResponseBody
+	String editarEtapa(int kanbanStatusKey, String nome){
+		def etapa = kanbanStatusDao.obter(kanbanStatusKey)
+		etapa.descricao = nome
+		kanbanStatusDao.salvar etapa
+		return "true"
+	}
+	
+	@RequestMapping(method=POST)
+	@ResponseBody
+	String atualizarOrdensDasEtapas(Integer[] kanbanStatusKey){
+		kanbanStatusKey.eachWithIndex { it, index ->
+			def etapa = kanbanStatusDao.obter(it)
+			etapa.ordem  = index+10
+			kanbanStatusDao.salvar etapa
+		}
 		return "true"
 	}
 	

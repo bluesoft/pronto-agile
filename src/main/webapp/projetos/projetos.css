@@ -1,0 +1,29 @@
+.icon-adicionar {
+	float: right;
+}
+
+#kanban {
+	list-style-type: none;
+}
+
+#kanban li {
+	height: 20px;
+	padding: 2px;
+	margin: 2px;
+}
+
+.ui-icon {
+	float: left;
+}
+
+.ui-icon-closethick,.ui-icon-pencil {
+	float: right !important;
+}
+
+.etapa-descricao {
+	margin-left: 5px;
+}
+
+.hover {
+	cursor: pointer;
+}

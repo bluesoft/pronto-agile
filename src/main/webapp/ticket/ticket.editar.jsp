@@ -4,10 +4,12 @@
 	<head>
 		<title><c:choose><c:when test="${ticket.ticketKey gt 0}">${ticket.tipoDeTicket.descricao} #${ticket.ticketKey}</c:when><c:otherwise>Incluir ${ticket.tipoDeTicket.descricao}</c:otherwise></c:choose></title>
 		<link rel="stylesheet" type="text/css" media="all" href="${raiz}ticket/ticket.editar.css" />
+		<c:if test="${ticket.ticketKey gt 0}">
+			<script>
+				var ordens = eval(${ordens});
+			</script>
+		</c:if>
 		<script type="text/javascript" src="${raiz}ticket/ticket.editar.js"></script>
-		<script>
-			var ordens = eval(${ordens});
-		</script>
 	</head>
 	<body>
 		
