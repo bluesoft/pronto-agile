@@ -301,11 +301,11 @@
 									<c:when test="${(usuarioLogado.administrador or usuarioLogado.equipe) and empty ticket.filhos}">
 										<c:choose>
 											<c:when test="${configuracoes['tipoDeEstimativa'] eq 'PMG'}">
-												<form:select path="ticket.esforco" >
-													<form:option value="10">Pequeno</form:option>
-													<form:option value="20">Médio</form:option>
-													<form:option value="30">Grande</form:option>
-												</form:select>
+												<pronto:icons id="camiseta_10" name="camiseta-p.png" title="Tamanho P" clazz="inativo" onclick="alterarTamanhoPara('10')"></pronto:icons>
+												<pronto:icons id="camiseta_20" name="camiseta-m.png" title="Tamanho M" clazz="inativo" onclick="alterarTamanhoPara('20')"></pronto:icons>
+												<pronto:icons id="camiseta_30" name="camiseta-g.png" title="Tamanho G" clazz="inativo" onclick="alterarTamanhoPara('30')"></pronto:icons>
+												
+												<form:hidden path="ticket.esforco" />
 											</c:when>
 											<c:otherwise>
 												<form:input path="ticket.esforco" cssClass="required number" size="5"/>	
@@ -662,11 +662,15 @@
 				$('.datePicker').datepicker();
 
 				iconsFolder = "${iconsFolder}";
+				
+				<c:if test="${ticket.esforco gt 0}">
+					alterarTamanhoPara(${ticket.esforco});
+				</c:if>
 			});
 
 			//Variaveis Globais para usar no .js
 			var ticketKey = '${ticket.ticketKey}'; 
-			var scriptKey = '${ticket.script.scriptKey}'; 
+			var scriptKey = '${ticket.script.scriptKey}';
 		</script>
 	</body>
 </html>

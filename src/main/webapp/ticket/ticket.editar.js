@@ -202,6 +202,13 @@ function excluirVinculoComZendesk(ticketKey){
 	});
 }
 
+function alterarTamanhoPara(tamanho) {	
+	$("[id^=camiseta_]").removeClass('ativo').addClass('inativo');
+	$("[id^=camiseta_"+tamanho+"]").toggleClass("inativo ativo");
+	
+	$("#esforco").val(tamanho);
+}
+
 $(function(){
 	$("#motivoReprovacaoDiv").hide();
 });
