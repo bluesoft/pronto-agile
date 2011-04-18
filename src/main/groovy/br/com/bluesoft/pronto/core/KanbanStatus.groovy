@@ -1,52 +1,54 @@
 package br.com.bluesoft.pronto.core
 
-import javax.persistence.Cacheable;
+import javax.persistence.Cacheable
 import javax.persistence.Entity
+import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.SequenceGenerator
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache
+import org.hibernate.annotations.CacheConcurrencyStrategy
 
+import br.com.bluesoft.pronto.model.Projeto
 
 @Entity
 @Cacheable
-@org.hibernate.annotations.Entity(mutable = false)
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "eternal")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@SequenceGenerator(name = "SEQ_KANBAN_STATUS", sequenceName = "SEQ_KANBAN_STATUS")
 class KanbanStatus implements Comparable {
+
+	@Id 
+	@GeneratedValue(generator = "SEQ_KANBAN_STATUS")
+	Integer kanbanStatusKey
 	
-	public static final int TO_DO = 1
-	public static final int DOING = 2
-	public static final int TESTING = 31
-	public static final int DONE = 100
-	
-	@Id
-	int kanbanStatusKey
+	@ManyToOne
+	@JoinColumn(name="PROJETO_KEY")
+	Projeto projeto
 	
 	String descricao
-	
-	boolean fixo
-	
+	boolean inicio
+	boolean fim
 	int ordem
-	
+
 	KanbanStatus() {
-		
 	}
-	
+
 	KanbanStatus( int kanbanStatusKey) {
 		this.kanbanStatusKey = kanbanStatusKey
 	}
-	
+
 	KanbanStatus( int kanbanStatusKey,  String descricao) {
 		this.kanbanStatusKey = kanbanStatusKey
 		this.descricao = descricao
 	}
-	
+
 	String toString() {
 		return descricao
 	}
-	
+
 	int compareTo(def outro) {
-		this.ordem.compareTo outro.ordem  
+		this.ordem.compareTo outro.ordem
 	}
-	
 }

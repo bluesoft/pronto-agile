@@ -64,6 +64,23 @@ public class TicketDao extends DaoHibernate {
 	}
 	
 	@Override
+	public Ticket obterTicketPronto(final Integer ticketKey) {
+
+		final StringBuilder hql = new StringBuilder();
+		hql.append("select distinct t from Ticket t ");
+		hql.append("left join fetch t.sprint ");
+		hql.append("left join fetch t.pai ");
+		hql.append("left join fetch t.tipoDeTicket ");
+		hql.append("left join fetch t.backlog ");
+		hql.append("left join fetch t.kanbanStatus ");
+		hql.append("left join fetch t.reporter ");
+		hql.append("where t.ticketKey = :ticketKey ");
+		hql.append("and t.kanbanStatus.fim = true");
+
+		return (Ticket) getSession().createQuery(hql.toString()).setInteger("ticketKey", ticketKey).setInteger("kanbanStatusKey", kanbanStatusKey).uniqueResult();
+	}
+	
+	@Override
 	public Ticket obterComUsuariosEnvolvidos(final Integer ticketKey) {
 		
 		String hql = """ 
@@ -201,7 +218,7 @@ public class TicketDao extends DaoHibernate {
 				if (ticket.isDone() && pai.isTodosOsFilhosProntos()) {
 					if (pai.getDataDePronto() == null) {
 						pai.setDataDePronto(new Date())
-						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.DONE))
+						pai.setKanbanStatus(ticket.kanbanStatus)
 						super.getSession().update(pai)
 					}
 				} else {
@@ -225,7 +242,7 @@ public class TicketDao extends DaoHibernate {
 			}
 			
 			// Se o status for pronto tem que ter data de pronto.
-			if (ticket.getKanbanStatus().getKanbanStatusKey() == KanbanStatus.DONE && ticket.getDataDePronto() == null) {
+			if (ticket.getKanbanStatus().isFim() && ticket.getDataDePronto() == null) {
 				ticket.setDataDePronto(new Date())
 			}
 			
@@ -432,7 +449,7 @@ public class TicketDao extends DaoHibernate {
 		final List<Ticket> ticketsNaoConcluidos = new ArrayList<Ticket>();
 		
 		for (final Ticket ticket : ticketsDoSprint) {
-			if (ticket.getKanbanStatus().getKanbanStatusKey() != KanbanStatus.DONE) {
+			if (ticket.getKanbanStatus().isFim()) {
 				ticketsNaoConcluidos.add(ticket);
 			}
 		}
@@ -490,7 +507,7 @@ public class TicketDao extends DaoHibernate {
 			if (kanbanStatusKey > 0) {
 				builder.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
 			} else {
-				builder.append(" and t.kanbanStatus.kanbanStatusKey != :kanbanStatusKey ");
+				builder.append(" and t.kanbanStatus.fim = true ");
 			}
 		}
 		
@@ -510,9 +527,7 @@ public class TicketDao extends DaoHibernate {
 		if (kanbanStatusKey && kanbanStatusKey != 0) {
 			if (kanbanStatusKey > 0) {
 				query.setInteger 'kanbanStatusKey', kanbanStatusKey
-			} else {
-				query.setInteger 'kanbanStatusKey', KanbanStatus.DONE
-			}
+			} 
 		}
 		
 		final List<Ticket> lista = query.list();
@@ -560,7 +575,7 @@ public class TicketDao extends DaoHibernate {
 			if (kanbanStatusKey && kanbanStatusKey > 0) {
 				builder.append(" and t.kanbanStatus.kanbanStatusKey = :kanbanStatusKey ");
 			} else {
-				builder.append(" and t.kanbanStatus.kanbanStatusKey != :kanbanStatusKey ");
+				builder.append(" and t.kanbanStatus.fim = true ");
 			}
 		}
 		
@@ -580,9 +595,7 @@ public class TicketDao extends DaoHibernate {
 		if (kanbanStatusKey && kanbanStatusKey != 0) {
 			if (kanbanStatusKey > 0) {
 				query.setInteger 'kanbanStatusKey', kanbanStatusKey
-			} else {
-				query.setInteger 'kanbanStatusKey', KanbanStatus.DONE
-			}
+			} 
 		}
 		
 		final List<Ticket> lista = query.list();

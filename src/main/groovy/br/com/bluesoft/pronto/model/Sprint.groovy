@@ -15,9 +15,8 @@
 
 package br.com.bluesoft.pronto.model
 
-import java.math.RoundingMode;
 import java.util.ArrayList
-import java.util.Collection;
+import java.util.Collection
 import java.util.Collections
 import java.util.Comparator
 import java.util.Date
@@ -27,10 +26,12 @@ import java.util.List
 import java.util.Map
 import java.util.Set
 
-import javax.persistence.Cacheable;
+import javax.persistence.Cacheable
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.SequenceGenerator
 import javax.persistence.Transient
@@ -38,8 +39,8 @@ import javax.persistence.Transient
 import org.apache.commons.beanutils.BeanComparator
 import org.apache.commons.collections.comparators.ComparatorChain
 import org.apache.commons.collections.comparators.ReverseComparator
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache
+import org.hibernate.annotations.CacheConcurrencyStrategy
 
 import br.com.bluesoft.pronto.util.DateUtil
 
@@ -64,6 +65,10 @@ public class Sprint {
 	boolean fechado
 
 	boolean atual
+	
+	@ManyToOne
+	@JoinColumn(name="PROJETO_KEY")
+	Projeto projeto
 
 	@Transient
 	double esforcoTotal

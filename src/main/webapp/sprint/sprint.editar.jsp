@@ -27,6 +27,15 @@
 				</div>
 				
 				<div>
+					<select name="projetoKey"  id="projetoKey">
+						<c:forEach var="m" items="${projetos}">
+							<option value="${m.projetoKey}" ${sprint.projeto.projetoKey eq m.projetoKey ? 'selected' : ''}>${m.nome}</option>
+						</c:forEach>
+					</select>
+					<p>Projeto</p>
+				</div>
+				
+				<div>
 					<form:input path="sprint.meta" maxlength="255" size="80"/>
 					<p>Meta</p>
 				</div>

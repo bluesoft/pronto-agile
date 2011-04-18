@@ -202,7 +202,20 @@ function excluirVinculoComZendesk(ticketKey){
 	});
 }
 
+function filtrarEtapas(){
+	var projetoKey = $('#projetoKey').val();
+	$('#kanbanStatusKey').find('option').each(function(i,el){
+		var $el = $(el);
+		if ($el.attr('projetoKey') == projetoKey) {
+			$el.show();
+		} else {
+			$el.hide();
+		}
+	});
+}
+
 $(function(){
 	$("#motivoReprovacaoDiv").hide();
+	filtrarEtapas();
 });
 

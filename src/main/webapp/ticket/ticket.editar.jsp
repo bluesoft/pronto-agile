@@ -352,11 +352,19 @@
 								<p>Categoria</p>
 							</div>
 							
+							
 							<div>
-								<form:select path="ticket.projeto.projetoKey">
-									<form:option value="0" cssClass="nenhuma">Nenhum</form:option>
-									<form:options items="${projetos}" itemLabel="nome" itemValue="projetoKey"/>
-								</form:select>
+								<c:choose>
+									<c:when test="${ticket.ticketKey gt 0}">
+										<form:hidden path="ticket.projeto.projetoKey" id="projetoKey"/>
+										<b>${ticket.projeto.nome}</b>
+									</c:when>
+									<c:otherwise>
+										<form:select path="ticket.projeto.projetoKey" onchange="filtrarEtapas()" id="projetoKey">
+											<form:options items="${projetos}" itemLabel="nome" itemValue="projetoKey"/>
+										</form:select>
+									</c:otherwise>
+								</c:choose>
 								<br/>
 								<p>Projeto</p>
 							</div>
@@ -424,14 +432,15 @@
 									</c:otherwise>
 								</c:choose>
 							</div>
-
 						</div>
 						
 						<div class="bloco">
 							<div>
 								<input type="hidden" id="kanbanStatusAnterior" name="kanbanStatusAnterior" value="${ticket.kanbanStatus.kanbanStatusKey}">
 								<form:select path="ticket.kanbanStatus.kanbanStatusKey" onchange="alterarStatuDoKanban()" id="kanbanStatusKey">
-									<form:options items="${kanbanStatus}" itemLabel="descricao" itemValue="kanbanStatusKey"/>
+									<c:forEach items="${kanbanStatus}" var="item">
+										<option projetoKey="${item.projeto.projetoKey}" value="${item.kanbanStatusKey}">${item.descricao}</option>
+									</c:forEach>
 								</form:select>
 								<br/>
 								<p>Kanban Status</p>

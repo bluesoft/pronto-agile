@@ -121,7 +121,6 @@ class ZendeskService {
 		def ticket = new Ticket()
 		ticket.sprint = null 
 		ticket.cliente = clienteDao.obter(clienteKey)
-		ticket.kanbanStatus = kanbanStatusDao.obter(KanbanStatus.TO_DO)
 		ticket.tipoDeTicket = tipoDeTicketDao.obter(tipoDeTicketKey)
 		ticket.backlog = backlogDao.obter(Backlog.INBOX)
 		ticket.titulo = zendeskTicket.subject

@@ -126,3 +126,31 @@ ALTER TABLE projeto OWNER TO pronto;
 alter table ticket add projeto_key integer references projeto;
 CREATE INDEX idx_ticket_projeto ON TICKET USING btree (projeto_key);
 create sequence SEQ_PROJETO;
+
+
+--2011 04 14
+insert into projeto values (1, 'Projeto');
+alter table kanban_status add inicio boolean default false NOT NULL;
+alter table kanban_status add fim boolean default false NOT NULL;
+alter table kanban_status add projeto_key integer references projeto;
+update kanban_status set projeto_key = 1;
+alter table kanban_status alter column projeto_key set not null;
+CREATE INDEX idx_kanban_status_projeto ON kanban_status USING btree (projeto_key);
+update ticket set projeto_key = 1;
+alter table ticket alter column projeto_key set not null;
+
+drop SEQUENCE seq_kanban_status;
+CREATE SEQUENCE seq_kanban_status
+   INCREMENT 1
+   START 110;
+ALTER TABLE seq_kanban_status OWNER TO pronto;
+
+alter table sprint add projeto_key integer references projeto;
+CREATE INDEX idx_sprint_projeto ON sprint USING btree (projeto_key);
+update sprint set projeto_key = 1;
+alter table sprint alter column projeto_key set not null;
+
+alter table kanban_status drop column fixo;
+
+alter table kanban_status drop constraint kanban_status_ordem_key;
+
