@@ -27,14 +27,14 @@ mvn jetty:start
 6. Acesse em http://localhost:8080/pronto-agile/
 
 Utilizar os usuários:
----------------------------------------
-|Papel			| Usuário	| Senha	  |
----------------------------------------
-|Product Owner	| justus	| justus  |
-|Scrum Master	| coach		| coach	  |
+---------------------------------------------------
+|Papel			| Usuáio	| Senha   |
+---------------------------------------------------
+|Product Owner		| justus	| justus  |
+|Scrum Master		| coach		| coach	  |
 |Equipe 		| time		| time 	  |
 |Cliente 		| cliente 	| cliente |
----------------------------------------
+---------------------------------------------------
 
 7. Para Parar
 mvn jetty:stop
