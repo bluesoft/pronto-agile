@@ -85,6 +85,28 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.10</version>
+				<dependencies>
+					<dependency>
+						<groupId>postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>9.0-801.jdbc3</version>
+					</dependency>
+					<dependency>
+						<groupId>log4j</groupId>
+						<artifactId>log4j</artifactId>
+						<version>1.2.13</version>
+					</dependency>
+					<dependency>
+						<groupId>javassist</groupId>
+						<artifactId>javassist</artifactId>
+						<version>3.9.0.GA</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -274,14 +296,14 @@
 			<version>${bliki.version}</version>
 		</dependency>
 
-		<!--  URL Rewrite -->
+		<!-- URL Rewrite -->
 		<dependency>
 			<groupId>org.tuckey</groupId>
 			<artifactId>urlrewritefilter</artifactId>
 			<version>3.1.0</version>
 		</dependency>
 
-		<!--  JSR 303 with Hibernate Validator -->
+		<!-- JSR 303 with Hibernate Validator -->
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>

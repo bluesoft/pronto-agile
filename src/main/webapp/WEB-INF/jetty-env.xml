@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+
+<Configure class="org.mortbay.jetty.webapp.WebAppContext">
+
+	<New id="datasource" class="org.mortbay.jetty.plus.naming.Resource">
+		<Arg>jdbc/pronto</Arg>
+		<Arg>
+			<New class="org.postgresql.ds.PGSimpleDataSource">
+				<Set name="User">pronto</Set>
+				<Set name="Password">pronto</Set>
+				<Set name="DatabaseName">pronto</Set>
+				<Set name="ServerName">localhost</Set>
+				<Set name="PortNumber">5432</Set>
+			</New>
+		</Arg>
+	</New>
+
+</Configure>
