@@ -27,11 +27,18 @@
 				</div>
 				
 				<div>
-					<select name="projetoKey"  id="projetoKey">
-						<c:forEach var="m" items="${projetos}">
-							<option value="${m.projetoKey}" ${sprint.projeto.projetoKey eq m.projetoKey ? 'selected' : ''}>${m.nome}</option>
-						</c:forEach>
-					</select>
+					<c:choose>
+						<c:when test="${sprint.sprintKey eq 0}">
+							<select name="projetoKey"  id="projetoKey">
+								<c:forEach var="m" items="${projetos}">
+									<option value="${m.projetoKey}" ${sprint.projeto.projetoKey eq m.projetoKey ? 'selected' : ''}>${m.nome}</option>
+								</c:forEach>
+							</select>
+						</c:when>
+						<c:otherwise>
+							<b>${sprint.projeto.nome}</b>
+						</c:otherwise>
+					</c:choose>
 					<p>Projeto</p>
 				</div>
 				

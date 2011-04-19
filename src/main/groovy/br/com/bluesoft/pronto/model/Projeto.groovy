@@ -29,9 +29,17 @@ class Projeto {
 	@OneToMany(mappedBy="projeto", cascade=[CascadeType.ALL], orphanRemoval=true)
 	@OrderBy("ordem")
 	List<KanbanStatus> etapasDoKanban = []
+	
+	@OneToMany(mappedBy="projeto")
+	@OrderBy("nome")
+	List<Sprint> sprints = []
 
 	@Override
 	public String toString() {
 		return nome
+	}
+	
+	KanbanStatus getEtapaToDo() {
+		etapasDoKanban.find { it.inicio }
 	}
 }

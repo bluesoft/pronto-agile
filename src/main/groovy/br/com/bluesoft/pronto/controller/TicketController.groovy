@@ -360,6 +360,7 @@ class TicketController {
 
 		switch(backlogDeOrigem) {
 			case Backlog.INBOX:
+			case Backlog.SPRINT_BACKLOG:
 			case Backlog.PRODUCT_BACKLOG:
 			case Backlog.FUTURO:
 				break
@@ -368,8 +369,11 @@ class TicketController {
 				break
 		}
 		
-		ticket.setSprint(sprintDao.obter(sprintKey))
-		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG))
+		def sprint = sprintDao.obter(sprintKey)
+		ticket.sprint = sprint
+		ticket.projeto = sprint.projeto
+		ticket.kanbanStatus = sprint.projeto.getEtapaToDo()
+		ticket.backlog = backlogDao.obter(Backlog.SPRINT_BACKLOG)
 		ticketDao.salvar(ticket)
 
 		if (ticket.ticketKey > 0 && !ticket.isDone() && configuracaoDao.isZendeskAtivo()) {
@@ -652,7 +656,6 @@ class TicketController {
 	String editar( Model model,  Integer ticketKey,  Integer tipoDeTicketKey) throws SegurancaException {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
-		
 		
 		if (ticketKey != null) {
 			Ticket ticket = ticketDao.obterComDependecias(ticketKey)

@@ -139,7 +139,6 @@ CREATE INDEX idx_kanban_status_projeto ON kanban_status USING btree (projeto_key
 update ticket set projeto_key = 1;
 alter table ticket alter column projeto_key set not null;
 
-drop SEQUENCE seq_kanban_status;
 CREATE SEQUENCE seq_kanban_status
    INCREMENT 1
    START 110;
@@ -153,4 +152,5 @@ alter table sprint alter column projeto_key set not null;
 alter table kanban_status drop column fixo;
 
 alter table kanban_status drop constraint kanban_status_ordem_key;
-
+update kanban_status set inicio = true where kanban_status_key = 1;
+update kanban_status set fim = true where kanban_status_key = 100;

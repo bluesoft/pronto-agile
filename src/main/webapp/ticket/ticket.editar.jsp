@@ -69,8 +69,8 @@
 								<pronto:icons name="mover_para_inbox.png" title="Mover para o Inbox" onclick="pronto.moverParaInbox(${ticket.ticketKey})"></pronto:icons>
 							</c:if>
 							
-							<c:if test="${ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 2 or ticket.backlog.backlogKey eq 6}">
-								<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para um Sprint" onclick="escolherSprintParaMover(${ticket.ticketKey})"></pronto:icons>
+							<c:if test="${ticket.backlog.backlogKey le 3 or ticket.backlog.backlogKey eq 6}">
+								<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para Sprint" onclick="escolherSprintParaMover(${ticket.ticketKey})"></pronto:icons>
 							</c:if>
 
 							<c:if test="${ticket.backlog.backlogKey eq 1 or ticket.backlog.backlogKey eq 3 or ticket.backlog.backlogKey eq 6}">
@@ -190,25 +190,30 @@
 								<p>Backlog</p>
 							</div>
 							
-							<div id="divSprint">
-								<c:if test="${ticket.sprint.sprintKey gt 0}">
-									<c:choose>
-										<c:when test="${!ticket.tarefa and !ticket.sprint.fechado}">
-											<form:select path="ticket.sprint.sprintKey">
-												<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
-											</form:select>
-											<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="openWindow('${raiz}backlogs/sprints/${ticket.sprint.sprintKey}')"/>
-											<p>Sprint</p>
-										</c:when>
-										<c:otherwise>
-											<form:hidden path="ticket.sprint.sprintKey"/>
-											<b>${ticket.sprint.nome}</b>
-											<pronto:icons name="ver_estorias.gif" title="Ver Estórias" onclick="openWindow('${raiz}backlogs/sprints/${ticket.sprint.sprintKey}')"/>
-											<p>Sprint</p>
-										</c:otherwise>
-									</c:choose>
-								</c:if>
+							<div>
+								<c:choose>
+									<c:when test="${ticket.ticketKey gt 0}">
+										<form:hidden path="ticket.projeto.projetoKey" id="projetoKey"/>
+										<b>${ticket.projeto.nome}</b>
+									</c:when>
+									<c:otherwise>
+										<form:select path="ticket.projeto.projetoKey" onchange="filtrarEtapas()" id="projetoKey">
+											<form:options items="${projetos}" itemLabel="nome" itemValue="projetoKey"/>
+										</form:select>
+									</c:otherwise>
+								</c:choose>
+								<br/>
+								<p>Projeto</p>
 							</div>
+							
+							<c:if test="${ticket.backlog.backlogKey eq 3}">
+								<div id="divSprint">
+									<form:hidden path="ticket.sprint.sprintKey"/>
+									<b><a class="link" title="Clique para ver os Tickets deste Sprint" onclick="openWindow('${raiz}backlogs/sprints/${ticket.sprint.sprintKey}')">${ticket.sprint.nome}</a></b>
+									<p><a class="link" title="Clique para trocar de Sprint" onclick="escolherSprintParaMover(${ticket.ticketKey})">Sprint</a></p>
+								</div>
+							</c:if>
+							
 						</div>
 						
 						<div class="bloco">
@@ -355,21 +360,6 @@
 							</div>
 							
 							
-							<div>
-								<c:choose>
-									<c:when test="${ticket.ticketKey gt 0}">
-										<form:hidden path="ticket.projeto.projetoKey" id="projetoKey"/>
-										<b>${ticket.projeto.nome}</b>
-									</c:when>
-									<c:otherwise>
-										<form:select path="ticket.projeto.projetoKey" onchange="filtrarEtapas()" id="projetoKey">
-											<form:options items="${projetos}" itemLabel="nome" itemValue="projetoKey"/>
-										</form:select>
-									</c:otherwise>
-								</c:choose>
-								<br/>
-								<p>Projeto</p>
-							</div>
 							
 							<div>
 								<form:select path="ticket.modulo.moduloKey">
@@ -655,10 +645,10 @@
 			<button onclick="confirmarVinculo(${ticket.ticketKey})">Confirmar</button>
 		</div>
 		
-		<div title="Escolha um Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
+		<div title="Escolha um Projeto e Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
 			<select id="selecionarSprint">
 				<c:forEach items="${sprints}" var="s">
-					<option ${s.atual ? 'selected':''} value="${s.sprintKey}">${s.nome} ${s.atual ? '(Atual)' : ''}</option>
+					<option ${s.atual ? 'selected':''} value="${s.sprintKey}">${s.projeto.nome}/${s.nome} ${s.atual ? '(Atual)' : ''}</option>
 				</c:forEach>			
 			</select>
 			<br/><br/>

@@ -70,6 +70,7 @@ class ProjetoController {
 			kanbanStatus.descricao = "To Do"
 			kanbanStatus.projeto = projeto
 			kanbanStatus.ordem = 1
+			kanbanStatus.inicio = true
 			kanbanStatusDao.salvar kanbanStatus
 			
 			kanbanStatus = new KanbanStatus()
@@ -82,6 +83,7 @@ class ProjetoController {
 			kanbanStatus.descricao = 'Done'
 			kanbanStatus.projeto = projeto
 			kanbanStatus.ordem = 99999
+			kanbanStatus.fim = true
 			kanbanStatusDao.salvar kanbanStatus
 		}
 		

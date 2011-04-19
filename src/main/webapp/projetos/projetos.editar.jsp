@@ -26,14 +26,23 @@
 				</div>
 			</div>
 
-			<div align="center" class="buttons">
-				<br />
-				<button type="button" onclick="window.location.href='${raiz}projetos'">Cancelar</button>
-				<button type="submit">Salvar</button><br/>
-			</div>
-		</form>
-
-	<c:if test="${projeto.projetoKey gt 0}">
+			<c:if test="${projeto.projetoKey gt 0}">
+				<br/>
+				<h3>
+					Sprints
+					<pronto:icons name="adicionar.png" title="Incluir Sprint" onclick="goTo('${raiz}sprints/novo')"/>
+				
+				</h3>
+				<ul id="sprints">
+					<c:forEach items="${projeto.sprints}" var="sprint">
+						<li class="sprint">
+							<a href="${raiz}sprints/${sprint.sprintKey}">${sprint.nome}</a> 
+							- De <fmt:formatDate value="${sprint.dataInicial}"/> 
+							à <fmt:formatDate value="${sprint.dataFinal}"/>
+						</li>
+					</c:forEach>
+				</ul>
+			
 				<br/>
 				<div>
 					<h3>Etapas do Kanban
@@ -48,6 +57,13 @@
 					</ul>
 				</div>
 			</c:if>
+		
+		<div align="center" class="buttons">
+				<br />
+				<button type="button" onclick="window.location.href='${raiz}projetos'">Cancelar</button>
+				<button type="submit">Salvar</button><br/>
+			</div>
+		</form>
 		
 		<script>
 		var projetoKey = "${projeto.projetoKey}";
