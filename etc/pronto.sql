@@ -13,8 +13,6 @@ CREATE SEQUENCE hibernate_sequence
     NO MINVALUE
     CACHE 1;
 
-    ALTER TABLE public.hibernate_sequence OWNER TO pronto;
-
 SELECT pg_catalog.setval('hibernate_sequence', 62, true);
 
 CREATE SEQUENCE seq_ticket
@@ -23,16 +21,12 @@ CREATE SEQUENCE seq_ticket
     NO MINVALUE
     CACHE 1;
 
-    ALTER TABLE public.seq_ticket OWNER TO pronto;
-
 
 CREATE SEQUENCE seq_sprint
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
-
-    ALTER TABLE public.seq_sprint OWNER TO pronto;
 
     
 CREATE SEQUENCE seq_ticket_comentario
@@ -41,15 +35,11 @@ CREATE SEQUENCE seq_ticket_comentario
     NO MINVALUE
     CACHE 1;
 
-    ALTER TABLE public.seq_ticket_comentario OWNER TO pronto;
-
 CREATE SEQUENCE seq_ticket_log
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
-
-    ALTER TABLE public.seq_ticket_log OWNER TO pronto;
 
 CREATE SEQUENCE seq_script
     INCREMENT BY 1
@@ -57,15 +47,11 @@ CREATE SEQUENCE seq_script
     NO MINVALUE
     CACHE 1;
 
-    ALTER TABLE seq_script OWNER TO pronto;
-
 CREATE SEQUENCE seq_banco_de_dados
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
-
-    ALTER TABLE seq_banco_de_dados OWNER TO pronto;
 
 CREATE SEQUENCE seq_execucao
     INCREMENT BY 1
@@ -73,15 +59,11 @@ CREATE SEQUENCE seq_execucao
     NO MINVALUE
     CACHE 1;
 
-    ALTER TABLE seq_execucao OWNER TO pronto;
-
 CREATE SEQUENCE seq_retrospectiva
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
-
-    ALTER TABLE seq_retrospectiva OWNER TO pronto;
 
 CREATE SEQUENCE seq_retrospectiva_item
     INCREMENT BY 1
@@ -89,20 +71,14 @@ CREATE SEQUENCE seq_retrospectiva_item
     NO MINVALUE
     CACHE 1;
 
-    ALTER TABLE seq_retrospectiva_item OWNER TO pronto;
-
 CREATE SEQUENCE seq_cliente
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
 
-    ALTER TABLE seq_cliente OWNER TO pronto;
-
 create sequence SEQ_CATEGORIA;
 	
-    alter table seq_categoria OWNER to pronto;
-
 CREATE TABLE backlog (
     backlog_key integer NOT NULL,
     descricao character varying(255)
@@ -124,7 +100,7 @@ CREATE TABLE papel (
     descricao character varying(255)
 );
 
-ALTER TABLE public.papel OWNER TO pronto;
+
 
 CREATE TABLE sprint (
     sprint_key integer NOT NULL,
@@ -135,7 +111,7 @@ CREATE TABLE sprint (
     atual boolean NOT NULL
 );
 
-ALTER TABLE public.sprint OWNER TO pronto;
+
 
 CREATE TABLE ticket (
     ticket_key integer NOT NULL,
@@ -164,7 +140,7 @@ CREATE TABLE ticket (
     categoria_key integer
 );
 
-ALTER TABLE public.ticket OWNER TO pronto;
+
 
 CREATE TABLE ticket_comentario (
     ticket_comentario_key integer NOT NULL,
@@ -174,14 +150,14 @@ CREATE TABLE ticket_comentario (
     ticket_key integer
 );
 
-ALTER TABLE public.ticket_comentario OWNER TO pronto;
+
 
 CREATE TABLE ticket_desenvolvedor (
     ticket_key integer NOT NULL,
     usuario_key character varying(255) NOT NULL
 );
 
-ALTER TABLE public.ticket_desenvolvedor OWNER TO pronto;
+
 
 
 CREATE TABLE ticket_testador (
@@ -189,7 +165,7 @@ CREATE TABLE ticket_testador (
     usuario_key character varying(255) NOT NULL
 );
 
-ALTER TABLE public.ticket_testador OWNER TO pronto;
+
 
 
 CREATE TABLE ticket_log (
@@ -204,14 +180,14 @@ CREATE TABLE ticket_log (
 );
 
 
-ALTER TABLE public.ticket_log OWNER TO pronto;
+
 
 CREATE TABLE tipo_de_ticket (
     tipo_de_ticket_key integer NOT NULL,
     descricao character varying(255)
 );
 
-ALTER TABLE public.tipo_de_ticket OWNER TO pronto;
+
 
 CREATE TABLE usuario (
     username character varying(100) NOT NULL,
@@ -222,7 +198,7 @@ CREATE TABLE usuario (
     cliente_key integer
 );
 
-ALTER TABLE public.usuario OWNER TO pronto;
+
 
 CREATE TABLE usuario_papel (
     usuario_key character varying(255) NOT NULL,
@@ -230,14 +206,14 @@ CREATE TABLE usuario_papel (
 );
 
 
-ALTER TABLE public.usuario_papel OWNER TO pronto;
+
 
 CREATE TABLE banco_de_dados (
     banco_de_dados_key integer NOT NULL,
     nome character varying(120)
 );
 
-ALTER TABLE banco_de_dados OWNER TO pronto;
+
 
 CREATE TABLE script (
     script_key integer NOT NULL,
@@ -245,7 +221,7 @@ CREATE TABLE script (
     script text    
 );
 
-ALTER TABLE script OWNER TO pronto;
+
 
 CREATE TABLE execucao (
     execucao_key integer NOT NULL,
@@ -255,7 +231,7 @@ CREATE TABLE execucao (
     data  timestamp without time zone
 );   
 
-ALTER TABLE execucao OWNER TO pronto;
+
 
 CREATE TABLE tipo_retrospectiva_item (
     tipo_retrospectiva_item_key integer NOT NULL,
@@ -263,7 +239,7 @@ CREATE TABLE tipo_retrospectiva_item (
 	tipo_retrospectiva_key integer DEFAULT 1
 );
 
-ALTER TABLE public.tipo_retrospectiva_item OWNER TO pronto;
+
 
 CREATE TABLE retrospectiva (
     retrospectiva_key integer NOT NULL,
@@ -271,7 +247,7 @@ CREATE TABLE retrospectiva (
 	tipo_retrospectiva_key integer DEFAULT 1 NOT NULL
 );
 
-ALTER TABLE public.retrospectiva OWNER TO pronto;
+
 
 CREATE TABLE retrospectiva_item (
     retrospectiva_item_key integer NOT NULL,
@@ -280,28 +256,28 @@ CREATE TABLE retrospectiva_item (
     descricao character varying(255) NOT NULL 
 );
 
-ALTER TABLE public.retrospectiva_item OWNER TO pronto;
+
 
 CREATE TABLE cliente (
     cliente_key integer NOT NULL,
     nome character varying(120)
 );
 
-ALTER TABLE cliente OWNER TO pronto;
+
 
 CREATE TABLE tipo_retrospectiva (
     tipo_retrospectiva_key integer NOT NULL,
     descricao character varying(120)
 );
 
-ALTER TABLE public.tipo_retrospectiva OWNER TO pronto;
+
 
 CREATE TABLE configuracoes (
 	chave varchar(50) primary key,
 	valor varchar(100)	
 );
 
-ALTER TABLE configuracoes OWNER TO pronto;
+
 
 CREATE TABLE categoria (
 	categoria_key integer primary key,
@@ -309,7 +285,7 @@ CREATE TABLE categoria (
 	cor varchar(60)
 );
 
-ALTER TABLE categoria OWNER TO pronto;
+
 
 INSERT INTO backlog VALUES (1, 'Ideias');
 INSERT INTO backlog VALUES (5, 'Impedimentos');

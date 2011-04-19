@@ -5,29 +5,19 @@ CREATE TABLE causa_de_defeito (
 	descricao varchar(75)
 );
 
-ALTER TABLE causa_de_defeito OWNER TO pronto;
-
 alter table ticket add causa_de_defeito_key integer references causa_de_defeito;
 CREATE INDEX idx_ticket_causa_de_defeito ON TICKET USING btree (causa_de_defeito_key);
 
 create sequence SEQ_CAUSA_DE_DEFEITO;
-
-	ALTER TABLE seq_causa_de_defeito OWNER TO pronto;
-
 create sequence SEQ_MOTIVO_REPROVACAO;
-
-	ALTER TABLE seq_motivo_reprovacao OWNER TO pronto;
 
 CREATE TABLE MOTIVO_REPROVACAO (
 	MOTIVO_REPROVACAO_key integer primary key,
 	descricao varchar(75)
 );
 
-ALTER TABLE motivo_reprovacao OWNER TO pronto;
-
 create sequence SEQ_MOVIMENTO_KANBAN;
 
-	ALTER TABLE seq_movimento_kanban OWNER TO pronto;
 
 CREATE TABLE movimento_kanban (
 	movimento_kanban_key integer primary key,
@@ -38,7 +28,6 @@ CREATE TABLE movimento_kanban (
 	username character varying(100) references usuario not null 	
 );
 
-ALTER TABLE movimento_kanban OWNER TO pronto;
 
 CREATE INDEX idx_movimento_kanban_ticket ON movimento_kanban USING btree (ticket_key);
 CREATE INDEX idx_movimento_kanban_kanban_status ON movimento_kanban USING btree (kanban_status_key);
@@ -70,23 +59,16 @@ alter table usuario add jabber_username  character varying(255);
 --2010 09 09
 alter table integracao_zendesk add constraint UK_INTEGRACAO_ZENDESK unique (ticket_key, zendesk_ticket_key);
 
---2010 09 10
-ALTER TABLE integracao_zendesk OWNER TO pronto;
-
 --2010 09 20
 CREATE TABLE modulo (
 	modulo_key integer primary key,
 	descricao varchar(75)
 );
 
-ALTER TABLE modulo OWNER TO pronto;
-
 alter table ticket add modulo_key integer references modulo;
 CREATE INDEX idx_ticket_modulo ON TICKET USING btree (modulo_key);
 
 create sequence SEQ_MODULO;
-
-	ALTER TABLE SEQ_MODULO OWNER TO pronto;
 
 --2011 02 23
 alter table backlog add slug varchar(50);
@@ -122,7 +104,6 @@ CREATE TABLE projeto (
 	nome varchar(75)
 );
 
-ALTER TABLE projeto OWNER TO pronto;
 alter table ticket add projeto_key integer references projeto;
 CREATE INDEX idx_ticket_projeto ON TICKET USING btree (projeto_key);
 create sequence SEQ_PROJETO;
