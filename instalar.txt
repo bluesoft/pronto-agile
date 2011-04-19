@@ -1,0 +1,40 @@
+O Pronto utiliza o Banco de Dados PostgreSQL.
+
+Para instalar siga as seguintes instruções:
+
+1. Faça download do projeto através do git hub:
+git clone git://github.com/andrefaria/pronto-agile.git
+
+2. Faça o download e instale o PostgreSQL para o seu sistema operacional em:
+>> http://www.postgresql.org/download/
+
+3. Execute o postgres apartir do raiz (este) com o usuário e senha padrão:
+>> ex: psql postgres postgres;
+Obs: O nome do aplicativo pode ser psql, psql83, psql84, etc, de acordo com a instalação.
+
+4. Execute os seguintes comandos para criação do banco de dados.
+create role pronto with login password 'pronto';
+create database pronto owner pronto;
+\c pronto pronto
+\i pronto.sql 
+\i pronto-updates.sql 
+\i pronto-demo.sql 
+\q
+
+5. Pronto, é só executar:
+mvn jetty:start
+
+6. Acesse em http://localhost:8080/pronto-agile/
+
+Utilizar os usuários:
+---------------------------------------
+|Papel			| Usuário	| Senha	  |
+---------------------------------------
+|Product Owner	| justus	| justus  |
+|Scrum Master	| coach		| coach	  |
+|Equipe 		| time		| time 	  |
+|Cliente 		| cliente 	| cliente |
+---------------------------------------
+
+7. Para Parar
+mvn jetty:stop
