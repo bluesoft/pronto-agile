@@ -30,7 +30,7 @@
 				<br/>
 				<h3>
 					Sprints
-					<pronto:icons name="adicionar.png" title="Incluir Sprint" onclick="goTo('${raiz}sprints/novo')"/>
+					<pronto:icons name="adicionar.png" title="Incluir Sprint" onclick="goTo('${raiz}sprints/novo?projetoKey=${projeto.projetoKey}')"/>
 				
 				</h3>
 				<ul id="sprints">

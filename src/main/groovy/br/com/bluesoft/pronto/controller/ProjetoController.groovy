@@ -32,7 +32,7 @@ class ProjetoController {
 			projetoDao.excluir(projetoDao.obter(projetoKey))
 			"redirect:/projetos?mensagem=Projeto excluído com sucesso."
 		} catch (e) {
-			"redirect:/projetos?erro=Este projeto está vinculado há alguns tickets e não pode ser excluída."
+			"redirect:/projetos?erro=Este projeto está vinculado há alguns tickets e/ou sprints e não pode ser excluído."			
 		}
 	}
 

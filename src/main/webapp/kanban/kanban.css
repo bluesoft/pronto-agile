@@ -7,6 +7,12 @@
 	background: #eee;
 }
 
+.kanbanColumn {
+	border-right: #d2d2d2 1px dotted;
+	border-left:  #d2d2d2 1px dotted;
+	border-bottom: #d2d2d2 1px dotted;
+}
+
 .quantidade {
 	font-size: 10px;
 	color: gray;
@@ -100,3 +106,15 @@
 	height: 100%;
 }
 
+#meta {
+	font-weight: bold;
+	color: gray;
+	font-size: 13px;	
+}
+
+#texto-de-ajuda {
+	clear: both;
+	font-style: italic;
+	float: right;
+	font-size: 10px;
+}

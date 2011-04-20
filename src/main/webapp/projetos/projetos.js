@@ -44,6 +44,9 @@ $(function() {
 
 function incluirEtapa() {
 	var nome = prompt('Informe o Nome da Etapa');
+	if (nome!=null && nome.length == 0){
+		alert('Informe o nome da etapa');
+	}
 	$.post("incluirEtapa.action", {
 		projetoKey : projetoKey,
 		nome : nome

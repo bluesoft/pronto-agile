@@ -22,7 +22,7 @@
 					</c:if>
 				
 				<div>
-					<form:input path="sprint.nome" cssClass="required" />
+					<form:input path="sprint.nome" cssClass="required"  size="50"/>
 					<p>Nome</p>
 				</div>
 				
@@ -31,12 +31,13 @@
 						<c:when test="${sprint.sprintKey eq 0}">
 							<select name="projetoKey"  id="projetoKey">
 								<c:forEach var="m" items="${projetos}">
-									<option value="${m.projetoKey}" ${sprint.projeto.projetoKey eq m.projetoKey ? 'selected' : ''}>${m.nome}</option>
+									<option value="${m.projetoKey}" ${param.projetoKey eq m.projetoKey ? 'selected' : ''}>${m.nome}</option>
 								</c:forEach>
 							</select>
 						</c:when>
 						<c:otherwise>
 							<b>${sprint.projeto.nome}</b>
+							<input type="hidden" name="projetoKey" id="projetoKey" value="${sprint.projeto.projetoKey}"/>
 						</c:otherwise>
 					</c:choose>
 					<p>Projeto</p>
