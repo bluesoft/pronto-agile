@@ -47,7 +47,7 @@ class Ticket {
 		backlog = new Backlog(Backlog.INBOX)
 		reporter = new Usuario()
 		sprint = new Sprint()
-		kanbanStatus = new KanbanStatus(KanbanStatus.TO_DO)
+		kanbanStatus = new KanbanStatus()
 		comentarios = new ArrayList<TicketComentario>()
 		logs = new ArrayList<TicketLog>()
 		script = new Script()
@@ -347,11 +347,11 @@ class Ticket {
 	}
 	
 	boolean isDone() {
-		return kanbanStatus != null && kanbanStatus.getKanbanStatusKey() == KanbanStatus.DONE
+		return kanbanStatus?.isFim()
 	}
 	
 	boolean isToDo() {
-		return kanbanStatus != null && kanbanStatus.getKanbanStatusKey() == KanbanStatus.TO_DO
+		return kanbanStatus?.isInicio()
 	}
 	
 	boolean temFilhos() {
@@ -397,17 +397,7 @@ class Ticket {
 	
 	boolean isEmAndamento() {
 		if (temFilhos()) {
-			final Multiset<Integer> contadorDeStatus = HashMultiset.create()
-			final int quantidadeDeFilhos = filhos.size()
-			for (final Ticket filho : filhos) {
-				contadorDeStatus.add(filho.getKanbanStatus().getKanbanStatusKey())
-			}
-			
-			if (contadorDeStatus.count(KanbanStatus.DONE) != quantidadeDeFilhos && contadorDeStatus.count(KanbanStatus.TO_DO) != quantidadeDeFilhos) {
-				return true
-			} else {
-				return false
-			}
+			//TODO
 		} else {
 			return !isDone() && !isToDo()
 		}

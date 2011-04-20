@@ -118,12 +118,14 @@ function alterarStatuDoKanban() {
 	var $motivoReprovacaoCombo = $("#motivoReprovacaoKey");
 	var $motivoReprovacaoDiv = $("#motivoReprovacaoDiv");
 	
-	if (parseInt(ordens[kanbanStatusAnterior]) > parseInt(ordens[kanbanStatusKey])) {
-		$motivoReprovacaoCombo.addClass('requiredCombo');
-		$motivoReprovacaoDiv.show();
-	} else {
-		$motivoReprovacaoCombo.removeClass('requiredCombo');
-		$motivoReprovacaoDiv.hide();
+	if (ordens) {
+		if (parseInt(ordens[kanbanStatusAnterior]) > parseInt(ordens[kanbanStatusKey])) {
+			$motivoReprovacaoCombo.addClass('requiredCombo');
+			$motivoReprovacaoDiv.show();
+		} else {
+			$motivoReprovacaoCombo.removeClass('requiredCombo');
+			$motivoReprovacaoDiv.hide();
+		}
 	}
 }
 
@@ -209,7 +211,29 @@ function alterarTamanhoPara(tamanho) {
 	$("#esforco").val(tamanho);
 }
 
+function filtrarEtapas(){
+	var projetoKey = $('#projetoKey').val();
+	var $first = null;
+	$('#kanbanStatusKey').find('option').each(function(i,el){
+		var $el = $(el);
+		if ($el.attr('projetoKey') == projetoKey) {
+			$el.show();
+			$el.removeAttr('disabled');
+			if ($first == null) { 
+				$first = $el; 
+			}
+		} else {
+			$el.hide();
+			$el.attr('disabled','disabled');			
+		}
+		if ($first) {
+			$first.attr('selected','selected');
+		}
+	});
+}
+
 $(function(){
 	$("#motivoReprovacaoDiv").hide();
+	filtrarEtapas();
 });
 

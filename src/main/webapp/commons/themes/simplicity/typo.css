@@ -306,5 +306,9 @@
                     background: #eee !important;
                 }
     /* END TABLE */
+	
+	.link {
+		cursor: pointer;
+	}
 
 /* END TYPOGRAPHY */

@@ -161,7 +161,7 @@ class TicketController {
 			}
 			
 			if (ticket.isDefeito()) {
-				if (ticket.kanbanStatus.kanbanStatusKey == KanbanStatus.DONE && (ticket.getCausaDeDefeito() == null || ticket.getCausaDeDefeito().getCausaDeDefeitoKey() == 0)) {
+				if (ticket.kanbanStatus.isFim() && (ticket.getCausaDeDefeito() == null || ticket.getCausaDeDefeito().getCausaDeDefeitoKey() == 0)) {
 					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de mover para a última etapa é necessário informar a causa do defeito.";
 				} else {
 					ticket.setCausaDeDefeito(causaDeDefeitoDao.obter(ticket.getCausaDeDefeito().getCausaDeDefeitoKey()))
@@ -360,6 +360,7 @@ class TicketController {
 
 		switch(backlogDeOrigem) {
 			case Backlog.INBOX:
+			case Backlog.SPRINT_BACKLOG:
 			case Backlog.PRODUCT_BACKLOG:
 			case Backlog.FUTURO:
 				break
@@ -368,8 +369,11 @@ class TicketController {
 				break
 		}
 		
-		ticket.setSprint(sprintDao.obter(sprintKey))
-		ticket.setBacklog(backlogDao.obter(Backlog.SPRINT_BACKLOG))
+		def sprint = sprintDao.obter(sprintKey)
+		ticket.sprint = sprint
+		ticket.projeto = sprint.projeto
+		ticket.kanbanStatus = sprint.projeto.getEtapaToDo()
+		ticket.backlog = backlogDao.obter(Backlog.SPRINT_BACKLOG)
 		ticketDao.salvar(ticket)
 
 		if (ticket.ticketKey > 0 && !ticket.isDone() && configuracaoDao.isZendeskAtivo()) {
@@ -675,11 +679,13 @@ class TicketController {
 			model.addAttribute("anexos", FileUtil.listarAnexos(String.valueOf(ticketKey)))
 			model.addAttribute "motivosReprovacao", motivoReprovacaoDao.listar()
 			model.addAttribute "movimentos", movimentoKanbanDao.listarMovimentosDoTicket(ticketKey)		
-			def statusList = kanbanStatusDao.listar()
-			model.addAttribute "kanbanStatus", statusList
 			def ordens = new JSONObject();
+			def statusList = kanbanStatusDao.listarPorProjeto(ticket.projeto.projetoKey)
+			model.addAttribute "kanbanStatus", statusList
 			statusList.each {
-				ordens.put it.kanbanStatusKey as String, it.ordem as String	
+				if (ticket.projeto.projetoKey == it.projeto.projetoKey) {
+					ordens.put it.kanbanStatusKey as String, it.ordem as String
+				}	
 			}
 			model.addAttribute "ordens", ordens
 			model.addAttribute "zendeskTicketKey", ticketDao.obterNumeroDoTicketNoZendesk(ticket.ticketKey)
@@ -691,6 +697,7 @@ class TicketController {
 			novoTicket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.INBOX))
 			model.addAttribute("ticket", novoTicket)
 			model.addAttribute("tipoDeTicketKey", tipoDeTicketKey)
+			model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
 		}
 		
 		def equipe = usuarioDao.listarEquipe()
@@ -718,11 +725,11 @@ class TicketController {
 		copiarDadosDoPai(pai, tarefa)
 		tarefa.setPrioridade(9999)
 		
-		model.addAttribute("ticket", tarefa)
-		model.addAttribute("tipoDeTicketKey", TipoDeTicket.TAREFA)
-		model.addAttribute("kanbanStatus", kanbanStatusDao.listar())
-		model.addAttribute("testadores", usuarioDao.listarEquipe())
-		model.addAttribute("desenvolvedores", usuarioDao.listarEquipe())
+		model.addAttribute "ticket", tarefa
+		model.addAttribute "tipoDeTicketKey", TipoDeTicket.TAREFA
+		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
+		model.addAttribute "testadores", usuarioDao.listarEquipe()
+		model.addAttribute "desenvolvedores", usuarioDao.listarEquipe()
 		
 		return VIEW_EDITAR
 	}
@@ -763,18 +770,15 @@ class TicketController {
 
 		if (query != null && query != "") {
 			if (NumberUtils.toInt(query) > 0) {
-				Ticket ticket = ticketDao.obterPorStatus(NumberUtils.toInt(query), KanbanStatus.DONE)
+				Ticket ticket = ticketDao.obterTicketPronto(NumberUtils.toInt(query))
 				if (ticket != null) {
 					model.addAttribute("tickets", Lists.newArrayList(ticket))
 				}
 			} else {
-			
-				TicketOrdem ticketOrdem = TicketOrdem.TITULO
-				Classificacao ticketClassificacao = Classificacao.ASCENDENTE
-				
-				def tickets = ticketDao.buscar(query, KanbanStatus.DONE, null, ticketOrdem, ticketClassificacao, null)
-				model.addAttribute("tickets", tickets)
-				
+//				TicketOrdem ticketOrdem = TicketOrdem.TITULO
+//				Classificacao ticketClassificacao = Classificacao.ASCENDENTE
+//				def tickets = ticketDao.buscar(query, KanbanStatus.DONE, null, ticketOrdem, ticketClassificacao, null)
+//				model.addAttribute("tickets", tickets)
 			}
 		} else {
 		model.addAttribute("mensagem", "Digite o número do ticket ou sua descrição.")

@@ -28,7 +28,6 @@ class MovimentadorDeTicket {
 	
 	MovimentoKanban movimentar(def ticket, int kanbanStatusKey, def motivoReprovacaoKey) {
 		def status = kanbanStatusDao.obter(kanbanStatusKey)
-		associarUsuario ticket, status
 		validacoesDePronto ticket, status
 		ticket.kanbanStatus = status
 		ticketDao.salvar ticket
@@ -51,7 +50,7 @@ class MovimentadorDeTicket {
 	}
 	
 	private void validacoesDePronto(ticket, status) {
-		if (status.kanbanStatusKey == KanbanStatus.DONE) {
+		if (status.isFim()){
 			validarCausaDeDefeito(ticket) 
 			ticket.dataDePronto = new Date()
 		} else {
@@ -63,24 +62,6 @@ class MovimentadorDeTicket {
 		if (ticket.defeito  && !ticket.causaDeDefeito) {
 			throw new ProntoException("Antes de Mover um Defeito para DONE é preciso informar a Causa do Defeito.")
 		}
-	}
-	
-	private void associarUsuario(def ticket, def status) {
-		if (status.kanbanStatusKey == KanbanStatus.DOING) {
-			associarUsuarioComoDesenvolvedor(ticket);
-		}
-		
-		if (status.kanbanStatusKey == KanbanStatus.TESTING) {
-			associarUsuarioComoTestador(ticket);
-		}
-	}
-	
-	private void associarUsuarioComoDesenvolvedor(Ticket ticket){
-		ticket.addDesenvolvedor(Seguranca.usuario);
-	}
-	
-	private void associarUsuarioComoTestador(Ticket ticket){
-		ticket.addTestador(Seguranca.usuario);
 	}
 	
 }

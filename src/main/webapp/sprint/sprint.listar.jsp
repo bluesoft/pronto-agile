@@ -41,6 +41,7 @@
 			<tr>
 				<th style="width: 18px"></th>
 				<th>Nome</th>
+				<th>Projeto</th>
 				<th>Período</th>
 				<th>Valor de Negócio</th>
 				<th>Esforço</th>
@@ -70,6 +71,7 @@
 						</c:choose>
 					</td>
 					<td><a onclick="goTo('${raiz}sprints/${s.sprintKey}')" href="#" title="Clique para editar">${s.nome}</a></td>
+					<td><a onclick="goTo('${raiz}projetos/${s.projeto.projetoKey}')" href="#" title="Clique para editar">${s.projeto.nome}</a></td>
 					<td><fmt:formatDate value="${s.dataInicial}"/> à <fmt:formatDate value="${s.dataFinal}"/></td>
 					<td>${s.valorDeNegocioTotal}</td>
 					<td>${s.esforcoTotal}</td>

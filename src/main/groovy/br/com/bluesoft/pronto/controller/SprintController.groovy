@@ -18,14 +18,13 @@ package br.com.bluesoft.pronto.controller
 import org.springframework.stereotype.Controller 
 import org.springframework.web.bind.annotation.RequestMapping
 import static org.springframework.web.bind.annotation.RequestMethod.*
-import org.springframework.stereotype.Controller 
-import org.springframework.web.bind.annotation.RequestMapping
+
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.IOException
 import java.io.InputStream
 import java.util.List
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -40,27 +39,25 @@ import org.hibernate.Transaction
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.WebDataBinder
+import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.context.request.WebRequest
 
 import br.com.bluesoft.pronto.ProntoException
-import br.com.bluesoft.pronto.core.Backlog;
-import br.com.bluesoft.pronto.core.Papel;
-import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
+import br.com.bluesoft.pronto.core.Backlog
+import br.com.bluesoft.pronto.core.Papel
+import br.com.bluesoft.pronto.dao.ConfiguracaoDao
+import br.com.bluesoft.pronto.dao.ProjetoDao
 import br.com.bluesoft.pronto.dao.SprintDao
 import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.model.Sprint
 import br.com.bluesoft.pronto.model.Ticket
 import br.com.bluesoft.pronto.service.Config
-import br.com.bluesoft.pronto.service.Seguranca;
-import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer;
-
-import java.io.IOException
-import org.apache.commons.fileupload.FileUploadException
+import br.com.bluesoft.pronto.service.Seguranca
+import br.com.bluesoft.pronto.web.binding.DefaultBindingInitializer
 
 @Controller
 @RequestMapping("/sprints")
@@ -75,6 +72,7 @@ class SprintController {
 	@Autowired SprintDao sprintDao
 	@Autowired TicketDao ticketDao
 	@Autowired ConfiguracaoDao configuracaoDao
+	@Autowired ProjetoDao projetoDao
 	
 	@InitBinder
 	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
@@ -129,6 +127,7 @@ class SprintController {
 	@RequestMapping("/novo")
 	String novo(final Model model) {
 		model.addAttribute "sprint", new Sprint()
+		model.addAttribute("projetos", projetoDao.listar())
 		VIEW_EDITAR
 	}
 	
@@ -136,11 +135,12 @@ class SprintController {
 	String editar(final Model model, @PathVariable Integer sprintKey) {
 		def sprint = (Sprint) sessionFactory.currentSession.get(Sprint.class, sprintKey)
 		model.addAttribute("sprint", sprint)
+		model.addAttribute("projetos", projetoDao.listar())
 		VIEW_EDITAR
 	}
 	
 	@RequestMapping(method = [ PUT, POST ])
-	String salvar(Model model, Sprint sprint) {
+	String salvar(Model model, Sprint sprint, int projetoKey) {
 		
 		if (sprint.dataFinal.before(sprint.dataInicial)) {
 			model.addAttribute "sprintKey", sprint.sprintKey
@@ -149,6 +149,7 @@ class SprintController {
 		}
 		
 		final Transaction tx = sessionFactory.getCurrentSession().beginTransaction()
+		sprint.projeto = projetoDao.proxy(projetoKey)
 		sessionFactory.getCurrentSession().saveOrUpdate(sprint)
 		sessionFactory.getCurrentSession().flush()
 		tx.commit()

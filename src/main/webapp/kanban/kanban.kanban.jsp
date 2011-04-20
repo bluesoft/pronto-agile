@@ -11,16 +11,22 @@
 	<body>
 		<div align="left">
 			<h1>
-				Kanban do Sprint ${sprint.nome}
+				Kanban do Sprint <a href="${raiz}sprints/${sprint.sprintKey}">${sprint.nome}</a> do Projeto <a href="${raiz}projetos/${sprint.projeto.projetoKey}">${sprint.projeto.nome}</a>
 				<%@ include file="/commons/sprintLinks.jsp" %>
 			</h1>
+			<span id="meta">Meta: ${sprint.meta}</span>
 		</div>
 		
 		<c:if test="${fn:length(sprints) gt 1}">
 			<div align="right">
 				Sprint: 
 				<form:select path="sprint.sprintKey" onchange="pronto.kanban.recarregar(this.value)">
-					<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
+					<c:forEach items="${projetos}" var="projeto">
+						<optgroup label="${projeto.nome}"></optgroup>
+						<c:forEach items="${sprints[projeto]}" var="sp">
+							<option ${sprint.sprintKey eq sp.sprintKey ? 'selected="selected"' : ''} value="${sp.sprintKey}">${sp.nome} ${sp.atual ? ' (atual)' : ''} </option>
+						</c:forEach>
+					</c:forEach>
 				</form:select>
 			</div>
 		</c:if>
@@ -82,7 +88,12 @@
                 </c:forEach>
 			</tr>
 		</table>
-		<div align="center">* Clique duas vezes sobre o cartão para abrí-lo.</div>
+		
+		<div align="center" id="texto-de-ajuda">
+			<br/><br/>* Clique duas vezes sobre o cartão para abrí-lo.
+		</div>
+		
+		
 		<div id="motivo">
 			<select id="motivoReprovacaoKey" onchange="pronto.kanban.alterarMotivo(this)">
 				<option value="-1">=== Selecione um Motivo ===</option>

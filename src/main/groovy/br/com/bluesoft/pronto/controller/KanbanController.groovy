@@ -77,14 +77,25 @@ public class KanbanController {
 		sprint = sprintDao.obterSprintComTicket(sprint.getSprintKey())
 		
 		model.addAttribute "sprint", sprint
-		model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
+		
+		def sprints = sprintDao.listarSprintsEmAberto()
+		def sprintsPorProjeto = [:]
+		sprints.each {
+			if (!sprintsPorProjeto[it.projeto]) {
+				sprintsPorProjeto[it.projeto] = []
+			}
+			sprintsPorProjeto[it.projeto] << it
+		}
+		
+		model.addAttribute "projetos", sprintsPorProjeto.keySet()
+		model.addAttribute "sprints", sprintsPorProjeto 
 		
 		def mapaDeTickets = sprint.ticketsParaOKanbanPorEtapa
 		model.addAttribute 'mapaDeTickets', mapaDeTickets
 		model.addAttribute 'mapaDeQuantidades', this.getMapaDeQuantidades(mapaDeTickets)
 		model.addAttribute 'motivos', motivoReprovacaoDao.listar()
 
-		def statusList = kanbanStatusDao.listar()
+		def statusList = kanbanStatusDao.listarPorProjeto(sprint.projeto.projetoKey)
 		model.addAttribute "status", statusList
 		def ordens = new JSONObject();
 		statusList.each {
