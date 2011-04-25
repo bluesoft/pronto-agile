@@ -303,7 +303,6 @@
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>
 
-<<<<<<< HEAD
 		<c:if test="${fn:length(projetos) gt 1}">
 		<div title="Escolha um Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
 			<select id="selecionarSprint">
@@ -312,13 +311,6 @@
 					<c:forEach items="${projeto.sprints}" var="sp">
 						<option ${sprint.sprintKey eq sp.sprintKey ? 'selected="selected"' : ''} value="${sp.sprintKey}">${sp.nome} ${sp.atual ? ' (atual)' : ''} </option>
 					</c:forEach>
-=======
-		<c:if test="${fn:length(sprintsEmAberto) gt 1}">
-		<div title="Escolha um Projeto e Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
-			<select id="selecionarSprint">
-				<c:forEach items="${sprintsEmAberto}" var="s">
-					<option ${s.atual ? 'selected':''} value="${s.sprintKey}">${s.projeto.nome}/${s.nome} ${s.atual ? '(Atual)' : ''}</option>
->>>>>>> 8f23f27a4ca4f85a83331b9db6066def9f1d81cd
 				</c:forEach>			
 			</select>
 			<input type="hidden" id="ticketKey" value="" />
