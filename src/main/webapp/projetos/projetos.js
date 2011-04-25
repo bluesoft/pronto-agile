@@ -15,7 +15,7 @@ $(function() {
 		$.post('excluirEtapa', {
 			kanbanStatusKey : key
 		}, function(salvou) {
-			if (salvou) {
+			if (salvou == "true") {
 				$li.remove();
 			} else {
 				alert('Não foi possível excluir.');
@@ -40,26 +40,26 @@ $(function() {
 					alert('Não foi possível editar a etapa.');
 				}
 			});
-		}
-	});
+	}
+});
 
 });
 
 function incluirEtapa() {
 	var nome = prompt('Informe o Nome da Etapa');
-	if (nome!=null && nome.length == 0){
-		alert('Informe o nome da etapa');
+	if (nome != null && nome.length > 0){
+		$.post("incluirEtapa.action", {
+			projetoKey : projetoKey,
+			nome : nome
+		}, function(key) {
+			var $kanban = $('#kanban');
+			var $novo = $('<li class="middle" key="' + key + '"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><span class="etapa-descricao">' + nome + '</span><span class="ui-icon ui-icon-closethick"></span><span class="ui-icon ui-icon-pencil"></span></li>');
+			$novo.addClass('ui-state-default').prepend();
+			$kanban.find('li.middle:last').after($novo);
+		});
 	}
-	$.post("incluirEtapa.action", {
-		projetoKey : projetoKey,
-		nome : nome
-	}, function(key) {
-		var $kanban = $('#kanban');
-		var $novo = $('<li class="middle" key="' + key + '"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><span class="etapa-descricao">' + nome + '</span><span class="ui-icon ui-icon-closethick"></span><span class="ui-icon ui-icon-pencil"></span></li>');
-		$novo.addClass('ui-state-default').prepend();
-		$kanban.find('li.middle:last').after($novo);
-	});
 }
+
 
 function atualizarOrdensDasEtapas() {
 	var itens = new Array();
