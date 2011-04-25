@@ -299,10 +299,10 @@
 		</div>
 
 		<c:if test="${fn:length(sprintsEmAberto) gt 1}">
-		<div title="Escolha um Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
+		<div title="Escolha um Projeto e Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
 			<select id="selecionarSprint">
 				<c:forEach items="${sprintsEmAberto}" var="s">
-					<option ${s.atual ? 'selected':''} value="${s.sprintKey}">${s.nome} ${s.atual ? '(Atual)' : ''}</option>
+					<option ${s.atual ? 'selected':''} value="${s.sprintKey}">${s.projeto.nome}/${s.nome} ${s.atual ? '(Atual)' : ''}</option>
 				</c:forEach>			
 			</select>
 			<input type="hidden" id="ticketKey" value="" />
