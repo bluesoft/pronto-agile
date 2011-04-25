@@ -22,7 +22,9 @@
 			</c:otherwise>
 		</c:choose>
 		
-		<c:if test="${ticket.ticketKey gt 0}">
+		<c:set var="sprintless" value="${ticket.ticketKey eq 0 or ticket.sprint eq null or ticket.sprint.sprintKey eq null}"/>
+		
+		<c:if test="${!sprintless}">
 		<div id="progressBar" align="right">
 			<c:forEach items="${kanbanStatus}" var="status">
 				<c:set var="progressClass" value="${status.kanbanStatusKey eq ticket.kanbanStatus.kanbanStatusKey ? 'ui-state-active' : 'ui-state-disabled'}"/>
@@ -65,7 +67,7 @@
 					
 					<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
 						<c:if test="${!ticket.tarefa}">
-							<c:if test="${ticket.backlog.backlogKey eq 2 or ticket.backlog.backlogKey eq 6}">
+							<c:if test="${ticket.backlog.backlogKey le 3 or ticket.backlog.backlogKey eq 6}">
 								<pronto:icons name="mover_para_inbox.png" title="Mover para o Inbox" onclick="pronto.moverParaInbox(${ticket.ticketKey})"></pronto:icons>
 							</c:if>
 							
@@ -192,7 +194,7 @@
 							
 							<div>
 								<c:choose>
-									<c:when test="${ticket.ticketKey gt 0}">
+									<c:when test="${ticket.ticketKey gt 0 and ticket.sprint ne null}">
 										<form:hidden path="ticket.projeto.projetoKey" id="projetoKey"/>
 										<b>${ticket.projeto.nome}</b>
 									</c:when>
@@ -370,7 +372,7 @@
 								<p>Módulo</p>
 							</div>
 
-							<c:if test="${empty ticket.filhos}">
+							<c:if test="${empty ticket.filhos and !sprintless}">
 								<div>
 									<form:input path="ticket.branch" size="30"/><br/>
 									<p>Branch</p>
@@ -408,93 +410,99 @@
 								</div>
 							</c:if>
 
-							<div>
-								<c:choose>
-									<c:when test="${empty zendeskTicketKey}">
-										<span>Zendesk:&nbsp;
-											<pronto:icons name="adicionar.png" title="Vincular esta tarefa com uma tarefa do Zendesk" onclick="adicionarVinculoComZendesk()"/>
-										</span>
-										<p>&nbsp;</p>
-									</c:when>
-									<c:otherwise>
-										<span>Zendesk: <b>${zendeskTicketKey}</b> vinculado&nbsp; 
-											<pronto:icons name="excluir.png" title="Desvincular esta tarefa com a tarefa do Zendesk" onclick="excluirVinculoComZendesk(${ticket.ticketKey})"/>
-										</span>
-										<p>&nbsp;</p>
-									</c:otherwise>
-								</c:choose>
+							<c:if test="${ticket.ticketKey gt 0}">
+								<div>
+									<c:choose>
+										<c:when test="${empty zendeskTicketKey}">
+											<span>
+												<b>Nenhum Ticket Vinculado</b>
+												<pronto:icons name="adicionar.png" title="Vincular esta tarefa com uma tarefa do Zendesk" onclick="adicionarVinculoComZendesk()"/>
+											</span>
+										</c:when>
+										<c:otherwise>
+											<span>
+												<b>Ticket #${zendeskTicketKey} vinculado&nbsp;</b>  
+												<pronto:icons name="excluir.png" title="Desvincular esta tarefa com a tarefa do Zendesk" onclick="excluirVinculoComZendesk(${ticket.ticketKey})"/>
+											</span>
+										</c:otherwise>
+									</c:choose>
+									<p>Zendesk</p>
 							</div>
+							</c:if>
 						</div>
 						
 						<div class="bloco">
-							<div>
-								<input type="hidden" id="kanbanStatusAnterior" name="kanbanStatusAnterior" value="${ticket.kanbanStatus.kanbanStatusKey}">
-								<form:select path="ticket.kanbanStatus.kanbanStatusKey" onchange="alterarStatuDoKanban()" id="kanbanStatusKey">
-									<c:forEach items="${kanbanStatus}" var="item">
-										<option projetoKey="${item.projeto.projetoKey}" value="${item.kanbanStatusKey}">${item.descricao}</option>
-									</c:forEach>
-								</form:select>
-								<br/>
-								<p>Kanban Status</p>
-							</div>
-							
-							<div id="motivoReprovacaoDiv">
-								<select name="motivoReprovacaoKey" id="motivoReprovacaoKey">
-									<option class="nenhuma" selected="selected" value="-1">Selecione um Motivo</option>
-									<c:forEach items="${motivosReprovacao}" var="motivo">
-										<option value="${motivo.motivoReprovacaoKey}">${motivo.descricao}</option>
-									</c:forEach>
-								</select>
-								<br/>
-								<p>Motivo de Reprovação</p>
-							</div>
-							
-							<div>
-								<fmt:formatDate var="dataDePronto" value="${ticket.dataDePronto}" pattern="dd/MM/yyyy"/>
-								<input type="text" value="${dataDePronto}" name="dataDePronto" class="datePicker"/>
-								<p>Data de Pronto</p>
-							</div>
-							
+							<fmt:formatDate var="dataDePronto" value="${ticket.dataDePronto}" pattern="dd/MM/yyyy"/>
+							<input type="hidden" id="kanbanStatusAnterior" name="kanbanStatusAnterior" value="${ticket.kanbanStatus.kanbanStatusKey}">
+							<input type="hidden" id="kanbanStatusKey" name="kanbanStatus.kanbanStatusKey" value="${ticket.kanbanStatus.kanbanStatusKey}">
+							<c:choose>
+								<c:when test="${sprintless}">
+									<input type="hidden" name="motivoReprovacaoKey" id="motivoReprovacaoKey"/>
+									<input type="hidden" value="${dataDePronto}" name="dataDePronto"/>
+								</c:when>
+								<c:otherwise>
+									<div id="motivoReprovacaoDiv">
+										<select name="motivoReprovacaoKey" id="motivoReprovacaoKey">
+											<option class="nenhuma" selected="selected" value="-1">Selecione um Motivo</option>
+											<c:forEach items="${motivosReprovacao}" var="motivo">
+												<option value="${motivo.motivoReprovacaoKey}">${motivo.descricao}</option>
+											</c:forEach>
+										</select>
+										<br/>
+										<p>Motivo de Reprovação</p>
+									</div>
+									
+									<div>
+										<input type="text" value="${dataDePronto}" name="dataDePronto" class="datePicker"/>
+										<p>Data de Pronto</p>
+									</div>
+										
+								</c:otherwise>
+							</c:choose>
 						</div>
 						
-						<c:if test="${ticket.tarefa or empty ticket.filhos}">
-							<div class="linha">
-							<div>
-								<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
-									<c:set var="checked" value="${false}"/>
-									<c:forEach items="${ticket.desenvolvedores}" var="d">
-										<c:if test="${d.username eq u.username}">
-											<c:set var="checked" value="${true}"/>
-										</c:if>
-									</c:forEach>
-									<div class="person desenvolvedor" style="display: ${checked ? 'inline' : 'none'}">
-										<img alt="${u.username} - Clique para adicionar/remover" id="dev_img_${u.username}" class="${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleDesenvolvedor('${u.username}')" style="cursor:pointer"/>
-										<input id="dev_chk_${u.username}"  type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
-										<div class="person_name">${u.username}</div>
-									</div>
-								</c:forEach>
-								<p style="clear: both"><b>Desenvolvedores</b><pronto:icons name="editar.png" title="Alterar Desenvolvedores" onclick="alterarDesenvolvedores(this)"/></p>
-							</div>
-							</div>
-							<div class="linha">
-							<div>
-								<c:forEach items="${testadores}" var="u" varStatus="s">
-									<c:set var="checked" value="${false}"/>
-									<c:forEach items="${ticket.testadores}" var="d">
-										<c:if test="${d.username eq u.username}">
-											<c:set var="checked" value="${true}"/>
-										</c:if>
-									</c:forEach>
-									<div class="person testador" style="display: ${checked ? 'inline' : 'none'}">
-										<img alt="${u.username} - Clique para adicionar/remover" id="tes_img_${u.username}" class="${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleTestador('${u.username}')" style="cursor:pointer"/>
-										<input id="tes_chk_${u.username}"  type="checkbox" name="testador" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
-										<div class="person_name">${u.username}</div>
-									</div>
-								</c:forEach>
-								<p style="clear: both"><b>Testadores</b><pronto:icons name="editar.png" title="Alterar Testadores" onclick="alterarTestadores(this)"/></p>
-							</div>
-							</div>
-						</c:if>
+						<c:choose>
+								<c:when test="${!sprintless}">
+									<c:if test="${ticket.tarefa or empty ticket.filhos}">
+										<div class="linha">
+										<div>
+											<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
+												<c:set var="checked" value="${false}"/>
+												<c:forEach items="${ticket.desenvolvedores}" var="d">
+													<c:if test="${d.username eq u.username}">
+														<c:set var="checked" value="${true}"/>
+													</c:if>
+												</c:forEach>
+												<div class="person desenvolvedor" style="display: ${checked ? 'inline' : 'none'}">
+													<img alt="${u.username} - Clique para adicionar/remover" id="dev_img_${u.username}" class="${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleDesenvolvedor('${u.username}')" style="cursor:pointer"/>
+													<input id="dev_chk_${u.username}"  type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
+													<div class="person_name">${u.username}</div>
+												</div>
+											</c:forEach>
+											<p style="clear: both"><b>Desenvolvedores</b><pronto:icons name="editar.png" title="Alterar Desenvolvedores" onclick="alterarDesenvolvedores(this)"/></p>
+										</div>
+										</div>
+										<div class="linha">
+										<div>
+											<c:forEach items="${testadores}" var="u" varStatus="s">
+												<c:set var="checked" value="${false}"/>
+												<c:forEach items="${ticket.testadores}" var="d">
+													<c:if test="${d.username eq u.username}">
+														<c:set var="checked" value="${true}"/>
+													</c:if>
+												</c:forEach>
+												<div class="person testador" style="display: ${checked ? 'inline' : 'none'}">
+													<img alt="${u.username} - Clique para adicionar/remover" id="tes_img_${u.username}" class="${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleTestador('${u.username}')" style="cursor:pointer"/>
+													<input id="tes_chk_${u.username}"  type="checkbox" name="testador" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
+													<div class="person_name">${u.username}</div>
+												</div>
+											</c:forEach>
+											<p style="clear: both"><b>Testadores</b><pronto:icons name="editar.png" title="Alterar Testadores" onclick="alterarTestadores(this)"/></p>
+										</div>
+										</div>
+									</c:if>
+								</c:when>
+							</c:choose>
 						
 						<form:hidden path="ticket.prioridade"/><br/>
 

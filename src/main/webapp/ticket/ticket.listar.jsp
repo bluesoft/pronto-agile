@@ -59,11 +59,16 @@
 		
 		
 		<div align="right">
-			<c:if test="${fn:length(sprints) gt 1}">
+			<c:if test="${sprint ne null and fn:length(projetos) gt 1}">
 				Sprint: 
-				<form:select path="sprint.sprintKey" onchange="recarregar(this.value)">
-					<form:options items="${sprints}" itemLabel="nome" itemValue="sprintKey"/>
-				</form:select>
+				<select name="sprintKey" onchange="recarregar(this.value)">
+					<c:forEach items="${projetos}" var="projeto">
+						<optgroup label="${projeto.nome}"></optgroup>
+						<c:forEach items="${projeto.sprints}" var="sp">
+							<option ${sprint.sprintKey eq sp.sprintKey ? 'selected="selected"' : ''} value="${sp.sprintKey}">${sp.nome} ${sp.atual ? ' (atual)' : ''} </option>
+						</c:forEach>
+					</c:forEach>
+				</select>
 			</c:if>
 			
 			Categoria:
@@ -89,15 +94,15 @@
 			</select>
 			
 			Status: 
-			<select name="kanbanStatusKey" id="kanbanStatusKey" onchange="recarregarFiltros()">
+			<select name="kanbanStatusKey" onchange="recarregar(this.value)">
 				<option value="0" selected="selected">Todos</option>
-				<optgroup label="---">
-					<c:forEach items="${kanbanStatus}" var="item">
+				<option value="-1">Pendentes</option>
+				<c:forEach items="${projetos}" var="projeto">
+					<optgroup label="${projeto.nome}"></optgroup>
+					<c:forEach items="${projeto.etapasDoKanban}" var="item">
 						<option value="${item.kanbanStatusKey}">${item.descricao}</option>
 					</c:forEach>
-				</optgroup>
-				<optgroup label="---"></optgroup>
-				<option value="-1">Pendentes</option>
+				</c:forEach>
 			</select>
 		</div>
 		
@@ -143,7 +148,7 @@
 									<c:if test="${t.backlog.backlogKey eq 2 or t.backlog.backlogKey eq 6}">
 											<pronto:icons name="mover_para_inbox.png" title="Mover para o Inbox" onclick="pronto.moverParaInbox(${t.ticketKey},true)"></pronto:icons>
 									</c:if>
-									<c:if test="${t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 2 or t.backlog.backlogKey eq 6}">
+									<c:if test="${t.backlog.backlogKey le 3 or t.backlog.backlogKey eq 6}">
 										<pronto:icons name="mover_para_o_sprint_atual.png" title="Mover para um Sprint" onclick="escolherSprintParaMover(${t.ticketKey})"></pronto:icons>
 									</c:if>
 									<c:if test="${t.backlog.backlogKey eq 1 or t.backlog.backlogKey eq 3 or t.backlog.backlogKey eq 6}">
@@ -298,11 +303,14 @@
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>
 
-		<c:if test="${fn:length(sprintsEmAberto) gt 1}">
+		<c:if test="${fn:length(projetos) gt 1}">
 		<div title="Escolha um Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
 			<select id="selecionarSprint">
-				<c:forEach items="${sprintsEmAberto}" var="s">
-					<option ${s.atual ? 'selected':''} value="${s.sprintKey}">${s.nome} ${s.atual ? '(Atual)' : ''}</option>
+				<c:forEach items="${projetos}" var="projeto">
+					<optgroup label="${projeto.nome}"></optgroup>
+					<c:forEach items="${projeto.sprints}" var="sp">
+						<option ${sprint.sprintKey eq sp.sprintKey ? 'selected="selected"' : ''} value="${sp.sprintKey}">${sp.nome} ${sp.atual ? ' (atual)' : ''} </option>
+					</c:forEach>
 				</c:forEach>			
 			</select>
 			<input type="hidden" id="ticketKey" value="" />

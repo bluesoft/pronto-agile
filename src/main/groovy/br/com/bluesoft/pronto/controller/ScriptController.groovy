@@ -8,8 +8,8 @@ import java.util.List
 
 import javax.servlet.http.HttpServletResponse
 
+import org.hibernate.SessionFactory
 import org.hibernate.Transaction
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.util.JavaScriptUtils
 
 import br.com.bluesoft.pronto.dao.BancoDeDadosDao
-import br.com.bluesoft.pronto.dao.KanbanStatusDao;
+import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.ProjetoDao
 import br.com.bluesoft.pronto.dao.ScriptDao
 import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.model.BancoDeDados
-import br.com.bluesoft.pronto.model.Execucao;
 import br.com.bluesoft.pronto.model.Script
 import br.com.bluesoft.pronto.model.Ticket
 
@@ -39,6 +39,7 @@ class ScriptController {
 	@Autowired private BancoDeDadosDao bancoDeDadosDao
 	@Autowired private KanbanStatusDao kanbanStatusDao
 	@Autowired private SessionFactory sessionFactory
+	@Autowired private ProjetoDao projetoDao
 	
 	static final TODOS = 0
 	static final PENDENTES = 1
@@ -65,7 +66,7 @@ class ScriptController {
 		model.addAttribute "kanbanStatusKey", kanbanStatusKey
 		model.addAttribute "situacao", situacao
 		model.addAttribute "scripts", scripts
-		
+		model.addAttribute "projetos", projetoDao.listarProjetosComSprintsAtivos()
 		return VIEW_LISTAR
 	}
 	

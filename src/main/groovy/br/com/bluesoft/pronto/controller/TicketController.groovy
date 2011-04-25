@@ -169,8 +169,22 @@ class TicketController {
 			} else {
 				ticket.setCausaDeDefeito(null)
 			}
-			
-			ticket.setKanbanStatus(kanbanStatusDao.obter(ticket.getKanbanStatus().getKanbanStatusKey()))
+
+			if (ticket.projeto != null && ticket.projeto.projetoKey > 0) {
+				ticket.setProjeto(projetoDao.obter(ticket.projeto.projetoKey))
+			} else {
+				ticket.projeto = null
+			}
+						
+			if (ticket.getKanbanStatus() == null || ticket.getKanbanStatus().getKanbanStatusKey() == null) {
+				if (ticket.projeto) {
+					ticket.setKanbanStatus(ticket.projeto.etapaToDo)
+				} else {
+					ticket.setKanbanStatus(null)
+				}
+			} else {
+				ticket.setKanbanStatus(kanbanStatusDao.obter(ticket.getKanbanStatus().getKanbanStatusKey()))
+			}
 			
 			if (paiKey == null) {
 				
@@ -192,12 +206,6 @@ class TicketController {
 				ticket.setCliente(clienteDao.obter(clienteKey))
 			} else {
 				ticket.cliente = null
-			}
-			
-			if (ticket.projeto != null && ticket.projeto.projetoKey > 0) {
-				ticket.setProjeto(projetoDao.obter(ticket.projeto.projetoKey))
-			} else {
-				ticket.projeto = null
 			}
 			
 			if (ticket.categoria != null && ticket.categoria.categoriaKey > 0) {
@@ -680,13 +688,19 @@ class TicketController {
 			model.addAttribute "motivosReprovacao", motivoReprovacaoDao.listar()
 			model.addAttribute "movimentos", movimentoKanbanDao.listarMovimentosDoTicket(ticketKey)		
 			def ordens = new JSONObject();
-			def statusList = kanbanStatusDao.listarPorProjeto(ticket.projeto.projetoKey)
-			model.addAttribute "kanbanStatus", statusList
-			statusList.each {
-				if (ticket.projeto.projetoKey == it.projeto.projetoKey) {
-					ordens.put it.kanbanStatusKey as String, it.ordem as String
-				}	
+			
+			if (ticket.sprint != null) {
+				def statusList = kanbanStatusDao.listarPorProjeto(ticket.projeto.projetoKey)
+				model.addAttribute "kanbanStatus", statusList
+				statusList.each {
+					if (ticket.projeto.projetoKey == it.projeto.projetoKey) {
+						ordens.put it.kanbanStatusKey as String, it.ordem as String
+					}	
+				}
+			} else {
+				model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
 			}
+			
 			model.addAttribute "ordens", ordens
 			model.addAttribute "zendeskTicketKey", ticketDao.obterNumeroDoTicketNoZendesk(ticket.ticketKey)
 			

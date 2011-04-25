@@ -222,10 +222,8 @@ public class TicketDao extends DaoHibernate {
 						super.getSession().update(pai)
 					}
 				} else {
-					if (pai.isEmAndamento()) {
-						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.DOING))
-					} else {
-						pai.setKanbanStatus((KanbanStatus) getSession().get(KanbanStatus.class, KanbanStatus.TO_DO))
+					if (!pai.isEmAndamento()) {
+						pai.setKanbanStatus(pai.projeto.getEtapaToDo())
 					}
 					pai.setDataDePronto(null)
 				}
@@ -240,9 +238,14 @@ public class TicketDao extends DaoHibernate {
 			if (ticket.getDataDeCriacao() == null) {
 				ticket.setDataDeCriacao(new Date())
 			}
+
 			
+			if (ticket.getKanbanStatus() == null && ticket.projeto != null) {
+				ticket.kanbanStatus = ticket.projeto.getEtapaToDo()
+			}
+						
 			// Se o status for pronto tem que ter data de pronto.
-			if (ticket.getKanbanStatus().isFim() && ticket.getDataDePronto() == null) {
+			if (ticket.getKanbanStatus() != null && ticket.getKanbanStatus().isFim() && ticket.getDataDePronto() == null) {
 				ticket.setDataDePronto(new Date())
 			}
 			

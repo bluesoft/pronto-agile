@@ -16,5 +16,10 @@ class ProjetoDao extends DaoHibernate {
 		String hql = "from Projeto as p order by p.nome"
 		return getSession().createQuery(hql).list()
 	}
+	
+	List<Projeto> listarProjetosComSprintsAtivos() {
+		String hql = "select distinct p from Projeto as p inner join fetch p.sprints s where s.fechado != true order by p.nome, s.nome"
+		return getSession().createQuery(hql).list()
+	}
 }
 

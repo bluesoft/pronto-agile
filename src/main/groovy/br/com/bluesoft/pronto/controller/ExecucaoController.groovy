@@ -1,28 +1,24 @@
 package br.com.bluesoft.pronto.controller
 
+import static org.springframework.web.bind.annotation.RequestMethod.*
+
 import java.util.Date
 import java.util.List
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseBody
 
-import br.com.bluesoft.pronto.SegurancaException
 import br.com.bluesoft.pronto.core.Papel
 import br.com.bluesoft.pronto.dao.BancoDeDadosDao
 import br.com.bluesoft.pronto.dao.ExecucaoDao
-import br.com.bluesoft.pronto.dao.KanbanStatusDao;
-import br.com.bluesoft.pronto.model.BancoDeDados
+import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.ProjetoDao
 import br.com.bluesoft.pronto.model.Execucao
 import br.com.bluesoft.pronto.service.Seguranca
-
-import com.google.common.collect.Lists
-import static org.springframework.web.bind.annotation.RequestMethod.*
 
 @Controller
 @RequestMapping("/execucoes")
@@ -33,6 +29,7 @@ class ExecucaoController {
 	
 	@Autowired BancoDeDadosDao bancoDeDadosDao
 	@Autowired ExecucaoDao execucaoDao
+	@Autowired ProjetoDao projetoDao
 	@Autowired private KanbanStatusDao kanbanStatusDao
 	
 	@RequestMapping(method = GET)
@@ -72,6 +69,7 @@ class ExecucaoController {
 		model.addAttribute "pendentes", pendentes == null ? true : pendentes
 		model.addAttribute "bancoDeDadosKey", bancoDeDadosKey
 		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
+		model.addAttribute "projetos", projetoDao.listarProjetosComSprintsAtivos()
 		model.addAttribute "kanbanStatusKey", kanbanStatusKey
 		
 		VIEW_LISTAR

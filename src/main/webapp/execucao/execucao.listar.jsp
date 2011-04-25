@@ -86,13 +86,14 @@
 					<option value="false" ${!pendentes ? 'selected="selected"' : ''}>Todos</option>
 				</select>
 				Status:
-				<select name="kanbanStatusKey" id="kanbanStatusKey" onchange="reload()">
-					<option value="0">Todos</option>
-					<optgroup label="---">
-					<c:forEach items="${kanbanStatus}" var="item">
-						<option value="${item.kanbanStatusKey}"  ${item.kanbanStatusKey eq kanbanStatusKey ? 'selected="selected"' : ''}>${item.descricao}</option>
+				<select name="kanbanStatusKey" onchange="reload()"  id="kanbanStatusKey" >
+					<option value="0" selected="selected">Todos</option>
+					<c:forEach items="${projetos}" var="projeto">
+						<optgroup label="${projeto.nome}"></optgroup>
+						<c:forEach items="${projeto.etapasDoKanban}" var="item">
+							<option value="${item.kanbanStatusKey}" ${item.kanbanStatusKey eq kanbanStatusKey ? 'selected="selected"' : ''}>${item.descricao}</option>
+						</c:forEach>
 					</c:forEach>
-					</optgroup>
 				</select>
 			</form>
 		</div>

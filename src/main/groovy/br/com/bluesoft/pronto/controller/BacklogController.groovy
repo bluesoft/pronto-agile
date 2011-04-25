@@ -1,41 +1,41 @@
 package br.com.bluesoft.pronto.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import br.com.bluesoft.pronto.model.Classificacao;
-import br.com.bluesoft.pronto.model.Sprint;
-import br.com.bluesoft.pronto.model.Categoria;
-import br.com.bluesoft.pronto.model.Ticket;
-import br.com.bluesoft.pronto.model.TicketOrdem;
-import br.com.bluesoft.pronto.service.Seguranca;
 import static org.springframework.web.bind.annotation.RequestMethod.*
-import br.com.bluesoft.pronto.core.Backlog;
-import br.com.bluesoft.pronto.core.Papel;
-import br.com.bluesoft.pronto.core.TipoDeTicket;
-import br.com.bluesoft.pronto.dao.BacklogDao;
-import br.com.bluesoft.pronto.dao.ClienteDao;
-import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
-import br.com.bluesoft.pronto.dao.KanbanStatusDao;
-import br.com.bluesoft.pronto.dao.CategoriaDao;
-import br.com.bluesoft.pronto.dao.SprintDao;
-import br.com.bluesoft.pronto.dao.TicketDao;
-import br.com.bluesoft.pronto.dao.TipoDeTicketDao;
-import br.com.bluesoft.pronto.dao.UsuarioDao;
+
+import java.util.List
+import java.util.Map
+
+import org.hibernate.SessionFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody
+
+import br.com.bluesoft.pronto.core.Backlog
+import br.com.bluesoft.pronto.core.Papel
+import br.com.bluesoft.pronto.core.TipoDeTicket
+import br.com.bluesoft.pronto.dao.BacklogDao
+import br.com.bluesoft.pronto.dao.CategoriaDao
+import br.com.bluesoft.pronto.dao.ClienteDao
+import br.com.bluesoft.pronto.dao.ConfiguracaoDao
+import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.ProjetoDao
+import br.com.bluesoft.pronto.dao.SprintDao
+import br.com.bluesoft.pronto.dao.TicketDao
+import br.com.bluesoft.pronto.dao.TipoDeTicketDao
+import br.com.bluesoft.pronto.dao.UsuarioDao
+import br.com.bluesoft.pronto.model.Categoria
+import br.com.bluesoft.pronto.model.Classificacao
+import br.com.bluesoft.pronto.model.Sprint
+import br.com.bluesoft.pronto.model.Ticket
+import br.com.bluesoft.pronto.model.TicketOrdem
+import br.com.bluesoft.pronto.service.Seguranca
+
+import com.google.common.collect.ArrayListMultimap
+import com.google.common.collect.Multimap
 
 @Controller
 @RequestMapping("/backlogs")
@@ -56,6 +56,7 @@ class BacklogController {
 	@Autowired BacklogDao backlogDao
 	@Autowired ConfiguracaoDao configuracaoDao
 	@Autowired CategoriaDao categoriaDao
+	@Autowired ProjetoDao projetoDao
 	
 	@ModelAttribute("categorias")
 	List<Categoria> getCategorias() {
@@ -104,7 +105,7 @@ class BacklogController {
 		model.addAttribute "tarefasSoltas", tarefasSoltas
 		model.addAttribute "backlog", backlogDao.obter(backlogKey)
 		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
-		model.addAttribute "sprintsEmAberto", sprintDao.listarSprintsEmAberto()
+		model.addAttribute "projetos", projetoDao.listarProjetosComSprintsAtivos()
 		
 		model.addAttribute "valorDeNegocioTotal", getValorDeNegocioTotal(tickets)
 		model.addAttribute "esforcoTotal", getEsforcoTotal(tickets)
@@ -124,7 +125,7 @@ class BacklogController {
 		def tickets = ticketDao.listarEstoriasEDefeitosPorSprint(sprintKey, categoriaKey, tipoDeTicketKey, kanbanStatusKey)
 		model.addAttribute "tickets", tickets
 		model.addAttribute "sprint", sprintDao.obter(sprintKey)
-		model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
+		model.addAttribute "projetos", projetoDao.listarProjetosComSprintsAtivos()
 		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
 		
 		model.addAttribute "valorDeNegocioTotal", getValorDeNegocioTotal(tickets)

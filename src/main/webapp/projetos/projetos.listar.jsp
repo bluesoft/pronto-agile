@@ -17,7 +17,7 @@
 				<c:forEach items="${projetos}" var="c">
 					<tr>
 						<td>
-							${c.nome}
+							<a onclick="goTo('${raiz}projetos/${c.projetoKey}')" class="link">${c.nome}</a>
 						</td>
 						<c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner}">
 							<td>

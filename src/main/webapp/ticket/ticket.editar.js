@@ -214,6 +214,8 @@ function alterarTamanhoPara(tamanho) {
 function filtrarEtapas(){
 	var projetoKey = $('#projetoKey').val();
 	var $first = null;
+	var $anterior = null;
+	var kanbanStatusAnterior = $('#kanbanStatusAnterior').val();
 	$('#kanbanStatusKey').find('option').each(function(i,el){
 		var $el = $(el);
 		if ($el.attr('projetoKey') == projetoKey) {
@@ -222,11 +224,17 @@ function filtrarEtapas(){
 			if ($first == null) { 
 				$first = $el; 
 			}
+			if ($el.val() == kanbanStatusAnterior) {
+				$anterior = $el; 		
+			}
 		} else {
 			$el.hide();
 			$el.attr('disabled','disabled');			
 		}
-		if ($first) {
+		
+		if ($anterior) {
+			$anterior.attr('selected','selected');
+		} else if ($first) {
 			$first.attr('selected','selected');
 		}
 	});
