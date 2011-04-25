@@ -28,16 +28,19 @@ $(function() {
 		var key = $li.attr('key');
 		var $descricao = $li.find('.etapa-descricao');
 		var novoNome = prompt("Informe a nova descrição da etapa", $descricao.text());
-		$.post('editarEtapa', {
-			kanbanStatusKey : key,
-			nome : novoNome
-		}, function(salvou) {
-			if (salvou) {
-				$descricao.text(novoNome);
-			} else {
-				alert('Não foi possível editar.');
-			}
-		});
+		
+		if(novoNome != null) {
+			$.post('editarEtapa', {
+				kanbanStatusKey : key,
+				nome : novoNome
+			}, function(salvou) {
+				if (salvou) {
+					$descricao.text(novoNome);
+				} else {
+					alert('Não foi possível editar a etapa.');
+				}
+			});
+		}
 	});
 
 });
