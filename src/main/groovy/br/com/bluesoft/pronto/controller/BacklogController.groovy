@@ -33,6 +33,7 @@ import br.com.bluesoft.pronto.model.Sprint
 import br.com.bluesoft.pronto.model.Ticket
 import br.com.bluesoft.pronto.model.TicketOrdem
 import br.com.bluesoft.pronto.service.Seguranca
+import br.com.bluesoft.pronto.to.TicketFilter;
 
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.Multimap
@@ -175,7 +176,13 @@ class BacklogController {
 			ticketClassificacao = Classificacao.valueOf(classificacao)
 		}
 		
-		def tickets = ticketDao.buscar(null, kanbanStatusKey, clienteKey, ticketOrdem, ticketClassificacao, null, true)
+		TicketFilter filter = new TicketFilter()
+		filter.kanbanStatusKey = kanbanStatusKey
+		filter.clienteKey = clienteKey
+		filter.ordem = ticketOrdem
+		filter.classificacao = ticketClassificacao
+		filter.ignorarLixeira = true
+		def tickets = ticketDao.buscar(filter)
 		
 		Multimap<String, Ticket> ticketsAgrupados = ArrayListMultimap.create()
 		for ( Ticket ticket : tickets) {

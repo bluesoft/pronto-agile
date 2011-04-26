@@ -30,22 +30,19 @@ $(function() {
 		var novoNome = prompt("Informe a nova descrição da etapa", $descricao.text());
 		
 
-		if(novoNome != null || novoNome != '') {
-			alert("lalalala");
-			alert(novoNome);
+		if(novoNome != null && novoNome.length > 0) {
 			$.post('editarEtapa', {
 				kanbanStatusKey : key,
 				nome : novoNome
 			}, function(salvou) {
-				if (salvou) {
+				if (salvou == "true") {
 					$descricao.text(novoNome);
 				} else {
 					alert('Não foi possível editar a etapa.');
 				}
 			});
-	}
-});
-
+		}
+	});
 });
 
 function incluirEtapa() {
