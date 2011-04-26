@@ -104,9 +104,13 @@ CREATE TABLE projeto (
 	nome varchar(75)
 );
 
+ALTER TABLE projeto OWNER TO pronto;
 alter table ticket add projeto_key integer references projeto;
+
 CREATE INDEX idx_ticket_projeto ON TICKET USING btree (projeto_key);
+
 create sequence SEQ_PROJETO;
+ALTER TABLE SEQ_PROJETO OWNER TO pronto;
 
 
 --2011 04 14
