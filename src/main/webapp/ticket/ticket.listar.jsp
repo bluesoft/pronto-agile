@@ -94,7 +94,7 @@
 			</select>
 			
 			Status: 
-			<select name="kanbanStatusKey" onchange="recarregar(this.value)">
+			<select name="kanbanStatusKey" id="kanbanStatusKey" onchange="recarregarFiltros()">
 				<option value="0" selected="selected">Todos</option>
 				<option value="-1">Pendentes</option>
 				<c:forEach items="${projetos}" var="projeto">
