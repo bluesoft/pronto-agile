@@ -29,7 +29,10 @@ $(function() {
 		var $descricao = $li.find('.etapa-descricao');
 		var novoNome = prompt("Informe a nova descrição da etapa", $descricao.text());
 		
-		if(novoNome != null) {
+
+		if(novoNome != null || novoNome != '') {
+			alert("lalalala");
+			alert(novoNome);
 			$.post('editarEtapa', {
 				kanbanStatusKey : key,
 				nome : novoNome
