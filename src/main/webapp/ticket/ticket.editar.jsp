@@ -655,8 +655,11 @@
 		
 		<div title="Escolha um Projeto e Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
 			<select id="selecionarSprint">
-				<c:forEach items="${sprints}" var="s">
-					<option ${s.atual ? 'selected':''} value="${s.sprintKey}">${s.projeto.nome}/${s.nome} ${s.atual ? '(Atual)' : ''}</option>
+				<c:forEach items="${projetos}" var="projeto">
+					<optgroup label="${projeto.nome}"></optgroup>
+					<c:forEach items="${projeto.sprints}" var="sp">
+						<option ${sprint.sprintKey eq sp.sprintKey ? 'selected="selected"' : ''} value="${sp.sprintKey}">${sp.nome} ${sp.atual ? ' (atual)' : ''} </option>
+					</c:forEach>
 				</c:forEach>			
 			</select>
 			<br/><br/>

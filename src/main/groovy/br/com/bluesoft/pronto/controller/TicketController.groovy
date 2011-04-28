@@ -682,7 +682,6 @@ class TicketController {
 				}
 			}
 			
-			model.addAttribute("sprints", sprintDao.listarSprintsEmAberto())
 			model.addAttribute("ticket", ticket)
 			model.addAttribute("anexos", FileUtil.listarAnexos(String.valueOf(ticketKey)))
 			model.addAttribute "motivosReprovacao", motivoReprovacaoDao.listar()
@@ -720,7 +719,7 @@ class TicketController {
 		model.addAttribute "modulos", moduloDao.listar()
 		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		model.addAttribute "clientes", clienteDao.listar()
-		model.addAttribute "projetos", projetoDao.listar()		
+		model.addAttribute "projetos", projetoDao.listarProjetosComSprintsAtivos()		
 		model.addAttribute "testadores", equipe 
 		model.addAttribute "desenvolvedores", equipe
 		model.addAttribute "causasDeDefeito", causaDeDefeitoDao.listar()
