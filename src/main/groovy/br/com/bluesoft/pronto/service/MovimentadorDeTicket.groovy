@@ -60,7 +60,7 @@ class MovimentadorDeTicket {
 	
 	private void validarCausaDeDefeito(def ticket) {
 		if (ticket.defeito  && !ticket.causaDeDefeito) {
-			throw new ProntoException("Antes de Mover um Defeito para DONE é preciso informar a Causa do Defeito.")
+			throw new ProntoException("Antes de marcar um defeito como resolvido é preciso informar sua causa.")
 		}
 	}
 	
