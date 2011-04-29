@@ -79,14 +79,13 @@ class BuscarController {
 		}
 		model.addAttribute("classificacoes", Classificacao.values())
 		model.addAttribute("ordens", TicketOrdem.values())
-		model.addAttribute("kanbanStatus", kanbanStatusDao.listar())
 		model.addAttribute("clientes", clienteDao.listar())
 		model.addAttribute("usuarios", usuarioDao.listarOrdenadoPorNome())
 		model.addAttribute("categorias", categoriaDao.listar())
 		model.addAttribute("modulos", moduloDao.listar())
 		model.addAttribute("backlogs", backlogDao.listar())
 		model.addAttribute("tiposDeTicket", tipoDeTicketDao.listar())
-		model.addAttribute("projetos", projetoDao.listar())
+		model.addAttribute("projetos", projetoDao.listarProjetosComSprintsAtivos())
 		model.addAttribute("filtro", filtro)
 		
 		"/buscar/buscar.resultado.jsp"

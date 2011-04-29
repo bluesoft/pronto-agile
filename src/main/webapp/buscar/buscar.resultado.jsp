@@ -71,10 +71,6 @@
 			
 			<div class="linha">
 				<div class="opcao">
-					Título:<br/>
-					<input id="query" type="text" name="query" value="${filtro.query}"/>
-				</div>
-				<div class="opcao">
 					Backlog:<br/>
 					<select name="backlogKey"  id="backlogKey">
 						<option value="0" ${filtro.backlogKey eq 0 ? 'selected' : ''}>Todos</option>
@@ -84,16 +80,38 @@
 					</select>
 				</div>
 				<div class="opcao">
+					Projeto:<br/>
+					<select name="projetoKey"  id="projetoKey">
+						<option value="0" ${filtro.projetoKey eq 0 ? 'selected' : ''}>Todos</option>
+						<c:forEach var="m" items="${projetos}">
+							<option value="${m.projetoKey}" ${filtro.projetoKey eq m.projetoKey ? 'selected' : ''}>${m.nome}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="opcao">
 					Sprint:<br/>
 					<input id="sprintNome" type="text" name="sprintNome" value="${filtro.sprintNome}"/>
 				</div>
 				<div class="opcao">
+					Tipo de Ticket:<br/>
+					<select name="tipoDeTicketKey"  id="tipoDeTicketKey">
+						<option value="0" ${filtro.tipoDeTicketKey eq 0 ? 'selected' : ''}>Todos</option>
+						<c:forEach var="m" items="${tiposDeTicket}">
+							<option value="${m.tipoDeTicketKey}" ${filtro.tipoDeTicketKey eq m.tipoDeTicketKey ? 'selected' : ''}>${m.descricao}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="opcao">
 					Status:<br/>
+					
 					<select name="kanbanStatusKey"  id="kanbanStatusKey">
 						<option value="0" ${filtro.kanbanStatusKey eq 0 ? 'selected' : ''}>Todos</option>
 						<option value="-1" ${filtro.kanbanStatusKey eq -1 ? 'selected' : ''}>Pendentes</option>
-						<c:forEach var="k" items="${kanbanStatus}">
-							<option value="${k.kanbanStatusKey}" ${filtro.kanbanStatusKey eq k.kanbanStatusKey ? 'selected' : ''}>${k.descricao}</option>
+						<c:forEach items="${projetos}" var="projeto">
+							<optgroup label="${projeto.nome}"></optgroup>
+							<c:forEach items="${projeto.etapasDoKanban}" var="item">
+								<option value="${item.kanbanStatusKey}" ${filtro.kanbanStatusKey eq item.kanbanStatusKey ? 'selected' : ''}>${item.descricao}</option>
+							</c:forEach>
 						</c:forEach>
 					</select>
 				</div>
@@ -112,22 +130,8 @@
 			</div>
 			<div class="linha">
 				<div class="opcao">
-					Tipo de Ticket:<br/>
-					<select name="tipoDeTicketKey"  id="tipoDeTicketKey">
-						<option value="0" ${filtro.tipoDeTicketKey eq 0 ? 'selected' : ''}>Todos</option>
-						<c:forEach var="m" items="${tiposDeTicket}">
-							<option value="${m.tipoDeTicketKey}" ${filtro.tipoDeTicketKey eq m.tipoDeTicketKey ? 'selected' : ''}>${m.descricao}</option>
-						</c:forEach>
-					</select>
-				</div>
-				<div class="opcao">
-					Projeto:<br/>
-					<select name="projetoKey"  id="projetoKey">
-						<option value="0" ${filtro.projetoKey eq 0 ? 'selected' : ''}>Todos</option>
-						<c:forEach var="m" items="${projetos}">
-							<option value="${m.projetoKey}" ${filtro.projetoKey eq m.projetoKey ? 'selected' : ''}>${m.nome}</option>
-						</c:forEach>
-					</select>
+					Título:<br/>
+					<input id="query" type="text" name="query" value="${filtro.query}"/>
 				</div>
 				<div class="opcao">
 					Módulo:<br/>
