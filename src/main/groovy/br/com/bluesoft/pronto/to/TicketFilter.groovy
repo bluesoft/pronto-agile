@@ -12,6 +12,7 @@ class TicketFilter {
 	String sprintNome
 	Boolean ignorarLixeira
 	Integer tipoDeTicketKey
+	Integer sprintKey
 	Integer backlogKey
 	Integer categoriaKey
 	Integer projetoKey
@@ -43,6 +44,7 @@ class TicketFilter {
 		(clienteKey != null && clienteKey > 0) ||
 		(tipoDeTicketKey != null && tipoDeTicketKey > 0) ||
 		(backlogKey != null && backlogKey > 0) ||
+		(sprintKey != null && sprintKey > 0) ||
 		(categoriaKey != null && categoriaKey > 0) ||
 		(projetoKey != null && projetoKey > 0) ||
 		(moduloKey != null && moduloKey > 0) ||

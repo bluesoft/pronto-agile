@@ -14,7 +14,6 @@ import org.hibernate.Query
 import org.springframework.stereotype.Repository
 
 import br.com.bluesoft.pronto.core.Backlog
-import br.com.bluesoft.pronto.core.KanbanStatus
 import br.com.bluesoft.pronto.core.TipoDeTicket
 import br.com.bluesoft.pronto.model.Classificacao
 import br.com.bluesoft.pronto.model.Sprint
@@ -23,6 +22,8 @@ import br.com.bluesoft.pronto.model.TicketOrdem
 import br.com.bluesoft.pronto.model.Usuario
 import br.com.bluesoft.pronto.service.GeradorDeLogDeTicket
 import br.com.bluesoft.pronto.service.Seguranca
+import br.com.bluesoft.pronto.to.DashboardItem
+import br.com.bluesoft.pronto.to.Entry
 import br.com.bluesoft.pronto.to.ReleaseNote
 import br.com.bluesoft.pronto.to.TicketFilter
 import br.com.bluesoft.pronto.util.DateUtil
@@ -285,6 +286,10 @@ public class TicketDao extends DaoHibernate {
 			hql.append(" and t.cliente.clienteKey = :clienteKey ");
 		}
 		
+		if (filtro.sprintKey != null && filtro.sprintKey > 0) {
+			hql.append(" and t.sprint.sprintKey = :sprintKey ");
+		}
+		
 		if (filtro.sprintNome != null && filtro.sprintNome.length() > 0) {
 			hql.append(" and upper(t.sprint.nome) like :sprintNome ");
 		}
@@ -342,6 +347,10 @@ public class TicketDao extends DaoHibernate {
 		
 		if (filtro.kanbanStatusKey != null && filtro.kanbanStatusKey > 0) {
 			query.setInteger("kanbanStatusKey", filtro.kanbanStatusKey)
+		}
+		
+		if (filtro.sprintKey != null && filtro.sprintKey > 0) {
+			query.setInteger("sprintKey", filtro.sprintKey)
 		}
 		
 		if (filtro.clienteKey != null && filtro.clienteKey > 0) {
@@ -447,16 +456,13 @@ public class TicketDao extends DaoHibernate {
 	}
 	
 	public List<Ticket> listarNaoConcluidosPorSprint(final int sprintKey) {
-		
 		final List<Ticket> ticketsDoSprint = listarPorSprint(sprintKey);
 		final List<Ticket> ticketsNaoConcluidos = new ArrayList<Ticket>();
-		
 		for (final Ticket ticket : ticketsDoSprint) {
-			if (ticket.getKanbanStatus().isFim()) {
+			if (!ticket.getKanbanStatus().isFim()) {
 				ticketsNaoConcluidos.add(ticket);
 			}
 		}
-		
 		return ticketsNaoConcluidos;
 	}
 	
@@ -770,4 +776,46 @@ public class TicketDao extends DaoHibernate {
 			new ReleaseNote(ticketKey:it[0] as Integer, titulo:it[1], dataDePronto: DateUtil.toDate(it[2]), notas:it[3])	
 		}
 	}
+	
+	def listarItensParaDashboard(){
+		def sql = 
+		"""select p.projeto_key, p.nome as projeto, 
+			       b.backlog_key, b.descricao as backlog,
+			       s.sprint_key, s.nome as sprint, 
+			       ks.kanban_status_key, ks.descricao as etapa, ks.ordem,        
+			       count(*)
+			from ticket t
+			left join projeto p on p.projeto_key = t.projeto_key
+			left join backlog b on b.backlog_key = t.backlog_key
+			left join sprint s on s.sprint_key = t.sprint
+			left join kanban_status ks on ks.kanban_status_key = t.kanban_status_key
+			where (t.sprint is null or s.fechado = false)
+			and t.backlog_key != 4
+			group by p.projeto_key, p.nome,          
+			         s.sprint_key, s.nome, 
+			         ks.kanban_status_key, 
+			         ks.descricao, ks.ordem, b.backlog_key, b.descricao
+			order by p.nome, b.descricao, s.nome, ks.ordem
+		"""
+		def query = session.createSQLQuery(sql)
+		def mapa = [:]
+		
+		query.list().collect {
+			def projetoKey = it[0] as Integer
+			def projeto = it[1]
+			def backlogKey = it[2]
+			def backlog = new Entry(it[2],it[3])
+			def sprint = backlogKey == Backlog.SPRINT_BACKLOG ? new Entry(it[4],it[5]) : null
+			def etapa = backlogKey == Backlog.SPRINT_BACKLOG ? new Entry(it[6],it[7]) : null
+			def quantidade = it[9]
+
+			def dashboardItem = mapa[projeto] ? mapa[projeto] : new DashboardItem(projetoKey:projetoKey, projeto:projeto)
+			dashboardItem.mapaPorBacklogESprintEEtapa[backlog] = dashboardItem.mapaPorBacklogESprintEEtapa[backlog] ?: [:] 
+			dashboardItem.mapaPorBacklogESprintEEtapa[backlog][sprint] = dashboardItem.mapaPorBacklogESprintEEtapa[backlog][sprint] ?: [:]
+			dashboardItem.mapaPorBacklogESprintEEtapa[backlog][sprint][etapa] = (dashboardItem.mapaPorBacklogESprintEEtapa[backlog][sprint][etapa] ?: 0) + (quantidade as Integer)
+			mapa[projeto] = dashboardItem 
+		}
+		return mapa.values()
+	}
+	
 }

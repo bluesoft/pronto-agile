@@ -7,6 +7,7 @@
 	    <td class="rootVoice {menu: 'menuCadastros'}" >Cadastros</td>
 	    <td class="rootVoice {menu: 'menuBacklogs'}" >Backlogs</td>
 		<c:if test="${usuarioLogado.administrador or usuarioLogado.scrumMaster or usuarioLogado.productOwner or usuarioLogado.equipe}">
+			<td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}dashboard');">Dashboard</td>
 	   		<td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}kanban');">Kanban</td>
 			<td class="rootVoice {menu: 'empty'}" onclick="goTo('${raiz}sprints');">Sprints</td>
 		</c:if>
