@@ -303,7 +303,6 @@
 			<div align="left" id="dialogDescricao">Aguarde...</div>
 		</div>
 
-		<c:if test="${fn:length(projetos) gt 1}">
 		<div title="Escolha um Sprint" id="dialogSelecionarSprint" style="display: none; width: 500px;">
 			<select id="selecionarSprint">
 				<c:forEach items="${projetos}" var="projeto">
@@ -318,7 +317,6 @@
 			<button onclick="$('#dialogSelecionarSprint').dialog('close');">Cancelar</button>
 			<button onclick="pronto.moverParaSprint($('#ticketKey').val(), $('#selecionarSprint').val(), true)">Mover</button>
 		</div>
-		</c:if>
 		
 		<div style="display: none; width: 500px;">
 			<select id="trocaCategoria" onchange="salvarCategoria(this);" >
