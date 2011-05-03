@@ -17,19 +17,17 @@
 			<span id="meta">Meta: ${sprint.meta}</span>
 		</div>
 		
-		<c:if test="${fn:length(sprints) gt 1}">
-			<div align="right">
-				Sprint: 
-				<form:select path="sprint.sprintKey" onchange="pronto.kanban.recarregar(this.value)">
-					<c:forEach items="${projetos}" var="projeto">
-						<optgroup label="${projeto.nome}"></optgroup>
-						<c:forEach items="${sprints[projeto]}" var="sp">
-							<option ${sprint.sprintKey eq sp.sprintKey ? 'selected="selected"' : ''} value="${sp.sprintKey}">${sp.nome} ${sp.atual ? ' (atual)' : ''} </option>
-						</c:forEach>
+		<div align="right">
+			Sprint: 
+			<form:select path="sprint.sprintKey" onchange="pronto.kanban.recarregar(this.value)">
+				<c:forEach items="${projetos}" var="projeto">
+					<optgroup label="${projeto.nome}"></optgroup>
+					<c:forEach items="${sprints[projeto]}" var="sp">
+						<option ${sprint.sprintKey eq sp.sprintKey ? 'selected="selected"' : ''} value="${sp.sprintKey}">${sp.nome} ${sp.atual ? ' (atual)' : ''} </option>
 					</c:forEach>
-				</form:select>
-			</div>
-		</c:if>
+				</c:forEach>
+			</form:select>
+		</div>
 		
 		<table align="center" style="width: 100%;" id="kanbanTable">
 			<tr>
