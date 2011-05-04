@@ -49,6 +49,16 @@
 						</c:forEach>							
 					</select>
 				</div>
+				
+				<div style="clear: both;">
+					<br/>	
+					Projeto:<br/><br/>
+					<select name="projetoKey" id="projetoKey">
+						<c:forEach var="p" items="${projetos}">
+							<option value="${p.projetoKey}">${p.nome}</option>
+						</c:forEach>							
+					</select>
+				</div>
 			</div>
 
 			<div align="center" class="buttons">

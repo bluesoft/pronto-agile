@@ -4,5 +4,6 @@ class DashboardItem {
 	Integer projetoKey
 	String projeto
 	def mapaPorBacklogESprintEEtapa = [:]
+	def quantidadesPorTipoDeTicket = [:]
 }
 

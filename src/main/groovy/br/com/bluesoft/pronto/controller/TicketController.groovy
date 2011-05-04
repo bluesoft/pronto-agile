@@ -384,15 +384,7 @@ class TicketController {
 		ticket.backlog = backlogDao.obter(Backlog.SPRINT_BACKLOG)
 		ticketDao.salvar(ticket)
 
-		if (ticket.ticketKey > 0 && !ticket.isDone() && configuracaoDao.isZendeskAtivo()) {
-			def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
-			if (zendeskTicketKey) {
-				zendeskService.incluirComentarioPublico(zendeskTicketKey, 'O desenvolvimento deste ticket foi iniciado.')
-			}
-		}
-		
 		return "redirect:/tickets/${ticket.ticketKey}"
-		
 	}
 
 	@RequestMapping("/{ticketKey}/moverParaFuturo")

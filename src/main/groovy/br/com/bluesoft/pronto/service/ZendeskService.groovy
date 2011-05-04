@@ -1,36 +1,26 @@
 package br.com.bluesoft.pronto.service
 
-import javax.annotation.PostConstruct;
+import static groovyx.net.http.ContentType.*
+import static groovyx.net.http.Method.*
+import groovyx.net.http.RESTClient
+import groovyx.net.http.ResponseParseException
+import net.sf.ehcache.CacheManager
+import net.sf.ehcache.Element
 
-import groovyx.net.http.HTTPBuilder;
-import groovyx.net.http.RESTClient;
-import groovyx.net.http.ResponseParseException;
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
-import net.sf.json.util.JSONUtils;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.util.HtmlUtils;
-import org.springframework.web.util.JavaScriptUtils;
-
-import br.com.bluesoft.pronto.core.Backlog;
-import br.com.bluesoft.pronto.core.KanbanStatus;
-import br.com.bluesoft.pronto.core.TipoDeTicket;
-import br.com.bluesoft.pronto.dao.BacklogDao;
-import br.com.bluesoft.pronto.dao.ClienteDao;
-import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
-import br.com.bluesoft.pronto.dao.KanbanStatusDao;
-import br.com.bluesoft.pronto.dao.TicketDao;
-import br.com.bluesoft.pronto.dao.TipoDeTicketDao;
-import br.com.bluesoft.pronto.model.Ticket;
-import br.com.bluesoft.pronto.util.MD5Util;
-import br.com.bluesoft.pronto.util.StringUtil;
-import static groovyx.net.http.ContentType.*;
-import static groovyx.net.http.Method.*;
+import br.com.bluesoft.pronto.core.Backlog
+import br.com.bluesoft.pronto.dao.BacklogDao
+import br.com.bluesoft.pronto.dao.ClienteDao
+import br.com.bluesoft.pronto.dao.ConfiguracaoDao
+import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.ProjetoDao
+import br.com.bluesoft.pronto.dao.TicketDao
+import br.com.bluesoft.pronto.dao.TipoDeTicketDao
+import br.com.bluesoft.pronto.model.Ticket
+import br.com.bluesoft.pronto.util.MD5Util
+import br.com.bluesoft.pronto.util.StringUtil
 
 
 @Service
@@ -39,23 +29,13 @@ class ZendeskService {
 	def mapStatus = ['0':'Novo','1':'Aberto','2':'Pendente','3':'Resolvido','4':'Fechado'] 
 	def mapTipo = ['0':'Indefinido','1':'Pergunta','2':'Incidente','3':'Problema','4':'Tarefa']
 	
-	@Autowired 
-	ConfiguracaoDao configuracaoDao
-	
-	@Autowired 
-	TipoDeTicketDao tipoDeTicketDao
-	
-	@Autowired 
-	ClienteDao clienteDao
-	
-	@Autowired 
-	KanbanStatusDao kanbanStatusDao
-	
-	@Autowired
-	BacklogDao backlogDao  
-	
-	@Autowired
-	TicketDao ticketDao
+	@Autowired ConfiguracaoDao configuracaoDao
+	@Autowired TipoDeTicketDao tipoDeTicketDao
+	@Autowired ClienteDao clienteDao
+	@Autowired KanbanStatusDao kanbanStatusDao
+	@Autowired BacklogDao backlogDao  
+	@Autowired TicketDao ticketDao
+	@Autowired ProjetoDao projetoDao
 	
 	public RESTClient getRESTClient() {
 		RESTClient rest = new RESTClient(configuracaoDao.getZendeskUrl())
@@ -113,13 +93,15 @@ class ZendeskService {
 		}
 	}
 	
-	def criarNovoTicketNoPronto(int zendeskTicketKey, int tipoDeTicketKey, int clienteKey) {
+	def criarNovoTicketNoPronto(int zendeskTicketKey, int tipoDeTicketKey, int clienteKey, int projetoKey) {
 		
 		def zendeskTicket = obterTicket(zendeskTicketKey)
 		def zendeskSolicitador = obterUsuario(zendeskTicket.requester_id)
 		
 		def ticket = new Ticket()
-		ticket.sprint = null 
+		ticket.sprint = null
+		ticket.projeto = projetoDao.proxy(projetoKey)
+		ticket.kanbanStatus = ticket.projeto.getEtapaToDo()
 		ticket.cliente = clienteDao.obter(clienteKey)
 		ticket.tipoDeTicket = tipoDeTicketDao.obter(tipoDeTicketKey)
 		ticket.backlog = backlogDao.obter(Backlog.INBOX)

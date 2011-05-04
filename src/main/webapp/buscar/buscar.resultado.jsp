@@ -163,8 +163,8 @@
 				<div class="opcao">
 					<span title="Excluir Tickets que estão na Lixeira do Resultado da Busca?">Lixeira:</span> <br/>
 					<select name="ignorarLixeira"  id="ignorarLixeira">
-						<option value="false" ${filtro.ignorarLixeira eq false ? 'selected' : ''}>Considerar</option>
 						<option value="true" ${filtro.ignorarLixeira eq true ? 'selected' : ''}>Ignorar</option>
+						<option value="false" ${filtro.ignorarLixeira eq false ? 'selected' : ''}>Considerar</option>
 					</select>
 				</div>
 			</div>

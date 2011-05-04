@@ -788,7 +788,7 @@ public class TicketDao extends DaoHibernate {
 			left join projeto p on p.projeto_key = t.projeto_key
 			left join backlog b on b.backlog_key = t.backlog_key
 			left join sprint s on s.sprint_key = t.sprint
-			left join kanban_status ks on ks.kanban_status_key = t.kanban_status_key
+			full join kanban_status ks on ks.kanban_status_key = t.kanban_status_key
 			where (t.sprint is null or s.fechado = false)
 			and t.backlog_key != 4
 			group by p.projeto_key, p.nome,          
@@ -800,7 +800,7 @@ public class TicketDao extends DaoHibernate {
 		def query = session.createSQLQuery(sql)
 		def mapa = [:]
 		
-		query.list().collect {
+		query.list().each {
 			def projetoKey = it[0] as Integer
 			def projeto = it[1]
 			def backlogKey = it[2]
@@ -815,6 +815,28 @@ public class TicketDao extends DaoHibernate {
 			dashboardItem.mapaPorBacklogESprintEEtapa[backlog][sprint][etapa] = (dashboardItem.mapaPorBacklogESprintEEtapa[backlog][sprint][etapa] ?: 0) + (quantidade as Integer)
 			mapa[projeto] = dashboardItem 
 		}
+		
+		sql = """
+		select p.projeto_key, p.nome, 
+			       tt.tipo_de_ticket_key, tt.descricao,			            
+			       count(*)
+        from ticket t
+        left join projeto p on p.projeto_key = t.projeto_key
+        left join tipo_de_ticket tt on tt.tipo_de_ticket_key = t.tipo_de_ticket_key
+        where t.data_de_pronto is null and t.backlog_key != 4
+        group by p.projeto_key, p.nome, tt.tipo_de_ticket_key, tt.descricao
+		"""
+		query = session.createSQLQuery(sql)
+		query.list().each{
+			def projetoKey = it[0] as Integer
+			def projeto = it[1] 
+			def tipoDeTicket = new Entry(it[2], it[3])
+			def quantidade = it[4]
+			
+			def dashboardItem = mapa[projeto]
+			dashboardItem.quantidadesPorTipoDeTicket[tipoDeTicket] = quantidade
+		}
+		
 		return mapa.values()
 	}
 	
