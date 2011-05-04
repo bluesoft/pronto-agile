@@ -463,13 +463,12 @@
 		<slf4j.version>1.5.10</slf4j.version>
 		<smack.version>3.1.0</smack.version>
 		<smackx.version>3.1.0</smackx.version>
-		<spock.version>0.4-groovy-1.7</spock.version>
+		<spock.version>0.5-groovy-1.8</spock.version>
 		<spring.version>3.0.2.RELEASE</spring.version>
 		<servlet.version>2.4</servlet.version>
 		<http-builder.version>0.5.0-RC2</http-builder.version>
 		<directory>target</directory>
 	</properties>
-
 	<repositories>
 		<repository>
 			<id>info-bliki-repository</id>
@@ -486,5 +485,4 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
-
 </project>
