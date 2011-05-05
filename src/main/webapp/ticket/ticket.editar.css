@@ -113,3 +113,16 @@ html>body #listaTarefas li {
 	width: 100%;
 	cursor: pointer !important;
 }
+
+.checklist {
+	display: block;
+	margin-top: 15px;
+}
+
+.checklist .title {
+	font-weight: bold;
+}
+
+#iconIncluirChecklist {
+	float: right;
+}

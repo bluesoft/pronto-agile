@@ -440,6 +440,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>${cglib.version}</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<properties>
@@ -456,15 +463,15 @@
 		<jsp.version>2.0</jsp.version>
 		<junit.version>4.7</junit.version>
 		<jsonlib.version>2.3</jsonlib.version>
-		<groovy.version>1.8.0</groovy.version>
+		<groovy.version>1.7.5</groovy.version>
 		<groovy-xmlrpc.version>0.7</groovy-xmlrpc.version>
 		<rome.version>1.0</rome.version>
 		<sitemesh.version>2.2.1</sitemesh.version>
 		<slf4j.version>1.5.10</slf4j.version>
 		<smack.version>3.1.0</smack.version>
 		<smackx.version>3.1.0</smackx.version>
-		<spock.version>0.5-groovy-1.8</spock.version>
-		<spring.version>3.0.2.RELEASE</spring.version>
+		<spock.version>0.5-groovy-1.7</spock.version>
+		<spring.version>3.0.5.RELEASE</spring.version>
 		<servlet.version>2.4</servlet.version>
 		<http-builder.version>0.5.0-RC2</http-builder.version>
 		<directory>target</directory>

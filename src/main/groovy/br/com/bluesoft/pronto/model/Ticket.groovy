@@ -32,9 +32,6 @@ import br.com.bluesoft.pronto.core.TipoDeTicket
 import br.com.bluesoft.pronto.service.Seguranca
 import br.com.bluesoft.pronto.service.WikiFormatter
 
-import com.google.common.collect.HashMultiset
-import com.google.common.collect.Multiset
-
 @Entity
 @SequenceGenerator(name = "SEQ_TICKET", sequenceName = "SEQ_TICKET")
 class Ticket {
@@ -122,6 +119,9 @@ class Ticket {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="ticket")
 	List<MovimentoKanban> movimentosDeKanban
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="ticket")
+	List<Checklist> checklists
 	
 	@Auditable
 	@Label("valor de negócio")

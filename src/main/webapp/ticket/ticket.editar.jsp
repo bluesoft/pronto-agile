@@ -42,6 +42,7 @@
 					<li><a href="#tarefas">Tarefas (${fn:length(ticket.filhosProntos)} / ${fn:length(ticket.filhos)})</a></li>
 				</c:if>
 				<c:if test="${ticket.ticketKey gt 0}">
+					<li><a href="#checklists">Checklists (${fn:length(ticket.checklists)})</a></li>
 					<li><a href="#comentarios">Comentários (${fn:length(ticket.comentarios)})</a></li>
 					<li><a href="#anexos">Anexos (${fn:length(anexos)})</a></li>
 					<c:if test="${zendeskTicket ne null}">
@@ -558,6 +559,11 @@
 			</c:if>
 			
 			<c:if test="${ticket.ticketKey gt 0}">
+			
+			<div id="checklists">
+				<%@ include file="ticket.checklists.jsp" %>
+			</div>
+			
 			<div id="comentarios">
 				<%@ include file="ticket.comentarios.jsp" %>
 			</div>

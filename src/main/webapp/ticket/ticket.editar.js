@@ -240,8 +240,69 @@ function filtrarEtapas(){
 	});
 }
 
+function incluirChecklist(){
+	var nome = prompt('Informe o nome do checklist.');
+	$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists', {
+		nome:nome
+	}, function(checklistKey) {
+		var span = '<span class="title">'+nome+'</span>';
+		var input = '<ul></ul><input type="text" class="addChecklistItem" checklistKey="'+checklistKey+'"/>';
+		var html = '<div class="checklist" id="checklist-'+checklistKey+'">' + span + input + '<hr/></div>';
+		$('#checklistsArea').append(html);
+	});
+}
+
+function incluirItemNoChecklist(checklistKey, descricao){
+	$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists/'+checklistKey, {
+		descricao:descricao
+	}, function(checklistItemKey) {
+		$('#checklist-'+checklistKey).find('ul').append('<li class="checklistItem" checklistItemKey="'+checklistItemKey+'"><input type="checkbox">'+descricao+'</li>');
+	});
+}
+
+
+function eventoDeIncluirItemNoChecklist() {
+	$('.addChecklistItem').live('keypress', function(event) {
+		if (event.keyCode == '13') {
+			     event.preventDefault();
+			     $campo = $(event.target);
+			     var checklistKey = $campo.attr('checklistKey');
+			     incluirItemNoChecklist(checklistKey, $campo.val());
+			     $campo.val('');
+		   }
+	});
+	
+	$('.checklistItem').live('click', function(event){
+		event.preventDefault();
+		$campo = $(event.target);
+		var checklistItemKey = $campo.attr('checklistItemKey');
+	    toogleChecklistItem(checklistItemKey);
+	});
+}
+
+function excluirChecklist(checklistKey) {
+	$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists/'+checklistKey, {
+		_method: 'DELETE'
+	}, function(resposta) {
+		$('#checklist-'+checklistKey).remove();
+	});
+}
+
+function toogleChecklistItem(checklistItemKey) {
+	$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists/0/'+checklistItemKey, {
+	}, function(resposta) {
+		var $item = $('input[checklistItemKey='+checklistItemKey+']');
+		if (resposta) {
+			$item.attr('checked', 'checked');
+		} else {
+			$item.removeAttr('checked');
+		}
+	});
+}
+
 $(function(){
 	$("#motivoReprovacaoDiv").hide();
 	filtrarEtapas();
+	eventoDeIncluirItemNoChecklist();
 });
 

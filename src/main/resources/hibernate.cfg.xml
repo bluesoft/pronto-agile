@@ -44,6 +44,9 @@
 
 		<mapping class="br.com.bluesoft.pronto.model.Retrospectiva" />
 		<mapping class="br.com.bluesoft.pronto.model.RetrospectivaItem" />
+		
+		<mapping class="br.com.bluesoft.pronto.model.Checklist" />
+		<mapping class="br.com.bluesoft.pronto.model.ChecklistItem" />
 
 		<mapping class="br.com.bluesoft.pronto.model.BancoDeDados" />
 		<mapping class="br.com.bluesoft.pronto.model.Script" />

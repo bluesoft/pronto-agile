@@ -142,3 +142,23 @@ alter table kanban_status drop column fixo;
 alter table kanban_status drop constraint kanban_status_ordem_key;
 update kanban_status set inicio = true where kanban_status_key = 1;
 update kanban_status set fim = true where kanban_status_key = 100;
+
+--2011 05 05
+create sequence SEQ_CHECKLIST;
+create sequence SEQ_CHECKLIST_ITEM;
+
+create table checklist (
+	checklist_key integer primary key,
+	nome varchar(75),
+	ticket_key integer references ticket not null
+);
+
+create table checklist_item (
+	checklist_item_key integer primary key,
+	checklist_key integer references checklist not null,
+	descricao varchar(120) not null,
+	marcado boolean default false NOT NULL
+);
+
+CREATE INDEX idx_checklist_ticket ON checklist USING btree (ticket_key);
+CREATE INDEX idx_checklist_item_checklist ON checklist_item USING btree (checklist_key);
