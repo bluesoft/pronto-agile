@@ -126,3 +126,8 @@ html>body #listaTarefas li {
 #iconIncluirChecklist {
 	float: right;
 }
+
+.checklist .ui-icon-close {
+	cursor: pointer;
+	display: inline-block;
+}

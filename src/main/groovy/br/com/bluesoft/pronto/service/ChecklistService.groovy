@@ -51,4 +51,9 @@ class ChecklistService {
 		checklistDao.salvarItem(item)
 		return item.marcado
 	}
+	
+	def removerItem(checklistItemKey, nome) {
+		def item = checklistDao.excluirItem(checklistItemKey)
+		return item
+	}
 }

@@ -486,11 +486,31 @@ class Ticket {
 	
 	def getComentaristas() {
 		def comentaristas = [] as Set
-	
 		this.getComentarios().each { TicketComentario comentario ->
 			comentaristas.add comentario.usuario
 		}
-
 		return comentaristas
+	}
+	
+	def getQuantidadeDeCheckListItemsNaoMarcados() {
+		def quantidade = 0
+		this.checklists.each {
+			it.itens.each {
+				if (!it.marcado) {
+					quantidade++
+				}
+			}	
+		}	
+		return quantidade
+	}
+	
+	def getQuantidadeDeCheckListItems() {
+		def quantidade = 0
+		this.checklists.each {
+			it.itens.each {
+					quantidade++
+			}
+		}
+		return quantidade
 	}
 }

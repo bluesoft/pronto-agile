@@ -10,7 +10,11 @@
 			</span>
 			<ul>
 				<c:forEach items="${checklist.itens}" var="item">
-					<li><input ${item.marcado ? 'checked="checked"' : ''} class="checklistItem" type="checkbox" checklistItemKey="${item.checklistItemKey}"/> ${item.descricao}</li>
+					<li id="checklistItem-${item.checklistItemKey}">
+						<input ${item.marcado ? 'checked="checked"' : ''} class="checklistItem" type="checkbox" checklistItemKey="${item.checklistItemKey}"/> 
+						${item.descricao}
+						<span class="excluirChecklistItem ui-icon ui-icon-close"></span>
+					</li>
 				</c:forEach>
 			</ul>
 			<input type="text" class="addChecklistItem" checklistKey="${checklist.checklistKey}"/>

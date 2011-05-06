@@ -51,7 +51,8 @@ class MovimentadorDeTicket {
 	
 	private void validacoesDePronto(ticket, status) {
 		if (status.isFim()){
-			validarCausaDeDefeito(ticket) 
+			validarCausaDeDefeito(ticket)
+			validarChecklists(ticket) 
 			ticket.dataDePronto = new Date()
 		} else {
 			ticket.dataDePronto = null
@@ -61,6 +62,13 @@ class MovimentadorDeTicket {
 	private void validarCausaDeDefeito(def ticket) {
 		if (ticket.defeito  && !ticket.causaDeDefeito) {
 			throw new ProntoException("Antes de marcar um defeito como resolvido é preciso informar sua causa.")
+		}
+	}
+	
+	private void validarChecklists(def ticket) {
+		def itensNaoMarcados = ticket.getQuantidadeDeCheckListItemsNaoMarcados()
+		if (itensNaoMarcados > 0) {
+			throw new ProntoException("Não é possível fechar o ticket porque há itens no checklist que não forma marcados.")
 		}
 	}
 	

@@ -229,8 +229,6 @@ class TicketController {
 			definirDesenvolvedores(ticket, desenvolvedor)
 			definirTestadores(ticket, testador)
 
-			ticketDao.salvar(ticket)
-
 			if (!isNovo) {
 				if (kanbanStatusAnterior != null && !kanbanStatusAnterior.equals(ticket.getKanbanStatus().getKanbanStatusKey())) {
 					if (motivoReprovacaoKey != null && motivoReprovacaoKey > 0) {
@@ -863,4 +861,11 @@ class TicketController {
 	def marcarChecklist(@PathVariable int ticketKey, @PathVariable int checklistKey, @PathVariable int checklistItemKey) {
 		return checklistService.toogleItem(checklistItemKey)
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/{ticketKey}/checklists/{checklistKey}/{checklistItemKey}", method=DELETE)
+	def removerChecklistItem(@PathVariable int ticketKey, @PathVariable int checklistKey, @PathVariable int checklistItemKey, String nome) {
+		return checklistService.removerItem(checklistItemKey, nome)
+	}
+	
 }

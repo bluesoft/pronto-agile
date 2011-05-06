@@ -253,10 +253,13 @@ function incluirChecklist(){
 }
 
 function incluirItemNoChecklist(checklistKey, descricao){
+	if (descricao == null || descricao.length == 0) {
+		return;
+	}
 	$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists/'+checklistKey, {
 		descricao:descricao
 	}, function(checklistItemKey) {
-		$('#checklist-'+checklistKey).find('ul').append('<li class="checklistItem" checklistItemKey="'+checklistItemKey+'"><input type="checkbox">'+descricao+'</li>');
+		$('#checklist-'+checklistKey).find('ul').append('<li id="checklistItem-'+checklistItemKey+'"><input class="checklistItem" checklistItemKey="'+checklistItemKey+'" type="checkbox">'+descricao+'<span class="excluirChecklistItem ui-icon ui-icon-close"></span></li>');
 	});
 }
 
@@ -278,6 +281,11 @@ function eventoDeIncluirItemNoChecklist() {
 		var checklistItemKey = $campo.attr('checklistItemKey');
 	    toogleChecklistItem(checklistItemKey);
 	});
+	
+	$('.excluirChecklistItem').live('click',function(event){
+		var checklistItemKey = $(event.target).parents('li').find('input').attr('checklistItemKey');
+		excluirChecklistItem(checklistItemKey);
+	});
 }
 
 function excluirChecklist(checklistKey) {
@@ -297,6 +305,14 @@ function toogleChecklistItem(checklistItemKey) {
 		} else {
 			$item.removeAttr('checked');
 		}
+	});
+}
+
+function excluirChecklistItem(checklistItemKey) {
+	$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists/0/'+checklistItemKey, {
+		_method: 'DELETE'
+	}, function(resposta) {
+		$('#checklistItem-'+checklistItemKey).remove();
 	});
 }
 

@@ -18,6 +18,13 @@ class ChecklistDao extends DaoHibernate {
 	}
 
 	ChecklistItem salvarItem(ChecklistItem item) {
-		return getSession().saveOrUpdate(item)
+		getSession().saveOrUpdate(item)
+		getSession().flush()
+		return item
+	}
+	
+	void excluirItem(checklistItemKey) {
+		getSession().delete(obterItem(checklistItemKey))
+		getSession().flush()
 	}
 }
