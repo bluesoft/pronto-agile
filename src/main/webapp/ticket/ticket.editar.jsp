@@ -42,7 +42,7 @@
 					<li><a href="#tarefas">Tarefas (${fn:length(ticket.filhosProntos)} / ${fn:length(ticket.filhos)})</a></li>
 				</c:if>
 				<c:if test="${ticket.ticketKey gt 0}">
-					<li><a href="#checklists">Checklists (${ticket.quantidadeDeCheckListItemsNaoMarcados}/${ticket.quantidadeDeCheckListItems})</a></li>
+					<li><a href="#checklists">Checklists (${ticket.quantidadeDeCheckListItemsNaoMarcados})</a></li>
 					<li><a href="#comentarios">Comentários (${fn:length(ticket.comentarios)})</a></li>
 					<li><a href="#anexos">Anexos (${fn:length(anexos)})</a></li>
 					<c:if test="${zendeskTicket ne null}">

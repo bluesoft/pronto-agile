@@ -66,7 +66,7 @@ class MovimentadorDeTicket {
 	}
 	
 	private void validarChecklists(def ticket) {
-		def itensNaoMarcados = ticket.getQuantidadeDeCheckListItemsNaoMarcados()
+		def itensNaoMarcados = ticketDao.obterQuantidadeDeChecklistItemsNaoMarcadosPorTicket(ticket.ticketKey)
 		if (itensNaoMarcados > 0) {
 			throw new ProntoException("Não é possível fechar o ticket porque há itens no checklist que não forma marcados.")
 		}

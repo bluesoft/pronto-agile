@@ -777,6 +777,11 @@ public class TicketDao extends DaoHibernate {
 		}
 	}
 	
+	public obterQuantidadeDeChecklistItemsNaoMarcadosPorTicket(int ticketKey) {
+		def hql = 'select count(*) from ChecklistItem cli inner join cli.checklist cl where cl.ticket.ticketKey = :ticketKey and cli.marcado = false'
+		return session.createQuery(hql).setInteger('ticketKey',ticketKey).uniqueResult() as Integer
+	}
+	
 	def listarItensParaDashboard(){
 		def sql = 
 		"""select p.projeto_key, p.nome as projeto, 

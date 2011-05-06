@@ -228,7 +228,8 @@ class TicketController {
 			ticket.setReporter(usuarioDao.obter(ticket.getReporter().getUsername()))
 			definirDesenvolvedores(ticket, desenvolvedor)
 			definirTestadores(ticket, testador)
-
+			ticketDao.salvar(ticket)
+			
 			if (!isNovo) {
 				if (kanbanStatusAnterior != null && !kanbanStatusAnterior.equals(ticket.getKanbanStatus().getKanbanStatusKey())) {
 					if (motivoReprovacaoKey != null && motivoReprovacaoKey > 0) {
