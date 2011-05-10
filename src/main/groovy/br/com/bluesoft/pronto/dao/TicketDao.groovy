@@ -18,6 +18,7 @@ import br.com.bluesoft.pronto.core.TipoDeTicket
 import br.com.bluesoft.pronto.model.Classificacao
 import br.com.bluesoft.pronto.model.Sprint
 import br.com.bluesoft.pronto.model.Ticket
+import br.com.bluesoft.pronto.model.TicketComentario
 import br.com.bluesoft.pronto.model.TicketOrdem
 import br.com.bluesoft.pronto.model.Usuario
 import br.com.bluesoft.pronto.service.GeradorDeLogDeTicket
@@ -36,13 +37,13 @@ public class TicketDao extends DaoHibernate {
 		
 		final StringBuilder hql = new StringBuilder();
 		hql.append("select distinct t from Ticket t ");
-		hql.append("left join fetch t.sprint ");
-		hql.append("left join fetch t.pai ");
-		hql.append("left join fetch t.tipoDeTicket ");
-		hql.append("left join fetch t.backlog ");
-		hql.append("left join fetch t.kanbanStatus ");
-		hql.append("left join fetch t.reporter ");
-		hql.append("where t.ticketKey = :ticketKey");
+		hql.append("left join fetch t.sprint        ");
+		hql.append("left join fetch t.pai           ");
+		hql.append("left join fetch t.tipoDeTicket  ");
+		hql.append("left join fetch t.backlog       ");
+		hql.append("left join fetch t.kanbanStatus  ");
+		hql.append("left join fetch t.reporter      ");
+		hql.append("where t.ticketKey = :ticketKey  ");
 		
 		return (Ticket) getSession().createQuery(hql.toString()).setInteger("ticketKey", ticketKey).uniqueResult();
 	}
@@ -649,6 +650,11 @@ public class TicketDao extends DaoHibernate {
 		builder.append(" where t.filhos is empty  and t.branch is not null and t.branch != 'master' and t.branch != ''");
 		builder.append(" order by t.branch, t.titulo");
 		return getSession().createQuery(builder.toString()).list();
+	}
+	
+	public List<TicketComentario> listarUltimosComentarios(int quantos) {
+		String hql = " from TicketComentario tc order by tc.data desc "
+		return getSession().createQuery(hql).setMaxResults(quantos).list()
 	}
 	
 	public List<Ticket> listarPorCliente(final int clienteKey) {

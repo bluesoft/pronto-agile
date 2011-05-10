@@ -16,7 +16,11 @@ public class MovimentoKanbanDao extends DaoHibernate {
 	}
 	
 	List<MovimentoKanban> listarUltimosMovimentos(){
+		listarUltimosMovimentos(10)
+	}
+	
+	List<MovimentoKanban> listarUltimosMovimentos(int quantos){
 		def hql = "from MovimentoKanban mk inner join fetch mk.kanbanStatus order by mk.data"
-		return getSession().createQuery(hql).setMaxResults(10).list()
+		return getSession().createQuery(hql).setMaxResults(quantos).list()
 	}
 }
