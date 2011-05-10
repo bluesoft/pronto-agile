@@ -8,6 +8,7 @@
 			float: left;
 			padding-right: 25px;
 			padding-bottom: 15px;
+			cursor: pointer;
 		}
 		
 		.stream-item {
@@ -72,7 +73,7 @@
 			<c:forEach items="${stream}" var="item">
 				<div class="htmlbox stream-item" style="position: relative;">
 					<div class="stream-data"><fmt:formatDate value="${item.data}" type="both"/></div>
-					<div class="stream-person">
+					<div class="stream-person" onclick="goTo('${raiz}stream/${item.usuario.username}')" title="Clique para ver o stream deste usuário.">
 						<div class="person">
 							<img alt="Gravatar" align="left" src="http://www.gravatar.com/avatar/${item.usuario.emailMd5}?s=50"/>
 							<div class="person_name">${item.usuario.username}</div>
