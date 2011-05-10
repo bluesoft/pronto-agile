@@ -39,32 +39,55 @@
 			font-size: inherit;
 		}
 		
+		#usuarios {
+			float: right;
+		}
+		
+		#stream {
+			clear: both;
+			margin-top: 5px;
+		}	 
+		
 		</style>
 	</head>
 	<body>
+
+		<div id="usuarios">
+			Stream:
+			<select onchange="goTo(this.value)">
+				<option value="${raiz}stream">Tudo</option>
+				<c:forEach items="${usuarios}" var="usuario">
+					<option ${username eq usuario.username ? 'selected="selected"' : ''}  value="${raiz}stream/${usuario.username}">${usuario.username}</option>
+				</c:forEach>
+			</select>
+		</div>
+			
 		<h1>
 			Stream
 			<%@ include file="/commons/sprintLinks.jsp" %>
 		</h1>
 
-		<c:forEach items="${stream}" var="item">
-			<div class="htmlbox stream-item" style="position: relative;">
-				<div class="stream-data"><fmt:formatDate value="${item.data}" type="both"/></div>
-				<div class="stream-person">
-					<div class="person">
-						<img alt="Gravatar" align="left" src="http://www.gravatar.com/avatar/${item.usuario.emailMd5}?s=50"/>
-						<div class="person_name">${item.usuario.username}</div>
+		
+		<div id="stream">
+			<c:forEach items="${stream}" var="item">
+				<div class="htmlbox stream-item" style="position: relative;">
+					<div class="stream-data"><fmt:formatDate value="${item.data}" type="both"/></div>
+					<div class="stream-person">
+						<div class="person">
+							<img alt="Gravatar" align="left" src="http://www.gravatar.com/avatar/${item.usuario.emailMd5}?s=50"/>
+							<div class="person_name">${item.usuario.username}</div>
+						</div>
+					</div>
+					<div class="stream-ticket">
+						<a href="${raiz}tickets/${item.ticket.ticketKey}">#${item.ticket.ticketKey} - ${item.ticket.titulo}</a>
+					</div>
+					<div class="stream-html">
+						${item.mensagem}
 					</div>
 				</div>
-				<div class="stream-ticket">
-					<a href="${raiz}tickets/${item.ticket.ticketKey}">#${item.ticket.ticketKey} - ${item.ticket.titulo}</a>
-				</div>
-				<div class="stream-html">
-					${item.mensagem}
-				</div>
-			</div>
-		</c:forEach>
+			</c:forEach>
 		<br/>
+		</div>
 
 	</body>
 </html>

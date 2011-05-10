@@ -653,8 +653,20 @@ public class TicketDao extends DaoHibernate {
 	}
 	
 	public List<TicketComentario> listarUltimosComentarios(int quantos) {
-		String hql = " from TicketComentario tc order by tc.data desc "
-		return getSession().createQuery(hql).setMaxResults(quantos).list()
+		return listarUltimosComentarios(quantos, null)
+	}
+	
+	public List<TicketComentario> listarUltimosComentarios(int quantos, String username) {
+		String hql = " from TicketComentario tc"
+		if (username) {
+			hql+= " where tc.usuario.username = :username"
+		}
+		hql+= " order by tc.data desc "
+		def query = getSession().createQuery(hql).setMaxResults(quantos)
+		if (username) {
+			query.setString "username", username
+		}
+		return query.list()
 	}
 	
 	public List<Ticket> listarPorCliente(final int clienteKey) {
