@@ -123,9 +123,6 @@ html>body #listaTarefas li {
 	font-weight: bold;
 }
 
-#iconIncluirChecklist {
-	float: right;
-}
 
 .checklist .ui-icon-close {
 	cursor: pointer;

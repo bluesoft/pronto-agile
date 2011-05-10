@@ -1,5 +1,9 @@
 <%@ include file="/commons/taglibs.jsp"%>
-<pronto:icons name="adicionar.png" title="Incluir um novo Checklist" onclick="incluirChecklist();" id="iconIncluirChecklist"/>
+<div>
+	<h5>Checklist
+		<pronto:icons name="adicionar.png" title="Incluir novo Checklist" onclick="incluirChecklist();" id="iconIncluirChecklist"/>
+	</h5>
+</div>
 
 <div id="checklistsArea">
 	<c:forEach items="${ticket.checklists}" var="checklist">
