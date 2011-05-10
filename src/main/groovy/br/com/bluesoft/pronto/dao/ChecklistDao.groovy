@@ -27,4 +27,8 @@ class ChecklistDao extends DaoHibernate {
 		getSession().delete(obterItem(checklistItemKey))
 		getSession().flush()
 	}
+	
+	def listarModelos() {
+		getSession().createQuery("from Checklist cl where cl.ticket is null order by cl.nome").list()
+	}
 }

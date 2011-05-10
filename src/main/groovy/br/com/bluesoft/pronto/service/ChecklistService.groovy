@@ -29,6 +29,16 @@ class ChecklistService {
 			throw new Exception("Informe o nome da checklist");
 		}
 	}
+	
+	@Transactional
+	Checklist criarChecklistComBaseEmModelo(int ticketKey, int modeloKey) {
+		def modelo = this.obter(modeloKey)
+		def checklist = criarChecklist(ticketKey, modelo.nome)
+		modelo.itens.each {
+			incluirItem(checklist.checklistKey, it.descricao)
+		}
+		return checklist
+	}
 
 	@Transactional
 	ChecklistItem incluirItem(int checklistKey, String descricaoDoItem) {
@@ -45,6 +55,11 @@ class ChecklistService {
 	}
 	
 	@Transactional
+	void salvar(def checklist) {
+		checklistDao.salvar(checklist)
+	}
+	
+	@Transactional
 	boolean toogleItem(int checklistItemKey) {
 		def item = checklistDao.obterItem(checklistItemKey)
 		item.toogle()
@@ -52,8 +67,16 @@ class ChecklistService {
 		return item.marcado
 	}
 	
-	def removerItem(checklistItemKey, nome) {
+	def removerItem(checklistItemKey) {
 		def item = checklistDao.excluirItem(checklistItemKey)
 		return item
+	}
+	
+	Checklist obter(int checklistKey) {
+		checklistDao.obter checklistKey
+	}
+	
+	def listarModelos() {
+		checklistDao.listarModelos()
 	}
 }

@@ -1,3 +1,5 @@
+var modelos = null;
+
 function alterarDesenvolvedores(icone) {
 	$('.desenvolvedor').css('display', 'inline');
 	$(icone).hide();
@@ -150,7 +152,6 @@ function excluirTicketDeOrigem(ticketKey) {
 }
 
 function escolherSprintParaMover(ticketKey) {
-
 	if ($('#selecionarSprint').find('option').length == 1){
 		pronto.moverParaSprintAtual(ticketKey,false);
 	} else {
@@ -248,11 +249,49 @@ function incluirChecklist(){
 	$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists', {
 		nome:nome
 	}, function(checklistKey) {
-		var span = '<span class="title">'+nome+'</span>';
-		var input = '<ul></ul><input type="text" class="addChecklistItem" checklistKey="'+checklistKey+'"/>';
-		var html = '<div class="checklist" id="checklist-'+checklistKey+'">' + span + input + '<hr/></div>';
-		$('#checklistsArea').append(html);
+		incluirChecklistHtml(checklistKey, nome);
 	});
+}
+
+function incluirChecklistHtml(checklistKey, nome) {
+	var span = '<span class="title">'+nome+'</span>';
+	var input = '<ul></ul><input type="text" class="addChecklistItem" checklistKey="'+checklistKey+'"/>';
+	var html = '<div class="checklist" id="checklist-'+checklistKey+'">' + span + input + '<hr/></div>';
+	$('#checklistsArea').append(html);
+}
+
+function exibirModelosDeChecklist() {
+	loadModelos();
+	var $div = $("#dialogSelecionarModelo");
+	$div.find('button').button();
+	var $dialog = $div.dialog();
+	$dialog.dialog('open');
+}
+
+function incluirChecklistComBaseEmModelo() {
+	var modeloKey = $('#modelosDeChecklist').val();
+	$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists/modelo/'+modeloKey, function(checklist) {
+		incluirChecklistHtml(checklist.checklistKey, checklist.nome);
+		$.each(checklist.itens, function(index, item){
+			incluirItemNoChecklistHtml(checklist.checklistKey, item.checklistItemKey, item.descricao);
+		});
+	});
+	$("#dialogSelecionarModelo").dialog('close');
+}
+
+function loadModelos() {
+	var modelos = $('#modelosDeChecklist');
+	if (modelos.find('option').length == 0) {
+		$.ajax({
+				url: pronto.raiz+'checklists/modelos',
+				async:false,
+				success: function(m) {
+					$.each(m, function(i, modelo){
+						modelos.append('<option value="'+modelo.checklistKey+'">'+modelo.nome+'</option>');
+					});
+				}
+		});
+	}
 }
 
 function incluirItemNoChecklist(checklistKey, descricao){
@@ -262,10 +301,13 @@ function incluirItemNoChecklist(checklistKey, descricao){
 	$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists/'+checklistKey, {
 		descricao:descricao
 	}, function(checklistItemKey) {
-		$('#checklist-'+checklistKey).find('ul').append('<li id="checklistItem-'+checklistItemKey+'"><input class="checklistItem" checklistItemKey="'+checklistItemKey+'" type="checkbox">'+descricao+'<span class="excluirChecklistItem ui-icon ui-icon-close"></span></li>');
+		incluirItemNoChecklistHtml(checklistKey, checklistItemKey, descricao);
 	});
 }
 
+function incluirItemNoChecklistHtml(checklistKey, checklistItemKey, descricao) {
+	$('#checklist-'+checklistKey).find('ul').append('<li id="checklistItem-'+checklistItemKey+'"><input class="checklistItem" checklistItemKey="'+checklistItemKey+'" type="checkbox">'+descricao+'<span class="excluirChecklistItem ui-icon ui-icon-close" item="Excluir item do checklist"></span></li>');
+}
 
 function eventoDeIncluirItemNoChecklist() {
 	$('.addChecklistItem').live('keypress', function(event) {

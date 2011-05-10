@@ -22,7 +22,7 @@ class ChecklistItem {
 
 	String descricao
 
-	boolean marcado
+	Boolean marcado
 	
 	def toogle() {
 		 this.marcado = !marcado

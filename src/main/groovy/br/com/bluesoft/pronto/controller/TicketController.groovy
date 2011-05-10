@@ -52,6 +52,7 @@ import br.com.bluesoft.pronto.dao.SprintDao
 import br.com.bluesoft.pronto.dao.TicketDao
 import br.com.bluesoft.pronto.dao.TipoDeTicketDao
 import br.com.bluesoft.pronto.dao.UsuarioDao
+import br.com.bluesoft.pronto.model.ChecklistItem
 import br.com.bluesoft.pronto.model.Sprint
 import br.com.bluesoft.pronto.model.Ticket
 import br.com.bluesoft.pronto.model.TicketLog
@@ -845,9 +846,28 @@ class TicketController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/{ticketKey}/checklists/modelo/{modelo}", method=POST)
+	def incluirChecklistComBaseEmModelo(@PathVariable int ticketKey, @PathVariable int modelo) {
+		def checklist = checklistService.criarChecklistComBaseEmModelo(ticketKey, modelo)
+		return [
+			checklistKey: checklist.checklistKey,
+			nome: checklist.nome,
+			itens: checklist.itens.collect { ChecklistItem item ->
+				return [checklistItemKey: item.checklistItemKey, descricao: item.descricao]
+			}
+		]
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/{ticketKey}/checklists/{checklistKey}", method=POST)
 	def incluirItemNoChecklist(@PathVariable int ticketKey, @PathVariable int checklistKey, String descricao) {
 		checklistService.incluirItem(checklistKey, descricao).checklistItemKey
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/{ticketKey}/checklists/{checklistKey}/{checklistItemKey}", method=DELETE)
+	def removerChecklistItem(@PathVariable int ticketKey, @PathVariable int checklistKey, @PathVariable int checklistItemKey) {
+		return checklistService.removerItem(checklistItemKey)
 	}
 	
 	@ResponseBody
@@ -861,12 +881,6 @@ class TicketController {
 	@RequestMapping(value="/{ticketKey}/checklists/{checklistKey}/{checklistItemKey}", method=POST)
 	def marcarChecklist(@PathVariable int ticketKey, @PathVariable int checklistKey, @PathVariable int checklistItemKey) {
 		return checklistService.toogleItem(checklistItemKey)
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/{ticketKey}/checklists/{checklistKey}/{checklistItemKey}", method=DELETE)
-	def removerChecklistItem(@PathVariable int ticketKey, @PathVariable int checklistKey, @PathVariable int checklistItemKey, String nome) {
-		return checklistService.removerItem(checklistItemKey, nome)
 	}
 	
 }

@@ -2,6 +2,7 @@
 <div>
 	<h5>Checklist
 		<pronto:icons name="adicionar.png" title="Incluir novo Checklist" onclick="incluirChecklist();" id="iconIncluirChecklist"/>
+		<pronto:icons name="incluir_checklist_com_base_no_modelo.png" title="Incluir Checklist com base em Modelo" onclick="exibirModelosDeChecklist();" id="iconIncluirChecklist"/>
 	</h5>
 </div>
 
@@ -25,4 +26,13 @@
 			<hr/>
 		</div>
 	</c:forEach>
+</div>
+
+<div id="dialogSelecionarModelo" style="display: none;">
+	Escolha um Modelo:
+	<select id="modelosDeChecklist">
+	</select>
+	<br/><br/>
+	<button onclick="$('#dialogSelecionarModelo').dialog('close');">Cancelar</button>
+	<button onclick="incluirChecklistComBaseEmModelo()">Incluir</button>
 </div>

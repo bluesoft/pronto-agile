@@ -35,6 +35,9 @@
 	<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">
 		<li><a img="reprovacao.png" href="${raiz}motivosReprovacao">Motivos De Reprovação</a></li>
 	</c:if>
+	<c:if test="${usuarioLogado.administrador or usuarioLogado.equipe}">
+		<a img="checklist.png" href="${raiz}checklists">Checklists</a>
+	</c:if>
 	<a img="usuarios.png" href="${raiz}usuarios">Usuários</a>
     <a rel="separator"></a>
 </div>

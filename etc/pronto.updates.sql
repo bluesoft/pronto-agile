@@ -162,3 +162,6 @@ create table checklist_item (
 
 CREATE INDEX idx_checklist_ticket ON checklist USING btree (ticket_key);
 CREATE INDEX idx_checklist_item_checklist ON checklist_item USING btree (checklist_key);
+
+--2011 05 10
+alter table checklist alter column ticket_key drop not null;
