@@ -242,6 +242,9 @@ function filtrarEtapas(){
 
 function incluirChecklist(){
 	var nome = prompt('Informe o nome do checklist.');
+	if (nome == null || nome.length == 0) {
+		return;
+	}
 	$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists', {
 		nome:nome
 	}, function(checklistKey) {
@@ -289,11 +292,13 @@ function eventoDeIncluirItemNoChecklist() {
 }
 
 function excluirChecklist(checklistKey) {
-	$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists/'+checklistKey, {
-		_method: 'DELETE'
-	}, function(resposta) {
-		$('#checklist-'+checklistKey).remove();
-	});
+	if (confirm('Tem certeza que deseja excluir o checklist?')) {
+		$.post(pronto.raiz+'tickets/'+ticketKey+'/checklists/'+checklistKey, {
+			_method: 'DELETE'
+		}, function(resposta) {
+			$('#checklist-'+checklistKey).remove();
+		});
+	}
 }
 
 function toogleChecklistItem(checklistItemKey) {
