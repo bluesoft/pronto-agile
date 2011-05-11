@@ -18,7 +18,7 @@
 				<c:forEach items="${categorias}" var="c">
 					<tr>
 						<td>
-							<span class="categoria categoria-${c.descricaoDaCor}">
+							<span class="categoria categoria-${c.cor}">
 								${c.descricao}
 							</span>
 						</td>

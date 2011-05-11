@@ -81,6 +81,16 @@ textarea.mono,.ui-widget textarea.mono,textarea.markItUpEditor {
 	background-color:rgb(49, 133, 197);
 }
 
+.categoria-azul_oceano {
+	color:white;
+	background-color:rgb(0, 64, 128);
+}
+
+.categoria-azul_sky {
+	color:white;
+	background-color:rgb(102, 204, 255);
+}
+
 .categoria-laranja {
 	color:white;
 	background-color:rgb(245, 92, 0);
@@ -99,6 +109,46 @@ textarea.mono,.ui-widget textarea.mono,textarea.markItUpEditor {
 .categoria-preto {
 	color:white;
 	background-color:rgb(0, 0, 0);
+}
+
+.categoria-branco {
+	color:black;
+	background-color:white;
+}
+
+.categoria-amarelo {
+	color:black;
+	background-color:rgb(255,255,0);
+}
+
+.categoria-amarelo_banana {
+	color:black;
+	background-color:rgb(255,255,150);
+}
+
+.categoria-rosa_choque {
+	color:black;
+	background-color:rgb(255,0,128);
+}
+
+.categoria-moca {
+	color:white;
+	background-color:rgb(128,64,0);
+}
+
+.categoria-aspargo {
+	color:white;
+	background-color:rgb(128,128,0);
+}
+
+.categoria-verde_primavera {
+	color:black;
+	background-color:rgb(0,255,0);
+}
+
+.categoria-verde_agua {
+	color:black;
+	background-color:rgb(170,255,170);
 }
 
 option.nenhuma {
