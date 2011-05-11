@@ -128,7 +128,7 @@
 						
 						<td ondblclick="trocarCategoria(this)" title="Dê um duplo clique para alterar a categoria" categoriaKey="${t.categoria ne null ? t.categoria.categoriaKey : 0}">
 							<c:if test="${t.categoria ne null}">
-								<span class="categoria categoria-${t.categoria.descricaoDaCor}">
+								<span class="categoria categoria-${t.categoria.cor}">
 									${t.categoria.descricao}
 								</span>
 							</c:if>
@@ -184,7 +184,7 @@
 							<tr class="${cor ? 'odd' : 'even'}" id="${f.ticketKey}" pai="${t.ticketKey}">
 								<td ondblclick="trocarCategoria(this)" title="Dê um duplo clique para alterar a categoria" categoriaKey="${f.categoria ne null ? f.categoria.categoriaKey : 0}">
 									<c:if test="${f.categoria ne null}">
-										<span class="categoria categoria-${f.categoria.descricaoDaCor}">
+										<span class="categoria categoria-${f.categoria.cor}">
 											${f.categoria.descricao}
 										</span>
 									</c:if>
@@ -322,7 +322,7 @@
 			<select id="trocaCategoria" onchange="salvarCategoria(this);" >
 				<option value="0" class="nenhuma">Nenhuma</option>
 				<c:forEach items="${categorias}" var="c">
-					<option value="${c.categoriaKey}" categoriaClass="categoria-${c.descricaoDaCor}">${c.descricao}</option>
+					<option value="${c.categoriaKey}" categoriaClass="categoria-${c.cor}">${c.descricao}</option>
 				</c:forEach>			
 			</select>
 		</div>
