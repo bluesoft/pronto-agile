@@ -236,7 +236,7 @@
 					<tr class="${cor ? 'odd' : 'even'}" id="${s.ticketKey}" pai="${s.pai.ticketKey}" categoriaKey="${s.categoria ne null ? s.categoria.categoriaKey : 0}">
 						<td ondblclick="trocarCategoria(this)" title="Dê um duplo clique para alterar a categoria">
 							<c:if test="${s.categoria ne null}">
-								<span class="categoria categoria-${s.categoria.descricaoDaCor}">
+								<span class="categoria categoria-${s.categoria.cor}">
 									${s.categoria.descricao}
 								</span>
 							</c:if>
