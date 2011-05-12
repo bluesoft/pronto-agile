@@ -23,10 +23,10 @@
 						</td>
 						<c:if test="${usuarioLogado.equipe or usuarioLogado.administrador}">
 							<td>
-								<pronto:icons name="editar.png" title="Editar" onclick="goTo('${raiz}checklists/${c.checklistKey}')"/>
+								<pronto:icons name="editar.png" title="Editar Checklist" onclick="goTo('${raiz}checklists/${c.checklistKey}')"/>
 							</td>
 							<td>
-								<pronto:icons name="excluir.png" title="Excluir" onclick="pronto.doDelete('${raiz}checklists/${c.checklistKey}')"/>
+								<pronto:icons name="excluir.png" title="Excluir Checklist" onclick="pronto.doDelete('${raiz}checklists/${c.checklistKey}')"/>
 							</td>
 						</c:if>
 					</tr>

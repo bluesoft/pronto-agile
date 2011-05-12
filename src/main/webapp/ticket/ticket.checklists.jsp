@@ -2,7 +2,7 @@
 <div>
 	<h5>Checklist
 		<pronto:icons name="adicionar.png" title="Incluir novo Checklist" onclick="incluirChecklist();" id="iconIncluirChecklist"/>
-		<pronto:icons name="incluir_checklist_com_base_no_modelo.png" title="Incluir Checklist com base em Modelo" onclick="exibirModelosDeChecklist();" id="iconIncluirChecklist"/>
+		<pronto:icons name="incluir_checklist_com_base_no_modelo.png" title="Incluir Checklist com base em um Modelo" onclick="exibirModelosDeChecklist();" id="iconIncluirChecklist"/>
 	</h5>
 </div>
 
@@ -22,7 +22,8 @@
 					</li>
 				</c:forEach>
 			</ul>
-			<input type="text" class="addChecklistItem" checklistKey="${checklist.checklistKey}" maxlength="120"/>
+			<input type="text" class="addChecklistItem" checklistKey="${checklist.checklistKey}" maxlength="120" size="40" title="Insira a descrição do item e pressione ENTER para salvá-lo"/>
+				 <font size="2"><p>Incluir Item - </font><font size="1"><i>Insira a descrição do item e pressione ENTER para salvá-lo</i></p></font>
 			<hr/>
 		</div>
 	</c:forEach>
