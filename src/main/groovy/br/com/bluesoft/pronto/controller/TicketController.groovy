@@ -131,7 +131,9 @@ class TicketController {
 		ticketDao.salvar ticket
 		tx.commit()
 
-		jabberMessageService.enviarComentario ticketKey, comentario, usuarioDao.listar(notificar)
+		if (notificar && notificar.size() > 0) {
+			jabberMessageService.enviarComentario ticketKey, comentario, usuarioDao.listar(notificar)
+		}
 
 		return "redirect:/tickets/${ticketKey}#comentarios"
 	}
