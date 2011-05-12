@@ -1,47 +1,38 @@
 package br.com.bluesoft.pronto.service
 
-import java.awt.Color;
+import javax.annotation.PostConstruct
+import javax.annotation.PreDestroy
 
-import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
+import org.jivesoftware.smack.Chat
+import org.jivesoftware.smack.ChatManager
+import org.jivesoftware.smack.ConnectionConfiguration
+import org.jivesoftware.smack.MessageListener
+import org.jivesoftware.smack.XMPPConnection
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import br.com.bluesoft.pronto.model.MovimentoKanban;
-import br.com.bluesoft.pronto.model.Usuario;
-import br.com.bluesoft.pronto.web.servlet.StartupListener;
-
-import org.springframework.stereotype.Service;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-
-import org.jivesoftware.smack.Chat 
-import org.jivesoftware.smack.ChatManager 
-import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.MessageListener 
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.packet.Message 
-import org.jivesoftware.smackx.XHTMLText;
+import br.com.bluesoft.pronto.dao.ConfiguracaoDao
+import br.com.bluesoft.pronto.model.MovimentoKanban
+import br.com.bluesoft.pronto.model.Usuario
 
 @Service
 class JabberMessageService {
 	
 	@Autowired ConfiguracaoDao configuracaoDao
+	@Autowired ProntoMessageListener prontoMessageListener 
+	@Autowired ProntoChatListener prontoChatListener 
 	
 	XMPPConnection connection 
-	MessageListener listener
 	
 	@PostConstruct
-	void init(){
-		listener = new MessageListener() {
-					void processMessage(Chat chat, Message message) {
-					}
-				}
+	void init() {
+		connect()
 	}
 	
 	boolean enviarComentario(int ticketKey, String comentario, def to) {
 		if (configuracaoDao.isJabberAtivo()) {
 			def url = configuracaoDao.getProntoUrl() + "tickets/${ticketKey}"
-			def msg = "${Seguranca.usuario} incluiu um comentário no ticket #${ticketKey}: ${comentario} - ${url}"
+			def msg = "<${Seguranca.usuario}>: ${comentario} \n\n${url}"
 			return this.enviarMensagem(msg, to)
 		}
 		return false
@@ -50,7 +41,7 @@ class JabberMessageService {
 	boolean notificarMovimentacao(MovimentoKanban movimento) {
 		if (configuracaoDao.isJabberAtivo()) {
 			def url = configuracaoDao.getProntoUrl() + "tickets/${movimento.ticket.ticketKey}"
-			def msg = "${Seguranca.usuario} moveu o ticket #${movimento.ticket.ticketKey} para ${movimento.kanbanStatus.descricao} - ${url}"
+			def msg = "${Seguranca.usuario} moveu o ticket #${movimento.ticket.ticketKey} para ${movimento.kanbanStatus.descricao}\n${url}"
 			return this.enviarMensagem(msg, movimento.ticket.envolvidos)
 		}
 		return false
@@ -63,7 +54,7 @@ class JabberMessageService {
 				ChatManager chatmanager = connection.getChatManager();
 				to.each { Usuario usuario ->
 					if (usuario.hasJabber()) {
-						Chat newChat = chatmanager.createChat(usuario.jabberUsername, listener)
+						Chat newChat = chatmanager.createChat(usuario.jabberUsername, prontoMessageListener)
 						newChat.sendMessage(msg);
 					}
 				}
@@ -85,6 +76,7 @@ class JabberMessageService {
 				this.connection = new XMPPConnection(config);
 				this.connection.connect()
 				this.connection.login(configuracaoDao.getJabberUserName(), configuracaoDao.getJabberPassword())
+				connection.getChatManager().addChatListener(prontoChatListener)
 			}
 		}
 	}

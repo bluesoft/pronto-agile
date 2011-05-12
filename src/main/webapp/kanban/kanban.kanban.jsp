@@ -62,7 +62,7 @@
 													<c:set var="tipo" value="story"/>
 												</c:otherwise>
 											</c:choose>
-                                              <li id="${t.ticketKey}" kanbanStatus="${t.kanbanStatus.kanbanStatusKey}" class="ticket ui-corner-tr ${tipo}" ondblclick="pronto.kanban.openTicket(${t.ticketKey});" title="${t.titulo}">
+                                              <li id="${t.ticketKey}" kanbanStatus="${t.kanbanStatus.kanbanStatusKey}" class="ticket ui-corner-tr  ${t.categoria ne null ? 'categoria-' : ''}${t.categoria ne null ? t.categoria.cor : tipo}" ondblclick="pronto.kanban.openTicket(${t.ticketKey});" title="${t.titulo}">
                                                   <p><span class="ticketKey">
                                                   	<c:if test="${t.impedido}">
 														<pronto:icons name="impedimento.png" title="Impedido" clazz="ticket-icon"/>                                                  

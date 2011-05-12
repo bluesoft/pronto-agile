@@ -127,3 +127,7 @@ html>body #listaTarefas li {
 	cursor: pointer;
 	display: inline-block;
 }
+
+.buttons {
+	clear: both;
+}

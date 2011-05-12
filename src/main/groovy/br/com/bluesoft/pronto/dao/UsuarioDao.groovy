@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import br.com.bluesoft.pronto.core.Papel;
@@ -69,5 +70,9 @@ public class UsuarioDao extends DaoHibernate {
 	@Override
 	public List<Usuario> listarOrdenadoPorNome() {
 		return getSession().createCriteria(Usuario.class).addOrder(Order.asc("nome")).list();
+	}
+	
+	List<Usuario> listar(def usernames) {
+		return this.getSession().createCriteria(clazz).add(Restrictions.in('username', usernames)).list()
 	}
 }

@@ -121,7 +121,7 @@ class TicketController {
 	}
 
 	@RequestMapping(value='/{ticketKey}/comentarios', method=[POST, PUT])
-	String incluirComentario(@PathVariable int ticketKey, String comentario){
+	String incluirComentario(@PathVariable int ticketKey, String comentario, String[] notificar){
 
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 
@@ -131,7 +131,7 @@ class TicketController {
 		ticketDao.salvar ticket
 		tx.commit()
 
-		jabberMessageService.enviarComentario ticketKey, comentario, ticket.envolvidos
+		jabberMessageService.enviarComentario ticketKey, comentario, usuarioDao.listar(notificar)
 
 		return "redirect:/tickets/${ticketKey}#comentarios"
 	}
@@ -536,6 +536,12 @@ class TicketController {
 		ticket.addLogDeExclusao 'anexo', file
 		ticketDao.salvar ticket
 
+		return "redirect:/tickets/${ticketKey}"
+	}
+	
+	@RequestMapping(value = "/{ticketKey}/comentarios/{ticketComentarioKey}", method=DELETE)
+	String excluirComentario(@PathVariable int ticketKey, @PathVariable int ticketComentarioKey)  {
+		Ticket ticket = ticketDao.excluirComentario(ticketComentarioKey)
 		return "redirect:/tickets/${ticketKey}"
 	}
 

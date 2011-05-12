@@ -13,22 +13,22 @@ function alterarTestadores(icone) {
 function toogleDesenvolvedor(username) {
 	var $imagem = $('#dev_img_' + username);
 	var $campo = $('#dev_chk_' + username);
-
-	if ($imagem.hasClass('ativo')) {
-		$imagem.removeClass('ativo');
-		$imagem.addClass('inativo');
-		$campo.removeAttr('checked');
-	} else {
-		$imagem.removeClass('inativo');
-		$imagem.addClass('ativo');
-		$campo.attr('checked', 'checked');
-	}
+	tooglePerson($imagem, $campo);
 }
 
 function toogleTestador(username) {
 	var $imagem = $('#tes_img_' + username);
 	var $campo = $('#tes_chk_' + username);
+	tooglePerson($imagem, $campo);
+}
 
+function toogleNotificar(username) {
+	var $imagem = $('#notificar_img_' + username);
+	var $campo = $('#notificar_chk_' + username);
+	tooglePerson($imagem, $campo);
+}
+
+function tooglePerson($imagem, $campo) {
 	if ($imagem.hasClass('ativo')) {
 		$imagem.removeClass('ativo');
 		$imagem.addClass('inativo');

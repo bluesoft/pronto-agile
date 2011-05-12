@@ -33,6 +33,7 @@ class DaoHibernate {
 	List listar() {
 		return this.getSession().createCriteria(clazz).list()
 	}
+	
 
 	void salvar(Object... ts) {
 		for (final Object t : ts) {

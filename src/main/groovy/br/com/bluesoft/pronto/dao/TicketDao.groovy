@@ -862,5 +862,10 @@ public class TicketDao extends DaoHibernate {
 		
 		return mapa.values()
 	}
-	
+
+	void excluirComentario(int ticketComentarioKey) {
+		def comentario = session.get(TicketComentario.class, ticketComentarioKey)
+		session.delete(comentario)
+		session.flush()
+	}	
 }
