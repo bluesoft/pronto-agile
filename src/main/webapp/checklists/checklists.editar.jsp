@@ -71,10 +71,13 @@
 						</li>
 					</c:forEach>
 				</ul>
-				<div>
-					<input type="text" class="addChecklistItem" checklistKey="${checklist.checklistKey}" maxlength="120" size="60"/>
-					<p>Incluir Item</p>
-				</div>
+				
+				<c:if test="${checklist.checklistKey gt 0}">
+					<div>
+						<input type="text" class="addChecklistItem" checklistKey="${checklist.checklistKey}" maxlength="120" size="60" title="Insira a descrição do item e pressione ENTER para salvá-lo"/>
+						<p>Incluir Item - <i>Insira a descrição do item e pressione ENTER para salvá-lo</i></p>
+					</div>
+				</c:if>
 				
 				<input type="text" name="avoidSubmitOnEnter" style="display: none;"/>
 			</div>

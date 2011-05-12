@@ -51,8 +51,9 @@ class ChecklistController {
 	@RequestMapping(method=POST)
 	String salvar(Model model, Checklist checklist) {
 		Seguranca.validarPermissao Papel.EQUIPE
+		boolean novo = (checklist.checklistKey == null || checklist.checklistKey == 0) 
 		checklistService.salvar checklist
-		"redirect:/checklists?message=Salvo com Sucesso"
+		return (!novo ? "redirect:/checklists" : "redirect:/checklists/${checklist.checklistKey}") + '?mensagem=Salvo com Sucesso'
 	}
 	
 	@ResponseBody
