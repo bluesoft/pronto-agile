@@ -33,6 +33,8 @@ create database pronto owner pronto;
 \i pronto-demo.sql 
 \q
 
+É importante certificar-se de que todos os objetos criados no banco pertençam ao usuário pronto.
+
 7. Pronto, é só executar:
 mvn jetty:start
 
