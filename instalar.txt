@@ -2,19 +2,29 @@ O Pronto utiliza o Banco de Dados PostgreSQL.
 
 Para instalar siga as seguintes instruções:
 
-1. Faça download do projeto através do git hub:
+1. Instale o Java 6.0 ou mais recente
+http://www.java.com (o comando java deverá estar disponível na linha de comando - path)
+
+Para saber mais sobre o que é path leia http://vlaurie.com/computers2/Articles/environment.htm se você usa windows ou http://www.vivaolinux.com.br/artigo/O-que-e-PATH-como-funciona-e-como-trabalhar-com-ele se você usa linux.
+
+2. Instale o Maven 3 ou mais recente.
+http://maven.apache.org
+
+O comando mvn deverá estar disponível no path também.
+
+3. Faça download do projeto através do git hub:
 git clone git://github.com/andrefaria/pronto-agile.git
 
 (se você usar windows, pode fazer o download em zip na url: https://github.com/andrefaria/pronto-agile/zipball/master)
 
-2. Faça o download e instale o PostgreSQL para o seu sistema operacional em:
+4. Faça o download e instale o PostgreSQL para o seu sistema operacional em:
 >> http://www.postgresql.org/download/
 
-3. Execute o postgres apartir do raiz (este) com o usuário e senha padrão:
+5. Execute o postgres apartir do raiz (este) com o usuário e senha padrão:
 >> ex: psql postgres postgres;
 Obs: O nome do aplicativo pode ser psql, psql83, psql84, etc, de acordo com a instalação.
 
-4. Execute os seguintes comandos para criação do banco de dados.
+6. Execute os seguintes comandos para criação do banco de dados.
 create role pronto with login password 'pronto';
 create database pronto owner pronto;
 \c pronto pronto
@@ -23,10 +33,10 @@ create database pronto owner pronto;
 \i pronto-demo.sql 
 \q
 
-5. Pronto, é só executar:
+7. Pronto, é só executar:
 mvn jetty:start
 
-6. Acesse em http://localhost:8080/pronto-agile/
+8. Acesse em http://localhost:8080/pronto-agile ou http://127.0.0.1:8080/pronto-agile
 
 Utilizar os usuários:
 ---------------------------------------------------
@@ -38,5 +48,5 @@ Utilizar os usuários:
 |Cliente 		| cliente 	| cliente |
 ---------------------------------------------------
 
-7. Para Parar
+8. Para Parar
 mvn jetty:stop
