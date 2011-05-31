@@ -20,11 +20,13 @@
  * Gestão de Impedimentos.
  * Gestão de Branches e Integração de código.
 ---------------------------------------------------------------------
+ Instalação
+---------------------------------------------------------------------
+ Leia o arquivo instalar.txt
+---------------------------------------------------------------------
  Mudanças de Banco de Dados
 ---------------------------------------------------------------------
  O script de inicialização do projeto em etc/pronto.sql e as
  alterações seguintes estão no arquivo etc/pronto.updates.sql com sua
  data específica de mudança.
 ---------------------------------------------------------------------
-
-Leia o arquivo instalar.txt para mais informações sobre como por o pronto para rodar.
