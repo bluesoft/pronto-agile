@@ -5,6 +5,8 @@ Para instalar siga as seguintes instruções:
 1. Faça download do projeto através do git hub:
 git clone git://github.com/andrefaria/pronto-agile.git
 
+(se você usar windows, pode fazer o download em zip na url: https://github.com/andrefaria/pronto-agile/zipball/master)
+
 2. Faça o download e instale o PostgreSQL para o seu sistema operacional em:
 >> http://www.postgresql.org/download/
 
