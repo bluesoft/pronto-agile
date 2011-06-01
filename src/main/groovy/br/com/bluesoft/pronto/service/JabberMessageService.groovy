@@ -26,7 +26,9 @@ class JabberMessageService {
 	
 	@PostConstruct
 	void init() {
-		connect()
+		try {
+			connect()
+		} catch(java.lang.RuntimeException e) {}
 	}
 	
 	boolean enviarComentario(int ticketKey, String comentario, def to) {
