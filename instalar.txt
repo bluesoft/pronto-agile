@@ -20,7 +20,7 @@ git clone git://github.com/andrefaria/pronto-agile.git
 4. Faça o download e instale o PostgreSQL para o seu sistema operacional em:
 >> http://www.postgresql.org/download/
 
-5. Execute o postgres apartir do raiz (este) com o usuário e senha padrão:
+5. Execute o postgres apartir da pasta etc (que contém os scripts) com o usuário e senha padrão:
 >> ex: psql postgres postgres;
 Obs: O nome do aplicativo pode ser psql, psql83, psql84, etc, de acordo com a instalação.
 
@@ -37,6 +37,7 @@ create database pronto owner pronto;
 
 7. Pronto, é só executar:
 mvn jetty:start
+obs: da pasta raiz do projeto (a mesma que contém o arquivo pom.xml)
 
 8. Acesse em http://localhost:8080/pronto-agile ou http://127.0.0.1:8080/pronto-agile
 
@@ -52,3 +53,4 @@ Utilizar os usuários:
 
 8. Para Parar
 mvn jetty:stop
+obs: da pasta raiz do projeto (a mesma que contém o arquivo pom.xml)
