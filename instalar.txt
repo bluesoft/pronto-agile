@@ -35,6 +35,8 @@ create database pronto owner pronto;
 
 É importante certificar-se de que todos os objetos criados no banco pertençam ao usuário pronto.
 
+Caso você preferir usar o banco de dados em uma outra máquina, ou trocar o nome de usuário e senha, altere o arquivo src/main/webapp/WEB-INF/jetty-env.xml.
+
 7. Pronto, é só executar:
 mvn jetty:start
 obs: da pasta raiz do projeto (a mesma que contém o arquivo pom.xml)
