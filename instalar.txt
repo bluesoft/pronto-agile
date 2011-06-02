@@ -1,35 +1,48 @@
-O Pronto utiliza o Banco de Dados PostgreSQL.
-
+=====================================================================================================
+  Pronto Agile - INSTALAÇÃO PASSO-A-PASSO
+=====================================================================================================
 Para instalar siga as seguintes instruções:
 
+=====================================================================================================
 1. Instale o Java 6.0 ou mais recente
+=====================================================================================================
 http://www.java.com (o comando java deverá estar disponível na linha de comando - path)
-
 Para saber mais sobre o que é path leia http://vlaurie.com/computers2/Articles/environment.htm se você usa windows ou http://www.vivaolinux.com.br/artigo/O-que-e-PATH-como-funciona-e-como-trabalhar-com-ele se você usa linux.
 
+=====================================================================================================
 2. Instale o Groovy 1.7.5 ou mais recente
+=====================================================================================================
 Faça o download em http://groovy.codehaus.org/Download (disponível em zip, instalador para windows ou .deb para Debian Linux)
-
 Certifique-se que a pasta bin do diretório do groovy (com o groovy e o groovyc) está no path.
 
+=====================================================================================================
 3. Instale o Maven 3 ou mais recente.
+=====================================================================================================
 http://maven.apache.org
-
 O comando mvn deverá estar disponível no path também.
 
-4. Faça download do projeto através do git hub:
+=====================================================================================================
+4. Download do Código Fonte do Projeto
+=====================================================================================================
+Faça download do projeto através do git hub:
 git clone git://github.com/andrefaria/pronto-agile.git
-
 (se você usar windows, pode fazer o download em zip na url: https://github.com/andrefaria/pronto-agile/zipball/master)
 
-5. Faça o download e instale o PostgreSQL para o seu sistema operacional em:
+=====================================================================================================
+5. Instale o PostgreSQL
+=====================================================================================================
+Faça o download para o seu sistema operacional em:
 >> http://www.postgresql.org/download/
 
+=====================================================================================================
 6. Execute o postgres apartir da pasta etc (que contém os scripts) com o usuário e senha padrão:
+=====================================================================================================
 >> ex: psql postgres postgres;
 Obs: O nome do aplicativo pode ser psql, psql83, psql84, etc, de acordo com a instalação.
 
+=====================================================================================================
 7. Execute os seguintes comandos para criação do banco de dados.
+=====================================================================================================
 create role pronto with login password 'pronto';
 create database pronto owner pronto;
 \c pronto pronto
@@ -40,24 +53,51 @@ create database pronto owner pronto;
 
 É importante certificar-se de que todos os objetos criados no banco pertençam ao usuário pronto.
 
-Caso você preferir usar o banco de dados em uma outra máquina, ou trocar o nome de usuário e senha, altere o arquivo src/main/webapp/WEB-INF/jetty-env.xml.
+=====================================================================================================
+9. Baixe o Tomcat 6.0.32
+=====================================================================================================
+http://tomcat.apache.org/download-60.cgi#6.0.32
+Descompacte-o em uma pasta chamada tomcat
 
-8. Pronto, é só executar:
-mvn jetty:start
-obs: da pasta raiz do projeto (a mesma que contém o arquivo pom.xml)
+=====================================================================================================
+10. Configure o banco de dados
+=====================================================================================================
+Configure o banco de dados no Tomcat, copiando a tag <Resource> do arquivo de exemplo do pronto etc/context.xml (pasta do pronto) para o dentro da tag <Context>
+no arquivo /conf/context.xml (pasta do tomcat).
 
-9. Acesse em http://localhost:8080/pronto-agile ou http://127.0.0.1:8080/pronto-agile
+Obs: O exemplo do arquivo está conectando em um banco de dados chamado pronto no localhost, se você preferir pode alterar os dados para conectar em um banco de dados em outra máquina.
 
-Utilizar os usuários:
----------------------------------------------------
+=====================================================================================================
+11. Gere o Pacote War do Pronto
+=====================================================================================================
+Na pasta do Pronto
+mvn package
+Copie o arquivo war gerado na pasta target do pronto para a pasta webapps do tomcat, renomei o arquivo para pronto.war
+
+=====================================================================================================
+12. Inicie o Tomcat
+=====================================================================================================
+execute o programa bin/startup.sh (a partir da pasta do tomcat)
+quando quiser parar o tomcat, basta executar o programa bin/shutdown.sh
+
+=====================================================================================================
+13. Acesse em http://localhost:8080/pronto ou http://127.0.0.1:8080/pronto
+=====================================================================================================
+
+Lembrando que os usuários de exemplo criados para você testar são:
+---------------------------------------
 |Papel			| Usuáio	| Senha   |
----------------------------------------------------
-|Product Owner		| justus	| justus  |
-|Scrum Master		| coach		| coach	  |
+---------------------------------------
+|Product Owner	| justus	| justus  |
+|Scrum Master	| coach		| coach	  |
 |Equipe 		| time		| time 	  |
 |Cliente 		| cliente 	| cliente |
----------------------------------------------------
+---------------------------------------
 
-10. Para Parar
-mvn jetty:stop
-obs: da pasta raiz do projeto (a mesma que contém o arquivo pom.xml)
+=====================================================================================================
+14. Aproveite!
+=====================================================================================================
+Se você tiver qualquer problema na instalação pode entrar em contato com o grupo de usuários
+do pronto em <pronto-agile@googlegroups.com> para obter ajuda da comunidade. Certifique-se de
+observar o log do tomcat no arquivo localhost* na pasta do tomcat para detalhar melhor problema.
+=====================================================================================================

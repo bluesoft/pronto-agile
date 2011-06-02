@@ -93,23 +93,6 @@
 					<stopPort>9966</stopPort>
 					<stopKey>stopkey</stopKey>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>postgresql</groupId>
-						<artifactId>postgresql</artifactId>
-						<version>9.0-801.jdbc3</version>
-					</dependency>
-					<dependency>
-						<groupId>log4j</groupId>
-						<artifactId>log4j</artifactId>
-						<version>1.2.13</version>
-					</dependency>
-					<dependency>
-						<groupId>javassist</groupId>
-						<artifactId>javassist</artifactId>
-						<version>3.9.0.GA</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
@@ -282,7 +265,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.1.2</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -367,7 +349,6 @@
 					<artifactId>jmxri</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -449,7 +430,19 @@
 			<artifactId>cglib-nodep</artifactId>
 			<version>${cglib.version}</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.9.0.GA</version>
+		</dependency>
+		
 
 	</dependencies>
 	
@@ -460,6 +453,7 @@
 		<easyb.version>0.9.7</easyb.version>
 		<ehcache.version>2.2.0</ehcache.version>
 		<hibernate.annotations.version>3.5.4-Final</hibernate.annotations.version>
+		<postgresql.version>9.0-801.jdbc3</postgresql.version>
 		<hibernate.version>3.5.4-Final</hibernate.version>
 		<log4j.version>1.2.15</log4j.version>
 		<jackson.version>1.5.5</jackson.version>
