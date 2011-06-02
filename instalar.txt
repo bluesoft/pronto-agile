@@ -80,6 +80,8 @@ Copie o arquivo war gerado na pasta target do pronto para a pasta webapps do tom
 execute o programa bin/startup.sh (a partir da pasta do tomcat)
 quando quiser parar o tomcat, basta executar o programa bin/shutdown.sh
 
+obs: se estiver usando windows, abra o arquivo .bat ao invés do .sh
+
 =====================================================================================================
 13. Acesse em http://localhost:8080/pronto ou http://127.0.0.1:8080/pronto
 =====================================================================================================
