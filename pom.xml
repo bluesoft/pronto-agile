@@ -6,7 +6,7 @@
 	<artifactId>pronto-agile</artifactId>
 	<packaging>war</packaging>
 	<name>Pronto!</name>
-	<version>1.0.0</version>
+	<version>0.0.1</version>
 	<url>http://pronto.bluesoft.com.br</url>
 
 	<build>
