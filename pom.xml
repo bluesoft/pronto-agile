@@ -12,19 +12,33 @@
 	<build>
 		<directory>${directory}</directory>
 		<plugins>
-			<!-- Java Compile Plugin -->
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<groupId>org.codehaus.groovy.maven</groupId>
+				<artifactId>gmaven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
 					<encoding>ISO-8859-1</encoding>
-					<optimize>true</optimize>
-				</configuration>
-			</plugin>
+				</configuration>			
+				<dependencies>
+		                <dependency>
+							<groupId>org.codehaus.groovy</groupId>
+							<artifactId>groovy-all</artifactId>
+							<version>${groovy.version}</version>
+		                </dependency>
+				</dependencies>
+	        </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
 				<configuration>
 					<encoding>ISO-8859-1</encoding>
 				</configuration>
@@ -42,63 +56,21 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>compile</id>
-						<phase>compile</phase>
-						<configuration>
-							<tasks>
-								<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
-									<classpath refid="maven.compile.classpath" />
-								</taskdef>
-								<mkdir dir="${project.build.outputDirectory}" />
-								<groovyc destdir="${project.build.outputDirectory}"
-									srcdir="${basedir}/src/main/groovy/" listfiles="true" encoding="ISO-8859-1">
-									<classpath refid="maven.compile.classpath" />
-								</groovyc>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>test-compile</id>
-						<phase>test-compile</phase>
-						<configuration>
-							<tasks>
-								<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
-									<classpath refid="maven.compile.classpath" />
-								</taskdef>
-								<mkdir dir="${project.build.testOutputDirectory}" />
-								<groovyc destdir="${project.build.testOutputDirectory}"
-									srcdir="${basedir}/src/test/groovy/" listfiles="true" encoding="ISO-8859-1">
-									>
-									<classpath refid="maven.test.classpath" />
-								</groovyc>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
 				<version>${jetty.plugin.version}</version>
-				<configuration>
-					<stopPort>9966</stopPort>
-					<stopKey>stopkey</stopKey>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
-
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>${groovy.version}</version>
+		</dependency>
+		
+				
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -352,12 +324,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
-			<version>${groovy.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.codehaus.groovy.modules.http-builder</groupId>
 			<artifactId>http-builder</artifactId>
 			<version>${http-builder.version}</version>
@@ -443,7 +409,12 @@
 			<version>3.9.0.GA</version>
 		</dependency>
 		
-
+		<dependency>
+	        <groupId>org.codehaus.groovy.maven.runtime</groupId>
+	        <artifactId>gmaven-runtime-1.6</artifactId>
+			<version>1.0</version>
+	    </dependency>
+		
 	</dependencies>
 	
 	
@@ -462,7 +433,6 @@
 		<jsp.version>2.0</jsp.version>
 		<junit.version>4.7</junit.version>
 		<jsonlib.version>2.3</jsonlib.version>
-		<groovy.version>1.7.5</groovy.version>
 		<groovy-xmlrpc.version>0.7</groovy-xmlrpc.version>
 		<rome.version>1.0</rome.version>
 		<sitemesh.version>2.2.1</sitemesh.version>
@@ -475,6 +445,7 @@
 		<http-builder.version>0.5.0-RC2</http-builder.version>
 		<jetty.plugin.version>6.1.26</jetty.plugin.version>       
 		<directory>target</directory>
+		<groovy.version>1.7.5</groovy.version>
 	</properties>
 	<repositories>
 		<repository>
