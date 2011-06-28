@@ -23,16 +23,17 @@
 		</c:choose>
 		
 		<c:set var="sprintless" value="${ticket.ticketKey eq 0 or ticket.sprint eq null or ticket.sprint.sprintKey eq null}"/>
+		<c:set var="projectless" value="${ticket.ticketKey eq 0 or ticket.projeto eq null or ticket.projeto.projetoKey eq null}"/>
 		
-		<c:if test="${!sprintless}">
-		<div id="progressBar" align="right">
-			<c:forEach items="${kanbanStatus}" var="status">
-				<c:set var="progressClass" value="${status.kanbanStatusKey eq ticket.kanbanStatus.kanbanStatusKey ? 'ui-state-active' : 'ui-state-disabled'}"/>
-				<div title="Clique para mover para '${status.descricao}'" onclick="alterarStatuDoKanbanPara(${status.kanbanStatusKey})"  class="kanbanStep ui-corner-all ${progressClass}">
-					${status.descricao}
-				</div>
-			</c:forEach>
-		</div>
+		<c:if test="${!projectless}">
+			<div id="progressBar" align="right">
+				<c:forEach items="${ticket.projeto.etapasDoKanban}" var="status">
+					<c:set var="progressClass" value="${status.kanbanStatusKey eq ticket.kanbanStatus.kanbanStatusKey ? 'ui-state-active' : 'ui-state-disabled'}"/>
+					<div title="Clique para mover para '${status.descricao}'" onclick="alterarStatuDoKanbanPara(${status.kanbanStatusKey})"  class="kanbanStep ui-corner-all ${progressClass}">
+						${status.descricao}
+					</div>
+				</c:forEach>
+			</div>
 		</c:if>
 		
 		<div id="ticketTabs">
