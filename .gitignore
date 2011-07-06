@@ -3,7 +3,8 @@ bin
 .bin
 .DS_Store
 etc/temp.sql
-.settings
-.classpath
-.project
 .metadata
+.project
+.classpath
+.settings
+.externalToolBuilders
