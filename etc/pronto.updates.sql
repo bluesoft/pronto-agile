@@ -165,3 +165,7 @@ CREATE INDEX idx_checklist_item_checklist ON checklist_item USING btree (checkli
 
 --2011 05 10
 alter table checklist alter column ticket_key drop not null;
+
+--2011 07 25
+alter table ticket add responsavel_key varchar(100) references usuario;
+CREATE INDEX idx_ticket_responsavel ON ticket USING btree (responsavel_key);

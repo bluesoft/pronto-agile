@@ -132,8 +132,8 @@ pronto.jogarNoLixo = function(ticketKey, ajax){
 	pronto.moverTicket(ticketKey, url, ajax);
 };
 
-pronto.impedir = function(ticketKey, ajax){
-	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaImpedimentos');
+pronto.impedir = function(ticketKey, username, ajax){
+	var url = (pronto.raiz + 'tickets/' + ticketKey + '/moverParaImpedimentos?username='+username);
 	pronto.moverTicket(ticketKey, url, ajax);
 };
 
@@ -169,7 +169,6 @@ pronto.moverTicket = function(ticketKey, url, ajax){
 			$(this).remove();
 		});
 		$('#dialogSelecionarSprint').dialog('close');
-		
 	} else {
 		pronto.doGet(url);	
 	}

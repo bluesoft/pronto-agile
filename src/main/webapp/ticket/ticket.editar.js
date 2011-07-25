@@ -64,12 +64,22 @@ $(function() {
 		width : $(document).width() - 50,
 		modal : true
 	});
+	$("#dialogResponsavel").dialog( {
+		autoOpen : false,
+		height : 300,
+		width : 600,
+		modal : true
+	});
 	$("#listaTarefas").sortable( {
 		placeholder : 'ui-state-highlight',
 		stop : alterarPrioridadeDaTarefa
 	});
 	$("#listaTarefas").disableSelection();
 });
+
+function escolherResponsavel() {
+	$("#dialogResponsavel").dialog("open");
+}
 
 function adicionarScript() {
 	goTo(pronto.raiz + 'scripts/novo?ticketKey=' + ticketKey);

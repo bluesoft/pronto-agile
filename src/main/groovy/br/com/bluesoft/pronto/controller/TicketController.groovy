@@ -308,12 +308,11 @@ class TicketController {
 	}
 
 	@RequestMapping("/{ticketKey}/moverParaImpedimentos")
-	String moverParaImpedimentos( Model model, @PathVariable  int ticketKey,  HttpServletResponse response) throws SegurancaException {
-
+	String moverParaImpedimentos( Model model, @PathVariable  int ticketKey, String username,  HttpServletResponse response) throws SegurancaException {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
-
-		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
-		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.IMPEDIMENTOS))
+		Ticket ticket = ticketDao.obter(ticketKey)
+		ticket.setBacklog(backlogDao.obter(Backlog.IMPEDIMENTOS))
+		ticket.setResponsavel(usuarioDao.obter(username));
 		ticketDao.salvar(ticket)
 		return "redirect:/tickets/${ticketKey}"
 	}
@@ -454,6 +453,7 @@ class TicketController {
 				break
 		}
 
+		ticket.setResponsavel(null)
 		ticket.setBacklog(backlog)
 		ticketDao.salvar(ticket)
 

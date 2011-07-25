@@ -59,7 +59,7 @@
 		
 		
 		<div align="right">
-			<c:if test="${sprint ne null and fn:length(projetos) gt 1}">
+			<c:if test="${sprint ne null}">
 				Sprint: 
 				<select name="sprintKey" onchange="recarregar(this.value)">
 					<c:forEach items="${projetos}" var="projeto">
@@ -113,6 +113,7 @@
 				<th style="width: 30px;"></th>
 				<th>#</th>
 				<th>Título</th>
+				<c:if test="${backlog.impedimentos}"><th>Responsável</th></c:if>
 				<th>Tipo</th>
 				<th>Cliente</th>
 				<th>Valor</th>
@@ -161,17 +162,16 @@
 										<pronto:icons name="mover_para_lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${t.ticketKey},true)"></pronto:icons>
 									</c:if>
 								</c:if>
-								
-								<c:if test="${t.backlog.backlogKey ne 4 and t.backlog.backlogKey ne 5}">
-									<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${t.ticketKey},true)"></pronto:icons>	
-								</c:if>
 
 								<c:if test="${t.backlog.backlogKey eq 4 or t.backlog.backlogKey eq 5}">
 									<pronto:icons name="restaurar.png" title="Restaurar para o Inbox" onclick="pronto.restaurar(${t.ticketKey},true)"></pronto:icons>
 								</c:if>
 							</span>
 						</td>
-						<td>${t.tipoDeTicket.descricao}</td>
+						<td>
+							${t.tipoDeTicket.descricao}
+						</td>
+						<c:if test="${backlog.impedimentos}"><td>${t.responsavel}</td></c:if>
 						<td>${t.cliente}</td>
 						<td class="valorDeNegocio">${t.valorDeNegocio}</td>
 						<td class="esforco">${t.esforco}</td>
@@ -206,10 +206,6 @@
 											</c:if>
 										</c:if>
 										
-										<c:if test="${f.backlog.backlogKey ne 4 and f.backlog.backlogKey ne 5}">
-											<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${f.ticketKey},true)"></pronto:icons>
-										</c:if>
-										
 										<c:if test="${f.backlog.backlogKey eq 4 or f.backlog.backlogKey eq 5}">
 											<c:if test="${f.pai.backlog.backlogKey ne 4 and f.pai.backlog.backlogKey ne 5}">
 												<pronto:icons name="restaurar.png" title="Restaurar para o Inbox" onclick="pronto.restaurar(${f.ticketKey},true)"></pronto:icons>
@@ -218,6 +214,7 @@
 									</span>
 								</td>
 								<td>${f.tipoDeTicket.descricao}</td>
+								<c:if test="${backlog.impedimentos}"><td>${f.responsavel}</td></c:if>
 								<td>${f.cliente}</td>
 								<td style="color:gray;" class="valorDeNegocio"></td>
 								<td style="color:gray;"class="esforco">${f.esforco}</td>
@@ -257,11 +254,6 @@
 										<pronto:icons name="mover_para_lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${s.ticketKey},true)" />
 									</c:if>
 								</c:if>
-								
-								<c:if test="${s.backlog.backlogKey ne 4 and s.backlog.backlogKey ne 5}">
-									<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${s.ticketKey},true)" />
-								</c:if>
-								
 								<c:if test="${s.backlog.backlogKey eq 4 or s.backlog.backlogKey eq 5}">
 									<c:if test="${s.pai.backlog.backlogKey ne 4 and s.pai.backlog.backlogKey ne 5}">
 										<pronto:icons name="restaurar.png" title="Restaurar para o Inbox" onclick="pronto.restaurar(${s.ticketKey},true)" />
@@ -270,6 +262,7 @@
 							</span>
 						</td>
 						<td>${s.tipoDeTicket.descricao}</td>
+						<c:if test="${backlog.impedimentos}"><td>${s.responsavel}</td></c:if>
 						<td>${s.cliente}</td>
 						<td style="color:gray;" class="valorDeNegocio">${s.valorDeNegocio}</td>
 						<td style="color:gray;"class="esforco">${s.esforco}</td>
@@ -281,6 +274,7 @@
 			<tfoot>
 				<tr>
 					<th colspan="5">Total</th>
+					<c:if test="${backlog.impedimentos}"><th></th></c:if>
 					<th id="somaValorDeNegocio">${valorDeNegocioTotal}</th>
 					<th id="somaEsforco">${esforcoTotal}</th>
 					<th></th>

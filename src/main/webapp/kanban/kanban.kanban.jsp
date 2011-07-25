@@ -14,7 +14,17 @@
 				Kanban do Sprint <a href="${raiz}sprints/${sprint.sprintKey}">${sprint.nome}</a> do Projeto <a href="${raiz}projetos/${sprint.projeto.projetoKey}">${sprint.projeto.nome}</a>
 				<%@ include file="/commons/sprintLinks.jsp" %>
 			</h1>
-			<span id="meta">Meta: ${sprint.meta}</span>
+			<c:if test="${sprint.meta ne null and fn:length(sprint.meta) gt 0}">
+				<span id="meta">Meta: ${sprint.meta}</span><br/>
+			</c:if>
+			<c:if test="${impedimentos gt 0}">
+				<span id="impedidosDoUsuario">
+					<c:url var="ticketImpedidosUrl" value="/buscar/?responsavel=${usuarioLogado.username}"/>
+					<a href="${ticketImpedidosUrl}">
+						Há ${impedimentos} ticket impedido(s) em sua responsabilidade.
+					</a>
+				</span>
+			</c:if>
 		</div>
 		
 		<div align="right">

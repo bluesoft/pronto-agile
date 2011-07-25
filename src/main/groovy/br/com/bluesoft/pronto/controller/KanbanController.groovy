@@ -94,7 +94,10 @@ public class KanbanController {
 		model.addAttribute 'mapaDeTickets', mapaDeTickets
 		model.addAttribute 'mapaDeQuantidades', this.getMapaDeQuantidades(mapaDeTickets)
 		model.addAttribute 'motivos', motivoReprovacaoDao.listar()
+		model.addAttribute 'impedimentos', ticketDao.obterQuantidadeDeImpedimentosPorUsuario(Seguranca.usuario.username)
 
+		
+		
 		def statusList = kanbanStatusDao.listarPorProjeto(sprint.projeto.projetoKey)
 		model.addAttribute "status", statusList
 		def ordens = new JSONObject();

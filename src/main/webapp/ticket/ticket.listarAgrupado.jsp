@@ -106,11 +106,6 @@
 									<pronto:icons name="mover_para_lixeira.png" title="Mover para a Lixeira" onclick="pronto.jogarNoLixo(${t.ticketKey},true)"></pronto:icons>
 								</c:if>
 							</c:if>
-							
-							<c:if test="${t.backlog.backlogKey ne 4 and t.backlog.backlogKey ne 5}">
-								<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${t.ticketKey},true)"></pronto:icons>	
-							</c:if>
-
 							<c:if test="${t.backlog.backlogKey eq 4 or t.backlog.backlogKey eq 5}">
 								<pronto:icons name="restaurar.png" title="Restaurar para o Inbox" onclick="pronto.restaurar(${t.ticketKey},true)"></pronto:icons>
 							</c:if>

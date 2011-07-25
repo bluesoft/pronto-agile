@@ -56,6 +56,26 @@ public class Backlog {
 	public boolean isSprintBacklog() {
 		return backlogKey == SPRINT_BACKLOG
 	}
+	
+	public boolean isProductBacklog() {
+		return backlogKey == PRODUCT_BACKLOG
+	}
+	
+	public boolean isImpedimentos() {
+		return backlogKey == IMPEDIMENTOS
+	}
+	
+	public boolean isLixeira() {
+		return backlogKey == LIXEIRA
+	}
+	
+	public boolean isFuturo() {
+		return backlogKey == FUTURO
+	}
+	
+	public boolean isInbox() {
+		return backlogKey == FUTURO
+	}
 
 	public List<Ticket> getTickets() {
 		return tickets

@@ -9,6 +9,7 @@ class TicketFilter {
 	Integer kanbanStatusKey
 	Integer clienteKey
 	String reporter
+	String responsavel
 	String sprintNome
 	Boolean ignorarLixeira
 	Integer tipoDeTicketKey
@@ -40,6 +41,7 @@ class TicketFilter {
 		(query != null && query.length() > 0) ||
 		(sprintNome != null && sprintNome.length() > 0) ||
 		(reporter != null && reporter.length() > 0) ||
+		(responsavel != null && responsavel.length() > 0) ||
 		(kanbanStatusKey != null && kanbanStatusKey > 0) ||
 		(clienteKey != null && clienteKey > 0) ||
 		(tipoDeTicketKey != null && tipoDeTicketKey > 0) ||

@@ -261,6 +261,7 @@ public class TicketDao extends DaoHibernate {
 		hql.append(" select distinct t from Ticket t   ");
 		hql.append(" left join fetch t.sprint          ");
 		hql.append(" left join fetch t.reporter r      ");
+		hql.append(" left join fetch t.responsavel resp ");
 		hql.append(" left join fetch t.categoria cat   ");
 		hql.append(" left join fetch t.projeto projeto ");
 		hql.append(" left join fetch t.modulo mod ");
@@ -319,6 +320,10 @@ public class TicketDao extends DaoHibernate {
 		
 		if (filtro.reporter && filtro.reporter.length() > 0) {
 			hql.append(" and r.username = :reporter ");
+		}
+		
+		if (filtro.responsavel && filtro.responsavel.length() > 0) {
+			hql.append(" and resp.username = :responsavel ");
 		}
 		
 		if (filtro.dataInicialCriacao) {
@@ -386,6 +391,10 @@ public class TicketDao extends DaoHibernate {
 		
 		if (filtro.reporter) {
 			query.setString("reporter", filtro.reporter)
+		}
+		
+		if (filtro.responsavel) {
+			query.setString("responsavel", filtro.responsavel)
 		}
 		
 		if (filtro.dataInicialCriacao) {
@@ -784,7 +793,15 @@ public class TicketDao extends DaoHibernate {
 		query.setInteger 'ticketKey', ticketKey
 		return query.uniqueResult() as Integer
 	}
-	
+
+	public Integer obterQuantidadeDeImpedimentosPorUsuario(String username) {
+		def sql = 'select count(*) from ticket where responsavel_key = :username'
+		def query = session.createSQLQuery(sql)
+		query.setString 'username', username
+		return query.uniqueResult() as Integer
+	}
+
+		
 	public listarNotasDeRelease(Date dataInicial, Date dataFinal) {
 		def sql = 'select ticket_key, titulo, data_de_pronto, notas_para_release from ticket t where t.data_de_pronto between :dataInicial and :dataFinal and notas_para_release is not null and char_length(notas_para_release) > 0'
 		def query = session.createSQLQuery(sql)

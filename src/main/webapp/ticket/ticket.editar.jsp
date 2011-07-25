@@ -92,7 +92,7 @@
 					</c:if>
 					
 					<c:if test="${ticket.backlog.backlogKey ne 4 and ticket.backlog.backlogKey ne 5}">
-						<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="pronto.impedir(${ticket.ticketKey})"></pronto:icons>	
+						<pronto:icons name="mover_para_impedimentos.png" title="Mover para o Backlog de Impedimentos" onclick="escolherResponsavel()"></pronto:icons>	
 					</c:if>
 
 					<c:if test="${ticket.backlog.backlogKey eq 4 or ticket.backlog.backlogKey eq 5}">
@@ -163,6 +163,15 @@
 							<div>Reporter</div>
 						</div>
 						<form:hidden path="ticket.reporter.username"/><br/>
+					</div>
+					
+					<div id="divResponsavel">
+						<div align="center" class="person">
+							<img alt="Gravatar" align="bottom" title="${ticket.responsavel.nome}" src="http://www.gravatar.com/avatar/${ticket.responsavel.emailMd5}?s=80" />
+							<div class="person_name">${ticket.responsavel.username}</div>
+							<div>Responsável</div>
+						</div>
+						<form:hidden path="ticket.responsavel.username"/><br/>
 					</div>
 					
 					<c:if test="${zendeskTicketKey ne null}">
@@ -672,6 +681,18 @@
 			<br/><br/>
 			<button onclick="$('#dialogSelecionarSprint').dialog('close');">Cancelar</button>
 			<button onclick="pronto.moverParaSprint('${ticket.ticketKey}', $('#selecionarSprint').val(), false)">Mover</button>
+		</div>
+		
+		<div title="Quem é responsável por resolver esse Impedimento?" id="dialogResponsavel" style="display: none; width: 400px;">
+			<div>
+				<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
+					<div class="person responsavel" style="display: 'inline'}" onclick="pronto.impedir('${ticket.ticketKey}','${u.username}')">
+						<img alt="${u.username} - Clique escolher" id="dev_img_${u.username}" class="ativo" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" style="cursor:pointer"/>
+						<input id="dev_chk_${u.username}"  type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
+						<div class="person_name">${u.username}</div>
+					</div>
+				</c:forEach>
+			</div>
 		</div>
 		
 		<script>

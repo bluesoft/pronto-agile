@@ -161,6 +161,15 @@
 					</select>
 				</div>
 				<div class="opcao">
+					Responsável:<br/>
+					<select name="responsavel"  id="responsavel">
+						<option value="" ${filtro.responsavel eq null ? 'selected' : ''}>Todos</option>
+						<c:forEach var="m" items="${usuarios}">
+							<option value="${m.username}" ${filtro.responsavel eq m.username ? 'selected' : ''}>${m.nome}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="opcao">
 					<span title="Excluir Tickets que estão na Lixeira do Resultado da Busca?">Lixeira:</span> <br/>
 					<select name="ignorarLixeira"  id="ignorarLixeira">
 						<option value="true" ${filtro.ignorarLixeira eq true ? 'selected' : ''}>Ignorar</option>

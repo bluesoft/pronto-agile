@@ -90,6 +90,11 @@ class Ticket {
 	
 	@Auditable
 	@ManyToOne
+	@JoinColumn(name = "RESPONSAVEL_KEY")
+	Usuario responsavel
+	
+	@Auditable
+	@ManyToOne
 	@JoinColumn(name = "PROJETO_KEY")
 	Projeto projeto
 	
