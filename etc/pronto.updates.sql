@@ -183,3 +183,5 @@ select ticket_key, usuario_key from ticket_desenvolvedor
 union
 select ticket_key, usuario_key from ticket_testador
 ) a;
+drop table ticket_desenvolvedor;
+drop table ticket_envolvido;
