@@ -176,6 +176,12 @@ class TicketController {
 			} else {
 				ticket.projeto = null
 			}
+			
+			if (ticket.responsavel != null && ticket.responsavel.username != null) {
+				ticket.responsavel = usuarioDao.obter(ticket.responsavel.username)
+			} else {
+				ticket.responsavel = null
+			}
 
 			if (ticket.getKanbanStatus() == null || ticket.getKanbanStatus().getKanbanStatusKey() == null) {
 				if (ticket.projeto) {

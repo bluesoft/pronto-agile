@@ -43,6 +43,7 @@ class Ticket {
 		tipoDeTicket = new TipoDeTicket(TipoDeTicket.ESTORIA)
 		backlog = new Backlog(Backlog.INBOX)
 		reporter = new Usuario()
+		responsavel = new Usuario()
 		sprint = new Sprint()
 		kanbanStatus = new KanbanStatus()
 		comentarios = new ArrayList<TicketComentario>()
