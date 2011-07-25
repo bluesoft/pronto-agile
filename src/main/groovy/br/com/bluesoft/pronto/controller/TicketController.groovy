@@ -139,7 +139,7 @@ class TicketController {
 	}
 
 	@RequestMapping(method=[POST, PUT])
-	String salvar( Model model, Ticket ticket,  String comentario,  String[] desenvolvedor,  String[] testador,  Integer paiKey,  Integer clienteKey, Integer motivoReprovacaoKey, Integer kanbanStatusAnterior) throws SegurancaException {
+	String salvar( Model model, Ticket ticket,  String comentario,  String[] envolvido,  Integer paiKey,  Integer clienteKey, Integer motivoReprovacaoKey, Integer kanbanStatusAnterior) throws SegurancaException {
 
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 
@@ -229,8 +229,7 @@ class TicketController {
 			}
 
 			ticket.setReporter(usuarioDao.obter(ticket.getReporter().getUsername()))
-			definirDesenvolvedores(ticket, desenvolvedor)
-			definirTestadores(ticket, testador)
+			definirEnvolvidos(ticket, envolvido)
 			ticketDao.salvar(ticket)
 			
 			if (!isNovo) {
@@ -263,35 +262,19 @@ class TicketController {
 		}
 	}
 
-	void definirDesenvolvedores( Ticket ticket,  String[] desenvolvedor) throws SegurancaException {
-		Set<Usuario> desenvolvedoresAntigos = new TreeSet<Usuario>(ticketDao.listarDesenvolvedoresDoTicket(ticket.getTicketKey()))
-		if (desenvolvedor != null && desenvolvedor.length > 0) {
-			ticket.setDesenvolvedores(new TreeSet<Usuario>())
-			for ( String username : desenvolvedor) {
-				ticket.addDesenvolvedor(usuarioDao.obter(username))
+	void definirEnvolvidos( Ticket ticket,  String[] envolvido) throws SegurancaException {
+		Set<Usuario> envolvidosAntigos = new TreeSet<Usuario>(ticketDao.listarEnvolvidosDoTicket(ticket.getTicketKey()))
+		if (envolvido != null && envolvido.length > 0) {
+			ticket.setEnvolvidos(new TreeSet<Usuario>())
+			for ( String username : envolvido) {
+				ticket.addEnvolvido(usuarioDao.obter(username))
 			}
 		}
 
-		String desenvolvedoresAntigosStr = desenvolvedoresAntigos == null || desenvolvedoresAntigos.size() == 0 ? "nenhum" : desenvolvedoresAntigos.toString()
-		String desenvolvedoresNovosStr = ticket.getDesenvolvedores() == null || ticket.getDesenvolvedores().size() == 0 ? "nenhum" : ticket.getDesenvolvedores().toString()
-		if (!desenvolvedoresAntigosStr.equals(desenvolvedoresNovosStr)) {
-			ticket.addLogDeAlteracao("desenvolvedores", desenvolvedoresAntigosStr, desenvolvedoresNovosStr)
-		}
-	}
-
-	void definirTestadores( Ticket ticket,  String[] testador) throws SegurancaException {
-		Set<Usuario> testadoresAntigos = new TreeSet<Usuario>(ticketDao.listarTestadoresDoTicket(ticket.getTicketKey()))
-		if (testador != null && testador.length > 0) {
-			ticket.setTestadores(new TreeSet<Usuario>())
-			for ( String username : testador) {
-				ticket.addTestador(usuarioDao.obter(username))
-			}
-		}
-
-		String testadoresAntigosStr = testadoresAntigos == null || testadoresAntigos.size() == 0 ? "nenhum" : testadoresAntigos.toString()
-		String testadoresNovosStr = ticket.getTestadores() == null || ticket.getTestadores().size() == 0 ? "nenhum" : ticket.getTestadores().toString()
-		if (!testadoresAntigosStr.equals(testadoresNovosStr)) {
-			ticket.addLogDeAlteracao("testadores", testadoresAntigosStr, testadoresNovosStr)
+		String envolvidosAntigosStr = envolvidosAntigos == null || envolvidosAntigos.size() == 0 ? "nenhum" : envolvidosAntigos.toString()
+		String envolvidosNovosStr = ticket.getEnvolvidos() == null || ticket.getEnvolvidos().size() == 0 ? "nenhum" : ticket.getEnvolvidos().toString()
+		if (!envolvidosAntigosStr.equals(envolvidosNovosStr)) {
+			ticket.addLogDeAlteracao("envolvidos", envolvidosAntigosStr, envolvidosNovosStr)
 		}
 	}
 
@@ -714,8 +697,7 @@ class TicketController {
 		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		model.addAttribute "clientes", clienteDao.listar()
 		model.addAttribute "projetos", projetoDao.listarProjetosComSprintsAtivos()
-		model.addAttribute "testadores", equipe
-		model.addAttribute "desenvolvedores", equipe
+		model.addAttribute "envolvidos", equipe
 		model.addAttribute "causasDeDefeito", causaDeDefeitoDao.listar()
 
 		VIEW_EDITAR
@@ -735,8 +717,7 @@ class TicketController {
 		model.addAttribute "ticket", tarefa
 		model.addAttribute "tipoDeTicketKey", TipoDeTicket.TAREFA
 		model.addAttribute "kanbanStatus", kanbanStatusDao.listar()
-		model.addAttribute "testadores", usuarioDao.listarEquipe()
-		model.addAttribute "desenvolvedores", usuarioDao.listarEquipe()
+		model.addAttribute "envolvidos", usuarioDao.listarEquipe()
 
 		return VIEW_EDITAR
 	}

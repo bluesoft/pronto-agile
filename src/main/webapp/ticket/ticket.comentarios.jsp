@@ -25,7 +25,7 @@
 	
 	<h4>Notificar</h4>
 	<div>
-		<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
+		<c:forEach items="${envolvidos}" var="u" varStatus="s">
 			<c:set var="checked" value="${false}"/>
 			<c:forEach items="${ticket.envolvidos}" var="d">
 				<c:if test="${d.username eq u.username}">

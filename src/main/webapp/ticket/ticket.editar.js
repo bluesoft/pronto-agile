@@ -1,24 +1,13 @@
 var modelos = null;
 
-function alterarDesenvolvedores(icone) {
-	$('.desenvolvedor').css('display', 'inline');
+function alterarEnvolvidos(icone) {
+	$('.envolvido').css('display', 'inline');
 	$(icone).hide();
 }
 
-function alterarTestadores(icone) {
-	$('.testador').css('display', 'inline');
-	$(icone).hide();
-}
-
-function toogleDesenvolvedor(username) {
+function toogleEnvolvido(username) {
 	var $imagem = $('#dev_img_' + username);
 	var $campo = $('#dev_chk_' + username);
-	tooglePerson($imagem, $campo);
-}
-
-function toogleTestador(username) {
-	var $imagem = $('#tes_img_' + username);
-	var $campo = $('#tes_chk_' + username);
 	tooglePerson($imagem, $campo);
 }
 

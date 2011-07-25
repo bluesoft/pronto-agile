@@ -111,16 +111,10 @@ class Ticket {
 	String branch
 	
 	@Auditable
-	@Label("desenvolvedores")
+	@Label("envolvidos")
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "TICKET_DESENVOLVEDOR", joinColumns =  @JoinColumn(name = "TICKET_KEY") , inverseJoinColumns =  @JoinColumn(name = "USUARIO_KEY") )
-	Set<Usuario> desenvolvedores
-	
-	@Auditable
-	@Label("testadores")
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "TICKET_TESTADOR", joinColumns =  @JoinColumn(name = "TICKET_KEY") , inverseJoinColumns =  @JoinColumn(name = "USUARIO_KEY") )
-	Set<Usuario> testadores
+	@JoinTable(name = "TICKET_ENVOLVIDO", joinColumns =  @JoinColumn(name = "TICKET_KEY") , inverseJoinColumns =  @JoinColumn(name = "USUARIO_KEY") )
+	Set<Usuario> envolvidos
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="ticket")
 	List<MovimentoKanban> movimentosDeKanban
@@ -317,22 +311,13 @@ class Ticket {
 		return getBacklog() != null && getBacklog().getBacklogKey() == Backlog.SPRINT_BACKLOG
 	}
 	
-	void addDesenvolvedor(final Usuario usuario) {
-		if (!desenvolvedores) desenvolvedores = [] as HashSet;
-		desenvolvedores.each {
+	void addEnvolvido(final Usuario usuario) {
+		if (!envolvidos) envolvidos = [] as HashSet;
+		envolvidos.each { Usuario it ->
 			if (it.username.equals(usuario.username))
 				return
 		}
-		desenvolvedores.add(usuario)
-	}
-	
-	void addTestador(final Usuario usuario) {
-		if (!testadores) testadores = [] as HashSet;
-		testadores.each {
-			if (it.username.equals(usuario.username))
-				return
-		}
-		testadores.add(usuario)
+		envolvidos.add(usuario)
 	}
 	
 	boolean isDefeito() {
@@ -449,43 +434,27 @@ class Ticket {
 		logs.sort { it.data }
 	}
 	
-	public void setDesenvolvedores(List<Usuario> desenvolvedores) {
-		this.desenvolvedores = new LinkedList(desenvolvedores);
+	public void setEnvolvidos(List<Usuario> envolvidos) {
+		this.envolvidos = new LinkedList(envolvidos);
 	}
 	
-	public void setDesenvolvedores(Collection<Usuario> desenvolvedores) {
-		this.desenvolvedores = new LinkedList(desenvolvedores);
+	public void setEnvolvidos(Collection<Usuario> envolvidos) {
+		this.envolvidos= new LinkedList(envolvidos);
 	}
 	
-	public void setTestadores(Collection<Usuario> testadores) {
-		this.testadores = new LinkedList(testadores);
-	}
-	
-	public void setTestadores(List<Usuario> testadores) {
-		this.testadores = new LinkedList(testadores);
-	}
-
 	public void setTicketOrigem(Ticket ticketOrigem) {
 		this.ticketOrigem = ticketOrigem;
 	}	
 	
-	def getEnvolvidos() {
+	def getTodosOsEnvolvidos() {
 		def envolvidos = [] as Set
-		
 		envolvidos << this.reporter
-		
-		if (this.desenvolvedores) {
-			envolvidos.addAll this.desenvolvedores
+		if (this.envolvidos) {
+			envolvidos.addAll this.envolvidos
 		}
-		
-		if (this.testadores) {
-			envolvidos.addAll this.testadores
-		}
-		
 		if (this.comentaristas) {
 			envolvidos.addAll this.comentaristas
 		}
-		
 		return envolvidos - Seguranca.usuario
 	}
 	

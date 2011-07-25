@@ -169,3 +169,17 @@ alter table checklist alter column ticket_key drop not null;
 --2011 07 25
 alter table ticket add responsavel_key varchar(100) references usuario;
 CREATE INDEX idx_ticket_responsavel ON ticket USING btree (responsavel_key);
+
+CREATE TABLE ticket_envolvido (
+    ticket_key integer NOT NULL references ticket,
+    usuario_key character varying(255) NOT NULL references usuario
+);
+
+alter table ticket_envolvido add constraint UK_ENVOLVIDO unique (ticket_key, usuario_key);
+
+insert into ticket_envolvido (ticket_key, usuario_key) 
+select distinct ticket_key, usuario_key from (
+select ticket_key, usuario_key from ticket_desenvolvedor
+union
+select ticket_key, usuario_key from ticket_testador
+) a;

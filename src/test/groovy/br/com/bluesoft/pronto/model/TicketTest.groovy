@@ -30,23 +30,9 @@ class TicketTest {
 	}
 	
 	@Test
-	void getEnvolvidosDeveRetornarOsDesenvolvedores() {
-		def usuario = new Usuario(username:'andrefaria')
-		def ticket = new Ticket(reporter:usuario, desenvolvedores:[usuario])
-		assertTrue ticket.envolvidos.contains(usuario)
-	}
-	
-	@Test
-	void getEnvolvidosDeveRetornarOsTestadores() {
-		def usuario = new Usuario(username:'andrefaria')
-		def ticket = new Ticket(reporter:usuario, testadores:[usuario])
-		assertTrue ticket.envolvidos.contains(usuario)
-	}
-	
-	@Test
 	void getEnvolvidosNaoDeveRepetirOMesmoUsuario() {
 		def usuario = new Usuario(username:'andrefaria')
-		def ticket = new Ticket(testadores:[usuario], desenvolvedores:[usuario], reporter:usuario)
+		def ticket = new Ticket(envolvidos:[usuario], reporter:usuario)
 		assertTrue ticket.envolvidos.contains(usuario)
 		assertEquals 1, ticket.envolvidos.size()
 	}

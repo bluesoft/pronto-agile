@@ -93,8 +93,7 @@ public class TicketDao extends DaoHibernate {
 			left join fetch t.backlog 
 			left join fetch t.kanbanStatus 
 			left join fetch t.reporter 
-			left join t.desenvolvedores 
-			left join t.testadores 
+			left join t.envolvidos 
 			where t.ticketKey = :ticketKey
 		"""
 		
@@ -115,8 +114,7 @@ public class TicketDao extends DaoHibernate {
 			left join fetch t.kanbanStatus 
 			left join fetch t.reporter 
 			left join fetch t.filhos 
-			left join t.desenvolvedores 
-			left join t.testadores 
+			left join t.envolvidos 
 			left join t.comentarios 
 			left join t.logs 
 			where t.ticketKey = :ticketKey
@@ -486,13 +484,8 @@ public class TicketDao extends DaoHibernate {
 		return getSession().createQuery(builder.toString()).setInteger("backlogKey", backlogKey).list();
 	}
 	
-	public List<Usuario> listarDesenvolvedoresDoTicket(final int ticketKey) {
-		final String hql = "select t.desenvolvedores from Ticket t where t.ticketKey = :ticketKey";
-		return getSession().createQuery(hql).setInteger("ticketKey", ticketKey).list();
-	}
-	
-	public List<Usuario> listarTestadoresDoTicket(final int ticketKey) {
-		final String hql = "select t.testadores from Ticket t where t.ticketKey = :ticketKey";
+	public List<Usuario> listarEnvolvidosDoTicket(final int ticketKey) {
+		final String hql = "select t.envolvidos from Ticket t where t.ticketKey = :ticketKey";
 		return getSession().createQuery(hql).setInteger("ticketKey", ticketKey).list();
 	}
 	

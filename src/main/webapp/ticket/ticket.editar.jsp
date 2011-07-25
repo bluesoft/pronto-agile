@@ -165,14 +165,16 @@
 						<form:hidden path="ticket.reporter.username"/><br/>
 					</div>
 					
-					<div id="divResponsavel">
-						<div align="center" class="person">
-							<img alt="Gravatar" align="bottom" title="${ticket.responsavel.nome}" src="http://www.gravatar.com/avatar/${ticket.responsavel.emailMd5}?s=80" />
-							<div class="person_name">${ticket.responsavel.username}</div>
-							<div>Responsável</div>
+					<c:if test="${ticket.responsavel ne null}">
+						<div id="divResponsavel">
+							<div align="center" class="person">
+								<img alt="Gravatar" align="bottom" title="${ticket.responsavel.nome}" src="http://www.gravatar.com/avatar/${ticket.responsavel.emailMd5}?s=80" />
+								<div class="person_name">${ticket.responsavel.username}</div>
+								<div>Responsável</div>
+							</div>
 						</div>
-						<form:hidden path="ticket.responsavel.username"/><br/>
-					</div>
+					</c:if>
+					<form:hidden path="ticket.responsavel.username"/><br/>
 					
 					<c:if test="${zendeskTicketKey ne null}">
 						<div id="divZendesk" style="clear: both;">
@@ -477,38 +479,21 @@
 									<c:if test="${ticket.tarefa or empty ticket.filhos}">
 										<div class="linha">
 										<div>
-											<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
+											<c:forEach items="${envolvidos}" var="u" varStatus="s">
 												<c:set var="checked" value="${false}"/>
-												<c:forEach items="${ticket.desenvolvedores}" var="d">
+												<c:forEach items="${ticket.envolvidos}" var="d">
+												
 													<c:if test="${d.username eq u.username}">
 														<c:set var="checked" value="${true}"/>
 													</c:if>
 												</c:forEach>
-												<div class="person desenvolvedor" style="display: ${checked ? 'inline' : 'none'}">
-													<img alt="${u.username} - Clique para adicionar/remover" id="dev_img_${u.username}" class="${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleDesenvolvedor('${u.username}')" style="cursor:pointer"/>
-													<input id="dev_chk_${u.username}"  type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
+												<div class="person envolvido" style="display: ${checked ? 'inline' : 'none'}">
+													<img alt="${u.username} - Clique para adicionar/remover" id="dev_img_${u.username}" class="${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleEnvolvido('${u.username}')" style="cursor:pointer"/>
+													<input id="dev_chk_${u.username}"  type="checkbox" name="envolvido" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
 													<div class="person_name">${u.username}</div>
 												</div>
 											</c:forEach>
-											<p style="clear: both"><b>Desenvolvedores</b><pronto:icons name="editar.png" title="Alterar Desenvolvedores" onclick="alterarDesenvolvedores(this)"/></p>
-										</div>
-										</div>
-										<div class="linha">
-										<div>
-											<c:forEach items="${testadores}" var="u" varStatus="s">
-												<c:set var="checked" value="${false}"/>
-												<c:forEach items="${ticket.testadores}" var="d">
-													<c:if test="${d.username eq u.username}">
-														<c:set var="checked" value="${true}"/>
-													</c:if>
-												</c:forEach>
-												<div class="person testador" style="display: ${checked ? 'inline' : 'none'}">
-													<img alt="${u.username} - Clique para adicionar/remover" id="tes_img_${u.username}" class="${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleTestador('${u.username}')" style="cursor:pointer"/>
-													<input id="tes_chk_${u.username}"  type="checkbox" name="testador" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
-													<div class="person_name">${u.username}</div>
-												</div>
-											</c:forEach>
-											<p style="clear: both"><b>Testadores</b><pronto:icons name="editar.png" title="Alterar Testadores" onclick="alterarTestadores(this)"/></p>
+											<p style="clear: both"><b>Envolvidos</b><pronto:icons name="editar.png" title="Alterar Envolvidos" onclick="alterarEnvolvidos(this)"/></p>
 										</div>
 										</div>
 									</c:if>
@@ -685,10 +670,10 @@
 		
 		<div title="Quem é responsável por resolver esse Impedimento?" id="dialogResponsavel" style="display: none; width: 400px;">
 			<div>
-				<c:forEach items="${desenvolvedores}" var="u" varStatus="s">
+				<c:forEach items="${envolvidos}" var="u" varStatus="s">
 					<div class="person responsavel" style="display: 'inline'}" onclick="pronto.impedir('${ticket.ticketKey}','${u.username}')">
 						<img alt="${u.username} - Clique escolher" id="dev_img_${u.username}" class="ativo" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" style="cursor:pointer"/>
-						<input id="dev_chk_${u.username}"  type="checkbox" name="desenvolvedor" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
+						<input id="dev_chk_${u.username}"  type="checkbox" name="envolvido" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
 						<div class="person_name">${u.username}</div>
 					</div>
 				</c:forEach>
