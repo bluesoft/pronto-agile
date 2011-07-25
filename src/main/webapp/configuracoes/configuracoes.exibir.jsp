@@ -87,6 +87,57 @@
 				</div>
 			</div>
 			
+			<h4>Notificações por e-mail</h4>			
+			<div class="group" id="mailNotification">
+				<div>
+					<select name="mailNotification.ativo" id="mailNotificationAtivo" onchange="toogleMail()">
+						<option ${mapa['mailNotification.ativo'] eq 'true' ? 'selected' : ''}  value="true">Sim</option>
+						<option ${mapa['mailNotification.ativo'] ne 'true' ? 'selected' : ''} value="false">Não</option>
+					</select>
+					<p>Notificar por e-mail</p>
+				</div>
+				
+				<div id="mailOptions">
+					<div>
+						<select name="mail.protocol">
+							<option ${mapa['mail.protocol'] eq 'smtp' ? 'selected' : ''}  value="smtp">SMTP</option>
+							<option ${mapa['mail.protocol'] eq 'smtps' ? 'selected' : ''} value="smtps">SMTPS</option>
+						</select>
+						<p>Protocol</p>
+					</div>
+					<div>
+						<input type="text" name="mail.host" size="40" value="${mapa['mail.host']}"/>
+						<p>Host</p>
+					</div>
+					<div>
+						<input type="text" name="mail.port" size="4" maxlength="4" value="${mapa['mail.port']}"/>
+						<p>Port</p>
+					</div>
+					<div>
+						<input type="text" name="mail.username" value="${mapa['mail.username']}"/>
+						<p>Usuário</p>
+					</div>
+					<div>
+						<input type="password" name="mail.password" value="${mapa['mail.password']}"/>
+						<p>Senha</p>
+					</div>
+					<div>
+						<select name="mail.auth">
+							<option ${mapa['mail.auth'] eq 'true' ? 'selected' : ''}  value="true">Sim</option>
+							<option ${mapa['mail.auth'] ne 'true' ? 'selected' : ''} value="false">Não</option>
+						</select>
+						<p>Authentication</p>
+					</div>
+					<div>
+						<select name="mail.tls">
+							<option ${mapa['mail.tls'] eq 'true' ? 'selected' : ''}  value="true">Sim</option>
+							<option ${mapa['mail.tls'] ne 'true' ? 'selected' : ''} value="false">Não</option>
+						</select>
+						<p>TLS</p>
+					</div>
+				</div>
+			</div>
+			
 			<div align="center" class="buttons">
 				<br />
 				<button type="button" onclick="salvar()">Salvar</button>
@@ -121,6 +172,16 @@
 			} else {
 				$('#jabberOptions input').attr('disabled','disabled').val('');
 				$('#jabberOptions input').removeClass('required');
+			}
+		}
+		
+		function toogleMail() {
+			if ($('#mailNotificationAtivo').val() == 'true') {
+				$('#mailOptions input').removeAttr('disabled');
+				$('#mailOptions input').addClass('required');
+			} else {
+				$('#mailOptions input').attr('disabled','disabled').val('');
+				$('#mailOptions input').removeClass('required');
 			}
 		}
 		</script>	

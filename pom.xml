@@ -428,7 +428,7 @@
 		<hibernate.version>3.5.4-Final</hibernate.version>
 		<log4j.version>1.2.15</log4j.version>
 		<jackson.version>1.5.5</jackson.version>
-		<javamail.version>1.4</javamail.version>
+		<javamail.version>1.4.3</javamail.version>
 		<mockito.version>1.8.5</mockito.version>
 		<jsp.version>2.0</jsp.version>
 		<junit.version>4.7</junit.version>

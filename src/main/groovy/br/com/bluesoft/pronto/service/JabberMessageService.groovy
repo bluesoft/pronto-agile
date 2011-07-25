@@ -6,31 +6,33 @@ import javax.annotation.PreDestroy
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.ChatManager
 import org.jivesoftware.smack.ConnectionConfiguration
-import org.jivesoftware.smack.MessageListener
 import org.jivesoftware.smack.XMPPConnection
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service
 
 import br.com.bluesoft.pronto.dao.ConfiguracaoDao
-import br.com.bluesoft.pronto.model.MovimentoKanban
 import br.com.bluesoft.pronto.model.Usuario
 
+
 @Service
-class JabberMessageService {
-	
+class JabberMessageService implements MessageService {
+
 	@Autowired ConfiguracaoDao configuracaoDao
-	@Autowired ProntoMessageListener prontoMessageListener 
-	@Autowired ProntoChatListener prontoChatListener 
-	
-	XMPPConnection connection 
-	
+	@Autowired ProntoMessageListener prontoMessageListener
+	@Autowired ProntoChatListener prontoChatListener
+
+	XMPPConnection connection
+
 	@PostConstruct
-	void init() {
+	private void init() {
 		try {
 			connect()
-		} catch(java.lang.RuntimeException e) {}
+		} catch(java.lang.RuntimeException e) {
+
+		}
 	}
-	
+
 	boolean enviarComentario(int ticketKey, String comentario, def to) {
 		if (configuracaoDao.isJabberAtivo()) {
 			def url = configuracaoDao.getProntoUrl() + "tickets/${ticketKey}"
@@ -39,17 +41,10 @@ class JabberMessageService {
 		}
 		return false
 	}
-	
-	boolean notificarMovimentacao(MovimentoKanban movimento) {
-		if (configuracaoDao.isJabberAtivo()) {
-			def url = configuracaoDao.getProntoUrl() + "tickets/${movimento.ticket.ticketKey}"
-			def msg = "${Seguranca.usuario} moveu o ticket #${movimento.ticket.ticketKey} para ${movimento.kanbanStatus.descricao}\n${url}"
-			return this.enviarMensagem(msg, movimento.ticket.envolvidos)
-		}
-		return false
-	}
-	
-	boolean enviarMensagem(String msg, def to) {
+
+
+	@Async
+	public boolean enviarMensagem(String subject, String msg, def to) {
 		if (configuracaoDao.isJabberAtivo()) {
 			try {
 				this.connect()
@@ -57,7 +52,7 @@ class JabberMessageService {
 				to.each { Usuario usuario ->
 					if (usuario.hasJabber()) {
 						Chat newChat = chatmanager.createChat(usuario.jabberUsername, prontoMessageListener)
-						newChat.sendMessage(msg);
+						newChat.sendMessage(subject + "\n\n" + msg);
 					}
 				}
 				return true
@@ -68,8 +63,8 @@ class JabberMessageService {
 		}
 		return false
 	}
-	
-	void connect() {
+
+	private void connect() {
 		if (configuracaoDao.isJabberAtivo()) {
 			if (connection == null || !connection.isConnected()) {
 				ConnectionConfiguration config = new ConnectionConfiguration(configuracaoDao.getJabberUrl(), 5222);
@@ -82,9 +77,9 @@ class JabberMessageService {
 			}
 		}
 	}
-	
+
 	@PreDestroy
-	void destroy() {
+	private void destroy() {
 		if (connection != null && connection.isConnected()) {
 			this.connection.disconnect()
 		}

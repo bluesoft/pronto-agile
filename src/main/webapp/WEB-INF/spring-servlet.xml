@@ -11,6 +11,8 @@
 	<mvc:annotation-driven />
 
 	<context:component-scan base-package="br.com.bluesoft.pronto" />
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"/>
 
 	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
 		<property name="basePackage" value="br.com.bluesoft.pronto.controlller" />

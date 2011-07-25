@@ -20,7 +20,7 @@ class MovimentadorDeTicket {
 	@Autowired KanbanStatusDao kanbanStatusDao
 	@Autowired TicketDao ticketDao
 	@Autowired MotivoReprovacaoDao motivoReprovacaoDao
-	@Autowired JabberMessageService jabberMessageService
+	@Autowired MessageFacade messenger
 	
 	MovimentoKanban movimentar(def ticket, int kanbanStatusKey) {
 		movimentar ticket, kanbanStatusKey, null
@@ -32,7 +32,7 @@ class MovimentadorDeTicket {
 		ticket.kanbanStatus = status
 		ticketDao.salvar ticket
 		def movimento = criarMovimento(ticket, motivoReprovacaoKey) 
-		jabberMessageService.notificarMovimentacao(movimento)
+		messenger.notificarMovimentacao(movimento)
 		return movimento
 	}
 

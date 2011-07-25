@@ -59,7 +59,7 @@ import br.com.bluesoft.pronto.model.TicketLog
 import br.com.bluesoft.pronto.model.Usuario
 import br.com.bluesoft.pronto.service.ChecklistService
 import br.com.bluesoft.pronto.service.Config
-import br.com.bluesoft.pronto.service.JabberMessageService
+import br.com.bluesoft.pronto.service.MessageFacade
 import br.com.bluesoft.pronto.service.MovimentadorDeTicket
 import br.com.bluesoft.pronto.service.Seguranca
 import br.com.bluesoft.pronto.service.ZendeskService
@@ -93,7 +93,7 @@ class TicketController {
 	@Autowired MovimentoKanbanDao movimentoKanbanDao
 	@Autowired MovimentadorDeTicket movimentadorDeTicket
 	@Autowired ZendeskService zendeskService
-	@Autowired JabberMessageService jabberMessageService
+	@Autowired MessageFacade messenger
 	@Autowired ProjetoDao projetoDao
 	@Autowired ChecklistService checklistService
 
@@ -132,7 +132,7 @@ class TicketController {
 		tx.commit()
 
 		if (notificar && notificar.size() > 0) {
-			jabberMessageService.enviarComentario ticketKey, comentario, usuarioDao.listar(notificar)
+			messenger.enviarComentario ticketKey, comentario, usuarioDao.listar(notificar)
 		}
 
 		return "redirect:/tickets/${ticketKey}#comentarios"
