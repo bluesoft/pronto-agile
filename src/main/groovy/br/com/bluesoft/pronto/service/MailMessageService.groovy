@@ -38,7 +38,9 @@ class MailMessageService implements MessageService {
 			configure();
 			try {
 				to.each { Usuario usuario ->
-					enviar(subject, msg, usuario.email);
+					if (usuario) {
+						enviar(subject, msg, usuario.email);
+					}
 				}
 				return true
 			} catch(Throwable e) {

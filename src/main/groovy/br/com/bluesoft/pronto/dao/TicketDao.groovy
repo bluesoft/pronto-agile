@@ -65,6 +65,20 @@ public class TicketDao extends DaoHibernate {
 		return (Ticket) getSession().createQuery(hql.toString()).setInteger("ticketKey", ticketKey).setInteger("kanbanStatusKey", kanbanStatusKey).uniqueResult();
 	}
 	
+	
+	public TicketComentario obterComentario(int ticketComentarioKey){
+		final StringBuilder hql = new StringBuilder();
+		hql.append(" select distinct tc from TicketComentario tc ");
+		hql.append(" where tc.ticketComentarioKey = :ticketComentarioKey ");
+		return (TicketComentario) getSession().createQuery(hql.toString()).setInteger("ticketComentarioKey", ticketComentarioKey).uniqueResult();
+	}
+	
+	void excluirComentario(int ticketComentarioKey) {
+		def comentario = session.get(TicketComentario.class, ticketComentarioKey)
+		session.delete(comentario)
+		session.flush()
+	}
+	
 	@Override
 	public Ticket obterTicketPronto(final Integer ticketKey) {
 
@@ -873,9 +887,5 @@ public class TicketDao extends DaoHibernate {
 		return mapa.values()
 	}
 
-	void excluirComentario(int ticketComentarioKey) {
-		def comentario = session.get(TicketComentario.class, ticketComentarioKey)
-		session.delete(comentario)
-		session.flush()
-	}	
+		
 }
