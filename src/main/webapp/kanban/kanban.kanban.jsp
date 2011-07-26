@@ -21,7 +21,7 @@
 				<span id="impedidosDoUsuario">
 					<c:url var="ticketImpedidosUrl" value="/buscar/?responsavel=${usuarioLogado.username}"/>
 					<a href="${ticketImpedidosUrl}">
-						Há ${impedimentos} ticket impedido(s) em sua responsabilidade.
+						Há ${impedimentos} ticket(s) impedido(s) em sua responsabilidade.
 					</a>
 				</span>
 			</c:if>
