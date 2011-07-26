@@ -31,9 +31,8 @@ class MailMessageService implements MessageService {
 			mailSender.setJavaMailProperties(props)
 	}
 
-
 	@Async
-	public boolean enviarMensagem(String subject, String msg, def to) {
+	public void enviarMensagem(String subject, String msg, def to) {
 		if (configuracaoDao.isMailNotificationAtivo()) {
 			configure();
 			try {
@@ -42,13 +41,10 @@ class MailMessageService implements MessageService {
 						enviar(subject, msg, usuario.email);
 					}
 				}
-				return true
 			} catch(Throwable e) {
 				e.printStackTrace()
-				return false
 			}
 		}
-		return false
 	}
 
 	private void enviar(String subject, String body, String to){

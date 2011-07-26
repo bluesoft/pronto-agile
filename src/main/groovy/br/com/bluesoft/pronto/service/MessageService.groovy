@@ -1,6 +1,9 @@
 package br.com.bluesoft.pronto.service;
 
+import org.springframework.scheduling.annotation.Async;
+
 interface MessageService {
 
-	boolean enviarMensagem(String subject, String msg, def to);
+	@Async
+	void enviarMensagem(String subject, String msg, def to);
 }

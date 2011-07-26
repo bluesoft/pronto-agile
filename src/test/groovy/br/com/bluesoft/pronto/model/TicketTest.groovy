@@ -1,8 +1,11 @@
 package br.com.bluesoft.pronto.model
 
-import org.junit.Test
-import br.com.bluesoft.pronto.util.DateUtil
 import static org.junit.Assert.*
+
+import org.junit.Before
+import org.junit.Test
+
+import br.com.bluesoft.pronto.service.Seguranca
 
 class TicketTest {
 
@@ -21,19 +24,26 @@ class TicketTest {
 		assertEquals 50, t.getTempoDeVidaEmDias()
 	}
 	
-	
 	@Test
 	void getEnvolvidosDeveRetornarOReporter() {
 		def reporter = new Usuario(username:'andrefaria')
 		def ticket = new Ticket(reporter:reporter)
-		assertTrue ticket.envolvidos.contains(reporter)
+		assertTrue ticket.todosOsEnvolvidos.contains(reporter)
+	}
+	
+	@Test
+	void getEnvolvidosDeveResponsavelOReporter() {
+		def responsavel = new Usuario(username:'andrefaria')
+		def ticket = new Ticket(responsavel:responsavel)
+		assertTrue ticket.todosOsEnvolvidos.contains(responsavel)
 	}
 	
 	@Test
 	void getEnvolvidosNaoDeveRepetirOMesmoUsuario() {
 		def usuario = new Usuario(username:'andrefaria')
-		def ticket = new Ticket(envolvidos:[usuario], reporter:usuario)
-		assertTrue ticket.envolvidos.contains(usuario)
-		assertEquals 1, ticket.envolvidos.size()
+		def ticket = new Ticket(envolvidos:[usuario], reporter:usuario, responsavel:usuario)
+		def todos = ticket.todosOsEnvolvidos
+		assertTrue todos.contains(usuario)
+		assertEquals 1, todos.size()
 	}
 }

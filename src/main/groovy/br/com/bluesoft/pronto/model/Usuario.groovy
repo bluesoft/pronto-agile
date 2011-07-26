@@ -115,7 +115,11 @@ class Usuario implements Comparable<Usuario>, Serializable {
 	}
 	
 	int compareTo(def outro) {
-		return username.compareTo(outro.username)
+		if (outro != null && outro.username != null && username != null) {
+			return username.compareTo(outro.username)
+		} else {
+			return 1 
+		}
 	}
 	
 	boolean isProductOwner() {

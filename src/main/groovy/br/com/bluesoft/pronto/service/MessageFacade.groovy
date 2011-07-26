@@ -1,24 +1,29 @@
 package br.com.bluesoft.pronto.service
 
 
+import org.springframework.beans.factory.BeanFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 import br.com.bluesoft.pronto.dao.ConfiguracaoDao
 import br.com.bluesoft.pronto.model.MovimentoKanban
-import br.com.bluesoft.pronto.model.Ticket;
+import br.com.bluesoft.pronto.model.Ticket
 
 @Service
 class MessageFacade {
 
 	@Autowired
 	ConfiguracaoDao configuracaoDao
-	
-	@Autowired
-	JabberMessageService jabberMessageService
 
-	@Autowired
-	MailMessageService mailMessageService
+	@Autowired BeanFactory factory
+
+	MessageService getMailMessageService() {
+		return factory.getBean("mailMessageService")
+	}
+
+	MessageService getJabberMessageService() {
+		return factory.getBean("jabberMessageService")
+	}
 
 	boolean notificarMovimentacao(MovimentoKanban movimento) {
 		def sbj = "${Seguranca.usuario} movimentou o ticket #${movimento.ticket.ticketKey}";
@@ -40,16 +45,16 @@ class MessageFacade {
 		def msg = "O ticket #${ticket.ticketKey} foi Impedido por ${Seguranca.usuario}, ${ticket.responsavel} Ž o respons‡vel por desimped’lo.\n\n${url}"
 		this.enviarMensagem(sbj, msg, ticket.getTodosOsEnvolvidos());
 	}
-	
+
 	void notificarDesimpedimento(Ticket ticket, def to) {
 		def sbj = "#${ticket.ticketKey} foi Desimpedido"
 		def url = configuracaoDao.getProntoUrl() + "tickets/${ticket.ticketKey}"
 		def msg = "O ticket #${ticket.ticketKey} foi Desimpedido por ${Seguranca.usuario}.\n\n${url}"
 		this.enviarMensagem(sbj, msg, to);
 	}
-	
+
 	void enviarMensagem(String subject, String msg, def to) {
-		mailMessageService.enviarMensagem(subject, msg, to);
-		jabberMessageService.enviarMensagem(subject, msg, to);
+		this.getMailMessageService().enviarMensagem(subject, msg, to);
+		this.getJabberMessageService().enviarMensagem(subject, msg, to);
 	}
 }

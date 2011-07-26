@@ -101,7 +101,9 @@ class TicketLog implements Comparable {
 			case EXCLUSAO:
 				if (campo == 'anexo') {
 					return MessageFormat.format("{0} - {1} - excluiu o anexo \"{2}\"", dataDaDescricao, usuario, valorAntigo)
-				} 
+				} else {
+					return MessageFormat.format("{0} - {1} - excluiu o coment‡rio \"{2}\"", dataDaDescricao, usuario, valorAntigo)
+				}
 		}
 	}
 	

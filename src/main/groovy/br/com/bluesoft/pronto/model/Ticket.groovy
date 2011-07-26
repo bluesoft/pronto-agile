@@ -449,15 +449,19 @@ class Ticket {
 	
 	def getTodosOsEnvolvidos() {
 		def todosOsEnvolvidos = [] as Set
-		todosOsEnvolvidos << this.reporter
-		todosOsEnvolvidos << this.responsavel
+		if (reporter)
+			todosOsEnvolvidos << this.reporter
+		
+		if (responsavel)
+			todosOsEnvolvidos << this.responsavel
+		
 		if (this.envolvidos) {
 			todosOsEnvolvidos.addAll this.envolvidos
 		}
 		if (this.comentaristas) {
 			todosOsEnvolvidos.addAll this.comentaristas
 		}
-		return todosOsEnvolvidos - Seguranca.usuario
+		return todosOsEnvolvidos - Seguranca.getUsuario()
 	}
 	
 	def getComentaristas() {

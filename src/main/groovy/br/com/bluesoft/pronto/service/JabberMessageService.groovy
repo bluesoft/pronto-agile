@@ -44,7 +44,7 @@ class JabberMessageService implements MessageService {
 
 
 	@Async
-	public boolean enviarMensagem(String subject, String msg, def to) {
+	public void enviarMensagem(String subject, String msg, def to) {
 		if (configuracaoDao.isJabberAtivo()) {
 			try {
 				this.connect()
@@ -55,13 +55,10 @@ class JabberMessageService implements MessageService {
 						newChat.sendMessage(subject + "\n\n" + msg);
 					}
 				}
-				return true
 			} catch(Throwable e) {
 				e.printStackTrace()
-				return false
 			}
 		}
-		return false
 	}
 
 	private void connect() {

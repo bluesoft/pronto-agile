@@ -148,6 +148,9 @@ class TicketController {
 		boolean result = false
 		if (comentario.usuario.username == Seguranca.usuario.username) {
 			ticketDao.excluirComentario(ticketComentarioKey)
+			def ticket = comentario.ticket
+			ticket.addLogDeExclusao("coment‡rio", "Coment‡rio de ${comentario.usuario}: ${comentario.texto}. O coment‡rio havia sido inclu’do em em ${comentario.data}.")
+			ticketDao.salvar(ticket)
 			result = true
 		}
 		tx.commit()
