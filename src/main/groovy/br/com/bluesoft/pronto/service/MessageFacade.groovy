@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service
 
 import br.com.bluesoft.pronto.dao.ConfiguracaoDao
 import br.com.bluesoft.pronto.model.MovimentoKanban
+import br.com.bluesoft.pronto.model.Ticket;
 
 @Service
 class MessageFacade {
@@ -33,6 +34,20 @@ class MessageFacade {
 		return this.enviarMensagem(sbj, msg, to)
 	}
 
+	void notificarImpedimento(Ticket ticket) {
+		def sbj = "#${ticket.ticketKey} foi Impedido para ${ticket.responsavel} desimpedir"
+		def url = configuracaoDao.getProntoUrl() + "tickets/${ticket.ticketKey}"
+		def msg = "O ticket #${ticket.ticketKey} foi Impedido por ${Seguranca.usuario}, ${ticket.responsavel} Ž o respons‡vel por desimped’lo.\n\n${url}"
+		this.enviarMensagem(sbj, msg, ticket.getTodosOsEnvolvidos());
+	}
+	
+	void notificarDesimpedimento(Ticket ticket, def to) {
+		def sbj = "#${ticket.ticketKey} foi Desimpedido"
+		def url = configuracaoDao.getProntoUrl() + "tickets/${ticket.ticketKey}"
+		def msg = "O ticket #${ticket.ticketKey} foi Desimpedido por ${Seguranca.usuario}.\n\n${url}"
+		this.enviarMensagem(sbj, msg, to);
+	}
+	
 	void enviarMensagem(String subject, String msg, def to) {
 		mailMessageService.enviarMensagem(subject, msg, to);
 		jabberMessageService.enviarMensagem(subject, msg, to);

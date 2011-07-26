@@ -1,8 +1,13 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <c:if test="${!empty ticket.comentarios}">
 	<c:forEach items="${ticket.comentarios}" var="comentario">
-		<div class="htmlbox comentario" style="position: relative;">
-			<div class="comentario-data"><fmt:formatDate value="${comentario.data}" type="both"/></div>
+		<div id="comentario-${comentario.ticketComentarioKey}" class="htmlbox comentario" style="position: relative;">
+			<div class="comentario-data">
+				<fmt:formatDate value="${comentario.data}" type="both"/>
+				<c:if test="${comentario.permitidoExcluir}">
+					<pronto:icons name="excluir.png" title="Excluir Comentário" onclick="excluirComentario(${ticket.ticketKey}, ${comentario.ticketComentarioKey});"/>
+				</c:if>
+			</div>
 			
 			<div class="person-comentario">
 				<div class="person">

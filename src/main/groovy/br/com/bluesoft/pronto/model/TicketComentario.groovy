@@ -20,16 +20,17 @@
 
 package br.com.bluesoft.pronto.model;
 
-import java.util.Date;
+import java.util.Date
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.SequenceGenerator
 
-import br.com.bluesoft.pronto.service.WikiFormatter;
+import br.com.bluesoft.pronto.service.Seguranca
+import br.com.bluesoft.pronto.service.WikiFormatter
 
 @Entity
 @SequenceGenerator(name = "SEQ_TICKET_COMENTARIO", sequenceName = "SEQ_TICKET_COMENTARIO")
@@ -93,5 +94,9 @@ public class TicketComentario {
 
 	public String getHtml() {
 		return WikiFormatter.toHtml(getTexto());
+	}
+	
+	public boolean isPermitidoExcluir(){
+		return Seguranca.usuario.username == this.usuario.username
 	}
 }

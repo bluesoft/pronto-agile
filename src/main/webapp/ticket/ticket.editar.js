@@ -87,6 +87,19 @@ function excluirAnexo(ticketKey, anexo) {
 	}
 }
 
+
+function excluirComentario(ticketKey, ticketComentarioKey) {
+	if (confirm('Tem certeza que deseja excluir este coment‡rio?')) {
+		var url = pronto.raiz + 'tickets/' + ticketKey + '/comentarios/' + ticketComentarioKey;
+		$.post(url, {'_method':'delete'}, function(result){
+			if (result == "true") {
+				$('#comentario-'+ticketComentarioKey).fadeOut();
+			} 
+		});
+	}
+}
+
+
 function verDescricao(ticketKey) {
 	$.ajax( {
 		url : pronto.raiz + 'tickets/' + ticketKey + '/descricao',

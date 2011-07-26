@@ -55,6 +55,7 @@ import br.com.bluesoft.pronto.dao.UsuarioDao
 import br.com.bluesoft.pronto.model.ChecklistItem
 import br.com.bluesoft.pronto.model.Sprint
 import br.com.bluesoft.pronto.model.Ticket
+import br.com.bluesoft.pronto.model.TicketComentario
 import br.com.bluesoft.pronto.model.TicketLog
 import br.com.bluesoft.pronto.model.Usuario
 import br.com.bluesoft.pronto.service.ChecklistService
@@ -136,6 +137,21 @@ class TicketController {
 		}
 
 		return "redirect:/tickets/${ticketKey}#comentarios"
+	}
+	
+	@RequestMapping(value = "/{ticketKey}/comentarios/{ticketComentarioKey}", method=DELETE)
+	@ResponseBody
+	String excluirComentario(@PathVariable int ticketKey, @PathVariable int ticketComentarioKey)  {
+		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction()
+		TicketComentario comentario = ticketDao.obterComentario(ticketComentarioKey)
+		boolean result = false
+		if (comentario.usuario.username == Seguranca.usuario.username) {
+			ticketDao.excluirComentario(ticketComentarioKey)
+			result = true
+		}
+		tx.commit()
+		return String.valueOf(result)
 	}
 
 	@RequestMapping(method=[POST, PUT])
@@ -303,6 +319,7 @@ class TicketController {
 		ticket.setBacklog(backlogDao.obter(Backlog.IMPEDIMENTOS))
 		ticket.setResponsavel(usuarioDao.obter(username));
 		ticketDao.salvar(ticket)
+		messenger.notificarImpedimento ticket
 		return "redirect:/tickets/${ticketKey}"
 	}
 
@@ -424,6 +441,8 @@ class TicketController {
 
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 
+		boolean notificarImpedimento = ticket.backlog.isImpedimentos()
+		
 		Backlog backlog = null
 		switch (ticket.getTipoDeTicket().getTipoDeTicketKey()) {
 			case TipoDeTicket.ESTORIA:
@@ -442,6 +461,7 @@ class TicketController {
 				break
 		}
 
+		def envolvidos = ticket.todosOsEnvolvidos
 		ticket.setResponsavel(null)
 		ticket.setBacklog(backlog)
 		ticketDao.salvar(ticket)
@@ -453,6 +473,9 @@ class TicketController {
 			}
 		}
 
+		if (notificarImpedimento) 
+			messenger.notificarDesimpedimento ticket, envolvidos
+		
 		return "redirect:/tickets/${ticketKey}"
 	}
 
@@ -530,11 +553,7 @@ class TicketController {
 		return "redirect:/tickets/${ticketKey}"
 	}
 	
-	@RequestMapping(value = "/{ticketKey}/comentarios/{ticketComentarioKey}", method=DELETE)
-	String excluirComentario(@PathVariable int ticketKey, @PathVariable int ticketComentarioKey)  {
-		Ticket ticket = ticketDao.excluirComentario(ticketComentarioKey)
-		return "redirect:/tickets/${ticketKey}"
-	}
+	
 
 
 	@RequestMapping("/{ticketKey}/salvarValorDeNegocio")
