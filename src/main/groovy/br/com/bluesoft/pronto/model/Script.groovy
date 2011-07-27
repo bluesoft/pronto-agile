@@ -124,7 +124,7 @@ class Script {
 	
 	String getSituacao() {
 		if (totalDeExecucoes == 0) {
-			return "Não há Execuções"
+			return "NÃ£o hÃ¡ ExecuÃ§Ãµes"
 		}
 		
 		if (isTudoExecutado()) {

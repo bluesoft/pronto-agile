@@ -27,9 +27,9 @@ class CausaDeDefeitoController {
 		Seguranca.validarPermissao Papel.EQUIPE
 		try {
 			causaDeDefeitoDao.excluir(new CausaDeDefeito(causaDeDefeitoKey: causaDeDefeitoKey))
-			"redirect:/causasDeDefeito?message=ExcluÌdo com Sucesso"
+			"redirect:/causasDeDefeito?message=Exclu√≠do com Sucesso"
 		} catch (e) {
-			"redirect:/causasDeDefeito?erro=Esta Causa est· Vinculada h· Alguns Tickets e N„o pode ser ExcluÌda"
+			"redirect:/causasDeDefeito?erro=Esta Causa est√° Vinculada h√° Alguns Tickets e N√£o pode ser Exclu√≠da"
 		}
 	}
 	

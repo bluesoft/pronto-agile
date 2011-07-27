@@ -149,7 +149,8 @@ class TicketController {
 		if (comentario.usuario.username == Seguranca.usuario.username) {
 			ticketDao.excluirComentario(ticketComentarioKey)
 			def ticket = comentario.ticket
-			ticket.addLogDeExclusao("comentário", "Comentário de ${comentario.usuario}: ${comentario.texto}. O comentário havia sido incluído em em ${comentario.data}.")
+			def data = DateUtil.toString(comentario.data)
+			ticket.addLogDeExclusao("comentario", "${comentario.texto}. O coment√°rio havia sido inclu√≠do em ${data}.")
 			ticketDao.salvar(ticket)
 			result = true
 		}
@@ -169,7 +170,7 @@ class TicketController {
 			if (!isNovo) {
 				def dataDaUltimaAlteracao = DateUtil.getTimestampSemMilissegundos(ticketDao.obterDataDaUltimaAlteracaoDoTicket(ticket.ticketKey))
 				if (dataDaUltimaAlteracao!= null && ticket.dataDaUltimaAlteracao < dataDaUltimaAlteracao) {
-					def erro = 'N„o foi possÌvel alterar o ticket porque j· ocorreram alteraÁıes depois que vocÍ comeÁou a edit·-lo!'
+					def erro = 'N√£o foi poss√≠vel alterar o ticket porque j√° ocorreram altera√ß√µes depois que voc√™ come√ßou a edit√°-lo!'
 					return "redirect:/tickets/${ticket.ticketKey}?erro=${erro}";
 				}
 			}
@@ -177,12 +178,12 @@ class TicketController {
 			Transaction tx = sessionFactory.getCurrentSession().beginTransaction()
 
 			if (ticket.getTitulo() == null || ticket.getTitulo().trim().length() <= 0) {
-				throw new ProntoException("N„o È possÌvel salvar uma estÛria, defeito ou tarefa sem descriÁ„o!")
+				throw new ProntoException("N√£o √© poss√≠vel salvar o ticket sem uma descri√ß√£o!")
 			}
 
 			if (ticket.isDefeito()) {
 				if (ticket.kanbanStatus.isFim() && (ticket.getCausaDeDefeito() == null || ticket.getCausaDeDefeito().getCausaDeDefeitoKey() == 0)) {
-					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de mover para a ˙ltima etapa È necess·rio informar a causa do defeito.";
+					return "redirect:/tickets/${ticket.ticketKey}?erro=Antes de mover para a √∫ltima etapa √© necess√°rio informar a causa do defeito.";
 				} else {
 					ticket.setCausaDeDefeito(causaDeDefeitoDao.obter(ticket.getCausaDeDefeito().getCausaDeDefeitoKey()))
 				}
@@ -274,7 +275,7 @@ class TicketController {
 				if (ticket.getTicketKey() != null && ticket.isDone()) {
 					def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
 					if (zendeskTicketKey) {
-						zendeskService.incluirComentarioPublico(zendeskTicketKey,'Este ticket j· foi desenvolvido e em breve estar· no ar!')
+						zendeskService.incluirComentarioPublico(zendeskTicketKey,'Este ticket j√° foi desenvolvido e em breve estar√° no ar!')
 					}
 				}
 			}
@@ -379,7 +380,7 @@ class TicketController {
 			case Backlog.FUTURO:
 				break
 			default:
-				throw new ProntoException("N„o È possÌvel mover uma estÛria para um sprint se a mesma estiver impedida ou na lixera.")
+				throw new ProntoException("N√£o √© poss√≠vel mover uma est√≥ria para um sprint se a mesma estiver impedida ou na lixera.")
 				break
 		}
 
@@ -506,7 +507,7 @@ class TicketController {
 				nomesDosArquivos.add(nomeDoArquivo)
 				ticket.addLogDeInclusao 'anexo', nomeDoArquivo
 			} else {
-				model.addAttribute("erro", "N„o È possÌvel anexar o arquivo '" + nomeDoArquivo + "' pois este n„o possui uma extens„o.")
+				model.addAttribute("erro", "N√£o √© poss√≠vel anexar o arquivo '" + nomeDoArquivo + "' pois este n√£o possui uma extens√£o.")
 			}
 		}
 
@@ -645,7 +646,7 @@ class TicketController {
 		Ticket ticket = ticketDao.obter(ticketKey)
 
 		if (ticket.getFilhos() != null && ticket.getFilhos().size() > 0) {
-			model.addAttribute("erro", "Essa estÛria possui tarefas e por isso n„o pode ser transformada em um defeito.")
+			model.addAttribute("erro", "Essa est√≥ria possui tarefas e por isso n√£o pode ser transformada em um defeito.")
 		} else {
 			ticket.setTipoDeTicket((TipoDeTicket) sessionFactory.getCurrentSession().createCriteria(TipoDeTicket.class).add(Restrictions.eq("tipoDeTicketKey", TipoDeTicket.DEFEITO)).uniqueResult())
 			ticketDao.salvar(ticket)
@@ -675,7 +676,7 @@ class TicketController {
 			Ticket ticket = ticketDao.obterComDependecias(ticketKey)
 
 			if (ticket == null) {
-				model.addAttribute("mensagem", "O ticket #" + ticketKey + " n„o existe.")
+				model.addAttribute("mensagem", "O ticket #" + ticketKey + " n√£o existe.")
 				return "/branca.jsp"
 			}
 
@@ -797,7 +798,7 @@ class TicketController {
 				//				model.addAttribute("tickets", tickets)
 			}
 		} else {
-			model.addAttribute("mensagem", "Digite o n˙mero do ticket ou sua descriÁ„o.")
+			model.addAttribute("mensagem", "Digite o n√∫mero do ticket ou sua descri√ß√£o.")
 		}
 		model.addAttribute("ticketKey", ticketKey)
 		return "/ticket/ticket.selecionarOrigem.jsp"
@@ -823,7 +824,7 @@ class TicketController {
 			if(ticket == null){
 				ticketDao.inserirTicketKeyIntegradoComZendesk ticketKey, zendeskTicketKey
 			}else{
-				throw new ProntoException(MessageFormat.format("N„o foi possÌvel vincular este ticket ao Zendesk porque o ticket {0} j· esta vinculado.", ticket));
+				throw new ProntoException(MessageFormat.format("N√£o foi poss√≠vel vincular este ticket ao Zendesk porque o ticket {0} j√° esta vinculado.", ticket));
 			}
 			json.put "isSucces", "true"
 			return json

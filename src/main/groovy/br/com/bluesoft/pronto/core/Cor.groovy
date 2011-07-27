@@ -16,7 +16,7 @@ public enum Cor {
 	ROSA("Rosa"),
 	ROSA_CHOQUE("Rosa Choque"),
 	VERDE("Verde"), 
-	VERDE_AGUA("Verde ¡gua"),
+	VERDE_AGUA("Verde √Ågua"),
 	VERDE_PRIMAVERA("Verde Primavera"),
 	VERMELHO("Vermelho")
 	

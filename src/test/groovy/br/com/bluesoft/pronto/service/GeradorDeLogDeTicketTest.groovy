@@ -30,8 +30,8 @@ class GeradorDeLogDeTicketTest {
 		def logs = gerador.gerarLogs(velho, novo);
 		
 		assertEquals 2, logs.size()
-		assertEquals 'descrição', logs[0].campo
-		assertEquals 'esforço', logs[1].campo
+		assertEquals 'descriÃ§Ã£o', logs[0].campo
+		assertEquals 'esforÃ§o', logs[1].campo
 	}
 	
 	@Test

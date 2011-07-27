@@ -9,9 +9,9 @@ class StringUtilTest {
 	@Ignore
 	void retiraAcentuacao() {
 		assertEquals 'x', StringUtil.retiraAcentuacao('x')
-		assertEquals 'Andre', StringUtil.retiraAcentuacao('André')
-		assertEquals 'Descricao', StringUtil.retiraAcentuacao('Descrição')
-		assertEquals 'titulo da tarefa', StringUtil.retiraAcentuacao('título da tarefa')
+		assertEquals 'Andre', StringUtil.retiraAcentuacao('AndrÃ©')
+		assertEquals 'Descricao', StringUtil.retiraAcentuacao('DescriÃ§Ã£o')
+		assertEquals 'titulo da tarefa', StringUtil.retiraAcentuacao('tÃ­tulo da tarefa')
 	}
 	
 }

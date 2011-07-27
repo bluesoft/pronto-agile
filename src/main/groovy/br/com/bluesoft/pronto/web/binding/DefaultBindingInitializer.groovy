@@ -10,7 +10,7 @@ import org.springframework.web.bind.support.WebBindingInitializer;
 import org.springframework.web.context.request.WebRequest;
 
 /**
- * Aqui são definidas as regras de Binding que são aplicadas por padrão as todos os controllers do SpringMVC.
+ * Aqui sao definidas as regras de Binding que sao aplicadas por padrao as todos os controllers do SpringMVC.
  */
 public class DefaultBindingInitializer implements WebBindingInitializer {
 

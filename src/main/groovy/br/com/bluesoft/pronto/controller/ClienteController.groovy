@@ -74,9 +74,9 @@ public class ClienteController {
 		def cliente = clienteDao.obter(clienteKey)
 		try {
 			clienteDao.excluir(cliente)
-			model.addAttribute("mensagem", "Cliente excluÌdo com sucesso.")
+			model.addAttribute("mensagem", "Cliente exclu√≠do com sucesso.")
 		} catch (e) {
-			model.addAttribute("erro", "Este cliente n„o pode ser excluÌdo porque existem tarefas e/ou usu·rios vinculados a ele.")
+			model.addAttribute("erro", "Este cliente n√£o pode ser exclu√≠do porque existem tarefas e/ou usu√°rios vinculados a ele.")
 		}
 		
 		return "redirect:/clientes"

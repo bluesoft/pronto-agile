@@ -248,7 +248,7 @@ public class TicketDao extends DaoHibernate {
 				ticket.setValorDeNegocio(0)
 			}
 			
-			// Grava sysdate na criação
+			// Grava sysdate na criaÃ§Ã£o
 			if (ticket.getDataDeCriacao() == null) {
 				ticket.setDataDeCriacao(new Date())
 			}

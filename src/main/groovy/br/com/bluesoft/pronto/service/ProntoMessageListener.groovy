@@ -34,15 +34,15 @@ class ProntoMessageListener implements MessageListener {
 				if (user) {
 					try {
 						incluirComentario(ticketKey, user, mensagem, session)
-						chat.sendMessage("Maravilha! Seu comentário foi incluído no ticket #${ticketKey}")
+						chat.sendMessage("Maravilha! Seu comentÃ¡rio foi incluÃ­do no ticket #${ticketKey}")
 					} catch(e) {
-						chat.sendMessage("Sinto muito, mas não foi impossível incluir seu comentário no ticket #${ticketKey}")
+						chat.sendMessage("Sinto muito, mas nÃ£o foi impossÃ­vel incluir seu comentÃ¡rio no ticket #${ticketKey}")
 					}
 				} else {
-					chat.sendMessage("Usuário ${chat.participant} não localizado.")
+					chat.sendMessage("UsuÃ¡rio ${chat.participant} nÃ£o localizado.")
 				}
 			} catch(e) {
-				chat.sendMessage('Não entendi o que você disse.')
+				chat.sendMessage('NÃ£o entendi o que vocÃª disse.')
 			} finally {
 				if (session) {
 					session.close()

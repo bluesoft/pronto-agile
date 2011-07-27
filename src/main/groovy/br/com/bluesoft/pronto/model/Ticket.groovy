@@ -57,7 +57,7 @@ class Ticket {
 	int ticketKey
 	
 	@Auditable
-	@Label("título")
+	@Label("tÃ­tulo")
 	String titulo
 	
 	@Auditable
@@ -77,7 +77,7 @@ class Ticket {
 	TipoDeTicket tipoDeTicket
 	
 	@Auditable
-	@Label("descrição")
+	@Label("descriÃ§Ã£o")
 	String descricao
 	
 	@Auditable
@@ -124,11 +124,11 @@ class Ticket {
 	List<Checklist> checklists
 	
 	@Auditable
-	@Label("valor de negócio")
+	@Label("valor de negÃ³cio")
 	int valorDeNegocio
 	
 	@Auditable
-	@Label("esforço")
+	@Label("esforÃ§o")
 	double esforco
 	
 	@Auditable
@@ -171,10 +171,10 @@ class Ticket {
 	@Label("data de pronto")
 	Date dataDePronto
 	
-	@Label("data da última alteração")
+	@Label("data da Ãºltima alteraÃ§Ã£o")
 	Timestamp dataDaUltimaAlteracao
 	
-	@Label("data de criaçao")
+	@Label("data de criaÃ§Ã£o")
 	Date dataDeCriacao
 	
 	@Auditable

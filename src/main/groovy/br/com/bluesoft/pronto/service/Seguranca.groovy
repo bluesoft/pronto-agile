@@ -79,7 +79,7 @@ public class Seguranca {
 		}
 
 		if (!permitido) {
-			throw new SegurancaException("Você não possui permissão para realizar essa operação.");
+			throw new SegurancaException("VocÃª nÃ£o possui permissÃ£o para realizar essa operaÃ§Ã£o.");
 		}
 
 	}

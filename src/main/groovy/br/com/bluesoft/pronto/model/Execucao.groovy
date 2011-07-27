@@ -44,7 +44,7 @@ class Execucao implements Comparable  {
 	}
 	
 	String getStatus() {
-		isExecutado() ? "Executado em ${data} por ${usuario.username}" : "Não Executado"
+		isExecutado() ? "Executado em ${data} por ${usuario.username}" : "NÃ£o Executado"
 	}
 	
 	int compareTo(def outro) {

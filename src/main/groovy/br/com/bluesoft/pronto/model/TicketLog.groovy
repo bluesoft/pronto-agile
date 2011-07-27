@@ -102,7 +102,7 @@ class TicketLog implements Comparable {
 				if (campo == 'anexo') {
 					return MessageFormat.format("{0} - {1} - excluiu o anexo \"{2}\"", dataDaDescricao, usuario, valorAntigo)
 				} else {
-					return MessageFormat.format("{0} - {1} - excluiu o comentário \"{2}\"", dataDaDescricao, usuario, valorAntigo)
+					return MessageFormat.format("{0} - {1} - excluiu o coment√°rio \"{2}\"", dataDaDescricao, usuario, valorAntigo)
 				}
 		}
 	}
@@ -114,7 +114,7 @@ class TicketLog implements Comparable {
 			if (input.equals("true")) {
 				return "sim"
 			} else if (input.equals("false")) {
-				return "n„o"
+				return "n√£o"
 			} else {
 				return input
 			}

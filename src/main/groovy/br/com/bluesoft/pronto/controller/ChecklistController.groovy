@@ -25,7 +25,7 @@ class ChecklistController {
 	String excluir(Model model, @PathVariable int checklistKey) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		checklistService.excluir(checklistKey)
-		"redirect:/checklists?message=Excluído com Sucesso"
+		"redirect:/checklists?message=ExcluÃ­do com Sucesso"
 	}
 	
 	@RequestMapping(method=GET)

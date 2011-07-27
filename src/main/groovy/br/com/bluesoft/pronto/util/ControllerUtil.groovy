@@ -32,7 +32,7 @@ public class ControllerUtil {
 			response.setCharacterEncoding(ENCODING_UTF8);
 			response.getWriter().print(text);
 		} catch (final Exception e) {
-			throw new RuntimeException("Não foi possível gerar a resposta JSON.", e);
+			throw new RuntimeException("NÃ£o foi possÃ­vel gerar a resposta JSON.", e);
 		}
 	}
 

@@ -244,7 +244,7 @@ public class Sprint {
 	}
 	
 	/**
-	 * Retorna uma Mapa cujo Chave é o KanbanStatusKey e valor uma Collection com os Tickets Correspondentes 
+	 * Retorna uma Mapa cujo Chave eh o KanbanStatusKey e valor uma Collection com os Tickets Correspondentes 
 	 */
 	Map<Integer, Collection<Ticket>> getTicketsParaOKanbanPorEtapa() {
 		def mapaPorEtapa = [:]

@@ -25,7 +25,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<encoding>ISO-8859-1</encoding>
+					<encoding>UTF-8</encoding>
 				</configuration>			
 				<dependencies>
 		                <dependency>
@@ -40,7 +40,7 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.5</version>
 				<configuration>
-					<encoding>ISO-8859-1</encoding>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -446,6 +446,8 @@
 		<jetty.plugin.version>6.1.26</jetty.plugin.version>       
 		<directory>target</directory>
 		<groovy.version>1.7.5</groovy.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	<repositories>
 		<repository>

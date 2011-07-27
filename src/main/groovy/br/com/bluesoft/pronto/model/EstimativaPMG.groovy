@@ -2,7 +2,7 @@ package br.com.bluesoft.pronto.model
 
 public enum EstimativaPMG {
 	
-	P("Pequeno"), M("Médio"), G("Grande")
+	P("Pequeno"), M("MÃ©dio"), G("Grande")
 	
 	private TipoEstimativa(String descricao) {
 		this.descricao = descricao;

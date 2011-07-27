@@ -30,7 +30,7 @@ class ZendeskController {
 	String tickets(Model model, @PathVariable int zendeskTicketKey) {
 		
 		if (!configuracaoDao.isZendeskAtivo()) {
-			model.addAttribute 'mensagem', 'A integraÁ„o do Pronto com o Zendesk est· desabilitada!'
+			model.addAttribute 'mensagem', 'A integra√ß√£o do Pronto com o Zendesk est√° desabilitada!'
 			return "/branca.jsp"
 		}
 		
@@ -67,7 +67,7 @@ class ZendeskController {
 		}
 		
 		def ticket = zendeskService.criarNovoTicketNoPronto(zendeskTicketKey, tipoDeTicketKey, clienteKey, projetoKey)
-		zendeskService.incluirComentarioPrivado zendeskTicketKey, 'Ticket integrado com o Pronto.\r\n\r\nPara visualiz·-lo acesse: ' + configuracaoDao.getProntoUrl() + 'tickets/' + ticket.ticketKey
+		zendeskService.incluirComentarioPrivado zendeskTicketKey, 'Ticket integrado com o Pronto.\r\n\r\nPara visualiz√°-lo acesse: ' + configuracaoDao.getProntoUrl() + 'tickets/' + ticket.ticketKey
 		
 		return "redirect:/tickets/${ticket.ticketKey}"
 		

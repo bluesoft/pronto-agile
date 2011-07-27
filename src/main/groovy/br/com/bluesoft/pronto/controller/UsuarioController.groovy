@@ -88,7 +88,7 @@ class UsuarioController {
 		def quantidade = usuarioDao.obterQuantidadeDeUsuariosCadastrados()
 		
 		if (quantidade == 1) {
-			model.addAttribute("mensagem", "VocÍ n„o pode excluir todos os usu·rios do Pronto!")
+			model.addAttribute("mensagem", "Voc√™ n√£o pode excluir todos os usu√°rios do Pronto!")
 			return "forward:/app/usuarios"
 		}
 		
@@ -96,9 +96,9 @@ class UsuarioController {
 		try {
 			sessionFactory.currentSession.delete(usuario)
 			sessionFactory.currentSession.flush()
-			model.addAttribute("mensagem", "Usu·rio excluÌdo com sucesso.")
+			model.addAttribute("mensagem", "Usu√°rio exclu√≠do com sucesso.")
 		} catch (final Exception e) {
-			model.addAttribute("mensagem", "Este usu·rio n„o pode ser excluÌdo porque existem tarefas vinculadas a ele.")
+			model.addAttribute("mensagem", "Este usu√°rio n√£o pode ser exclu√≠do porque existem tarefas vinculadas a ele.")
 		}
 		
 		return "redirect:/usuarios"
@@ -130,7 +130,7 @@ class UsuarioController {
 		
 		usuarioDao.salvar(usuario)
 		
-		// atualiza sess„o do usu·rio com os novos papÈis
+		// atualiza sessao do usu√°rio com os novos papeis
 		Usuario usuarioLogado = (Usuario) httpSession.getAttribute("usuarioLogado")
 		if (usuario.username == usuarioLogado.username) {
 			httpSession.setAttribute "usuarioLogado", usuario

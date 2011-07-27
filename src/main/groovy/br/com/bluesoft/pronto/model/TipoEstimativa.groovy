@@ -2,7 +2,7 @@ package br.com.bluesoft.pronto.model
 
 public enum TipoEstimativa {
 
-	PMG("PMG - Pequeno, Médio ou Grande"), PLANNING_POKER("Planning Poker (Fibonacci)");
+	PMG("PMG - Pequeno, MÃ©dio ou Grande"), PLANNING_POKER("Planning Poker (Fibonacci)");
 	
 	private TipoEstimativa(String descricao) {
 		this.descricao = descricao;

@@ -61,14 +61,14 @@ class MovimentadorDeTicket {
 	
 	private void validarCausaDeDefeito(def ticket) {
 		if (ticket.defeito  && !ticket.causaDeDefeito) {
-			throw new ProntoException("Antes de marcar um defeito como resolvido È preciso informar sua causa.")
+			throw new ProntoException("Antes de marcar um defeito como resolvido √© preciso informar sua causa.")
 		}
 	}
 	
 	private void validarChecklists(def ticket) {
 		def itensNaoMarcados = ticketDao.obterQuantidadeDeChecklistItemsNaoMarcadosPorTicket(ticket.ticketKey)
 		if (itensNaoMarcados > 0) {
-			throw new ProntoException("N„o foi possÌvel fechar o ticket porque h· itens no checklist que n„o foram marcados/conferidos.")
+			throw new ProntoException("N√£o foi poss√≠vel fechar o ticket porque h√° itens no checklist que n√£o foram marcados/conferidos.")
 		}
 	}
 	

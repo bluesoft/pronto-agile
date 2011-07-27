@@ -68,7 +68,7 @@ public class ScriptDao extends DaoHibernate{
 		}
 		hql += "order by s.scriptKey"
 		
-		//tem que cruzar as execucoes por dentro e por fora (e,x) sen„o n„o d· pra exibir quantas faltam.
+		//tem que cruzar as execucoes por dentro e por fora (e,x) sen√£o n√£o d√° pra exibir quantas faltam.
 		return getSession().createQuery(hql).list()
 	}
 	

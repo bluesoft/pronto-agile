@@ -80,7 +80,7 @@ class BurndownController {
 			model.addAttribute "sprints", sprintDao.listarSprintsEmAberto()
 			return "/burndown/burndown.burndown.jsp"			
 		} else {
-			model.addAttribute("erro", 'N„o È possÌvel construir um burndown chart de um sprint com mais de 31 dias!')
+			model.addAttribute("erro", 'N√£o √© poss√≠vel construir um burndown chart de um sprint com mais de 31 dias!')
 			return "/branca.jsp";
 		}
 
@@ -195,7 +195,7 @@ class BurndownController {
 			element3.put("colour", "#0066cc")
 			element3.put("fill", "#0066cc")
 			element3.put("fill-alpha", "0.4")
-			element3.put("text", "Previs„o")
+			element3.put("text", "Previs√£o")
 	
 			def previsaoValuesArray = new JSONArray()
 			previsaoValuesArray.addAll(previsaoValues)
@@ -208,7 +208,7 @@ class BurndownController {
 		
 		final JSONObject x_axis = new JSONObject()
 		final JSONArray xLabelArray = new JSONArray()
-		xLabelArray.add("inÌcio")
+		xLabelArray.add("in√≠cio")
 		for (final String data : mapaEsforcoPorDia.keySet()) {
 			xLabelArray.add(data)
 		}

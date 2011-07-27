@@ -24,9 +24,9 @@ class ModuloController {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		try {
 			moduloDao.excluir(new Modulo(moduloKey: moduloKey))
-			"redirect:/modulos?mensagem=MÛdulo excluÌdo com sucesso."
+			"redirect:/modulos?mensagem=M√≥dulo exclu√≠do com sucesso."
 		} catch (e) {
-			"redirect:/modulos?erro=Este mÛdulo est· vinculado h· alguns tickets e n„o pode ser excluÌda."
+			"redirect:/modulos?erro=Este m√≥dulo est√° vinculado h√° alguns tickets e n√£o pode ser exclu√≠da."
 		}
 	}
 	
@@ -56,7 +56,7 @@ class ModuloController {
 		def tx = moduloDao.getSession().beginTransaction()
 		moduloDao.salvar modulo
 		tx.commit()
-		"redirect:/modulos?mensagem=MÛdulo salvo com sucesso."
+		"redirect:/modulos?mensagem=M√≥dulo salvo com sucesso."
 	}
 	
 }

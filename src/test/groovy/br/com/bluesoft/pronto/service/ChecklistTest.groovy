@@ -30,7 +30,7 @@ class ChecklistTest extends Specification {
 		when: "inserir um novo checklist sem nome"
 		checklist = checklistService.criarChecklist(1, "")
 		
-		then: "uma exception dever· ser lanÁada"
+		then: "uma exception dever√° ser lan√ßada"
 		def e = thrown(Exception)
 		
 	}
@@ -46,7 +46,7 @@ class ChecklistTest extends Specification {
 		when: "a inclusao de um novo item for solicitado"
 		checklistService.incluirItem(checklist.checklistKey, "verificar se funciona no firefox")
 		
-		then: "deve-se adicion·-lo na checklist"
+		then: "deve-se adicion√°-lo na checklist"
 		checklist.itens.size() == 1
 		
 		and: "com a flag marcado falsa"

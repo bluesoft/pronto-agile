@@ -25,9 +25,9 @@ class CategoriaController {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		try {
 			categoriaDao.excluir(new Categoria(categoriaKey: categoriaKey))
-			"redirect:/categorias?mensagem=Categoria excluÌda com sucesso."
+			"redirect:/categorias?mensagem=Categoria exclu√≠da com sucesso."
 		} catch (e) {
-			"redirect:/categorias?erro=Esta categoria est· vinculada h· alguns tickets e n„o pode ser excluÌda."
+			"redirect:/categorias?erro=Esta categoria est√° vinculada h√° alguns tickets e n√£o pode ser exclu√≠da."
 		}
 	}
 	

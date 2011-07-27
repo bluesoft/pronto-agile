@@ -42,7 +42,7 @@ class MessageFacade {
 	void notificarImpedimento(Ticket ticket) {
 		def sbj = "#${ticket.ticketKey} foi Impedido para ${ticket.responsavel} desimpedir"
 		def url = configuracaoDao.getProntoUrl() + "tickets/${ticket.ticketKey}"
-		def msg = "O ticket #${ticket.ticketKey} foi Impedido por ${Seguranca.usuario}, ${ticket.responsavel} é o responsável por desimpedílo.\n\n${url}"
+		def msg = "O ticket #${ticket.ticketKey} foi Impedido por ${Seguranca.usuario}, ${ticket.responsavel} √© o respons√°vel por desimped√≠-lo.\n\n${url}"
 		this.enviarMensagem(sbj, msg, ticket.getTodosOsEnvolvidos());
 	}
 

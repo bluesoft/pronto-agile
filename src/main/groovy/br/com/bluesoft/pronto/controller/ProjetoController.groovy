@@ -30,9 +30,9 @@ class ProjetoController {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		try {
 			projetoDao.excluir(projetoDao.obter(projetoKey))
-			"redirect:/projetos?mensagem=Projeto excluÌdo com sucesso."
+			"redirect:/projetos?mensagem=Projeto exclu√≠do com sucesso."
 		} catch (e) {
-			"redirect:/projetos?erro=Este projeto est· vinculado h· alguns tickets e/ou sprints e n„o pode ser excluÌdo."			
+			"redirect:/projetos?erro=Este projeto est√° vinculado h√° alguns tickets e/ou sprints e n√£o pode ser exclu√≠do."			
 		}
 	}
 

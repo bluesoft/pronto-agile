@@ -231,7 +231,7 @@ class SprintController {
 			final Sprint sprintParaFechar = (Sprint) sessionFactory.getCurrentSession().get(Sprint.class, sprintKey)
 			
 			if (sprintParaFechar.isAtual()) {
-				throw new ProntoException("Não é possível fechar o Sprint Atual!")
+				throw new ProntoException("NÃ£o Ã© possÃ­vel fechar o Sprint Atual!")
 			}
 			
 			final Transaction tx = sessionFactory.getCurrentSession().beginTransaction()

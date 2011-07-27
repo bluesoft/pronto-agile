@@ -156,7 +156,7 @@ class RetrospectivaController {
 				fileItem.write(new File(folderPath + nomeDoArquivo))
 				nomesDosArquivos.add(nomeDoArquivo)
 			} else {
-				model.addAttribute("erro", "N„o È possÌvel anexar o arquivo '" + nomeDoArquivo + "' pois este n„o possui uma extens„o.")
+				model.addAttribute("erro", "N√£o √© poss√≠vel anexar o arquivo '" + nomeDoArquivo + "' pois este n√£o possui uma extens√£o.")
 			}
 		}
 		

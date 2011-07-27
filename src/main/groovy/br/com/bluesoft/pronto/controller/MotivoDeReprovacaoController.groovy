@@ -27,9 +27,9 @@ class MotivoReprovacaoController {
 		Seguranca.validarPermissao Papel.EQUIPE
 		try {
 			motivoReprovacaoDao.excluir(new MotivoReprovacao(motivoReprovacaoKey: motivoReprovacaoKey))
-			"redirect:/motivosReprovacao?message=ExcluÌdo com Sucesso"
+			"redirect:/motivosReprovacao?message=Exclu√≠do com Sucesso"
 		} catch (e) {
-			"redirect:/motivosReprovacao?erro=Esta Motivo de ReprovaÁ„o est· Vinculado h· Alguns Tickets e N„o pode ser ExcluÌdo"
+			"redirect:/motivosReprovacao?erro=Esta Motivo de Reprova√ß√£o est√° Vinculado h√° Alguns Tickets e N√£o pode ser Exclu√≠do"
 		}
 	}
 	

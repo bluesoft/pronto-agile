@@ -31,7 +31,7 @@ class ConfiguracoesController {
 	String salvar(HttpServletRequest request) {
 		Seguranca.validarPermissao Papel.ADMINISTRADOR
 		configuracaoDao.atualizarConfiguracoes(request.getParameterMap());
-		"redirect:/configuracoes?mensagem=Configurações salvas com sucesso.";
+		"redirect:/configuracoes?mensagem=ConfiguraÃ§Ãµes salvas com sucesso.";
 	}
 	
 }

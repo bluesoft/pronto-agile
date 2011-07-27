@@ -22,13 +22,13 @@ package br.com.bluesoft.pronto.model;
 
 public enum TicketOrdem {
 
-	/**/CODIGO("Código"),
-	/**/TITULO("Título"),
+	/**/CODIGO("CÃ³digo"),
+	/**/TITULO("TÃ­tulo"),
 	/**/TIPO("Tipo"),
 	/**/CLIENTE("Cliente"),
 	/**/BACKLOG("Backlog"),
-	/**/VALOR_DE_NEGOCIO("Valor de Negócio"),
-	/**/ESFORCO("Esforço"),
+	/**/VALOR_DE_NEGOCIO("Valor de NegÃ³cio"),
+	/**/ESFORCO("EsforÃ§o"),
 	/**/PRIORIDADE_DO_CLIENTE("Prioridade do Cliente"),
 	/**/STATUS("Status");
 

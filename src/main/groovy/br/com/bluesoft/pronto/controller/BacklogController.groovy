@@ -148,7 +148,7 @@ class BacklogController {
 			model.addAttribute "mensagem", "Por favor, crie um sprint."
 			return "forward:/app/sprints"
 		} else if (sprint == null) {
-			model.addAttribute "mensagem", "Por favor, informe qual é o sprint atual."
+			model.addAttribute "mensagem", "Por favor, informe qual Ã© o sprint atual."
 			return "forward:/app/sprints"
 		} else {
 			return "redirect:/backlogs/sprints/${sprint.sprintKey}";
@@ -186,7 +186,7 @@ class BacklogController {
 		
 		Multimap<String, Ticket> ticketsAgrupados = ArrayListMultimap.create()
 		for ( Ticket ticket : tickets) {
-			// Não exibe nem as tarefas nem os itens na lixeira
+			// Nao exibe nem as tarefas nem os itens na lixeira
 			if (ticket.getPai() == null && ticket.getBacklog().getBacklogKey() != Backlog.LIXEIRA) {
 				ticketsAgrupados.put(ticket.getCliente() != null ? ticket.getCliente().getNome() : "Indefinido", ticket)
 			}
@@ -257,7 +257,7 @@ class BacklogController {
 		
 		StringBuilder descricaoTotal = new StringBuilder()
 		descricaoTotal.append(totalDeDefeitos > 0 ? totalDeDefeitos + " defeito(s), " : "nenhum defeito, ")
-		descricaoTotal.append(totalDeEstorias > 0 ? totalDeEstorias + " estória(s), " : "nenhuma estória, ")
+		descricaoTotal.append(totalDeEstorias > 0 ? totalDeEstorias + " estÃ³ria(s), " : "nenhuma estÃ³ria, ")
 		descricaoTotal.append(totalDeTarefas > 0 ? totalDeTarefas + " tarefa(s), " : "nenhuma tarefa")
 		
 		return descricaoTotal.toString()

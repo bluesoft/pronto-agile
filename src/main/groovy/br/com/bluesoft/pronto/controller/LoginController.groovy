@@ -70,7 +70,7 @@ class LoginController {
 		final String md5 = Seguranca.encrypt(password)
 		final Usuario usuario = (Usuario) sessionFactory.getCurrentSession().createQuery("select distinct u from Usuario u inner join fetch u.papeis where u.username = :username and u.password = :password").setString("username", username).setString("password", md5).uniqueResult()
 		if (usuario == null) {
-			model.addAttribute("erro", "Usu·rio e/ou senha inv·lidos!")
+			model.addAttribute("erro", "Usu√°rio e/ou senha inv√°lidos!")
 			return "redirect:/login"
 		} else {
 			httpSession.setAttribute("usuarioLogado", usuario)
