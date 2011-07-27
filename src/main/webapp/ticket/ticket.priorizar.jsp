@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<title>Priorizar ${backlog.descricao}${sprint.nome}</title>
-		<script type="text/javascript" src="${raiz}ticket/ticket.priorizar.js"></script>
+		<script type="text/javascript" src="${raiz}ticket/ticket.priorizar.js"  charset="UTF-8"></script>
 		<style type="text/css">
 			.ticketsTable tr {
 				height: 22px;

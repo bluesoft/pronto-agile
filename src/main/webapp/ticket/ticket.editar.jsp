@@ -9,7 +9,7 @@
 				var ordens = eval(${ordens});
 			</script>
 		</c:if>
-		<script type="text/javascript" src="${raiz}ticket/ticket.editar.js"></script>
+		<script type="text/javascript" src="${raiz}ticket/ticket.editar.js" charset="UTF-8"></script>
 	</head>
 	<body>
 		

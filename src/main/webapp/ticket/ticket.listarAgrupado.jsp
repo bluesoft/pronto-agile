@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Estórias e Defeitos por Cliente</title>
-		<script src="${raiz}ticket/ticket.listar.js" type="text/javascript"></script>
+		<script src="${raiz}ticket/ticket.listar.js" type="text/javascript"  charset="UTF-8"></script>
 		<script>
 			function recarregarPagina() {
 				var parametros = $('#formListar').serializeArray();

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>${backlog.descricao}${sprint.nome}</title>
-		<script src="${raiz}ticket/ticket.listar.js" type="text/javascript"></script>
+		<script src="${raiz}ticket/ticket.listar.js" type="text/javascript"  charset="UTF-8"></script>
 		<style type="text/css">
 			#ticketsTable tr {
 				height: 22px;

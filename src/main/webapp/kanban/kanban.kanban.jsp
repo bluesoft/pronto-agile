@@ -3,7 +3,7 @@
 	<head>
 		<title>Kanban</title>
 		<link rel="stylesheet" type="text/css" media="all" href="${raiz}kanban/kanban.css" />
-		<script type="text/javascript" src="${raiz}kanban/kanban.js"></script>
+		<script type="text/javascript" src="${raiz}kanban/kanban.js"  charset="UTF-8"></script>
 		<script>
 			var ordens = eval(${ordens});
 		</script>
