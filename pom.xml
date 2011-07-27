@@ -11,49 +11,38 @@
 
 	<build>
 		<directory>${directory}</directory>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.gmaven</groupId>
+					<artifactId>gmaven-plugin</artifactId>
+					<version>1.3</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>compile</goal>
+								<goal>testCompile</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<encoding>UTF-8</encoding>
+						<providerSelection>1.7</providerSelection>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.groovy.maven</groupId>
+				<groupId>org.codehaus.gmaven</groupId>
 				<artifactId>gmaven-plugin</artifactId>
-				<version>1.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>testCompile</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>			
-				<dependencies>
-		                <dependency>
-							<groupId>org.codehaus.groovy</groupId>
-							<artifactId>groovy-all</artifactId>
-							<version>${groovy.version}</version>
-		                </dependency>
-				</dependencies>
-	        </plugin>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.easyb</groupId>
-				<artifactId>maven-easyb-plugin</artifactId>
-				<version>0.9</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
@@ -64,13 +53,13 @@
 	</build>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 			<version>${groovy.version}</version>
 		</dependency>
-		
-				
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -95,30 +84,6 @@
 			</exclusions>
 		</dependency>
 
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.2.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.3</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>1.4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>net.sf.json-lib</groupId>
-			<artifactId>json-lib</artifactId>
-			<version>${jsonlib.version}</version>
-			<classifier>jdk15</classifier>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -187,42 +152,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.easyb</groupId>
-			<artifactId>easyb</artifactId>
-			<version>${easyb.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>sitemesh</artifactId>
-			<version>${sitemesh.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>${javamail.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.collections</groupId>
-			<artifactId>google-collections</artifactId>
-			<version>1.0</version>
-		</dependency>
-
-		<!-- Servlet -->
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
+			<version>${servlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -245,131 +177,17 @@
 			<version>1.1.2</version>
 		</dependency>
 
-
-		<!-- Wiki API -->
-
 		<dependency>
-			<groupId>info.bliki.wiki</groupId>
-			<artifactId>bliki-core</artifactId>
-			<version>${bliki.version}</version>
-		</dependency>
-
-		<!-- URL Rewrite -->
-		<dependency>
-			<groupId>org.tuckey</groupId>
-			<artifactId>urlrewritefilter</artifactId>
-			<version>3.1.0</version>
-		</dependency>
-
-		<!-- JSR 303 with Hibernate Validator -->
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
+			<groupId>opensymphony</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>${sitemesh.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>4.0.2.GA</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-validator</groupId>
-			<artifactId>commons-validator</artifactId>
-			<version>1.3.1</version>
-		</dependency>
-
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.mail</groupId>
-					<artifactId>mail</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.jms</groupId>
-					<artifactId>jms</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.jdmk</groupId>
-					<artifactId>jmxtools</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.jmx</groupId>
-					<artifactId>jmxri</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.groovy.modules.http-builder</groupId>
-			<artifactId>http-builder</artifactId>
-			<version>${http-builder.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.codehaus.groovy</groupId>
-					<artifactId>groovy</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>rome</groupId>
-			<artifactId>rome</artifactId>
-			<version>${rome.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-lgpl</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-lgpl</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache-core</artifactId>
-			<version>${ehcache.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-xmlrpc</artifactId>
-			<version>${groovy-xmlrpc.version}</version>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>${jsonlib.version}</version>
+			<classifier>jdk15</classifier>
 		</dependency>
 
 		<dependency>
@@ -385,10 +203,91 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.spockframework</groupId>
-			<artifactId>spock-core</artifactId>
-			<version>${spock.version}</version>
-			<scope>test</scope>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.groovy.modules.http-builder</groupId>
+			<artifactId>http-builder</artifactId>
+			<version>${http-builder.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-lgpl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>${ehcache.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-lgpl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>info.bliki.wiki</groupId>
+			<artifactId>bliki-core</artifactId>
+			<version>${bliki.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-xmlrpc</artifactId>
+			<version>${groovy-xmlrpc.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>jivesoftware</groupId>
+					<artifactId>smack</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -396,37 +295,37 @@
 			<artifactId>cglib-nodep</artifactId>
 			<version>${cglib.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgresql.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<version>3.9.0.GA</version>
 		</dependency>
-		
+
 		<dependency>
-	        <groupId>org.codehaus.groovy.maven.runtime</groupId>
-	        <artifactId>gmaven-runtime-1.6</artifactId>
-			<version>1.0</version>
-	    </dependency>
-		
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-core</artifactId>
+			<version>${spock.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
-	
-	
+
+
 	<properties>
-		<bliki.version>3.0.13</bliki.version>
+		<bliki.version>3.0.16</bliki.version>
 		<cglib.version>2.2</cglib.version>
-		<easyb.version>0.9.7</easyb.version>
 		<ehcache.version>2.2.0</ehcache.version>
-		<hibernate.annotations.version>3.5.4-Final</hibernate.annotations.version>
 		<postgresql.version>9.0-801.jdbc3</postgresql.version>
-		<hibernate.version>3.5.4-Final</hibernate.version>
-		<log4j.version>1.2.15</log4j.version>
+		<hibernate.version>3.6.6.Final</hibernate.version>
+		<hibernate.annotations.version>3.5.6-Final</hibernate.annotations.version>
+		<log4j.version>1.2.16</log4j.version>
 		<jackson.version>1.5.5</jackson.version>
 		<javamail.version>1.4.3</javamail.version>
 		<mockito.version>1.8.5</mockito.version>
@@ -434,35 +333,25 @@
 		<junit.version>4.7</junit.version>
 		<jsonlib.version>2.3</jsonlib.version>
 		<groovy-xmlrpc.version>0.7</groovy-xmlrpc.version>
-		<rome.version>1.0</rome.version>
 		<sitemesh.version>2.2.1</sitemesh.version>
 		<slf4j.version>1.5.10</slf4j.version>
 		<smack.version>3.1.0</smack.version>
 		<smackx.version>3.1.0</smackx.version>
 		<spock.version>0.5-groovy-1.7</spock.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
-		<servlet.version>2.4</servlet.version>
+		<servlet.version>2.5</servlet.version>
 		<http-builder.version>0.5.0-RC2</http-builder.version>
-		<jetty.plugin.version>6.1.26</jetty.plugin.version>       
+		<jetty.plugin.version>6.1.26</jetty.plugin.version>
 		<directory>target</directory>
+		<gmaven.runtime>1.7</gmaven.runtime>
 		<groovy.version>1.7.5</groovy.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	<repositories>
 		<repository>
 			<id>info-bliki-repository</id>
 			<url>http://gwtwiki.googlecode.com/svn/maven-repository/</url>
-		</repository>
-		<repository>
-			<id>org.jboss.repository.maven</id>
-			<url>http://repository.jboss.org/nexus</url>
-		</repository>
-		<repository>
-			<id>maven2-repository.dev.java.net</id>
-			<name>Java.net Repository for Maven</name>
-			<url>http://download.java.net/maven/2/</url>
-			<layout>default</layout>
 		</repository>
 	</repositories>
 </project>
