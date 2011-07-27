@@ -32,7 +32,7 @@
 	<div>
 		<c:forEach items="${envolvidos}" var="u" varStatus="s">
 			<c:set var="checked" value="${false}"/>
-			<c:forEach items="${ticket.envolvidos}" var="d">
+			<c:forEach items="${ticket.todosOsEnvolvidos}" var="d">
 				<c:if test="${d.username eq u.username}">
 					<c:set var="checked" value="${true}"/>
 				</c:if>
