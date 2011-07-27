@@ -61,7 +61,7 @@ pronto.confirm = function(message, yesCallback, noCallback, onOpen, onClose) {
 	var id = "divModal" + Math.ceil(Math.random()*1000);
 	var divMensagem = $("<div id='"+id+"'>" + message + "</div>");  
 	divMensagem.dialog({
-		title: "Atenção",
+		title: "AtenÃ§Ã£o",
 		height: 170,
 		modal: true, 
 	    overlay: { 
@@ -79,7 +79,7 @@ pronto.confirm = function(message, yesCallback, noCallback, onOpen, onClose) {
 			}
 	    },
 	    buttons: { 
-	        "Não": function() { 
+	        "NÃ£o": function() { 
 	            if ($.isFunction(noCallback)) {
 					noCallback.apply();
 				}	
@@ -191,7 +191,7 @@ pronto.erro = function(mensagem){
 
 pronto.alerta = function(mensagem){
 	$.gritter.add({
-		title: 'Atenção',
+		title: 'AtenÃ§Ã£o',
 		text: mensagem,
 		image: pronto.raiz + 'commons/icons/alerta_big.png'
 	});

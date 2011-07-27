@@ -18,7 +18,7 @@ $(function() {
 			if (salvou == "true") {
 				$li.remove();
 			} else {
-				alert('Não foi possível excluir.');
+				alert('NÃ£o foi possÃ­vel excluir.');
 			}
 		});
 	});
@@ -27,7 +27,7 @@ $(function() {
 		var $li = $(this).parents('li');
 		var key = $li.attr('key');
 		var $descricao = $li.find('.etapa-descricao');
-		var novoNome = prompt("Informe a nova descrição da etapa", $descricao.text());
+		var novoNome = prompt("Informe a nova descriÃ§Ã£o da etapa", $descricao.text());
 		
 
 		if(novoNome != null && novoNome.length > 0) {
@@ -38,7 +38,7 @@ $(function() {
 				if (salvou == "true") {
 					$descricao.text(novoNome);
 				} else {
-					alert('Não foi possível editar a etapa.');
+					alert('NÃ£o foi possÃ­vel editar a etapa.');
 				}
 			});
 		}

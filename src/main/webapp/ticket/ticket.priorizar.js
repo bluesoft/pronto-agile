@@ -80,7 +80,7 @@ function exibirDialogDeCriarGrupo(){
 
 function criarGrupo(valor){
 	if ($('h4.valor-'+valor).length > 0){
-		alert('Este grupo j· existe!');
+		alert('Este grupo j√° existe!');
 	} else {
 		var $novoGrupo = $('#modelo').clone();
 		$novoGrupo.find('table').attr('valor', valor);

@@ -4,7 +4,7 @@
  * Translator: Francisco Ernesto Teixeira <fco_ernesto@yahoo.com.br>
  */
 jQuery.extend(jQuery.validator.messages, {
-	required: "Este campo &eacute; obrigatório.",
+	required: "Este campo &eacute; obrigatÃ³rio.",
 	remote: "Por favor, corrija este campo.",
 	email: "Por favor, forne&ccedil;a um endere&ccedil;o eletr&ocirc;nico v&aacute;lido.",
 	url: "Por favor, forne&ccedil;a uma URL v&aacute;lida.",
@@ -14,7 +14,7 @@ jQuery.extend(jQuery.validator.messages, {
 	dateDE: "Bitte geben Sie ein gÃ¼ltiges Datum ein.",
 	number: "Por favor, forne&ccedil;a um n&uacute;mero v&aacute;lido.",
 	numberDE: "Bitte geben Sie eine Nummer ein.",
-	digits: "Por favor, forne&ccedil;a somente números inteiros.",
+	digits: "Por favor, forne&ccedil;a somente nÃºmeros inteiros.",
 	creditcard: "Por favor, forne&ccedil;a um cart&atilde;o de cr&eacute;dito v&aacute;lido.",
 	equalTo: "Por favor, forne&ccedil;a o mesmo valor novamente.",
 	accept: "Por favor, forne&ccedil;a um valor com uma extens&atilde;o v&aacute;lida.",

@@ -113,7 +113,7 @@ pronto.kanban = {
 	criarDialogDeMotivoDeReprovacao: function(){
 		var divMotivo = $("#motivo");
 		divMotivo.dialog({
-			title: "Selecione o Motivo da Reprovação",
+			title: "Selecione o Motivo",
 			height: 100,
 			modal: true,
 			autoOpen: false, 
