@@ -133,7 +133,7 @@ class TicketController {
 		tx.commit()
 
 		if (notificar && notificar.size() > 0) {
-			messenger.enviarComentario ticketKey, comentario, usuarioDao.listar(notificar)
+			messenger.enviarComentario ticket, comentario, usuarioDao.listar(notificar)
 		}
 
 		return "redirect:/tickets/${ticketKey}#comentarios"

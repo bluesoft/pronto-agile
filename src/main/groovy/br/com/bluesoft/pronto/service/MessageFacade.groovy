@@ -32,9 +32,9 @@ class MessageFacade {
 		return this.enviarMensagem(sbj, msg, movimento.ticket.envolvidos)
 	}
 
-	boolean enviarComentario(int ticketKey, String comentario, def to) {
-		def sbj = "#${ticketKey}: ${ticket.titulo}"
-		def url = configuracaoDao.getProntoUrl() + "tickets/${ticketKey}"
+	boolean enviarComentario(Ticket ticket, String comentario, def to) {
+		def sbj = "#${ticket.ticketKey}: ${ticket.titulo}"
+		def url = configuracaoDao.getProntoUrl() + "tickets/${ticket.ticketKey}"
 		def msg = "${Seguranca.usuario} comenta:\n\n ${comentario}\n\n${url}"
 		return this.enviarMensagem(sbj, msg, to)
 	}
