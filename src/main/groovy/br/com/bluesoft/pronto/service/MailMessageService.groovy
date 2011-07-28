@@ -49,10 +49,10 @@ class MailMessageService implements MessageService {
 
 	private void enviar(String subject, String body, String to){
 		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setFrom("nfe-cosmos@bluesoft.com.br");
+		msg.setFrom("no-reply@bluesoft.com.br");
 		msg.setTo(to);
 		msg.setText(body);
-		msg.setSubject("Pronto - " + subject);
+		msg.setSubject("[Pronto] " + subject);
 		this.mailSender.send(msg);
 	}
 }
