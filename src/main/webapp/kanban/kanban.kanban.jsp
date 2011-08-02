@@ -41,15 +41,8 @@
 		
 		<table align="center" style="width: 100%;" id="kanbanTable">
 			<tr>
+                <c:set var="width" value="${100 / fn:length(status)}"/>
                 <c:forEach items="${status}" var="s">
-                    <c:choose>
-                        <c:when test="${s.kanbanStatusKey eq 1 || s.kanbanStatusKey eq 2 || s.kanbanStatusKey eq 100}">
-                            <c:set var="width" value="20"/>
-						</c:when>
-						<c:otherwise>
-							<c:set var="width" value="10"/>
-						</c:otherwise>
-					</c:choose>
 					<td style="width: ${width}%; height: 100%;">
                               <div class="ui-widget ui-helper-clearfix kanban-area" align="center">
                                   <h4 class="kanban-header ui-widget-header">
