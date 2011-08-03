@@ -192,7 +192,7 @@ function confirmarVinculo(ticketKey){
 			cache : false,
 			success : function(retorno) {
 				var data = eval('(' + retorno + ')');
-				if (data.isSucces == "true") {
+				if (data.isSuccess == "true") {
 					$("#dialogVincularAoZendesk").dialog('close');
 					salvar();
 				} else {

@@ -275,7 +275,7 @@ class TicketController {
 				if (ticket.getTicketKey() != null && ticket.isDone()) {
 					def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
 					if (zendeskTicketKey) {
-						zendeskService.incluirComentarioPublico(zendeskTicketKey,'Este ticket já foi desenvolvido e em breve estará no ar!')
+						zendeskService.notificarConclusao zendeskTicketKey
 					}
 				}
 			}
@@ -826,10 +826,10 @@ class TicketController {
 			}else{
 				throw new ProntoException(MessageFormat.format("Não foi possível vincular este ticket ao Zendesk porque o ticket {0} já esta vinculado.", ticket));
 			}
-			json.put "isSucces", "true"
+			json.put "isSuccess", "true"
 			return json
 		} catch (e) {
-			json.put "isSucces", "false"
+			json.put "isSuccess", "false"
 			json.put "mensagem", e.getMessage()
 
 			return json
@@ -840,7 +840,6 @@ class TicketController {
 	@ResponseBody String excluirVinculoComZendesk(Model model, @PathVariable int ticketKey) {
 		try {
 			ticketDao.excluirVinculoComZendesk ticketKey
-
 			return "true"
 		} catch (e) {
 			return "false"

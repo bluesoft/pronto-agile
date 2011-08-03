@@ -109,12 +109,13 @@ class ZendeskService {
 		ticket.descricao = zendeskTicket.description
 		ticket.solicitador = zendeskSolicitador.name
 		ticket.reporter = Seguranca.getUsuario()
+		ticket.responsavel = null
 		ticketDao.salvar ticket
 		ticketDao.relacionarComZendesk ticket.ticketKey, zendeskTicket.nice_id
 		return ticket
 	}
 	
-	def incluirComentarioPublico(int zendeskTicketKey, String comentario) {
+	private incluirComentarioPublico(int zendeskTicketKey, String comentario) {
 		this.incluirComentario zendeskTicketKey, comentario, true
 	}
 	
@@ -122,9 +123,16 @@ class ZendeskService {
 		this.incluirComentario zendeskTicketKey, comentario, false
 	}
 	
+	def notificarInclusao(int zendeskTicketKey) {
+		this.incluirComentarioPublico zendeskTicketKey, 'Este chamado foi encaminhado ao time de desenvolvimento.\r\n\r\nVocê receberá uma notificação quando o mesmo for concluído.'
+	}
+	
+	def notificarConclusao(int zendeskTicketKey) {
+		this.incluirComentarioPublico zendeskTicketKey, 'Este chamado foi concluído pelo time de desenvolvimento e estará disponível na próxima atualização.'
+	}
+	
 	private def incluirComentario(int zendeskTicketKey, String comentario, boolean publico) {
 		try {
-			comentario = StringUtil.retiraAcentuacao(comentario)
 			def comment  = ['comment':['is_public': publico, 'value':comentario]]
 			def resp = getRESTClient().put(path:"/tickets/${zendeskTicketKey}.json",  contentType: TEXT, requestContentType: JSON,	body:comment)
 			CacheManager.getInstance().getCache("zendeskTickets").removeQuiet(zendeskTicketKey)
