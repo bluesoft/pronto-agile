@@ -445,7 +445,11 @@ class Ticket {
 	
 	public void setTicketOrigem(Ticket ticketOrigem) {
 		this.ticketOrigem = ticketOrigem;
-	}	
+	}
+	
+	def getEnvolvidosExcetoUsuarioLogado() {
+		return envolvidos - Seguranca.getUsuario()
+	}
 	
 	def getTodosOsEnvolvidos() {
 		def todosOsEnvolvidos = [] as Set

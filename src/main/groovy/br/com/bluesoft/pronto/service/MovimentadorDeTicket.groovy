@@ -26,17 +26,22 @@ class MovimentadorDeTicket {
 		movimentar ticket, kanbanStatusKey, null
 	}
 	
-	MovimentoKanban movimentar(def ticket, int kanbanStatusKey, def motivoReprovacaoKey) {
+	MovimentoKanban movimentar(Ticket ticket, int kanbanStatusKey, def motivoReprovacaoKey) {
 		def status = kanbanStatusDao.obter(kanbanStatusKey)
 		validacoesDePronto ticket, status
 		ticket.kanbanStatus = status
+		envolverMovimentador(ticket)
 		ticketDao.salvar ticket
 		def movimento = criarMovimento(ticket, motivoReprovacaoKey) 
 		messenger.notificarMovimentacao(movimento)
 		return movimento
 	}
 
-	private MovimentoKanban criarMovimento(def ticket, def motivo) {
+	private envolverMovimentador(Ticket ticket) {
+		ticket.addEnvolvido Seguranca.usuario
+	}
+
+	private MovimentoKanban criarMovimento(Ticket ticket, def motivo) {
 		MovimentoKanban movimento = new MovimentoKanban()
 		movimento.ticket = ticket
 		movimento.kanbanStatus = ticket.kanbanStatus
@@ -49,7 +54,7 @@ class MovimentadorDeTicket {
 		return movimento
 	}
 	
-	private void validacoesDePronto(ticket, status) {
+	private void validacoesDePronto(Ticket ticket, status) {
 		if (status.isFim()){
 			validarCausaDeDefeito(ticket)
 			validarChecklists(ticket) 
@@ -59,13 +64,13 @@ class MovimentadorDeTicket {
 		}
 	}
 	
-	private void validarCausaDeDefeito(def ticket) {
+	private void validarCausaDeDefeito(Ticket ticket) {
 		if (ticket.defeito  && !ticket.causaDeDefeito) {
 			throw new ProntoException("Antes de marcar um defeito como resolvido é preciso informar sua causa.")
 		}
 	}
 	
-	private void validarChecklists(def ticket) {
+	private void validarChecklists(Ticket ticket) {
 		def itensNaoMarcados = ticketDao.obterQuantidadeDeChecklistItemsNaoMarcadosPorTicket(ticket.ticketKey)
 		if (itensNaoMarcados > 0) {
 			throw new ProntoException("Não foi possível fechar o ticket porque há itens no checklist que não foram marcados/conferidos.")

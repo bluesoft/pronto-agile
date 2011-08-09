@@ -29,7 +29,7 @@ class MessageFacade {
 		def sbj = "#${movimento.ticket.ticketKey}: ${movimento.ticket.titulo}"
 		def url = configuracaoDao.getProntoUrl() + "tickets/${movimento.ticket.ticketKey}"
 		def msg = "${Seguranca.usuario} moveu o ticket #${movimento.ticket.ticketKey} para ${movimento.kanbanStatus.descricao}\n\n${url}"
-		return this.enviarMensagem(sbj, msg, movimento.ticket.envolvidos)
+		return this.enviarMensagem(sbj, msg, movimento.ticket.getEnvolvidosExcetoUsuarioLogado())
 	}
 
 	boolean enviarComentario(Ticket ticket, String comentario, def to) {
