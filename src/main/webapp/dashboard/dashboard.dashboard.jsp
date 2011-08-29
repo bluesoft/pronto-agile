@@ -69,6 +69,13 @@
 			.backlog-name {
 				float: left;
 			}
+			
+			.milestone-descricao {
+				font-size: 12px;
+				font-weight: bold;
+				float: right;
+				margin: 5px;
+			}
 		</style>
 	</head>
 	<body>
@@ -94,6 +101,23 @@
 						</c:forEach>
 					</div>
 					<hr/>
+					
+					<div class="tipos">
+						<c:forEach items="${item.percentualPorMilestone}" var="milestone">
+							<div class="milestone">
+								<span class="milestone-percentual">
+									<a href="${raiz}buscar?projetoKey=${item.projetoKey}&milestoneKey=${milestone.key.key}&kanbanStatusKey=0&ignorarLixeira=true">
+										<div class="progress" percent="${milestone.value}">
+											<span class="milestone-descricao">${milestone.key.value}</span>
+										</div>
+									</a>
+								</span>
+							</div>
+						</c:forEach>
+					</div>
+					<hr/>
+					
+					
 					
 					<div class="backlogs">
 						<c:forEach items="${item.mapaPorBacklogESprintEEtapa}" var="backlog">
@@ -149,6 +173,18 @@
 					</div>
 				</div>
 			</c:forEach>
-
+ 		<script type="text/javascript">
+			$(function(){
+				
+				$(".progress").each(function(i, el){
+					$el = $(el);
+					var percent = parseInt($el.attr('percent'));
+					$el.progressbar({
+						value: percent
+					});
+					$el.attr('title','Milestone ' + percent + '% completo');
+				});
+			});
+		</script>
 	</body>
 </html>

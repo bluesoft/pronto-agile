@@ -143,6 +143,15 @@
 					</select>
 				</div>
 				<div class="opcao">
+					Milestone:<br/>
+					<select name="milestoneKey"  id="milestoneKey">
+						<option value="0" ${filtro.milestoneKey eq 0 ? 'selected' : ''}>Todos</option>
+						<c:forEach var="m" items="${milestones}">
+							<option value="${m.milestoneKey}" ${filtro.milestoneKey eq m.milestoneKey ? 'selected' : ''}>${m.nome}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="opcao">
 					Categoria:<br/>
 					<select name="categoriaKey"  id="categoriaKey">
 						<option value="0" ${filtro.categoriaKey eq 0 ? 'selected' : ''}>Todos</option>
@@ -238,7 +247,7 @@
 				<tr id="${t.ticketKey}" class="${cor ? 'odd' : 'even'}">
 					<td><a href="${raiz}tickets/${t.ticketKey}">${t.ticketKey}</a></td>
 					<td>
-						<span class="categoria categoria-${t.categoria.descricaoDaCor}">
+						<span class="categoria categoria-${t.categoria.cor}">
 							${t.categoria.descricao}
 						</span>
 					</td>

@@ -51,6 +51,8 @@
 		<mapping class="br.com.bluesoft.pronto.model.BancoDeDados" />
 		<mapping class="br.com.bluesoft.pronto.model.Script" />
 		<mapping class="br.com.bluesoft.pronto.model.Execucao" />
+		
+		<mapping class="br.com.bluesoft.pronto.model.Milestone" />
 
 	</session-factory>
 </hibernate-configuration>

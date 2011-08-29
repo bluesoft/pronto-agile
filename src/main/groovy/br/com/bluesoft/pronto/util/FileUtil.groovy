@@ -89,7 +89,9 @@ class FileUtil {
 			arquivo = new File(Config.getImagesFolder() + path)
 			if (!arquivo.exists()) throw new FileNotFoundException()
 		} catch(e) {
-			arquivo = new File(this.getClass().getResource("/noimage.gif").getFile())
+			def noImage = this.getClass().getResource("/noimage.gif")
+			if (noImage)
+				arquivo = new File(noImage.getFile())
 		}
 		return arquivo
 	}

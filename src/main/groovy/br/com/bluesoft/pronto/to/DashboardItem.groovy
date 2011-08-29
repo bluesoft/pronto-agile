@@ -5,5 +5,6 @@ class DashboardItem {
 	String projeto
 	def mapaPorBacklogESprintEEtapa = [:]
 	def quantidadesPorTipoDeTicket = [:]
+	def percentualPorMilestone = [:]
 }
 

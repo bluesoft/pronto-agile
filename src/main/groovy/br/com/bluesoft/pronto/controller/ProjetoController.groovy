@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody
 import br.com.bluesoft.pronto.core.KanbanStatus
 import br.com.bluesoft.pronto.core.Papel
 import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.MilestoneDao
 import br.com.bluesoft.pronto.dao.ProjetoDao
+import br.com.bluesoft.pronto.model.Milestone
 import br.com.bluesoft.pronto.model.Projeto
 import br.com.bluesoft.pronto.service.Seguranca
 
@@ -24,6 +26,7 @@ class ProjetoController {
 
 	@Autowired private ProjetoDao projetoDao
 	@Autowired private KanbanStatusDao kanbanStatusDao
+	@Autowired private MilestoneDao milestoneDao
 
 	@RequestMapping(value='/{projetoKey}', method=DELETE)
 	String excluir(Model model, @PathVariable int projetoKey) {
@@ -131,6 +134,32 @@ class ProjetoController {
 			etapa.ordem  = index+10
 			kanbanStatusDao.salvar etapa
 		}
+		return "true"
+	}
+	
+	@RequestMapping(method=POST)
+	@ResponseBody
+	String incluirMilestone(int projetoKey, String nome){
+		Milestone milestone = new Milestone()
+		milestone.nome = nome
+		milestone.projeto = projetoDao.proxy(projetoKey)
+		milestoneDao.salvar(milestone)
+		return milestone.milestoneKey
+	}
+	
+	@RequestMapping(method=POST)
+	@ResponseBody
+	String excluirMilestone(int milestoneKey){
+		milestoneDao.excluir(milestoneDao.obter(milestoneKey))
+		return "true"
+	}
+	
+	@RequestMapping(method=POST)
+	@ResponseBody
+	String editarMilestone(int milestoneKey, String nome){
+		def milestone = milestoneDao.obter(milestoneKey)
+		milestone.nome = nome
+		milestoneDao.salvar milestone
 		return "true"
 	}
 	

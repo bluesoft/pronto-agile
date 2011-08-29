@@ -50,6 +50,7 @@ class Ticket {
 		logs = new ArrayList<TicketLog>()
 		script = new Script()
 		projeto = new Projeto()
+		milestone = new Milestone();
 	}
 	
 	@Id
@@ -155,6 +156,12 @@ class Ticket {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "modulo_key")
 	Modulo modulo
+	
+	@Auditable
+	@Label("milestone")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "milestone_key")
+	Milestone milestone
 	
 	@Auditable
 	@Label("causa do defeito")

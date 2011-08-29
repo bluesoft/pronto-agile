@@ -37,6 +37,7 @@ import br.com.bluesoft.pronto.dao.BacklogDao
 import br.com.bluesoft.pronto.dao.CategoriaDao
 import br.com.bluesoft.pronto.dao.ClienteDao
 import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.MilestoneDao
 import br.com.bluesoft.pronto.dao.ModuloDao
 import br.com.bluesoft.pronto.dao.ProjetoDao
 import br.com.bluesoft.pronto.dao.TicketDao
@@ -61,6 +62,7 @@ class BuscarController {
 	@Autowired ModuloDao moduloDao
 	@Autowired TipoDeTicketDao tipoDeTicketDao
 	@Autowired ProjetoDao projetoDao
+	@Autowired MilestoneDao milestoneDao
 	
 	@RequestMapping("/")
 	String buscarRest(Model model, TicketFilter filtro) {
@@ -84,6 +86,7 @@ class BuscarController {
 		model.addAttribute("categorias", categoriaDao.listar())
 		model.addAttribute("modulos", moduloDao.listar())
 		model.addAttribute("backlogs", backlogDao.listar())
+		model.addAttribute("milestones", milestoneDao.listar())
 		model.addAttribute("tiposDeTicket", tipoDeTicketDao.listar())
 		model.addAttribute("projetos", projetoDao.listarProjetosComSprintsAtivos())
 		model.addAttribute("filtro", filtro)

@@ -56,6 +56,20 @@
 						</c:forEach>
 					</ul>
 				</div>
+				
+				<br/>
+				<div>
+					<h3>Milestones
+						<pronto:icons name="adicionar.png" title="Incluir Milestone" clazz="icon-adicionar" onclick="incluirMilestone()"/>
+					</h3>	
+					<ul id="milestones">
+						<c:forEach items="${projeto.milestones}" var="milestone" varStatus="status">
+							<li class="milestone" key="${milestone.milestoneKey}">
+								<span class="descricao">${milestone.nome}</span>
+							</li>
+						</c:forEach>
+					</ul>
+				</div>
 			</c:if>
 		
 		<div align="center" class="buttons">

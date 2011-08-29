@@ -185,3 +185,14 @@ select ticket_key, usuario_key from ticket_testador
 ) a;
 drop table ticket_desenvolvedor;
 drop table ticket_testador;
+
+--2011 08 29
+create table milestone (
+	milestone_key integer primary key,
+	nome varchar(75),
+	projeto_key integer references projeto not null
+);
+alter table ticket add milestone_key integer references milestone;
+CREATE INDEX idx_ticket_milestone ON ticket USING btree (milestone_key);
+CREATE INDEX idx_milestone_projeto ON milestone USING btree (projeto_key);
+create sequence seq_milestone;

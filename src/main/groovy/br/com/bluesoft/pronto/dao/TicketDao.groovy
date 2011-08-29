@@ -277,6 +277,7 @@ public class TicketDao extends DaoHibernate {
 		hql.append(" left join fetch t.categoria cat   ");
 		hql.append(" left join fetch t.projeto projeto ");
 		hql.append(" left join fetch t.modulo mod ");
+		hql.append(" left join fetch t.milestone ml ");
 		hql.append(" left join fetch t.tipoDeTicket as tipoDeTicket ");
 		hql.append(" left join fetch t.backlog as b    ");
 		hql.append(" left join fetch t.kanbanStatus as kanbanStatus ");
@@ -328,6 +329,10 @@ public class TicketDao extends DaoHibernate {
 		
 		if (filtro.moduloKey && filtro.moduloKey > 0) {
 			hql.append(" and mod.moduloKey = :moduloKey ");
+		}
+		
+		if (filtro.milestoneKey && filtro.milestoneKey > 0) {
+			hql.append(" and ml.milestoneKey = :milestoneKey ");
 		}
 		
 		if (filtro.reporter && filtro.reporter.length() > 0) {
@@ -399,6 +404,10 @@ public class TicketDao extends DaoHibernate {
 		
 		if (filtro.moduloKey) {
 			query.setInteger("moduloKey", filtro.moduloKey)
+		}
+		
+		if (filtro.milestoneKey) {
+			query.setInteger("milestoneKey", filtro.milestoneKey)
 		}
 		
 		if (filtro.reporter) {
@@ -882,6 +891,27 @@ public class TicketDao extends DaoHibernate {
 			
 			def dashboardItem = mapa[projeto]
 			dashboardItem.quantidadesPorTipoDeTicket[tipoDeTicket] = quantidade
+		}
+		
+		
+		sql = """
+		select p.projeto_key, p.nome as projeto, m.milestone_key, m.nome, 
+		       (100.0 * count(data_de_pronto) / count(*)) as percentual  
+		from ticket t 
+		inner join milestone m on t.milestone_key = m.milestone_key
+		inner join projeto p on m.projeto_key = p.projeto_key
+		group by p.projeto_key, p.nome, m.milestone_key, m.nome
+		"""
+		
+		query = session.createSQLQuery(sql)
+		query.list().each{
+			def projetoKey = it[0] as Integer
+			def projeto = it[1]
+			def milestone = new Entry(it[2], it[3])
+			def percentual = it[4]
+			
+			def dashboardItem = mapa[projeto]
+			dashboardItem.percentualPorMilestone[milestone] = percentual
 		}
 		
 		return mapa.values()

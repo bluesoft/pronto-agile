@@ -30,6 +30,10 @@ class Projeto {
 	@OrderBy("ordem")
 	List<KanbanStatus> etapasDoKanban = []
 	
+	@OneToMany(mappedBy="projeto", cascade=[CascadeType.ALL], orphanRemoval=true)
+	@OrderBy("nome")
+	List<Milestone> milestones = []
+	
 	@OneToMany(mappedBy="projeto")
 	@OrderBy("nome")
 	List<Sprint> sprints = []

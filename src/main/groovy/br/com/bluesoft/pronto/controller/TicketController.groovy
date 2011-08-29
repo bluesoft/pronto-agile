@@ -44,6 +44,7 @@ import br.com.bluesoft.pronto.dao.CausaDeDefeitoDao
 import br.com.bluesoft.pronto.dao.ClienteDao
 import br.com.bluesoft.pronto.dao.ConfiguracaoDao
 import br.com.bluesoft.pronto.dao.KanbanStatusDao
+import br.com.bluesoft.pronto.dao.MilestoneDao
 import br.com.bluesoft.pronto.dao.ModuloDao
 import br.com.bluesoft.pronto.dao.MotivoReprovacaoDao
 import br.com.bluesoft.pronto.dao.MovimentoKanbanDao
@@ -97,6 +98,7 @@ class TicketController {
 	@Autowired MessageFacade messenger
 	@Autowired ProjetoDao projetoDao
 	@Autowired ChecklistService checklistService
+	@Autowired MilestoneDao milestoneDao
 
 	@InitBinder
 	public void initBinder(final WebDataBinder binder, final WebRequest webRequest) {
@@ -244,6 +246,12 @@ class TicketController {
 				ticket.setModulo(moduloDao.obter(ticket.modulo.moduloKey))
 			} else {
 				ticket.modulo = null
+			}
+			
+			if (ticket.milestone != null && ticket.milestone.milestoneKey > 0) {
+				ticket.setMilestone(milestoneDao.obter(ticket.milestone.milestoneKey))
+			} else {
+				ticket.milestone = null
 			}
 
 			if (ticket.getTicketKey() == 0) {
@@ -723,6 +731,7 @@ class TicketController {
 
 		model.addAttribute "categorias", categoriaDao.listar()
 		model.addAttribute "modulos", moduloDao.listar()
+		model.addAttribute "milestones", milestoneDao.listar()
 		model.addAttribute "configuracoes", configuracaoDao.getMapa()
 		model.addAttribute "clientes", clienteDao.listar()
 		model.addAttribute "projetos", projetoDao.listarProjetosComSprintsAtivos()

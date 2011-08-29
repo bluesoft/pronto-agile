@@ -384,6 +384,15 @@
 								<br/>
 								<p>Módulo</p>
 							</div>
+							
+							<div>
+								<form:select path="ticket.milestone.milestoneKey">
+									<form:option value="0" cssClass="nenhuma">Nenhum</form:option>
+									<form:options items="${milestones}" itemLabel="nome" itemValue="milestoneKey"/>
+								</form:select>
+								<br/>
+								<p>Milestone</p>
+							</div>
 
 							<c:if test="${empty ticket.filhos and !sprintless}">
 								<div>
@@ -391,6 +400,8 @@
 									<p>Branch</p>
 								</div>
 							</c:if>
+							
+							
 						</div>
 						<div class="bloco">
 
