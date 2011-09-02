@@ -3,8 +3,8 @@
 
 	<diskStore path="java.io.tmpdir" />
 
-	<defaultCache maxElementsInMemory="100" eternal="false"
-		timeToIdleSeconds="60" timeToLiveSeconds="120" overflowToDisk="false" />
+	<defaultCache maxElementsInMemory="300" eternal="false"
+		timeToIdleSeconds="90" timeToLiveSeconds="150" overflowToDisk="false" />
 
 	<cache name="eternal" maxElementsInMemory="5000" eternal="true"
 		overflowToDisk="false" />
@@ -49,6 +49,11 @@
 	</cache>
 
 	<cache name="br.com.bluesoft.pronto.model.Categoria"
+		maxElementsInMemory="40" eternal="false" timeToIdleSeconds="600"
+		timeToLiveSeconds="600" overflowToDisk="false">
+	</cache>
+	
+	<cache name="br.com.bluesoft.pronto.model.Milestone"
 		maxElementsInMemory="40" eternal="false" timeToIdleSeconds="600"
 		timeToLiveSeconds="600" overflowToDisk="false">
 	</cache>

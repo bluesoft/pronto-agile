@@ -110,6 +110,7 @@ class ZendeskService {
 		ticket.solicitador = zendeskSolicitador.name
 		ticket.reporter = Seguranca.getUsuario()
 		ticket.responsavel = null
+		ticket.milestone = null
 		ticketDao.salvar ticket
 		ticketDao.relacionarComZendesk ticket.ticketKey, zendeskTicket.nice_id
 		return ticket

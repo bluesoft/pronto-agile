@@ -217,7 +217,7 @@
 								<c:if test="${backlog.impedimentos}"><td>${f.responsavel}</td></c:if>
 								<td>${f.cliente}</td>
 								<td style="color:gray;" class="valorDeNegocio"></td>
-								<td style="color:gray;"class="esforco">${f.esforco}</td>
+								<td style="color:gray;" class="esforco">${f.esforco}</td>
 								<td>${f.kanbanStatus.descricao}</td>
 								<td></td>
 							</tr>
@@ -265,7 +265,7 @@
 						<c:if test="${backlog.impedimentos}"><td>${s.responsavel}</td></c:if>
 						<td>${s.cliente}</td>
 						<td style="color:gray;" class="valorDeNegocio">${s.valorDeNegocio}</td>
-						<td style="color:gray;"class="esforco">${s.esforco}</td>
+						<td style="color:gray;" class="esforco">${s.esforco}</td>
 						<td>${s.kanbanStatus.descricao}</td>
 						<td></td>
 					</tr>
