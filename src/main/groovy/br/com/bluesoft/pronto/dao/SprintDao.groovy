@@ -129,4 +129,9 @@ public class SprintDao extends DaoHibernate{
 		final Sprint sprint = (Sprint) getSession().createQuery(hql).setInteger("sprintKey", sprintKey).uniqueResult()
 		return sprint
 	}
+	public Sprint obterSprintComTicketsETotaisCalculados(final Integer sprintKey) {
+		def sprint = obterSprintComTicket(sprintKey)
+		preencheTotaisDeEsforcoEValorDeNegocioDosSprints([sprint])
+		return sprint
+	}
 }

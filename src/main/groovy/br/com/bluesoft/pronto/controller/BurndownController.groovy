@@ -97,8 +97,7 @@ class BurndownController {
 			sprintKey = sprint.getSprintKey()
 		}
 
-		sprint = sprintDao.obterSprintComTicket(sprintKey)
-		
+		sprint = sprintDao.obterSprintComTicketsETotaisCalculados(sprintKey)
 		final double esforcoTotal = sprint.getEsforcoTotal()
 		final Map<String, Double> mapaEsforcoPorDia = sprint.getMapaEsforcoPorDia(considerarFimDeSemana)
 		final int quantidadeDeDias = mapaEsforcoPorDia.keySet().size()
