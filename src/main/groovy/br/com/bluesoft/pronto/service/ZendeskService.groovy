@@ -86,10 +86,14 @@ class ZendeskService {
 		if (usuario) {
 			return usuario.value
 		} else {
-			usuario = getRESTClient().get( path : "/users/${usuarioKey}.json" ).data
-			usuario.emailMD5 = MD5Util.md5Hex(usuario.email)
-			cache.put new Element(usuarioKey, usuario)
-			return usuario
+			try {
+				usuario = getRESTClient().get( path : "/users/${usuarioKey}.json" ).data
+				usuario.emailMD5 = MD5Util.md5Hex(usuario.email)
+				cache.put new Element(usuarioKey, usuario)
+				return usuario
+			} catch(e) {
+				return null
+			}
 		}
 	}
 	
