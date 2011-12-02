@@ -54,10 +54,13 @@ create database pronto owner pronto;
 É importante certificar-se de que todos os objetos criados no banco pertençam ao usuário pronto.
 
 =====================================================================================================
-9. Baixe o Tomcat 6.0.32
+9. Baixe o Tomcat 6.0.32+
 =====================================================================================================
 http://tomcat.apache.org/download-60.cgi#6.0.32
 Descompacte-o em uma pasta chamada tomcat
+
+O pronto precisa que a biblioteca do JavaMail esteja disponível no TomCat na pasta shared.
+Você pode fazer o download em http://www.oracle.com/technetwork/java/javamail/index.html
 
 =====================================================================================================
 10. Configure o banco de dados
