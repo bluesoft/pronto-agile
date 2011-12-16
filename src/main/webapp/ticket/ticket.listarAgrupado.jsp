@@ -29,7 +29,7 @@
 				</c:forEach>
 			</select>
 			Status: 
-			<select name="kanbanStatusKey" onchange="recarregar()" id="kanbanStatusKey">
+			<select name="kanbanStatusKey" onchange="recarregarPagina()" id="kanbanStatusKey">
 				<option value="-1">Pendentes</option>
 				<option value="0">Todos</option>
 				<c:forEach var="k" items="${kanbanStatus}">
@@ -37,13 +37,13 @@
 				</c:forEach>
 			</select>
 			Ordem:
-			<select name="ordem" onchange="recarregar()" id="ordem">
+			<select name="ordem" onchange="recarregarPagina()" id="ordem">
 				<c:forEach var="o" items="${ordens}">
 					<option value="${o}" ${o eq ordem ? 'selected' : ''}>${o.descricao}</option>
 				</c:forEach>
 			</select>
 			Classificação:
-			<select name="classificacao" onchange="recarregar()" id="classificacao">
+			<select name="classificacao" onchange="recarregarPagina()" id="classificacao">
 				<c:forEach var="c" items="${classificacoes}">
 					<option value="${c}" ${c eq classificacao ? 'selected' : ''}>${c.descricao}</option>
 				</c:forEach>
