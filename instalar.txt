@@ -25,8 +25,8 @@ O comando mvn deverá estar disponível no path também.
 4. Download do Código Fonte do Projeto
 =====================================================================================================
 Faça download do projeto através do git hub:
-git clone git://github.com/andrefaria/pronto-agile.git
-(se você usar windows, pode fazer o download em zip na url: https://github.com/andrefaria/pronto-agile/zipball/master)
+git clone git://github.com/bluesoft/pronto-agile.git
+(se você usa windows, pode fazer o download em zip na url: https://github.com/bluesoft/pronto-agile/zipball/master)
 
 =====================================================================================================
 5. Instale o PostgreSQL
