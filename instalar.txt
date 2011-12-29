@@ -24,7 +24,7 @@ O comando mvn deverá estar disponível no path também.
 =====================================================================================================
 4. Download do Código Fonte do Projeto
 =====================================================================================================
-Faça download do projeto através do git hub:
+Faça download do projeto através do github:
 git clone git://github.com/bluesoft/pronto-agile.git
 (se você usa windows, pode fazer o download em zip na url: https://github.com/bluesoft/pronto-agile/zipball/master)
 
@@ -35,7 +35,7 @@ Faça o download para o seu sistema operacional em:
 >> http://www.postgresql.org/download/
 
 =====================================================================================================
-6. Execute o postgres apartir da pasta etc (que contém os scripts) com o usuário e senha padrão:
+6. Execute o postgres a partir da pasta etc (que contém os scripts) com o usuário e senha padrão:
 =====================================================================================================
 >> ex: psql postgres postgres;
 Obs: O nome do aplicativo pode ser psql, psql83, psql84, etc, de acordo com a instalação.
@@ -73,9 +73,9 @@ Obs: O exemplo do arquivo está conectando em um banco de dados chamado pronto n
 =====================================================================================================
 11. Gere o Pacote War do Pronto
 =====================================================================================================
-Na pasta do Pronto
+Na pasta do Pronto rode:
 mvn package
-Copie o arquivo war gerado na pasta target do pronto para a pasta webapps do tomcat, renomei o arquivo para pronto.war
+Copie o arquivo war gerado na pasta target do pronto para a pasta webapps do tomcat, renomeie o arquivo para pronto.war
 
 =====================================================================================================
 12. Inicie o Tomcat
