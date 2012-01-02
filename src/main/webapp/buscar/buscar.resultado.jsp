@@ -234,12 +234,13 @@
 				<th>Cliente</th>
 				<th>Criação</th>
 				<th>Backlog</th>
+				<th>Milestone</th>
 				<th>Reporter</th>
 				<th title="Valor de Negócio">VN</th>
 				<th>Esforço</th>
 				<th>Status</th>
 				<th title="Data de Pronto">Pronto</th>
-				<th colspan="2">&nbsp;</th>
+				<th>Dias</th>
 			</tr>
 			<c:set var="cor" value="${true}"/>
 			<c:forEach items="${tickets}" var="t">
@@ -252,7 +253,9 @@
 						</span>
 					</td>
 					<td class="titulo" title="${t.titulo}">
-						${t.tituloResumido}
+						<a onclick="verDescricao(${t.ticketKey});" class="link">
+							${t.tituloResumido}
+						</a>
 					</td>
 					<td>${t.tipoDeTicket.descricao}</td>
 					<td>${t.cliente}</td>
@@ -267,17 +270,13 @@
 							</c:otherwise>
 						</c:choose>
 					</td>
+					<td>${t.milestone.nome}</td>
 					<td title="${t.reporter.nome}">${t.reporter.username}</td>
 					<td>${t.valorDeNegocio}</td>
 					<td>${t.esforco}</td>
 					<td>${t.kanbanStatus.descricao}</td>	
 					<td><fmt:formatDate value="${t.dataDePronto}" dateStyle="short"/></td>
-					<td>
-						<pronto:icons name="ver_descricao.png" title="Ver Descrição" onclick="verDescricao(${t.ticketKey});"/>
-					</td>
-					<td>
-						<a href="${raiz}tickets/${t.ticketKey}"><pronto:icons name="editar.png" title="Editar" /></a>
-					</td>
+					<td>${t.tempoDeVidaEmDias}</td>
 				</tr>
 			</c:forEach>
 			<tr>

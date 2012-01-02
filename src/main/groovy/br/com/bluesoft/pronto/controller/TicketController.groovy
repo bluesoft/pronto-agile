@@ -393,9 +393,12 @@ class TicketController {
 		}
 
 		def sprint = sprintDao.obter(sprintKey)
+		boolean mudouDeProjeto = ticket.sprint.projeto.projetoKey != sprint.projeto.projetoKey
 		ticket.sprint = sprint
 		ticket.projeto = sprint.projeto
-		ticket.kanbanStatus = sprint.projeto.getEtapaToDo()
+		if (mudouDeProjeto) {
+			ticket.kanbanStatus = sprint.projeto.getEtapaToDo()
+		}
 		ticket.backlog = backlogDao.obter(Backlog.SPRINT_BACKLOG)
 		ticketDao.salvar(ticket)
 

@@ -165,7 +165,7 @@
 						<form:hidden path="ticket.reporter.username"/><br/>
 					</div>
 					
-					<c:if test="${ticket.responsavel ne null}">
+					<c:if test="${ticket.responsavel ne null and ticket.responsavel.username ne null}">
 						<div id="divResponsavel">
 							<div align="center" class="person">
 								<img alt="Gravatar" align="bottom" title="${ticket.responsavel.nome}" src="http://www.gravatar.com/avatar/${ticket.responsavel.emailMd5}?s=80" />
