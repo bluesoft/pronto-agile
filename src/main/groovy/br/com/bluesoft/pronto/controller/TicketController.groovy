@@ -328,8 +328,10 @@ class TicketController {
 	String moverParaImpedimentos( Model model, @PathVariable  int ticketKey, String username,  HttpServletResponse response) throws SegurancaException {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE
 		Ticket ticket = ticketDao.obter(ticketKey)
+		def backlogAntigo = ticket.backlog.descricao
 		ticket.setBacklog(backlogDao.obter(Backlog.IMPEDIMENTOS))
 		ticket.setResponsavel(usuarioDao.obter(username));
+		ticket.addLogDeAlteracao 'backlog', backlogAntigo, ticket.backlog.descricao
 		ticketDao.salvar(ticket)
 		messenger.notificarImpedimento ticket
 		return "redirect:/tickets/${ticketKey}"
@@ -351,6 +353,7 @@ class TicketController {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 
 		int backlogDeOrigem = ticket.getBacklog().getBacklogKey()
+		def backlogAntigo = ticket.backlog.descricao
 		if (backlogDeOrigem == Backlog.INBOX) {
 			Seguranca.validarPermissao(Papel.PRODUCT_OWNER)
 		}
@@ -358,6 +361,7 @@ class TicketController {
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.PRODUCT_BACKLOG))
 
 		ticket.setSprint(null)
+		ticket.addLogDeAlteracao 'backlog', backlogAntigo, ticket.backlog.descricao
 		ticketDao.salvar(ticket)
 		return "redirect:/tickets/${ticketKey}"
 	}
@@ -378,7 +382,7 @@ class TicketController {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR
 
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
-
+		def backlogAntigo = ticket.backlog.descricao
 		int backlogDeOrigem = ticket.getBacklog().getBacklogKey()
 
 		switch(backlogDeOrigem) {
@@ -391,15 +395,15 @@ class TicketController {
 				throw new ProntoException("Não é possível mover uma estória para um sprint se a mesma estiver impedida ou na lixera.")
 				break
 		}
-
 		def sprint = sprintDao.obter(sprintKey)
-		boolean mudouDeProjeto = ticket.sprint.projeto.projetoKey != sprint.projeto.projetoKey
 		ticket.sprint = sprint
 		ticket.projeto = sprint.projeto
+		boolean mudouDeProjeto = ticket.kanbanStatus.projeto.projetoKey != sprint.projeto.projetoKey
 		if (mudouDeProjeto) {
 			ticket.kanbanStatus = sprint.projeto.getEtapaToDo()
 		}
 		ticket.backlog = backlogDao.obter(Backlog.SPRINT_BACKLOG)
+		ticket.addLogDeAlteracao 'backlog', backlogAntigo, (ticket.backlog.descricao + ' (' + sprint.nome + ')')  
 		ticketDao.salvar(ticket)
 
 		return "redirect:/tickets/${ticket.ticketKey}"
@@ -411,10 +415,11 @@ class TicketController {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.ADMINISTRADOR
 
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
-
+		def backlogAntigo = ticket.backlog.descricao
 		ticket.setBacklog(backlogDao.obter(Backlog.FUTURO))
 
 		ticket.setSprint(null)
+		ticket.addLogDeAlteracao 'backlog', backlogAntigo, ticket.backlog.descricao
 		ticketDao.salvar(ticket)
 		return "redirect:/tickets/${ticketKey}"
 	}
@@ -426,6 +431,7 @@ class TicketController {
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
 
 		if (ticket.isTarefa()) {
+			ticket.addLogDeExclusao 'pai', ticket.pai.ticketKey
 			ticket.setPai(null)
 			ticket.setTipoDeTicket(tipoDeTicketDao.obter(TipoDeTicket.ESTORIA))
 			ticketDao.salvar(ticket)
@@ -442,10 +448,11 @@ class TicketController {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 
 		Ticket ticket = (Ticket) sessionFactory.getCurrentSession().get(Ticket.class, ticketKey)
+		def backlogAntigo = ticket.backlog.descricao
 		ticket.setBacklog((Backlog) sessionFactory.getCurrentSession().get(Backlog.class, Backlog.INBOX))
 		ticket.setSprint(null)
+		ticket.addLogDeAlteracao 'backlog', backlogAntigo, ticket.backlog.descricao
 		ticketDao.salvar(ticket)
-
 		return "redirect:/tickets/${ticket.ticketKey}"
 	}
 

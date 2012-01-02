@@ -485,31 +485,27 @@
 							</c:choose>
 						</div>
 						
-						<c:choose>
-								<c:when test="${!sprintless}">
-									<c:if test="${ticket.tarefa or empty ticket.filhos}">
-										<div class="linha">
-										<div>
-											<c:forEach items="${envolvidos}" var="u" varStatus="s">
-												<c:set var="checked" value="${false}"/>
-												<c:forEach items="${ticket.envolvidos}" var="d">
-												
-													<c:if test="${d.username eq u.username}">
-														<c:set var="checked" value="${true}"/>
-													</c:if>
-												</c:forEach>
-												<div class="person envolvido" style="display: ${checked ? 'inline' : 'none'}">
-													<img alt="${u.username} - Clique para adicionar/remover" id="dev_img_${u.username}" class="${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleEnvolvido('${u.username}')" style="cursor:pointer"/>
-													<input id="dev_chk_${u.username}"  type="checkbox" name="envolvido" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
-													<div class="person_name">${u.username}</div>
-												</div>
-											</c:forEach>
-											<p style="clear: both"><b>Envolvidos</b><pronto:icons name="editar.png" title="Alterar Envolvidos" onclick="alterarEnvolvidos(this)"/></p>
-										</div>
-										</div>
-									</c:if>
-								</c:when>
-							</c:choose>
+						<c:if test="${ticket.tarefa or empty ticket.filhos}">
+							<div class="linha">
+							<div>
+								<c:forEach items="${envolvidos}" var="u" varStatus="s">
+									<c:set var="checked" value="${false}"/>
+									<c:forEach items="${ticket.envolvidos}" var="d">
+									
+										<c:if test="${d.username eq u.username}">
+											<c:set var="checked" value="${true}"/>
+										</c:if>
+									</c:forEach>
+									<div class="person envolvido" style="display: ${checked ? 'inline' : 'none'}">
+										<img alt="${u.username} - Clique para adicionar/remover" id="dev_img_${u.username}" class="${checked ? 'ativo' : 'inativo'}" align="bottom" title="${u.nome}" src="http://www.gravatar.com/avatar/${u.emailMd5}?s=45" onclick="toogleEnvolvido('${u.username}')" style="cursor:pointer"/>
+										<input id="dev_chk_${u.username}"  type="checkbox" name="envolvido" value="${u.username}" ${checked ? 'checked="checked"' : ''} style="display: none;">
+										<div class="person_name">${u.username}</div>
+									</div>
+								</c:forEach>
+								<p style="clear: both"><b>Envolvidos</b><pronto:icons name="editar.png" title="Alterar Envolvidos" onclick="alterarEnvolvidos(this)"/></p>
+							</div>
+							</div>
+						</c:if>
 						
 						<form:hidden path="ticket.prioridade"/><br/>
 
