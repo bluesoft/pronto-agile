@@ -98,11 +98,13 @@ class FileUtil {
 	
 	static void setFileForDownload(String path, HttpServletResponse response) {
 		File arquivo = FileUtil.getFile(path)
-		byte[] bytes = FileUtil.getBytesFromFile(arquivo)
-		response.addHeader("content-disposition", "attachment filename=" + arquivo.getName())
-		response.setContentType(FileUtil.getMimeTypeByExtension(FileUtil.getFileExtension(arquivo.getName())))
-		response.setContentLength(bytes.length)
-		FileCopyUtils.copy(bytes, response.getOutputStream())
+		if (arquivo.exists()) {
+			byte[] bytes = FileUtil.getBytesFromFile(arquivo)
+			response.addHeader("content-disposition", "attachment filename=" + arquivo.getName())
+			response.setContentType(FileUtil.getMimeTypeByExtension(FileUtil.getFileExtension(arquivo.getName())))
+			response.setContentLength(bytes.length)
+			FileCopyUtils.copy(bytes, response.getOutputStream())
+		}
 	}
 	
 }

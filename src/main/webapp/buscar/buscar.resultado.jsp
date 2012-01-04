@@ -170,6 +170,15 @@
 					</select>
 				</div>
 				<div class="opcao">
+					Envolvido:<br/>
+					<select name="envolvido"  id="envolvido">
+						<option value="" ${filtro.envolvido eq null ? 'selected' : ''}>Todos</option>
+						<c:forEach var="m" items="${usuarios}">
+							<option value="${m.username}" ${filtro.envolvido eq m.username ? 'selected' : ''}>${m.nome}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="opcao">
 					Responsável:<br/>
 					<select name="responsavel"  id="responsavel">
 						<option value="" ${filtro.responsavel eq null ? 'selected' : ''}>Todos</option>

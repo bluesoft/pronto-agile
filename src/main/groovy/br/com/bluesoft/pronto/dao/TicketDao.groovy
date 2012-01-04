@@ -283,6 +283,7 @@ public class TicketDao extends DaoHibernate {
 		hql.append(" left join fetch t.kanbanStatus as kanbanStatus ");
 		hql.append(" left join fetch t.filhos          ");
 		hql.append(" left join fetch t.cliente as cliente  ");
+		hql.append(" left join fetch t.envolvidos as envolvidos");
 		hql.append(" where 1=1 ");
 		
 		if (filtro.query!=null) {
@@ -341,6 +342,9 @@ public class TicketDao extends DaoHibernate {
 		
 		if (filtro.responsavel && filtro.responsavel.length() > 0) {
 			hql.append(" and resp.username = :responsavel ");
+		}
+		if (filtro.envolvido && filtro.envolvido.length() > 0){
+			hql.append(" and envolvidos.username = :envolvido ");
 		}
 		
 		if (filtro.dataInicialCriacao) {
@@ -416,6 +420,10 @@ public class TicketDao extends DaoHibernate {
 		
 		if (filtro.responsavel) {
 			query.setString("responsavel", filtro.responsavel)
+		}
+		
+		if (filtro.envolvido) {
+			query.setString("envolvido", filtro.envolvido)
 		}
 		
 		if (filtro.dataInicialCriacao) {

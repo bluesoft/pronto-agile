@@ -10,6 +10,7 @@ class TicketFilter {
 	Integer clienteKey
 	String reporter
 	String responsavel
+	String envolvido
 	String sprintNome
 	Boolean ignorarLixeira
 	Integer tipoDeTicketKey
@@ -42,6 +43,7 @@ class TicketFilter {
 		(query != null && query.length() > 0) ||
 		(sprintNome != null && sprintNome.length() > 0) ||
 		(reporter != null && reporter.length() > 0) ||
+		(envolvido != null && envolvido.length() > 0) ||
 		(responsavel != null && responsavel.length() > 0) ||
 		(kanbanStatusKey != null && kanbanStatusKey > 0) ||
 		(clienteKey != null && clienteKey > 0) ||
