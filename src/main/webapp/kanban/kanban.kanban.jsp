@@ -25,14 +25,6 @@
 					</a>
 				</span>
 			</c:if>
-			<span id="pendenciasDoUsuario">
-				<c:url var="ticketsEnvolvidosUrl" value="/buscar/?kanbanStatusKey=-1&envolvido=${usuarioLogado.username}"/>
-				<a href="${ticketsEnvolvidosUrl}">
-						Minhas Pendências
-				</a>
-			</span>
-			
-			
 		</div>
 		
 		<div align="right">
