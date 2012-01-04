@@ -284,6 +284,7 @@ public class TicketDao extends DaoHibernate {
 		hql.append(" left join fetch t.filhos          ");
 		hql.append(" left join fetch t.cliente as cliente  ");
 		hql.append(" left join fetch t.envolvidos as envolvidos");
+		hql.append(" left join t.comentarios as comentarios");
 		hql.append(" where 1=1 ");
 		
 		if (filtro.query!=null) {
@@ -344,7 +345,12 @@ public class TicketDao extends DaoHibernate {
 			hql.append(" and resp.username = :responsavel ");
 		}
 		if (filtro.envolvido && filtro.envolvido.length() > 0){
-			hql.append(" and envolvidos.username = :envolvido ");
+			hql.append(" and (");
+			hql.append(" envolvidos.username = :envolvido ");
+			hql.append(" or comentarios.usuario.username = :envolvido ");
+			hql.append(" or resp.username = :envolvido ");
+			hql.append(" or r.username = :envolvido ");
+			hql.append(" ) ");
 		}
 		
 		if (filtro.dataInicialCriacao) {

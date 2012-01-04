@@ -5,11 +5,11 @@
 <c:url value="/backlogs/inbox" var="inboxUrl"/>
 <c:url value="/kanban" var="kanbanUrl"/>
 <c:url value="/stream" var="streamUrl"/>
-<c:url var="ticketsEnvolvidosUrl" value="/buscar/?kanbanStatusKey=-1&envolvido=${usuarioLogado.username}"/>
+<c:url var="ticketsEnvolvidosUrl" value="/buscar/?kanbanStatusKey=-1&ignorarLixeira=true&envolvido=${usuarioLogado.username}"/>
 
 <c:if test="${usuarioLogado.administrador or usuarioLogado.productOwner or usuarioLogado.equipe or usuarioLogado.scrumMaster}">
 	<span id="menuRapido" align="right">
-		<a href="${ticketsEnvolvidosUrl}"><pronto:icons name="minhas_pendencias.png" title="Ir para Stream"/></a>
+		<a href="${ticketsEnvolvidosUrl}"><pronto:icons name="minhas_pendencias.png" title="Ver ticket pendêntes em que você está envolvido."/></a>
 		<a href="${inboxUrl}"><pronto:icons name="inbox.png" title="Ir para Inbox"/></a>
 		<a href="${productBacklogUrl}"><pronto:icons name="product_backlog.png" title="Ir para Product Backlog"/></a>
 		<a href="${sprintAtualUrl}"><pronto:icons name="sprint_atual.png" title="Ir para Sprint Atual"/></a>
