@@ -302,14 +302,14 @@ class Ticket {
 		logs.add(log)
 	}
 	
-	void addLogDeExclusao(final String campo, final String valor) {
+	void addLogDeExclusao(def campo, def valor) {
 		final TicketLog log = new TicketLog()
 		log.setTicket(this)
 		log.setData(new Date())
 		log.setUsuario(Seguranca.getUsuario().getUsername())
 		log.setOperacao(TicketLog.EXCLUSAO)
-		log.setCampo(campo)
-		log.setValorAntigo(valor)
+		log.setCampo(String.valueOf(campo))
+		log.setValorAntigo(String.valueOf(valor))
 		log.setValorNovo(null)
 		logs.add(log)
 	}
