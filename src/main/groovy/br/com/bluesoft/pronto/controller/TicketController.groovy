@@ -283,7 +283,7 @@ class TicketController {
 				if (ticket.getTicketKey() != null && ticket.isDone()) {
 					def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
 					if (zendeskTicketKey) {
-						zendeskService.notificarConclusao zendeskTicketKey
+						zendeskService.notificarConclusao zendeskTicketKey, ticket.release
 					}
 				}
 			}

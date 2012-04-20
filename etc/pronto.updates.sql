@@ -196,3 +196,7 @@ alter table ticket add milestone_key integer references milestone;
 CREATE INDEX idx_ticket_milestone ON ticket USING btree (milestone_key);
 CREATE INDEX idx_milestone_projeto ON milestone USING btree (projeto_key);
 create sequence seq_milestone;
+
+--2012 04 20
+alter table ticket add release varchar(15);
+CREATE INDEX idx_ticket_release ON ticket USING btree (release);

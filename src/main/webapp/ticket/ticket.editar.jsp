@@ -394,10 +394,14 @@
 								<p>Milestone</p>
 							</div>
 
-							<c:if test="${empty ticket.filhos and !sprintless}">
+							<c:if test="${empty ticket.filhos}">
 								<div>
 									<form:input path="ticket.branch" size="30"/><br/>
 									<p>Branch</p>
+								</div>
+								<div>
+									<form:input path="ticket.release" size="15"/><br/>
+									<p>Release</p>
 								</div>
 							</c:if>
 							

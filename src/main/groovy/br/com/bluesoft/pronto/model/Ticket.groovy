@@ -113,6 +113,9 @@ class Ticket {
 	String branch
 	
 	@Auditable
+	String release
+	
+	@Auditable
 	@Label("envolvidos")
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "TICKET_ENVOLVIDO", joinColumns =  @JoinColumn(name = "TICKET_KEY") , inverseJoinColumns =  @JoinColumn(name = "USUARIO_KEY") )
