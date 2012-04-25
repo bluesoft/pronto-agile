@@ -62,7 +62,7 @@ class ZendeskService {
 				}
 				cache.put new Element(zendeskTicketKey, ticket)
 				return ticket
-			} catch (ResponseParseException e) {
+			} catch (Exception e) {
 				return null
 			}
 		}
