@@ -18,6 +18,8 @@
 				<option value="cliente" chart="FCF_Bar2D">Por Cliente</option>
 				<option value="modulo" chart="FCF_Bar2D">Por Módulo</option>
 				<option value="sprint" chart="FCF_Bar2D">Por Sprint</option>
+				<option value="esforco" chart="FCF_Bar2D">Por Esforço</option>
+				<option value="valor" chart="FCF_Bar2D">Por Valor de Negócio</option>
 			</select>
 			
 			Tipo de Ticket:

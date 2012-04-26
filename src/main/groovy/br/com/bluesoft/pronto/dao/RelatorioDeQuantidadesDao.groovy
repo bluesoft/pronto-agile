@@ -14,7 +14,7 @@ class RelatorioDeQuantidadesDao  {
 	@Autowired
 	private SessionFactory sessionFactory
 	
-	def listarDefeitosPorCategoria(Date dataInicial, Date dataFinal, Integer tipoDeTicketKey) {
+	def listarQuantidadesPorCategoria(Date dataInicial, Date dataFinal, Integer tipoDeTicketKey) {
 		def sql = """
 			select c.descricao, count(*) 
 			from ticket t
@@ -33,7 +33,7 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarDefeitosPorSprint(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorSprint(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
 		def sql = """
 			select c.nome, count(*)
 			from ticket t
@@ -52,7 +52,7 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarDefeitosPorModulo(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorModulo(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
 		def sql = """
 			select c.descricao, count(*)
 			from ticket t
@@ -71,7 +71,43 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarDefeitosPorSemana(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorEsforco(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+		def sql = """
+			select t.esforco, count(*)
+			from ticket t
+			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
+			and data_de_criacao between :di and :df
+			group by t.esforco
+			order by count(*) desc
+		"""
+		
+		def query = sessionFactory.currentSession.createSQLQuery(sql)
+		query.setDate 'di', dataInicial
+		query.setDate 'df', dataFinal
+		if (tipoDeTicketKey > 0)
+			query.setInteger 'tipoDeTicketKey', tipoDeTicketKey
+		return query.list()
+	}
+	
+	def listarQuantidadesPorValorDeNegocio(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+		def sql = """
+			select t.valor_de_negocio, count(*)
+			from ticket t
+			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
+			and data_de_criacao between :di and :df
+			group by t.valor_de_negocio
+			order by count(*) desc
+		"""
+		
+		def query = sessionFactory.currentSession.createSQLQuery(sql)
+		query.setDate 'di', dataInicial
+		query.setDate 'df', dataFinal
+		if (tipoDeTicketKey > 0)
+			query.setInteger 'tipoDeTicketKey', tipoDeTicketKey
+		return query.list()
+	}
+	
+	def listarQuantidadesPorSemana(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
 		def sql = """
 			select semana, count(*), anomessemana from (
 				select to_char(data_de_criacao,'w-MM/yyyy') as semana, to_number(to_char(data_de_criacao,'yyyyMMw'),'9999999') as anomessemana 
@@ -91,7 +127,7 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarDefeitosPorMes(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorMes(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
 		def sql = """
 			select mes, count(*), anomes from (
 				select to_char(data_de_criacao,'MM/yyyy') as mes, to_number(to_char(data_de_criacao,'yyyyMM'),'999999') as anomes 
@@ -111,7 +147,7 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 
-	def listarDefeitosPorAno(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorAno(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
 		def sql = """
 			select ano, count(*) from (
 				select to_number(to_char(data_de_criacao,'yyyy'),'9999') as ano
@@ -132,7 +168,7 @@ class RelatorioDeQuantidadesDao  {
 	}
 
 		
-	def listarDefeitosPorCliente(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorCliente(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
 		def sql = """
 			select c.nome, count(*)
 			from ticket t
@@ -151,4 +187,5 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
+		
 }
