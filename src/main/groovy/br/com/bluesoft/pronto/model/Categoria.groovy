@@ -25,7 +25,11 @@ class Categoria implements Comparable {
 	String cor
 	
 	int compareTo(def outro) {
-		this.descricao.compareTo outro.descricao
+		if (outro == null || this.descricao == null || outro.descricao == null) {
+			return 1
+		} else { 
+			return this.descricao.compareTo(outro.descricao)
+		}
 	}
 	
 	String getDescricaoDaCor() {

@@ -29,6 +29,12 @@
 				<option value="3">Defeitos</option>
 			</select>
 			
+			Referência:
+			<select id="referencia" name="referencia">
+				<option value="data_de_criacao">Data de Criação</option>
+				<option value="data_de_pronto">Data de Pronto</option>
+			</select> 
+			
 			<fmt:formatDate var="strDataInicial" value="${dataInicial}"/>
 			Data Inicial: <input type="text" id="dataInicial" class="required dateBr" value="${strDataInicial}" size="12"/>
 			<fmt:formatDate var="strDataFinal" value="${dataFinal}"/>
@@ -47,7 +53,8 @@
 				var df = $('#dataFinal').val();
 				var tipoDeRelatorio = $("#tipoDeRelatorio").val();
 				var tipoDeTicketKey = $("#tipoDeTicketKey").val();
-				var parametros = "?dataInicial=" + di + "&dataFinal=" + df +"&tipoDeRelatorio=" + tipoDeRelatorio + "&tipoDeTicketKey=" + tipoDeTicketKey;
+				var referencia = $("#referencia").val();
+				var parametros = "?dataInicial=" + di + "&dataFinal=" + df +"&tipoDeRelatorio=" + tipoDeRelatorio + "&tipoDeTicketKey=" + tipoDeTicketKey + "&referencia=" + referencia;
 				var url = encodeURIComponent("${raiz}relatorios/quantidades/gerar.xml" + parametros);
 				var chartType = $('#tipoDeRelatorio').find('option:selected').attr('chart');
 				var chart = new FusionCharts("${raiz}commons/charts/"+chartType+".swf", "chart", "920", "500");

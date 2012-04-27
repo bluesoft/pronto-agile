@@ -12,8 +12,9 @@ function recarregarFiltros() {
 	var categoriaKey = $('#categoriaKey').val();
 	var tipoDeTicketKey = $('#tipoDeTicketKey').val();
 	var kanbanStatusKey = $('#kanbanStatusKey').val();
+	var ordem = $('#ordem').val();
 	
-	pronto.doGet(url + '?categoriaKey='+categoriaKey+'&tipoDeTicketKey='+tipoDeTicketKey+'&kanbanStatusKey='+kanbanStatusKey);
+	pronto.doGet(url + '?categoriaKey='+categoriaKey+'&tipoDeTicketKey='+tipoDeTicketKey+'&kanbanStatusKey='+kanbanStatusKey+'&ordem='+ordem);
 }
 
 function apagarLinha(ticketKey) {

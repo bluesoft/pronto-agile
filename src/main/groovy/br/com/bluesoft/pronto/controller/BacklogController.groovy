@@ -95,13 +95,14 @@ class BacklogController {
 	}
 	
 	@RequestMapping(value='/{backlogKey}', method=GET)
-	String listarPorBacklog( Model model, @PathVariable int backlogKey, Integer categoriaKey, Integer tipoDeTicketKey, Integer kanbanStatusKey) {
+	String listarPorBacklog( Model model, @PathVariable int backlogKey, Integer categoriaKey, Integer tipoDeTicketKey, Integer kanbanStatusKey, String ordem) {
 		
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 		
-		def tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey, categoriaKey, tipoDeTicketKey, kanbanStatusKey)
+		def tickets = ticketDao.listarEstoriasEDefeitosPorBacklog(backlogKey, categoriaKey, tipoDeTicketKey, kanbanStatusKey, ordem)
 		def tarefasSoltas = ticketDao.listarTarefasEmBacklogsDiferentesDasEstoriasPorBacklog(backlogKey)
 		
+		model.addAttribute "ordem", ordem
 		model.addAttribute "tickets", tickets
 		model.addAttribute "tarefasSoltas", tarefasSoltas
 		model.addAttribute "backlog", backlogDao.obter(backlogKey)

@@ -104,6 +104,17 @@
 					</c:forEach>
 				</c:forEach>
 			</select>
+			
+			Ordem:
+			<select name="ordem" id="ordem" onchange="recarregarFiltros()">
+				<option value="categoria" ${ordem eq 'categoria' ? 'selected' : ''}>Categoria</option>
+				<option value="cliente" ${ordem eq 'cliente' ? 'selected' : ''}>Cliente</option>
+				<option value="dias" ${ordem eq 'dias' ? 'selected' : ''}>Dias</option>
+				<option value="esforco" ${ordem eq 'esforco' ? 'selected' : ''}>Esforço</option>
+				<option value="modulo" ${ordem eq 'modulo' ? 'selected' : ''}>Módulo</option>
+				<option value="status" ${ordem eq 'status' ? 'selected' : ''}>Status</option>
+				<option value="valor" ${ordem eq 'valor' or ordem eq null  ? 'selected' : ''}>Valor de Negócio</option>
+			</select>
 		</div>
 		
 		<c:set var="cor" value="${true}"/>
@@ -116,6 +127,7 @@
 				<c:if test="${backlog.impedimentos}"><th>Responsável</th></c:if>
 				<th>Tipo</th>
 				<th>Cliente</th>
+				<th>Módulo</th>
 				<th>Valor</th>
 				<th>Esforço</th>
 				<th>Status</th>
@@ -173,6 +185,7 @@
 						</td>
 						<c:if test="${backlog.impedimentos}"><td>${t.responsavel}</td></c:if>
 						<td>${t.cliente}</td>
+						<td>${t.modulo}</td>
 						<td class="valorDeNegocio">${t.valorDeNegocio}</td>
 						<td class="esforco">${t.esforco}</td>
 						<td>${t.kanbanStatus.descricao}</td>

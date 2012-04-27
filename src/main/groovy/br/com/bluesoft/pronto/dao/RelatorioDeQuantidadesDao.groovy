@@ -14,13 +14,13 @@ class RelatorioDeQuantidadesDao  {
 	@Autowired
 	private SessionFactory sessionFactory
 	
-	def listarQuantidadesPorCategoria(Date dataInicial, Date dataFinal, Integer tipoDeTicketKey) {
+	def listarQuantidadesPorCategoria(Date dataInicial, Date dataFinal, Integer tipoDeTicketKey,referencia) {
 		def sql = """
 			select c.descricao, count(*) 
 			from ticket t
 			inner join categoria c on c.categoria_key = t.categoria_key
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'} 
-			and data_de_criacao between :di and :df
+			and ${referencia} between :di and :df
 			group by c.descricao
 			order by count(*) desc
 		"""
@@ -33,13 +33,13 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorSprint(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorSprint(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
 		def sql = """
 			select c.nome, count(*)
 			from ticket t
 			inner join sprint c on c.sprint_key = t.sprint
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
-			and data_de_criacao between :di and :df
+			and ${referencia} between :di and :df
 			group by c.nome
 			order by count(*) desc
 		"""
@@ -52,13 +52,13 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorModulo(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorModulo(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
 		def sql = """
 			select c.descricao, count(*)
 			from ticket t
 			inner join modulo c on c.modulo_key = t.modulo_key
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
-			and data_de_criacao between :di and :df
+			and ${referencia} between :di and :df
 			group by c.descricao
 			order by count(*) desc
 		"""
@@ -71,12 +71,12 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorEsforco(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorEsforco(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
 		def sql = """
 			select t.esforco, count(*)
 			from ticket t
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
-			and data_de_criacao between :di and :df
+			and ${referencia} between :di and :df
 			group by t.esforco
 			order by count(*) desc
 		"""
@@ -89,12 +89,12 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorValorDeNegocio(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorValorDeNegocio(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
 		def sql = """
 			select t.valor_de_negocio, count(*)
 			from ticket t
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
-			and data_de_criacao between :di and :df
+			and ${referencia} between :di and :df
 			group by t.valor_de_negocio
 			order by count(*) desc
 		"""
@@ -107,13 +107,13 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorSemana(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorSemana(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
 		def sql = """
 			select semana, count(*), anomessemana from (
-				select to_char(data_de_criacao,'w-MM/yyyy') as semana, to_number(to_char(data_de_criacao,'yyyyMMw'),'9999999') as anomessemana 
+				select to_char(${referencia},'w-MM/yyyy') as semana, to_number(to_char(${referencia},'yyyyMMw'),'9999999') as anomessemana 
 				from ticket t
 				where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
-				and data_de_criacao between :di and :df
+				and ${referencia} between :di and :df
 			) semanas 
 			group by semana, anomessemana
 			order by anomessemana asc	
@@ -127,13 +127,13 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorMes(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorMes(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
 		def sql = """
 			select mes, count(*), anomes from (
-				select to_char(data_de_criacao,'MM/yyyy') as mes, to_number(to_char(data_de_criacao,'yyyyMM'),'999999') as anomes 
+				select to_char(${referencia},'MM/yyyy') as mes, to_number(to_char(${referencia},'yyyyMM'),'999999') as anomes 
 				from ticket t
 				where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
-				and data_de_criacao between :di and :df
+				and ${referencia} between :di and :df
 			) meses
 			group by mes, anomes
 			order by anomes asc
@@ -147,13 +147,13 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 
-	def listarQuantidadesPorAno(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorAno(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
 		def sql = """
 			select ano, count(*) from (
-				select to_number(to_char(data_de_criacao,'yyyy'),'9999') as ano
+				select to_number(to_char(${referencia},'yyyy'),'9999') as ano
 				from ticket t
 				where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
-				and data_de_criacao between :di and :df
+				and ${referencia} between :di and :df
 			) anos
 			group by ano
 			order by ano asc
@@ -168,13 +168,13 @@ class RelatorioDeQuantidadesDao  {
 	}
 
 		
-	def listarQuantidadesPorCliente(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey) {
+	def listarQuantidadesPorCliente(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
 		def sql = """
 			select c.nome, count(*)
 			from ticket t
 			inner join cliente c on c.cliente_key = t.cliente_key
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
-			and data_de_criacao between :di and :df
+			and ${referencia} between :di and :df
 			group by c.nome
 			order by count(*) desc
 		"""

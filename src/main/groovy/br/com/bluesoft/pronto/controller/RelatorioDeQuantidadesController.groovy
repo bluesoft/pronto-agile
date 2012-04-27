@@ -38,44 +38,44 @@ class RelatorioDeQuantidadesController {
 	}
 	
 	@RequestMapping("/gerar.xml")
-	void gerar(Date dataInicial, Date dataFinal, String tipoDeRelatorio, Integer tipoDeTicketKey, HttpServletResponse response){
+	void gerar(Date dataInicial, Date dataFinal, String tipoDeRelatorio, Integer tipoDeTicketKey, String referencia, HttpServletResponse response){
 		
 		def dados = null
 		switch (tipoDeRelatorio) {
 			case "sprint":
-				dados = relatorioDeQuantidadesDao.listarQuantidadesPorSprint(dataInicial,dataFinal,tipoDeTicketKey)
+				dados = relatorioDeQuantidadesDao.listarQuantidadesPorSprint(dataInicial,dataFinal,tipoDeTicketKey,referencia)
 				dados = getJSON(sintetizar(dados))
 				break;
 			case "categoria":
-				dados = relatorioDeQuantidadesDao.listarQuantidadesPorCategoria(dataInicial,dataFinal,tipoDeTicketKey)
+				dados = relatorioDeQuantidadesDao.listarQuantidadesPorCategoria(dataInicial,dataFinal,tipoDeTicketKey,referencia)
 				dados = getJSON(sintetizar(dados))
 				break;
 			case "modulo":
-				dados = relatorioDeQuantidadesDao.listarQuantidadesPorModulo(dataInicial,dataFinal,tipoDeTicketKey)
+				dados = relatorioDeQuantidadesDao.listarQuantidadesPorModulo(dataInicial,dataFinal,tipoDeTicketKey,referencia)
 				dados = getJSON(sintetizar(dados))
 				break;
 			case "semana":
-				dados = relatorioDeQuantidadesDao.listarQuantidadesPorSemana(dataInicial,dataFinal,tipoDeTicketKey)
+				dados = relatorioDeQuantidadesDao.listarQuantidadesPorSemana(dataInicial,dataFinal,tipoDeTicketKey,referencia)
 				dados = getJSON(dados)
 				break;
 			case "mes":
-				dados = relatorioDeQuantidadesDao.listarQuantidadesPorMes(dataInicial,dataFinal,tipoDeTicketKey)
+				dados = relatorioDeQuantidadesDao.listarQuantidadesPorMes(dataInicial,dataFinal,tipoDeTicketKey,referencia)
 				dados = getJSON(dados)
 				break;
 			case "ano":
-				dados = relatorioDeQuantidadesDao.listarQuantidadesPorAno(dataInicial,dataFinal,tipoDeTicketKey)
+				dados = relatorioDeQuantidadesDao.listarQuantidadesPorAno(dataInicial,dataFinal,tipoDeTicketKey,referencia)
 				dados = getJSON(dados)
 				break;
 			case "cliente":
-				dados = relatorioDeQuantidadesDao.listarQuantidadesPorCliente(dataInicial,dataFinal,tipoDeTicketKey)
+				dados = relatorioDeQuantidadesDao.listarQuantidadesPorCliente(dataInicial,dataFinal,tipoDeTicketKey,referencia)
 				dados = getJSON(sintetizar(dados))
 				break;
 			case "esforco":
-				dados = relatorioDeQuantidadesDao.listarQuantidadesPorEsforco(dataInicial,dataFinal,tipoDeTicketKey)
+				dados = relatorioDeQuantidadesDao.listarQuantidadesPorEsforco(dataInicial,dataFinal,tipoDeTicketKey,referencia)
 				dados = getJSON(sintetizar(dados))
 				break;
 			case "valor":
-				dados = relatorioDeQuantidadesDao.listarQuantidadesPorValorDeNegocio(dataInicial,dataFinal,tipoDeTicketKey)
+				dados = relatorioDeQuantidadesDao.listarQuantidadesPorValorDeNegocio(dataInicial,dataFinal,tipoDeTicketKey,referencia)
 				dados = getJSON(sintetizar(dados))
 				break;
 		}

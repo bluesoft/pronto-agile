@@ -51,6 +51,7 @@ class Ticket {
 		script = new Script()
 		projeto = new Projeto()
 		milestone = new Milestone();
+		categoria = new Categoria();
 	}
 	
 	@Id
@@ -394,6 +395,14 @@ class Ticket {
 	
 	String getDescricaoPar() {
 		return isPar() ? "Par" : "Solo"
+	}
+	
+	String getDescricaoDaCategoria() {
+		return categoria && categoria.descricao ? categoria.descricao : ''
+	}
+	
+	String getDescricaoDoModulo() {
+		return modulo && modulo.descricao ? modulo.descricao : ''
 	}
 	
 	boolean isEmAndamento() {

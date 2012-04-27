@@ -534,7 +534,7 @@ public class TicketDao extends DaoHibernate {
 		return listarEstoriasEDefeitosPorBacklog(backlogKey, null, null, null);
 	}
 		
-	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey, final Integer categoriaKey, final Integer tipoDeTicketKey, final Integer kanbanStatusKey) {
+	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey, final Integer categoriaKey, final Integer tipoDeTicketKey, final Integer kanbanStatusKey, String ordem) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
 		builder.append(" inner join fetch t.kanbanStatus ");
@@ -579,21 +579,45 @@ public class TicketDao extends DaoHibernate {
 			} 
 		}
 		
-		final List<Ticket> lista = query.list();
-		
-		
+		return ordenar(query.list(), ordem);
+	}
+
+	public static List<Ticket> ordenar(List<Ticket> tickets, String ordem) {
 		final List<Comparator> comparators = new ArrayList<Comparator>();
+		
+		switch (ordem) {
+			case 'esforco':
+				comparators.add(new ReverseComparator(new BeanComparator("esforco")))
+				break
+			case 'cliente':
+				comparators.add(new BeanComparator("cliente.nome"))
+				break
+			case 'status':
+				comparators.add(new BeanComparator("kanbanStatus.ordem"))
+				break
+			case 'dias':
+				comparators.add(new ReverseComparator(new BeanComparator("tempoDeVidaEmDias")))
+				break
+			case 'categoria':
+				comparators.add(new BeanComparator("descricaoDaCategoria"))
+				break
+			case 'modulo':
+				comparators.add(new BeanComparator("descricaoDoModulo"))
+				break
+		}
+		
 		comparators.add(new ReverseComparator(new BeanComparator("valorDeNegocio")));
 		comparators.add(new BeanComparator("prioridade"));
 		comparators.add(new ReverseComparator(new BeanComparator("esforco")));
 		comparators.add(new BeanComparator("ticketKey"));
 		final ComparatorChain comparatorChain = new ComparatorChain(comparators);
 		
-		Collections.sort(lista, comparatorChain);
+		Collections.sort(tickets, comparatorChain);
 		
-		return lista;
+		return tickets
 	}
-
+	
+	
 	public List<Ticket> listarEstoriasEDefeitosPorSprint(final int sprintKey) {
 		return listarEstoriasEDefeitosPorSprint(sprintKey, null, null, null)
 	}
