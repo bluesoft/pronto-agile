@@ -51,7 +51,6 @@ class Ticket {
 		script = new Script()
 		projeto = new Projeto()
 		milestone = new Milestone();
-		categoria = new Categoria();
 	}
 	
 	@Id
