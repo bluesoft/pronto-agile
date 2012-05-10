@@ -31,6 +31,7 @@ class MovimentadorDeTicket {
 		validacoesDePronto ticket, status
 		ticket.kanbanStatus = status
 		envolverMovimentador(ticket)
+		atualizarTempoDeCiclo(ticket, kanbanStatusKey)
 		ticketDao.salvar ticket
 		def movimento = criarMovimento(ticket, motivoReprovacaoKey) 
 		messenger.notificarMovimentacao(movimento)
@@ -39,6 +40,15 @@ class MovimentadorDeTicket {
 
 	private envolverMovimentador(Ticket ticket) {
 		ticket.addEnvolvido Seguranca.usuario
+	}
+	
+	private atualizarTempoDeCiclo(Ticket ticket, int kanbanStatusKey){
+		if (ticket.dataDeInicioDoCiclo == null && ticket.projeto.etapaDeInicioDoCiclo.kanbanStatusKey == kanbanStatusKey) {
+			ticket.dataDeInicioDoCiclo = new Date()
+		}
+		if (ticket.projeto.etapaDeTerminoDoCiclo.kanbanStatusKey == kanbanStatusKey) {
+			ticket.dataDeTerminoDoCiclo = new Date()
+		}
 	}
 
 	private MovimentoKanban criarMovimento(Ticket ticket, def motivo) {

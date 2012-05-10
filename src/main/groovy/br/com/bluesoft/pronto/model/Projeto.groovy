@@ -3,8 +3,11 @@ package br.com.bluesoft.pronto.model
 import javax.persistence.Cacheable
 import javax.persistence.CascadeType
 import javax.persistence.Entity
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany
 import javax.persistence.OrderBy
 import javax.persistence.SequenceGenerator
@@ -37,6 +40,14 @@ class Projeto {
 	@OneToMany(mappedBy="projeto")
 	@OrderBy("nome")
 	List<Sprint> sprints = []
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="etapa_de_inicio_do_ciclo_key")
+	KanbanStatus etapaDeInicioDoCiclo;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="etapa_de_termino_do_ciclo_key")
+	KanbanStatus etapaDeTerminoDoCiclo;
 
 	@Override
 	public String toString() {
@@ -46,4 +57,5 @@ class Projeto {
 	KanbanStatus getEtapaToDo() {
 		etapasDoKanban.find { it.inicio }
 	}
+	
 }

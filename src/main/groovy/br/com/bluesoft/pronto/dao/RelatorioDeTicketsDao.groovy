@@ -9,14 +9,16 @@ import org.springframework.stereotype.Repository;
 import br.com.bluesoft.pronto.model.Categoria;
 
 @Repository
-class RelatorioDeQuantidadesDao  {
+class RelatorioDeTicketsDao  {
 	
 	@Autowired
 	private SessionFactory sessionFactory
 	
-	def listarQuantidadesPorCategoria(Date dataInicial, Date dataFinal, Integer tipoDeTicketKey,referencia) {
+	def listarPorCategoria(Date dataInicial, Date dataFinal, Integer tipoDeTicketKey,referencia,valor) {
+		def resultado = getResultado(valor)
+		
 		def sql = """
-			select c.descricao, count(*) 
+			select c.descricao, ${resultado} 
 			from ticket t
 			inner join categoria c on c.categoria_key = t.categoria_key
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'} 
@@ -33,9 +35,10 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorSprint(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
+	def listarPorSprint(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia,valor) {
+		def resultado = getResultado(valor)
 		def sql = """
-			select c.nome, count(*)
+			select c.nome, ${resultado}
 			from ticket t
 			inner join sprint c on c.sprint_key = t.sprint
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
@@ -52,9 +55,10 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorModulo(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
+	def listarPorModulo(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia,valor) {
+		def resultado = getResultado(valor)
 		def sql = """
-			select c.descricao, count(*)
+			select c.descricao, ${resultado}
 			from ticket t
 			inner join modulo c on c.modulo_key = t.modulo_key
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
@@ -71,9 +75,10 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorEsforco(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
+	def listarPorEsforco(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia,valor) {
+		def resultado = getResultado(valor)
 		def sql = """
-			select t.esforco, count(*)
+			select t.esforco, ${resultado}
 			from ticket t
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
 			and ${referencia} between :di and :df
@@ -89,9 +94,10 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorValorDeNegocio(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
+	def listarPorValorDeNegocio(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia,valor) {
+		def resultado = getResultado(valor)
 		def sql = """
-			select t.valor_de_negocio, count(*)
+			select t.valor_de_negocio, ${resultado}
 			from ticket t
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
 			and ${referencia} between :di and :df
@@ -107,10 +113,11 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorSemana(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
+	def listarPorSemana(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia,valor) {
+		def resultado = getResultado(valor)
 		def sql = """
-			select semana, count(*), anomessemana from (
-				select to_char(${referencia},'w-MM/yyyy') as semana, to_number(to_char(${referencia},'yyyyMMw'),'9999999') as anomessemana 
+			select semana, ${resultado}, anomessemana from (
+				select to_char(${referencia},'w-MM/yyyy') as semana, to_number(to_char(${referencia},'yyyyMMw'),'9999999') as anomessemana, t.data_de_termino_do_ciclo, t.data_de_inicio_do_ciclo, t.data_de_pronto, t.data_de_criacao 
 				from ticket t
 				where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
 				and ${referencia} between :di and :df
@@ -127,10 +134,11 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 	
-	def listarQuantidadesPorMes(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
+	def listarPorMes(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia,valor) {
+		def resultado = getResultado(valor)
 		def sql = """
-			select mes, count(*), anomes from (
-				select to_char(${referencia},'MM/yyyy') as mes, to_number(to_char(${referencia},'yyyyMM'),'999999') as anomes 
+			select mes, ${resultado}, anomes from (
+				select to_char(${referencia},'MM/yyyy') as mes, to_number(to_char(${referencia},'yyyyMM'),'999999') as anomes, t.data_de_termino_do_ciclo, t.data_de_inicio_do_ciclo, t.data_de_pronto, t.data_de_criacao 
 				from ticket t
 				where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
 				and ${referencia} between :di and :df
@@ -147,10 +155,11 @@ class RelatorioDeQuantidadesDao  {
 		return query.list()
 	}
 
-	def listarQuantidadesPorAno(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
+	def listarPorAno(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia,valor) {
+		def resultado = getResultado(valor)
 		def sql = """
-			select ano, count(*) from (
-				select to_number(to_char(${referencia},'yyyy'),'9999') as ano
+			select ano, ${resultado} from (
+				select to_number(to_char(${referencia},'yyyy'),'9999') as ano, t.data_de_termino_do_ciclo, t.data_de_inicio_do_ciclo, t.data_de_pronto, t.data_de_criacao
 				from ticket t
 				where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
 				and ${referencia} between :di and :df
@@ -168,9 +177,10 @@ class RelatorioDeQuantidadesDao  {
 	}
 
 		
-	def listarQuantidadesPorCliente(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia) {
+	def listarPorCliente(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia,valor) {
+		def resultado = getResultado(valor)
 		def sql = """
-			select c.nome, count(*)
+			select c.nome, ${resultado}
 			from ticket t
 			inner join cliente c on c.cliente_key = t.cliente_key
 			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
@@ -186,6 +196,16 @@ class RelatorioDeQuantidadesDao  {
 			query.setInteger 'tipoDeTicketKey', tipoDeTicketKey
 		return query.list()
 	}
-	
+
+	def getResultado(valor){
+		switch(valor){
+			case 'quantidade':
+				return 'count(*) as quantidade'
+			case 'cycle': 
+				return 'avg(EXTRACT(DAYS FROM (data_de_termino_do_ciclo - data_de_inicio_do_ciclo))) as cycle_time'
+			case 'lead': 
+				return 'avg(EXTRACT(DAYS FROM (coalesce(data_de_pronto,now()) - data_de_criacao))) as lead_time'
+		}
+	}	
 		
 }

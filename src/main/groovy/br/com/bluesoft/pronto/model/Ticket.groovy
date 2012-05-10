@@ -181,6 +181,14 @@ class Ticket {
 	@Label("data de pronto")
 	Date dataDePronto
 	
+	@Auditable
+	@Label("data de início do ciclo")
+	Date dataDeInicioDoCiclo
+	
+	@Auditable
+	@Label("data de término do ciclo")
+	Date dataDeTerminoDoCiclo
+	
 	@Label("data da última alteração")
 	Timestamp dataDaUltimaAlteracao
 	
@@ -260,10 +268,24 @@ class Ticket {
 	
 	@Transient
 	Integer getTempoDeVidaEmDias() {
-		if (dataDePronto) {
+		if (dataDePronto != null) {
 			return dataDePronto - dataDeCriacao
 		} else {
 			return new Date() - dataDeCriacao
+		}
+	}
+	
+	@Transient
+	Integer getLeadTime() {
+		return getTempoDeVidaEmDias()
+	}
+	
+	@Transient
+	Integer getCycleTime() {
+		try {
+			this.dataDeTerminoDoCiclo - this.dataDeInicioDoCiclo
+		} catch(e) {
+			0
 		}
 	}
 	

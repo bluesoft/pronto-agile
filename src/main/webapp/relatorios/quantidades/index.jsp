@@ -1,14 +1,14 @@
 <%@ include file="/commons/taglibs.jsp"%>
 <html>
 	<head>
-		<title>Relatório de Quantidades</title>
+		<title>Relatório de Tickets</title>
 	</head>
 	<body>
 		<h1>
-			Relatório de Quantidades
+			Relatório de Tickets
 		</h1>
 		
-		<div id="topo">
+		<div id="topo" align="center">
 			Tipo de Gráfico:
 			<select id="tipoDeRelatorio" name="tipoDeRelatorio">
 				<option value="semana" chart="FCF_Line">Por Semana</option>
@@ -22,6 +22,13 @@
 				<option value="valor" chart="FCF_Bar2D">Por Valor de Negócio</option>
 			</select>
 			
+			Valor:
+			<select id="valor" name="valor">
+				<option value="quantidade">Quantidade</option>
+				<option value="lead">Lead Time</option>
+				<option value="cycle">Cycle Time</option>
+			</select>
+			
 			Tipo de Ticket:
 			<select id="tipoDeTicketKey" name="tipoDeTicketKey">
 				<option value="-1">Tudo</option>
@@ -29,11 +36,15 @@
 				<option value="3">Defeitos</option>
 			</select>
 			
+			<br/> 
+			<br/>
+			 
 			Referência:
 			<select id="referencia" name="referencia">
 				<option value="data_de_criacao">Data de Criação</option>
 				<option value="data_de_pronto">Data de Pronto</option>
-			</select> 
+			</select>
+			
 			
 			<fmt:formatDate var="strDataInicial" value="${dataInicial}"/>
 			Data Inicial: <input type="text" id="dataInicial" class="required dateBr" value="${strDataInicial}" size="12"/>
@@ -54,8 +65,9 @@
 				var tipoDeRelatorio = $("#tipoDeRelatorio").val();
 				var tipoDeTicketKey = $("#tipoDeTicketKey").val();
 				var referencia = $("#referencia").val();
-				var parametros = "?dataInicial=" + di + "&dataFinal=" + df +"&tipoDeRelatorio=" + tipoDeRelatorio + "&tipoDeTicketKey=" + tipoDeTicketKey + "&referencia=" + referencia;
-				var url = encodeURIComponent("${raiz}relatorios/quantidades/gerar.xml" + parametros);
+				var valor = $("#valor").val();
+				var parametros = "?dataInicial=" + di + "&dataFinal=" + df +"&tipoDeRelatorio=" + tipoDeRelatorio + "&tipoDeTicketKey=" + tipoDeTicketKey + "&referencia=" + referencia + "&valor=" + valor;
+				var url = encodeURIComponent("${raiz}relatorios/tickets/gerar.xml" + parametros);
 				var chartType = $('#tipoDeRelatorio').find('option:selected').attr('chart');
 				var chart = new FusionCharts("${raiz}commons/charts/"+chartType+".swf", "chart", "920", "500");
 				chart.setDataURL(url);

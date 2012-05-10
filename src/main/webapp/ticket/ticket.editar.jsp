@@ -291,33 +291,6 @@
 						
 						<div class="bloco">
 							
-							<c:if test="${ticket.ticketKey gt 0}">
-								<div id="divTempoDeVida">
-									<b>${ticket.tempoDeVidaEmDias} dias</b>
-									<p>Tempo de Vida</p> 
-								</div>
-								
-								<div id="divDataDeCriacao">
-									<fmt:formatDate value="${ticket.dataDeCriacao}" type="both" var="dataDeCriacao"/>
-									<b>${dataDeCriacao}</b>
-									<input type="hidden" name="dataDeCriacao" value="${dataDeCriacao}">
-									<p>Data de Criação</p> 
-								</div>
-								
-							
-								<div id="divDataUltimaAlteracao">
-									<fmt:formatDate var="dataDaUltimaAlteracao" value="${ticket.dataDaUltimaAlteracao}" pattern="dd/MM/yyyy HH:mm:ss"/>
-									<input type="hidden" name="dataDaUltimaAlteracao" value="${dataDaUltimaAlteracao}"/>
-									<b>${dataDaUltimaAlteracao}</b>
-									<p>Data da Última Alteração</p>
-								</div>
-							</c:if>
-						
-						</div>
-						
-						
-						<div class="bloco">
-							
 							<div id="divEsforco">
 								<c:choose>
 									<c:when test="${(usuarioLogado.administrador or usuarioLogado.equipe) and empty ticket.filhos}">
@@ -364,7 +337,6 @@
 						
 						<div class="bloco">
 							
-							
 							<div>
 								<form:select path="ticket.categoria.categoriaKey">
 									<form:option value="0" cssClass="nenhuma">Nenhuma</form:option>
@@ -373,7 +345,6 @@
 								<br/>
 								<p>Categoria</p>
 							</div>
-							
 							
 							
 							<div>
@@ -393,8 +364,10 @@
 								<br/>
 								<p>Milestone</p>
 							</div>
-
-							<c:if test="${empty ticket.filhos}">
+						</div>
+						
+						<c:if test="${empty ticket.filhos}">
+							<div class="bloco">
 								<div>
 									<form:input path="ticket.branch" size="30"/><br/>
 									<p>Branch</p>
@@ -403,10 +376,9 @@
 									<form:input path="ticket.release" size="15"/><br/>
 									<p>Release</p>
 								</div>
-							</c:if>
-							
-							
-						</div>
+							</div>
+						</c:if>
+						
 						<div class="bloco">
 
 							<c:if test="${ticket.defeito}">
@@ -512,6 +484,56 @@
 						</c:if>
 						
 						<form:hidden path="ticket.prioridade"/><br/>
+						
+						<div class="bloco">
+							
+			<c:if test="${ticket.ticketKey gt 0}">
+				<div id="divTempoDeVida">
+					<b>${ticket.tempoDeVidaEmDias} dias</b>
+					<p>Tempo de Vida</p> 
+				</div>
+				
+				<div id="divDataDeCriacao">
+					<fmt:formatDate value="${ticket.dataDeCriacao}" type="both" var="dataDeCriacao"/>
+					<b>${dataDeCriacao}</b>
+					<input type="hidden" name="dataDeCriacao" value="${dataDeCriacao}">
+					<p>Data de Criação</p> 
+				</div>
+				
+			
+				<div id="divDataUltimaAlteracao">
+					<fmt:formatDate var="dataDaUltimaAlteracao" value="${ticket.dataDaUltimaAlteracao}" pattern="dd/MM/yyyy HH:mm:ss"/>
+					<input type="hidden" name="dataDaUltimaAlteracao" value="${dataDaUltimaAlteracao}"/>
+					<b>${dataDaUltimaAlteracao}</b>
+					<p>Data da Última Alteração</p>
+				</div>
+			</c:if>
+		
+		</div>
+		
+		<div class="bloco">
+			<c:if test="${ticket.ticketKey gt 0}">
+				<div id="divCicloInicio">
+					<fmt:formatDate value="${ticket.dataDeInicioDoCiclo}" type="both" var="dataDeInicioDoCiclo"/>
+					<b>${dataDeInicioDoCiclo}</b>
+					<input type="hidden" name="dataDeInicioDoCiclo" value="${dataDeInicioDoCiclo}">
+					<p>Início de Ciclo</p> 
+				</div>
+				
+				<div id="divCicloTermino">
+					<fmt:formatDate value="${ticket.dataDeTerminoDoCiclo}" type="both" var="dataDeTerminoDoCiclo"/>
+					<b>${dataDeTerminoDoCiclo}</b>
+					<input type="hidden" name="dataDeTerminoDoCiclo" value="${dataDeTerminoDoCiclo}">
+					<p>Término de Ciclo</p> 
+				</div>
+				
+				<div id="divTempoDeCiclo">
+					<b>${ticket.cycleTime}</b>
+					<p>Tempo de Ciclo</p>
+				</div>
+			</c:if>
+		
+		</div>
 
 						<div class="linha">						
 							<h3>Descrição</h3>
@@ -523,7 +545,7 @@
 						<div class="linha">						
 							<h3 title="As Notas de Release, são úteis para informar para o usuários o que fizemos.">Notas para Release</h3>
 							<div>
-								<form:textarea path="ticket.notasParaRelease" id="notasParaRelease" cssStyle="width:690px; height:300px;"/>
+								<form:textarea cssClass="markItUpEditor" path="ticket.notasParaRelease" id="notasParaRelease" cssStyle="width:100%; height:100px;"/>
 							</div>
 						</div>
 						
@@ -655,6 +677,8 @@
 			
 		</c:if>
 	</c:if>
+		
+		
 		
 		<div title="Descrição" id="dialog" style="display: none; width: 500px;">
 			<div align="left" id="dialogDescricao">Aguarde...</div>

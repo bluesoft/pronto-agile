@@ -24,6 +24,18 @@
 					<p>Nome</p>
 					<input type="hidden" name="paraEvitarProblemaDoSubmitNoEnter" value="Nada"/>
 				</div>
+				
+				<c:if test="${projeto.projetoKey gt 0}">
+					<div>
+						<form:select path="projeto.etapaDeInicioDoCiclo.kanbanStatusKey" cssClass="required" items="${projeto.etapasDoKanban}" itemLabel="descricao" itemValue="kanbanStatusKey"/>
+						<p>Etapa de Início</p>
+					</div>
+					
+					<div>
+						<form:select path="projeto.etapaDeTerminoDoCiclo.kanbanStatusKey" cssClass="required" items="${projeto.etapasDoKanban}"  itemLabel="descricao" itemValue="kanbanStatusKey"/>
+						<p>Etapa de Término</p>
+					</div>
+				</c:if>
 			</div>
 
 			<c:if test="${projeto.projetoKey gt 0}">

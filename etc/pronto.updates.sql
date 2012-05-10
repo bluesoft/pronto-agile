@@ -200,3 +200,22 @@ create sequence seq_milestone;
 --2012 04 20
 alter table ticket add release varchar(15);
 CREATE INDEX idx_ticket_release ON ticket USING btree (release);
+
+--2012 05 10
+alter table ticket add data_de_inicio_do_ciclo timestamp without time zone;
+alter table ticket add data_de_termino_do_ciclo timestamp without time zone;
+CREATE INDEX idx_ticket_data_de_inicio_do_ciclo ON ticket USING btree (data_de_inicio_do_ciclo);
+CREATE INDEX idx_ticket_data_de_termino_do_ciclo ON ticket USING btree (data_de_termino_do_ciclo);
+
+alter table projeto add etapa_de_inicio_do_ciclo_key integer references kanban_status;
+alter table projeto add etapa_de_termino_do_ciclo_key integer references kanban_status;
+
+update projeto p set etapa_de_inicio_do_ciclo_key =  (
+    select kanban_status_key from kanban_status where projeto_key = p.projeto_key
+    and ordem = (select min(ordem) from kanban_status where projeto_key = p.projeto_key)  
+);
+update projeto p set etapa_de_termino_do_ciclo_key =  (
+    select kanban_status_key from kanban_status where projeto_key = p.projeto_key
+    and ordem = (select max(ordem) from kanban_status where projeto_key = p.projeto_key)  
+);
+

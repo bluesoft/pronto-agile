@@ -75,6 +75,7 @@ class ProjetoController {
 			kanbanStatus.ordem = 1
 			kanbanStatus.inicio = true
 			kanbanStatusDao.salvar kanbanStatus
+			projeto.etapaDeInicioDoCiclo = kanbanStatus 
 			
 			kanbanStatus = new KanbanStatus()
 			kanbanStatus.descricao = 'Doing'
@@ -88,8 +89,11 @@ class ProjetoController {
 			kanbanStatus.ordem = 99999
 			kanbanStatus.fim = true
 			kanbanStatusDao.salvar kanbanStatus
+			projeto.etapaDeTerminoDoCiclo = kanbanStatus
 		}
-		
+		projetoDao.salvar projeto
+		projetoDao.getSession().flush()
+		projetoDao.atualizarTempoDeCiclo(projeto.projetoKey)
 		tx.commit()
 		
 		if (novo) {
