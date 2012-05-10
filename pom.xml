@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pronto-agile</groupId>
 	<artifactId>pronto-agile</artifactId>
-	<packaging>war</packaging>
 	<name>Pronto!</name>
 	<version>0.0.2</version>
 	<url>http://pronto.bluesoft.com.br</url>
+	<packaging>war</packaging>
 
 	<build>
 		<directory>${directory}</directory>
@@ -95,6 +95,20 @@
 			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
+		<!--  
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-core</artifactId>
+			<version>${springsocial-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-facebook</artifactId>
+			<version>${springsocial-version}</version>
+		</dependency>
+		-->
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -326,6 +340,13 @@
 			<version>4.0.2.GA</version>
 		</dependency>
 
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 
@@ -341,7 +362,7 @@
 		<javamail.version>1.4.3</javamail.version>
 		<mockito.version>1.8.5</mockito.version>
 		<jsp.version>2.0</jsp.version>
-		<junit.version>4.7</junit.version>
+		<junit.version>4.10</junit.version>
 		<jsonlib.version>2.3</jsonlib.version>
 		<groovy-xmlrpc.version>0.7</groovy-xmlrpc.version>
 		<sitemesh.version>2.2.1</sitemesh.version>
@@ -350,6 +371,7 @@
 		<smackx.version>3.1.0</smackx.version>
 		<spock.version>0.5-groovy-1.7</spock.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
+		<springsocial-version>1.0.0.RELEASE</springsocial-version>
 		<servlet.version>2.5</servlet.version>
 		<http-builder.version>0.5.0-RC2</http-builder.version>
 		<jetty.plugin.version>6.1.26</jetty.plugin.version>
@@ -359,6 +381,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
+
 	<repositories>
 		<repository>
 			<id>info-bliki-repository</id>

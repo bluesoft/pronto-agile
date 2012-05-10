@@ -46,6 +46,10 @@ class RelatorioDeTicketsController {
 				dados = relatorioDao.listarPorSprint(dataInicial,dataFinal,tipoDeTicketKey,referencia,valor)
 				dados = getJSON(sintetizar(dados), valor)
 				break;
+			case "release":
+				dados = relatorioDao.listarPorRelease(dataInicial,dataFinal,tipoDeTicketKey,referencia,valor)
+				dados = getJSON(sintetizar(dados), valor)
+				break;
 			case "categoria":
 				dados = relatorioDao.listarPorCategoria(dataInicial,dataFinal,tipoDeTicketKey,referencia,valor)
 				dados = getJSON(sintetizar(dados), valor)

@@ -18,6 +18,7 @@
 				<option value="cliente" chart="FCF_Bar2D">Por Cliente</option>
 				<option value="modulo" chart="FCF_Bar2D">Por Módulo</option>
 				<option value="sprint" chart="FCF_Bar2D">Por Sprint</option>
+				<option value="release" chart="FCF_Bar2D">Por Release</option>
 				<option value="esforco" chart="FCF_Bar2D">Por Esforço</option>
 				<option value="valor" chart="FCF_Bar2D">Por Valor de Negócio</option>
 			</select>
@@ -25,8 +26,10 @@
 			Valor:
 			<select id="valor" name="valor">
 				<option value="quantidade">Quantidade</option>
-				<option value="lead">Lead Time</option>
-				<option value="cycle">Cycle Time</option>
+				<option value="lead">Lead Time (Médio)</option>
+				<option value="cycle">Cycle Time (Médio)</option>
+				<option value="esforco">Esforço (Total)</option>
+				<option value="negocio">Valor de Negócio (Total)</option>
 			</select>
 			
 			Tipo de Ticket:

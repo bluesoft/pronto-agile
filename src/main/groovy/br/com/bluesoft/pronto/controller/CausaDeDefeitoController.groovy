@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import br.com.bluesoft.pronto.service.Seguranca;
 import br.com.bluesoft.pronto.model.CausaDeDefeito;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.ResponseBody;
 import br.com.bluesoft.pronto.dao.CausaDeDefeitoDao;
 import br.com.bluesoft.pronto.dao.CausaDeDefeitoDao;
 
@@ -22,7 +24,7 @@ class CausaDeDefeitoController {
 	
 	@Autowired private CausaDeDefeitoDao causaDeDefeitoDao
 	
-	@RequestMapping(value='/{causaDeDefeitoKey}', method=DELETE)
+	@RequestMapping(value='/{causaDeDefeitoKey}', method=RequestMethod.DELETE)
 	String excluir(Model model, @PathVariable int causaDeDefeitoKey) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		try {
@@ -33,13 +35,13 @@ class CausaDeDefeitoController {
 		}
 	}
 	
-	@RequestMapping(method=GET)
+	@RequestMapping(method=RequestMethod.GET)
 	String index(Model model) {
 		model.addAttribute 'causasDeDefeito', causaDeDefeitoDao.listar()
 		"/causasDeDefeito/causasDeDefeito.listar.jsp"
 	}
 	
-	@RequestMapping(value='/novo', method=GET)
+	@RequestMapping(value='/novo', method=RequestMethod.GET)
 	String novo(Model model) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		model.addAttribute 'causaDeDefeito', new CausaDeDefeito()
@@ -47,7 +49,7 @@ class CausaDeDefeitoController {
 		"/causasDeDefeito/causasDeDefeito.editar.jsp"
 	}
 	
-	@RequestMapping(value='/{causaDeDefeitoKey}', method=GET)
+	@RequestMapping(value='/{causaDeDefeitoKey}', method=RequestMethod.GET)
 	String editar(Model model, @PathVariable int causaDeDefeitoKey) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		model.addAttribute 'causaDeDefeito', causaDeDefeitoDao.obter(causaDeDefeitoKey)
@@ -55,7 +57,7 @@ class CausaDeDefeitoController {
 		"/causasDeDefeito/causasDeDefeito.editar.jsp"
 	}
 	
-	@RequestMapping(method=POST)
+	@RequestMapping(method=RequestMethod.POST)
 	String salvar(Model model, CausaDeDefeito causaDeDefeito) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		def tx = causaDeDefeitoDao.getSession().beginTransaction()

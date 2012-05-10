@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.ResponseBody
 
 import br.com.bluesoft.pronto.core.Papel
@@ -32,22 +33,22 @@ class ExecucaoController {
 	@Autowired ProjetoDao projetoDao
 	@Autowired private KanbanStatusDao kanbanStatusDao
 	
-	@RequestMapping(method = GET)
+	@RequestMapping(method = RequestMethod.GET)
 	String listarTodos( Model model, Integer kanbanStatusKey) {
 		listar model, null, false, kanbanStatusKey
 	}
 
-	@RequestMapping(value="/pendentes", method = GET)
+	@RequestMapping(value="/pendentes", method = RequestMethod.GET)
 	String listarPendentes( Model model, Integer kanbanStatusKey) {
 		listar model, null, true, kanbanStatusKey
 	}
 
-	@RequestMapping(value= '/{bancoDeDadosKey}/pendentes', method = GET)
+	@RequestMapping(value= '/{bancoDeDadosKey}/pendentes', method = RequestMethod.GET)
 	String listarPendentesBancoDeDados( Model model,  @PathVariable Integer bancoDeDadosKey, Integer kanbanStatusKey) {
 		listar model, bancoDeDadosKey, true, kanbanStatusKey
 	}
 	
-	@RequestMapping(value= '/{bancoDeDadosKey}', method = GET)
+	@RequestMapping(value= '/{bancoDeDadosKey}', method = RequestMethod.GET)
 	String listarPorBancoDeDados( Model model,  @PathVariable Integer bancoDeDadosKey, Integer kanbanStatusKey) {
 		listar model, bancoDeDadosKey, false, kanbanStatusKey
 	}
@@ -86,7 +87,7 @@ class ExecucaoController {
 		VIEW_EXECUCAO
 	}
 	
-	@RequestMapping(value="/gerarScript", method = POST)
+	@RequestMapping(value="/gerarScript", method = RequestMethod.POST)
 	@ResponseBody
 	String gerarScript( Model model,  Integer bancoDeDadosKey,  Integer[] execucaoKey)  {
 		
@@ -110,7 +111,7 @@ class ExecucaoController {
 		return script
 	}
 	
-	@RequestMapping(method = [ POST, PUT ])
+	@RequestMapping(method = [ RequestMethod.POST, RequestMethod.PUT ])
 	String confirmar( Model model, Integer bancoDeDadosKey, Integer[] execucaoKey, Integer kanbanStatusKey) {
 		
 		Seguranca.validarPermissao Papel.EQUIPE
@@ -129,7 +130,7 @@ class ExecucaoController {
 		"redirect:/execucoes/${bancoDeDadosKey}/pendentes"
 	}
 	
-	@RequestMapping(value= '/executar/{execucaoKey}', method = GET)
+	@RequestMapping(value= '/executar/{execucaoKey}', method = RequestMethod.GET)
 	String executar( Model model, @PathVariable Integer execucaoKey) {
 		
 		Seguranca.validarPermissao Papel.EQUIPE
@@ -145,7 +146,7 @@ class ExecucaoController {
 		"redirect:/scripts/${execucao.script.scriptKey}"
 	}
 
-	@RequestMapping(value= '/estornarExecucao/{execucaoKey}', method = GET)
+	@RequestMapping(value= '/estornarExecucao/{execucaoKey}', method = RequestMethod.GET)
 	String estornarExecucao( Model model, @PathVariable Integer execucaoKey) {
 		
 		Seguranca.validarPermissao Papel.EQUIPE

@@ -27,6 +27,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 
 import br.com.bluesoft.pronto.core.Papel
 import br.com.bluesoft.pronto.dao.ClienteDao
@@ -46,28 +47,28 @@ public class ClienteController {
 	
 	@Autowired private TicketDao ticketDao
 	
-	@RequestMapping(method = GET)
+	@RequestMapping(method = RequestMethod.GET)
 	String listar(Model model) {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		model.addAttribute "clientes", clienteDao.listar()
 		VIEW_LISTAR
 	}
 	
-	@RequestMapping(value = "/novo", method = GET)
+	@RequestMapping(value = "/novo", method = RequestMethod.GET)
 	String novo(final Model model)  {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		model.addAttribute "cliente", new Cliente()
 		VIEW_EDITAR
 	}
 	
-	@RequestMapping(value = "/{clienteKey}", method = GET)
+	@RequestMapping(value = "/{clienteKey}", method = RequestMethod.GET)
 	String editar(final Model model, @PathVariable final Integer clienteKey) {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		model.addAttribute "cliente", clienteDao.obter(clienteKey)
 		VIEW_EDITAR
 	}
 	
-	@RequestMapping(value = "/{clienteKey}", method = DELETE)
+	@RequestMapping(value = "/{clienteKey}", method = RequestMethod.DELETE)
 	String excluir(final Model model, @PathVariable int clienteKey) {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		

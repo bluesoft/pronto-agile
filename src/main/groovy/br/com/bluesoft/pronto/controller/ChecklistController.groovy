@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.bluesoft.pronto.core.Papel;
@@ -21,34 +22,34 @@ class ChecklistController {
 	
 	@Autowired private ChecklistService checklistService
 	
-	@RequestMapping(value='/{checklistKey}', method=DELETE)
+	@RequestMapping(value='/{checklistKey}', method=RequestMethod.DELETE)
 	String excluir(Model model, @PathVariable int checklistKey) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		checklistService.excluir(checklistKey)
 		"redirect:/checklists?message=Excluído com Sucesso"
 	}
 	
-	@RequestMapping(method=GET)
+	@RequestMapping(method=RequestMethod.GET)
 	String index(Model model) {
 		model.addAttribute 'checklists', checklistService.listarModelos()
 		"/checklists/checklists.listar.jsp"
 	}
 	
-	@RequestMapping(value='/novo', method=GET)
+	@RequestMapping(value='/novo', method=RequestMethod.GET)
 	String novo(Model model) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		model.addAttribute 'checklist', new Checklist()
 		"/checklists/checklists.editar.jsp"
 	}
 	
-	@RequestMapping(value='/{checklistKey}', method=GET)
+	@RequestMapping(value='/{checklistKey}', method=RequestMethod.GET)
 	String editar(Model model, @PathVariable int checklistKey) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		model.addAttribute 'checklist', checklistService.obter(checklistKey)
 		"/checklists/checklists.editar.jsp"
 	}
 	
-	@RequestMapping(method=POST)
+	@RequestMapping(method=RequestMethod.POST)
 	String salvar(Model model, Checklist checklist) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		boolean novo = (checklist.checklistKey == null || checklist.checklistKey == 0) 
@@ -63,7 +64,7 @@ class ChecklistController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/modelos", method=GET)
+	@RequestMapping(value="/modelos", method=RequestMethod.GET)
 	def modelos() {
 		def modelos = checklistService.listarModelos().collect {
 			[nome:it.nome, checklistKey:it.checklistKey]
@@ -72,7 +73,7 @@ class ChecklistController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/{checklistKey}/incluirItem", method=POST)
+	@RequestMapping(value="/{checklistKey}/incluirItem", method=RequestMethod.POST)
 	def incluirItemNoChecklist(@PathVariable int checklistKey, String descricao) {
 		checklistService.incluirItem(checklistKey, descricao).checklistItemKey
 	}

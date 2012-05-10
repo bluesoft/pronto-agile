@@ -34,6 +34,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.bluesoft.pronto.SegurancaException
@@ -51,12 +52,12 @@ class BurndownController {
 	@Autowired
 	SprintDao sprintDao
 	
-	@RequestMapping(value='/{sprintKey}', method=GET)
+	@RequestMapping(value='/{sprintKey}', method=RequestMethod.GET)
 	String burndownDoSprint(final Model model, @PathVariable int sprintKey, Boolean considerarFimDeSemana) throws SegurancaException {
 		return burndown(model, sprintKey, considerarFimDeSemana)
 	}
 	
-	@RequestMapping(method=GET)
+	@RequestMapping(method=RequestMethod.GET)
 	String burndown(final Model model, final Integer sprintKey, Boolean considerarFimDeSemana) throws SegurancaException {
 		
 		Seguranca.validarPermissao(Papel.EQUIPE, Papel.PRODUCT_OWNER, Papel.SCRUM_MASTER)
@@ -86,7 +87,7 @@ class BurndownController {
 
 	}
 	
-	@RequestMapping(value='/data/{sprintKey}',method=GET)
+	@RequestMapping(value='/data/{sprintKey}',method=RequestMethod.GET)
 	@ResponseBody String data(final HttpServletResponse response, @PathVariable Integer sprintKey, Boolean considerarFimDeSemana) throws Exception {
 		
 		considerarFimDeSemana = considerarFimDeSemana == null ? false :  considerarFimDeSemana

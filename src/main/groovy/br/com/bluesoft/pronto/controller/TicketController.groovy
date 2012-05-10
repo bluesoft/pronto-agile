@@ -195,6 +195,8 @@ class TicketController {
 
 			if (ticket.projeto != null && ticket.projeto.projetoKey > 0) {
 				ticket.setProjeto(projetoDao.obter(ticket.projeto.projetoKey))
+				ticket.projeto.etapaDeInicioDoCiclo
+				ticket.projeto.etapaDeTerminoDoCiclo
 			} else {
 				ticket.projeto = null
 			}
@@ -266,6 +268,9 @@ class TicketController {
 			definirEnvolvidos(ticket, envolvido)
 			ticketDao.salvar(ticket)
 			
+			ticketDao.salvar(ticket)
+			tx.commit()
+
 			if (!isNovo) {
 				if (kanbanStatusAnterior != null && !kanbanStatusAnterior.equals(ticket.getKanbanStatus().getKanbanStatusKey())) {
 					if (motivoReprovacaoKey != null && motivoReprovacaoKey > 0) {
@@ -275,10 +280,7 @@ class TicketController {
 					}
 				}
 			}
-
-			ticketDao.salvar(ticket)
-			tx.commit()
-
+			
 			if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
 				if (ticket.getTicketKey() != null && ticket.isDone()) {
 					def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))

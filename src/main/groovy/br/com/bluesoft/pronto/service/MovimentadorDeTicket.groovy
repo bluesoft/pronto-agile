@@ -1,15 +1,15 @@
 package br.com.bluesoft.pronto.service
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.bluesoft.pronto.ProntoException;
-import br.com.bluesoft.pronto.core.KanbanStatus;
 import br.com.bluesoft.pronto.dao.KanbanStatusDao;
 import br.com.bluesoft.pronto.dao.MotivoReprovacaoDao;
 import br.com.bluesoft.pronto.dao.MovimentoKanbanDao;
 import br.com.bluesoft.pronto.dao.TicketDao;
-import br.com.bluesoft.pronto.model.MotivoReprovacao;
 import br.com.bluesoft.pronto.model.MovimentoKanban;
 import br.com.bluesoft.pronto.model.Ticket;
 
@@ -26,7 +26,9 @@ class MovimentadorDeTicket {
 		movimentar ticket, kanbanStatusKey, null
 	}
 	
+	@Transactional
 	MovimentoKanban movimentar(Ticket ticket, int kanbanStatusKey, def motivoReprovacaoKey) {
+		ticket = ticketDao.obter(ticket.ticketKey)
 		def status = kanbanStatusDao.obter(kanbanStatusKey)
 		validacoesDePronto ticket, status
 		ticket.kanbanStatus = status

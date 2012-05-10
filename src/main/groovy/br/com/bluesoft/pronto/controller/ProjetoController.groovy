@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody
 
 import br.com.bluesoft.pronto.core.KanbanStatus
@@ -28,7 +29,7 @@ class ProjetoController {
 	@Autowired private KanbanStatusDao kanbanStatusDao
 	@Autowired private MilestoneDao milestoneDao
 
-	@RequestMapping(value='/{projetoKey}', method=DELETE)
+	@RequestMapping(value='/{projetoKey}', method=RequestMethod.DELETE)
 	String excluir(Model model, @PathVariable int projetoKey) {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		try {
@@ -39,27 +40,27 @@ class ProjetoController {
 		}
 	}
 
-	@RequestMapping(method=GET)
+	@RequestMapping(method=RequestMethod.GET)
 	String index(Model model) {
 		model.addAttribute 'projetos', projetoDao.listar()
 		"/projetos/projetos.listar.jsp"
 	}
 
-	@RequestMapping(value='/novo', method=GET)
+	@RequestMapping(value='/novo', method=RequestMethod.GET)
 	String novo(Model model) {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		model.addAttribute 'projeto', new Projeto()
 		"/projetos/projetos.editar.jsp"
 	}
 
-	@RequestMapping(value='/{projetoKey}', method=GET)
+	@RequestMapping(value='/{projetoKey}', method=RequestMethod.GET)
 	String editar(Model model, @PathVariable int projetoKey) {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		model.addAttribute 'projeto', projetoDao.obter(projetoKey)
 		"/projetos/projetos.editar.jsp"
 	}
 
-	@RequestMapping(value="/", method=POST)
+	@RequestMapping(value="/", method=RequestMethod.POST)
 	String salvar(Model model, Projeto projeto) {
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER
 		
@@ -103,7 +104,7 @@ class ProjetoController {
 		}
 	}
 
-	@RequestMapping(method=POST)
+	@RequestMapping(method=RequestMethod.POST, value="/incluirEtapa")
 	@ResponseBody
 	String incluirEtapa(int projetoKey, String nome){
 		KanbanStatus kanbanStatus = new KanbanStatus()
@@ -114,14 +115,14 @@ class ProjetoController {
 		return kanbanStatus.kanbanStatusKey
 	}
 	
-	@RequestMapping(method=POST)
+	@RequestMapping(method=RequestMethod.POST, value="/excluirEtapa")
 	@ResponseBody
 	String excluirEtapa(int kanbanStatusKey){
 		kanbanStatusDao.excluir(kanbanStatusDao.obter(kanbanStatusKey))
 		return "true"
 	}
 	
-	@RequestMapping(method=POST)
+	@RequestMapping(method=RequestMethod.POST, value="/editarEtapa")
 	@ResponseBody
 	String editarEtapa(int kanbanStatusKey, String nome){
 		def etapa = kanbanStatusDao.obter(kanbanStatusKey)
@@ -130,7 +131,7 @@ class ProjetoController {
 		return "true"
 	}
 	
-	@RequestMapping(method=POST)
+	@RequestMapping(method=RequestMethod.POST, value="/atualizarOrdensDasEtapas")
 	@ResponseBody
 	String atualizarOrdensDasEtapas(Integer[] kanbanStatusKey){
 		kanbanStatusKey.eachWithIndex { it, index ->
@@ -141,7 +142,7 @@ class ProjetoController {
 		return "true"
 	}
 	
-	@RequestMapping(method=POST)
+	@RequestMapping(method=RequestMethod.POST, value="/incluirMilestone")
 	@ResponseBody
 	String incluirMilestone(int projetoKey, String nome){
 		Milestone milestone = new Milestone()
@@ -151,14 +152,14 @@ class ProjetoController {
 		return milestone.milestoneKey
 	}
 	
-	@RequestMapping(method=POST)
+	@RequestMapping(method=RequestMethod.POST, value="/excluirMilestone")
 	@ResponseBody
 	String excluirMilestone(int milestoneKey){
 		milestoneDao.excluir(milestoneDao.obter(milestoneKey))
 		return "true"
 	}
 	
-	@RequestMapping(method=POST)
+	@RequestMapping(method=RequestMethod.POST, value="/editarMilestone")
 	@ResponseBody
 	String editarMilestone(int milestoneKey, String nome){
 		def milestone = milestoneDao.obter(milestoneKey)

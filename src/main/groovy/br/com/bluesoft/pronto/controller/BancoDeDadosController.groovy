@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.bluesoft.pronto.SegurancaException
 import br.com.bluesoft.pronto.core.Papel
@@ -42,7 +43,7 @@ class BancoDeDadosController {
 
 	@Autowired private BancoDeDadosDao bancoDeDadosDao
 
-	@RequestMapping(method = GET)
+	@RequestMapping(method = RequestMethod.GET, value="/listar")
 	String listar(Model model) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		model.addAttribute("bancos", bancoDeDadosDao.listar())
@@ -63,14 +64,14 @@ class BancoDeDadosController {
 		VIEW_EDITAR
 	}
 
-	@RequestMapping(method=[PUT, POST])
+	@RequestMapping(method=[RequestMethod.PUT, RequestMethod.POST], value="/salvar")
 	String salvar(Model model, BancoDeDados bancoDeDados)  {
 		Seguranca.validarPermissao Papel.EQUIPE
 		bancoDeDadosDao.salvar bancoDeDados
 		"redirect:/bancosDeDados"
 	}
 
-	@RequestMapping(value="/{bancoDeDadosKey}", method = DELETE)
+	@RequestMapping(value="/{bancoDeDadosKey}", method = RequestMethod.DELETE)
 	String excluir(Model model, @PathVariable int bancoDeDadosKey) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		bancoDeDadosDao.excluir bancoDeDadosDao.obter(bancoDeDadosKey)

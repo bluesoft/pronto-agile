@@ -55,6 +55,25 @@ class RelatorioDeTicketsDao  {
 		return query.list()
 	}
 	
+	def listarPorRelease(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia,valor) {
+		def resultado = getResultado(valor)
+		def sql = """
+			select t.release, ${resultado}
+			from ticket t
+			where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
+			and ${referencia} between :di and :df
+			group by t.release
+			order by count(*) desc
+		"""
+		
+		def query = sessionFactory.currentSession.createSQLQuery(sql)
+		query.setDate 'di', dataInicial
+		query.setDate 'df', dataFinal
+		if (tipoDeTicketKey > 0)
+			query.setInteger 'tipoDeTicketKey', tipoDeTicketKey
+		return query.list()
+	}
+	
 	def listarPorModulo(Date dataInicial, Date dataFinal,Integer tipoDeTicketKey,referencia,valor) {
 		def resultado = getResultado(valor)
 		def sql = """
@@ -117,7 +136,7 @@ class RelatorioDeTicketsDao  {
 		def resultado = getResultado(valor)
 		def sql = """
 			select semana, ${resultado}, anomessemana from (
-				select to_char(${referencia},'w-MM/yyyy') as semana, to_number(to_char(${referencia},'yyyyMMw'),'9999999') as anomessemana, t.data_de_termino_do_ciclo, t.data_de_inicio_do_ciclo, t.data_de_pronto, t.data_de_criacao 
+				select to_char(${referencia},'w-MM/yyyy') as semana, to_number(to_char(${referencia},'yyyyMMw'),'9999999') as anomessemana, t.* 
 				from ticket t
 				where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
 				and ${referencia} between :di and :df
@@ -138,7 +157,7 @@ class RelatorioDeTicketsDao  {
 		def resultado = getResultado(valor)
 		def sql = """
 			select mes, ${resultado}, anomes from (
-				select to_char(${referencia},'MM/yyyy') as mes, to_number(to_char(${referencia},'yyyyMM'),'999999') as anomes, t.data_de_termino_do_ciclo, t.data_de_inicio_do_ciclo, t.data_de_pronto, t.data_de_criacao 
+				select to_char(${referencia},'MM/yyyy') as mes, to_number(to_char(${referencia},'yyyyMM'),'999999') as anomes, t.* 
 				from ticket t
 				where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
 				and ${referencia} between :di and :df
@@ -159,7 +178,7 @@ class RelatorioDeTicketsDao  {
 		def resultado = getResultado(valor)
 		def sql = """
 			select ano, ${resultado} from (
-				select to_number(to_char(${referencia},'yyyy'),'9999') as ano, t.data_de_termino_do_ciclo, t.data_de_inicio_do_ciclo, t.data_de_pronto, t.data_de_criacao
+				select to_number(to_char(${referencia},'yyyy'),'9999') as ano, t.*
 				from ticket t
 				where ${tipoDeTicketKey > 0 ? 't.tipo_de_ticket_key = :tipoDeTicketKey' : '1=1'}
 				and ${referencia} between :di and :df
@@ -205,6 +224,10 @@ class RelatorioDeTicketsDao  {
 				return 'avg(EXTRACT(DAYS FROM (data_de_termino_do_ciclo - data_de_inicio_do_ciclo))) as cycle_time'
 			case 'lead': 
 				return 'avg(EXTRACT(DAYS FROM (coalesce(data_de_pronto,now()) - data_de_criacao))) as lead_time'
+			case 'esforco':
+				return 'sum(esforco)'
+			case 'negocio':
+				return 'sum(valor_de_negocio)'
 		}
 	}	
 		

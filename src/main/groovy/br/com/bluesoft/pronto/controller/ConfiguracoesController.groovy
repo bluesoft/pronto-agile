@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 
 import br.com.bluesoft.pronto.core.Papel;
 import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
@@ -19,7 +20,7 @@ class ConfiguracoesController {
 	
 	@Autowired ConfiguracaoDao configuracaoDao
 	
-	@RequestMapping(method=GET)
+	@RequestMapping(method=RequestMethod.GET)
 	String exibir(Model model) {
 		Seguranca.validarPermissao Papel.ADMINISTRADOR
 		model.addAttribute('tiposDeEstimativa', TipoEstimativa.values())
@@ -27,7 +28,7 @@ class ConfiguracoesController {
 		"/configuracoes/configuracoes.exibir.jsp";
 	}
 	
-	@RequestMapping(value="/salvar", method=POST)
+	@RequestMapping(value="/salvar", method=RequestMethod.POST)
 	String salvar(HttpServletRequest request) {
 		Seguranca.validarPermissao Papel.ADMINISTRADOR
 		configuracaoDao.atualizarConfiguracoes(request.getParameterMap());
