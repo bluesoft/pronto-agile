@@ -534,6 +534,10 @@ public class TicketDao extends DaoHibernate {
 		return listarEstoriasEDefeitosPorBacklog(backlogKey, null, null, null);
 	}
 		
+	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey, final Integer categoriaKey, final Integer tipoDeTicketKey, final Integer kanbanStatusKey) {
+		return listarEstoriasEDefeitosPorBacklog(backlogKey, categoriaKey, tipoDeTicketKey, kanbanStatusKey, null)
+	}
+	
 	public List<Ticket> listarEstoriasEDefeitosPorBacklog(final int backlogKey, final Integer categoriaKey, final Integer tipoDeTicketKey, final Integer kanbanStatusKey, String ordem) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(" select distinct t from Ticket t");
