@@ -236,7 +236,7 @@
 							</tr>
 						</c:if>
 					</c:forEach>
-					<tr style="height: 1px;">
+					<tr style="height: 1px;" class="divisor" ticket="${f.ticketKey}">
 						<td colspan="16" style="background-color:#b4c24b"></td>
 					</tr>
 				</c:forEach>
@@ -286,7 +286,7 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<th colspan="5">Total</th>
+					<th colspan="6">Total</th>
 					<c:if test="${backlog.impedimentos}"><th></th></c:if>
 					<th id="somaValorDeNegocio">${valorDeNegocioTotal}</th>
 					<th id="somaEsforco">${esforcoTotal}</th>
@@ -325,13 +325,15 @@
 			<button onclick="pronto.moverParaSprint($('#ticketKey').val(), $('#selecionarSprint').val(), true)">Mover</button>
 		</div>
 		
-		<div style="display: none; width: 500px;">
-			<select id="trocaCategoria" onchange="salvarCategoria(this);" >
-				<option value="0" class="nenhuma">Nenhuma</option>
-				<c:forEach items="${categorias}" var="c">
-					<option value="${c.categoriaKey}" categoriaClass="categoria-${c.cor}">${c.descricao}</option>
-				</c:forEach>			
-			</select>
+		<div id="divCategorias">
+			<div style="display: none; width: 500px;">
+				<select id="trocaCategoria" onchange="salvarCategoria(this);" >
+					<option value="0" class="nenhuma">Nenhuma</option>
+					<c:forEach items="${categorias}" var="c">
+						<option value="${c.categoriaKey}" categoriaClass="categoria-${c.cor}">${c.descricao}</option>
+					</c:forEach>			
+				</select>
+			</div>
 		</div>
 		
 		<script type="text/javascript">

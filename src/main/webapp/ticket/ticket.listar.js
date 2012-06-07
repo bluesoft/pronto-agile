@@ -19,13 +19,12 @@ function recarregarFiltros() {
 
 function apagarLinha(ticketKey) {
 	$('#' + ticketKey).add('tr[pai=' + ticketKey + ']').fadeOut('slow',
-			function() {
-				$(this).remove();
-			});
+		function() {
+			$(this).remove();
+	});
 }
 
 function salvarCategoria(select) {
-
 	var $select = $(select);
 	var categoriaKey = $select.val();
 	var ticketKey = $select.attr('ticketKey');
@@ -48,6 +47,7 @@ function salvarCategoria(select) {
 	$td.attr('categoriaKey', categoriaKey);
 	$select.hide();
 	$select.removeAttr('ticketKey');
+	$('#divCategorias').append($select);
 }
 
 function trocarCategoria(td) {
