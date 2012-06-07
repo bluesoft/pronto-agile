@@ -1,13 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>pronto-agile</groupId>
 	<artifactId>pronto-agile</artifactId>
-	<name>Pronto!</name>
 	<version>0.0.2</version>
-	<url>http://pronto.bluesoft.com.br</url>
 	<packaging>war</packaging>
+	<name>Pronto!</name>
+	<url>http://pronto.bluesoft.com.br</url>
 
 	<build>
 		<directory>${directory}</directory>
@@ -89,6 +91,23 @@
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -96,7 +115,6 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-		<!--  
 		<dependency>
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-core</artifactId>
@@ -105,10 +123,27 @@
 
 		<dependency>
 			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-web</artifactId>
+			<version>${springsocial-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-facebook</artifactId>
 			<version>${springsocial-version}</version>
 		</dependency>
-		-->
+
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-twitter</artifactId>
+			<version>${springsocial-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-facebook-web</artifactId>
+			<version>${springsocial-version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -346,9 +381,7 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
-
 
 	<properties>
 		<bliki.version>3.0.16</bliki.version>
@@ -370,8 +403,9 @@
 		<smack.version>3.1.0</smack.version>
 		<smackx.version>3.1.0</smackx.version>
 		<spock.version>0.5-groovy-1.7</spock.version>
-		<spring.version>3.0.5.RELEASE</spring.version>
-		<springsocial-version>1.0.0.RELEASE</springsocial-version>
+		<spring.version>3.1.1.RELEASE</spring.version>
+		<spring-security.version>3.1.0.RELEASE</spring-security.version>
+		<springsocial-version>1.0.2.RELEASE</springsocial-version>
 		<servlet.version>2.5</servlet.version>
 		<http-builder.version>0.5.0-RC2</http-builder.version>
 		<jetty.plugin.version>6.1.26</jetty.plugin.version>
