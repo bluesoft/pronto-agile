@@ -35,7 +35,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*
 @Controller
 class LoginController {
 	
-	public static final String ACTION_KANBAN = "/kanban"
+	public static final String ACTION_INICIAL = "/dashboard"
 	public static final String ACTION_BACKLOG_DO_CLIENTE = "/clientes/backlog"
 	public static final String VIEW_BEM_VINDO = "/bemVindo.jsp"
 	
@@ -60,7 +60,7 @@ class LoginController {
 				httpSession.removeAttribute("lastRequestURI")
 				return "redirect:${uri}"
 			} else {
-				return "redirect:" + ACTION_KANBAN
+				return "redirect:" + ACTION_INICIAL
 			}
 		}
 	}

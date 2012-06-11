@@ -6,7 +6,8 @@
 	pronto.raiz = '${raiz}';
 </script>
 
-<script src="http://www.google.com/jsapi"></script>
+<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+
 <script>
  	google.load("jquery", "1.4.2");
  	google.load("jqueryui", "1.8.4");

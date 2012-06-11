@@ -2,81 +2,23 @@
 <html>
 	<head>
 		<title>Dashboard</title>
-		<style type="text/css">
-			.projeto {
-				width: 30%;
-				margin-left: 20px;
-				margin-right: 20px;
-				padding: 5px;
-				float: left;
-				border: 1px solid #e0e0e0;
-				background-color: #f5f5f5;
-			}
-			
-			.backlog {
-				clear: both;
-			}
-			
-			.backlog h4 {
-				font-weight: bold;
-			}
-			
-			h3 {
-				text-align: center;
-				padding: 5px;
-			}
-			
-			.sprint-nome {
-				font-weight: bold;
-				display: block;
-				padding: 3px;
-				margin-bottom: 4px;
-				margin-top: 4px;
-			}
-
-			.sprint {
-				margin-top: 10px;
-			}
-
-			.tipo {
-				padding: 3px;
-			}
-
-			.tipos {
-				margin-bottom: 10px;
-			}
-						
-			.etapa, .etapa-total {
-				margin-left: 25px;
-				display: block;
-				
-			}
-			
-			.etapa-total {
-				font-weight: bold;
-			}
-			
-			.etapa-nome, .tipo-nome {
-				margin-left: 200px;
-				float: left;
-			}
-			
-			.etapa-quantidade, .tipo-quantidade {
-				float: right;
-				display: block;
-			}
-			
-			.backlog-name {
-				float: left;
-			}
-			
-			.milestone-descricao {
-				font-size: 12px;
-				font-weight: bold;
-				float: right;
-				margin: 5px;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" media="all" href="dashboard.css" />
+ 	     <script type='text/javascript'>
+	      google.load('visualization', '1', {packages:['gauge']});
+	      google.setOnLoadCallback(drawChart);
+	      function drawChart() {
+	        
+	        var options = {
+	          width: 800, height: 140, minorTicks: 5
+	        };
+	
+	        var dataDefeitos = google.visualization.arrayToDataTable(${defeitos});
+	        var defeitos = new google.visualization.Gauge(document.getElementById('defeitos')).draw(dataDefeitos, options);
+	        
+	        var dataEntregas = google.visualization.arrayToDataTable(${entregas});
+	        var entregas = new google.visualization.Gauge(document.getElementById('entregas')).draw(dataEntregas, options);
+	      }
+	    </script>
 	</head>
 	<body>
 			<h1>
@@ -84,6 +26,15 @@
 				<%@ include file="/commons/sprintLinks.jsp" %>
 			</h1>
 
+			<h3 class="ui-state-default">Defeitos Criados</h3>
+    		<div id='defeitos' align="center"></div>
+    		<br/>
+
+			<h3 class="ui-state-default">Estórias Entregues</h3>
+    		<div id='entregas' align="center"></div>
+    		<br/>
+			
+			<h3 class="ui-state-default">Projetos</h3>
 			<c:forEach items="${itens}" var="item">
 				<div class="projeto ui-widget">
 					<h3 class="ui-state-default">${item.projeto}</h3>
