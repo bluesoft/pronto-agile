@@ -128,7 +128,7 @@ class TicketController {
 
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 
-		if (comentario !=null&& comentario.length() > 0) {
+		if (comentario !=null&& comentario.trim().length() > 0) {
 			Transaction tx = sessionFactory.getCurrentSession().beginTransaction()
 			def ticket = ticketDao.obter(ticketKey)
 			ticket.addComentario comentario, Seguranca.usuario
