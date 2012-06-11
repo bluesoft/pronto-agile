@@ -26,7 +26,7 @@ class MovimentadorDeTicket {
 		movimentar ticket, kanbanStatusKey, null
 	}
 	
-	@Transactional
+	@Transactional(rollbackFor=Exception.class)
 	MovimentoKanban movimentar(Ticket ticket, int kanbanStatusKey, def motivoReprovacaoKey) {
 		ticket = ticketDao.obter(ticket.ticketKey)
 		def status = kanbanStatusDao.obter(kanbanStatusKey)
