@@ -15,6 +15,9 @@
 	        var dataDefeitos = google.visualization.arrayToDataTable(${defeitos});
 	        var defeitos = new google.visualization.Gauge(document.getElementById('defeitos')).draw(dataDefeitos, options);
 	        
+	        var dataDefeitosEntregues = google.visualization.arrayToDataTable(${defeitosEntregues});
+	        var defeitos = new google.visualization.Gauge(document.getElementById('defeitosEntregues')).draw(dataDefeitosEntregues, options);
+	        
 	        var dataEntregas = google.visualization.arrayToDataTable(${entregas});
 	        var entregas = new google.visualization.Gauge(document.getElementById('entregas')).draw(dataEntregas, options);
 	      }
@@ -26,8 +29,12 @@
 				<%@ include file="/commons/sprintLinks.jsp" %>
 			</h1>
 
-			<h3 class="ui-state-default">Defeitos Criados</h3>
+			<h3 class="ui-state-default">Defeitos Reportados</h3>
     		<div id='defeitos' align="center"></div>
+    		<br/>
+    		
+    		<h3 class="ui-state-default">Defeitos Resolvidos</h3>
+    		<div id='defeitosEntregues' align="center"></div>
     		<br/>
 
 			<h3 class="ui-state-default">Estórias Entregues</h3>

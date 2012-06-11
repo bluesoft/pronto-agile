@@ -31,6 +31,7 @@ public class DashboardController {
 		def itens = ticketDao.listarItensParaDashboard()
 		model.addAttribute "itens", itens
 		model.addAttribute 'defeitos', toGoogleChartsArray(dashboardDao.obterDefeitosParaCockpit())
+		model.addAttribute 'defeitosEntregues', toGoogleChartsArray(dashboardDao.obterDefeitosEntreguesParaCockpit())
 		model.addAttribute 'entregas', toGoogleChartsArray(dashboardDao.obterEntregasParaCockpit())
 		
 		VIEW_DASHBOARD
