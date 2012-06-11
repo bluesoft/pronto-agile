@@ -129,7 +129,7 @@ class ZendeskService {
 	}
 	
 	def notificarInclusao(int zendeskTicketKey) {
-		this.incluirComentarioPublico zendeskTicketKey, 'Este chamado foi encaminhado ao time de desenvolvimento.\r\n\r\nVocê receberá uma notificação quando o mesmo for concluído.'
+		this.incluirComentarioPublico zendeskTicketKey, 'Este chamado foi encaminhado ao time de produto.\r\n\r\nVocê será informado assim que houver alguma novidade.'
 	}
 	
 	def notificarConclusao(int zendeskTicketKey, String release) {
