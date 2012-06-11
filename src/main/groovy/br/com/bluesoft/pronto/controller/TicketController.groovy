@@ -128,14 +128,16 @@ class TicketController {
 
 		Seguranca.validarPermissao Papel.PRODUCT_OWNER, Papel.EQUIPE, Papel.SCRUM_MASTER
 
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction()
-		def ticket = ticketDao.obter(ticketKey)
-		ticket.addComentario comentario, Seguranca.usuario
-		ticketDao.salvar ticket
-		tx.commit()
-
-		if (notificar && notificar.size() > 0) {
-			messenger.enviarComentario ticket, comentario, usuarioDao.listar(notificar)
+		if (comentario !=null&& comentario.length() > 0) {
+			Transaction tx = sessionFactory.getCurrentSession().beginTransaction()
+			def ticket = ticketDao.obter(ticketKey)
+			ticket.addComentario comentario, Seguranca.usuario
+			ticketDao.salvar ticket
+			tx.commit()
+	
+			if (notificar && notificar.size() > 0) {
+				messenger.enviarComentario ticket, comentario, usuarioDao.listar(notificar)
+			}
 		}
 
 		return "redirect:/tickets/${ticketKey}#comentarios"
