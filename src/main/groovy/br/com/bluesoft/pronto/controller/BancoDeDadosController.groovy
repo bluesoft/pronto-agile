@@ -1,22 +1,3 @@
-/*
- * Copyright 2009 Pronto Agile Project Management.
- *
- * This file is part of Pronto.
- *
- * Pronto is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Pronto is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Pronto. If not, see <http://www.gnu.org/licenses/>.
- *
- */
 package br.com.bluesoft.pronto.controller
 
 import static org.springframework.web.bind.annotation.RequestMethod.*
@@ -34,6 +15,7 @@ import br.com.bluesoft.pronto.dao.BancoDeDadosDao
 import br.com.bluesoft.pronto.model.BancoDeDados
 import br.com.bluesoft.pronto.service.Seguranca
 
+
 @Controller
 @RequestMapping("/bancosDeDados")
 class BancoDeDadosController {
@@ -43,21 +25,21 @@ class BancoDeDadosController {
 
 	@Autowired private BancoDeDadosDao bancoDeDadosDao
 
-	@RequestMapping(method = RequestMethod.GET, value="/listar")
+	@RequestMapping(method = RequestMethod.GET)
 	String listar(Model model) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		model.addAttribute("bancos", bancoDeDadosDao.listar())
 		VIEW_LISTAR
 	}
 
-	@RequestMapping("/{bancoDeDadosKey}")
+	@RequestMapping(method = RequestMethod.GET, value="/{bancoDeDadosKey}")
 	String editar(Model model, @PathVariable int bancoDeDadosKey) {
 		Seguranca.validarPermissao Papel.EQUIPE
 		model.addAttribute("bancoDeDados", bancoDeDadosDao.obter(bancoDeDadosKey))
 		VIEW_EDITAR
 	}
 
-	@RequestMapping("/novo")
+	@RequestMapping(method = RequestMethod.GET, value="/novo")
 	String incluir(Model model) throws SegurancaException {
 		Seguranca.validarPermissao Papel.EQUIPE
 		model.addAttribute "bancoDeDados", new BancoDeDados()
