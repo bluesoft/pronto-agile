@@ -203,9 +203,9 @@ function confirmarVinculo(ticketKey){
 	}
 }
 
-function excluirVinculoComZendesk(ticketKey){
+function excluirVinculoComZendesk(ticketKey, zendeskTicketKey){
 	$.ajax( {
-		url : pronto.raiz + 'tickets/' + ticketKey + '/excluirVinculoComZendesk',
+		url : pronto.raiz + 'tickets/' + ticketKey + '/excluirVinculoComZendesk/' + zendeskTicketKey,
 		cache : false,
 		success : function(data) {
 			if (data == "true") {

@@ -285,14 +285,16 @@ class TicketController {
 			
 			if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
 				if (ticket.getTicketKey() != null && ticket.isDone()) {
-					def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
-					if (zendeskTicketKey) {
-						zendeskService.notificarConclusao zendeskTicketKey, ticket.release
+					Set<Integer> zendeskTicketKey = ticketDao.obterTicketsIntegradosNoZendesk(Integer.valueOf(ticket.getTicketKey()))
+					if (zendeskTicketKey && zendeskTicketKey.size() > 0) {
+						zendeskTicketKey.each {
+							zendeskService.notificarConclusao it, ticket.release
+						}
 					}
 				}
 			}
 
-			model.addAttribute "zendeskTicketKey", ticketDao.obterNumeroDoTicketNoZendesk(ticket.ticketKey)
+			model.addAttribute "zendeskTicketKey", ticketDao.obterTicketsIntegradosNoZendesk(ticket.ticketKey)
 			return "redirect:/tickets/${ticket.ticketKey}"
 		} catch ( Exception e) {
 			e.printStackTrace()
@@ -703,11 +705,11 @@ class TicketController {
 			}
 
 			if (ticket.ticketKey > 0 && configuracaoDao.isZendeskAtivo()) {
-				def zendeskTicketKey = ticketDao.obterNumeroDoTicketNoZendesk(Integer.valueOf(ticket.getTicketKey()))
-				if (zendeskTicketKey) {
+				def zendeskTicketKey = ticketDao.obterTicketsIntegradosNoZendesk(Integer.valueOf(ticket.getTicketKey()))
+				if (zendeskTicketKey && zendeskTicketKey.size() > 0) {
 					model.addAttribute "zendeskTicketKey", zendeskTicketKey
 					model.addAttribute "zendeskUrl", configuracaoDao.getZendeskUrl()
-					model.addAttribute "zendeskTicket", zendeskService.obterTicket(zendeskTicketKey)
+					model.addAttribute "zendeskTicket", zendeskService.obterTickets(zendeskTicketKey)
 				}
 			}
 
@@ -730,7 +732,7 @@ class TicketController {
 			}
 
 			model.addAttribute "ordens", ordens
-			model.addAttribute "zendeskTicketKey", ticketDao.obterNumeroDoTicketNoZendesk(ticket.ticketKey)
+			model.addAttribute "zendeskTicketKey", ticketDao.obterTicketsIntegradosNoZendesk(ticket.ticketKey)
 		} else {
 			Ticket novoTicket = new Ticket()
 			novoTicket.setReporter(Seguranca.getUsuario())
@@ -843,12 +845,7 @@ class TicketController {
 	@ResponseBody String vincularTicketAoZendesk(Model model, @PathVariable int ticketKey, int zendeskTicketKey) {
 		JSONObject json = new JSONObject()
 		try {
-			Integer ticket = ticketDao.obterTicketKeyIntegradoComZendesk(zendeskTicketKey)
-			if(ticket == null){
-				ticketDao.inserirTicketKeyIntegradoComZendesk ticketKey, zendeskTicketKey
-			}else{
-				throw new ProntoException(MessageFormat.format("Não foi possível vincular este ticket ao Zendesk porque o ticket {0} já esta vinculado.", ticket));
-			}
+			ticketDao.inserirTicketKeyIntegradoComZendesk ticketKey, zendeskTicketKey
 			json.put "isSuccess", "true"
 			return json
 		} catch (e) {
@@ -859,10 +856,10 @@ class TicketController {
 		}
 	}
 
-	@RequestMapping("/{ticketKey}/excluirVinculoComZendesk")
-	@ResponseBody String excluirVinculoComZendesk(Model model, @PathVariable int ticketKey) {
+	@RequestMapping("/{ticketKey}/excluirVinculoComZendesk/{zendeskTicketKey}")
+	@ResponseBody String excluirVinculoComZendesk(Model model, @PathVariable int ticketKey, @PathVariable int zendeskTicketKey) {
 		try {
-			ticketDao.excluirVinculoComZendesk ticketKey
+			ticketDao.excluirVinculoComZendesk ticketKey, zendeskTicketKey
 			return "true"
 		} catch (e) {
 			return "false"

@@ -818,10 +818,10 @@ public class TicketDao extends DaoHibernate {
 		return mapa
 	}
 	
-	Integer obterTicketKeyIntegradoComZendesk(int zendeskTicketKey){
+	Set<Integer> obterTicketsIntegradoComZendesk(int zendeskTicketKey){
 		def query = session.createSQLQuery('select izd.ticket_key from integracao_zendesk izd where izd.zendesk_ticket_key = :zendeskTicketKey')
 		query.setInteger('zendeskTicketKey',zendeskTicketKey)
-		return query.uniqueResult() as Integer
+		return query.list() as Set
 	}
 	
 	void inserirTicketKeyIntegradoComZendesk(int ticketKey, int zendeskTicketKey){
@@ -831,9 +831,10 @@ public class TicketDao extends DaoHibernate {
 		query.executeUpdate()
 	}
 	
-	void excluirVinculoComZendesk(int ticketKey){
-		def query = session.createSQLQuery('DELETE FROM integracao_zendesk WHERE ticket_key = :ticketKey')
+	void excluirVinculoComZendesk(int ticketKey, int zendeskTicketKey){
+		def query = session.createSQLQuery('DELETE FROM integracao_zendesk WHERE ticket_key = :ticketKey and zendesk_ticket_key = :zendeskTicketKey')
 		query.setInteger('ticketKey', ticketKey)
+		query.setInteger('zendeskTicketKey', zendeskTicketKey)
 		query.executeUpdate()
 	}
 	
@@ -845,11 +846,11 @@ public class TicketDao extends DaoHibernate {
 		query.executeUpdate()
 	}
 	
-	public Integer obterNumeroDoTicketNoZendesk(Integer ticketKey) {
+	public Set<Integer> obterTicketsIntegradosNoZendesk(Integer ticketKey) {
 		def sql = 'select zendesk_ticket_key from integracao_zendesk izd where izd.ticket_key = :ticketKey'
 		def query = session.createSQLQuery(sql)
 		query.setInteger 'ticketKey', ticketKey
-		return query.uniqueResult() as Integer
+		return query.list() as Set
 	}
 
 	public Integer obterQuantidadeDeImpedimentosPorUsuario(String username) {

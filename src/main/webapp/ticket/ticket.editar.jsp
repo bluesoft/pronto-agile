@@ -47,7 +47,9 @@
 					<li><a href="#comentarios">Comentários (${fn:length(ticket.comentarios)})</a></li>
 					<li><a href="#anexos">Anexos (${fn:length(anexos)})</a></li>
 					<c:if test="${zendeskTicket ne null}">
-						<li><a href="#zendesk">Zendesk (${fn:length(zendeskTicket.comments)})</a></li>
+						<c:forEach items="${zendeskTicket}" var="zdTicket">
+							<li><a href="#zendesk${zdTicket.nice_id}">Zendesk #${zdTicket.nice_id} (${fn:length(zdTicket.comments)})</a></li>
+						</c:forEach>
 					</c:if>
 					<li><a href="#historico">Histórico (${fn:length(ticket.logs)})</a></li>
 					<li><a href="#movimentos">Kanban (${fn:length(movimentos)})</a></li>
@@ -177,14 +179,16 @@
 					<form:hidden path="ticket.responsavel.username"/><br/>
 					
 					<c:if test="${zendeskTicketKey ne null}">
-						<div id="divZendesk" style="clear: both;">
-							<div align="center" class="person">
-								<pronto:icons name="zendesk.png" title="Abrir Ticket no Zendesk" onclick="openWindow('${zendeskUrl}/tickets/${zendeskTicketKey}')"/>
-								<div class="person_name">#${zendeskTicketKey}</div>
-								<div>Zendesk</div>
+						<c:forEach items="${zendeskTicket}" var="zdTicket">
+							<div id="divZendesk" style="float: right;">
+								<div align="center" class="person">
+									<pronto:icons name="zendesk.png" title="Abrir Ticket no Zendesk" onclick="openWindow('${zendeskUrl}/tickets/${zdTicket.nice_id}')"/>
+									<div class="person_name">#${zdTicket.nice_id}</div>
+									<div>Zendesk</div>
+								</div>
+								<br/>
 							</div>
-							<br/>
-						</div>
+						</c:forEach>
 					</c:if>
 					
 					<div class="group">
@@ -416,17 +420,22 @@
 										<c:when test="${empty zendeskTicketKey}">
 											<span>
 												<b>Nenhum Ticket Vinculado</b>
-												<pronto:icons name="adicionar.png" title="Vincular esta tarefa com uma tarefa do Zendesk" onclick="adicionarVinculoComZendesk()"/>
 											</span>
 										</c:when>
 										<c:otherwise>
 											<span>
-												<b>Ticket #${zendeskTicketKey} vinculado&nbsp;</b>  
-												<pronto:icons name="excluir.png" title="Desvincular esta tarefa com a tarefa do Zendesk" onclick="excluirVinculoComZendesk(${ticket.ticketKey})"/>
+												<c:forEach items="${zendeskTicket}" var="zdTicket">
+													<b>Ticket #${zdTicket.nice_id} vinculado&nbsp;</b>  
+													<pronto:icons name="excluir.png" title="Desvincular esta tarefa com a tarefa do Zendesk" onclick="excluirVinculoComZendesk(${ticket.ticketKey}, ${zdTicket.nice_id})"/>
+													<br/>
+												</c:forEach>
 											</span>
 										</c:otherwise>
 									</c:choose>
-									<p>Zendesk</p>
+									<p>
+										Zendesk
+										<pronto:icons name="adicionar.png" title="Vincular esta tarefa com uma tarefa do Zendesk" onclick="adicionarVinculoComZendesk()"/>
+									</p>
 							</div>
 							</c:if>
 						</div>
@@ -597,9 +606,13 @@
 			</div>
 			
 			<c:if test="${zendeskTicket ne null}">
-				<div id="zendesk">
-					<%@ include file="ticket.zendesk.jsp" %>
-				</div>
+				<c:forEach items="${zendeskTicket}" var="zdTicket">
+					<div id="zendesk${zdTicket.nice_id}">
+						<c:set var="zendeskTicketAtual" value="${zdTicket}"/>
+						<c:set var="zendeskTicketAtualKey" value="${zdTicket.nice_id}"/>
+						<%@ include file="ticket.zendesk.jsp" %>
+					</div>
+				</c:forEach>
 			</c:if>
 			
 			<div id="anexos">

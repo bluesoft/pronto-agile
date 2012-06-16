@@ -44,6 +44,16 @@ class ZendeskService {
 	}
 	
 	
+	def obterTickets(Set<Integer> zendeskTicketKey){
+		if (zendeskTicketKey) {
+			return zendeskTicketKey.collect {
+				obterTicket(it)
+			}
+		} else {
+			return []
+		}
+	}
+	
 	def obterTicket(int zendeskTicketKey){
 		def cache = CacheManager.getInstance().getCache("zendeskTickets")
 		def ticket = cache.get(zendeskTicketKey)
@@ -134,9 +144,9 @@ class ZendeskService {
 	
 	def notificarConclusao(int zendeskTicketKey, String release) {
 		if (release)
-			this.incluirComentarioPublico zendeskTicketKey, 'Este chamado foi concluído pelo time de desenvolvimento e estará disponível na versão ' + release + '.' 
+			this.incluirComentarioPublico zendeskTicketKey, 'Este chamado (ou parte dele) foi concluído pelo time de desenvolvimento e estará disponível na versão ' + release + '.' 
 		else
-			this.incluirComentarioPublico zendeskTicketKey, 'Este chamado foi concluído pelo time de desenvolvimento e estará disponível na próxima atualização.'
+			this.incluirComentarioPublico zendeskTicketKey, 'Este chamado (ou parte dele) foi concluído pelo time de desenvolvimento e estará disponível na próxima atualização.'
 	}
 	
 	private def incluirComentario(int zendeskTicketKey, String comentario, boolean publico) {

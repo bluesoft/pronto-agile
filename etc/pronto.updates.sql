@@ -218,4 +218,3 @@ update projeto p set etapa_de_termino_do_ciclo_key =  (
     select kanban_status_key from kanban_status where projeto_key = p.projeto_key
     and ordem = (select max(ordem) from kanban_status where projeto_key = p.projeto_key)  
 );
-
