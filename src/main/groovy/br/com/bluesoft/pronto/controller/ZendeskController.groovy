@@ -1,20 +1,21 @@
 package br.com.bluesoft.pronto.controller;
 
 import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
-import static org.springframework.web.bind.annotation.RequestMethod.*
-import net.sf.json.JSONNull
+import org.springframework.web.bind.annotation.RequestMethod;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+import net.sf.json.JSONNull;
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Controller
-import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.com.bluesoft.pronto.dao.ClienteDao
-import br.com.bluesoft.pronto.dao.ConfiguracaoDao
-import br.com.bluesoft.pronto.dao.ProjetoDao
-import br.com.bluesoft.pronto.dao.TicketDao
-import br.com.bluesoft.pronto.service.ZendeskService
+import br.com.bluesoft.pronto.dao.ClienteDao;
+import br.com.bluesoft.pronto.dao.ConfiguracaoDao;
+import br.com.bluesoft.pronto.dao.ProjetoDao;
+import br.com.bluesoft.pronto.dao.TicketDao;
+import br.com.bluesoft.pronto.service.ZendeskService;
 
 @Controller
 @RequestMapping("/zendesk")
@@ -26,7 +27,7 @@ class ZendeskController {
 	@Autowired TicketDao ticketDao
 	@Autowired ZendeskService zendeskService
 	
-	@RequestMapping(value='/tickets/{zendeskTicketKey}', method=[GET])
+	@RequestMapping(value='/tickets/{zendeskTicketKey}', method=[RequestMethod.GET])
 	String tickets(Model model, @PathVariable int zendeskTicketKey) {
 		
 		if (!configuracaoDao.isZendeskAtivo()) {
@@ -34,12 +35,22 @@ class ZendeskController {
 			return "/branca.jsp"
 		}
 		
-		def ticketKey = ticketDao.obterTicketKeyIntegradoComZendesk(zendeskTicketKey)
-		if (ticketKey) {
-			return "redirect:/tickets/${ticketKey}"	
-		}
+		def tickets = ticketDao.obterTicketsIntegradoComZendesk(zendeskTicketKey)
+		if (tickets && tickets.size() > 0) {
+			if (tickets.size() == 1) {
+				def ticketKey = tickets.iterator().next()
+				return "redirect:/tickets/${ticketKey}"
+			} else {
+				return "redirect:/buscar?zendeskTicket=${zendeskTicketKey}"
+			}
+		} 
 		
 		def zendeskTicket = zendeskService.obterTicket(zendeskTicketKey)
+		if (!zendeskTicket) {
+			model.addAttribute 'mensagem', "O ticket #${zendeskTicketKey} não foi localizado no Zendesk."
+			return "/branca.jsp"
+		}
+			
 		model.addAttribute 'zendeskTicket', zendeskTicket
 
 		def zendeskSolicitador = zendeskService.obterUsuario(zendeskTicket.requester_id)
@@ -58,7 +69,7 @@ class ZendeskController {
 	}
 	
 	
-	@RequestMapping(value='/tickets', method=[POST])
+	@RequestMapping(value='/tickets', method=[RequestMethod.POST])
 	String incluir(Model model, int zendeskTicketKey, int tipoDeTicketKey, int clienteKey, int projetoKey) {
 		
 		def ticketKey = ticketDao.obterTicketKeyIntegradoComZendesk(zendeskTicketKey)
@@ -74,10 +85,9 @@ class ZendeskController {
 		
 	}
 	
-	@RequestMapping(value='/tickets/{zendeskTicketKey}/comentarios', method=[POST])
-	String incluirComentario(Model model, @PathVariable int zendeskTicketKey, String comentarioZendesk) {
+	@RequestMapping(value='/tickets/{zendeskTicketKey}/comentarios', method=[RequestMethod.POST])
+	String incluirComentario(Model model, @PathVariable int zendeskTicketKey, String comentarioZendesk, int ticketKey) {
 		zendeskService.incluirComentarioPrivado zendeskTicketKey, comentarioZendesk
-		def ticketKey = ticketDao.obterTicketKeyIntegradoComZendesk(zendeskTicketKey)
 		return "redirect:/tickets/${ticketKey}"
 	}
 }

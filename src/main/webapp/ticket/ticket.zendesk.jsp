@@ -59,9 +59,10 @@
 </c:if>
 
 <h3>Incluir comentário privado no Zendesk</h3>
-<form action="${raiz}/zendesk/tickets/${zendeskTicketAtual.nice_id	}/comentarios" method="post">
+<form action="${raiz}/zendesk/tickets/${zendeskTicketAtual.nice_id}/comentarios" method="post">
+	<input type="hidden" name="ticketKey" value="${ticket.ticketKey}" />
 	<div>
-		<textarea id="comentarioZendesk" name="comentarioZendesk"></textarea>
+		<textarea id="comentarioZendesk${zendeskTicketAtual.nice_id}" name="comentarioZendesk" class="comentarioZendesk"></textarea>
 	</div>
 	<div align="center" class="buttons">
 		<button type="submit">Incluir</button>

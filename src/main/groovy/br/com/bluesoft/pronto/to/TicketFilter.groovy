@@ -20,6 +20,7 @@ class TicketFilter {
 	Integer projetoKey
 	Integer moduloKey
 	Integer milestoneKey
+	Integer zendeskTicketKey
 
 	Date dataInicialPronto
 	Date dataFinalPronto
@@ -54,6 +55,7 @@ class TicketFilter {
 		(projetoKey != null && projetoKey > 0) ||
 		(moduloKey != null && moduloKey > 0) ||
 		(milestoneKey != null && milestoneKey > 0) ||
+		(zendeskTicketKey != null && zendeskTicketKey > 0) ||
 		dataInicialPronto           != null ||
 		dataFinalPronto             != null ||
 		dataInicialCriacao          != null ||

@@ -369,6 +369,10 @@ public class TicketDao extends DaoHibernate {
 			hql.append(" and t.dataDePronto <= :dataFinalPronto ");
 		}
 		
+		if (filtro.zendeskTicketKey!=null && filtro.zendeskTicketKey > 0) {
+			hql.append(" and t.ticketKey in (:zendeskTickets) ");
+		}
+		
 		hql.append(buildOrdem(filtro.ordem, filtro.classificacao));
 		
 		
@@ -418,6 +422,10 @@ public class TicketDao extends DaoHibernate {
 		
 		if (filtro.milestoneKey) {
 			query.setInteger("milestoneKey", filtro.milestoneKey)
+		}
+		
+		if (filtro.zendeskTicketKey!=null && filtro.zendeskTicketKey > 0) {
+			query.setParameterList("zendeskTickets", obterTicketsIntegradoComZendesk(filtro.zendeskTicketKey))
 		}
 		
 		if (filtro.reporter) {

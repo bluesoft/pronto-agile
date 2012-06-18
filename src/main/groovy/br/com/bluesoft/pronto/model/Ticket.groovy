@@ -427,11 +427,7 @@ class Ticket {
 	}
 	
 	boolean isEmAndamento() {
-		if (temFilhos()) {
-			//TODO
-		} else {
-			return !isDone() && !isToDo()
-		}
+		return !isDone() && !isToDo()
 	}
 	
 	Ticket getFilhoPorKey(final int filhoKey) {

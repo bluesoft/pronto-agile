@@ -846,6 +846,7 @@ class TicketController {
 		JSONObject json = new JSONObject()
 		try {
 			ticketDao.inserirTicketKeyIntegradoComZendesk ticketKey, zendeskTicketKey
+			zendeskService.incluirComentarioPrivado zendeskTicketKey, 'Ticket integrado com o Pronto.\r\n\r\nPara visualizá-lo acesse: ' + configuracaoDao.getProntoUrl() + 'tickets/' + ticketKey
 			json.put "isSuccess", "true"
 			return json
 		} catch (e) {

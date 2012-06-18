@@ -196,6 +196,10 @@
 				</div>
 			</div>
 			<div class="linha">
+				<div class="opcao">					
+					<span title="Número do Ticket no Zendesk">Zendesk</span>:<br/>
+					<input type="text" name="zendeskTicketKey" class="integer" value="${filtro.zendeskTicketKey}" size="6"/>
+				</div>
 				<div class="opcao">
 					Período de Inclusão:<br/>
 					<fmt:formatDate var="dataInicialCriacao" value="${filtro.dataInicialCriacao}"/>

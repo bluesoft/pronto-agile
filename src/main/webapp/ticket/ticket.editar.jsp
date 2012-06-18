@@ -48,7 +48,9 @@
 					<li><a href="#anexos">Anexos (${fn:length(anexos)})</a></li>
 					<c:if test="${zendeskTicket ne null}">
 						<c:forEach items="${zendeskTicket}" var="zdTicket">
-							<li><a href="#zendesk${zdTicket.nice_id}">Zendesk #${zdTicket.nice_id} (${fn:length(zdTicket.comments)})</a></li>
+							<li title="Zendesk #${zdTicket.nice_id}">
+								<a href="#zendesk${zdTicket.nice_id}">Z#${zdTicket.nice_id} (${fn:length(zdTicket.comments)})</a>
+							</li>
 						</c:forEach>
 					</c:if>
 					<li><a href="#historico">Histórico (${fn:length(ticket.logs)})</a></li>
