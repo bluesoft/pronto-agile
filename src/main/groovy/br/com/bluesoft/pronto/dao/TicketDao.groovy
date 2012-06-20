@@ -967,8 +967,8 @@ public class TicketDao extends DaoHibernate {
 		
 		sql = """
 		select t.projeto_key, p.nome as nome_projeto, t.cliente_key, c.nome as nome_cliente,            
-		       sum(case when t.data_de_pronto is null then 0 else 1 end) as pronto,
-		       sum(case when t.data_de_pronto is null then 1 else 0 end) as pendente,
+		       sum(case when (t.data_de_pronto is null or t.backlog_key = 4) then 0 else 1 end) as pronto,
+		       sum(case when (t.data_de_pronto is null and t.backlog_key != 4) then 1 else 0 end) as pendente,
 		       count(*) as total
 		from ticket t
 		inner join cliente c on c.cliente_key = t.cliente_key
