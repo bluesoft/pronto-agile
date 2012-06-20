@@ -32,7 +32,8 @@ public class DashboardController {
 		model.addAttribute "itens", itens
 		model.addAttribute 'defeitos', toGoogleChartsArray(dashboardDao.obterDefeitosParaCockpit())
 		model.addAttribute 'defeitosEntregues', toGoogleChartsArray(dashboardDao.obterDefeitosEntreguesParaCockpit())
-		model.addAttribute 'entregas', toGoogleChartsArray(dashboardDao.obterEntregasParaCockpit())
+		model.addAttribute 'estorias', toGoogleChartsArray(dashboardDao.obterEstoriasCriadasParaCockpit())
+		model.addAttribute 'estoriasEntregues', toGoogleChartsArray(dashboardDao.obterEstoriasEntreguesParaCockpit())
 		
 		VIEW_DASHBOARD
 	}

@@ -18,8 +18,11 @@
 	        var dataDefeitosEntregues = google.visualization.arrayToDataTable(${defeitosEntregues});
 	        var defeitos = new google.visualization.Gauge(document.getElementById('defeitosEntregues')).draw(dataDefeitosEntregues, options);
 	        
-	        var dataEntregas = google.visualization.arrayToDataTable(${entregas});
-	        var entregas = new google.visualization.Gauge(document.getElementById('entregas')).draw(dataEntregas, options);
+	        var dataEstorias = google.visualization.arrayToDataTable(${estorias});
+	        var estorias = new google.visualization.Gauge(document.getElementById('estorias')).draw(dataEstorias, options);
+	        
+	        var dataEstoriasEntregues = google.visualization.arrayToDataTable(${estoriasEntregues});
+	        var estoriasEntregues = new google.visualization.Gauge(document.getElementById('estoriasEntregues')).draw(dataEstoriasEntregues, options);
 	      }
 	    </script>
 	</head>
@@ -37,8 +40,12 @@
     		<div id='defeitosEntregues' align="center"></div>
     		<br/>
 
+			<h3 class="ui-state-default">Estórias Criadas</h3>
+    		<div id='estorias' align="center"></div>
+    		<br/>
+
 			<h3 class="ui-state-default">Estórias Entregues</h3>
-    		<div id='entregas' align="center"></div>
+    		<div id='estoriasEntregues' align="center"></div>
     		<br/>
 			
 			<h3 class="ui-state-default">Projetos</h3>
@@ -74,7 +81,6 @@
 						</c:forEach>
 					</div>
 					<hr/>
-					
 					
 					
 					<div class="backlogs">
@@ -128,6 +134,26 @@
 								</div>
 							</div>
 						</c:forEach>
+					</div>
+					<hr/>
+					<div>
+						<h5 style="height: 20px; text-align: center;" class="ui-state-default">Tickets</h5>
+						<table class="tabela">
+							<tr>
+								<th>Cliente</th>
+								<th>Pendentes</th>
+								<th>Entregues</th>
+								<th>Total</th>
+							</tr>
+							<c:forEach items="${item.pendencias}" var="pendencia">
+								<tr>
+									<td>${pendencia.nome}</td>
+									<td>${pendencia.pendente}</td>
+									<td>${pendencia.pronto}</td>
+									<td>${pendencia.total}</td>
+								</tr>
+							</c:forEach>
+						</table>
 					</div>
 				</div>
 			</c:forEach>

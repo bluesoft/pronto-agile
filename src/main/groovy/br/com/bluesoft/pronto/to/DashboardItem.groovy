@@ -6,5 +6,6 @@ class DashboardItem {
 	def mapaPorBacklogESprintEEtapa = [:]
 	def quantidadesPorTipoDeTicket = [:]
 	def percentualPorMilestone = [:]
+	def pendencias = []
 }
 

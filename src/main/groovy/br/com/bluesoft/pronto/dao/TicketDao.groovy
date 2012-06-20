@@ -940,7 +940,7 @@ public class TicketDao extends DaoHibernate {
 			def tipoDeTicket = new Entry(it[2], it[3])
 			def quantidade = it[4]
 			
-			def dashboardItem = mapa[projeto]
+			def dashboardItem = mapa[projeto] ? mapa[projeto] : new DashboardItem(projetoKey:projetoKey, projeto:projeto)
 			dashboardItem.quantidadesPorTipoDeTicket[tipoDeTicket] = quantidade
 		}
 		
@@ -955,14 +955,44 @@ public class TicketDao extends DaoHibernate {
 		"""
 		
 		query = session.createSQLQuery(sql)
-		query.list().each{
+		query.list().each {
 			def projetoKey = it[0] as Integer
 			def projeto = it[1]
 			def milestone = new Entry(it[2], it[3])
 			def percentual = it[4]
 			
-			def dashboardItem = mapa[projeto]
+			def dashboardItem = mapa[projeto] ? mapa[projeto] : new DashboardItem(projetoKey:projetoKey, projeto:projeto)
 			dashboardItem.percentualPorMilestone[milestone] = percentual
+		}
+		
+		sql = """
+		select t.projeto_key, p.nome as nome_projeto, t.cliente_key, c.nome as nome_cliente,            
+		       sum(case when t.data_de_pronto is null then 0 else 1 end) as pronto,
+		       sum(case when t.data_de_pronto is null then 1 else 0 end) as pendente,
+		       count(*) as total
+		from ticket t
+		inner join cliente c on c.cliente_key = t.cliente_key
+		inner join projeto p on p.projeto_key = t.projeto_key
+		group by t.cliente_key, c.nome, t.projeto_key, p.nome
+		order by sum(case when t.data_de_pronto is null then 1 else 0 end) desc
+		"""
+		
+		query = session.createSQLQuery(sql)
+		query.list().each {
+			def projetoKey = it[0] as Integer
+			def projeto = it[1]
+			
+			def dashboardItem = mapa[projeto] ? mapa[projeto] : new DashboardItem(projetoKey:projetoKey, projeto:projeto)
+			if (!dashboardItem.pendencias) {
+				dashboardItem.pendencias = []
+			}
+			dashboardItem.pendencias << [
+				clienteKey: it[2],
+				nome: it[3],
+				pronto: it[4],
+				pendente: it[5],
+				total: it[6],
+			]
 		}
 		
 		return mapa.values()
@@ -970,3 +1000,4 @@ public class TicketDao extends DaoHibernate {
 
 		
 }
+
