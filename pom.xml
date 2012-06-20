@@ -359,6 +359,11 @@
 			<version>1.5.8</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${javamail.version}</version>
+		</dependency>
 	</dependencies>
 
 
