@@ -72,9 +72,9 @@ class ZendeskController {
 	@RequestMapping(value='/tickets', method=[RequestMethod.POST])
 	String incluir(Model model, int zendeskTicketKey, int tipoDeTicketKey, int clienteKey, int projetoKey) {
 		
-		def ticketKey = ticketDao.obterTicketKeyIntegradoComZendesk(zendeskTicketKey)
-		if (ticketKey) {
-			return "redirect:/tickets/${ticketKey}"
+		def ticketKey = ticketDao.obterTicketsIntegradoComZendesk(zendeskTicketKey)
+		if (ticketKey && ticketKey.size() > 0) {
+			return "redirect:/zendesk/tickets/${zendeskTicketKey}"
 		}
 		
 		def ticket = zendeskService.criarNovoTicketNoPronto(zendeskTicketKey, tipoDeTicketKey, clienteKey, projetoKey)

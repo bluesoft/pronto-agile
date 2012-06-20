@@ -310,6 +310,7 @@ class TicketController {
 				ticket.addEnvolvido(usuarioDao.obter(username))
 			}
 		}
+		ticket.addEnvolvido(usuarioDao.obter(ticket.reporter.username))
 
 		String envolvidosAntigosStr = envolvidosAntigos == null || envolvidosAntigos.size() == 0 ? "nenhum" : envolvidosAntigos.toString()
 		String envolvidosNovosStr = ticket.getEnvolvidos() == null || ticket.getEnvolvidos().size() == 0 ? "nenhum" : ticket.getEnvolvidos().toString()
