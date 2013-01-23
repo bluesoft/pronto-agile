@@ -1,11 +1,15 @@
 ---------------------------------------------------------------------
   Pronto Agile
 ---------------------------------------------------------------------
- Warning: All the information and the source code of this project 
+ Warning 1: This project has been archived. 
+ We do not update it anymore.
+ You are welcome to fork it if you want to improve it.
+---------------------------------------------------------------------
+ Warning 2: All the information and the source code of this project 
  is written in portuguese, volunteers to translate it into english 
  are very welcome.
 ---------------------------------------------------------------------
- Pronto é um projeto para gestão de projetos ágeis. 
+Pronto é um projeto para gestão de projetos ágeis. 
  As principais funcionalidades do projeto são:
  * Kanban.
  * Gestão de estórias de usuário.
